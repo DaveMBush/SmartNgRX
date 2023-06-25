@@ -1,7 +1,7 @@
 import { Route } from '@angular/router';
 import { TodoService } from './state/todo.service';
-import { InjectionToken, inject } from '@angular/core';
-import { provideSlice } from './state/functions/provide-slice.function';
+import { InjectionToken } from '@angular/core';
+import { provideSlice } from '@davembush/dynamic-ngrx';
 
 const todoService = new InjectionToken<TodoService>('todoService');
 

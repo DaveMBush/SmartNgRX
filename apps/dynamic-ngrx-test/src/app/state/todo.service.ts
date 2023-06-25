@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EffectService } from './functions/effect-service.interface';
+import { EffectService } from '@davembush/dynamic-ngrx';
 import { Todo } from './todo.interface';
 import { Observable, of } from 'rxjs';
 

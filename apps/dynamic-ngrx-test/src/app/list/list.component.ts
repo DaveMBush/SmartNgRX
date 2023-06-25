@@ -7,7 +7,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectAll } from '../state/todo.selectors';
-import { actionFactory } from '../state/functions/action.factory';
+import { actionFactory } from '@davembush/dynamic-ngrx';
 
 @Component({
   selector: 'list',

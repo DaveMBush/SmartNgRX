@@ -1,0 +1,50 @@
+{
+  "name": "dynamic-ngrx",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/dynamic-ngrx/src",
+  "prefix": "dynamic-ngrx-test",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/dynamic-ngrx/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/dynamic-ngrx/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/dynamic-ngrx/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/dynamic-ngrx/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/dynamic-ngrx/**/*.ts",
+          "libs/dynamic-ngrx/**/*.html"
+        ]
+      }
+    }
+  }
+}
