@@ -48,8 +48,8 @@ dependencies:
     specifier: ~7.8.0
     version: 7.8.1
   tslib:
-    specifier: ^2.3.0
-    version: 2.5.3
+    specifier: ^2.6.0
+    version: 2.6.0
   zone.js:
     specifier: ~0.13.1
     version: 0.13.1
@@ -180,7 +180,7 @@ devDependencies:
     version: 13.1.0(@angular-devkit/build-angular@16.0.0)(@angular/compiler-cli@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser-dynamic@16.0.0)(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.0.2)
   ng-packagr:
     specifier: ~16.0.0
-    version: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.5.3)(typescript@5.0.2)
+    version: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.2)
   nx:
     specifier: 16.3.2
     version: 16.3.2
@@ -308,7 +308,7 @@ packages:
       magic-string: 0.30.0
       mini-css-extract-plugin: 2.7.5(webpack@5.80.0)
       mrmime: 1.0.1
-      ng-packagr: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.5.3)(typescript@5.0.2)
+      ng-packagr: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.2)
       open: 8.4.2
       ora: 5.4.1
       parse5-html-rewriting-stream: 7.0.0
@@ -512,7 +512,7 @@ packages:
       '@angular/core': 16.0.0
     dependencies:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@angular/cli@16.0.0:
     resolution: {integrity: sha512-vsveaSJ5kj0MeJCg1nir5iJJEsdrRRnyNeL1awMcyrEjAhBPX3d0gfOP2fe0HR5KJtntX8zvihGus3i48Quo7A==}
@@ -552,7 +552,7 @@ packages:
     dependencies:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@angular/compiler-cli@16.0.0(@angular/compiler@16.0.0)(typescript@5.0.2):
     resolution: {integrity: sha512-oyJzxiTHxziv7mD0QuA7K6tpDoL6YNGPkquKjeJjNVZvUrodGsvJ8xHO4ydmjK3nMu2ET1YarsdI8bRp4vp/7w==}
@@ -569,7 +569,7 @@ packages:
       convert-source-map: 1.9.0
       reflect-metadata: 0.1.13
       semver: 7.5.1
-      tslib: 2.5.3
+      tslib: 2.6.0
       typescript: 5.0.2
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -585,7 +585,7 @@ packages:
         optional: true
     dependencies:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@angular/core@16.0.0(rxjs@7.8.1)(zone.js@0.13.1):
     resolution: {integrity: sha512-scppDxtXubum6ZiGu3ogmReBtMuA5XXk5FL3YKLb3c9O7q9Z5PC8KNQ6SsaOwEb6oW+0BWXMV698p/zmd0J4tA==}
@@ -595,7 +595,7 @@ packages:
       zone.js: ~0.13.0
     dependencies:
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
       zone.js: 0.13.1
 
   /@angular/forms@16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.1):
@@ -611,7 +611,7 @@ packages:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@angular/platform-browser': 16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     dev: false
 
   /@angular/language-service@16.0.0:
@@ -632,7 +632,7 @@ packages:
       '@angular/compiler': 16.0.0(@angular/core@16.0.0)
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@angular/platform-browser': 16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0)
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@angular/platform-browser@16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0):
     resolution: {integrity: sha512-6LpgLfEnumKMKM/S9joWrVSm4MdFuIjddFmlSG7zGcRqwM0N8doH/YkuwTK8/t9q8wI/yztp6qM2pg25Pgv1XA==}
@@ -648,7 +648,7 @@ packages:
       '@angular/animations': 16.0.0(@angular/core@16.0.0)
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.1)
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@angular/router@16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.1):
     resolution: {integrity: sha512-+5gjJwFx3AFGv7OnY53pfUzaPbWe5gOVQWXAnlUuk6tsQmWJBMehuCQ5ZO5cxViQDZkyvNALzoUeU6aKWmNqmg==}
@@ -663,7 +663,7 @@ packages:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@angular/platform-browser': 16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     dev: false
 
   /@assemblyscript/loader@0.10.1:
@@ -3661,7 +3661,7 @@ packages:
     dependencies:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     dev: false
 
   /@ngrx/effects@16.0.1(@angular/core@16.0.0)(@ngrx/store@16.0.1)(rxjs@7.8.1):
@@ -3674,7 +3674,7 @@ packages:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@ngrx/store': 16.0.1(@angular/core@16.0.0)(rxjs@7.8.1)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     dev: false
 
   /@ngrx/entity@16.0.1(@angular/core@16.0.0)(@ngrx/store@16.0.1)(rxjs@7.8.1):
@@ -3687,7 +3687,7 @@ packages:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@ngrx/store': 16.0.1(@angular/core@16.0.0)(rxjs@7.8.1)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     dev: false
 
   /@ngrx/schematics@16.0.0:
@@ -3702,7 +3702,7 @@ packages:
     dependencies:
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       rxjs: 7.8.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     dev: false
 
   /@ngtools/webpack@16.0.0(@angular/compiler-cli@16.0.0)(typescript@5.0.2)(webpack@5.80.0):
@@ -3795,7 +3795,7 @@ packages:
     resolution: {integrity: sha512-OcGEBMY0jBT5NZxDMThK+aSFNr81LCicU2o+Yk6i5Kiv4+ClkEQziSzuV7Jy/jY5g4BNaWl2rLpheQ6V2J5acg==}
     dependencies:
       '@nx/angular': 16.3.2(@angular-devkit/build-angular@16.0.0)(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.0.0)(@schematics/angular@16.0.0)(@types/node@16.11.7)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(rxjs@7.8.1)(typescript@5.0.2)
-      tslib: 2.5.3
+      tslib: 2.6.0
     transitivePeerDependencies:
       - '@angular-devkit/build-angular'
       - '@angular-devkit/core'
@@ -4028,7 +4028,7 @@ packages:
       semver: 7.3.4
       ts-node: 10.9.1(@types/node@16.11.7)(typescript@5.0.2)
       tsconfig-paths: 4.2.0
-      tslib: 2.5.3
+      tslib: 2.6.0
       webpack: 5.86.0
       webpack-merge: 5.7.3
     transitivePeerDependencies:
@@ -4099,7 +4099,7 @@ packages:
       nx: 16.3.2
       semver: 7.3.4
       tmp: 0.2.1
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@nx/eslint-plugin@16.3.2(@typescript-eslint/parser@5.58.0)(eslint-config-prettier@8.1.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.2):
     resolution: {integrity: sha512-9KMiDEvsHPlLm9wrG3qUl68veNFLbFglD5XGKmBXA07tHISWo5eqNIML5/Y5cwsRufUcQFe21V+6FxrbVQ24CQ==}
@@ -4148,7 +4148,7 @@ packages:
       jest-resolve: 29.5.0
       jest-util: 29.5.0
       resolve.exports: 1.1.0
-      tslib: 2.5.3
+      tslib: 2.6.0
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4192,7 +4192,7 @@ packages:
       minimatch: 3.0.5
       semver: 7.3.4
       source-map-support: 0.5.19
-      tslib: 2.5.3
+      tslib: 2.6.0
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4216,7 +4216,7 @@ packages:
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.0.2)
       eslint: 8.43.0
       tmp: 0.2.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4318,7 +4318,7 @@ packages:
       detect-port: 1.5.1
       http-server: 14.1.1
       ignore: 5.2.4
-      tslib: 2.5.3
+      tslib: 2.6.0
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4369,7 +4369,7 @@ packages:
       ts-node: 10.9.1(@types/node@16.11.7)(typescript@5.0.2)
       tsconfig-paths: 4.2.0
       tsconfig-paths-webpack-plugin: 4.0.0
-      tslib: 2.5.3
+      tslib: 2.6.0
       webpack: 5.86.0
       webpack-dev-server: 4.15.1(webpack@5.86.0)
       webpack-node-externals: 3.0.0
@@ -4420,7 +4420,7 @@ packages:
       open: 8.4.2
       rxjs: 7.8.1
       tmp: 0.2.1
-      tslib: 2.5.3
+      tslib: 2.6.0
       yargs: 17.7.2
       yargs-parser: 21.1.1
     transitivePeerDependencies:
@@ -5317,7 +5317,7 @@ packages:
     engines: {node: '>=14.15.0'}
     dependencies:
       js-yaml: 3.14.1
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /@zkochan/js-yaml@0.0.6:
     resolution: {integrity: sha512-nzvgl3VfhcELQ8LyVrYOru+UtAy1nrygk2+AGbTm8a5YcO6o8lSjAT+pfg3vJWxIoZKOUhrK6UU7xW/+00kQrg==}
@@ -7351,7 +7351,7 @@ packages:
     dependencies:
       '@typescript-eslint/experimental-utils': 5.60.1(eslint@8.43.0)(typescript@5.0.2)
       eslint: 8.43.0
-      tslib: 2.5.3
+      tslib: 2.6.0
       tsutils: 3.21.0(typescript@5.0.2)
       typescript: 5.0.2
     transitivePeerDependencies:
@@ -7460,7 +7460,7 @@ packages:
       eslint-etc: 5.2.1(eslint@8.43.0)(typescript@5.0.2)
       requireindex: 1.2.0
       rxjs-report-usage: 1.0.6
-      tslib: 2.5.3
+      tslib: 2.6.0
       tsutils: 3.21.0(typescript@5.0.2)
       tsutils-etc: 1.4.2(tsutils@3.21.0)(typescript@5.0.2)
       typescript: 5.0.2
@@ -8555,7 +8555,7 @@ packages:
   /injection-js@2.4.0:
     resolution: {integrity: sha512-6jiJt0tCAo9zjHbcwLiPL+IuNe9SQ6a9g0PEzafThW3fOQi0mrmiJGBJvDD6tmhPh8cQHIQtCOrJuBfQME4kPA==}
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /inquirer@8.2.4:
     resolution: {integrity: sha512-nn4F01dxU8VeKfq192IjLsxu0/OmMZ4Lg3xKAns148rCaXP6ntAoEkVYZThWjwON8AlzdZZi6oqnhNbxUG9hVg==}
@@ -9552,7 +9552,7 @@ packages:
     dependencies:
       copy-anything: 2.0.6
       parse-node-version: 1.0.1
-      tslib: 2.5.3
+      tslib: 2.6.0
     optionalDependencies:
       errno: 0.1.8
       graceful-fs: 4.2.11
@@ -10024,7 +10024,7 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  /ng-packagr@16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.5.3)(typescript@5.0.2):
+  /ng-packagr@16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.2):
     resolution: {integrity: sha512-PSgzS9WMypXyZbI5G54mNiarT54a3j5vf5pj84BOWJaSh6MbX3q49fR1ql41A+qtkPkG+e7xQ3IhMOnOMilobg==}
     engines: {node: ^16.14.0 || >=18.10.0}
     hasBin: true
@@ -10062,7 +10062,7 @@ packages:
       rollup: 3.25.1
       rxjs: 7.8.1
       sass: 1.63.4
-      tslib: 2.5.3
+      tslib: 2.6.0
       typescript: 5.0.2
     optionalDependencies:
       esbuild: 0.17.19
@@ -10309,7 +10309,7 @@ packages:
       tar-stream: 2.2.0
       tmp: 0.2.1
       tsconfig-paths: 4.2.0
-      tslib: 2.5.3
+      tslib: 2.6.0
       v8-compile-cache: 2.3.0
       yargs: 17.7.2
       yargs-parser: 21.1.1
@@ -11801,7 +11801,7 @@ packages:
   /rxjs@7.8.1:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.6.0
 
   /safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -12774,8 +12774,8 @@ packages:
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
 
-  /tslib@2.5.3:
-    resolution: {integrity: sha512-mSxlJJwl3BMEQCUNnxXBU9jP4JBktcEGhURcPR6VQVlnP0FdDEsIaz0C35dXNGLyRfrATNofF0F5p2KPxQgB+w==}
+  /tslib@2.6.0:
+    resolution: {integrity: sha512-7At1WUettjcSRHXCyYtTselblcHl9PJFFVKiCAy/bY97+BPZXSQ2wbq0P9s8tK2G7dFQfNnlJnPAiArVBVBsfA==}
 
   /tsutils-etc@1.4.2(tsutils@3.21.0)(typescript@5.0.2):
     resolution: {integrity: sha512-2Dn5SxTDOu6YWDNKcx1xu2YUy6PUeKrWZB/x2cQ8vY2+iz3JRembKn/iZ0JLT1ZudGNwQQvtFX9AwvRHbXuPUg==}
@@ -13542,4 +13542,4 @@ packages:
   /zone.js@0.13.1:
     resolution: {integrity: sha512-+bIeDAFEBYuXRuU3qGQvzdPap+N1zjM4KkBAiiQuVVCrHrhjDuY6VkUhNa5+U27+9w0q3fbKiMCbpJ0XzMmSWA==}
     dependencies:
-      tslib: 2.5.3
+      tslib: 2.6.0
