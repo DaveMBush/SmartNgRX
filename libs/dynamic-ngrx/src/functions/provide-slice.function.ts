@@ -1,10 +1,11 @@
-import { EnvironmentProviders, InjectionToken, Provider, makeEnvironmentProviders } from '@angular/core';
-import { StringLiteralSource } from './string-literal-source.type';
-import { effectsFactory } from './effects.factory';
+import { EnvironmentProviders, InjectionToken, makeEnvironmentProviders,Provider } from '@angular/core';
 import { provideEffects } from '@ngrx/effects';
 import { provideState } from '@ngrx/store';
+
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
+import { EffectService } from './effect-service';
+import { effectsFactory } from './effects.factory';
 import { reducerFactory } from './reducer.factory';
-import { EffectService } from './effect-service.interface';
 
 export const provideSlice = <Feature extends string, Source extends string,T>(
   featureName: StringLiteralSource<Feature>,

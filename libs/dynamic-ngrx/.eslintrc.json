@@ -4,23 +4,13 @@
   "overrides": [
     {
       "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["./tsconfig.*?.json"]
+      },
       "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "prefix": "dynamicNgrxTest",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "dynamic-ngrx-test",
-            "style": "kebab-case"
-          }
-        ]
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/explicit-function-return-type": "off"
       },
       "extends": [
         "plugin:@nx/angular",
@@ -29,7 +19,9 @@
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@nx/angular-template"],
+      "extends": [
+        "plugin:@nx/angular-template"
+      ],
       "rules": {}
     }
   ]

@@ -1,4 +1,4 @@
-/* eslint-disable */
+// eslint-disable-next-line import/no-default-export -- this is how jest works
 export default {
   displayName: 'dynamic-ngrx',
   preset: '../../jest.preset.js',
