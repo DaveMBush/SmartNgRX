@@ -13,7 +13,7 @@ export const appRoutes: Route[] = [{
   redirectTo: 'list',
 },{
   path: 'list',
-  loadComponent: async () => import('./list/list.component').then(m => m.ListComponent),
+  loadComponent: async () => (await import('./list/list.component')).ListComponent,
   providers: [
     { provide: todoService, useClass: TodoService},
     provideSlice('list','todo', todoService ),
