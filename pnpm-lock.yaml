@@ -176,8 +176,8 @@ devDependencies:
     specifier: ^29.5.0
     version: 29.5.0
   jest-preset-angular:
-    specifier: ~13.1.0
-    version: 13.1.0(@angular-devkit/build-angular@16.0.0)(@angular/compiler-cli@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser-dynamic@16.0.0)(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.0.4)
+    specifier: ~13.1.1
+    version: 13.1.1(@angular-devkit/build-angular@16.0.0)(@angular/compiler-cli@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser-dynamic@16.0.0)(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.0.4)
   ng-packagr:
     specifier: ~16.0.0
     version: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4)
@@ -9138,8 +9138,8 @@ packages:
     dependencies:
       jest-resolve: 29.5.0
 
-  /jest-preset-angular@13.1.0(@angular-devkit/build-angular@16.0.0)(@angular/compiler-cli@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser-dynamic@16.0.0)(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-qdADzclUA28JekmyZ48Y/StLJRb9VS76S7QjrtXJPBC3WCodEWYwclS0X5ZXJn3MlSNsrDDCBiNDoQjU0yNF6A==}
+  /jest-preset-angular@13.1.1(@angular-devkit/build-angular@16.0.0)(@angular/compiler-cli@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser-dynamic@16.0.0)(@babel/core@7.22.5)(jest@29.5.0)(typescript@5.0.4):
+    resolution: {integrity: sha512-X8i7icKt9U5uhj7YKqdEZm7ZZPvNFRxfBnU+9SALdIkHYJhwtlJ5/MUk9wo4f3lX2smOkIl9LPJUu1APO+11Jg==}
     engines: {node: ^14.15.0 || >=16.10.0}
     peerDependencies:
       '@angular-devkit/build-angular': '>=13.0.0 <17.0.0'
