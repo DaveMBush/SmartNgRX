@@ -1,16 +1,19 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ViewEncapsulation,
   inject,
+  ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { selectAll } from '../state/todo.selectors';
+
 import { actionFactory } from '@davembush/dynamic-ngrx';
 
+import { Todo } from '../state/todo.interface';
+import { selectAll } from '../state/todo.selectors';
+
 @Component({
-  selector: 'list',
+  selector: 'dmb-list',
   standalone: true,
   imports: [
     CommonModule
@@ -22,10 +25,14 @@ import { actionFactory } from '@davembush/dynamic-ngrx';
 })
 export class ListComponent {
   store = inject(Store);
-  todos$ = this.store.select(selectAll);
+  todos = this.store.select(selectAll);
   constructor() {
     const actions = actionFactory('todo');
     this.store.dispatch(actions.load());
+  }
+
+  trackBy(_: number, item: Todo): string {
+    return item.id;
   }
 
 }

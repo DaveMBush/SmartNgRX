@@ -712,24 +712,7 @@
         "ngrx/use-effects-lifecycle-interface": "error",
 
         // RxJS Plugin
-        "rxjs/finnish": [
-          "error",
-          {
-            "functions": false,
-            "method": false,
-            "names": {
-              "^(canActivate|canActivateChild|canDeactivate|canLoad|intercept|resolve|validate)$": false
-            },
-            "parameters": true,
-            "properties": false,
-            "strict": false,
-            "types": {
-              "^EventEmitter$": false,
-              "^Store$": false
-            },
-            "variables": true
-          }
-        ],
+        "rxjs/no-finnish": "error",
         // rxjs rules require typescript so they are turned off by default
         //// prevents async methods from being passed to subscribe()
         "rxjs/no-async-subscribe": "error",
