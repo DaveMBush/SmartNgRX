@@ -23,7 +23,7 @@ jobs:
         run_install: false
     uses: actions/setup-node@v3
       with:
-        node-version: 18.x
+        node-version: 18
         cache: 'pnpm'
     - run: pnpm i
     - run: pnpm build
