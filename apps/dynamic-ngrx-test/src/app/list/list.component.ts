@@ -15,9 +15,7 @@ import { selectAll } from '../state/todo.selectors';
 @Component({
   selector: 'dmb-list',
   standalone: true,
-  imports: [
-    CommonModule
-    ],
+  imports: [CommonModule],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
   encapsulation: ViewEncapsulation.Emulated,
@@ -31,8 +29,7 @@ export class ListComponent {
     this.store.dispatch(actions.load());
   }
 
-  trackBy(_: number, item: Todo): string {
+  trackById = (_: number, item: Todo): string => {
     return item.id;
   }
-
 }

@@ -1,6 +1,6 @@
 <p>list works!</p>
 <div>
-  <div *ngFor="let item of todos | async; trackBy: trackBy">
+  <div *ngFor="let item of todos | async; trackBy: trackById">
     {{ item.title }}
   </div>
 </div>
