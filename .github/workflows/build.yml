@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with: fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v3
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -26,6 +28,5 @@ jobs:
           node-version: 18
           cache: 'pnpm'
       - run: pnpm i
-      - run: git branch --track main origin/main
       - run: pnpm nx affected -t build --parallel=3
       - run: pnpm nx affected -t lint --parallel=3
