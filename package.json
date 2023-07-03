@@ -6,7 +6,7 @@
     "start": "nx serve dynamic-ngrx-test",
     "build": "nx build dynamic-ngrx-test",
     "affected:lint": "nx affected:lint",
-    "lint": "pnpm affected:lint && nx workspace-lint"
+    "lint": "nx affected:lint && nx workspace-lint"
   },
   "private": true,
   "dependencies": {
