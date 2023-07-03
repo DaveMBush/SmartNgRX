@@ -4,9 +4,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve dynamic-ngrx-test",
-    "build": "nx build dynamic-ngrx-test",
-    "affected:lint": "nx affected:lint",
-    "lint": "nx affected:lint && nx workspace-lint"
+    "build": "nx affected:build dynamic-ngrx-test --parallel=3",
+    "lint": "nx affected:lint --parallel=3"
   },
   "private": true,
   "dependencies": {
