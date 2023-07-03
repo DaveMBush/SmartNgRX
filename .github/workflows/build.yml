@@ -30,4 +30,4 @@ jobs:
           cache: 'pnpm'
       - run: pnpm i
       - run: pnpm nx affected -t build --parallel=3
-      - run: pnpm nx affected -t lint --parallel=3
+      - run: pnpm lint -- --parallel=3
