@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve dynamic-ngrx-test",
-    "build": "nx affected:build dynamic-ngrx-test --parallel=3",
+    "build": "nx affected:build --parallel=3",
     "lint": "nx affected:lint --parallel=3"
   },
   "private": true,
