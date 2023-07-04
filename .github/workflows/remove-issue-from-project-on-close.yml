@@ -1,4 +1,4 @@
-name: Remove issue from projects
+name: Remove issue from project
 on:
   issues:
     types:
@@ -8,10 +8,10 @@ jobs:
   remove-issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Remove issue from projects
-        uses: octokit/request-action@v2.x
-        with:
-          route: DELETE /projects/columns/cards/:card_id
-          card_id: ${{ github.event.issue.project_card.id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Remove issue from project
+        run: |
+          curl \
+            -X DELETE \
+            -H "Accept: application/vnd.github.inertia-preview+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/projects/columns/cards/${{ github.event.issue.project_card.id }}"
