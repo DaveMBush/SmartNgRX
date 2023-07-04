@@ -5,7 +5,9 @@
   "scripts": {
     "start": "nx serve dynamic-ngrx-test",
     "build": "nx affected:build --parallel=3",
-    "lint": "nx affected:lint --parallel=3"
+    "lint": "nx affected:lint --parallel=3",
+    "format": "nx format:write",
+    "format:check": "nx format:check"
   },
   "private": true,
   "dependencies": {
