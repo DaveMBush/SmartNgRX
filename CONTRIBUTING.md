@@ -34,7 +34,7 @@ pnpm lint
 
 ## Duplicate Code
 
-We are very careful to not duplicate our code.  You can run the duplicate code checker with:
+We are very careful to not duplicate our code. You can run the duplicate code checker with:
 
 ```shell
 pnpm dupcheck

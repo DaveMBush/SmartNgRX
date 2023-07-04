@@ -31,5 +31,5 @@ export class ListComponent {
 
   trackById = (_: number, item: Todo): string => {
     return item.id;
-  }
+  };
 }
