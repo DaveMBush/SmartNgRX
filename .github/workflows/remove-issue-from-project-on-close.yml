@@ -8,16 +8,11 @@ jobs:
   remove-issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Check if issue is linked to project card
-        run: |
-          if [ -z "${{ github.event.issue.project_card.id }}" ]; then
-            echo "Issue is not linked to a project card. Skipping removal from the project."
-            exit 0
-          fi
-      - name: Remove issue from project
-        run: |
-          curl \
-            -X DELETE \
-            -H "Accept: application/vnd.github.inertia-preview+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            "https://api.github.com/projects/columns/cards/${{ github.event.issue.project_card.id }}"
+      - name: Delete Issue from Project
+      - uses: monry/actions-delete-issue-from-project@v2.0.1
+        with:
+          github-token: ${{ secrets.PROJECT_SECRET }}
+          project-owner: 'DaveMBush'
+          project-number: 1
+          issue-repository: 'DaveMBush/dynamic-ngrx-test'
+          issue-id: github.event.issue.node_id
