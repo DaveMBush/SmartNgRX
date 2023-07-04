@@ -8,6 +8,12 @@ jobs:
   remove-issue:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if issue is linked to project card
+        run: |
+          if [ -z "${{ github.event.issue.project_card.id }}" ]; then
+            echo "Issue is not linked to a project card. Skipping removal from the project."
+            exit 0
+          fi
       - name: Remove issue from project
         run: |
           curl \
