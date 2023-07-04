@@ -15,4 +15,4 @@ jobs:
           project-owner: 'DaveMBush'
           project-number: 1
           issue-repository: 'DaveMBush/dynamic-ngrx-test'
-          issue-id: github.event.issue.node_id
+          issue-id: ${{ github.event.issue.node_id }}
