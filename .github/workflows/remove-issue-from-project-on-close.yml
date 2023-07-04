@@ -1,4 +1,4 @@
-name: Remove issue from project
+name: Remove issue from projects
 on:
   issues:
     types:
@@ -8,17 +8,10 @@ jobs:
   remove-issue:
     runs-on: ubuntu-latest
     steps:
-      - name: Remove issue from project
-        uses: actions/github-script@v4
+      - name: Remove issue from projects
+        uses: octokit/request-action@v2.x
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const issueNumber = context.payload.issue.number;
-            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-
-            // Remove the issue from the project
-            await octokit.projects.removeCard({
-              card_id: context.payload.issue.project_card.id
-            });
-
-            console.log(`Removed issue ${issueNumber} from the project.`);
+          route: DELETE /projects/columns/cards/:card_id
+          card_id: ${{ github.event.issue.project_card.id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
