@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Delete Issue from Project
-      - uses: monry/actions-delete-issue-from-project@v2.0.1
+        uses: monry/actions-delete-issue-from-project@v2.0.1
         with:
           github-token: ${{ secrets.PROJECT_SECRET }}
           project-owner: 'DaveMBush'
