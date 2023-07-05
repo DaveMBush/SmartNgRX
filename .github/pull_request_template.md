@@ -18,9 +18,11 @@ The subject contains a succinct description of the change:
 - don't capitalize the first letter
 - no dot (.) at the end
 -->
+
 # Issue Number: #<!-- issue number -->
 
 # Body
+
 <!--
 Just as in the subject, use the imperative, present tense: "change" not "changed" nor "changes".
 The body should include the motivation for the change and contrast this with previous behavior.
@@ -35,18 +37,19 @@ Breaking Changes should start with the word `BREAKING CHANGE:` with a space or t
 
 If there are no breaking changes, you can remove this section.
 -->
+
 ## BREAKING CHANGES
 
 Describe breaking changes here
 
 ### BEFORE
 
-``` txt
+```txt
 Previous code example here
 ```
 
 ### AFTER
 
-``` txt
+```txt
 New code example here
 ```
