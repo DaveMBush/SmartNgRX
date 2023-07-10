@@ -57,7 +57,7 @@ dependencies:
 devDependencies:
   '@angular-devkit/build-angular':
     specifier: ~16.0.0
-    version: 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.0.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+    version: 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
   '@angular-devkit/core':
     specifier: ~16.0.0
     version: 16.0.0(chokidar@3.5.3)
@@ -188,8 +188,8 @@ devDependencies:
     specifier: ~3.5.9
     version: 3.5.9
   ng-packagr:
-    specifier: ~16.0.0
-    version: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4)
+    specifier: ~16.1.0
+    version: 16.1.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4)
   nx:
     specifier: 16.3.2
     version: 16.3.2
@@ -239,7 +239,7 @@ packages:
     transitivePeerDependencies:
       - chokidar
 
-  /@angular-devkit/build-angular@16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.0.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4):
+  /@angular-devkit/build-angular@16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4):
     resolution: {integrity: sha512-OvDQAbrV3cUMfHws30MnDURsXselZ0GWhSxZjOdcD3cF64Nsq5ywftHOT+QC3YdDghwI8gMADN9et+aVDscBzQ==}
     engines: {node: ^16.14.0 || >=18.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
@@ -317,7 +317,7 @@ packages:
       magic-string: 0.30.0
       mini-css-extract-plugin: 2.7.5(webpack@5.80.0)
       mrmime: 1.0.1
-      ng-packagr: 16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4)
+      ng-packagr: 16.1.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4)
       open: 8.4.2
       ora: 5.4.1
       parse5-html-rewriting-stream: 7.0.0
@@ -4333,7 +4333,7 @@ packages:
       '@nguniversal/builders':
         optional: true
     dependencies:
-      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.0.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
       '@angular-devkit/core': 16.0.0(chokidar@3.5.3)
       '@angular-devkit/schematics': 16.0.0
       '@nrwl/angular': 16.3.2(@angular-devkit/build-angular@16.0.0)(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.0.0)(@schematics/angular@16.0.0)(@types/node@20.3.3)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(rxjs@7.8.1)(typescript@5.0.4)
@@ -9800,7 +9800,7 @@ packages:
       jest: ^29.0.0
       typescript: '>=4.4'
     dependencies:
-      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.0.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.3.3)(jest-environment-jsdom@29.5.0)(jest@29.5.0)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
       '@angular/compiler-cli': 16.0.0(@angular/compiler@16.0.0)(typescript@5.0.4)
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@angular/platform-browser-dynamic': 16.0.0(@angular/common@16.0.0)(@angular/compiler@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)
@@ -10706,15 +10706,15 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  /ng-packagr@16.0.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4):
-    resolution: {integrity: sha512-PSgzS9WMypXyZbI5G54mNiarT54a3j5vf5pj84BOWJaSh6MbX3q49fR1ql41A+qtkPkG+e7xQ3IhMOnOMilobg==}
+  /ng-packagr@16.1.0(@angular/compiler-cli@16.0.0)(tslib@2.6.0)(typescript@5.0.4):
+    resolution: {integrity: sha512-NbgzDRtRiYJi98Ssky7U5GoicZz7VkR3OW5qd9q3dt3H/JNqLh2PwB745NFG2cT00lEvfrY6LJ1NAcOjoWDibA==}
     engines: {node: ^16.14.0 || >=18.10.0}
     hasBin: true
     peerDependencies:
-      '@angular/compiler-cli': ^16.0.0-next.0
+      '@angular/compiler-cli': ^16.0.0 || ^16.1.0-next.0
       tailwindcss: ^2.0.0 || ^3.0.0
       tslib: ^2.3.0
-      typescript: '>=4.9.3 <5.1'
+      typescript: '>=4.9.3 <5.2'
     peerDependenciesMeta:
       tailwindcss:
         optional: true
