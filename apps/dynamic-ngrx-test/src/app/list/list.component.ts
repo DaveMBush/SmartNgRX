@@ -24,6 +24,7 @@ import { selectAll } from '../state/todo.selectors';
 export class ListComponent {
   store = inject(Store);
   todos = this.store.select(selectAll);
+  foo = false;
   constructor() {
     const actions = actionFactory('todo');
     this.store.dispatch(actions.load());
