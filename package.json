@@ -8,8 +8,8 @@
     "lint": "nx affected:lint --parallel=3",
     "format": "nx format:write",
     "format:check": "nx format:check",
-    "test:coverage": "nx affected:test --parallel=3 --skip-nx-cache --max-parallel=3 --coverage",
-    "test": "nx affected:test --parallel=3 --skip-nx-cache --max-parallel=3",
+    "test:coverage": "nx affected:test --parallel=3 --max-parallel=3 --coverage",
+    "test": "nx affected:test --parallel=3 --max-parallel=3",
     "dupcheck": "pnpm jscpd",
     "htmllint": "pnpm htmlhint \"**/*.html\"",
     "prepare": "is-ci || husky install"
