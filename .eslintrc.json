@@ -15,7 +15,7 @@
     "ngrx",
     "max-params-no-constructor",
     "jest"
-],
+  ],
   "overrides": [
     {
       "files": ["jest.config.ts"],
@@ -122,10 +122,7 @@
           "max-statements-per-line",
           "max-nested-callbacks" // also for clarity.
         ],
-        "eqeqeq": [
-          "error",
-          "always"
-        ],
+        "eqeqeq": ["error", "always"],
         "guard-for-in": "error",
         "id-blacklist": [
           "warn",
@@ -225,8 +222,7 @@
               },
               {
                 "name": "@angular/compiler",
-                "message":
-                  "You should never need to import anything from this package"
+                "message": "You should never need to import anything from this package"
               },
               {
                 "name": "jest-preset-angular",
@@ -312,13 +308,11 @@
         "@angular-eslint/no-pipe-impure": "error",
         "@angular-eslint/no-queries-metadata-property": "error",
         "@angular-eslint/pipe-prefix": ["error", { "prefixes": ["dmb"] }],
-        "@angular-eslint/prefer-on-push-component-change-detection":
-          "error",
+        "@angular-eslint/prefer-on-push-component-change-detection": "error",
         "@angular-eslint/prefer-output-readonly": "error",
         // Make view encapsulation "error" once we move to a design
         // system that supports it better.
-        "@angular-eslint/use-component-view-encapsulation":
-          "error",
+        "@angular-eslint/use-component-view-encapsulation": "error",
         "@angular-eslint/use-component-selector": "error",
         "@angular-eslint/use-lifecycle-interface": "error",
         "@angular-eslint/use-pipe-transform-interface": "error",
@@ -539,8 +533,7 @@
         "@typescript-eslint/no-invalid-void-type": "error",
         "@typescript-eslint/no-loop-func": "error",
         "@typescript-eslint/no-loss-of-precision": "error",
-        "@typescript-eslint/no-meaningless-void-operator":
-          "error",
+        "@typescript-eslint/no-meaningless-void-operator": "error",
         "@typescript-eslint/no-misused-new": "error",
         "@typescript-eslint/no-misused-promises": "error",
         "@typescript-eslint/no-namespace": "error",
@@ -549,10 +542,8 @@
         //// doesn"t work with the rule
         //// @typescript-eslint/non-nullable-type-assertion-style.
         "@typescript-eslint/no-non-null-assertion": "off",
-        "@typescript-eslint/no-non-null-asserted-nullish-coalescing":
-          "error",
-        "@typescript-eslint/no-non-null-asserted-optional-chain":
-          "error",
+        "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "error",
+        "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
 
         "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-require-imports": "error",
@@ -575,21 +566,17 @@
           }
         ],
 
-        "@typescript-eslint/no-unnecessary-boolean-literal-compare":
-          "error",
+        "@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
 
         //// no-unnecessary-condition requires strictNullCheck before we can turn it on
         //"@typescript-eslint/no-unnecessary-condition": "error",
 
         "@typescript-eslint/no-unnecessary-qualifier": "error",
-        "@typescript-eslint/no-unnecessary-type-arguments":
-          "error",
+        "@typescript-eslint/no-unnecessary-type-arguments": "error",
 
-        "@typescript-eslint/no-unnecessary-type-assertion":
-          "error",
+        "@typescript-eslint/no-unnecessary-type-assertion": "error",
         "@typescript-eslint/no-unnecessary-type-constraint": "error",
-        "@typescript-eslint/no-unsafe-argument":
-          "error",
+        "@typescript-eslint/no-unsafe-argument": "error",
         "@typescript-eslint/no-unsafe-assignment": "error",
         "@typescript-eslint/no-unsafe-call": "error",
         "@typescript-eslint/no-unsafe-member-access": "error",
@@ -602,8 +589,7 @@
 
         //// This rule detects when an as cast is doing the same job as
         //// an ! would, and suggests fixing the code to be an !
-        "@typescript-eslint/non-nullable-type-assertion-style":
-          "error",
+        "@typescript-eslint/non-nullable-type-assertion-style": "error",
         "@typescript-eslint/padding-line-between-statements": "error",
         "@typescript-eslint/prefer-enum-initializers": "error",
         "@typescript-eslint/prefer-for-of": "error",
@@ -618,8 +604,7 @@
         "@typescript-eslint/prefer-reduce-type-parameter": "error",
         "@typescript-eslint/prefer-regexp-exec": "error",
         "@typescript-eslint/prefer-return-this-type": "error",
-        "@typescript-eslint/prefer-string-starts-ends-with":
-          "error",
+        "@typescript-eslint/prefer-string-starts-ends-with": "error",
         "@typescript-eslint/prefer-ts-expect-error": "error",
         "@typescript-eslint/promise-function-async": "error",
         "@typescript-eslint/require-array-sort-compare": [
@@ -629,10 +614,8 @@
         "@typescript-eslint/require-await": "error",
 
         "@typescript-eslint/return-await": "error",
-        "@typescript-eslint/restrict-template-expressions":
-          "error",
-        "@typescript-eslint/sort-type-union-intersection-members":
-          "error",
+        "@typescript-eslint/restrict-template-expressions": "error",
+        "@typescript-eslint/sort-type-union-intersection-members": "error",
 
         "@typescript-eslint/strict-boolean-expressions": "error",
 
@@ -703,8 +686,7 @@
         //// Read the docs here to understand why we implement this.
         //// https://github.com/timdeschryver/eslint-plugin-ngrx/blob/main/docs/rules/prefer-inline-action-props.md
         "ngrx/prefer-inline-action-props": "error",
-        "ngrx/prefer-one-generic-in-create-for-feature-selector":
-          "error",
+        "ngrx/prefer-one-generic-in-create-for-feature-selector": "error",
         "ngrx/prefix-selectors-with-select": "error",
         "ngrx/select-style": ["error", "method"],
         "ngrx/updater-explicit-return-type": "error",
@@ -736,8 +718,7 @@
         "rxjs/no-ignored-takewhile-value": "error",
 
         //// makes sure errors are typed
-        "rxjs/no-implicit-any-catch":
-          "error",
+        "rxjs/no-implicit-any-catch": "error",
 
         //// Make sure you import from the directory instead of index.*
         "rxjs/no-index": "error",
@@ -835,7 +816,8 @@
         "sonarjs/no-use-of-empty-return-value": "error",
         "sonarjs/prefer-single-boolean-return": "error"
       }
-    },{
+    },
+    {
       "files": ["*.reducer.ts"],
       "plugins": ["functional"],
       "rules": {
@@ -852,7 +834,6 @@
         ],
         "functional/no-let": ["error", { "allowLocalMutation": true }],
         "functional/no-loop-statement": "error"
-
       }
     },
     {
@@ -861,10 +842,7 @@
       "rules": {
         "@angular-eslint/template/alt-text": "error",
         "@angular-eslint/template/elements-content": "error",
-        "@angular-eslint/template/label-has-associated-control": [
-          "error",
-          {}
-        ],
+        "@angular-eslint/template/label-has-associated-control": ["error", {}],
         "@angular-eslint/template/table-scope": "error",
         "@angular-eslint/template/valid-aria": "error",
         "@angular-eslint/template/banana-in-box": "error",
@@ -872,8 +850,7 @@
         // change your code to use something that already has a click event
         // like a button instead of implmenting your own click event in your
         // component.
-        "@angular-eslint/template/click-events-have-key-events":
-          "error",
+        "@angular-eslint/template/click-events-have-key-events": "error",
 
         //// Reduces the noise in the template by forcing conditional
         //// code into the TS file (or beyond) making the template more
@@ -897,8 +874,7 @@
         "@angular-eslint/template/no-autofocus": "error",
         "@angular-eslint/template/no-call-expression": "error",
         "@angular-eslint/template/no-distracting-elements": "error",
-        "@angular-eslint/template/no-negated-async":
-          "error",
+        "@angular-eslint/template/no-negated-async": "error",
         "@angular-eslint/template/no-positive-tabindex": "error",
         "@angular-eslint/template/use-track-by-function": "error",
         "@angular-eslint/template/no-duplicate-attributes": [
@@ -922,6 +898,7 @@
         "jest": true
       },
       "rules": {
+        "max-nested-callbacks": "off",
         "jest/expect-expect": [
           "error",
           {
