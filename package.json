@@ -11,7 +11,7 @@
     "test:coverage": "nx affected:test --parallel=3 --max-parallel=3 --coverage",
     "test": "nx affected:test --parallel=3 --max-parallel=3",
     "dupcheck": "pnpm jscpd",
-    "htmllint": "pnpm htmlhint \"**/*.html\"",
+    "htmllint": "pnpm htmlhint \"{apps,libs}**/*.html\"",
     "prepare": "is-ci || husky install"
   },
   "private": true,
