@@ -1,8 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
+  "ignorePatterns": ["**/*"],
   "plugins": [
     "@nx",
     "sonarjs",
@@ -20,9 +18,7 @@
   ],
   "overrides": [
     {
-      "files": [
-        "jest.config.ts"
-      ],
+      "files": ["jest.config.ts"],
       // no rules for jest.config.js
       "rules": {
         "eslint-comments/no-restricted-disable": "off",
@@ -31,12 +27,7 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -46,9 +37,7 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
@@ -56,43 +45,26 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
-      "extends": [
-        "plugin:@nx/typescript"
-      ],
-      "plugins": [
-        "simple-import-sort"
-      ],
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "plugins": ["simple-import-sort"],
       "rules": {
         "simple-import-sort/imports": [
           "error",
           {
             "groups": [
               // Side effect imports.
-              [
-                "^\\u0000"
-              ],
+              ["^\\u0000"],
               // 3rd party Packages.
-              [
-                "^@?\\w"
-              ],
+              ["^@?\\w"],
               // Internal packages.
-              [
-                "^(@davembush)(/.*|$)"
-              ],
+              ["^(@davembush)(/.*|$)"],
               // Absolute imports and other imports such as Vue-style `@/foo`.
               // Anything not matched in another group.
-              [
-                "^"
-              ],
+              ["^"],
               // Relative imports.
               // Anything that starts with a dot.
-              [
-                "^\\."
-              ]
+              ["^\\."]
             ]
           }
         ],
@@ -100,9 +72,7 @@
       }
     },
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "extends": [
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
@@ -150,10 +120,7 @@
           "max-statements-per-line",
           "max-nested-callbacks" // also for clarity.
         ],
-        "eqeqeq": [
-          "error",
-          "always"
-        ],
+        "eqeqeq": ["error", "always"],
         "guard-for-in": "error",
         "id-blacklist": [
           "warn",
@@ -171,10 +138,7 @@
         //// Each file should do one, and only one, thing.
         //// Generally we want one export per file. This is
         //// a step in that direction.
-        "max-classes-per-file": [
-          "error",
-          1
-        ],
+        "max-classes-per-file": ["error", 1],
         //// Nesting deeper than 2 levels increases cognitive complexity
         //// and leads to bugs. Often, you can flip your conditions, return
         //// immediately and still have essentially the same code without
@@ -212,10 +176,7 @@
             "max": 2
           }
         ],
-        "max-statements": [
-          "error",
-          50
-        ],
+        "max-statements": ["error", 50],
         "max-statements-per-line": [
           "error",
           {
@@ -325,10 +286,7 @@
           "error",
           {
             "type": "element",
-            "prefix": [
-              "dmb",
-              "dmb"
-            ],
+            "prefix": ["dmb", "dmb"],
             "style": "kebab-case"
           }
         ],
@@ -339,9 +297,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": [
-              "dmb"
-            ],
+            "prefix": ["dmb"],
             "style": "camelCase"
           }
         ],
@@ -358,9 +314,7 @@
         "@angular-eslint/pipe-prefix": [
           "error",
           {
-            "prefixes": [
-              "dmb"
-            ]
+            "prefixes": ["dmb"]
           }
         ],
         "@angular-eslint/prefer-on-push-component-change-detection": "error",
@@ -445,46 +399,31 @@
         ],
         //// code consistency - make methods declared in interfaces look
         //// like methods declared in classes.
-        "@typescript-eslint/method-signature-style": [
-          "error",
-          "method"
-        ],
+        "@typescript-eslint/method-signature-style": ["error", "method"],
         "@typescript-eslint/naming-convention": [
           "error",
           {
             "selector": "default",
-            "format": [
-              "camelCase"
-            ],
+            "format": ["camelCase"],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
-            "selector": [
-              "classMethod"
-            ],
-            "format": [
-              "camelCase"
-            ],
+            "selector": ["classMethod"],
+            "format": ["camelCase"],
             "leadingUnderscore": "forbid"
           },
           {
             "selector": "classProperty",
-            "format": [
-              "camelCase"
-            ]
+            "format": ["camelCase"]
           },
           {
             "selector": "enumMember",
-            "format": [
-              "PascalCase"
-            ]
+            "format": ["PascalCase"]
           },
           {
             "selector": "interface",
-            "format": [
-              "PascalCase"
-            ],
+            "format": ["PascalCase"],
             "custom": {
               //Don"t let it start with an I
               "regex": "^I[A-Z]",
@@ -507,48 +446,34 @@
           },
           {
             "selector": "parameter",
-            "modifiers": [
-              "destructured"
-            ],
+            "modifiers": ["destructured"],
             "format": null
           },
           {
             "selector": "typeLike",
-            "format": [
-              "PascalCase"
-            ]
+            "format": ["PascalCase"]
           },
           {
             "selector": "typeProperty",
-            "format": [
-              "camelCase"
-            ]
+            "format": ["camelCase"]
           },
           {
             "selector": "variable",
-            "format": [
-              "camelCase"
-            ],
+            "format": ["camelCase"],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "variable",
             // Allow constants to be UPPER_CASE or camelCase
-            "modifiers": [
-              "const"
-            ],
-            "format": [
-              "camelCase"
-            ],
+            "modifiers": ["const"],
+            "format": ["camelCase"],
             "leadingUnderscore": "forbid",
             "trailingUnderscore": "forbid"
           },
           {
             "selector": "variable",
-            "modifiers": [
-              "destructured"
-            ],
+            "modifiers": ["destructured"],
             // Allow any formatting because it will be controlled by
             // what we are destructuring
             "format": null
@@ -616,9 +541,7 @@
         "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
         "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-require-imports": "error",
-        "@typescript-eslint/no-shadow": [
-          "error"
-        ],
+        "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-this-alias": "error",
         // Use types for what interfaces can"t do.
         "@typescript-eslint/no-type-alias": [
@@ -746,10 +669,7 @@
         "ngrx/prefer-inline-action-props": "error",
         "ngrx/prefer-one-generic-in-create-for-feature-selector": "error",
         "ngrx/prefix-selectors-with-select": "error",
-        "ngrx/select-style": [
-          "error",
-          "method"
-        ],
+        "ngrx/select-style": ["error", "method"],
         "ngrx/updater-explicit-return-type": "error",
         "ngrx/use-consistent-global-store-name": "error",
         "ngrx/use-effects-lifecycle-interface": "error",
@@ -818,9 +738,7 @@
         // One off plugins
         "unicorn/filename-case": "error",
         "unicorn/no-abusive-eslint-disable": "error",
-        "import/no-duplicates": [
-          "error"
-        ],
+        "import/no-duplicates": ["error"],
         "deprecation/deprecation": "error",
         //// The next two rules don"t allow default exports particularly
         //// to defend against React guys who are still doing this even
@@ -860,12 +778,8 @@
       }
     },
     {
-      "files": [
-        "*.reducer.ts"
-      ],
-      "plugins": [
-        "functional"
-      ],
+      "files": ["*.reducer.ts"],
+      "plugins": ["functional"],
       "rules": {
         // these rules require typescript to run so they are off by default
         "@typescript-eslint/prefer-readonly": "error",
@@ -888,19 +802,12 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@nx/angular-template"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@nx/angular-template"],
       "rules": {
         "@angular-eslint/template/alt-text": "error",
         "@angular-eslint/template/elements-content": "error",
-        "@angular-eslint/template/label-has-associated-control": [
-          "error",
-          {}
-        ],
+        "@angular-eslint/template/label-has-associated-control": ["error", {}],
         "@angular-eslint/template/table-scope": "error",
         "@angular-eslint/template/valid-aria": "error",
         "@angular-eslint/template/banana-in-box": "error",
@@ -943,28 +850,14 @@
       }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
       "rules": {}
     },
     {
-      "files": [
-        "*.spec.ts",
-        "*.spec.tsx",
-        "*.spec.js",
-        "*.spec.jsx"
-      ],
-      "extends": [
-        "plugin:jest/recommended"
-      ],
-      "plugins": [
-        "jest"
-      ],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "extends": ["plugin:jest/recommended"],
+      "plugins": ["jest"],
       "env": {
         "jest": true
       },
