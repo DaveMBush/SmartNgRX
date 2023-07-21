@@ -2,6 +2,7 @@
   "silent": true,
   "pattern": "**/*.{js,ts,html,css,scss,json,md}",
   "ignore": [
+    "**/apps/documentation/**",
     "**/.eslintrc.json",
     "**/jest.config.js",
     "**/tsconfig.json",
