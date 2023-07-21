@@ -1,0 +1,288 @@
+[
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "castTo"
+    ],
+    "pageType": "api",
+    "title": "castTo",
+    "section": "castTo",
+    "route": "/api/dynamic-ngrx/functions/castTo",
+    "fragment": "castto",
+    "content": "Casts a value to a given type. This is instead of using:"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "bufferAction"
+    ],
+    "pageType": "api",
+    "title": "bufferAction",
+    "section": "bufferAction",
+    "route": "/api/dynamic-ngrx/functions/bufferAction",
+    "fragment": "bufferaction",
+    "content": "bufferAction is an RxJS operator that buffers the IDs of an action coming into an effect so that we can dispatch them independently but send them to the server in a single request."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "bufferAction"
+    ],
+    "pageType": "api",
+    "title": "bufferAction",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/bufferAction",
+    "fragment": "parameters",
+    "content": "The time to buffer the ids before sending them to the server. The default is 1ms which only allow the buffer to last until the thread frees up and is probably all we will ever need."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "EffectService"
+    ],
+    "pageType": "api",
+    "title": "EffectService",
+    "section": "EffectService",
+    "route": "/api/dynamic-ngrx/classes/EffectService",
+    "fragment": "effectservice",
+    "content": "This is the abstract class that all services the Effects use must implement."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "EffectsFactory"
+    ],
+    "pageType": "api",
+    "title": "EffectsFactory",
+    "section": "EffectsFactory",
+    "route": "/api/dynamic-ngrx/interfaces/EffectsFactory",
+    "fragment": "effectsfactory",
+    "content": "This is the type information that effectsFactory returns."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "effectsFactory"
+    ],
+    "pageType": "api",
+    "title": "effectsFactory",
+    "section": "effectsFactory",
+    "route": "/api/dynamic-ngrx/functions/effectsFactory",
+    "fragment": "effectsfactory",
+    "content": "The effects factory creates a new set of effects for the Action source provided and calls the service represented by the InjectionToken provided."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "effectsFactory"
+    ],
+    "pageType": "api",
+    "title": "effectsFactory",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/effectsFactory",
+    "fragment": "parameters",
+    "content": "The source of the actions for this effect"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "effectsFactory"
+    ],
+    "pageType": "api",
+    "title": "effectsFactory",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/effectsFactory",
+    "fragment": "parameters",
+    "content": "The token for the service that the resulting effect will call."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "actionFactory"
+    ],
+    "pageType": "api",
+    "title": "actionFactory",
+    "section": "actionFactory",
+    "route": "/api/dynamic-ngrx/functions/actionFactory",
+    "fragment": "actionfactory",
+    "content": "This creates all the Actions for a given source. Note: because ActionGroup is an NgRX internal type, we are leaving the type unspecified here and letting TypeScript infer it."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "actionFactory"
+    ],
+    "pageType": "api",
+    "title": "actionFactory",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/actionFactory",
+    "fragment": "parameters",
+    "content": "The source of the actions for this effect"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "provideSlice"
+    ],
+    "pageType": "api",
+    "title": "provideSlice",
+    "section": "provideSlice",
+    "route": "/api/dynamic-ngrx/functions/provideSlice",
+    "fragment": "provideslice",
+    "content": "This provides all the NgRX parts for a given feature and entity Note: the generic parameters are implied so they are not documented here."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "provideSlice"
+    ],
+    "pageType": "api",
+    "title": "provideSlice",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/provideSlice",
+    "fragment": "parameters",
+    "content": "This is the name you would use for forFeature() in standard NgRX code."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "provideSlice"
+    ],
+    "pageType": "api",
+    "title": "provideSlice",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/provideSlice",
+    "fragment": "parameters",
+    "content": "The is the name of the entity you are creating."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "provideSlice"
+    ],
+    "pageType": "api",
+    "title": "provideSlice",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/provideSlice",
+    "fragment": "parameters",
+    "content": "The token for the service the effects of this entity will call to access the server."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "reducerFactory"
+    ],
+    "pageType": "api",
+    "title": "reducerFactory",
+    "section": "reducerFactory",
+    "route": "/api/dynamic-ngrx/functions/reducerFactory",
+    "fragment": "reducerfactory",
+    "content": "This create a reducer for the give source"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "reducerFactory"
+    ],
+    "pageType": "api",
+    "title": "reducerFactory",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/reducerFactory",
+    "fragment": "parameters",
+    "content": "The source of the actions for this effect"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "selectorFactory"
+    ],
+    "pageType": "api",
+    "title": "selectorFactory",
+    "section": "selectorFactory",
+    "route": "/api/dynamic-ngrx/functions/selectorFactory",
+    "fragment": "selectorfactory",
+    "content": "Creates a group of selectors for a given feature and type of entity T"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "selectorFactory"
+    ],
+    "pageType": "api",
+    "title": "selectorFactory",
+    "section": "Parameters",
+    "route": "/api/dynamic-ngrx/functions/selectorFactory",
+    "fragment": "parameters",
+    "content": "the feature the entity is a part of"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "IdProp"
+    ],
+    "pageType": "api",
+    "title": "IdProp",
+    "section": "IdProp",
+    "route": "/api/dynamic-ngrx/interfaces/IdProp",
+    "fragment": "idprop",
+    "content": "Interface for Actions that take an id property"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "IdsProp"
+    ],
+    "pageType": "api",
+    "title": "IdsProp",
+    "section": "IdsProp",
+    "route": "/api/dynamic-ngrx/interfaces/IdsProp",
+    "fragment": "idsprop",
+    "content": "Interface for Actions that take an array of ids"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "RowProp"
+    ],
+    "pageType": "api",
+    "title": "RowProp",
+    "section": "RowProp",
+    "route": "/api/dynamic-ngrx/interfaces/RowProp",
+    "fragment": "rowprop",
+    "content": "Interface for Actions that take a row property"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "dynamic-ngrx",
+      "RowsProp"
+    ],
+    "pageType": "api",
+    "title": "RowsProp",
+    "section": "RowsProp",
+    "route": "/api/dynamic-ngrx/interfaces/RowsProp",
+    "fragment": "rowsprop",
+    "content": "Interface for Actions that take an array of rows"
+  }
+]

@@ -1,0 +1,120 @@
+/*!
+  Theme: Hardcore
+  Author: Chris Caller
+  License: ~ MIT (or more permissive) [via base16-schemes-source]
+  Maintainer: @highlightjs/core-team
+  Version: 2021.09.0
+*/
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+}
+
+code.hljs {
+  padding: 3px 5px;
+}
+
+.hljs {
+  color: #cdcdcd;
+  background: #212121;
+}
+
+.hljs ::selection, .hljs::selection {
+  background-color: #353535;
+  color: #cdcdcd;
+}
+
+.hljs-comment {
+  color: #4a4a4a;
+}
+
+.hljs-tag {
+  color: #707070;
+}
+
+.hljs-operator, .hljs-punctuation, .hljs-subst {
+  color: #cdcdcd;
+}
+
+.hljs-operator {
+  opacity: 0.7;
+}
+
+.hljs-bullet, .hljs-deletion, .hljs-name, .hljs-selector-tag, .hljs-template-variable, .hljs-variable {
+  color: #f92672;
+}
+
+.hljs-attr, .hljs-link, .hljs-literal, .hljs-number, .hljs-symbol, .hljs-variable.constant_ {
+  color: #fd971f;
+}
+
+.hljs-class .hljs-title, .hljs-title, .hljs-title.class_ {
+  color: #e6db74;
+}
+
+.hljs-strong {
+  font-weight: 700;
+  color: #e6db74;
+}
+
+.hljs-addition, .hljs-code, .hljs-string, .hljs-title.class_.inherited__ {
+  color: #a6e22e;
+}
+
+.hljs-built_in, .hljs-doctag, .hljs-keyword.hljs-atrule, .hljs-quote, .hljs-regexp {
+  color: #708387;
+}
+
+.hljs-attribute, .hljs-function .hljs-title, .hljs-section, .hljs-title.function_, .ruby .hljs-property {
+  color: #66d9ef;
+}
+
+.diff .hljs-meta, .hljs-keyword, .hljs-template-tag, .hljs-type {
+  color: #9e6ffe;
+}
+
+.hljs-emphasis {
+  color: #9e6ffe;
+  font-style: italic;
+}
+
+.hljs-meta, .hljs-meta .hljs-keyword, .hljs-meta .hljs-string {
+  color: #e8b882;
+}
+
+.hljs-meta .hljs-keyword, .hljs-meta-keyword {
+  font-weight: 700;
+}
+
+:root {
+  --ng-doc-base-0: #2a2438;
+  --ng-doc-base-1: #352f44;
+  --ng-doc-base-2: #474057;
+  --ng-doc-base-3: #453d57;
+  --ng-doc-base-4: #5e5474;
+  --ng-doc-base-5: #41365a;
+  --ng-doc-base-6: #5e5474;
+  --ng-doc-base-7: #625c71;
+  --ng-doc-base-8: #a19baf;
+  --ng-doc-base-9: var(--ng-doc-grey-100);
+  --ng-doc-base-10: var(--ng-doc-grey-90);
+  --ng-doc-base-11: var(--ng-doc-grey-80);
+  --ng-doc-text: var(--ng-doc-white);
+  --ng-doc-shadow-color: rgb(var(--ng-doc-grey-rgb));
+  --ng-doc-code-background: unset;
+  --ng-doc-link-color: var(--ng-doc-pink-120);
+  --ng-doc-link-color-rgb: var(--ng-doc-pink-rgb);
+  --ng-doc-primary: var(--ng-doc-ember-140);
+  --ng-doc-primary-rgb: var(--ng-doc-ember-rgb);
+  --ng-doc-search-result-color: #c6c6c6;
+  --ng-doc-mark-background: #a872ff66;
+  --ng-doc-api-tag-background: #ff5959;
+  --ng-doc-api-tag-color: var(--ng-doc-base-0);
+  --ng-doc-guide-tag-background: var(--ng-doc-ember-140);
+  --ng-doc-guide-tag-color: var(--ng-doc-base-0);
+}
+
+pre code.hljs {
+  background-color: #27202e;
+}
