@@ -90,10 +90,7 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "apps/documentation/**/*.ts",
-          "apps/documentation/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/documentation/jest.config.ts"]
       }
     },
     "test": {
