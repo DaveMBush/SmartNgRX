@@ -6,15 +6,28 @@ import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { bufferAction } from './buffer-action.function';
-import { EffectFactory } from './effect-factory.interface';
 import { EffectService } from './effect-service';
+import { EffectsFactory } from './effects-factory.interface';
 
-export const effectsFactory = <Source extends string, T>(
+/**
+ * The effects factory creates a new set of effects for the
+ * `Action` source provided and calls the service represented
+ * by the `InjectionToken` provided.
+ *
+ * @param source - The source of the actions for this effect
+ * @param effectServiceToken - The token for the service that
+ *   the resulting effect will call.
+ * @returns The effect for the source provided
+ *
+ * @see `EffectsFactory`
+ * @see `EffectService`
+ */
+export function effectsFactory<Source extends string, T>(
   source: StringLiteralSource<Source>,
   effectServiceToken: InjectionToken<EffectService<T>>
-): EffectFactory<T> => {
+): EffectsFactory<T> {
   const actions = actionFactory<Source, T>(source);
-  return castTo<EffectFactory<T>>({
+  return castTo<EffectsFactory<T>>({
     load: createEffect(
       (
         actions$ = inject(Actions),
@@ -43,4 +56,4 @@ export const effectsFactory = <Source extends string, T>(
       { functional: true }
     ),
   });
-};
+}

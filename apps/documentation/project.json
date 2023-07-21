@@ -10,7 +10,7 @@
       "executor": "@ng-doc/builder:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/documentation",
+        "outputPath": "documentation",
         "index": "apps/documentation/src/index.html",
         "main": "apps/documentation/src/main.ts",
         "polyfills": ["zone.js"],

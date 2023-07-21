@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve dynamic-ngrx-test",
+    "start:documentation": "nx serve documentation --port=4201",
     "build": "nx affected:build --parallel=3",
     "lint": "nx affected:lint --parallel=3",
     "format": "nx format:write",
