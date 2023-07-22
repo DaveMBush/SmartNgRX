@@ -41,5 +41,5 @@ jobs:
       - name: Run update docs script
         run: |
           git remote set-url origin https://x-access-token:${GH_PAGES_DYNAMIC_NGRX_TEST}@github.com/${{ github.repository }}.git
-          chmod +x ./.github/workflow/update_docs.sh
-          ./.github/workflow/update_docs.sh
+          chmod +x .github/workflow/update_docs.sh
+          .github/workflow/update_docs.sh
