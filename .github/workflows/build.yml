@@ -31,6 +31,15 @@ jobs:
       - run: pnpm i
       - run: pnpm dupcheck
       - run: pnpm format:check
-      - run: pnpm build
       - run: pnpm lint
       - run: pnpm htmllint
+      - run: pnpm build
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Run update docs script
+        run: |
+          git remote set-url origin https://x-access-token:${GH_PAGES_DYNAMIC_NGRX_TEST}@github.com/${{ github.repository }}.git
+          chmod +x ./.github/workflow/update_docs.sh
+          ./.github/workflow/update_docs.sh
