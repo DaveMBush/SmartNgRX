@@ -3,10 +3,8 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "dynamic-ngrx-test",
-  "sourceRoot": "apps/documentation/src",
-  "implicitDependencies": [
-    "dynamic-ngrx"
-  ],
+  "sourceRoot": "apps/documentation/src,"
+  "implicitDependencies": ["dynamic-ngrx"],
   "tags": [],
   "targets": {
     "build": {
