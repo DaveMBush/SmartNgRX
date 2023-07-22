@@ -33,7 +33,7 @@ describe('default-rows.function.ts', () => {
     it('should return an empty array', () => {
       const ids = ['1', '2', '3', '4', '5', '6'];
       const state: EntityState<{ id: string }> = {
-        ids: ['1','3','4',],
+        ids: ['1', '3', '4'],
         entities: {
           '1': { id: '1' },
           '3': { id: '3' },
@@ -41,7 +41,7 @@ describe('default-rows.function.ts', () => {
         },
       };
       returnedRows = defaultRows(ids, state, defaultRow);
-      expect(returnedRows).toEqual([{ id: '2' }, { id: '5' }, { id: '6'}]);
+      expect(returnedRows).toEqual([{ id: '2' }, { id: '5' }, { id: '6' }]);
     });
   });
 });

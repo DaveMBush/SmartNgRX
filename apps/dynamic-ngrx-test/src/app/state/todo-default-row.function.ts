@@ -1,4 +1,4 @@
-import { Todo } from "./todo.interface";
+import { Todo } from './todo.interface';
 
 export function todoDefaultRow(id: string): Todo {
   return {
