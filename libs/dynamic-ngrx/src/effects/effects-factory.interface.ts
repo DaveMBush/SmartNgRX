@@ -3,8 +3,12 @@ import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { EffectService } from './effect-service';
-
-export interface EffectFactory<T> {
+/**
+ * This is the type information that effectsFactory returns.
+ * @see `effectsFactory`
+ * @see `EffectService`
+ */
+export interface EffectsFactory<T> {
   load: FunctionalEffect<
     (
       actions$?: Actions<unknown>,

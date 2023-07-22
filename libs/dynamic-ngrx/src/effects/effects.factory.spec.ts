@@ -7,9 +7,9 @@ import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { actionFactory } from '../functions/action.factory';
-import { EffectFactory } from './effect-factory.interface';
 import { EffectService } from './effect-service';
 import { effectsFactory } from './effects.factory';
+import { EffectsFactory } from './effects-factory.interface';
 
 interface MockState {
   id: string;
@@ -31,7 +31,7 @@ class MockService extends EffectService<MockState> {
 describe('effectsFactory', () => {
   let testScheduler: TestScheduler;
   let actions: Observable<Action>;
-  let effect: EffectFactory<MockState>;
+  let effect: EffectsFactory<MockState>;
   const mockActions = () => actions;
   let loadEffect: Observable<Action>;
   let loadByIdsEffect: Observable<Action>;
