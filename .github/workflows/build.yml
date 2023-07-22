@@ -39,6 +39,9 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - name: Run update docs script
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_PAGES_DYNAMIC_NGRX_TEST: ${{ secrets.GH_PAGES_DYNAMIC_NGRX_TEST }}
         run: |
           git remote set-url origin https://x-access-token:${GH_PAGES_DYNAMIC_NGRX_TEST}@github.com/${{ github.repository }}.git
           chmod +x .github/workflows/update_docs.sh
