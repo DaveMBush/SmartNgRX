@@ -39,7 +39,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - name: Run update docs script
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         env:
           GH_PAGES_DYNAMIC_NGRX_TEST: ${{ secrets.GH_PAGES_DYNAMIC_NGRX_TEST }}
         run: |
