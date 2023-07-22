@@ -1,8 +1,9 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
+import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { actionFactory } from './action.factory';
+import { defaultRows } from './default-rows.function';
 
 /**
  * This create a reducer for the give source
@@ -10,7 +11,8 @@ import { actionFactory } from './action.factory';
  * @returns a new reducer for the source provided
  */
 export function reducerFactory<Source extends string, T>(
-  source: StringLiteralSource<Source>
+  source: StringLiteralSource<Source>,
+  defaultRow: (id: string) => T
 ): ActionReducer<EntityState<T>> {
   const adapter = createEntityAdapter<T>();
   const initialState = adapter.getInitialState();
@@ -19,6 +21,16 @@ export function reducerFactory<Source extends string, T>(
   return createReducer(
     initialState,
     on(actions.add, (state, { row }) => adapter.addOne(row, state)),
-    on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state))
+    on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state)),
+
+    // make sure that when we call loadByIds the store gets set with
+    // something so that we don't try to refetch the same data
+    on(actions.loadByIds, (state, { ids }) =>
+      adapter.upsertMany(defaultRows(ids, state, defaultRow), state)
+    ),
+
+    on(actions.loadByIdsSuccess, (state, { rows }) =>
+      adapter.upsertMany(rows, state)
+    )
   );
 }

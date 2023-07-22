@@ -4,6 +4,7 @@ import { Route } from '@angular/router';
 import { provideSlice } from '@davembush/dynamic-ngrx';
 
 import { TodoService } from './state/todo.service';
+import { todoDefaultRow } from './state/todo-default-row.function';
 
 const todoService = new InjectionToken<TodoService>('todoService');
 
@@ -19,7 +20,7 @@ export const appRoutes: Route[] = [
       (await import('./list/list.component')).ListComponent,
     providers: [
       { provide: todoService, useClass: TodoService },
-      provideSlice('list', 'todo', todoService),
+      provideSlice('list', 'todo', todoService, todoDefaultRow),
     ],
   },
 ];
