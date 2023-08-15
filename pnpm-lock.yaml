@@ -92,8 +92,8 @@ devDependencies:
     specifier: ~16.0.0
     version: 16.0.0(@angular/compiler@16.0.0)(typescript@5.0.4)
   '@angular/language-service':
-    specifier: ~16.0.0
-    version: 16.0.0
+    specifier: ~16.2.0
+    version: 16.2.0
   '@ngrx/schematics':
     specifier: ~16.0.0
     version: 16.0.0
@@ -170,8 +170,8 @@ devDependencies:
     specifier: 10.0.0
     version: 10.0.0(eslint@8.43.0)
   eslint-plugin-sonarjs:
-    specifier: 0.19.0
-    version: 0.19.0(eslint@8.43.0)
+    specifier: 0.20.0
+    version: 0.20.0(eslint@8.43.0)
   eslint-plugin-unicorn:
     specifier: 47.0.0
     version: 47.0.0(eslint@8.43.0)
@@ -681,8 +681,8 @@ packages:
       tslib: 2.6.1
     dev: false
 
-  /@angular/language-service@16.0.0:
-    resolution: {integrity: sha512-jySin8NdZIfcvwyemh2kRVveOvL1SPvywmIrv/6+MbKebG9Oc+casxruoRai8gh8bhahdpUAOG0t8wbedUWcxw==}
+  /@angular/language-service@16.2.0:
+    resolution: {integrity: sha512-ZeNdiQAR9anP4X1PaveGKsf57s6Ty9n1Py1YYzCvqC7x0RrP2rrvnF9iuj9E8+2TAd1xyS0AOrG5L8c1h6OnTg==}
     engines: {node: ^16.14.0 || >=18.10.0}
     dev: true
 
@@ -9054,8 +9054,8 @@ packages:
       eslint: 8.43.0
     dev: true
 
-  /eslint-plugin-sonarjs@0.19.0(eslint@8.43.0):
-    resolution: {integrity: sha512-6+s5oNk5TFtVlbRxqZN7FIGmjdPCYQKaTzFPmqieCmsU1kBYDzndTeQav0xtQNwZJWu5awWfTGe8Srq9xFOGnw==}
+  /eslint-plugin-sonarjs@0.20.0(eslint@8.43.0):
+    resolution: {integrity: sha512-BRhZ7BY/oTr6DDaxvx58ReTg7R+J8T+Y2ZVGgShgpml25IHBTIG7EudUtHuJD1zhtMgUEt59x3VNvUQRo2LV6w==}
     engines: {node: '>=14'}
     peerDependencies:
       eslint: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
