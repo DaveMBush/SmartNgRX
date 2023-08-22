@@ -1,5 +1,6 @@
 <p>list works!</p>
 <div>
+  <!-- eslint-disable-next-line @angular-eslint/template/use-track-by-function -- the linter is being stupid -->
   <div *ngFor="let item of todos | async; trackBy: trackById">
     {{ item.title }}
   </div>
