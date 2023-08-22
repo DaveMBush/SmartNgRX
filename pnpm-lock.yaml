@@ -98,8 +98,8 @@ devDependencies:
     specifier: ~16.0.0
     version: 16.0.0
   '@nx/cypress':
-    specifier: 16.6.0
-    version: 16.6.0(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+    specifier: 16.7.2
+    version: 16.7.2(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
   '@nx/eslint-plugin':
     specifier: 16.6.0
     version: 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.8.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
@@ -4794,10 +4794,10 @@ packages:
       - verdaccio
     dev: false
 
-  /@nrwl/cypress@16.6.0(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
-    resolution: {integrity: sha512-DxD6rdUbZTMa3d1Reaq1y718fk+4fnDZ3Rpv1r+QhxubyX/FyfomzOC61q75A/XAv9QtiWQUd10diivpPZeZOw==}
+  /@nrwl/cypress@16.7.2(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
+    resolution: {integrity: sha512-QAjvfTD/NuBhkciIc0EXttOPzKDwba8VdXFGO9xxMtsq9X9AN9xUHA5ZZStMtP/dnS1qi/BD6vG5d/h1g+c2sw==}
     dependencies:
-      '@nx/cypress': 16.6.0(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nx/cypress': 16.7.2(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -4972,10 +4972,10 @@ packages:
       - typescript
       - verdaccio
 
-  /@nrwl/linter@16.6.0(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
-    resolution: {integrity: sha512-E/6E8EVrOECqwevVYBUH/YF2+K2pE0GcNs6233BnGpflyxhxNYaH18vM0y0q8BGbeZEKkqEiiMTryg50+GiBzw==}
+  /@nrwl/linter@16.7.2(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
+    resolution: {integrity: sha512-tY5Vi9I9mjwkeVBD96hkcNAwDxs2gxcWxwIs5bnAoGw4GM93toHnbe2vB72m89NwH4bYxD1UkDAqvYnOfEZ5/Q==}
     dependencies:
-      '@nx/linter': 16.6.0(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nx/linter': 16.7.2(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -5207,22 +5207,22 @@ packages:
       - verdaccio
     dev: false
 
-  /@nx/cypress@16.6.0(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
-    resolution: {integrity: sha512-nFns4lMN8bE4GxUImSfX3gotQoIH2Fha67q6TkfHYCVrYfPkNDaSzU2cAJ9O0BwyTMFlouHZmcqsdt2Qnl4DtQ==}
+  /@nx/cypress@16.7.2(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
+    resolution: {integrity: sha512-KBNd2whuBc/aY2dG9uiyMi7LHl5OUbKzKSY4s6bCjgJUiByFbSX6tP6U9QxWxlPmWWjw1OwcoeCWGuUAs/HUZw==}
     peerDependencies:
       cypress: '>= 3 < 13'
     peerDependenciesMeta:
       cypress:
         optional: true
     dependencies:
-      '@nrwl/cypress': 16.6.0(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
-      '@nx/devkit': 16.6.0(nx@16.3.2)
-      '@nx/js': 16.6.0(@types/node@20.4.1)(nx@16.3.2)(typescript@5.0.4)
-      '@nx/linter': 16.6.0(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nrwl/cypress': 16.7.2(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nx/devkit': 16.7.2(nx@16.3.2)
+      '@nx/js': 16.7.2(@types/node@20.4.1)(nx@16.3.2)(typescript@5.0.4)
+      '@nx/linter': 16.7.2(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.0.4)
       cypress: 12.11.0
       detect-port: 1.5.1
-      dotenv: 10.0.0
+      dotenv: 16.3.1
       semver: 7.5.3
       tslib: 2.6.1
     transitivePeerDependencies:
@@ -5565,17 +5565,17 @@ packages:
       - typescript
       - verdaccio
 
-  /@nx/linter@16.6.0(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
-    resolution: {integrity: sha512-U0GOjvAm0BnA1AhqVshDrpA0lRDSggPYz4o3I9cCUd6ET41dwXrubZstWZ9tbPMXFlht1+Yk4CfM+XQEWW8JWQ==}
+  /@nx/linter@16.7.2(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
+    resolution: {integrity: sha512-rmgE7y0nUupG1iamdTH5S4SVp/+0VC/VvvXnB50mJgVn1XwtvgvmLMb90oFAy1azjxtrboK4y1tI1UC4eSytSw==}
     peerDependencies:
       eslint: ^8.0.0
     peerDependenciesMeta:
       eslint:
         optional: true
     dependencies:
-      '@nrwl/linter': 16.6.0(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
-      '@nx/devkit': 16.6.0(nx@16.3.2)
-      '@nx/js': 16.6.0(@types/node@20.4.1)(nx@16.3.2)(typescript@5.0.4)
+      '@nrwl/linter': 16.7.2(@types/node@20.4.1)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nx/devkit': 16.7.2(nx@16.3.2)
+      '@nx/js': 16.7.2(@types/node@20.4.1)(nx@16.3.2)(typescript@5.0.4)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.0.4)
       eslint: 8.43.0
       tmp: 0.2.1
