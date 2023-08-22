@@ -102,7 +102,7 @@ devDependencies:
     version: 16.7.2(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
   '@nx/eslint-plugin':
     specifier: 16.6.0
-    version: 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.8.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+    version: 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.10.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
   '@nx/jest':
     specifier: 16.6.0
     version: 16.6.0(@types/node@20.4.1)(nx@16.3.2)(ts-node@10.9.1)(typescript@5.0.4)
@@ -140,8 +140,8 @@ devDependencies:
     specifier: ~8.43.0
     version: 8.43.0
   eslint-config-prettier:
-    specifier: 8.8.0
-    version: 8.8.0(eslint@8.43.0)
+    specifier: 8.10.0
+    version: 8.10.0(eslint@8.43.0)
   eslint-plugin-cypress:
     specifier: ^2.14.0
     version: 2.14.0(eslint@8.43.0)
@@ -4880,10 +4880,10 @@ packages:
       - nx
     dev: true
 
-  /@nrwl/eslint-plugin-nx@16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.8.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
+  /@nrwl/eslint-plugin-nx@16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.10.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
     resolution: {integrity: sha512-kNT8Q6buTX9kIYgiZZRFcr2bxSgIQR3tpbBlzXhKFeQE31w53fVWbdX3oPbn+VPgza84beVCEUbyOHexA4X82Q==}
     dependencies:
-      '@nx/eslint-plugin': 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.8.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nx/eslint-plugin': 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.10.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -5338,7 +5338,7 @@ packages:
       tslib: 2.6.1
     dev: true
 
-  /@nx/eslint-plugin@16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.8.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
+  /@nx/eslint-plugin@16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.10.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4):
     resolution: {integrity: sha512-fTqGTjAiFGZsYrs5OgwtL7bJ5qaNS6mW2/d/jZiN1oiSLBaJUyceKZWs0y5dvOMlJOo0/UG4hbBoMJGBBBWx+g==}
     peerDependencies:
       '@typescript-eslint/parser': ^5.60.1
@@ -5347,7 +5347,7 @@ packages:
       eslint-config-prettier:
         optional: true
     dependencies:
-      '@nrwl/eslint-plugin-nx': 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.8.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
+      '@nrwl/eslint-plugin-nx': 16.6.0(@types/node@20.4.1)(@typescript-eslint/parser@5.61.0)(eslint-config-prettier@8.10.0)(eslint@8.43.0)(nx@16.3.2)(typescript@5.0.4)
       '@nx/devkit': 16.6.0(nx@16.3.2)
       '@nx/js': 16.6.0(@types/node@20.4.1)(nx@16.3.2)(typescript@5.0.4)
       '@typescript-eslint/parser': 5.61.0(eslint@8.43.0)(typescript@5.0.4)
@@ -5355,7 +5355,7 @@ packages:
       '@typescript-eslint/utils': 5.62.0(eslint@8.43.0)(typescript@5.0.4)
       chalk: 4.1.2
       confusing-browser-globals: 1.0.11
-      eslint-config-prettier: 8.8.0(eslint@8.43.0)
+      eslint-config-prettier: 8.10.0(eslint@8.43.0)
       jsonc-eslint-parser: 2.3.0
       semver: 7.5.3
       tslib: 2.6.1
@@ -9116,8 +9116,8 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
-  /eslint-config-prettier@8.8.0(eslint@8.43.0):
-    resolution: {integrity: sha512-wLbQiFre3tdGgpDv67NQKnJuTlcUVYHas3k+DZCc2U2BadthoEY4B7hLPvAxaqdyOGCzuLfii2fqGph10va7oA==}
+  /eslint-config-prettier@8.10.0(eslint@8.43.0):
+    resolution: {integrity: sha512-SM8AMJdeQqRYT9O9zguiruQZaN7+z+E4eAP9oiLNGKMtomwaB1E9dcgUD6ZAn/eQAb52USbvezbiljfZUhbJcg==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
