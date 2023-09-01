@@ -34,7 +34,7 @@ dependencies:
     version: 16.10.0(@angular/cdk@16.1.5)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/router@16.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.0)
   '@ng-doc/builder':
     specifier: 16.10.0
-    version: 16.10.0(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+    version: 16.10.0(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
   '@ng-doc/core':
     specifier: 16.10.0
     version: 16.10.0
@@ -69,7 +69,7 @@ dependencies:
 devDependencies:
   '@angular-devkit/build-angular':
     specifier: ~16.0.0
-    version: 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+    version: 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
   '@angular-devkit/core':
     specifier: ~16.0.0
     version: 16.0.0(chokidar@3.5.3)
@@ -191,8 +191,8 @@ devDependencies:
     specifier: ^29.6.1
     version: 29.6.1(@types/node@20.4.1)(ts-node@10.9.1)
   jest-environment-jsdom:
-    specifier: ^29.6.1
-    version: 29.6.1
+    specifier: ^29.6.4
+    version: 29.6.4
   jest-preset-angular:
     specifier: ~13.1.1
     version: 13.1.1(@angular-devkit/build-angular@16.0.0)(@angular/compiler-cli@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser-dynamic@16.0.0)(@babel/core@7.22.9)(jest@29.6.1)(typescript@5.0.4)
@@ -255,7 +255,7 @@ packages:
     transitivePeerDependencies:
       - chokidar
 
-  /@angular-devkit/build-angular@16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4):
+  /@angular-devkit/build-angular@16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4):
     resolution: {integrity: sha512-OvDQAbrV3cUMfHws30MnDURsXselZ0GWhSxZjOdcD3cF64Nsq5ywftHOT+QC3YdDghwI8gMADN9et+aVDscBzQ==}
     engines: {node: ^16.14.0 || >=18.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
@@ -323,7 +323,7 @@ packages:
       https-proxy-agent: 5.0.1
       inquirer: 8.2.4
       jest: 29.6.1(@types/node@20.4.1)(ts-node@10.9.1)
-      jest-environment-jsdom: 29.6.1
+      jest-environment-jsdom: 29.6.4
       jsonc-parser: 3.2.0
       karma-source-map-support: 1.4.0
       less: 4.1.3
@@ -4174,11 +4174,11 @@ packages:
     resolution: {integrity: sha512-Aj772AYgwTSr5w8qnyoJ0eDYvN6bMsH3ORH1ivMotrInHLKdUz6BDlaEXHdM6kODaBIkNIyQGzsMvRdOv7VG7Q==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       chalk: 4.1.2
-      jest-message-util: 29.6.1
-      jest-util: 29.6.1
+      jest-message-util: 29.6.3
+      jest-util: 29.6.3
       slash: 3.0.0
 
   /@jest/core@29.6.1(ts-node@10.9.1):
@@ -4194,7 +4194,7 @@ packages:
       '@jest/reporters': 29.6.1
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       ansi-escapes: 4.3.2
       chalk: 4.1.2
@@ -4204,32 +4204,32 @@ packages:
       jest-changed-files: 29.5.0
       jest-config: 29.6.1(@types/node@20.4.1)(ts-node@10.9.1)
       jest-haste-map: 29.6.1
-      jest-message-util: 29.6.1
+      jest-message-util: 29.6.3
       jest-regex-util: 29.4.3
       jest-resolve: 29.6.1
       jest-resolve-dependencies: 29.6.1
       jest-runner: 29.6.1
       jest-runtime: 29.6.1
       jest-snapshot: 29.6.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       jest-validate: 29.6.1
       jest-watcher: 29.6.1
       micromatch: 4.0.5
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
       slash: 3.0.0
       strip-ansi: 6.0.1
     transitivePeerDependencies:
       - supports-color
       - ts-node
 
-  /@jest/environment@29.6.1:
-    resolution: {integrity: sha512-RMMXx4ws+Gbvw3DfLSuo2cfQlK7IwGbpuEWXCqyYDcqYTI+9Ju3a5hDnXaxjNsa6uKh9PQF2v+qg+RLe63tz5A==}
+  /@jest/environment@29.6.4:
+    resolution: {integrity: sha512-sQ0SULEjA1XUTHmkBRl7A1dyITM9yb1yb3ZNKPX3KlTd6IG7mWUe3e2yfExtC2Zz1Q+mMckOLHmL/qLiuQJrBQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/fake-timers': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/fake-timers': 29.6.4
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
-      jest-mock: 29.6.1
+      jest-mock: 29.6.3
 
   /@jest/expect-utils@29.6.1:
     resolution: {integrity: sha512-o319vIf5pEMx0LmzSxxkYYxo4wrRLKHq9dP1yJU7FoPTB0LfAKSz8SWD6D/6U3v/O52t9cF5t+MeJiRsfk7zMw==}
@@ -4246,25 +4246,25 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@jest/fake-timers@29.6.1:
-    resolution: {integrity: sha512-RdgHgbXyosCDMVYmj7lLpUwXA4c69vcNzhrt69dJJdf8azUrpRh3ckFCaTPNjsEeRi27Cig0oKDGxy5j7hOgHg==}
+  /@jest/fake-timers@29.6.4:
+    resolution: {integrity: sha512-6UkCwzoBK60edXIIWb0/KWkuj7R7Qq91vVInOe3De6DSpaEiqjKcJw4F7XUet24Wupahj9J6PlR09JqJ5ySDHw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@sinonjs/fake-timers': 10.3.0
       '@types/node': 20.4.1
-      jest-message-util: 29.6.1
-      jest-mock: 29.6.1
-      jest-util: 29.6.1
+      jest-message-util: 29.6.3
+      jest-mock: 29.6.3
+      jest-util: 29.6.3
 
   /@jest/globals@29.6.1:
     resolution: {integrity: sha512-2VjpaGy78JY9n9370H8zGRCFbYVWwjY6RdDMhoJHa1sYfwe6XM/azGN0SjY8kk7BOZApIejQ1BFPyH7FPG0w3A==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/environment': 29.6.1
+      '@jest/environment': 29.6.4
       '@jest/expect': 29.6.1
-      '@jest/types': 29.6.1
-      jest-mock: 29.6.1
+      '@jest/types': 29.6.3
+      jest-mock: 29.6.3
     transitivePeerDependencies:
       - supports-color
 
@@ -4281,7 +4281,7 @@ packages:
       '@jest/console': 29.6.1
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@jridgewell/trace-mapping': 0.3.18
       '@types/node': 20.4.1
       chalk: 4.1.2
@@ -4294,8 +4294,8 @@ packages:
       istanbul-lib-report: 3.0.0
       istanbul-lib-source-maps: 4.0.1
       istanbul-reports: 3.1.5
-      jest-message-util: 29.6.1
-      jest-util: 29.6.1
+      jest-message-util: 29.6.3
+      jest-util: 29.6.3
       jest-worker: 29.6.1
       slash: 3.0.0
       string-length: 4.0.2
@@ -4304,8 +4304,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@jest/schemas@29.6.0:
-    resolution: {integrity: sha512-rxLjXyJBTL4LQeJW3aKo0M/+GkCOXsO+8i9Iu7eDb6KwtP65ayoDsitrdPBtujxQ88k4wI2FNYfa6TOGwSn6cQ==}
+  /@jest/schemas@29.6.3:
+    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@sinclair/typebox': 0.27.8
@@ -4323,7 +4323,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/console': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       collect-v8-coverage: 1.0.2
 
@@ -4341,7 +4341,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@babel/core': 7.22.9
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@jridgewell/trace-mapping': 0.3.18
       babel-plugin-istanbul: 6.1.1
       chalk: 4.1.2
@@ -4350,7 +4350,7 @@ packages:
       graceful-fs: 4.2.11
       jest-haste-map: 29.6.1
       jest-regex-util: 29.4.3
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       micromatch: 4.0.5
       pirates: 4.0.6
       slash: 3.0.0
@@ -4362,7 +4362,18 @@ packages:
     resolution: {integrity: sha512-tPKQNMPuXgvdOn2/Lg9HNfUvjYVGolt04Hp03f5hAk878uwOLikN+JzeLY0HcVgKgFl9Hs3EIqpu3WX27XNhnw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/schemas': 29.6.0
+      '@jest/schemas': 29.6.3
+      '@types/istanbul-lib-coverage': 2.0.4
+      '@types/istanbul-reports': 3.0.1
+      '@types/node': 20.4.1
+      '@types/yargs': 17.0.24
+      chalk: 4.1.2
+
+  /@jest/types@29.6.3:
+    resolution: {integrity: sha512-u3UPsIilWKOM3F9CXtrG8LEJmNxwoCQC/XVj4IKYXvvpx7QIi/Kg1LI5uDmDpKlac62NUtX7eLjRh+jVZcLOzw==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
       '@types/node': 20.4.1
@@ -4494,11 +4505,11 @@ packages:
       - '@tinkoff/ng-polymorpheus'
     dev: false
 
-  /@ng-doc/builder@16.10.0(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4):
+  /@ng-doc/builder@16.10.0(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4):
     resolution: {integrity: sha512-x+nxpLAwUOJrE6O+0tmhJgejRL7LY9MtWnr2N/d2YZCSeK82X9Dc4f69xOSJRj7lmFvE4DHHbq55wPNzVUMSXw==}
     dependencies:
       '@angular-devkit/architect': 0.1600.0(chokidar@3.5.3)
-      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
       '@microsoft/tsdoc': 0.14.2
       '@ng-doc/core': 16.10.0
       '@ng-doc/utils': 16.10.0
@@ -5224,7 +5235,7 @@ packages:
       '@nguniversal/builders':
         optional: true
     dependencies:
-      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
       '@angular-devkit/core': 16.0.0(chokidar@3.5.3)
       '@angular-devkit/schematics': 16.2.0
       '@nrwl/angular': 16.3.2(@angular-devkit/build-angular@16.0.0)(@angular-devkit/core@16.0.0)(@angular-devkit/schematics@16.2.0)(@schematics/angular@16.1.5)(@types/node@20.4.1)(cypress@12.11.0)(eslint@8.43.0)(nx@16.3.2)(rxjs@7.8.0)(typescript@5.0.4)
@@ -5492,7 +5503,7 @@ packages:
       identity-obj-proxy: 3.0.0
       jest-config: 29.6.1(@types/node@20.4.1)(ts-node@10.9.1)
       jest-resolve: 29.6.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       resolve.exports: 1.1.0
       tslib: 2.6.1
     transitivePeerDependencies:
@@ -9846,8 +9857,8 @@ packages:
       '@types/node': 20.4.1
       jest-get-type: 29.4.3
       jest-matcher-utils: 29.6.1
-      jest-message-util: 29.6.1
-      jest-util: 29.6.1
+      jest-message-util: 29.6.3
+      jest-util: 29.6.3
 
   /exponential-backoff@3.1.1:
     resolution: {integrity: sha512-dX7e/LHVJ6W3DE1MHWi9S1EYzDESENfLrYohG2G++ovZrYOkm4Knwa0mc1cn84xJOR4KEU0WSchhLbd0UklbHw==}
@@ -11420,10 +11431,10 @@ packages:
     resolution: {integrity: sha512-tPbYLEiBU4MYAL2XoZme/bgfUeotpDBd81lgHLCbDZZFaGmECk0b+/xejPFtmiBP87GgP/y4jplcRpbH+fgCzQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/environment': 29.6.1
+      '@jest/environment': 29.6.4
       '@jest/expect': 29.6.1
       '@jest/test-result': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       chalk: 4.1.2
       co: 4.6.0
@@ -11431,12 +11442,12 @@ packages:
       is-generator-fn: 2.1.0
       jest-each: 29.6.1
       jest-matcher-utils: 29.6.1
-      jest-message-util: 29.6.1
+      jest-message-util: 29.6.3
       jest-runtime: 29.6.1
       jest-snapshot: 29.6.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       p-limit: 3.1.0
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
       pure-rand: 6.0.2
       slash: 3.0.0
       stack-utils: 2.0.6
@@ -11455,13 +11466,13 @@ packages:
     dependencies:
       '@jest/core': 29.6.1(ts-node@10.9.1)
       '@jest/test-result': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       chalk: 4.1.2
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.1.0
       jest-config: 29.6.1(@types/node@20.4.1)(ts-node@10.9.1)
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       jest-validate: 29.6.1
       prompts: 2.4.2
       yargs: 17.7.2
@@ -11484,7 +11495,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.9
       '@jest/test-sequencer': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       babel-jest: 29.6.1(@babel/core@7.22.9)
       chalk: 4.1.2
@@ -11498,11 +11509,11 @@ packages:
       jest-regex-util: 29.4.3
       jest-resolve: 29.6.1
       jest-runner: 29.6.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       jest-validate: 29.6.1
       micromatch: 4.0.5
       parse-json: 5.2.0
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
       slash: 3.0.0
       strip-json-comments: 3.1.1
       ts-node: 10.9.1(@types/node@20.4.1)(typescript@5.0.4)
@@ -11516,7 +11527,7 @@ packages:
       chalk: 4.1.2
       diff-sequences: 29.4.3
       jest-get-type: 29.4.3
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
 
   /jest-docblock@29.4.3:
     resolution: {integrity: sha512-fzdTftThczeSD9nZ3fzA/4KkHtnmllawWrXO69vtI+L9WjEIuXWs4AmyME7lN5hU7dB0sHhuPfcKofRsUb/2Fg==}
@@ -11528,14 +11539,14 @@ packages:
     resolution: {integrity: sha512-n5eoj5eiTHpKQCAVcNTT7DRqeUmJ01hsAL0Q1SMiBHcBcvTKDELixQOGMCpqhbIuTcfC4kMfSnpmDqRgRJcLNQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       chalk: 4.1.2
       jest-get-type: 29.4.3
-      jest-util: 29.6.1
-      pretty-format: 29.6.1
+      jest-util: 29.6.3
+      pretty-format: 29.6.3
 
-  /jest-environment-jsdom@29.6.1:
-    resolution: {integrity: sha512-PoY+yLaHzVRhVEjcVKSfJ7wXmJW4UqPYNhR05h7u/TK0ouf6DmRNZFBL/Z00zgQMyWGMBXn69/FmOvhEJu8cIw==}
+  /jest-environment-jsdom@29.6.4:
+    resolution: {integrity: sha512-K6wfgUJ16DoMs02JYFid9lOsqfpoVtyJxpRlnTxUHzvZWBnnh2VNGRB9EC1Cro96TQdq5TtSjb3qUjNaJP9IyA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       canvas: ^2.5.0
@@ -11543,13 +11554,13 @@ packages:
       canvas:
         optional: true
     dependencies:
-      '@jest/environment': 29.6.1
-      '@jest/fake-timers': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/environment': 29.6.4
+      '@jest/fake-timers': 29.6.4
+      '@jest/types': 29.6.3
       '@types/jsdom': 20.0.1
       '@types/node': 20.4.1
-      jest-mock: 29.6.1
-      jest-util: 29.6.1
+      jest-mock: 29.6.3
+      jest-util: 29.6.3
       jsdom: 20.0.3
     transitivePeerDependencies:
       - bufferutil
@@ -11560,12 +11571,12 @@ packages:
     resolution: {integrity: sha512-ZNIfAiE+foBog24W+2caIldl4Irh8Lx1PUhg/GZ0odM1d/h2qORAsejiFc7zb+SEmYPn1yDZzEDSU5PmDkmVLQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/environment': 29.6.1
-      '@jest/fake-timers': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/environment': 29.6.4
+      '@jest/fake-timers': 29.6.4
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
-      jest-mock: 29.6.1
-      jest-util: 29.6.1
+      jest-mock: 29.6.3
+      jest-util: 29.6.3
 
   /jest-get-type@29.4.3:
     resolution: {integrity: sha512-J5Xez4nRRMjk8emnTpWrlkyb9pfRQQanDrvWHhsR1+VUfbwxi30eVcZFlcdGInRibU4G5LwHXpI7IRHU0CY+gg==}
@@ -11575,14 +11586,14 @@ packages:
     resolution: {integrity: sha512-0m7f9PZXxOCk1gRACiVgX85knUKPKLPg4oRCjLoqIm9brTHXaorMA0JpmtmVkQiT8nmXyIVoZd/nnH1cfC33ig==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/graceful-fs': 4.1.6
       '@types/node': 20.4.1
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
       jest-regex-util: 29.4.3
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       jest-worker: 29.6.1
       micromatch: 4.0.5
       walker: 1.0.8
@@ -11594,7 +11605,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       jest-get-type: 29.4.3
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
 
   /jest-matcher-utils@29.6.1:
     resolution: {integrity: sha512-SLaztw9d2mfQQKHmJXKM0HCbl2PPVld/t9Xa6P9sgiExijviSp7TnZZpw2Fpt+OI3nwUO/slJbOfzfUMKKC5QA==}
@@ -11603,29 +11614,29 @@ packages:
       chalk: 4.1.2
       jest-diff: 29.6.1
       jest-get-type: 29.4.3
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
 
-  /jest-message-util@29.6.1:
-    resolution: {integrity: sha512-KoAW2zAmNSd3Gk88uJ56qXUWbFk787QKmjjJVOjtGFmmGSZgDBrlIL4AfQw1xyMYPNVD7dNInfIbur9B2rd/wQ==}
+  /jest-message-util@29.6.3:
+    resolution: {integrity: sha512-FtzaEEHzjDpQp51HX4UMkPZjy46ati4T5pEMyM6Ik48ztu4T9LQplZ6OsimHx7EuM9dfEh5HJa6D3trEftu3dA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@babel/code-frame': 7.22.5
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
       graceful-fs: 4.2.11
       micromatch: 4.0.5
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
       slash: 3.0.0
       stack-utils: 2.0.6
 
-  /jest-mock@29.6.1:
-    resolution: {integrity: sha512-brovyV9HBkjXAEdRooaTQK42n8usKoSRR3gihzUpYeV/vwqgSoNfrksO7UfSACnPmxasO/8TmHM3w9Hp3G1dgw==}
+  /jest-mock@29.6.3:
+    resolution: {integrity: sha512-Z7Gs/mOyTSR4yPsaZ72a/MtuK6RnC3JYqWONe48oLaoEcYwEDxqvbXz85G4SJrm2Z5Ar9zp6MiHF4AlFlRM4Pg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
 
   /jest-pnp-resolver@1.2.3(jest-resolve@29.6.1):
     resolution: {integrity: sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==}
@@ -11649,14 +11660,14 @@ packages:
       jest: ^29.0.0
       typescript: '>=4.4'
     dependencies:
-      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.1)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
+      '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.4.1)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.55.0)(ts-node@10.9.1)(typescript@5.0.4)
       '@angular/compiler-cli': 16.0.0(@angular/compiler@16.0.0)(typescript@5.0.4)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.1)
       '@angular/platform-browser-dynamic': 16.0.0(@angular/common@16.0.0)(@angular/compiler@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)
       bs-logger: 0.2.6
       esbuild-wasm: 0.18.11
       jest: 29.6.1(@types/node@20.4.1)(ts-node@10.9.1)
-      jest-environment-jsdom: 29.6.1
+      jest-environment-jsdom: 29.6.4
       jest-util: 29.6.1
       pretty-format: 29.6.1
       ts-jest: 29.1.1(@babel/core@7.22.9)(esbuild@0.18.11)(jest@29.6.1)(typescript@5.0.4)
@@ -11694,7 +11705,7 @@ packages:
       graceful-fs: 4.2.11
       jest-haste-map: 29.6.1
       jest-pnp-resolver: 1.2.3(jest-resolve@29.6.1)
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       jest-validate: 29.6.1
       resolve: 1.22.4
       resolve.exports: 2.0.2
@@ -11705,10 +11716,10 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/console': 29.6.1
-      '@jest/environment': 29.6.1
+      '@jest/environment': 29.6.4
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       chalk: 4.1.2
       emittery: 0.13.1
@@ -11717,10 +11728,10 @@ packages:
       jest-environment-node: 29.6.1
       jest-haste-map: 29.6.1
       jest-leak-detector: 29.6.1
-      jest-message-util: 29.6.1
+      jest-message-util: 29.6.3
       jest-resolve: 29.6.1
       jest-runtime: 29.6.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       jest-watcher: 29.6.1
       jest-worker: 29.6.1
       p-limit: 3.1.0
@@ -11732,13 +11743,13 @@ packages:
     resolution: {integrity: sha512-D6/AYOA+Lhs5e5il8+5pSLemjtJezUr+8zx+Sn8xlmOux3XOqx4d8l/2udBea8CRPqqrzhsKUsN/gBDE/IcaPQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/environment': 29.6.1
-      '@jest/fake-timers': 29.6.1
+      '@jest/environment': 29.6.4
+      '@jest/fake-timers': 29.6.4
       '@jest/globals': 29.6.1
       '@jest/source-map': 29.6.0
       '@jest/test-result': 29.6.1
       '@jest/transform': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       chalk: 4.1.2
       cjs-module-lexer: 1.2.3
@@ -11746,12 +11757,12 @@ packages:
       glob: 7.2.3
       graceful-fs: 4.2.11
       jest-haste-map: 29.6.1
-      jest-message-util: 29.6.1
-      jest-mock: 29.6.1
+      jest-message-util: 29.6.3
+      jest-mock: 29.6.3
       jest-regex-util: 29.4.3
       jest-resolve: 29.6.1
       jest-snapshot: 29.6.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       slash: 3.0.0
       strip-bom: 4.0.0
     transitivePeerDependencies:
@@ -11768,7 +11779,7 @@ packages:
       '@babel/types': 7.22.5
       '@jest/expect-utils': 29.6.1
       '@jest/transform': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/prettier': 2.7.3
       babel-preset-current-node-syntax: 1.0.1(@babel/core@7.22.9)
       chalk: 4.1.2
@@ -11777,10 +11788,10 @@ packages:
       jest-diff: 29.6.1
       jest-get-type: 29.4.3
       jest-matcher-utils: 29.6.1
-      jest-message-util: 29.6.1
-      jest-util: 29.6.1
+      jest-message-util: 29.6.3
+      jest-util: 29.6.3
       natural-compare: 1.4.0
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
       semver: 7.5.4
     transitivePeerDependencies:
       - supports-color
@@ -11789,7 +11800,19 @@ packages:
     resolution: {integrity: sha512-NRFCcjc+/uO3ijUVyNOQJluf8PtGCe/W6cix36+M3cTFgiYqFOOW5MgN4JOOcvbUhcKTYVd1CvHz/LWi8d16Mg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
+      '@types/node': 20.4.1
+      chalk: 4.1.2
+      ci-info: 3.8.0
+      graceful-fs: 4.2.11
+      picomatch: 2.3.1
+    dev: true
+
+  /jest-util@29.6.3:
+    resolution: {integrity: sha512-QUjna/xSy4B32fzcKTSz1w7YYzgiHrjjJjevdRf61HYk998R5vVMMNmrHESYZVDS5DSWs+1srPLPKxXPkeSDOA==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       chalk: 4.1.2
       ci-info: 3.8.0
@@ -11800,24 +11823,24 @@ packages:
     resolution: {integrity: sha512-r3Ds69/0KCN4vx4sYAbGL1EVpZ7MSS0vLmd3gV78O+NAx3PDQQukRU5hNHPXlyqCgFY8XUk7EuTMLugh0KzahA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       camelcase: 6.3.0
       chalk: 4.1.2
       jest-get-type: 29.4.3
       leven: 3.1.0
-      pretty-format: 29.6.1
+      pretty-format: 29.6.3
 
   /jest-watcher@29.6.1:
     resolution: {integrity: sha512-d4wpjWTS7HEZPaaj8m36QiaP856JthRZkrgcIY/7ISoUWPIillrXM23WPboZVLbiwZBt4/qn2Jke84Sla6JhFA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/test-result': 29.6.1
-      '@jest/types': 29.6.1
+      '@jest/types': 29.6.3
       '@types/node': 20.4.1
       ansi-escapes: 4.3.2
       chalk: 4.1.2
       emittery: 0.13.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       string-length: 4.0.2
 
   /jest-worker@27.5.1:
@@ -11833,7 +11856,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@types/node': 20.4.1
-      jest-util: 29.6.1
+      jest-util: 29.6.3
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -14549,7 +14572,16 @@ packages:
     resolution: {integrity: sha512-7jRj+yXO0W7e4/tSJKoR7HRIHLPPjtNaUGG2xxKQnGvPNRkgWcQ0AZX6P4KBRJN4FcTBWb3sa7DVUJmocYuoog==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@jest/schemas': 29.6.0
+      '@jest/schemas': 29.6.3
+      ansi-styles: 5.2.0
+      react-is: 18.2.0
+    dev: true
+
+  /pretty-format@29.6.3:
+    resolution: {integrity: sha512-ZsBgjVhFAj5KeK+nHfF1305/By3lechHQSMWCTl8iHSbfOm2TN5nHEtFc/+W7fAyUeCs2n5iow72gld4gW0xDw==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': 29.6.3
       ansi-styles: 5.2.0
       react-is: 18.2.0
 
