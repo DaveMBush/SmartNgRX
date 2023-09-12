@@ -8,14 +8,14 @@ I'm just starting out and plan to embellish this into a very opinionated framewo
 
 ## Untimate Goals:
 
-[ ] Hide all the NgRX boiler-plate code from the developer
-[x] Dynamically generate Actions, Reducers and Effects.
-[ ] Provide optimistic UI natively
-[ ] Optionally remove unused entity rows from the store.
-[ ] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
-[ ] Allow this to work with code that has to account for write lag on the server
-[ ] Allow the server to notify this code via websockets (or any future server side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered some place.
-[ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
+- [ ] Hide all the NgRX boiler-plate code from the developer
+- [x] Dynamically generate Actions, Reducers and Effects.
+- [ ] Provide optimistic UI natively
+- [ ] Optionally remove unused entity rows from the store.
+- [ ] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
+- [ ] Allow this to work with code that has to account for write lag on the server
+- [ ] Allow the server to notify this code via websockets (or any future server side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered some place.
+- [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
 
 ## Documentation
 
