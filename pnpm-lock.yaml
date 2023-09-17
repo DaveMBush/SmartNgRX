@@ -36,8 +36,8 @@ dependencies:
     specifier: 16.10.0
     version: 16.10.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.6.2)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.59.0)(ts-node@10.9.1)(typescript@5.0.4)
   '@ng-doc/core':
-    specifier: 16.10.0
-    version: 16.10.0
+    specifier: 16.15.1
+    version: 16.15.1
   '@ng-doc/ui-kit':
     specifier: 16.12.1
     version: 16.12.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
@@ -4594,6 +4594,15 @@ packages:
 
   /@ng-doc/core@16.12.1:
     resolution: {integrity: sha512-Mf5mLBiwqgtt16Rj48rYiefJv9MaDmhoQ+aKNWGCazTiwzL04ZVxJ7PTeGfsvI91LhYCKJfNCKAPhZHKnJ3y1Q==}
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+    dev: false
+
+  /@ng-doc/core@16.15.1:
+    resolution: {integrity: sha512-CRStQBSXtSUARYtmsZRHcwCylTYQ6+wOTIwEK4PF5nOsGMp/YqOWv5+v150WH9VAI/5X9f1NlvxeA8vNkEqr7g==}
     dependencies:
       css-what: 6.1.0
       esthetic: 0.5.6-beta.1
