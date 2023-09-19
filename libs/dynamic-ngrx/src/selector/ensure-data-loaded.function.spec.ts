@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { TestScheduler } from 'rxjs/testing';
 
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { entityStateFactory } from './mocks/entity-state.factory';
@@ -19,8 +20,13 @@ const mockAction = createAction(
   }>()
 );
 
+let testScheduler: TestScheduler;
+
 describe('ensureDataLoaded', () => {
   beforeEach(() => {
+    testScheduler = new TestScheduler((actual, expected) => {
+      expect(actual).toEqual(expected);
+    });
     jest.resetAllMocks();
   });
 
@@ -30,13 +36,17 @@ describe('ensureDataLoaded', () => {
       entities: {},
     };
 
-    ensureDataLoaded(state, 'space1', mockAction);
+    testScheduler.run(() => {
+      ensureDataLoaded(state, 'space1', mockAction);
 
-    expect(mockDispatch).toHaveBeenLastCalledWith(
-      mockAction({
-        ids: ['space1'],
-      })
-    );
+      testScheduler.flush();
+
+      expect(mockDispatch).toHaveBeenLastCalledWith(
+        mockAction({
+          ids: ['space1'],
+        })
+      );
+    });
   });
 
   it('dispatches action when the entity is dirty', () => {
@@ -48,14 +58,17 @@ describe('ensureDataLoaded', () => {
       isDirty: true,
     });
 
-    ensureDataLoaded(state, 'space-1', mockAction);
+    testScheduler.run(() => {
+      ensureDataLoaded(state, 'space-1', mockAction);
 
-    expect(mockDispatch).toHaveBeenCalledTimes(1);
-    expect(mockDispatch).toHaveBeenLastCalledWith(
-      mockAction({
-        ids: ['space-1'],
-      })
-    );
+      testScheduler.flush();
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenLastCalledWith(
+        mockAction({
+          ids: ['space-1'],
+        })
+      );
+    });
   });
 
   it('does not dispatch action if the entity is already loaded and is not dirty', () => {
@@ -67,8 +80,10 @@ describe('ensureDataLoaded', () => {
       isDirty: false,
     });
 
-    ensureDataLoaded(state, 'space-1', mockAction);
-
-    expect(mockDispatch).toHaveBeenCalledTimes(0);
+    testScheduler.run(() => {
+      ensureDataLoaded(state, 'space-1', mockAction);
+      testScheduler.flush();
+      expect(mockDispatch).toHaveBeenCalledTimes(0);
+    });
   });
 });

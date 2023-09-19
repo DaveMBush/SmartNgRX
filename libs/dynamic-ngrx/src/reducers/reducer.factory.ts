@@ -21,7 +21,12 @@ export function reducerFactory<Source extends string, T>(
   return createReducer(
     initialState,
     on(actions.add, (state, { row }) => adapter.addOne(row, state)),
-    on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state)),
+    on(actions.load, (state, _) => {
+      return adapter.setAll(defaultRows(['1'], state, defaultRow), state);
+    }),
+    on(actions.loadSuccess, (state, { rows }) => {
+      return adapter.setAll(rows, state);
+    }),
 
     // make sure that when we call loadByIds the store gets set with
     // something so that we don't try to refetch the same data

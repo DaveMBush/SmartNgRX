@@ -1,0 +1,778 @@
+{
+  "workspaces": {
+    "1": {
+      "id": "1",
+      "name": "My Workspace",
+      "children": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    }
+  },
+  "spaces": {
+    "1": {
+      "id": "1",
+      "name": "First Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "1"
+        },
+        {
+          "type": "lists",
+          "id": "1"
+        },
+        {
+          "type": "docs",
+          "id": "1"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "1"
+        }
+      ]
+    },
+    "2": {
+      "id": "2",
+      "name": "Second Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "2"
+        },
+        {
+          "type": "lists",
+          "id": "2"
+        },
+        {
+          "type": "docs",
+          "id": "2"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "2"
+        }
+      ]
+    },
+    "3": {
+      "id": "3",
+      "name": "Third Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "3"
+        },
+        {
+          "type": "lists",
+          "id": "3"
+        },
+        {
+          "type": "docs",
+          "id": "3"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "3"
+        }
+      ]
+    },
+    "4": {
+      "id": "4",
+      "name": "Fourth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "4"
+        },
+        {
+          "type": "lists",
+          "id": "4"
+        },
+        {
+          "type": "docs",
+          "id": "4"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "4"
+        }
+      ]
+    },
+    "5": {
+      "id": "5",
+      "name": "Fifth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "5"
+        },
+        {
+          "type": "lists",
+          "id": "5"
+        },
+        {
+          "type": "docs",
+          "id": "5"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "5"
+        }
+      ]
+    },
+    "6": {
+      "id": "6",
+      "name": "Sixth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "6"
+        },
+        {
+          "type": "lists",
+          "id": "6"
+        },
+        {
+          "type": "docs",
+          "id": "6"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "6"
+        }
+      ]
+    },
+    "7": {
+      "id": "7",
+      "name": "Seventh Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "7"
+        },
+        {
+          "type": "lists",
+          "id": "7"
+        },
+        {
+          "type": "docs",
+          "id": "7"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "7"
+        }
+      ]
+    },
+    "8": {
+      "id": "8",
+      "name": "Eighth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "8"
+        },
+        {
+          "type": "lists",
+          "id": "8"
+        },
+        {
+          "type": "docs",
+          "id": "8"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "8"
+        }
+      ]
+    },
+    "9": {
+      "id": "9",
+      "name": "Ninth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "9"
+        },
+        {
+          "type": "lists",
+          "id": "9"
+        },
+        {
+          "type": "docs",
+          "id": "9"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "9"
+        }
+      ]
+    },
+    "10": {
+      "id": "10",
+      "name": "Tenth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "10"
+        },
+        {
+          "type": "lists",
+          "id": "10"
+        },
+        {
+          "type": "docs",
+          "id": "10"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "10"
+        }
+      ]
+    },
+    "11": {
+      "id": "11",
+      "name": "Eleventh Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "11"
+        },
+        {
+          "type": "lists",
+          "id": "11"
+        },
+        {
+          "type": "docs",
+          "id": "11"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "11"
+        }
+      ]
+    },
+    "12": {
+      "id": "12",
+      "name": "Twelfth Space",
+      "children": [
+        {
+          "type": "folders",
+          "id": "12"
+        },
+        {
+          "type": "lists",
+          "id": "12"
+        },
+        {
+          "type": "docs",
+          "id": "12"
+        },
+        {
+          "type": "sprint-folders",
+          "id": "12"
+        }
+      ]
+    }
+  },
+  "children": {
+    "folders": {
+      "1": {
+        "id": "1",
+        "name": "First Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "2": {
+        "id": "2",
+        "name": "Second Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "3": {
+        "id": "3",
+        "name": "Third Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "4": {
+        "id": "4",
+        "name": "Fourth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "5": {
+        "id": "5",
+        "name": "Fifth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "6": {
+        "id": "6",
+        "name": "Sixth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "7": {
+        "id": "7",
+        "name": "Seventh Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "8": {
+        "id": "8",
+        "name": "Eighth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "9": {
+        "id": "9",
+        "name": "Ninth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "10": {
+        "id": "10",
+        "name": "Tenth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "11": {
+        "id": "11",
+        "name": "Eleventh Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "12": {
+        "id": "12",
+        "name": "Twelfth Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      }
+    },
+    "sprint-folders": {
+      "1": {
+        "id": "1",
+        "name": "1st Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "2": {
+        "id": "2",
+        "name": "2nd Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "3": {
+        "id": "3",
+        "name": "3rd Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "4": {
+        "id": "4",
+        "name": "4th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "5": {
+        "id": "5",
+        "name": "5th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "6": {
+        "id": "6",
+        "name": "6th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "7": {
+        "id": "7",
+        "name": "7th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "8": {
+        "id": "8",
+        "name": "8th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "9": {
+        "id": "9",
+        "name": "9th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "10": {
+        "id": "10",
+        "name": "10th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "11": {
+        "id": "11",
+        "name": "11th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "12": {
+        "id": "12",
+        "name": "12th Sprint Directory",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      }
+    },
+    "lists": {
+      "1": {
+        "id": "1",
+        "name": "First List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "2": {
+        "id": "2",
+        "name": "Second List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "3": {
+        "id": "3",
+        "name": "Third List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "4": {
+        "id": "4",
+        "name": "Fourth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "5": {
+        "id": "5",
+        "name": "Fifth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "6": {
+        "id": "6",
+        "name": "Sixth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "7": {
+        "id": "7",
+        "name": "Seventh List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "8": {
+        "id": "8",
+        "name": "Eighth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "9": {
+        "id": "9",
+        "name": "Ninth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "10": {
+        "id": "10",
+        "name": "Tenth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "11": {
+        "id": "11",
+        "name": "Eleventh List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "12": {
+        "id": "12",
+        "name": "Twelfth List",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      }
+    },
+    "docs": {
+      "1": {
+        "did": "1",
+        "name": "First Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "2": {
+        "did": "2",
+        "name": "Second Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "3": {
+        "did": "3",
+        "name": "Third Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "4": {
+        "did": "4",
+        "name": "Fourth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "5": {
+        "did": "5",
+        "name": "Fifth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "6": {
+        "did": "6",
+        "name": "Sixth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "7": {
+        "did": "7",
+        "name": "Seventh Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "8": {
+        "did": "8",
+        "name": "Eighth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "9": {
+        "did": "9",
+        "name": "Ninth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "10": {
+        "did": "10",
+        "name": "Tenth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "11": {
+        "did": "11",
+        "name": "Eleventh Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      },
+      "12": {
+        "did": "12",
+        "name": "Twelfth Doc",
+        "children": [
+          {
+            "type": "request",
+            "id": "1"
+          }
+        ]
+      }
+    }
+  }
+}

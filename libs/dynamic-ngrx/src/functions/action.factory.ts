@@ -1,11 +1,69 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import {
+  ActionCreator,
+  createActionGroup,
+  emptyProps,
+  props,
+} from '@ngrx/store';
+import { TypedAction } from '@ngrx/store/src/models';
 
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
+
+interface ActionGroup<T> {
+  load: ActionCreator<`[${any}] Load`, () => TypedAction<`[${any}] Load`>>;
+  loadSuccess: ActionCreator<
+    `[${any}] Load Success`,
+    (props: RowsProp<T>) => RowsProp<T> & TypedAction<`[${any}] Load Success`>
+  >;
+  markDirty: ActionCreator<
+    `[${any}] Mark Dirty`,
+    (props: IdProp) => IdProp & TypedAction<`[${any}] Mark Dirty`>
+  >;
+  garbageCollect: ActionCreator<
+    `[${any}] Garbage Collect`,
+    (props: IdProp) => IdProp & TypedAction<`[${any}] Garbage Collect`>
+  >;
+  loadByIds: ActionCreator<
+    `[${any}] Load By Ids`,
+    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Load By Ids`>
+  >;
+  loadByIdsSuccess: ActionCreator<
+    `[${any}] Load By Ids Success`,
+    (
+      props: RowsProp<T>
+    ) => RowsProp<T> & TypedAction<`[${any}] Load By Ids Success`>
+  >;
+  update: ActionCreator<
+    `[${any}] Update`,
+    (props: RowProp<T>) => RowProp<T> & TypedAction<`[${any}] Update`>
+  >;
+  addToStore: ActionCreator<
+    `[${any}] Add To Store`,
+    (props: RowProp<T>) => RowProp<T> & TypedAction<`[${any}] Add To Store`>
+  >;
+  add: ActionCreator<
+    `[${any}] Add`,
+    (props: {
+      row: T;
+      options?: Record<string, unknown> | undefined;
+    }) => TypedAction<`[${any}] Add`> & {
+      row: T;
+      options?: Record<string, unknown> | undefined;
+    }
+  >;
+  delete: ActionCreator<
+    `[${any}] Delete`,
+    (props: IdProp) => IdProp & TypedAction<`[${any}] Delete`>
+  >;
+}
+
+type CachedActionGroup = ActionGroup<unknown>;
+
+const actionGroupCache = new Map<string, CachedActionGroup>();
 
 /**
  * This creates all the Actions for a given source.
@@ -24,8 +82,12 @@ import { RowsProp } from '../types/rows-prop.interface';
  */
 export function actionFactory<Source extends string, T>(
   source: StringLiteralSource<Source>
-) {
-  return createActionGroup({
+): ActionGroup<T> {
+  if (actionGroupCache.has(source)) {
+    return actionGroupCache.get(source) as ActionGroup<T>;
+  }
+
+  const actionGroup = createActionGroup({
     source: source as any,
     events: {
       Load: emptyProps(),
@@ -40,4 +102,6 @@ export function actionFactory<Source extends string, T>(
       Delete: props<IdProp>(),
     },
   });
+  actionGroupCache.set(source, actionGroup as CachedActionGroup);
+  return actionGroup as ActionGroup<T>;
 }

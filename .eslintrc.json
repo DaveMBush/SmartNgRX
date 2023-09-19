@@ -28,6 +28,9 @@
     },
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["tsconfig.base.json"]
+      },
       "rules": {
         "@nx/enforce-module-boundaries": [
           "error",
@@ -795,10 +798,10 @@
         "functional/no-let": [
           "error",
           {
-            "allowLocalMutation": true
+            "allowInFunctions": true
           }
         ],
-        "functional/no-loop-statement": "error"
+        "functional/no-loop-statements": "error"
       }
     },
     {
