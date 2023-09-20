@@ -1,12 +1,12 @@
 import {
-  SpaceChildEntity,
-  SpaceEntity,
-  WorkspaceEntity,
+  DepartmentChildEntity,
+  DepartmentEntity,
+  LocationEntity,
 } from './store/entities';
 
 export interface SharedState {
-  workspaces: WorkspaceEntity;
-  spaces: SpaceEntity;
-  currentWorkspace: string;
-  spaceChildren: SpaceChildEntity;
+  locations: LocationEntity;
+  departments: DepartmentEntity;
+  currentLocation: string;
+  departmentChildren: DepartmentChildEntity;
 }

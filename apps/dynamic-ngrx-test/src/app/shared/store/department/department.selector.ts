@@ -5,22 +5,22 @@ import { createSmartSelector } from '@davembush/dynamic-ngrx/selector/create-sma
 import { MarkAndDeleteSelector } from '@davembush/dynamic-ngrx/types/mark-and-delete-selector.type';
 
 import { selectSharedState } from '../../shared.selectors';
-import { spaceChildActions } from '../space-children/space-child.actions';
-import { selectSpaceChildren } from '../space-children/space-child.selector';
-import { Space } from './space.interface';
+import { departmentChildActions } from '../department-children/department-child.actions';
+import { selectDepartmentChildren } from '../department-children/department-child.selector';
+import { Department } from './department.interface';
 
-export const selectSpaces = createSelector(selectSharedState, (state) => {
-  return state.spaces;
+export const selectDepartments = createSelector(selectSharedState, (state) => {
+  return state.departments;
 });
 
-export const selectSpacesChildren = createSmartSelector<Space>(
+export const selectDepartmentsChildren = createSmartSelector<Department>(
   // parent table selector
-  selectSpaces,
+  selectDepartments,
   [
     {
-      childAction: spaceChildActions.loadByIds,
+      childAction: departmentChildActions.loadByIds,
       childName: 'children',
-      childSelector: castTo<MarkAndDeleteSelector>(selectSpaceChildren),
+      childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentChildren),
       defaultChildRow: {
         id: '',
         name: 'children',

@@ -1,7 +1,7 @@
 import { MarkAndDelete } from '@davembush/dynamic-ngrx/types/mark-and-delete.interface';
 
-export interface SpaceChild extends MarkAndDelete {
+export interface DepartmentChild extends MarkAndDelete {
   id: string;
   name: string;
-  children: SpaceChild[] | string[];
+  children: DepartmentChild[] | string[];
 }

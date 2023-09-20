@@ -2,9 +2,9 @@ import { createSelector } from '@ngrx/store';
 
 import { selectSharedState } from '../../shared.selectors';
 
-export const selectSpaceChildren = createSelector(
+export const selectDepartmentChildren = createSelector(
   selectSharedState,
   (state) => {
-    return state.spaceChildren;
+    return state.departmentChildren;
   }
 );

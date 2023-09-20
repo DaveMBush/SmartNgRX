@@ -1,3 +1,3 @@
 import { actionFactory } from '@davembush/dynamic-ngrx/functions/action.factory';
 
-export const workspaceActions = actionFactory('Workspace');
+export const departmentChildActions = actionFactory('DepartmentChild');

@@ -5,23 +5,23 @@ import { map, Observable, of } from 'rxjs';
 import { EffectService } from '@davembush/dynamic-ngrx/effects/effect-service';
 
 import { childrenTransform } from './children-transform.function';
-import { Space } from './space.interface';
+import { Department } from './department.interface';
 
 @Injectable()
-export class SpaceEffectsService extends EffectService<Space> {
+export class DepartmentEffectsService extends EffectService<Department> {
   constructor(private http: HttpClient) {
     super();
   }
 
-  override load: () => Observable<Space[]> = () => {
-    return of([] as Space[]);
+  override load: () => Observable<Department[]> = () => {
+    return of([] as Department[]);
   };
 
-  override loadByIds: (ids: string[]) => Observable<Space[]> = (
+  override loadByIds: (ids: string[]) => Observable<Department[]> = (
     ids: string[]
   ) => {
     return this.http
-      .post<Space[]>('http://localhost:3000/api/spaces', ids)
+      .post<Department[]>('http://localhost:3000/api/departments', ids)
       .pipe(map(childrenTransform));
   };
 }

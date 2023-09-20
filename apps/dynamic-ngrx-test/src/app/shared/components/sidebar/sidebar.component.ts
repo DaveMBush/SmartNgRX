@@ -15,7 +15,7 @@ import { Store } from '@ngrx/store';
 import { castTo } from '@davembush/dynamic-ngrx/common/cast-to.function';
 import { ProxyArray } from '@davembush/dynamic-ngrx/types/proxy-array.interface';
 
-import { Workspace } from '../../store/workspace/workspace.interface';
+import { Location } from '../../store/locations/location.interface';
 import { SidebarCommonSourceNode } from './sidebar-common-source-node';
 import { SidebarNode } from './sidebar-node';
 
@@ -27,8 +27,8 @@ import { SidebarNode } from './sidebar-node';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnChanges, AfterViewInit {
-  @Input() workspace: Workspace | null = null;
-  workspaceName = '';
+  @Input() location: Location | null = null;
+  locationName = '';
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
   range = { start: 0, end: 6 };
   expandMap = new Map<string, boolean>();
@@ -101,18 +101,18 @@ export class SidebarComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['workspace'] !== undefined) {
-      this.workspaceName = '';
+    if (changes['location'] !== undefined) {
+      this.locationName = '';
       this.applyRange();
-      if (this.workspace) {
-        this.workspaceName = this.workspace.name;
+      if (this.location) {
+        this.locationName = this.location.name;
       }
     }
   }
 
   applyRange(): void {
     this.fullDataSource = this.transform(
-      this.workspace?.children || [],
+      this.location?.children || [],
       0,
       this.range.start,
       this.range.end

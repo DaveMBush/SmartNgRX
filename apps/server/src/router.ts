@@ -8,25 +8,25 @@ function isNonNull<T>(value: T): value is NonNullable<T> {
   return value !== null && value !== undefined;
 }
 
-// This funky directory because this code is run from the root of the workspace
+// This funky directory because this code is run from the root of the location
 const dbFile = resolve('apps/server/src/assets/db/db');
 const db = new JsonDB(new Config(dbFile, true, false, '/'));
 let read: Record<string, Record<string, object>> | null;
 
 const router = express.Router();
 
-function getWorkspaces(): object {
-  if (!isNonNull(read) || !isNonNull(read.workspaces)) {
+function getLocations(): object {
+  if (!isNonNull(read) || !isNonNull(read.locations)) {
     return {};
   }
-  const workspace = read.workspaces;
-  return Object.keys(read.workspaces).map((id) => workspace[id]);
+  const locations = read.locations;
+  return Object.keys(locations).map((id) => locations[id]);
 }
 
-router.get('/workspaces', (req, res): void => {
+router.get('/locations', (req, res): void => {
   void (async () => {
     read = (await db.getData('/')) as Record<string, Record<string, object>>;
-    res.send(getWorkspaces());
+    res.send(getLocations());
   })();
 });
 
@@ -46,8 +46,8 @@ const commonChildren = (ids: string[], table: string): ReturnData => {
   return ids.map((id) => n[id]);
 };
 
-router.post('/spaces', (req, res) => {
-  res.send(commonPost(req.body as string[], 'spaces'));
+router.post('/departments', (req, res) => {
+  res.send(commonPost(req.body as string[], 'departments'));
 });
 
 router.post('/folders', (req, res) => {

@@ -6,8 +6,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { SharedModule } from './shared/shared.module';
-import { Workspace } from './shared/store/workspace/workspace.interface';
-import { selectCurrentWorkspace } from './shared/store/workspace/workspace.selectors';
+import { Location } from './shared/store/locations/location.interface';
+import { selectCurrentLocation } from './shared/store/locations/location.selectors';
 
 @Component({
   standalone: true,
@@ -19,11 +19,11 @@ import { selectCurrentWorkspace } from './shared/store/workspace/workspace.selec
 })
 export class AppComponent implements OnInit {
   title = 'smart-ngrx';
-  workspace!: Observable<Workspace>;
+  location!: Observable<Location>;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.workspace = this.store.select(selectCurrentWorkspace);
+    this.location = this.store.select(selectCurrentLocation);
   }
 }

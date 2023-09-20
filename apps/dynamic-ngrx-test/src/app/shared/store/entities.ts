@@ -2,10 +2,10 @@ import { EntityState } from '@ngrx/entity';
 
 import { MarkAndDelete } from '@davembush/dynamic-ngrx/types/mark-and-delete.interface';
 
-import { Space } from './space/space.interface';
-import { SpaceChild } from './space-children/space-child.interface';
-import { Workspace } from './workspace/workspace.interface';
+import { Department } from './department/department.interface';
+import { DepartmentChild } from './department-children/department-child.interface';
+import { Location } from './locations/location.interface';
 
-export type WorkspaceEntity = EntityState<MarkAndDelete & Workspace>;
-export type SpaceEntity = EntityState<Space>;
-export type SpaceChildEntity = EntityState<SpaceChild>;
+export type LocationEntity = EntityState<Location & MarkAndDelete>;
+export type DepartmentEntity = EntityState<Department>;
+export type DepartmentChildEntity = EntityState<DepartmentChild>;

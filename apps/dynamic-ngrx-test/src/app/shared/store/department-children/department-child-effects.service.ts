@@ -8,25 +8,25 @@ import { DocsService } from '../docs/docs.service';
 import { FoldersService } from '../folders/folders.service';
 import { ListsService } from '../lists/lists.service';
 import { SprintFoldersService } from '../sprint-folders/sprint-folders.service';
+import { DepartmentChild } from './department-child.interface';
 import { filterIds } from './filter-ids.function';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
-import { SpaceChild } from './space-child.interface';
 
 interface CommonService {
   loadByIds(ids: string[]): Observable<Record<string, string>[]>;
 }
 
 @Injectable()
-export class SpaceChildEffectsService extends EffectService<SpaceChild> {
+export class DepartmentChildEffectsService extends EffectService<DepartmentChild> {
   private doc = inject(DocsService);
   private list = inject(ListsService);
   private folder = inject(FoldersService);
   private sprintFolder = inject(SprintFoldersService);
-  override load: () => Observable<SpaceChild[]> = () => {
-    return of([] as SpaceChild[]);
+  override load: () => Observable<DepartmentChild[]> = () => {
+    return of([] as DepartmentChild[]);
   };
 
-  override loadByIds: (ids: string[]) => Observable<SpaceChild[]> = (
+  override loadByIds: (ids: string[]) => Observable<DepartmentChild[]> = (
     ids: string[]
   ) => {
     const docIds = filterIds(ids, 'docs:');

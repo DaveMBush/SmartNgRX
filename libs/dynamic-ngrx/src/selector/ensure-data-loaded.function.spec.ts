@@ -6,6 +6,8 @@ import { entityStateFactory } from './mocks/entity-state.factory';
 
 const mockDispatch = jest.fn();
 
+const department1 = 'department1';
+
 jest.mock('./store.function', () => ({
   __esModule: true,
   store: () => ({
@@ -37,13 +39,13 @@ describe('ensureDataLoaded', () => {
     };
 
     testScheduler.run(() => {
-      ensureDataLoaded(state, 'space1', mockAction);
+      ensureDataLoaded(state, 'department1', mockAction);
 
       testScheduler.flush();
 
       expect(mockDispatch).toHaveBeenLastCalledWith(
         mockAction({
-          ids: ['space1'],
+          ids: ['department1'],
         })
       );
     });
@@ -53,19 +55,19 @@ describe('ensureDataLoaded', () => {
     const state = entityStateFactory({
       parentCount: 1,
       childCount: 0,
-      parentType: 'space',
+      parentType: 'department',
       childType: 'folder',
       isDirty: true,
     });
 
     testScheduler.run(() => {
-      ensureDataLoaded(state, 'space-1', mockAction);
+      ensureDataLoaded(state, department1, mockAction);
 
       testScheduler.flush();
       expect(mockDispatch).toHaveBeenCalledTimes(1);
       expect(mockDispatch).toHaveBeenLastCalledWith(
         mockAction({
-          ids: ['space-1'],
+          ids: [department1],
         })
       );
     });
@@ -75,13 +77,13 @@ describe('ensureDataLoaded', () => {
     const state = entityStateFactory({
       parentCount: 1,
       childCount: 0,
-      parentType: 'space',
+      parentType: 'department',
       childType: 'folder',
       isDirty: false,
     });
 
     testScheduler.run(() => {
-      ensureDataLoaded(state, 'space-1', mockAction);
+      ensureDataLoaded(state, department1, mockAction);
       testScheduler.flush();
       expect(mockDispatch).toHaveBeenCalledTimes(0);
     });

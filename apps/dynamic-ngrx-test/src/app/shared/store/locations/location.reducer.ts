@@ -1,14 +1,14 @@
 import { reducerFactory } from '@davembush/dynamic-ngrx/reducers/reducer.factory';
 
-import { Space } from './space.interface';
+import { Location } from './location.interface';
 
-export const spaceReducer = reducerFactory(
-  'Space',
+export const locationReducer = reducerFactory(
+  'Location',
   (id) =>
     ({
       id,
       name: '',
       children: [],
       isDirty: false,
-    } as Space)
+    } as Location)
 );

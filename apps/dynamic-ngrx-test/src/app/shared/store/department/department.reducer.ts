@@ -1,14 +1,14 @@
 import { reducerFactory } from '@davembush/dynamic-ngrx/reducers/reducer.factory';
 
-import { SpaceChild } from './space-child.interface';
+import { Department } from './department.interface';
 
-export const spaceChildReducer = reducerFactory(
-  'SpaceChild',
+export const departmentReducer = reducerFactory(
+  'Department',
   (id) =>
     ({
       id,
       name: '',
       children: [],
       isDirty: false,
-    } as SpaceChild)
+    } as Department)
 );
