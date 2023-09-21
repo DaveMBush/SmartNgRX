@@ -11,6 +11,16 @@ import { entityStateFactory } from './mocks/entity-state.factory';
 const department1 = 'department-1';
 const department2 = 'department-2';
 
+const mockDispatch = jest.fn();
+
+jest.mock('./store.function', () => ({
+  __esModule: true,
+  store: () => ({
+    dispatch: mockDispatch,
+  }),
+}));
+
+
 describe('createInnerSmartSelector', () => {
   let selectEntity: MemoizedSelector<
     object,
@@ -48,7 +58,7 @@ describe('createInnerSmartSelector', () => {
     parent = entityStateFactory({
       parentCount: 2,
       childCount: 2,
-      parentType: 'departments',
+      parentType: 'department',
       childType: 'folder',
     });
     // verify there is no proxy.

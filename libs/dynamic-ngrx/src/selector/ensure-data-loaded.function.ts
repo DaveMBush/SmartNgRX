@@ -18,7 +18,7 @@ export function ensureDataLoaded<T extends MarkAndDelete>(
   action: (p: { ids: string[] }) => Action
 ): void {
   const ids = entityState.entities as Record<string, T>;
-  if (ids[id]?.isDirty ?? true) {
+  if (ids[id] === undefined || ids[id].isDirty === true || ids[id].isDirty === undefined) {
     const s = store();
     assert(!!s, 'store is undefined');
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'

@@ -6,7 +6,7 @@ import { entityStateFactory } from './mocks/entity-state.factory';
 
 const mockDispatch = jest.fn();
 
-const department1 = 'department1';
+const department1 = 'department-1';
 
 jest.mock('./store.function', () => ({
   __esModule: true,
