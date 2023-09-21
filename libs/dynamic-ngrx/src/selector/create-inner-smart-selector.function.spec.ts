@@ -20,7 +20,6 @@ jest.mock('./store.function', () => ({
   }),
 }));
 
-
 describe('createInnerSmartSelector', () => {
   let selectEntity: MemoizedSelector<
     object,
