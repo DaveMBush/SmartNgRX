@@ -5,23 +5,23 @@ import { ProxyArray } from '../types/proxy-array.interface';
 import { proxyArray } from './proxy-array.function';
 
 const mockAction = createAction(
-  '[mock] fetch space',
+  '[mock] fetch department',
   props<{ ids: string[] }>()
 );
 
 describe('proxyArray', () => {
-  const childArray = ['space1', 'space2'];
+  const childArray = ['department1', 'department2'];
   const child = {
-    ids: ['space1', 'space2'],
+    ids: ['department1', 'department2'],
     entities: {
-      space1: {
-        id: 'space1',
-        name: 'Space 1',
+      department1: {
+        id: 'department1',
+        name: 'Department 1',
         isDirty: false,
       },
-      space2: {
-        id: 'space2',
-        name: 'Space 2',
+      department2: {
+        id: 'department2',
+        name: 'Department 2',
         isDirty: false,
       },
     },
@@ -31,18 +31,18 @@ describe('proxyArray', () => {
     childArray,
     child,
     mockAction,
-    'default-space'
+    'default-department'
   );
 
   it('create an array that proxies to the actual entity', () => {
     expect(arr[0]).toEqual({
-      id: 'space1',
-      name: 'Space 1',
+      id: 'department1',
+      name: 'Department 1',
       isDirty: false,
     });
     expect(arr[1]).toEqual({
-      id: 'space2',
-      name: 'Space 2',
+      id: 'department2',
+      name: 'Department 2',
       isDirty: false,
     });
   });
@@ -53,8 +53,8 @@ describe('proxyArray', () => {
 
   it('gives access to the raw array', () => {
     expect(castTo<ProxyArray<string>>(arr).rawArray).toEqual([
-      'space1',
-      'space2',
+      'department1',
+      'department2',
     ]);
   });
 });

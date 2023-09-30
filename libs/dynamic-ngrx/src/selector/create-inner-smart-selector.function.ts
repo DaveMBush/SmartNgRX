@@ -49,6 +49,10 @@ export function createInnerSmartSelector<
         // fill childArray with values from entity that we currently have
         if (castTo<ProxyArray<C>>(childArray).θisProxyθ) {
           childArray = castTo<ProxyArray<C>>(childArray).rawArray;
+        } else if (Object.isFrozen(childArray)) {
+          // unfreeze the original array so we can proxy it.
+          entity[childName] = [...childArray] as P[keyof P];
+          childArray = entity[childName] as (C | string)[];
         }
 
         castTo<Record<string, unknown>>(entity)[childName as string] =

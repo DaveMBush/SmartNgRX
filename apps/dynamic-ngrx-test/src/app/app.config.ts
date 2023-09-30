@@ -1,17 +1,25 @@
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { EffectsModule, provideEffects } from '@ngrx/effects';
+import { provideStore, StoreModule } from '@ngrx/store';
 import {
-  provideRouter,
-  withEnabledBlockingInitialNavigation,
-} from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
-import { provideStore } from '@ngrx/store';
-
-import { appRoutes } from './app.routes';
+  provideStoreDevtools,
+  StoreDevtoolsModule,
+} from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideEffects(),
+    importProvidersFrom(
+      StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
+      StoreDevtoolsModule.instrument({
+        maxAge: 2,
+        logOnly: false,
+      })
+    ),
     provideStore(),
-    provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
+    provideEffects(),
+    provideAnimations(),
+    provideStoreDevtools(),
   ],
 };

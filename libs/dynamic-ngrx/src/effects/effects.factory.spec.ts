@@ -6,6 +6,7 @@ import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
+import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
 import { EffectService } from './effect-service';
 import { effectsFactory } from './effects.factory';
@@ -53,7 +54,9 @@ describe('effectsFactory', () => {
     });
     actions = TestBed.inject(Actions);
     TestBed.runInInjectionContext(() => {
-      effect = effectsFactory(source, mockInjectionToken);
+      effect = castTo<EffectsFactory<MockState>>(
+        effectsFactory(source, mockInjectionToken)
+      );
       loadEffect = effect.load();
       loadByIdsEffect = effect.loadByIds();
     });
