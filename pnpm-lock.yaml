@@ -36,17 +36,17 @@ dependencies:
     specifier: ~16.0.0
     version: 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.1)
   '@ng-doc/app':
-    specifier: 16.10.0
-    version: 16.10.0(@angular/cdk@16.2.2)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/router@16.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
+    specifier: 16.16.0
+    version: 16.16.0(@angular/cdk@16.2.2)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/router@16.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
   '@ng-doc/builder':
-    specifier: 16.10.0
-    version: 16.10.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.6.2)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.59.0)(ts-node@10.9.1)(typescript@5.0.4)
+    specifier: 16.16.0
+    version: 16.16.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.6.2)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.59.0)(ts-node@10.9.1)(typescript@5.0.4)
   '@ng-doc/core':
-    specifier: 16.10.0
-    version: 16.10.0
+    specifier: 16.16.0
+    version: 16.16.0
   '@ng-doc/ui-kit':
-    specifier: 16.12.1
-    version: 16.12.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
+    specifier: 16.16.0
+    version: 16.16.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
   '@ngrx/component-store':
     specifier: ~16.2.0
     version: 16.2.0(@angular/core@16.0.0)(rxjs@7.8.1)
@@ -4949,8 +4949,8 @@ packages:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
     dev: false
 
-  /@ng-doc/app@16.10.0(@angular/cdk@16.2.2)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/router@16.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-oWy4CxEcKicMfTU0dKYkunrnd3j0OGo+yrkP6fmGyewB59wYSXjZ4ijpCLrh4EZ7eQmqueGhdyrqLaUSvcXkkA==}
+  /@ng-doc/app@16.16.0(@angular/cdk@16.2.2)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/router@16.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-TTvxWwYFI0iIyiDsY0ADewf+g04UFBTtfridyCK/OagcbA9LxTtR22wNI8JBTqMvK2Bv01FJ4Eb1VdYL5I4XMA==}
     peerDependencies:
       '@angular/cdk': '>=16.0.0'
       '@angular/common': '>=16.0.0'
@@ -4964,8 +4964,8 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.1)
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
       '@angular/router': 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.1)
-      '@ng-doc/core': 16.10.0
-      '@ng-doc/ui-kit': 16.10.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
+      '@ng-doc/core': 16.16.0
+      '@ng-doc/ui-kit': 16.16.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
       '@ng-web-apis/common': 2.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.1)
       '@orama/plugin-match-highlight': 1.0.2
       '@orama/stemmers': 1.0.2
@@ -4978,26 +4978,26 @@ packages:
       - '@tinkoff/ng-polymorpheus'
     dev: false
 
-  /@ng-doc/builder@16.10.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.6.2)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.59.0)(ts-node@10.9.1)(typescript@5.0.4):
-    resolution: {integrity: sha512-x+nxpLAwUOJrE6O+0tmhJgejRL7LY9MtWnr2N/d2YZCSeK82X9Dc4f69xOSJRj7lmFvE4DHHbq55wPNzVUMSXw==}
+  /@ng-doc/builder@16.16.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(@angular/compiler-cli@16.0.0)(@types/node@20.6.2)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.59.0)(ts-node@10.9.1)(typescript@5.0.4):
+    resolution: {integrity: sha512-eiHlaCTLc9MBtXq+bU51/WssY6m0oxz34UlzWg7wWe8zDKL8zxc4uhgX8RapmB3dZGloQJrcsV1Ml23tnMZ3cg==}
     dependencies:
       '@angular-devkit/architect': 0.1602.3(chokidar@3.5.3)
       '@angular-devkit/build-angular': 16.0.0(@angular/compiler-cli@16.0.0)(@types/node@20.6.2)(jest-environment-jsdom@29.6.4)(jest@29.6.1)(ng-packagr@16.1.0)(stylus@0.59.0)(ts-node@10.9.1)(typescript@5.0.4)
       '@microsoft/tsdoc': 0.14.2
-      '@ng-doc/core': 16.10.0
-      '@ng-doc/utils': 16.10.0
+      '@ng-doc/core': 16.16.0
+      '@ng-doc/utils': 16.16.0
       '@orama/orama': 1.0.2
       '@orama/plugin-parsedoc': 1.0.2
       chokidar: 3.5.3
-      cosmiconfig: 8.1.0
-      cosmiconfig-typescript-loader: 4.3.0(@types/node@20.6.2)(cosmiconfig@8.1.0)(ts-node@10.9.1)(typescript@5.0.4)
+      cosmiconfig: 8.2.0
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@20.6.2)(cosmiconfig@8.2.0)(typescript@5.0.4)
       esbuild: 0.17.8
       find-cache-dir: 3.3.2
       glob: 8.1.0
       highlight.js: 11.5.1
       marked: 4.0.18
       minimatch: 9.0.1
-      ng-morph: 2.2.5(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)
+      ng-morph: 4.0.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(tslib@2.6.1)
       nunjucks: 3.2.4(chokidar@3.5.3)
       parsimmon: 1.18.1
       posthtml-parser: 0.11.0
@@ -5037,8 +5037,8 @@ packages:
       - webpack-cli
     dev: false
 
-  /@ng-doc/core@16.10.0:
-    resolution: {integrity: sha512-SVBERBRaJqWR08+U7JUZPF8Mo7yDCOxo78byc9uGSDY2wE2loD6M4MjZJRQYp907EfDw8szZj6gQ7DuTo37uLg==}
+  /@ng-doc/core@16.16.0:
+    resolution: {integrity: sha512-xQREpuTgUisoxXHPX4z9V1u/5qExStc3w+WrfHA3t3M1yCJX6r0kTDYOxO8/AtapmiYDausoMhZrYw9QjQhWMw==}
     dependencies:
       css-what: 6.1.0
       esthetic: 0.5.6-beta.1
@@ -5046,17 +5046,8 @@ packages:
       posthtml-render: 3.0.0
     dev: false
 
-  /@ng-doc/core@16.12.1:
-    resolution: {integrity: sha512-Mf5mLBiwqgtt16Rj48rYiefJv9MaDmhoQ+aKNWGCazTiwzL04ZVxJ7PTeGfsvI91LhYCKJfNCKAPhZHKnJ3y1Q==}
-    dependencies:
-      css-what: 6.1.0
-      esthetic: 0.5.6-beta.1
-      posthtml-parser: 0.11.0
-      posthtml-render: 3.0.0
-    dev: false
-
-  /@ng-doc/ui-kit@16.10.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-u1YEyHorsTvLzqCMcX0vGj//9NdT5ED+28rczLoofJQ4uReIn2iETZcuhpoCHhvZTqmKfjv1KyFir6PREqyokw==}
+  /@ng-doc/ui-kit@16.16.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-y3j6t0F659DgLgcfTzxJfxt4y5kI0fInq7InDRNLajiU7AiZu8hdN1k07PzWUvJPFZPn1BiILV0wWWRZ9yWviQ==}
     peerDependencies:
       '@angular/common': '>=16.0.0'
       '@angular/core': '>=16.0.0'
@@ -5068,7 +5059,7 @@ packages:
       '@angular/cdk': 16.2.2(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.1)
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.1)
       '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
-      '@ng-doc/core': 16.10.0
+      '@ng-doc/core': 16.16.0
       '@ngneat/until-destroy': 9.2.0(@angular/core@16.0.0)(rxjs@7.8.1)
       '@tinkoff/ng-polymorpheus': 4.0.11(@angular/core@16.0.0)
       flex-controls: 2.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)(rxjs@7.8.1)
@@ -5076,29 +5067,8 @@ packages:
       tslib: 2.6.1
     dev: false
 
-  /@ng-doc/ui-kit@16.12.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-r3vbwphX97NcejlogMxtnQZBYA1qokf13Fx4eW6srL3B07ckMWO6tmz7MwoP6le5dAwdtbghqZxheLMPjaO48Q==}
-    peerDependencies:
-      '@angular/common': '>=16.0.0'
-      '@angular/core': '>=16.0.0'
-      '@ngneat/until-destroy': 9.2.0
-      '@tinkoff/ng-polymorpheus': 4.0.11
-      flex-controls: 2.0.1
-      rxjs: ^7.0.0
-    dependencies:
-      '@angular/cdk': 16.2.2(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.1)
-      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.1)
-      '@angular/core': 16.0.0(rxjs@7.8.1)(zone.js@0.13.1)
-      '@ng-doc/core': 16.12.1
-      '@ngneat/until-destroy': 9.2.0(@angular/core@16.0.0)(rxjs@7.8.1)
-      '@tinkoff/ng-polymorpheus': 4.0.11(@angular/core@16.0.0)
-      flex-controls: 2.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)(rxjs@7.8.1)
-      rxjs: 7.8.1
-      tslib: 2.6.1
-    dev: false
-
-  /@ng-doc/utils@16.10.0:
-    resolution: {integrity: sha512-vQRqb3tKlx/N/f7yS3k3F7yURPpIrPhCYl2GY8bFbvEjRR1F6PZdD2PgIRtzyyxaiZZPukIHOKd1FgvLozprsQ==}
+  /@ng-doc/utils@16.16.0:
+    resolution: {integrity: sha512-Y2f/HdQei+d1i2xJOftmidYU0M7yWmaEFuCRzXLwKPbXmCymFYwAghmPICYD0WWi7Z9TC4URViX75G4SJnpt1g==}
     dependencies:
       chalk: 5.2.0
       github-slugger: 2.0.0
@@ -6306,12 +6276,12 @@ packages:
       path-browserify: 1.0.1
     dev: false
 
-  /@ts-morph/common@0.9.2:
-    resolution: {integrity: sha512-IPyg+c3Am0EBoa63W0f/AKeLrJhvzMzQ4BIvD1baxLopmiHOj1HFTXYxC6e8iTZ+UYtN+/WFM9UyGRnoA20b8g==}
+  /@ts-morph/common@0.20.0:
+    resolution: {integrity: sha512-7uKjByfbPpwuzkstL3L5MQyuXPSKdoNG93Fmi2JoDcTf3pEP731JdRFAduRVkOs8oqxPsXKA+ScrWkdQ8t/I+Q==}
     dependencies:
       fast-glob: 3.3.1
-      minimatch: 3.1.2
-      mkdirp: 1.0.4
+      minimatch: 7.4.6
+      mkdirp: 2.1.6
       path-browserify: 1.0.1
     dev: false
 
@@ -8009,10 +7979,6 @@ packages:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
 
-  /code-block-writer@10.1.1:
-    resolution: {integrity: sha512-67ueh2IRGst/51p0n6FvPrnRjAGHY5F8xdjkgrYE7DDzpJe6qA07RYQ9VcoUeo5ATOjSOiWpSL3SWBRRbempMw==}
-    dev: false
-
   /code-block-writer@12.0.0:
     resolution: {integrity: sha512-q4dMFMlXtKR3XNBHyMHt/3pwYNA69EDk00lloMOaaUMKPUXBw6lpXtbu3MMVG6/uOihGnRDOlkyqsONEUj60+w==}
     dev: false
@@ -8223,21 +8189,6 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: true
 
-  /cosmiconfig-typescript-loader@4.3.0(@types/node@20.6.2)(cosmiconfig@8.1.0)(ts-node@10.9.1)(typescript@5.0.4):
-    resolution: {integrity: sha512-NTxV1MFfZDLPiBMjxbHRwSh5LaLcPMwNdCutmnHJCKoVnlvldPWlllonKwrsRJ5pYZBIBGRWWU2tfvzxgeSW5Q==}
-    engines: {node: '>=12', npm: '>=6'}
-    peerDependencies:
-      '@types/node': '*'
-      cosmiconfig: '>=7'
-      ts-node: '>=10'
-      typescript: '>=3'
-    dependencies:
-      '@types/node': 20.6.2
-      cosmiconfig: 8.1.0
-      ts-node: 10.9.1(@types/node@20.6.2)(typescript@5.0.4)
-      typescript: 5.0.4
-    dev: false
-
   /cosmiconfig-typescript-loader@4.4.0(@types/node@20.6.2)(cosmiconfig@8.3.6)(ts-node@10.9.1)(typescript@5.0.4):
     resolution: {integrity: sha512-BabizFdC3wBHhbI4kJh0VkQP9GkBfoHPydD0COMce1nJ1kJAB3F2TmJ/I7diULBKtmEWSwEbuN/KDtgnmUUVmw==}
     engines: {node: '>=v14.21.3'}
@@ -8251,6 +8202,20 @@ packages:
       cosmiconfig: 8.3.6(typescript@5.0.4)
       ts-node: 10.9.1(@types/node@20.6.2)(typescript@5.0.4)
       typescript: 5.0.4
+
+  /cosmiconfig-typescript-loader@5.0.0(@types/node@20.6.2)(cosmiconfig@8.2.0)(typescript@5.0.4):
+    resolution: {integrity: sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==}
+    engines: {node: '>=v16'}
+    peerDependencies:
+      '@types/node': '*'
+      cosmiconfig: '>=8.2'
+      typescript: '>=4'
+    dependencies:
+      '@types/node': 20.6.2
+      cosmiconfig: 8.2.0
+      jiti: 1.20.0
+      typescript: 5.0.4
+    dev: false
 
   /cosmiconfig@6.0.0:
     resolution: {integrity: sha512-xb3ZL6+L8b9JLLCx3ZdoZy4+2ECphCMo2PwqgP1tlfVq6M6YReyzBJtvWWtbDSpNr9hn96pkCiZqUcFEc+54Qg==}
@@ -8273,8 +8238,8 @@ packages:
       yaml: 1.10.2
     dev: false
 
-  /cosmiconfig@8.1.0:
-    resolution: {integrity: sha512-0tLZ9URlPGU7JsKq0DQOQ3FoRsYX8xDZ7xMiATQfaiGMz7EHowNkbU9u1coAOmnh9p/1ySpm0RB3JNWRXM5GCg==}
+  /cosmiconfig@8.2.0:
+    resolution: {integrity: sha512-3rTMnFJA1tCOPwRxtgF4wd7Ab2qvDbL8jX+3smjIbS4HlZBagTlpERbdN7iAbWlrfxE3M8c27kTwTawQ7st+OQ==}
     engines: {node: '>=14'}
     dependencies:
       import-fresh: 3.3.0
@@ -11691,6 +11656,11 @@ packages:
       - supports-color
       - ts-node
 
+  /jiti@1.20.0:
+    resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
+    hasBin: true
+    dev: false
+
   /js-stringify@1.0.2:
     resolution: {integrity: sha512-rtS5ATOo2Q5k1G+DADISilDA6lv79zIiwFd6CcjuIxGKLFm5C+RLImRscVap9k55i+MOZwgliw+NejvkLuGD5g==}
     dev: true
@@ -11833,6 +11803,7 @@ packages:
 
   /jsonc-parser@3.0.0:
     resolution: {integrity: sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==}
+    dev: true
 
   /jsonc-parser@3.2.0:
     resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
@@ -12734,18 +12705,21 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  /ng-morph@2.2.5(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0):
-    resolution: {integrity: sha512-plxrHfcz7aNRcTCxS9tUxI1F5Vfx5CZAAw8NAnJCyCb41Js6S+EyPDvn2v7H2QyfZzXU1H0BAqtiRQv/rE2zTA==}
+  /ng-morph@4.0.0(@angular-devkit/core@16.2.1)(@angular-devkit/schematics@16.2.0)(tslib@2.6.1):
+    resolution: {integrity: sha512-+opfMF/33fMQRt38oSPT+fnexZm8c635LaTDKOlAnkaDGRWcOM4EllqLf73m+5+D8gurwYXOkimIzj6Jmpx1cA==}
     peerDependencies:
       '@angular-devkit/core': '>=11.0.0'
       '@angular-devkit/schematics': '>=11.0.0'
+      tslib: 2.5.3
     dependencies:
       '@angular-devkit/core': 16.2.1
       '@angular-devkit/schematics': 16.2.0
-      jsonc-parser: 3.0.0
-      minimatch: 3.0.5
+      jsonc-parser: 3.2.0
+      minimatch: 9.0.1
       multimatch: 5.0.0
-      ts-morph: 10.0.2
+      semver: 7.4.0
+      ts-morph: 19.0.0
+      tslib: 2.6.1
     dev: false
 
   /ng-packagr@16.1.0(@angular/compiler-cli@16.0.0)(tslib@2.6.1)(typescript@5.0.4):
@@ -16035,17 +16009,17 @@ packages:
       webpack: 5.88.2(esbuild@0.19.3)
     dev: false
 
-  /ts-morph@10.0.2:
-    resolution: {integrity: sha512-TVuIfEqtr9dW25K3Jajqpqx7t/zLRFxKu2rXQZSDjTm4MO4lfmuj1hn8WEryjeDDBFcNOCi+yOmYUYR4HucrAg==}
-    dependencies:
-      '@ts-morph/common': 0.9.2
-      code-block-writer: 10.1.1
-    dev: false
-
   /ts-morph@18.0.0:
     resolution: {integrity: sha512-Kg5u0mk19PIIe4islUI/HWRvm9bC1lHejK4S0oh1zaZ77TMZAEmQC0sHQYiu2RgCQFZKXz1fMVi/7nOOeirznA==}
     dependencies:
       '@ts-morph/common': 0.19.0
+      code-block-writer: 12.0.0
+    dev: false
+
+  /ts-morph@19.0.0:
+    resolution: {integrity: sha512-D6qcpiJdn46tUqV45vr5UGM2dnIEuTGNxVhg0sk5NX11orcouwj6i1bMqZIz2mZTZB1Hcgy7C3oEVhAT+f6mbQ==}
+    dependencies:
+      '@ts-morph/common': 0.20.0
       code-block-writer: 12.0.0
     dev: false
 
