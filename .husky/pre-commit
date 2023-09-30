@@ -1,9 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-pnpm format
-pnpm dupcheck
-pnpm lint
-pnpm build
-pnpm htmllint
-pnpm test:coverage
+pnpm lint-staged
