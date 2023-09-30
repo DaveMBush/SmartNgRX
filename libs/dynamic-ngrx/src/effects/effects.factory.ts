@@ -1,5 +1,5 @@
 import { inject, InjectionToken } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, switchMap } from 'rxjs';
 
 import { castTo } from '../common/cast-to.function';
@@ -7,7 +7,6 @@ import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { bufferAction } from './buffer-action.function';
 import { EffectService } from './effect-service';
-import { EffectsFactory } from './effects-factory.interface';
 
 /**
  * The effects factory creates a new set of effects for the
@@ -25,9 +24,9 @@ import { EffectsFactory } from './effects-factory.interface';
 export function effectsFactory<Source extends string, T>(
   source: StringLiteralSource<Source>,
   effectServiceToken: InjectionToken<EffectService<T>>
-): EffectsFactory<T> {
+): Record<string, FunctionalEffect> {
   const actions = actionFactory<Source, T>(source);
-  return castTo<EffectsFactory<T>>({
+  return castTo<Record<string, FunctionalEffect>>({
     load: createEffect(
       (
         actions$ = inject(Actions),
@@ -35,8 +34,12 @@ export function effectsFactory<Source extends string, T>(
       ) => {
         return actions$.pipe(
           ofType(actions.load),
-          switchMap(() => actionService.load()),
-          map((rows) => actions.loadSuccess({ rows }))
+          switchMap(() => {
+            return actionService.load();
+          }),
+          map((rows) => {
+            return actions.loadSuccess({ rows });
+          })
         );
       },
       { functional: true }
@@ -49,7 +52,9 @@ export function effectsFactory<Source extends string, T>(
         return actions$.pipe(
           ofType(actions.loadByIds),
           bufferAction(),
-          mergeMap((ids) => actionService.loadByIds(ids)),
+          mergeMap((ids) => {
+            return actionService.loadByIds(ids);
+          }),
           map((rows) => actions.loadByIdsSuccess({ rows }))
         );
       },

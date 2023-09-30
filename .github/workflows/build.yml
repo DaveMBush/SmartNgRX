@@ -34,6 +34,7 @@ jobs:
       - run: pnpm lint
       - run: pnpm htmllint
       - run: pnpm build
+      - run: pnpm test:coverage
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"

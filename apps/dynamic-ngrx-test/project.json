@@ -19,7 +19,10 @@
           "apps/dynamic-ngrx-test/src/favicon.ico",
           "apps/dynamic-ngrx-test/src/assets"
         ],
-        "styles": ["apps/dynamic-ngrx-test/src/styles.css"],
+        "styles": [
+          "@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "apps/dynamic-ngrx-test/src/styles.css"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -59,7 +62,10 @@
           "browserTarget": "dynamic-ngrx-test:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/dynamic-ngrx-test/proxy.conf.json"
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
