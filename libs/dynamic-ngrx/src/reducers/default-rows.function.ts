@@ -12,7 +12,7 @@ import { EntityState } from '@ngrx/entity';
 export function defaultRows<T>(
   ids: string[],
   state: EntityState<T>,
-  defaultRow: (id: string) => T
+  defaultRow: (id: string) => T,
 ): T[] {
   return ids
     .filter((id) => state.entities[id] === undefined)

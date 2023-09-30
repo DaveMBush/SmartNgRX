@@ -35,11 +35,11 @@ export class SidebarComponentService {
       component.location?.children ?? [],
       0,
       component.range.start,
-      component.range.end
+      component.range.end,
     );
     component.dataSource = component.fullDataSource.slice(
       component.range.start,
-      component.range.end
+      component.range.end,
     );
   }
 
@@ -47,7 +47,7 @@ export class SidebarComponentService {
     children: (SidebarCommonSourceNode | string)[],
     level: number,
     startRange: number,
-    endRange: number
+    endRange: number,
   ): SidebarNode[] {
     const result: SidebarNode[] = [];
     if (children.length === 0) {
@@ -75,11 +75,11 @@ export class SidebarComponentService {
             castTo<SidebarCommonSourceNode>(children[i]).children,
             level + 1,
             startRange - result.length,
-            endRange - result.length
+            endRange - result.length,
           );
           childNodes.forEach((child) => result.push(child));
         }
-      }
+      },
     );
     return result;
   }

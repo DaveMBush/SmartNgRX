@@ -6,5 +6,5 @@ export const selectDepartmentChildren = createSelector(
   selectSharedState,
   (state) => {
     return state.departmentChildren;
-  }
+  },
 );

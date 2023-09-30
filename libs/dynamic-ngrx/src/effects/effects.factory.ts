@@ -23,14 +23,14 @@ import { EffectService } from './effect-service';
  */
 export function effectsFactory<Source extends string, T>(
   source: StringLiteralSource<Source>,
-  effectServiceToken: InjectionToken<EffectService<T>>
+  effectServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<Source, T>(source);
   return castTo<Record<string, FunctionalEffect>>({
     load: createEffect(
       (
         actions$ = inject(Actions),
-        actionService = inject(effectServiceToken)
+        actionService = inject(effectServiceToken),
       ) => {
         return actions$.pipe(
           ofType(actions.load),
@@ -39,15 +39,15 @@ export function effectsFactory<Source extends string, T>(
           }),
           map((rows) => {
             return actions.loadSuccess({ rows });
-          })
+          }),
         );
       },
-      { functional: true }
+      { functional: true },
     ),
     loadByIds: createEffect(
       (
         actions$ = inject(Actions),
-        actionService = inject(effectServiceToken)
+        actionService = inject(effectServiceToken),
       ) => {
         return actions$.pipe(
           ofType(actions.loadByIds),
@@ -55,10 +55,10 @@ export function effectsFactory<Source extends string, T>(
           mergeMap((ids) => {
             return actionService.loadByIds(ids);
           }),
-          map((rows) => actions.loadByIdsSuccess({ rows }))
+          map((rows) => actions.loadByIdsSuccess({ rows })),
         );
       },
-      { functional: true }
+      { functional: true },
     ),
   });
 }

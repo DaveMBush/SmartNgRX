@@ -25,7 +25,7 @@ export function selectorFactory<T>(feature: string): {
   const adapterSelectors = adapter.getSelectors();
   const selectAll = createSelector(
     selectFeatureState,
-    adapterSelectors.selectAll
+    adapterSelectors.selectAll,
   );
   return {
     selectAll,

@@ -18,7 +18,7 @@ export class DepartmentEffectsService extends EffectService<Department> {
   };
 
   override loadByIds: (ids: string[]) => Observable<Department[]> = (
-    ids: string[]
+    ids: string[],
   ) => {
     return this.http
       .post<Department[]>('http://localhost:3000/api/departments', ids)

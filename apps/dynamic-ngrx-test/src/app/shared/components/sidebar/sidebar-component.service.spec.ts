@@ -210,9 +210,9 @@ describe('SidebarComponentService', () => {
       jest
         .spyOn(
           castTo<{ isExpanded(node: { id: string; level: number }): boolean }>(
-            service
+            service,
           ),
-          'isExpanded'
+          'isExpanded',
         )
         .mockImplementation((node) => {
           return !!(node.id === '1' && node.level === 0);

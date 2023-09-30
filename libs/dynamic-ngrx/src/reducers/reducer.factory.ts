@@ -12,7 +12,7 @@ import { defaultRows } from './default-rows.function';
  */
 export function reducerFactory<Source extends string, T>(
   source: StringLiteralSource<Source>,
-  defaultRow: (id: string) => T
+  defaultRow: (id: string) => T,
 ): ActionReducer<EntityState<T>> {
   const adapter = createEntityAdapter<T>();
   const initialState = adapter.getInitialState();
@@ -31,11 +31,11 @@ export function reducerFactory<Source extends string, T>(
     // make sure that when we call loadByIds the store gets set with
     // something so that we don't try to refetch the same data
     on(actions.loadByIds, (state, { ids }) =>
-      adapter.upsertMany(defaultRows(ids, state, defaultRow), state)
+      adapter.upsertMany(defaultRows(ids, state, defaultRow), state),
     ),
 
     on(actions.loadByIdsSuccess, (state, { rows }) =>
-      adapter.upsertMany(rows, state)
-    )
+      adapter.upsertMany(rows, state),
+    ),
   );
 }

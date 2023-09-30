@@ -42,7 +42,7 @@ describe('SidebarComponent', () => {
     // Spy on the correct instance of SidebarComponentService
     const applyRangeSpy = jest.spyOn(
       sidebarComponent.sidebarComponentService,
-      'applyRange'
+      'applyRange',
     );
 
     // Change the location input and trigger change detection

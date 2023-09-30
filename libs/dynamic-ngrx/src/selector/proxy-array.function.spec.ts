@@ -6,7 +6,7 @@ import { proxyArray } from './proxy-array.function';
 
 const mockAction = createAction(
   '[mock] fetch department',
-  props<{ ids: string[] }>()
+  props<{ ids: string[] }>(),
 );
 
 describe('proxyArray', () => {
@@ -31,7 +31,7 @@ describe('proxyArray', () => {
     childArray,
     child,
     mockAction,
-    'default-department'
+    'default-department',
   );
 
   it('create an array that proxies to the actual entity', () => {

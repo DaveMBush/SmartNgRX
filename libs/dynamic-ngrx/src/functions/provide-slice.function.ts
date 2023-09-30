@@ -40,7 +40,7 @@ export function provideSlice<Feature extends string, Source extends string, T>(
   featureName: StringLiteralSource<Feature>,
   entityName: StringLiteralSource<Source>,
   effectServiceToken: InjectionToken<EffectService<T>>,
-  defaultRow: (id: string) => T
+  defaultRow: (id: string) => T,
 ): EnvironmentProviders {
   const effects = effectsFactory<Source, T>(entityName, effectServiceToken);
   const reducer = reducerFactory<Source, T>(entityName, defaultRow);
@@ -48,7 +48,7 @@ export function provideSlice<Feature extends string, Source extends string, T>(
   const providers: (EnvironmentProviders | Provider)[] = [];
   // We strongly type this but provideEffects wants a Record<string, FunctionalEffect>
   providers.push(
-    provideEffects(castTo<Record<string, FunctionalEffect>>(effects))
+    provideEffects(castTo<Record<string, FunctionalEffect>>(effects)),
   );
   providers.push(provideState(featureName, reducer));
   return makeEnvironmentProviders(providers);
