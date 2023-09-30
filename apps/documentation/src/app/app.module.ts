@@ -1,4 +1,15 @@
-import { provideSearchEngine, NgDocDefaultSearchEngine, NgDocSidebarComponent, NgDocNavbarComponent, provideNgDocApp, NgDocRootComponent, providePageSkeleton, provideMainPageProcessor, NG_DOC_DEFAULT_PAGE_SKELETON, NG_DOC_DEFAULT_PAGE_PROCESSORS } from '@ng-doc/app';
+import {
+  provideSearchEngine,
+  NgDocDefaultSearchEngine,
+  NgDocSidebarComponent,
+  NgDocNavbarComponent,
+  provideNgDocApp,
+  NgDocRootComponent,
+  providePageSkeleton,
+  provideMainPageProcessor,
+  NG_DOC_DEFAULT_PAGE_SKELETON,
+  NG_DOC_DEFAULT_PAGE_PROCESSORS,
+} from '@ng-doc/app';
 import { NG_DOC_ROUTING, provideNgDocContext } from '@ng-doc/generated';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
