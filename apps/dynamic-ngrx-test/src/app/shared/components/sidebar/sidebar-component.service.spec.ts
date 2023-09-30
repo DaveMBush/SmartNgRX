@@ -9,7 +9,6 @@ import { SidebarNode } from './sidebar-node.interface';
 
 const department1a = 'department1-a';
 
-
 describe('SidebarComponentService', () => {
   let service: SidebarComponentService;
   let mockComponent: SidebarComponent;
