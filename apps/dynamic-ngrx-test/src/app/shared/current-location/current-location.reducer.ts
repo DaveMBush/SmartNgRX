@@ -6,5 +6,5 @@ const initialState = '1';
 
 export const currentLocationReducer = createReducer(
   initialState,
-  on(currentLocationActions.set, (_, { id }): string => id)
+  on(currentLocationActions.set, (_, { id }): string => id),
 );

@@ -28,5 +28,5 @@ export const selectDepartmentsChildren = createSmartSelector<Department>(
         isDirty: false,
       },
     },
-  ]
+  ],
 );

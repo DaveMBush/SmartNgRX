@@ -10,7 +10,7 @@ export class SprintFoldersService {
   loadByIds(ids: string[]): Observable<SprintFolder[]> {
     return this.http.post<SprintFolder[]>(
       'http://localhost:3000/api/sprintFolders',
-      ids
+      ids,
     );
   }
 }

@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
       StoreDevtoolsModule.instrument({
         maxAge: 2,
         logOnly: false,
-      })
+      }),
     ),
     provideStore(),
     provideEffects(),

@@ -55,7 +55,7 @@ describe('effectsFactory', () => {
     actions = TestBed.inject(Actions);
     TestBed.runInInjectionContext(() => {
       effect = castTo<EffectsFactory<MockState>>(
-        effectsFactory(source, mockInjectionToken)
+        effectsFactory(source, mockInjectionToken),
       );
       loadEffect = effect.load();
       loadByIdsEffect = effect.loadByIds();

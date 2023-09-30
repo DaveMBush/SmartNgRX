@@ -9,5 +9,5 @@ export const selectCurrentLocationId = createSelector(
       return state.currentLocation;
     }
     return state.locations.ids[0] ?? '';
-  }
+  },
 );

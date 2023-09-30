@@ -41,7 +41,7 @@ const mapIdToEntity =
 
 const reduceEntityArrayToObject = (
   obj: EntityState<Entity>['entities'],
-  entity: Entity
+  entity: Entity,
 ): EntityState<Entity>['entities'] => ({
   ...obj,
   [entity.id]: entity,

@@ -17,7 +17,7 @@ export class LocationEffectsService extends EffectService<Location> {
   };
 
   override loadByIds: (ids: string[]) => Observable<Location[]> = (
-    _: string[]
+    _: string[],
   ) => {
     return of([] as Location[]);
   };

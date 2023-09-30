@@ -33,7 +33,7 @@ export class SidebarComponent implements OnChanges, AfterViewInit {
 
   treeControl = new FlatTreeControl<SidebarNode>(
     (node) => node.level,
-    (node) => node.hasChildren
+    (node) => node.hasChildren,
   );
 
   dataSource: SidebarNode[] = [];

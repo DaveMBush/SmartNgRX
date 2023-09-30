@@ -10,7 +10,7 @@ export function getArrayItem<T extends MarkAndDelete>(
   entityState: EntityState<T>,
   id: string,
   action: (p: IdsProp) => Action,
-  mockRow: T
+  mockRow: T,
 ): T {
   ensureDataLoaded(entityState, id, action);
   return realOrMocked(entityState, id, mockRow);

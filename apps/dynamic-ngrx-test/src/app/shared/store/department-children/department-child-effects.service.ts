@@ -24,7 +24,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
   };
 
   override loadByIds: (ids: string[]) => Observable<DepartmentChild[]> = (
-    ids: string[]
+    ids: string[],
   ) => {
     const docIds = filterIds(ids, 'docs:');
     const folderIds = filterIds(ids, 'folders:');
@@ -35,23 +35,23 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
       castTo<CommonService>(this.doc),
       docIds,
       'docs',
-      'did'
+      'did',
     );
 
     const folderStream = loadByIdsForType(
       castTo<CommonService>(this.folder),
       folderIds,
-      'folders'
+      'folders',
     );
     const listStream = loadByIdsForType(
       castTo<CommonService>(this.list),
       listIds,
-      'lists'
+      'lists',
     );
     const sprintFolderStream = loadByIdsForType(
       castTo<CommonService>(this.sprintFolder),
       sprintFolderIds,
-      'sprint-folders'
+      'sprint-folders',
     );
 
     return forkJoin({
@@ -65,7 +65,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
         ...folders,
         ...lists,
         ...sprintFolders,
-      ])
+      ]),
     );
   };
 }

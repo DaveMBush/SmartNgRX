@@ -21,7 +21,7 @@ import { createInnerSmartSelector } from './create-inner-smart-selector.function
  */
 export function createSmartSelector<P extends object>(
   parent: MemoizedSelector<object, EntityState<P>>,
-  children: ProxyChild<P>[]
+  children: ProxyChild<P>[],
 ): MemoizedSelector<object, EntityState<P>> {
   return children.reduce((p, child) => {
     return createInnerSmartSelector(p, child);

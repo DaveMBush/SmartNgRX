@@ -10,5 +10,5 @@ export const departmentReducer = reducerFactory(
       name: '',
       children: [],
       isDirty: false,
-    } as Department)
+    }) as Department,
 );

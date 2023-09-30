@@ -10,5 +10,5 @@ export const locationEffectsServiceToken =
 
 export const locationEffects = effectsFactory<'Location', Location>(
   'Location',
-  locationEffectsServiceToken
+  locationEffectsServiceToken,
 );

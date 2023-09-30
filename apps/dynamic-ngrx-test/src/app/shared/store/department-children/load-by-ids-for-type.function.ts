@@ -8,7 +8,7 @@ export function loadByIdsForType(
   },
   ids: string[],
   type: string,
-  idField = 'id'
+  idField = 'id',
 ): Observable<DepartmentChild[]> {
   return service.loadByIds(ids).pipe(
     map((items) =>
@@ -18,13 +18,13 @@ export function loadByIdsForType(
             id: `${type}:${item[idField]}`,
             name: item['name'],
             children: [],
-          } as DepartmentChild)
-      )
+          }) as DepartmentChild,
+      ),
     ),
     // wait for 1 second before calling this a failure
     timeout(1000),
     // catch any errors, including timeout, and just return
     // an empty array.
-    catchError(() => of([] as DepartmentChild[]))
+    catchError(() => of([] as DepartmentChild[])),
   );
 }

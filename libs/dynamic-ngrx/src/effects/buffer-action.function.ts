@@ -33,7 +33,7 @@ import { castTo } from '../common/cast-to.function';
  * @returns The buffered ids.
  */
 export function bufferAction(
-  bufferTime = 1
+  bufferTime = 1,
 ): (source: Observable<Action>) => Observable<string[]> {
   return (source: Observable<Action>): Observable<string[]> => {
     return source.pipe(
@@ -46,7 +46,7 @@ export function bufferAction(
         });
         return newIds;
       }),
-      map((ids) => ids.filter((c, index) => ids.indexOf(c) === index))
+      map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
     );
   };
 }

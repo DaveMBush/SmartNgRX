@@ -12,13 +12,13 @@ export interface EffectsFactory<T> {
   load: FunctionalEffect<
     (
       actions$?: Actions<unknown>,
-      actionService?: EffectService<T>
+      actionService?: EffectService<T>,
     ) => Observable<Action>
   >;
   loadByIds: FunctionalEffect<
     (
       actions$?: Actions<unknown>,
-      actionService?: EffectService<T>
+      actionService?: EffectService<T>,
     ) => Observable<Action>
   >;
 }

@@ -56,7 +56,7 @@ describe('Location Selectors', () => {
         }
         store.setState({ shared: initialState.shared });
         const result = (await firstValueFrom(
-          store.select(selectLocation)
+          store.select(selectLocation),
         )) as typeof initialState.shared.locations;
 
         expect(result).toEqual(initialState.shared.locations);
@@ -73,7 +73,7 @@ describe('Location Selectors', () => {
         });
 
         const result = (await firstValueFrom(
-          store.select(selectLocation)
+          store.select(selectLocation),
         )) as typeof initialState.shared.locations;
 
         expect(result).toEqual(initialState.shared.locations);
@@ -132,7 +132,7 @@ describe('Location Selectors', () => {
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
-            store.select(selectLocation)
+            store.select(selectLocation),
           )) as typeof initialState.shared.locations;
 
           expect(result).toEqual(initialState.shared.locations);
@@ -152,7 +152,7 @@ describe('Location Selectors', () => {
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
-            store.select(selectLocation)
+            store.select(selectLocation),
           )) as typeof initialState.shared.locations;
 
           expect(result).toEqual(initialState.shared.locations);
@@ -208,7 +208,7 @@ describe('Location Selectors', () => {
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
-          store.select(selectLocationsDepartments)
+          store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
         // Perform the assertion
@@ -240,7 +240,7 @@ describe('Location Selectors', () => {
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
-          store.select(selectLocationsDepartments)
+          store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
         const expected = { ...initialState.shared.locations };
@@ -284,7 +284,7 @@ describe('Location Selectors', () => {
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
-          store.select(selectLocationsDepartments)
+          store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
         const expected = { ...initialState.shared.locations };
@@ -329,7 +329,7 @@ describe('Location Selectors', () => {
         store.setState({ shared: initialState.shared });
 
         const result = (await firstValueFrom(
-          store.select(selectCurrentLocation)
+          store.select(selectCurrentLocation),
         )) as Location;
 
         expect(result).toEqual({
@@ -362,7 +362,7 @@ describe('Location Selectors', () => {
         });
 
         const result = (await firstValueFrom(
-          store.select(selectCurrentLocation)
+          store.select(selectCurrentLocation),
         )) as Location;
 
         expect(result).toEqual({
@@ -395,7 +395,7 @@ describe('Location Selectors', () => {
         });
 
         const result = (await firstValueFrom(
-          store.select(selectCurrentLocation)
+          store.select(selectCurrentLocation),
         )) as Location;
 
         expect(result).toEqual({
