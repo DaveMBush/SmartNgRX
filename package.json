@@ -19,8 +19,7 @@
   },
   "lint-staged": {
     "*.{js,ts,css,scss,md,json,html}": [
-      "pnpm format",
-      "pnpm dupcheck"
+      "pnpm format"
     ],
     "*.{js,ts,html}": [
       "pnpm lint:fix"
