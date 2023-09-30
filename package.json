@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nx serve dynamic-ngrx-test",
     "start:server": "nx serve server",
-    "start:documentation": "nx serve documentation --port=4201",
+    "start:documentation": "nx serve documentation --configuration=serve --port=4201",
     "build": "nx affected:build --parallel=3",
     "lint": "nx affected:lint --parallel=3",
     "format": "nx format:write",
