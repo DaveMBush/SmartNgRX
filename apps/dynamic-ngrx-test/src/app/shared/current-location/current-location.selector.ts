@@ -5,6 +5,9 @@ import { selectSharedState } from '../shared.selectors';
 export const selectCurrentLocationId = createSelector(
   selectSharedState,
   (state) => {
-    return state.currentLocation ?? state.locations.ids[0] ?? '';
+    if (state.currentLocation.length > 0) {
+      return state.currentLocation;
+    }
+    return state.locations.ids[0] ?? '';
   }
 );

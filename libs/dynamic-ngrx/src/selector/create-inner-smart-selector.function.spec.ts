@@ -31,88 +31,185 @@ describe('createInnerSmartSelector', () => {
   let child1: EntityState<MarkAndDelete>;
   let parent: EntityState<MarkAndDelete>;
   let result: EntityState<{ id: string; name: string; children: string[] }>;
-  beforeEach(() => {
-    selectEntity = createInnerSmartSelector(
-      jest.fn() as unknown as MemoizedSelector<
-        object,
-        EntityState<{ id: string; name: string; children: string[] }>
-      >,
-      {
-        childSelector: jest.fn() as unknown as MemoizedSelector<
-          object,
-          EntityState<MarkAndDelete>
-        >,
-        childAction: jest.fn(),
-        defaultChildRow: [],
-        childName: 'children',
-      }
-    );
-    child1 = entityStateFactory({
-      parentCount: 2,
-      parentType: 'folder',
-      childCount: 0,
-      childType: 'list',
-    });
-
-    parent = entityStateFactory({
-      parentCount: 2,
-      childCount: 2,
-      parentType: 'department',
-      childType: 'folder',
-    });
-    // verify there is no proxy.
-    result = selectEntity.projector(parent, child1);
-  });
-  it("create proxies for children that don't exist", () => {
-    expect(result.entities[department1]?.children).toHaveLength(2);
-    expect(result.entities[department2]?.children).toHaveLength(2);
-    expect(
-      castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-        .θisProxyθ
-    ).toBe(true);
-    expect(
-      castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
-        .θisProxyθ
-    ).toBe(true);
-    expect(
-      castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-        .rawArray
-    ).toEqual(['folder-1', 'folder-2']);
-    expect(
-      castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
-        .rawArray
-    ).toEqual(['folder-3', 'folder-4']);
-    expect(result.entities[department1]?.children[0]).toStrictEqual({
-      id: 'folder-1',
-      name: 'Folder 1',
-      isDirty: false,
-      children: [],
-    });
-    expect(result.entities[department1]?.children[1]).toStrictEqual({
-      id: 'folder-2',
-      name: 'Folder 2',
-      isDirty: false,
-      children: [],
-    });
-  });
-  describe('if we already have items for the children', () => {
+  describe('when the child is not frozen', () => {
     beforeEach(() => {
-      // give parent the children from above
-      result = selectEntity.projector(result, child1);
+      selectEntity = createInnerSmartSelector(
+        jest.fn() as unknown as MemoizedSelector<
+          object,
+          EntityState<{ id: string; name: string; children: string[] }>
+        >,
+        {
+          childSelector: jest.fn() as unknown as MemoizedSelector<
+            object,
+            EntityState<MarkAndDelete>
+          >,
+          childAction: jest.fn(),
+          defaultChildRow: [],
+          childName: 'children',
+        }
+      );
+      child1 = entityStateFactory({
+        parentCount: 2,
+        parentType: 'folder',
+        childCount: 0,
+        childType: 'list',
+      });
+
+      parent = entityStateFactory({
+        parentCount: 2,
+        childCount: 2,
+        parentType: 'department',
+        childType: 'folder',
+      });
+      // verify there is no proxy.
+      result = selectEntity.projector(parent, child1);
     });
-    it('should not re-proxy the child', () => {
+    it("creates proxies for children that don't exist", () => {
       expect(result.entities[department1]?.children).toHaveLength(2);
+      expect(result.entities[department2]?.children).toHaveLength(2);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
           .θisProxyθ
-      ).toBeTruthy();
+      ).toBe(true);
       expect(
-        castTo<ProxyArray<Entity>>(
+        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+          .θisProxyθ
+      ).toBe(true);
+      expect(
+        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+          .rawArray
+      ).toEqual(['folder-1', 'folder-2']);
+      expect(
+        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+          .rawArray
+      ).toEqual(['folder-3', 'folder-4']);
+      expect(result.entities[department1]?.children[0]).toStrictEqual({
+        id: 'folder-1',
+        name: 'Folder 1',
+        isDirty: false,
+        children: [],
+      });
+      expect(result.entities[department1]?.children[1]).toStrictEqual({
+        id: 'folder-2',
+        name: 'Folder 2',
+        isDirty: false,
+        children: [],
+      });
+    });
+
+    describe('if we already have items for the children', () => {
+      beforeEach(() => {
+        // give parent the children from above
+        result = selectEntity.projector(result, child1);
+      });
+      it('should not re-proxy the child', () => {
+        expect(result.entities[department1]?.children).toHaveLength(2);
+        expect(
           castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-            .rawArray
-        ).θisProxyθ
-      ).toBeFalsy();
+            .θisProxyθ
+        ).toBeTruthy();
+        expect(
+          castTo<ProxyArray<Entity>>(
+            castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+              .rawArray
+          ).θisProxyθ
+        ).toBeFalsy();
+        expect(result.entities[department2]?.children).toHaveLength(2);
+      });
+    });
+  });
+  describe('when the child is frozen', () => {
+    beforeEach(() => {
+      selectEntity = createInnerSmartSelector(
+        jest.fn() as unknown as MemoizedSelector<
+          object,
+          EntityState<{ id: string; name: string; children: string[] }>
+        >,
+        {
+          childSelector: jest.fn() as unknown as MemoizedSelector<
+            object,
+            EntityState<MarkAndDelete>
+          >,
+          childAction: jest.fn(),
+          defaultChildRow: [],
+          childName: 'children',
+        }
+      );
+      child1 = entityStateFactory({
+        parentCount: 2,
+        parentType: 'folder',
+        childCount: 0,
+        childType: 'list',
+      });
+
+      parent = entityStateFactory({
+        parentCount: 2,
+        childCount: 2,
+        parentType: 'department',
+        childType: 'folder',
+      });
+
+      Object.freeze(
+        castTo<{ children: unknown[] }>(parent.entities[department1])?.children
+      );
+      Object.freeze(
+        castTo<{ children: unknown[] }>(parent.entities[department2])?.children
+      );
+
+      result = selectEntity.projector(parent, child1);
+    });
+    it("creates proxies for children that don't exist", () => {
+      expect(result.entities[department1]?.children).toHaveLength(2);
       expect(result.entities[department2]?.children).toHaveLength(2);
+      expect(
+        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+          .θisProxyθ
+      ).toBe(true);
+      expect(
+        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+          .θisProxyθ
+      ).toBe(true);
+      expect(
+        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+          .rawArray
+      ).toEqual(['folder-1', 'folder-2']);
+      expect(
+        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+          .rawArray
+      ).toEqual(['folder-3', 'folder-4']);
+      expect(result.entities[department1]?.children[0]).toStrictEqual({
+        id: 'folder-1',
+        name: 'Folder 1',
+        isDirty: false,
+        children: [],
+      });
+      expect(result.entities[department1]?.children[1]).toStrictEqual({
+        id: 'folder-2',
+        name: 'Folder 2',
+        isDirty: false,
+        children: [],
+      });
+    });
+
+    describe('if we already have items for the children', () => {
+      beforeEach(() => {
+        // give parent the children from above
+        result = selectEntity.projector(result, child1);
+      });
+      it('should not re-proxy the child', () => {
+        expect(result.entities[department1]?.children).toHaveLength(2);
+        expect(
+          castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+            .θisProxyθ
+        ).toBeTruthy();
+        expect(
+          castTo<ProxyArray<Entity>>(
+            castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+              .rawArray
+          ).θisProxyθ
+        ).toBeFalsy();
+        expect(result.entities[department2]?.children).toHaveLength(2);
+      });
     });
   });
 });

@@ -8,13 +8,10 @@ import { DocsService } from '../docs/docs.service';
 import { FoldersService } from '../folders/folders.service';
 import { ListsService } from '../lists/lists.service';
 import { SprintFoldersService } from '../sprint-folders/sprint-folders.service';
+import { CommonService } from './common-service.interface';
 import { DepartmentChild } from './department-child.interface';
 import { filterIds } from './filter-ids.function';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
-
-interface CommonService {
-  loadByIds(ids: string[]): Observable<Record<string, string>[]>;
-}
 
 @Injectable()
 export class DepartmentChildEffectsService extends EffectService<DepartmentChild> {

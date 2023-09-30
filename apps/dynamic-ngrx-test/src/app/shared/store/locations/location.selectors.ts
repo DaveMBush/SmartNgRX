@@ -15,8 +15,8 @@ import { Location } from './location.interface';
 export const selectLocation = createSelector(selectSharedState, (state) => {
   if (!state.locations.ids.length) {
     // because we are using load and not loadById
-    // this will load all the locations
-    const id = state.currentLocation ?? '1';
+    // this will load all the locations and the id just needs to have a value
+    const id = 'xyz';
     ensureDataLoaded(state.locations, id, locationActions.load);
   }
   return state.locations;

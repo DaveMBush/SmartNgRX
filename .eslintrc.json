@@ -865,6 +865,8 @@
         "jest": true
       },
       "rules": {
+        "no-restricted-syntax": "off",
+        "max-lines": "off",
         "max-lines-per-function": "off",
         "max-nested-callbacks": "off",
         "jest/expect-expect": [
