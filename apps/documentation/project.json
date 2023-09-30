@@ -11,6 +11,7 @@
       "executor": "nx:run-commands",
       "dependsOn": ["main-build"],
       "options": {
+        "outputPath": "documentation",
         "commands": [
           {
             "command": "cp documentation/index.html documentation/404.html",
@@ -72,6 +73,7 @@
           "outputHashing": "all"
         },
         "development": {
+          "baseHref": "/",
           "buildOptimizer": false,
           "optimization": false,
           "vendorChunk": true,
@@ -86,10 +88,10 @@
       "executor": "@ng-doc/builder:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "documentation:build:production"
+          "browserTarget": "documentation:main-build:production"
         },
         "development": {
-          "browserTarget": "documentation:build:development"
+          "browserTarget": "documentation:main-build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -124,6 +126,9 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
+        "options": {
+          "baseHref": "/"
+        },
         "buildTarget": "documentation:build"
       }
     }

@@ -36,7 +36,7 @@ export const selectLocationsDepartments = createSmartSelector<Location>(
         lastUpdate: 0,
       },
     },
-  ]
+  ],
 );
 
 export const selectCurrentLocation = createSelector(
@@ -51,5 +51,5 @@ export const selectCurrentLocation = createSelector(
         isDirty: false,
       }
     );
-  }
+  },
 );

@@ -4,7 +4,7 @@
  */
 type StringLiteralCheck<
   Str extends string,
-  Name extends string
+  Name extends string,
 > = string extends Str ? `${Name} must be a string literal type` : unknown;
 export type StringLiteralSource<Source extends string> = Source &
   StringLiteralCheck<Source, 'source'>;

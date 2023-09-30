@@ -69,7 +69,7 @@ router.post('/sprintFolders', (req, res) => {
 router.post('/children', (req, res) => {
   const ids = req.body as string[];
   res.send(
-    ids.map((id) => commonChildren([id.split(':')[1]], id.split(':')[0]))
+    ids.map((id) => commonChildren([id.split(':')[1]], id.split(':')[0])),
   );
 });
 export { router };

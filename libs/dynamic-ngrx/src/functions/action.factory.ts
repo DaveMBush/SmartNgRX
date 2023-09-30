@@ -34,7 +34,7 @@ interface ActionGroup<T> {
   loadByIdsSuccess: ActionCreator<
     `[${any}] Load By Ids Success`,
     (
-      props: RowsProp<T>
+      props: RowsProp<T>,
     ) => RowsProp<T> & TypedAction<`[${any}] Load By Ids Success`>
   >;
   update: ActionCreator<
@@ -81,7 +81,7 @@ const actionGroupCache = new Map<string, CachedActionGroup>();
  * @see `RowsProp`
  */
 export function actionFactory<Source extends string, T>(
-  source: StringLiteralSource<Source>
+  source: StringLiteralSource<Source>,
 ): ActionGroup<T> {
   if (actionGroupCache.has(source)) {
     return actionGroupCache.get(source) as ActionGroup<T>;

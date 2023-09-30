@@ -32,7 +32,7 @@ describe('loadByIdsForType', () => {
       const result = loadByIdsForType(
         castTo<CommonService>(mockService),
         ids,
-        type
+        type,
       );
 
       const expectedOutput: DepartmentChild[] = [
@@ -49,7 +49,7 @@ describe('loadByIdsForType', () => {
         loadByIds: (ids: string[]) =>
           timer(1500).pipe(
             map(() => ids),
-            map((id) => ({ id, name: 'Dept' + id, children: [] }))
+            map((id) => ({ id, name: 'Dept' + id, children: [] })),
           ),
       };
       const ids = ['1'];
@@ -58,7 +58,7 @@ describe('loadByIdsForType', () => {
       const result = loadByIdsForType(
         castTo<CommonService>(mockService),
         ids,
-        type
+        type,
       );
 
       expectObservable(result).toBe('1000ms (a|)', { a: [] });

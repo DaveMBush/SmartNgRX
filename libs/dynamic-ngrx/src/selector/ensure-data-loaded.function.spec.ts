@@ -19,7 +19,7 @@ const mockAction = createAction(
   '[mock] fetch data',
   props<{
     ids: string[];
-  }>()
+  }>(),
 );
 
 let testScheduler: TestScheduler;
@@ -46,7 +46,7 @@ describe('ensureDataLoaded', () => {
       expect(mockDispatch).toHaveBeenLastCalledWith(
         mockAction({
           ids: ['department1'],
-        })
+        }),
       );
     });
   });
@@ -68,7 +68,7 @@ describe('ensureDataLoaded', () => {
       expect(mockDispatch).toHaveBeenLastCalledWith(
         mockAction({
           ids: [department1],
-        })
+        }),
       );
     });
   });

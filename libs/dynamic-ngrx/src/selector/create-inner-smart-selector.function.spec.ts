@@ -46,7 +46,7 @@ describe('createInnerSmartSelector', () => {
           childAction: jest.fn(),
           defaultChildRow: [],
           childName: 'children',
-        }
+        },
       );
       child1 = entityStateFactory({
         parentCount: 2,
@@ -69,19 +69,19 @@ describe('createInnerSmartSelector', () => {
       expect(result.entities[department2]?.children).toHaveLength(2);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-          .θisProxyθ
+          .θisProxyθ,
       ).toBe(true);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
-          .θisProxyθ
+          .θisProxyθ,
       ).toBe(true);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-          .rawArray
+          .rawArray,
       ).toEqual(['folder-1', 'folder-2']);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
-          .rawArray
+          .rawArray,
       ).toEqual(['folder-3', 'folder-4']);
       expect(result.entities[department1]?.children[0]).toStrictEqual({
         id: 'folder-1',
@@ -106,13 +106,13 @@ describe('createInnerSmartSelector', () => {
         expect(result.entities[department1]?.children).toHaveLength(2);
         expect(
           castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-            .θisProxyθ
+            .θisProxyθ,
         ).toBeTruthy();
         expect(
           castTo<ProxyArray<Entity>>(
             castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-              .rawArray
-          ).θisProxyθ
+              .rawArray,
+          ).θisProxyθ,
         ).toBeFalsy();
         expect(result.entities[department2]?.children).toHaveLength(2);
       });
@@ -133,7 +133,7 @@ describe('createInnerSmartSelector', () => {
           childAction: jest.fn(),
           defaultChildRow: [],
           childName: 'children',
-        }
+        },
       );
       child1 = entityStateFactory({
         parentCount: 2,
@@ -150,10 +150,10 @@ describe('createInnerSmartSelector', () => {
       });
 
       Object.freeze(
-        castTo<{ children: unknown[] }>(parent.entities[department1])?.children
+        castTo<{ children: unknown[] }>(parent.entities[department1])?.children,
       );
       Object.freeze(
-        castTo<{ children: unknown[] }>(parent.entities[department2])?.children
+        castTo<{ children: unknown[] }>(parent.entities[department2])?.children,
       );
 
       result = selectEntity.projector(parent, child1);
@@ -163,19 +163,19 @@ describe('createInnerSmartSelector', () => {
       expect(result.entities[department2]?.children).toHaveLength(2);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-          .θisProxyθ
+          .θisProxyθ,
       ).toBe(true);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
-          .θisProxyθ
+          .θisProxyθ,
       ).toBe(true);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-          .rawArray
+          .rawArray,
       ).toEqual(['folder-1', 'folder-2']);
       expect(
         castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
-          .rawArray
+          .rawArray,
       ).toEqual(['folder-3', 'folder-4']);
       expect(result.entities[department1]?.children[0]).toStrictEqual({
         id: 'folder-1',
@@ -200,13 +200,13 @@ describe('createInnerSmartSelector', () => {
         expect(result.entities[department1]?.children).toHaveLength(2);
         expect(
           castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-            .θisProxyθ
+            .θisProxyθ,
         ).toBeTruthy();
         expect(
           castTo<ProxyArray<Entity>>(
             castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-              .rawArray
-          ).θisProxyθ
+              .rawArray,
+          ).θisProxyθ,
         ).toBeFalsy();
         expect(result.entities[department2]?.children).toHaveLength(2);
       });

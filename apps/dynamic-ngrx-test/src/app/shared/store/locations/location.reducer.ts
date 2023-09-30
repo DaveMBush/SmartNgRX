@@ -10,5 +10,5 @@ export const locationReducer = reducerFactory(
       name: '',
       children: [],
       isDirty: false,
-    } as Location)
+    }) as Location,
 );

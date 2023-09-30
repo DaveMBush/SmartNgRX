@@ -15,7 +15,7 @@ import { store } from './store.function';
 export function ensureDataLoaded<T extends MarkAndDelete>(
   entityState: EntityState<T>,
   id: string,
-  action: (p: { ids: string[] }) => Action
+  action: (p: { ids: string[] }) => Action,
 ): void {
   const ids = entityState.entities as Record<string, T>;
   if (

@@ -31,10 +31,10 @@ import { proxyArray } from './proxy-array.function';
 // eslint-disable-next-line ngrx/prefix-selectors-with-select -- it isn't a selector
 export function createInnerSmartSelector<
   P extends object,
-  C extends MarkAndDelete
+  C extends MarkAndDelete,
 >(
   parentSelector: MemoizedSelector<object, EntityState<P>>,
-  { childSelector, childAction, defaultChildRow, childName }: ProxyChild<P>
+  { childSelector, childAction, defaultChildRow, childName }: ProxyChild<P>,
 ): MemoizedSelector<object, EntityState<P>> {
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
@@ -59,6 +59,6 @@ export function createInnerSmartSelector<
           proxyArray(childArray, child, childAction, defaultChildRow);
       });
       return newParentEntity;
-    })
+    }),
   );
 }

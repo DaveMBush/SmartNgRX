@@ -10,5 +10,5 @@ export const departmentEffectsServiceToken =
 
 export const departmentEffects = effectsFactory<'Department', Department>(
   'Department',
-  departmentEffectsServiceToken
+  departmentEffectsServiceToken,
 );
