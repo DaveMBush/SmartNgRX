@@ -5,7 +5,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { store as storeFunction } from '@davembush/dynamic-ngrx/selector/store.function';
 
-import { SharedState } from '../../shared-state.interface';
+import { SharedState, SharedState2 } from '../../shared-state.interface';
 import { Department } from '../department/department.interface';
 import { locationActions } from './location.actions';
 import { Location } from './location.interface';
@@ -20,7 +20,9 @@ const storeNotDefined = 'store not defined';
 const locationName = 'test location';
 
 describe('Location Selectors', () => {
-  let store: MockStore<{ shared: SharedState }> | undefined;
+  let store:
+    | MockStore<{ shared: SharedState; shared2: SharedState2 }>
+    | undefined;
   describe('selectLocation', () => {
     describe('if no items are loaded for locations', () => {
       const initialState = {
@@ -33,11 +35,13 @@ describe('Location Selectors', () => {
             ids: [],
             entities: {},
           },
-          currentLocation: '',
           departmentChildren: {
             ids: [],
             entities: {},
           },
+        },
+        shared2: {
+          currentLocation: '',
         },
       };
 
@@ -54,7 +58,10 @@ describe('Location Selectors', () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
-        store.setState({ shared: initialState.shared });
+        store.setState({
+          shared: initialState.shared,
+          shared2: initialState.shared2,
+        });
         const result = (await firstValueFrom(
           store.select(selectLocation),
         )) as typeof initialState.shared.locations;
@@ -69,7 +76,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: { ...initialState.shared, currentLocation: '' },
+          shared: { ...initialState.shared },
+          shared2: { currentLocation: '' },
         });
 
         const result = (await firstValueFrom(
@@ -101,11 +109,13 @@ describe('Location Selectors', () => {
               },
             },
           },
-          currentLocation: '1',
           departmentChildren: {
             ids: [],
             entities: {},
           },
+        },
+        shared2: {
+          currentLocation: '1',
         },
       };
 
@@ -127,7 +137,10 @@ describe('Location Selectors', () => {
           if (!store) {
             throw new Error(storeNotDefined);
           }
-          store.setState({ shared: initialState.shared });
+          store.setState({
+            shared: initialState.shared,
+            shared2: initialState.shared2,
+          });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
 
@@ -146,7 +159,8 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            shared: { ...initialState.shared, currentLocation: '' },
+            shared: { ...initialState.shared },
+            shared2: { currentLocation: '' },
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
@@ -189,11 +203,13 @@ describe('Location Selectors', () => {
             },
           },
         },
-        currentLocation: '',
         departmentChildren: {
           ids: [],
           entities: {},
         },
+      },
+      shared2: {
+        currentLocation: '',
       },
     };
 
@@ -204,7 +220,10 @@ describe('Location Selectors', () => {
         }
 
         // Set the state if necessary
-        store.setState({ shared: initialState.shared });
+        store.setState({
+          shared: initialState.shared,
+          shared2: initialState.shared2,
+        });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
@@ -236,6 +255,7 @@ describe('Location Selectors', () => {
               },
             },
           },
+          shared2: initialState.shared2,
         });
 
         // Get the first emitted value from the selector
@@ -280,6 +300,7 @@ describe('Location Selectors', () => {
               },
             },
           },
+          shared2: initialState.shared2,
         });
 
         // Get the first emitted value from the selector
@@ -313,11 +334,13 @@ describe('Location Selectors', () => {
           ids: [],
           entities: {},
         },
-        currentLocation: '',
         departmentChildren: {
           ids: [],
           entities: {},
         },
+      },
+      shared2: {
+        currentLocation: '',
       },
     };
 
@@ -326,7 +349,10 @@ describe('Location Selectors', () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
-        store.setState({ shared: initialState.shared });
+        store.setState({
+          shared: initialState.shared,
+          shared2: initialState.shared2,
+        });
 
         const result = (await firstValueFrom(
           store.select(selectCurrentLocation),
@@ -359,6 +385,7 @@ describe('Location Selectors', () => {
               },
             },
           },
+          shared2: initialState.shared2,
         });
 
         const result = (await firstValueFrom(
@@ -380,7 +407,6 @@ describe('Location Selectors', () => {
         store.setState({
           shared: {
             ...initialState.shared,
-            currentLocation: '1',
             locations: {
               ids: ['1'],
               entities: {
@@ -391,6 +417,9 @@ describe('Location Selectors', () => {
                 } as Location,
               },
             },
+          },
+          shared2: {
+            currentLocation: '1',
           },
         });
 
