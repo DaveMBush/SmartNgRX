@@ -1,10 +1,9 @@
-import { SharedState } from '../shared-state.interface';
+import { SharedState, SharedState2 } from '../shared-state.interface';
 import { selectCurrentLocationId } from './current-location.selector';
 
 describe('selectCurrentLocationId', () => {
   it('should return state.currentLocation if available', () => {
     const mockState: SharedState = {
-      currentLocation: '1',
       locations: {
         ids: ['1', '2'],
         entities: {
@@ -21,12 +20,14 @@ describe('selectCurrentLocationId', () => {
         entities: {},
       },
     };
-    const result = selectCurrentLocationId.projector(mockState);
+    const mockState2: SharedState2 = {
+      currentLocation: '1',
+    };
+    const result = selectCurrentLocationId.projector(mockState, mockState2);
     expect(result).toBe('1');
   });
   it('should return the first location ID if currentLocation is not available', () => {
     const mockState: SharedState = {
-      currentLocation: '',
       locations: {
         ids: ['1', '2'],
         entities: {
@@ -43,12 +44,14 @@ describe('selectCurrentLocationId', () => {
         entities: {},
       },
     };
-    const result = selectCurrentLocationId.projector(mockState);
+    const mockState2: SharedState2 = {
+      currentLocation: '',
+    };
+    const result = selectCurrentLocationId.projector(mockState, mockState2);
     expect(result).toBe('1');
   });
   it('should return an empty string if both currentLocation and locations.ids are not available', () => {
     const mockState: SharedState = {
-      currentLocation: '',
       locations: {
         ids: [],
         entities: {},
@@ -62,7 +65,10 @@ describe('selectCurrentLocationId', () => {
         entities: {},
       },
     };
-    const result = selectCurrentLocationId.projector(mockState);
+    const mockState2: SharedState2 = {
+      currentLocation: '',
+    };
+    const result = selectCurrentLocationId.projector(mockState, mockState2);
     expect(result).toBe('');
   });
 });

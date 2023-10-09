@@ -7,6 +7,9 @@ import {
 export interface SharedState {
   locations: LocationEntity;
   departments: DepartmentEntity;
-  currentLocation: string;
   departmentChildren: DepartmentChildEntity;
+}
+
+export interface SharedState2 {
+  currentLocation: string;
 }
