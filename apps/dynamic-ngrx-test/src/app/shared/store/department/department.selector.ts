@@ -4,12 +4,12 @@ import { castTo } from '@davembush/dynamic-ngrx/common/cast-to.function';
 import { createSmartSelector } from '@davembush/dynamic-ngrx/selector/create-smart-selector.function';
 import { MarkAndDeleteSelector } from '@davembush/dynamic-ngrx/types/mark-and-delete-selector.type';
 
-import { selectSharedState2 } from '../../shared.selectors';
+import { selectSharedState } from '../../shared.selectors';
 import { departmentChildActions } from '../department-children/department-child.actions';
 import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { Department } from './department.interface';
 
-export const selectDepartments = createSelector(selectSharedState2, (state) => {
+export const selectDepartments = createSelector(selectSharedState, (state) => {
   return state.departments;
 });
 
