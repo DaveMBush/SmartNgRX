@@ -13,11 +13,11 @@ export const appConfig: ApplicationConfig = {
       StoreModule.forRoot({}),
       EffectsModule.forRoot([]),
       StoreDevtoolsModule.instrument({
-        maxAge: 2,
+        maxAge: 1,
         logOnly: false,
       }),
     ),
-    provideStore(),
+    provideStore({}),
     provideEffects(),
     provideAnimations(),
     provideStoreDevtools(),

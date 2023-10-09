@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectSharedState } from '../shared.selectors';
+import { selectSharedState2 } from '../shared.selectors';
 
 export const selectCurrentLocationId = createSelector(
-  selectSharedState,
+  selectSharedState2,
   (state) => {
     if (state.currentLocation.length > 0) {
       return state.currentLocation;

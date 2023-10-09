@@ -6,7 +6,9 @@ import { DepartmentChild } from './department-child.interface';
 import { DepartmentChildEffectsService } from './department-child-effects.service';
 
 export const departmentChildEffectsServiceToken =
-  new InjectionToken<DepartmentChildEffectsService>('DepartmentEffectsService');
+  new InjectionToken<DepartmentChildEffectsService>(
+    'DepartmentChildEffectsService',
+  );
 
 export const departmentChildEffects = effectsFactory<
   'DepartmentChild',

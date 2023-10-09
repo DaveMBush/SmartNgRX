@@ -22,9 +22,9 @@
       "pnpm format"
     ],
     "*.{js,ts,html}": [
-      "pnpm lint:fix"
+      "pnpm lint"
     ],
-    "*.{html}": [
+    "*.html": [
       "pnpm htmllint"
     ]
   },
@@ -44,11 +44,11 @@
     "@ng-doc/builder": "16.16.0",
     "@ng-doc/core": "16.16.0",
     "@ng-doc/ui-kit": "16.16.0",
-    "@ngrx/component-store": "~16.2.0",
-    "@ngrx/effects": "^16.2.0",
-    "@ngrx/entity": "^16.2.0",
-    "@ngrx/store": "^16.2.0",
-    "@ngrx/store-devtools": "^16.2.0",
+    "@ngrx/component-store": "~16.3.0",
+    "@ngrx/effects": "^16.3.0",
+    "@ngrx/entity": "^16.3.0",
+    "@ngrx/store": "^16.3.0",
+    "@ngrx/store-devtools": "^16.3.0",
     "@nx/angular": "16.9.1",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.18",
