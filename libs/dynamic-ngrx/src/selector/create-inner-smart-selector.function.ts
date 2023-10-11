@@ -2,6 +2,8 @@ import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { actionFactory } from '../functions/action.factory';
+import { registerEntity } from '../functions/register-entity.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ProxyArray } from '../types/proxy-array.interface';
 import { ProxyChild } from '../types/proxy-child.interface';
@@ -34,8 +36,15 @@ export function createInnerSmartSelector<
   C extends MarkAndDelete,
 >(
   parentSelector: MemoizedSelector<object, EntityState<P>>,
-  { childSelector, childAction, defaultChildRow, childName }: ProxyChild<P>,
+  {
+    childFeature,
+    childFieldName,
+    childSelector,
+    parentFieldName,
+  }: ProxyChild<P>,
 ): MemoizedSelector<object, EntityState<P>> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- has to be any to get around the literal typing
+  const actions = actionFactory((childFeature + ':' + childFieldName) as any);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {
@@ -45,18 +54,23 @@ export function createInnerSmartSelector<
       (newParentEntity.ids as string[]).forEach((w) => {
         const entity: P = { ...newParentEntity.entities[w] } as P;
         newParentEntity.entities[w] = entity;
-        let childArray = entity[childName] as (C | string)[];
+        let childArray = entity[parentFieldName] as (C | string)[];
         // fill childArray with values from entity that we currently have
         if (castTo<ProxyArray<C>>(childArray).θisProxyθ) {
           childArray = castTo<ProxyArray<C>>(childArray).rawArray;
         } else if (Object.isFrozen(childArray)) {
           // unfreeze the original array so we can proxy it.
-          entity[childName] = [...childArray] as P[keyof P];
-          childArray = entity[childName] as (C | string)[];
+          entity[parentFieldName] = [...childArray] as P[keyof P];
+          childArray = entity[parentFieldName] as (C | string)[];
         }
 
-        castTo<Record<string, unknown>>(entity)[childName as string] =
-          proxyArray(childArray, child, childAction, defaultChildRow);
+        // if you call this sooner, you may not have registered the entity yet
+        const reg = registerEntity(childFeature, childFieldName);
+        // eslint-disable-next-line @typescript-eslint/unbound-method -- it won't be bound
+        const defaultRow = reg.defaultRow as (id: string) => C;
+
+        castTo<Record<string, unknown>>(entity)[parentFieldName as string] =
+          proxyArray(childArray, child, actions.loadByIds, defaultRow);
       });
       return newParentEntity;
     }),

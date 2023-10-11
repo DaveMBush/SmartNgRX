@@ -5,7 +5,6 @@ import { createSmartSelector } from '@davembush/dynamic-ngrx/selector/create-sma
 import { MarkAndDeleteSelector } from '@davembush/dynamic-ngrx/types/mark-and-delete-selector.type';
 
 import { selectSharedState } from '../../shared.selectors';
-import { departmentChildActions } from '../department-children/department-child.actions';
 import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { Department } from './department.interface';
 
@@ -18,15 +17,10 @@ export const selectDepartmentsChildren = createSmartSelector<Department>(
   selectDepartments,
   [
     {
-      childAction: departmentChildActions.loadByIds,
-      childName: 'children',
+      childFeature: 'shared',
+      childFieldName: 'departmentChildren',
+      parentFieldName: 'children',
       childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentChildren),
-      defaultChildRow: {
-        id: '',
-        name: 'children',
-        children: [],
-        isDirty: false,
-      },
     },
   ],
 );

@@ -7,7 +7,6 @@ import { MarkAndDeleteSelector } from '@davembush/dynamic-ngrx/types/mark-and-de
 
 import { selectCurrentLocationId } from '../../current-location/current-location.selector';
 import { selectSharedState } from '../../shared.selectors';
-import { departmentActions } from '../department/department.actions';
 import { selectDepartmentsChildren } from '../department/department.selector';
 import { locationActions } from './location.actions';
 import { Location } from './location.interface';
@@ -26,15 +25,10 @@ export const selectLocationsDepartments = createSmartSelector<Location>(
   selectLocation,
   [
     {
-      childAction: departmentActions.loadByIds,
-      childName: 'children',
+      childFeature: 'shared',
+      childFieldName: 'departments',
+      parentFieldName: 'children',
       childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentsChildren),
-      defaultChildRow: {
-        id: '',
-        name: 'departments',
-        children: [],
-        lastUpdate: 0,
-      },
     },
   ],
 );

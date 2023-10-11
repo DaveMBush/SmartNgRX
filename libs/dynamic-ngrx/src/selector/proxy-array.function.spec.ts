@@ -31,7 +31,7 @@ describe('proxyArray', () => {
     childArray,
     child,
     mockAction,
-    'default-department',
+    (id: string) => id,
   );
 
   it('create an array that proxies to the actual entity', () => {
