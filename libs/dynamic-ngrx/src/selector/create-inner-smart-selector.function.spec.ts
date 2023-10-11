@@ -2,6 +2,10 @@ import { EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import {
+  registerEntity,
+  unregisterEntity,
+} from '../functions/register-entity.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ProxyArray } from '../types/proxy-array.interface';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
@@ -33,19 +37,27 @@ describe('createInnerSmartSelector', () => {
   let result: EntityState<{ id: string; name: string; children: string[] }>;
   describe('when the child is not frozen', () => {
     beforeEach(() => {
+      registerEntity('feature', 'entityName', {
+        defaultRow: (id: string) => ({
+          id,
+          isDirty: false,
+          children: [],
+          name: '',
+        }),
+      });
       selectEntity = createInnerSmartSelector(
         jest.fn() as unknown as MemoizedSelector<
           object,
           EntityState<{ id: string; name: string; children: string[] }>
         >,
         {
+          childFeature: 'feature',
+          childFieldName: 'entityName',
           childSelector: jest.fn() as unknown as MemoizedSelector<
             object,
             EntityState<MarkAndDelete>
           >,
-          childAction: jest.fn(),
-          defaultChildRow: [],
-          childName: 'children',
+          parentFieldName: 'children',
         },
       );
       child1 = entityStateFactory({
@@ -63,6 +75,9 @@ describe('createInnerSmartSelector', () => {
       });
       // verify there is no proxy.
       result = selectEntity.projector(parent, child1);
+    });
+    afterEach(() => {
+      unregisterEntity('feature', 'entityName');
     });
     it("creates proxies for children that don't exist", () => {
       expect(result.entities[department1]?.children).toHaveLength(2);
@@ -120,19 +135,28 @@ describe('createInnerSmartSelector', () => {
   });
   describe('when the child is frozen', () => {
     beforeEach(() => {
+      registerEntity('feature', 'entityName', {
+        defaultRow: (id: string) => ({
+          id,
+          isDirty: false,
+          children: [],
+          name: '',
+        }),
+      });
+
       selectEntity = createInnerSmartSelector(
         jest.fn() as unknown as MemoizedSelector<
           object,
           EntityState<{ id: string; name: string; children: string[] }>
         >,
         {
+          childFeature: 'feature',
+          childFieldName: 'entityName',
           childSelector: jest.fn() as unknown as MemoizedSelector<
             object,
             EntityState<MarkAndDelete>
           >,
-          childAction: jest.fn(),
-          defaultChildRow: [],
-          childName: 'children',
+          parentFieldName: 'children',
         },
       );
       child1 = entityStateFactory({
@@ -157,6 +181,9 @@ describe('createInnerSmartSelector', () => {
       );
 
       result = selectEntity.projector(parent, child1);
+    });
+    afterEach(() => {
+      unregisterEntity('feature', 'entityName');
     });
     it("creates proxies for children that don't exist", () => {
       expect(result.entities[department1]?.children).toHaveLength(2);

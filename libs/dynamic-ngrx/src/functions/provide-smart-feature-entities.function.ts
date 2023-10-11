@@ -8,6 +8,7 @@ import { effectsFactory } from '../effects/effects.factory';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { EntityDefinition } from '../types/entity-definition.interface';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { registerEntity } from './register-entity.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -48,6 +49,9 @@ export function provideSmartFeatureEntities(
     allEffects.push(effects);
     const reducer = reducerFactory(store as any, defaultRow);
     reducers[fieldName] = reducer;
+    registerEntity(featureName, fieldName, {
+      defaultRow: entityDefinition.defaultRow,
+    });
   });
   // return makeEnvironmentProviders([
   //   provideState(featureName, reducers),

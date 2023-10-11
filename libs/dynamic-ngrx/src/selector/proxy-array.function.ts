@@ -9,7 +9,7 @@ export const proxyArray = <C>(
   childArray: (C | string)[],
   child: EntityState<MarkAndDelete>,
   childAction: (p: { ids: string[] }) => Action,
-  defaultChildRow: C,
+  defaultChildRow: (id: string) => C,
 ): (C | string)[] => {
   return new Proxy<(C | string)[]>(childArray, {
     get: (target: string[], property: string | symbol) => {
@@ -31,7 +31,7 @@ export const proxyArray = <C>(
           child,
           id,
           childAction,
-          defaultChildRow as MarkAndDelete,
+          defaultChildRow(id) as MarkAndDelete,
         );
       }
       return castTo<Record<string | symbol, C>>(target)[property];

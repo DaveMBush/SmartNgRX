@@ -3,6 +3,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { firstValueFrom, take } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
+import {
+  registerEntity,
+  unregisterEntity,
+} from '@davembush/dynamic-ngrx/functions/register-entity.function';
 import { store as storeFunction } from '@davembush/dynamic-ngrx/selector/store.function';
 
 import { SharedState, SharedState2 } from '../../shared-state.interface';
@@ -23,6 +27,40 @@ describe('Location Selectors', () => {
   let store:
     | MockStore<{ shared: SharedState; shared2: SharedState2 }>
     | undefined;
+  beforeEach(() => {
+    registerEntity('shared', 'location', {
+      defaultRow: (id: string) => ({
+        isDirty: false,
+        id,
+        name: '',
+        lastUpdate: 0,
+        children: [],
+      }),
+    });
+    registerEntity('shared', 'departments', {
+      defaultRow: (id: string) => ({
+        isDirty: false,
+        id,
+        name: '',
+        lastUpdate: 0,
+        children: [],
+      }),
+    });
+    registerEntity('shared', 'departmentChildren', {
+      defaultRow: (id: string) => ({
+        isDirty: false,
+        id,
+        name: '',
+        lastUpdate: 0,
+        children: [],
+      }),
+    });
+  });
+  afterEach(() => {
+    unregisterEntity('shared', 'location');
+    unregisterEntity('shared', 'departments');
+    unregisterEntity('shared', 'departmentChildren');
+  });
   describe('selectLocation', () => {
     describe('if no items are loaded for locations', () => {
       const initialState = {
@@ -213,6 +251,15 @@ describe('Location Selectors', () => {
       },
     };
 
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        providers: [provideMockStore({ initialState })],
+      });
+
+      store = TestBed.inject(MockStore);
+      storeFunction(store);
+    });
+
     describe('when locations has no children', () => {
       it('should return location but not departments', async () => {
         if (!store) {
@@ -312,8 +359,9 @@ describe('Location Selectors', () => {
         expected.entities = { ...expected.entities };
         expected.entities['1'].children = [
           {
-            id: '',
-            name: 'departments',
+            id: '1',
+            name: '',
+            isDirty: false,
             lastUpdate: 0,
             children: [],
           },
