@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { store } from './store.function';
-
+/**
+ * This is the Effect that is used to provide a store that is
+ * globally accessible to the application.
+ */
 @Injectable()
 export class StoreEffects {
   constructor(

@@ -67,10 +67,9 @@ const actionGroupCache = new Map<string, CachedActionGroup>();
 
 /**
  * This creates all the Actions for a given source.
- *
- * Note: because ActionGroup is an NgRX internal type,
- * we are leaving the type unspecified here and letting
- * TypeScript infer it.
+ * You would only need to call this if you needed to directly
+ * dispatch one of these actions from your own code. They
+ * are used internally and are only exposed for convenience.
  *
  * @param source - The source of the actions for this effect
  * @returns The action group for the source provided

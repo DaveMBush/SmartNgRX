@@ -20,18 +20,16 @@ import { registerEntity } from './register-entity.function';
  * ``` typescript
  *   providers: [
  *     ...
- *     provideEntity('list', 'todo', todoService, defaultTodoRow),
+ *     provideEntities('someFeature', entityDefinitions),
  *     ...
  *   ],
  * ```
  * @param featureName - This is the name you would use for forFeature()
  * in standard NgRX code.
- * @param entityName - The is the name of the entity you are creating.
- * @param effectServiceToken - The token for the service the effects
- * of this entity will call to access the server.
- * @param defaultRow - The default row function to use to create
- * a new row for ids that are missing.
+ * @param entityDefinitions - An array of entity definitions.
  * @returns `EnvironmentProviders` that will get used to provide the NgRX reducer and effect for this slice.
+ *
+ * @see `EntityDefinition`
  */
 export function provideSmartFeatureEntities(
   featureName: string,
@@ -53,10 +51,6 @@ export function provideSmartFeatureEntities(
       defaultRow: entityDefinition.defaultRow,
     });
   });
-  // return makeEnvironmentProviders([
-  //   provideState(featureName, reducers),
-  //   provideEffects(effects),
-  // ]);
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),
     EffectsModule.forFeature(allEffects),

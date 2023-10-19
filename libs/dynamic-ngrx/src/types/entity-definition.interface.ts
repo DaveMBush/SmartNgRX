@@ -1,6 +1,4 @@
-import { InjectionToken } from '@angular/core';
-
-import { EffectService } from '../effects/effect-service';
+import { EffectServiceToken } from './effect-service.token';
 
 /**
  * This is the interface that is used to define the entity for the
@@ -22,9 +20,9 @@ export interface EntityDefinition<Row> {
    * This is the service token related to the service the effect for this entity
    * should call to do CRUD operations against the backend.
    */
-  effectServiceToken: InjectionToken<EffectService<Row>>;
+  effectServiceToken: EffectServiceToken<Row>;
   /**
-   * The function that returns a default row for the entity when it does not
+   * The static function that returns a default row for the entity when it does not
    * yet exist in the store.
    * @param id The unique identifier for the row. You should use this to set the
    * id of the id row in the default row.

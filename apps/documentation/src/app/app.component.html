@@ -1,7 +1,12 @@
 <ng-doc-root>
-  <ng-doc-navbar [leftContent]="leftContent">
+  <ng-doc-navbar [leftContent]="leftContent" [rightContent]="rightContent">
     <ng-template #leftContent>
       <h3 style="margin: 0">Dynamic NgRX Documentation</h3>
+    </ng-template>
+    <ng-template #rightContent>
+      <div class="ng-doc-header-controls">
+        <ng-doc-theme-toggle></ng-doc-theme-toggle>
+      </div>
     </ng-template>
   </ng-doc-navbar>
   <ng-doc-sidebar></ng-doc-sidebar>

@@ -7,10 +7,13 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { store } from './store.function';
 
 /**
- * Makes sure that the ID is loaded into the store for the entity
- * @param entityState
- * @param id
- * @param action
+ * Internal function that ensures that the ID is loaded
+ * into the store for the entity by dispatching the
+ * action if it isn't.
+ *
+ * @param entityState The entity to check for the id
+ * @param id The id to check for
+ * @param action The action to dispatch if the id isn't loaded
  */
 export function ensureDataLoaded<T extends MarkAndDelete>(
   entityState: EntityState<T>,
