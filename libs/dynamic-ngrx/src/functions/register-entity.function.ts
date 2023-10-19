@@ -29,6 +29,13 @@ export function registerEntity(
   return registry[feature + ':' + fieldName];
 }
 
+/**
+ * This function exist so we can unregister entities in unit tests.
+ * @param feature the feature we used when we registered the entity
+ * in the providers
+ * @param fieldName the fieldName we used when we registered the
+ * entity in the providers
+ */
 export function unregisterEntity(feature: string, fieldName: string): void {
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- need this if we are going to use Records instead of Map
   delete registry[feature + ':' + fieldName];

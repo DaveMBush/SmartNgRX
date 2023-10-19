@@ -4,9 +4,12 @@ import { buffer, debounceTime, map, Observable } from 'rxjs';
 import { castTo } from '../common/cast-to.function';
 
 /**
- * bufferAction is an RxJS operator that buffers the IDs of an action
- * coming into an effect so that we can dispatch them independently but
- * send them to the server in a single request.
+ * This is an internal function that is used by the Effects to buffer
+ * IDs of an action coming into an effect so that we can dispatch
+ * them independently but send them to the server in a single request.
+ *
+ * NOTE: bufferAction assumes an array of ids is passed to the action
+ * it is buffering.
  *
  * ## Usage:
  *

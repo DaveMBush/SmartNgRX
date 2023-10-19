@@ -6,6 +6,16 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
 
+/**
+ * Internal function used by `createInnerSmartSelector` use to load the data if
+ * it doesn't exist in the store and return a placeholder row if it doesn't
+ * exist.
+ * @param entityState The entity to check for the id
+ * @param id The id to check
+ * @param action The action to dispatch if the id isn't loaded
+ * @param mockRow The row to return if the row for the id doesn't exist
+ * @returns
+ */
 export function getArrayItem<T extends MarkAndDelete>(
   entityState: EntityState<T>,
   id: string,
