@@ -34,7 +34,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Check if there are changes to commit
-if ! git diff --quiet; then
+if git diff --quiet; then
     git add docs/*
     git commit -m "Update docs from documentation folder"
     if [ $? -ne 0 ]; then
