@@ -42,6 +42,8 @@ if ! git diff-index --quiet HEAD --; then
         git checkout $current_branch
         exit 1
     fi
+else
+    echo "No changes to commit."
 fi
 
 # Switch back to the original branch
