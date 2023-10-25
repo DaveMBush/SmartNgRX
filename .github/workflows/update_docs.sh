@@ -37,6 +37,7 @@ fi
 if ! git diff-index --quiet HEAD --; then
     git add docs/*
     git commit -m "Update docs from documentation folder"
+    git push gh-pages
     if [ $? -ne 0 ]; then
         echo "Failed to commit changes. Aborting."
         git checkout $current_branch
