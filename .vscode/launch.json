@@ -5,6 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch Server via PNPM",
+      "request": "launch",
+      "runtimeArgs": ["run-script", "start:server"],
+      "runtimeExecutable": "pnpm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node"
+    },
+    {
       "name": "Launch Edge",
       "request": "launch",
       "type": "msedge",
