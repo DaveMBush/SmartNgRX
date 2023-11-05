@@ -27,7 +27,7 @@ export const selectLocationsDepartments = createSmartSelector<Location>(
     {
       childFeature: 'shared',
       childFieldName: 'departments',
-      parentFieldName: 'children',
+      parentFieldName: 'departments',
       childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentsChildren),
     },
   ],
@@ -41,7 +41,7 @@ export const selectCurrentLocation = createSelector(
       locations.entities[id] ?? {
         id: '',
         name: '',
-        children: [],
+        departments: [],
         isDirty: false,
       }
     );

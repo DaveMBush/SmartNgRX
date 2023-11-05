@@ -8,6 +8,6 @@ import { List } from './list.interface';
 export class ListsService {
   constructor(private http: HttpClient) {}
   loadByIds(ids: string[]): Observable<List[]> {
-    return this.http.post<List[]>('http://localhost:3000/api/lists', ids);
+    return this.http.post<List[]>('./api/lists', ids);
   }
 }

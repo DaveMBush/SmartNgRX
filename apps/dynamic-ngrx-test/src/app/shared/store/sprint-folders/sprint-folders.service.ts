@@ -8,9 +8,6 @@ import { SprintFolder } from './sprint-folder.interface';
 export class SprintFoldersService {
   constructor(private http: HttpClient) {}
   loadByIds(ids: string[]): Observable<SprintFolder[]> {
-    return this.http.post<SprintFolder[]>(
-      'http://localhost:3000/api/sprintFolders',
-      ids,
-    );
+    return this.http.post<SprintFolder[]>('./api/sprintFolders', ids);
   }
 }

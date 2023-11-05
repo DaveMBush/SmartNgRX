@@ -9,7 +9,7 @@ export const locationsDefinition: EntityDefinition<Location> = {
   defaultRow: (id) => ({
     id,
     name: '',
-    children: [],
+    departments: [],
     isDirty: false,
   }),
 };

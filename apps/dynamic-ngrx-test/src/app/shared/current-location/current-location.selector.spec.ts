@@ -7,8 +7,8 @@ describe('selectCurrentLocationId', () => {
       locations: {
         ids: ['1', '2'],
         entities: {
-          '1': { id: '1', name: 'Location 1', children: [] },
-          '2': { id: '2', name: 'Location 2', children: [] },
+          '1': { id: '1', name: 'Location 1', departments: [] },
+          '2': { id: '2', name: 'Location 2', departments: [] },
         },
       },
       departments: {
@@ -31,8 +31,8 @@ describe('selectCurrentLocationId', () => {
       locations: {
         ids: ['1', '2'],
         entities: {
-          '1': { id: '1', name: 'Location 1', children: [] },
-          '2': { id: '2', name: 'Location 2', children: [] },
+          '1': { id: '1', name: 'Location 1', departments: [] },
+          '2': { id: '2', name: 'Location 2', departments: [] },
         },
       },
       departments: {

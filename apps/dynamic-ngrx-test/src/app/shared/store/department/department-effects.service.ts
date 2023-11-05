@@ -21,7 +21,7 @@ export class DepartmentEffectsService extends EffectService<Department> {
     ids: string[],
   ) => {
     return this.http
-      .post<Department[]>('http://localhost:3000/api/departments', ids)
+      .post<Department[]>('./api/departments', ids)
       .pipe(map(childrenTransform));
   };
 }

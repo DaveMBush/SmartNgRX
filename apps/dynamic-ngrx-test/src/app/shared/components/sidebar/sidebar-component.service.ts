@@ -32,7 +32,7 @@ export class SidebarComponentService {
     const component = this.component;
     assert(!!component, 'component is null');
     component.fullDataSource = this.transform(
-      component.location?.children ?? [],
+      component.location?.departments ?? [],
       0,
       component.range.start,
       component.range.end,

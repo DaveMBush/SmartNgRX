@@ -1,4 +1,4 @@
-// eslint-disable-next-line import/no-default-export -- this is required for jest
+// eslint-disable-next-line import/no-default-export -- needed for jest
 export default {
   displayName: 'server',
   preset: '../../jest.preset.js',

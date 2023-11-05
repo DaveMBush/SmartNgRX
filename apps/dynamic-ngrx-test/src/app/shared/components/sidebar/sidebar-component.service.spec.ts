@@ -56,7 +56,7 @@ describe('SidebarComponentService', () => {
       mockComponent.location = {
         id: '1',
         name: 'location1',
-        children: new Proxy([] as Department[], {
+        departments: new Proxy([] as Department[], {
           get(target, prop) {
             if (prop === 'rawArray') {
               return ['1'];
@@ -96,7 +96,7 @@ describe('SidebarComponentService', () => {
       mockComponent.location = {
         id: '1',
         name: 'location1',
-        children: new Proxy([] as Department[], {
+        departments: new Proxy([] as Department[], {
           get(target, prop) {
             if (prop === 'rawArray') {
               return ['1'];
@@ -140,7 +140,7 @@ describe('SidebarComponentService', () => {
       mockComponent.location = {
         id: '1',
         name: 'location1',
-        children: new Proxy([] as Department[], {
+        departments: new Proxy([] as Department[], {
           get(target, prop) {
             if (prop === 'rawArray') {
               return ['1'];
@@ -181,7 +181,7 @@ describe('SidebarComponentService', () => {
       mockComponent.location = {
         id: '1',
         name: 'location1',
-        children: new Proxy([] as Department[], {
+        departments: new Proxy([] as Department[], {
           get(_, prop) {
             if (prop === 'rawArray') {
               return ['1'];

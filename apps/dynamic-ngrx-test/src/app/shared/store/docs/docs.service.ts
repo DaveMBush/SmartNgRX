@@ -8,6 +8,6 @@ import { Doc } from './doc.interface';
 export class DocsService {
   constructor(private http: HttpClient) {}
   loadByIds(ids: string[]): Observable<Doc[]> {
-    return this.http.post<Doc[]>('http://localhost:3000/api/docs', ids);
+    return this.http.post<Doc[]>('./api/docs', ids);
   }
 }
