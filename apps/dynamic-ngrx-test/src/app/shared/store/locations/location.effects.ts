@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { tap, withLatestFrom } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs';
 
 import { castTo } from '@davembush/dynamic-ngrx/common/cast-to.function';
 import { actionFactory } from '@davembush/dynamic-ngrx/functions/action.factory';
@@ -30,25 +30,31 @@ function locationIdExist(
  * the current location no longer exist.
  */
 export const setLocationIdEffect$ = createEffect(
-  (actions$ = inject(Actions), store = inject(Store)) => {
+  // the parameters are tested by passing them in directly
+  // so there is no way to test the injection other than
+  // at runtime where it obviously works (or not)
+  (
+    /* istanbul ignore next */
+    actions$ = inject(Actions),
+    /* istanbul ignore next */
+    store = inject(Store),
+  ) => {
     return actions$.pipe(
       ofType(locationActions.loadSuccess),
       withLatestFrom(store.select(selectCurrentLocation)),
-      tap(([locations, currentLocation]) => {
+      map(([locations, currentLocation]) => {
         const locs = castTo<RowsProp<Location>>(locations);
         if (
           currentLocation.id.length > 0 &&
           locs.rows.some(locationIdExist(currentLocation))
         ) {
-          return;
+          return currentLocationActions.set({ id: currentLocation.id });
         }
-        store.dispatch(
-          currentLocationActions.set({
-            id: locs.rows[0].id,
-          }),
-        );
+        return currentLocationActions.set({
+          id: locs.rows[0].id,
+        });
       }),
     );
   },
-  { dispatch: false, functional: true },
+  { functional: true },
 );
