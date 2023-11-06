@@ -143,7 +143,7 @@ describe('Location Selectors', () => {
               '1': {
                 id: '1',
                 name: 'test',
-                children: [],
+                departments: [],
               },
             },
           },
@@ -235,7 +235,7 @@ describe('Location Selectors', () => {
             '1': {
               id: '1',
               name: locationName,
-              children: [] as
+              departments: [] as
                 | (Department & { lastUpdate: number })[]
                 | string[],
             },
@@ -297,7 +297,7 @@ describe('Location Selectors', () => {
                 '1': {
                   id: '1',
                   name: locationName,
-                  children: ['1'],
+                  departments: ['1'],
                 },
               },
             },
@@ -312,7 +312,7 @@ describe('Location Selectors', () => {
 
         const expected = { ...initialState.shared.locations };
         expected.entities = { ...expected.entities };
-        expected.entities['1'].children = [
+        expected.entities['1'].departments = [
           {
             id: '1',
             name: 'test department',
@@ -342,7 +342,7 @@ describe('Location Selectors', () => {
                 '1': {
                   id: '1',
                   name: locationName,
-                  children: ['1'],
+                  departments: ['1'],
                 },
               },
             },
@@ -357,7 +357,7 @@ describe('Location Selectors', () => {
 
         const expected = { ...initialState.shared.locations };
         expected.entities = { ...expected.entities };
-        expected.entities['1'].children = [
+        expected.entities['1'].departments = [
           {
             id: '1',
             name: '',
@@ -409,7 +409,7 @@ describe('Location Selectors', () => {
         expect(result).toEqual({
           id: '',
           name: '',
-          children: [],
+          departments: [],
           isDirty: false,
         });
       });
@@ -428,7 +428,7 @@ describe('Location Selectors', () => {
                 '1': {
                   id: '1',
                   name: 'location testb',
-                  children: [],
+                  departments: [],
                 } as Location,
               },
             },
@@ -443,7 +443,7 @@ describe('Location Selectors', () => {
         expect(result).toEqual({
           id: '1',
           name: 'location testb',
-          children: [],
+          departments: [],
         });
       });
     });
@@ -461,7 +461,7 @@ describe('Location Selectors', () => {
                 '1': {
                   id: '1',
                   name: 'location testc',
-                  children: [],
+                  departments: [],
                 } as Location,
               },
             },
@@ -478,7 +478,7 @@ describe('Location Selectors', () => {
         expect(result).toEqual({
           id: '1',
           name: 'location testc',
-          children: [],
+          departments: [],
         });
       });
     });

@@ -8,6 +8,6 @@ import { Folder } from './folder.interface';
 export class FoldersService {
   constructor(private http: HttpClient) {}
   loadByIds(ids: string[]): Observable<Folder[]> {
-    return this.http.post<Folder[]>('http://localhost:3000/api/folders', ids);
+    return this.http.post<Folder[]>('./api/folders', ids);
   }
 }

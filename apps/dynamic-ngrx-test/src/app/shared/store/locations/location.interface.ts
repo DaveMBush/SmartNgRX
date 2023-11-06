@@ -5,5 +5,5 @@ import { Department } from '../department/department.interface';
 export interface Location extends MarkAndDelete {
   id: string;
   name: string;
-  children: Department[] | string[];
+  departments: Department[] | string[];
 }

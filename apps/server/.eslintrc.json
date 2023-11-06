@@ -4,6 +4,9 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["apps/server/tsconfig.*?.json"]
+      },
       "rules": {}
     },
     {
@@ -13,13 +16,6 @@
     {
       "files": ["*.js", "*.jsx"],
       "rules": {}
-    },
-    {
-      "files": ["main.ts"],
-      "rules": {
-        "no-console": "off",
-        "@typescript-eslint/no-require-imports": "off"
-      }
     }
   ]
 }

@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 
 import { currentLocationActions } from './current-location.actions';
 
-const initialState = '1';
+const initialState = '';
 
 export const currentLocationReducer = createReducer(
   initialState,
