@@ -270,1170 +270,1170 @@
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "assert"
     ],
     "pageType": "api",
     "title": "assert",
     "section": "assert",
-    "route": "/api/dynamic-ngrx/functions/assert",
+    "route": "/api/smart-ngrx/functions/assert",
     "fragment": "assert",
     "content": "This is an internal function documented here for reference by people doing development on this library. Asserts that a value is true. You should only use one condition at a time. If you are working with a value that should always be true, this is easier than putting if(condition) around what you are going to use the condition for."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "assert"
     ],
     "pageType": "api",
     "title": "assert",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/assert",
+    "route": "/api/smart-ngrx/functions/assert",
     "fragment": "parameters",
     "content": "condition to check"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "assert"
     ],
     "pageType": "api",
     "title": "assert",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/assert",
+    "route": "/api/smart-ngrx/functions/assert",
     "fragment": "parameters",
     "content": "description of what we checked. If you put a GUID in the string it will make it easier to find the error in the source code."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "castTo"
     ],
     "pageType": "api",
     "title": "castTo",
     "section": "castTo",
-    "route": "/api/dynamic-ngrx/functions/castTo",
+    "route": "/api/smart-ngrx/functions/castTo",
     "fragment": "castto",
     "content": "Casts a value to a given type. This is instead of using:"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "bufferAction"
     ],
     "pageType": "api",
     "title": "bufferAction",
     "section": "bufferAction",
-    "route": "/api/dynamic-ngrx/functions/bufferAction",
+    "route": "/api/smart-ngrx/functions/bufferAction",
     "fragment": "bufferaction",
     "content": "This is an internal function that is used by the Effects to buffer IDs of an action coming into an effect so that we can dispatch them independently but send them to the server in a single request. NOTE: bufferAction assumes an array of ids is passed to the action it is buffering."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "bufferAction"
     ],
     "pageType": "api",
     "title": "bufferAction",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/bufferAction",
+    "route": "/api/smart-ngrx/functions/bufferAction",
     "fragment": "parameters",
     "content": "The time to buffer the ids before sending them to the server. The default is 1ms which only allow the buffer to last until the thread frees up and is probably all we will ever need."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectService"
     ],
     "pageType": "api",
     "title": "EffectService",
     "section": "EffectService",
-    "route": "/api/dynamic-ngrx/classes/EffectService",
+    "route": "/api/smart-ngrx/classes/EffectService",
     "fragment": "effectservice",
     "content": "This is the abstract class that all services the Effects use must implement."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectService"
     ],
     "pageType": "api",
     "title": "EffectService",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/classes/EffectService",
+    "route": "/api/smart-ngrx/classes/EffectService",
     "fragment": "properties",
     "content": "Used to load ALL the rows from the server for the given entity."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectService"
     ],
     "pageType": "api",
     "title": "EffectService",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/classes/EffectService",
+    "route": "/api/smart-ngrx/classes/EffectService",
     "fragment": "properties",
     "content": "Loads the rows represented by the array of ids passed in."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectsFactory"
     ],
     "pageType": "api",
     "title": "EffectsFactory",
     "section": "EffectsFactory",
-    "route": "/api/dynamic-ngrx/interfaces/EffectsFactory",
+    "route": "/api/smart-ngrx/interfaces/EffectsFactory",
     "fragment": "effectsfactory",
     "content": "This is an internal interface that should not be required by anyone developing with this lib. This is the type information that effectsFactory returns."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectsFactory"
     ],
     "pageType": "api",
     "title": "EffectsFactory",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/EffectsFactory",
+    "route": "/api/smart-ngrx/interfaces/EffectsFactory",
     "fragment": "properties",
     "content": "The effect the load action will end up calling."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectsFactory"
     ],
     "pageType": "api",
     "title": "EffectsFactory",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/EffectsFactory",
+    "route": "/api/smart-ngrx/interfaces/EffectsFactory",
     "fragment": "properties",
     "content": "The effect the loadById action will end up calling."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "effectsFactory"
     ],
     "pageType": "api",
     "title": "effectsFactory",
     "section": "effectsFactory",
-    "route": "/api/dynamic-ngrx/functions/effectsFactory",
+    "route": "/api/smart-ngrx/functions/effectsFactory",
     "fragment": "effectsfactory",
     "content": "The effects factory creates a new set of effects for the Action source provided and calls the service represented by the InjectionToken provided."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "effectsFactory"
     ],
     "pageType": "api",
     "title": "effectsFactory",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/effectsFactory",
+    "route": "/api/smart-ngrx/functions/effectsFactory",
     "fragment": "parameters",
     "content": "The source of the actions for this effect"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "effectsFactory"
     ],
     "pageType": "api",
     "title": "effectsFactory",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/effectsFactory",
+    "route": "/api/smart-ngrx/functions/effectsFactory",
     "fragment": "parameters",
     "content": "The token for the service that the resulting effect will call."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "LoadByIdsEffect"
     ],
     "pageType": "api",
     "title": "LoadByIdsEffect",
     "section": "LoadByIdsEffect",
-    "route": "/api/dynamic-ngrx/type-aliases/LoadByIdsEffect",
+    "route": "/api/smart-ngrx/type-aliases/LoadByIdsEffect",
     "fragment": "loadbyidseffect",
     "content": "Shorthand for the type of the LoadById effect."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "LoadEffect"
     ],
     "pageType": "api",
     "title": "LoadEffect",
     "section": "LoadEffect",
-    "route": "/api/dynamic-ngrx/type-aliases/LoadEffect",
+    "route": "/api/smart-ngrx/type-aliases/LoadEffect",
     "fragment": "loadeffect",
     "content": "Shorthand for the type of the Load effect."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "actionFactory"
     ],
     "pageType": "api",
     "title": "actionFactory",
     "section": "actionFactory",
-    "route": "/api/dynamic-ngrx/functions/actionFactory",
+    "route": "/api/smart-ngrx/functions/actionFactory",
     "fragment": "actionfactory",
     "content": "This creates all the Actions for a given source. You would only need to call this if you needed to directly dispatch one of these actions from your own code. They are used internally and are only exposed for convenience."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "actionFactory"
     ],
     "pageType": "api",
     "title": "actionFactory",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/actionFactory",
+    "route": "/api/smart-ngrx/functions/actionFactory",
     "fragment": "parameters",
     "content": "The source of the actions for this effect"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "provideSmartFeatureEntities"
     ],
     "pageType": "api",
     "title": "provideSmartFeatureEntities",
     "section": "provideSmartFeatureEntities",
-    "route": "/api/dynamic-ngrx/functions/provideSmartFeatureEntities",
+    "route": "/api/smart-ngrx/functions/provideSmartFeatureEntities",
     "fragment": "providesmartfeatureentities",
     "content": "This provides all the NgRX parts for a given feature and entity Note: the generic parameters are implied so they are not documented here."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "provideSmartFeatureEntities"
     ],
     "pageType": "api",
     "title": "provideSmartFeatureEntities",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/provideSmartFeatureEntities",
+    "route": "/api/smart-ngrx/functions/provideSmartFeatureEntities",
     "fragment": "parameters",
     "content": "This is the name you would use for forFeature() in standard NgRX code."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "provideSmartFeatureEntities"
     ],
     "pageType": "api",
     "title": "provideSmartFeatureEntities",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/provideSmartFeatureEntities",
+    "route": "/api/smart-ngrx/functions/provideSmartFeatureEntities",
     "fragment": "parameters",
     "content": "An array of entity definitions."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "registerEntity"
     ],
     "pageType": "api",
     "title": "registerEntity",
     "section": "registerEntity",
-    "route": "/api/dynamic-ngrx/functions/registerEntity",
+    "route": "/api/smart-ngrx/functions/registerEntity",
     "fragment": "registerentity",
     "content": "Internal function used to register attributes the entity will need later on."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "registerEntity"
     ],
     "pageType": "api",
     "title": "registerEntity",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/registerEntity",
+    "route": "/api/smart-ngrx/functions/registerEntity",
     "fragment": "parameters",
     "content": "the feature we used when we registered the entity in the providers"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "registerEntity"
     ],
     "pageType": "api",
     "title": "registerEntity",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/registerEntity",
+    "route": "/api/smart-ngrx/functions/registerEntity",
     "fragment": "parameters",
     "content": "the fieldName we used when we registered the entity in the providers"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "registerEntity"
     ],
     "pageType": "api",
     "title": "registerEntity",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/registerEntity",
+    "route": "/api/smart-ngrx/functions/registerEntity",
     "fragment": "parameters",
     "content": "things we want to be able to get at later."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "unregisterEntity"
     ],
     "pageType": "api",
     "title": "unregisterEntity",
     "section": "unregisterEntity",
-    "route": "/api/dynamic-ngrx/functions/unregisterEntity",
+    "route": "/api/smart-ngrx/functions/unregisterEntity",
     "fragment": "unregisterentity",
     "content": "This function exist so we can unregister entities in unit tests."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "unregisterEntity"
     ],
     "pageType": "api",
     "title": "unregisterEntity",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/unregisterEntity",
+    "route": "/api/smart-ngrx/functions/unregisterEntity",
     "fragment": "parameters",
     "content": "the feature we used when we registered the entity in the providers"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "unregisterEntity"
     ],
     "pageType": "api",
     "title": "unregisterEntity",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/unregisterEntity",
+    "route": "/api/smart-ngrx/functions/unregisterEntity",
     "fragment": "parameters",
     "content": "the fieldName we used when we registered the entity in the providers"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "reducerFactory"
     ],
     "pageType": "api",
     "title": "reducerFactory",
     "section": "reducerFactory",
-    "route": "/api/dynamic-ngrx/functions/reducerFactory",
+    "route": "/api/smart-ngrx/functions/reducerFactory",
     "fragment": "reducerfactory",
     "content": "This creates a reducer for the give source. It is used internally and documented here for future contributions. Application code should never need to use this function."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "reducerFactory"
     ],
     "pageType": "api",
     "title": "reducerFactory",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/reducerFactory",
+    "route": "/api/smart-ngrx/functions/reducerFactory",
     "fragment": "parameters",
     "content": "The source of the actions for this effect"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "reducerFactory"
     ],
     "pageType": "api",
     "title": "reducerFactory",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/reducerFactory",
+    "route": "/api/smart-ngrx/functions/reducerFactory",
     "fragment": "parameters",
     "content": "A function that returns a default row for the given id"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "defaultRows"
     ],
     "pageType": "api",
     "title": "defaultRows",
     "section": "defaultRows",
-    "route": "/api/dynamic-ngrx/functions/defaultRows",
+    "route": "/api/smart-ngrx/functions/defaultRows",
     "fragment": "defaultrows",
     "content": "Filters out the rows we already have and provides a default row for the ones we don't have."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "defaultRows"
     ],
     "pageType": "api",
     "title": "defaultRows",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/defaultRows",
+    "route": "/api/smart-ngrx/functions/defaultRows",
     "fragment": "parameters",
     "content": "The ids to check"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "defaultRows"
     ],
     "pageType": "api",
     "title": "defaultRows",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/defaultRows",
+    "route": "/api/smart-ngrx/functions/defaultRows",
     "fragment": "parameters",
     "content": "The current state to check ids against"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "defaultRows"
     ],
     "pageType": "api",
     "title": "defaultRows",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/defaultRows",
+    "route": "/api/smart-ngrx/functions/defaultRows",
     "fragment": "parameters",
     "content": "The defaultRow function to use to create a new row for the ids that are missing."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "createInnerSmartSelector"
     ],
     "pageType": "api",
     "title": "createInnerSmartSelector",
     "section": "createInnerSmartSelector",
-    "route": "/api/dynamic-ngrx/functions/createInnerSmartSelector",
+    "route": "/api/smart-ngrx/functions/createInnerSmartSelector",
     "fragment": "createinnersmartselector",
     "content": "This is an internal function used by createSmartSelector. It is documented here for completeness. Use createSmartSelector instead. createInnerSmartSelector wraps the specified child array with a Proxy that will request the items from the server as they are accessed (virtual data) rather than loading everything from the array up front. In order to access the array without triggering a request, as is needed for a tree control that uses virtual data, the proxy adds support for a rawArray property that returns the original array before it was proxied."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "createInnerSmartSelector"
     ],
     "pageType": "api",
     "title": "createInnerSmartSelector",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/createInnerSmartSelector",
+    "route": "/api/smart-ngrx/functions/createInnerSmartSelector",
     "fragment": "parameters",
     "content": "The selector to retrieve the parent data from the store."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "createInnerSmartSelector"
     ],
     "pageType": "api",
     "title": "createInnerSmartSelector",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/createInnerSmartSelector",
+    "route": "/api/smart-ngrx/functions/createInnerSmartSelector",
     "fragment": "parameters",
     "content": "that defines what the child should look like"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "createSmartSelector"
     ],
     "pageType": "api",
     "title": "createSmartSelector",
     "section": "createSmartSelector",
-    "route": "/api/dynamic-ngrx/functions/createSmartSelector",
+    "route": "/api/smart-ngrx/functions/createSmartSelector",
     "fragment": "createsmartselector",
     "content": "Wraps the specified child array(s) with a Proxy that will request the items from the server as they are accessed (virtual data) rather than loading everything from the array up front. In order to access the array without triggering a request, as is needed for a tree control that uses virtual data, the proxy adds support for a rawArray property that returns the original array before it was proxied."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "createSmartSelector"
     ],
     "pageType": "api",
     "title": "createSmartSelector",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/createSmartSelector",
+    "route": "/api/smart-ngrx/functions/createSmartSelector",
     "fragment": "parameters",
     "content": "The array of ProxyChild objects that define the child data to retrieve."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ensureDataLoaded"
     ],
     "pageType": "api",
     "title": "ensureDataLoaded",
     "section": "ensureDataLoaded",
-    "route": "/api/dynamic-ngrx/functions/ensureDataLoaded",
+    "route": "/api/smart-ngrx/functions/ensureDataLoaded",
     "fragment": "ensuredataloaded",
     "content": "Internal function that ensures that the ID is loaded into the store for the entity by dispatching the action if it isn't."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ensureDataLoaded"
     ],
     "pageType": "api",
     "title": "ensureDataLoaded",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/ensureDataLoaded",
+    "route": "/api/smart-ngrx/functions/ensureDataLoaded",
     "fragment": "parameters",
     "content": "The entity to check for the id"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ensureDataLoaded"
     ],
     "pageType": "api",
     "title": "ensureDataLoaded",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/ensureDataLoaded",
+    "route": "/api/smart-ngrx/functions/ensureDataLoaded",
     "fragment": "parameters",
     "content": "The id to check for"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ensureDataLoaded"
     ],
     "pageType": "api",
     "title": "ensureDataLoaded",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/ensureDataLoaded",
+    "route": "/api/smart-ngrx/functions/ensureDataLoaded",
     "fragment": "parameters",
     "content": "The action to dispatch if the id isn't loaded"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "getArrayItem"
     ],
     "pageType": "api",
     "title": "getArrayItem",
     "section": "getArrayItem",
-    "route": "/api/dynamic-ngrx/functions/getArrayItem",
+    "route": "/api/smart-ngrx/functions/getArrayItem",
     "fragment": "getarrayitem",
     "content": "Internal function used by createInnerSmartSelector use to load the data if it doesn't exist in the store and return a placeholder row if it doesn't exist."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "getArrayItem"
     ],
     "pageType": "api",
     "title": "getArrayItem",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/getArrayItem",
+    "route": "/api/smart-ngrx/functions/getArrayItem",
     "fragment": "parameters",
     "content": "The entity to check for the id"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "getArrayItem"
     ],
     "pageType": "api",
     "title": "getArrayItem",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/getArrayItem",
+    "route": "/api/smart-ngrx/functions/getArrayItem",
     "fragment": "parameters",
     "content": "The id to check"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "getArrayItem"
     ],
     "pageType": "api",
     "title": "getArrayItem",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/getArrayItem",
+    "route": "/api/smart-ngrx/functions/getArrayItem",
     "fragment": "parameters",
     "content": "The action to dispatch if the id isn't loaded"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "getArrayItem"
     ],
     "pageType": "api",
     "title": "getArrayItem",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/getArrayItem",
+    "route": "/api/smart-ngrx/functions/getArrayItem",
     "fragment": "parameters",
     "content": "The row to return if the row for the id doesn't exist"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ParentSelector"
     ],
     "pageType": "api",
     "title": "ParentSelector",
     "section": "ParentSelector",
-    "route": "/api/dynamic-ngrx/type-aliases/ParentSelector",
+    "route": "/api/smart-ngrx/type-aliases/ParentSelector",
     "fragment": "parentselector",
     "content": "Shorthand for the type of the parentSelector."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "proxyArray"
     ],
     "pageType": "api",
     "title": "proxyArray",
     "section": "proxyArray",
-    "route": "/api/dynamic-ngrx/functions/proxyArray",
+    "route": "/api/smart-ngrx/functions/proxyArray",
     "fragment": "proxyarray",
     "content": "This is an internal function used by createSmartSelector to wrap the field that represents the child array with a Proxy class that manages all the magic of loading the data from the server as it is accessed."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "proxyArray"
     ],
     "pageType": "api",
     "title": "proxyArray",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/proxyArray",
+    "route": "/api/smart-ngrx/functions/proxyArray",
     "fragment": "parameters",
     "content": "The array of ids to wrap"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "proxyArray"
     ],
     "pageType": "api",
     "title": "proxyArray",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/proxyArray",
+    "route": "/api/smart-ngrx/functions/proxyArray",
     "fragment": "parameters",
     "content": "The child entity we use to find the item in the store"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "proxyArray"
     ],
     "pageType": "api",
     "title": "proxyArray",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/proxyArray",
+    "route": "/api/smart-ngrx/functions/proxyArray",
     "fragment": "parameters",
     "content": "the action to fire if the item has not been loaded"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "proxyArray"
     ],
     "pageType": "api",
     "title": "proxyArray",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/proxyArray",
+    "route": "/api/smart-ngrx/functions/proxyArray",
     "fragment": "parameters",
     "content": "function that returns a default row for the child"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "realOrMocked"
     ],
     "pageType": "api",
     "title": "realOrMocked",
     "section": "realOrMocked",
-    "route": "/api/dynamic-ngrx/functions/realOrMocked",
+    "route": "/api/smart-ngrx/functions/realOrMocked",
     "fragment": "realormocked",
     "content": "Internal function used by createInnerSmartSelector use to load the data if it doesn't exist in the store and return a placeholder row if it doesn't"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "realOrMocked"
     ],
     "pageType": "api",
     "title": "realOrMocked",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/realOrMocked",
+    "route": "/api/smart-ngrx/functions/realOrMocked",
     "fragment": "parameters",
     "content": "the entity used to lookup the id"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "realOrMocked"
     ],
     "pageType": "api",
     "title": "realOrMocked",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/realOrMocked",
+    "route": "/api/smart-ngrx/functions/realOrMocked",
     "fragment": "parameters",
     "content": "the id to lookup"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "realOrMocked"
     ],
     "pageType": "api",
     "title": "realOrMocked",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/realOrMocked",
+    "route": "/api/smart-ngrx/functions/realOrMocked",
     "fragment": "parameters",
     "content": "the default object to return if the id doesn't exist"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "StoreEffects"
     ],
     "pageType": "api",
     "title": "StoreEffects",
     "section": "StoreEffects",
-    "route": "/api/dynamic-ngrx/classes/StoreEffects",
+    "route": "/api/smart-ngrx/classes/StoreEffects",
     "fragment": "storeeffects",
     "content": "This is the Effect that is used to provide a store that is globally accessible to the application."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "store"
     ],
     "pageType": "api",
     "title": "store",
     "section": "store",
-    "route": "/api/dynamic-ngrx/functions/store",
+    "route": "/api/smart-ngrx/functions/store",
     "fragment": "store",
     "content": "Internal function used to provide and retrieve a global store that is needed by code that does not have DI."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "store"
     ],
     "pageType": "api",
     "title": "store",
     "section": "Parameters",
-    "route": "/api/dynamic-ngrx/functions/store",
+    "route": "/api/smart-ngrx/functions/store",
     "fragment": "parameters",
     "content": "This is an optional parameter. If it is there, we set the store. Otherwise, we use what is already set."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "globalStore"
     ],
     "pageType": "api",
     "title": "globalStore",
     "section": "globalStore",
-    "route": "/api/dynamic-ngrx/variables/globalStore",
+    "route": "/api/smart-ngrx/variables/globalStore",
     "fragment": "globalstore",
     "content": "This code allows us to make the store globally available without using dependency injection. This is set by the StoreEffects code where DI puts it in the constructor which then calls this function."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "convertEntityIdToName"
     ],
     "pageType": "api",
     "title": "convertEntityIdToName",
     "section": "convertEntityIdToName",
-    "route": "/api/dynamic-ngrx/functions/convertEntityIdToName",
+    "route": "/api/smart-ngrx/functions/convertEntityIdToName",
     "fragment": "convertentityidtoname",
     "content": "Used by unit tests"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "entityStateFactory"
     ],
     "pageType": "api",
     "title": "entityStateFactory",
     "section": "entityStateFactory",
-    "route": "/api/dynamic-ngrx/functions/entityStateFactory",
+    "route": "/api/smart-ngrx/functions/entityStateFactory",
     "fragment": "entitystatefactory",
     "content": "Used by unit tests"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "Entity"
     ],
     "pageType": "api",
     "title": "Entity",
     "section": "Entity",
-    "route": "/api/dynamic-ngrx/interfaces/Entity",
+    "route": "/api/smart-ngrx/interfaces/Entity",
     "fragment": "entity",
     "content": "Used by unit tests"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EffectServiceToken"
     ],
     "pageType": "api",
     "title": "EffectServiceToken",
     "section": "EffectServiceToken",
-    "route": "/api/dynamic-ngrx/type-aliases/EffectServiceToken",
+    "route": "/api/smart-ngrx/type-aliases/EffectServiceToken",
     "fragment": "effectservicetoken",
     "content": "Shorthand type for the token used to inject the effect service"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityAttributes"
     ],
     "pageType": "api",
     "title": "EntityAttributes",
     "section": "EntityAttributes",
-    "route": "/api/dynamic-ngrx/interfaces/EntityAttributes",
+    "route": "/api/smart-ngrx/interfaces/EntityAttributes",
     "fragment": "entityattributes",
     "content": "This is an interface that holds all the attributes we will need in provideEntities() so that we can just do a lookup for them later when we need them."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityAttributes"
     ],
     "pageType": "api",
     "title": "EntityAttributes",
     "section": "Methods",
-    "route": "/api/dynamic-ngrx/interfaces/EntityAttributes",
+    "route": "/api/smart-ngrx/interfaces/EntityAttributes",
     "fragment": "methods",
     "content": "Function that defines the default row for the entity"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityAttributes"
     ],
     "pageType": "api",
     "title": "EntityAttributes",
     "section": "Methods",
-    "route": "/api/dynamic-ngrx/interfaces/EntityAttributes",
+    "route": "/api/smart-ngrx/interfaces/EntityAttributes",
     "fragment": "methods",
     "content": "the unique ID of the row"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityDefinition"
     ],
     "pageType": "api",
     "title": "EntityDefinition",
     "section": "EntityDefinition",
-    "route": "/api/dynamic-ngrx/interfaces/EntityDefinition",
+    "route": "/api/smart-ngrx/interfaces/EntityDefinition",
     "fragment": "entitydefinition",
     "content": "This is the interface that is used to define the entity for the provideSmartFeatureEntities provider function"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityDefinition"
     ],
     "pageType": "api",
     "title": "EntityDefinition",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/EntityDefinition",
+    "route": "/api/smart-ngrx/interfaces/EntityDefinition",
     "fragment": "properties",
     "content": "This is the service token related to the service the effect for this entity should call to do CRUD operations against the backend."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityDefinition"
     ],
     "pageType": "api",
     "title": "EntityDefinition",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/EntityDefinition",
+    "route": "/api/smart-ngrx/interfaces/EntityDefinition",
     "fragment": "properties",
     "content": "The field name that you'd usually use in the reducer object you'd use in StoreModule.forFeature(featureName, reducer) OR the name you'd use in provideState(featureName, reducer) We also use this name along with the feature as the Source field in actions but this should not matter to you because you'll either be using actions we've created or using your own actions for your specific purposes."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityDefinition"
     ],
     "pageType": "api",
     "title": "EntityDefinition",
     "section": "Methods",
-    "route": "/api/dynamic-ngrx/interfaces/EntityDefinition",
+    "route": "/api/smart-ngrx/interfaces/EntityDefinition",
     "fragment": "methods",
     "content": "The static function that returns a default row for the entity when it does not yet exist in the store."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "EntityDefinition"
     ],
     "pageType": "api",
     "title": "EntityDefinition",
     "section": "Methods",
-    "route": "/api/dynamic-ngrx/interfaces/EntityDefinition",
+    "route": "/api/smart-ngrx/interfaces/EntityDefinition",
     "fragment": "methods",
     "content": "The unique identifier for the row. You should use this to set the id of the id row in the default row."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "IdProp"
     ],
     "pageType": "api",
     "title": "IdProp",
     "section": "IdProp",
-    "route": "/api/dynamic-ngrx/interfaces/IdProp",
+    "route": "/api/smart-ngrx/interfaces/IdProp",
     "fragment": "idprop",
     "content": "Interface for Actions that take an id property"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "IdsProp"
     ],
     "pageType": "api",
     "title": "IdsProp",
     "section": "IdsProp",
-    "route": "/api/dynamic-ngrx/interfaces/IdsProp",
+    "route": "/api/smart-ngrx/interfaces/IdsProp",
     "fragment": "idsprop",
     "content": "Interface for Actions that take an array of ids"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "MarkAndDeleteSelector"
     ],
     "pageType": "api",
     "title": "MarkAndDeleteSelector",
     "section": "MarkAndDeleteSelector",
-    "route": "/api/dynamic-ngrx/type-aliases/MarkAndDeleteSelector",
+    "route": "/api/smart-ngrx/type-aliases/MarkAndDeleteSelector",
     "fragment": "markanddeleteselector",
     "content": "This type allows us to deal with just the MarkAndDelete part of an entity. This is used internally."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "MarkAndDelete"
     ],
     "pageType": "api",
     "title": "MarkAndDelete",
     "section": "MarkAndDelete",
-    "route": "/api/dynamic-ngrx/interfaces/MarkAndDelete",
+    "route": "/api/smart-ngrx/interfaces/MarkAndDelete",
     "fragment": "markanddelete",
     "content": "This interface should be used by any interface that represents an entity in the store that uses the Smart NgRX library. You will not otherwise need to access this field in your own code as the dirty or not dirty status is handled by the Smart NgRX code for you."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyArray"
     ],
     "pageType": "api",
     "title": "ProxyArray",
     "section": "ProxyArray",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyArray",
+    "route": "/api/smart-ngrx/interfaces/ProxyArray",
     "fragment": "proxyarray",
     "content": "This interface allows us to access the internals of an array wrapped by the Proxy class."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyArray"
     ],
     "pageType": "api",
     "title": "ProxyArray",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyArray",
+    "route": "/api/smart-ngrx/interfaces/ProxyArray",
     "fragment": "properties",
     "content": "This allows us to access the original array before it was wrapped by the Proxy class."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyArray"
     ],
     "pageType": "api",
     "title": "ProxyArray",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyArray",
+    "route": "/api/smart-ngrx/interfaces/ProxyArray",
     "fragment": "properties",
     "content": "This allows us to check if the object we are looking at is a ProxyArray or not. A proxy array will always have this property set to true."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyChild"
     ],
     "pageType": "api",
     "title": "ProxyChild",
     "section": "ProxyChild",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyChild",
+    "route": "/api/smart-ngrx/interfaces/ProxyChild",
     "fragment": "proxychild",
     "content": "The definition of how to access the child data from a parent entity."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyChild"
     ],
     "pageType": "api",
     "title": "ProxyChild",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyChild",
+    "route": "/api/smart-ngrx/interfaces/ProxyChild",
     "fragment": "properties",
     "content": "The name of the feature that contains the child data."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyChild"
     ],
     "pageType": "api",
     "title": "ProxyChild",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyChild",
+    "route": "/api/smart-ngrx/interfaces/ProxyChild",
     "fragment": "properties",
     "content": "The fieldName we used to register the entity in the provider."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyChild"
     ],
     "pageType": "api",
     "title": "ProxyChild",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyChild",
+    "route": "/api/smart-ngrx/interfaces/ProxyChild",
     "fragment": "properties",
     "content": "The selector to retrieve the child data from the store."
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "ProxyChild"
     ],
     "pageType": "api",
     "title": "ProxyChild",
     "section": "Properties",
-    "route": "/api/dynamic-ngrx/interfaces/ProxyChild",
+    "route": "/api/smart-ngrx/interfaces/ProxyChild",
     "fragment": "properties",
     "content": "The name of the field in the parent that contains the child IDs"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "RowProp"
     ],
     "pageType": "api",
     "title": "RowProp",
     "section": "RowProp",
-    "route": "/api/dynamic-ngrx/interfaces/RowProp",
+    "route": "/api/smart-ngrx/interfaces/RowProp",
     "fragment": "rowprop",
     "content": "Interface for Actions that take a row property"
   },
   {
     "breadcrumbs": [
       "API",
-      "dynamic-ngrx",
+      "smart-ngrx",
       "RowsProp"
     ],
     "pageType": "api",
     "title": "RowsProp",
     "section": "RowsProp",
-    "route": "/api/dynamic-ngrx/interfaces/RowsProp",
+    "route": "/api/smart-ngrx/interfaces/RowsProp",
     "fragment": "rowsprop",
     "content": "Interface for Actions that take an array of rows"
   }
