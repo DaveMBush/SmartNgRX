@@ -8,7 +8,7 @@ Let's take a look at an example. In this example, we'll create a `users-definiti
 
 ```typescript
 // users-definition.ts
-import { EntityDefinition } from '@davembush/dynamic-ngrx/types/entity-definition.interface';
+import { EntityDefinition } from '@smart/smart-ngrx/types/entity-definition.interface';
 
 import { User } from './user.interface';
 import { userEffectsServiceToken } from './user-effects.service-token';

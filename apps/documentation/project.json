@@ -2,9 +2,9 @@
   "name": "documentation",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "dynamic-ngrx-test",
+  "prefix": "SmartNgRX",
   "sourceRoot": "apps/documentation/src",
-  "implicitDependencies": ["dynamic-ngrx"],
+  "implicitDependencies": ["smart-ngrx"],
   "tags": [],
   "targets": {
     "build": {
@@ -24,7 +24,7 @@
       "executor": "@ng-doc/builder:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "baseHref": "/dynamic-ngrx-test/",
+        "baseHref": "/SmartNgRX/",
         "outputPath": "documentation",
         "index": "apps/documentation/src/index.html",
         "main": "apps/documentation/src/main.ts",

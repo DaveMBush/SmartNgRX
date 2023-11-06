@@ -4,12 +4,12 @@ const Api: NgDocApi = {
   title: 'API',
   scopes: [
     {
-      name: 'dynamic-ngrx',
-      route: 'dynamic-ngrx',
-      include: ['libs/dynamic-ngrx/src/**/*.ts'],
+      name: 'smart-ngrx',
+      route: 'smart-ngrx',
+      include: ['libs/smart-ngrx/src/**/*.ts'],
       exclude: [
-        'libs/dynamic-ngrx/src/**/*.spec.ts',
-        'libs/dynamic-ngrx/src/ngrx-internals/**/*',
+        'libs/smart-ngrx/src/**/*.spec.ts',
+        'libs/smart-ngrx/src/ngrx-internals/**/*',
       ],
     },
   ],

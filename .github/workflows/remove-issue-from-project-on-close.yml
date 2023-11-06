@@ -14,5 +14,5 @@ jobs:
           github-token: ${{ secrets.PROJECT_SECRET }}
           project-owner: 'DaveMBush'
           project-number: 1
-          issue-repository: 'DaveMBush/dynamic-ngrx-test'
+          issue-repository: 'DaveMBush/SmartNgRX'
           issue-id: ${{ github.event.issue.node_id }}
