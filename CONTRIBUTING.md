@@ -56,7 +56,7 @@ pnpm format
 - Run the `Setup` command to make sure your development dependencies are up-to-date.
 - Please ensure the CI suite passes before submitting a PR. You can create a draft pull request if you'd like the CI system to run the checks for you.
 - If you've added new functionality, **please** include tests which validate its behavior. We currently have a 100% branch coverage policy.
-- Make reference to possible [issues](https://github.com/DaveMBush/dynamic-ngrx-test/issues) on PR comment.
+- Make reference to possible [issues](https://github.com/DaveMBush/SmartNgRX/issues) on PR comment.
 
 ## Submitting bug reports
 
@@ -76,7 +76,7 @@ pnpm format
 
 Questions and requests for support should not be opened as issues and should be handled in the following ways:
 
-- Start a new [Q&A Discussion](https://github.com/DaveMBush/dynamic-ngrx-test/discussions/categories/q-a) on GitHub.
+- Start a new [Q&A Discussion](https://github.com/DaveMBush/SmartNgRX/discussions/categories/q-a) on GitHub.
 
 ## <a name="commit"></a> Pull Request Guidelines
 

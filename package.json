@@ -1,9 +1,9 @@
 {
-  "name": "@dynamic-ngrx-test/source",
+  "name": "@smart-ngrx/source",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve dynamic-ngrx-test",
+    "start": "nx serve demo",
     "start:server": "nx serve server",
     "start:documentation": "nx serve documentation --configuration=serve --port=4201",
     "build": "nx affected:build --parallel=3",

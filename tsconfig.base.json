@@ -16,9 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@davembush/dynamic-ngrx/*": ["libs/dynamic-ngrx/src/*"],
       "@ng-doc/generated": [".ng-doc/documentation/index.ts"],
-      "@ng-doc/generated/*": [".ng-doc/documentation/*"]
+      "@ng-doc/generated/*": [".ng-doc/documentation/*"],
+      "@smart/smart-ngrx/*": ["libs/smart-ngrx/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

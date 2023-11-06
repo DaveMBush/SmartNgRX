@@ -1,0 +1,50 @@
+{
+  "name": "smart-ngrx",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/smart-ngrx/src",
+  "prefix": "smart-ngrx",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:ng-packagr-lite",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/smart-ngrx/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/smart-ngrx/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/smart-ngrx/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/smart-ngrx/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/smart-ngrx/**/*.ts",
+          "libs/smart-ngrx/**/*.html"
+        ]
+      }
+    }
+  }
+}

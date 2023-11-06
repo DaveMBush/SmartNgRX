@@ -39,7 +39,7 @@ Have a look at our "Ultimate Goals" to see where we are headed.
 
 ## Documentation
 
-All the documentation can be found at [Dynamic NgRX Documentation](https://davembush.github.io/dynamic-ngrx-test/)
+All the documentation can be found at [Dynamic NgRX Documentation](https://davembush.github.io/SmartNgRX/)
 
 ## How to run the main projects
 
@@ -65,6 +65,6 @@ All the documentation can be found at [Dynamic NgRX Documentation](https://davem
 
 ## Participating
 
-### [Code of Conduct](https://github.com/DaveMBush/dynamic-ngrx-test/blob/main/CODE_OF_CONDUCT.md)
+### [Code of Conduct](https://github.com/DaveMBush/SmartNgRX/blob/main/CODE_OF_CONDUCT.md)
 
-### [Contributing](https://github.com/DaveMBush/dynamic-ngrx-test/blob/main/CONTRIBUTING.md)
+### [Contributing](https://github.com/DaveMBush/SmartNgRX/blob/main/CONTRIBUTING.md)
