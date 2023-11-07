@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[894],{894:(n,o,t)=>{t.r(o),t.d(o,{default:()=>d});const d=[{path:"",redirectTo:"tbd",pathMatch:"full"},{path:"",title:"Cookbook",children:[{path:"tbd",loadChildren:()=>Promise.all([t.e(808),t.e(9029),t.e(3668)]).then(t.bind(t,3668))}]}]}}]);
