@@ -1,4 +1,4 @@
-# DynamicNgrxTest
+# SmartNgRX
 
 ## Introduction
 
@@ -39,7 +39,7 @@ Have a look at our "Ultimate Goals" to see where we are headed.
 
 ## Documentation
 
-All the documentation can be found at [Dynamic NgRX Documentation](https://davembush.github.io/SmartNgRX/)
+All the documentation can be found at [SmartNgRX Documentation](https://davembush.github.io/SmartNgRX/)
 
 ## How to run the main projects
 
