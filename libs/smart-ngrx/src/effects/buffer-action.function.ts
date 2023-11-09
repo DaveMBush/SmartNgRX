@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { buffer, debounceTime, map, Observable } from 'rxjs';
+import { asapScheduler, buffer, debounceTime, map, Observable } from 'rxjs';
 
 import { castTo } from '../common/cast-to.function';
 
@@ -41,7 +41,7 @@ export function bufferAction(
   return (source: Observable<Action>): Observable<string[]> => {
     return source.pipe(
       map((a) => castTo<{ ids: string[] }>(a).ids),
-      buffer(source.pipe(debounceTime(bufferTime))),
+      buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
       map((ids: string[][]) => {
         let newIds: string[] = [];
         ids.forEach((ids2) => {
