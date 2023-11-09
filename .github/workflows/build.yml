@@ -29,68 +29,12 @@ jobs:
           node-version: 18
           cache: 'pnpm'
       - run: pnpm i
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: setup-artifacts
-          path: |
-            node_modules
-            package.json
-            pnpm-lock.yaml
-  DupCheck:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: setup-artifacts
       - run: pnpm dupcheck
-  CheckFormatting:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: setup-artifacts
       - run: pnpm format:check
-  Lint:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: setup-artifacts
       - run: pnpm lint
-  HtmlLint:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: setup-artifacts
       - run: pnpm htmllint
-  UnitTests:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: setup-artifacts
-      - run: pnpm test:coverage
-  BuildAndDocumentation:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Download Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: setup-artifacts
       - run: pnpm build
+      - run: pnpm test:coverage
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"
@@ -98,7 +42,7 @@ jobs:
       - name: Run update docs script
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         env:
-          GH_PAGES_SMART_NGRX: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAGES_DYNAMIC_NGRX_TEST: ${{ secrets.GH_PAGES_DYNAMIC_NGRX_TEST }}
         run: |
-          git remote set-url origin https://x-access-token:${GH_PAGES_SMART_NGRX}@github.com/${{ github.repository }}.git
+          git remote set-url origin https://x-access-token:${GH_PAGES_DYNAMIC_NGRX_TEST}@github.com/${{ github.repository }}.git
           .github/workflows/update_docs.sh
