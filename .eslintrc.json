@@ -1,6 +1,7 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
+  "parser": "@typescript-eslint/parser",
   "plugins": [
     "@nx",
     "sonarjs",
@@ -515,11 +516,6 @@
         //// requires promises to be handled appropriately
         "@typescript-eslint/no-floating-promises": "error",
         "@typescript-eslint/no-for-in-array": "error",
-        //// This rule will force you to use `unknown` as the parameter type for the
-        //// catchError operator, because unknown is the only reasonably safe type
-        //// for an error because it can throw anything.  If you need it to be an
-        //// explicit type you can cast it as one in the body of the catchError.
-        "@typescript-eslint/no-implicit-any-catch": "error",
         //// Disallow the use of eval()-like methods. (beyond just eval())
         "@typescript-eslint/no-implied-eval": "error",
         "@typescript-eslint/no-inferrable-types": [
@@ -605,7 +601,7 @@
         "@typescript-eslint/require-await": "error",
         "@typescript-eslint/return-await": "error",
         "@typescript-eslint/restrict-template-expressions": "error",
-        "@typescript-eslint/sort-type-union-intersection-members": "error",
+        "@typescript-eslint/sort-type-constituents": "error",
         "@typescript-eslint/strict-boolean-expressions": "error",
         "@typescript-eslint/switch-exhaustiveness-check": "error",
         "@typescript-eslint/triple-slash-reference": "error",
