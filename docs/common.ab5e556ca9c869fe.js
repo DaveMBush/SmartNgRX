@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[8592],{8235:(a,e,t)=>{t.d(e,{Z:()=>n});const n={title:"Using Smart NgRX",expandable:!0,order:2}}}]);
