@@ -739,6 +739,32 @@
     "breadcrumbs": [
       "API",
       "smart-ngrx",
+      "ArrayProxy"
+    ],
+    "pageType": "api",
+    "title": "ArrayProxy",
+    "section": "ArrayProxy",
+    "route": "/api/smart-ngrx/classes/ArrayProxy",
+    "fragment": "arrayproxy",
+    "content": "This is an internal class used by createSmartSelector to wrap the field that represents the child array with a class that manages all the magic of loading the data from the server as it is accessed."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "ArrayProxy"
+    ],
+    "pageType": "api",
+    "title": "ArrayProxy",
+    "section": "Methods",
+    "route": "/api/smart-ngrx/classes/ArrayProxy",
+    "fragment": "methods",
+    "content": "This primarily exist for testing so you can stringify the array and then parse it so that you get an array you can compare against instead of an object of type ArrayProxy that you can't do much with."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
       "createInnerSmartSelector"
     ],
     "pageType": "api",
@@ -921,6 +947,18 @@
     "breadcrumbs": [
       "API",
       "smart-ngrx",
+      "isArrayProxy"
+    ],
+    "pageType": "api",
+    "title": "isArrayProxy",
+    "section": "isArrayProxy",
+    "route": "/api/smart-ngrx/functions/isArrayProxy",
+    "fragment": "isarrayproxy"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
       "ParentSelector"
     ],
     "pageType": "api",
@@ -929,71 +967,6 @@
     "route": "/api/smart-ngrx/type-aliases/ParentSelector",
     "fragment": "parentselector",
     "content": "Shorthand for the type of the parentSelector."
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "proxyArray"
-    ],
-    "pageType": "api",
-    "title": "proxyArray",
-    "section": "proxyArray",
-    "route": "/api/smart-ngrx/functions/proxyArray",
-    "fragment": "proxyarray",
-    "content": "This is an internal function used by createSmartSelector to wrap the field that represents the child array with a Proxy class that manages all the magic of loading the data from the server as it is accessed."
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "proxyArray"
-    ],
-    "pageType": "api",
-    "title": "proxyArray",
-    "section": "Parameters",
-    "route": "/api/smart-ngrx/functions/proxyArray",
-    "fragment": "parameters",
-    "content": "The array of ids to wrap"
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "proxyArray"
-    ],
-    "pageType": "api",
-    "title": "proxyArray",
-    "section": "Parameters",
-    "route": "/api/smart-ngrx/functions/proxyArray",
-    "fragment": "parameters",
-    "content": "The child entity we use to find the item in the store"
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "proxyArray"
-    ],
-    "pageType": "api",
-    "title": "proxyArray",
-    "section": "Parameters",
-    "route": "/api/smart-ngrx/functions/proxyArray",
-    "fragment": "parameters",
-    "content": "the action to fire if the item has not been loaded"
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "proxyArray"
-    ],
-    "pageType": "api",
-    "title": "proxyArray",
-    "section": "Parameters",
-    "route": "/api/smart-ngrx/functions/proxyArray",
-    "fragment": "parameters",
-    "content": "function that returns a default row for the child"
   },
   {
     "breadcrumbs": [
@@ -1306,45 +1279,6 @@
     "route": "/api/smart-ngrx/interfaces/MarkAndDelete",
     "fragment": "markanddelete",
     "content": "This interface should be used by any interface that represents an entity in the store that uses the Smart NgRX library. You will not otherwise need to access this field in your own code as the dirty or not dirty status is handled by the Smart NgRX code for you."
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "ProxyArray"
-    ],
-    "pageType": "api",
-    "title": "ProxyArray",
-    "section": "ProxyArray",
-    "route": "/api/smart-ngrx/interfaces/ProxyArray",
-    "fragment": "proxyarray",
-    "content": "This interface allows us to access the internals of an array wrapped by the Proxy class."
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "ProxyArray"
-    ],
-    "pageType": "api",
-    "title": "ProxyArray",
-    "section": "Properties",
-    "route": "/api/smart-ngrx/interfaces/ProxyArray",
-    "fragment": "properties",
-    "content": "This allows us to access the original array before it was wrapped by the Proxy class."
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
-      "ProxyArray"
-    ],
-    "pageType": "api",
-    "title": "ProxyArray",
-    "section": "Properties",
-    "route": "/api/smart-ngrx/interfaces/ProxyArray",
-    "fragment": "properties",
-    "content": "This allows us to check if the object we are looking at is a ProxyArray or not. A proxy array will always have this property set to true."
   },
   {
     "breadcrumbs": [
