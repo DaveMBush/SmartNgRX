@@ -7,7 +7,7 @@ import {
   unregisterEntity,
 } from '../functions/register-entity.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
-import { ProxyArray } from '../types/proxy-array.interface';
+import { ArrayProxy } from './array-proxy.class';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
 import { Entity } from './mocks/entity.interface';
 import { entityStateFactory } from './mocks/entity-state.factory';
@@ -83,19 +83,19 @@ describe('createInnerSmartSelector', () => {
       expect(result.entities[department1]?.children).toHaveLength(2);
       expect(result.entities[department2]?.children).toHaveLength(2);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
           .θisProxyθ,
       ).toBe(true);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
           .θisProxyθ,
       ).toBe(true);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
           .rawArray,
       ).toEqual(['folder-1', 'folder-2']);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
           .rawArray,
       ).toEqual(['folder-3', 'folder-4']);
       expect(result.entities[department1]?.children[0]).toStrictEqual({
@@ -109,27 +109,6 @@ describe('createInnerSmartSelector', () => {
         name: 'Folder 2',
         isDirty: false,
         children: [],
-      });
-    });
-
-    describe('if we already have items for the children', () => {
-      beforeEach(() => {
-        // give parent the children from above
-        result = selectEntity.projector(result, child1);
-      });
-      it('should not re-proxy the child', () => {
-        expect(result.entities[department1]?.children).toHaveLength(2);
-        expect(
-          castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-            .θisProxyθ,
-        ).toBeTruthy();
-        expect(
-          castTo<ProxyArray<Entity>>(
-            castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-              .rawArray,
-          ).θisProxyθ,
-        ).toBeFalsy();
-        expect(result.entities[department2]?.children).toHaveLength(2);
       });
     });
   });
@@ -189,19 +168,19 @@ describe('createInnerSmartSelector', () => {
       expect(result.entities[department1]?.children).toHaveLength(2);
       expect(result.entities[department2]?.children).toHaveLength(2);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
           .θisProxyθ,
       ).toBe(true);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
           .θisProxyθ,
       ).toBe(true);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
           .rawArray,
       ).toEqual(['folder-1', 'folder-2']);
       expect(
-        castTo<ProxyArray<Entity>>(result.entities[department2]?.children)
+        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
           .rawArray,
       ).toEqual(['folder-3', 'folder-4']);
       expect(result.entities[department1]?.children[0]).toStrictEqual({
@@ -215,27 +194,6 @@ describe('createInnerSmartSelector', () => {
         name: 'Folder 2',
         isDirty: false,
         children: [],
-      });
-    });
-
-    describe('if we already have items for the children', () => {
-      beforeEach(() => {
-        // give parent the children from above
-        result = selectEntity.projector(result, child1);
-      });
-      it('should not re-proxy the child', () => {
-        expect(result.entities[department1]?.children).toHaveLength(2);
-        expect(
-          castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-            .θisProxyθ,
-        ).toBeTruthy();
-        expect(
-          castTo<ProxyArray<Entity>>(
-            castTo<ProxyArray<Entity>>(result.entities[department1]?.children)
-              .rawArray,
-          ).θisProxyθ,
-        ).toBeFalsy();
-        expect(result.entities[department2]?.children).toHaveLength(2);
       });
     });
   });

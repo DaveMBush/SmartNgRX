@@ -5,10 +5,9 @@ import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
 import { registerEntity } from '../functions/register-entity.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
-import { ProxyArray } from '../types/proxy-array.interface';
 import { ProxyChild } from '../types/proxy-child.interface';
+import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
-import { proxyArray } from './proxy-array.function';
 
 /**
  * This is an internal function used by `createSmartSelector`.
@@ -53,23 +52,22 @@ export function createInnerSmartSelector<
       (newParentEntity.ids as string[]).forEach((w) => {
         const entity: P = { ...newParentEntity.entities[w] } as P;
         newParentEntity.entities[w] = entity;
-        let childArray = entity[parentFieldName] as (C | string)[];
-        // fill childArray with values from entity that we currently have
-        if (castTo<ProxyArray<C>>(childArray).θisProxyθ) {
-          childArray = castTo<ProxyArray<C>>(childArray).rawArray;
-        } else if (Object.isFrozen(childArray)) {
-          // unfreeze the original array so we can proxy it.
-          entity[parentFieldName] = [...childArray] as P[keyof P];
-          childArray = entity[parentFieldName] as (C | string)[];
-        }
+        const childArray = entity[parentFieldName] as ArrayProxy<C> | string[];
 
         // if you call this sooner, you may not have registered the entity yet
         const reg = registerEntity(childFeature, childFieldName);
         // eslint-disable-next-line @typescript-eslint/unbound-method -- it won't be bound
         const defaultRow = reg.defaultRow as (id: string) => C;
 
+        const arrayProxy = new ArrayProxy(
+          childArray,
+          child,
+          actions.loadByIds,
+          defaultRow,
+        );
+        arrayProxy.init();
         castTo<Record<string, unknown>>(entity)[parentFieldName as string] =
-          proxyArray(childArray, child, actions.loadByIds, defaultRow);
+          arrayProxy;
       });
       return newParentEntity;
     }),
