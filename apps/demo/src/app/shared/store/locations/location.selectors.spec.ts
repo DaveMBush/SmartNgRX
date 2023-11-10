@@ -3,10 +3,12 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { firstValueFrom, take } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
+import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import {
   registerEntity,
   unregisterEntity,
 } from '@smart/smart-ngrx/functions/register-entity.function';
+import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 import { store as storeFunction } from '@smart/smart-ngrx/selector/store.function';
 
 import { SharedState, SharedState2 } from '../../shared-state.interface';
@@ -236,7 +238,7 @@ describe('Location Selectors', () => {
               id: '1',
               name: locationName,
               departments: [] as
-                | (Department & { lastUpdate: number })[]
+                | ArrayProxy<Department & { lastUpdate: number }>
                 | string[],
             },
           },
@@ -268,7 +270,7 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: initialState.shared,
+          shared: castTo<SharedState>(initialState.shared),
           shared2: initialState.shared2,
         });
 
@@ -278,7 +280,12 @@ describe('Location Selectors', () => {
         )) as typeof initialState.shared.locations;
 
         // Perform the assertion
-        expect(result).toEqual(initialState.shared.locations);
+        // we have to stringify because the ArrayProxy is not an Array and the comparison
+        // sees the left and right has side as different.
+        // using stringify uses toJSON() on the ArrayProxy
+        expect(JSON.parse(JSON.stringify(result.entities))).toEqual(
+          initialState.shared.locations.entities,
+        );
       });
     });
     describe('when locations has a child that points to a department and the department exist in the store', () => {
@@ -317,12 +324,12 @@ describe('Location Selectors', () => {
             id: '1',
             name: 'test department',
             lastUpdate: 0,
-            children: [],
+            children: [] as string[],
             isDirty: false,
           },
-        ];
+        ] as unknown as ArrayProxy<Department & { lastUpdate: number }>;
         // Perform the assertion
-        expect(result).toEqual(expected);
+        expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
     });
     describe('when locations has a child that points to a department and the department does not exist in the store', () => {
@@ -365,9 +372,9 @@ describe('Location Selectors', () => {
             lastUpdate: 0,
             children: [],
           },
-        ];
+        ] as unknown as ArrayProxy<Department & { lastUpdate: number }>;
         // Perform the assertion
-        expect(result).toEqual(expected);
+        expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
     });
   });
@@ -415,6 +422,13 @@ describe('Location Selectors', () => {
       });
     });
     describe('when currentLocation is empty and locations has an element', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          providers: [provideMockStore({ initialState })],
+        });
+        store = TestBed.inject(MockStore);
+        storeFunction(store);
+      });
       it('should return a blank location', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
@@ -440,7 +454,7 @@ describe('Location Selectors', () => {
           store.select(selectCurrentLocation),
         )) as Location;
 
-        expect(result).toEqual({
+        expect(JSON.parse(JSON.stringify(result))).toEqual({
           id: '1',
           name: 'location testb',
           departments: [],
@@ -448,6 +462,13 @@ describe('Location Selectors', () => {
       });
     });
     describe('when currentLocation is "1" and locations has a "1" element', () => {
+      beforeEach(() => {
+        TestBed.configureTestingModule({
+          providers: [provideMockStore({ initialState })],
+        });
+        store = TestBed.inject(MockStore);
+        storeFunction(store);
+      });
       it('should return the "1" location', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
@@ -475,7 +496,7 @@ describe('Location Selectors', () => {
           store.select(selectCurrentLocation),
         )) as Location;
 
-        expect(result).toEqual({
+        expect(JSON.parse(JSON.stringify(result))).toEqual({
           id: '1',
           name: 'location testc',
           departments: [],
