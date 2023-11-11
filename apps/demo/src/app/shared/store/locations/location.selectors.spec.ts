@@ -107,6 +107,8 @@ describe('Location Selectors', () => {
         )) as typeof initialState.shared.locations;
 
         expect(result).toEqual(initialState.shared.locations);
+        // have to wait for the init() action to run.
+        await firstValueFrom(store.scannedActions$);
         // Here, you would also check if `locationActions.load` has been dispatched.
         const loadAction = await firstValueFrom(store.scannedActions$);
         expect(loadAction.type).toEqual(locationActions.load.type);
@@ -125,6 +127,8 @@ describe('Location Selectors', () => {
         )) as typeof initialState.shared.locations;
 
         expect(result).toEqual(initialState.shared.locations);
+        // have to wait for the init() action to run.
+        await firstValueFrom(store.scannedActions$);
         // Here, you would also check if `locationActions.load` has been dispatched.
         const loadAction = await firstValueFrom(store.scannedActions$);
         expect(loadAction.type).toEqual(locationActions.load.type);
