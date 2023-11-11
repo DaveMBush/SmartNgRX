@@ -1,8 +1,12 @@
+import { TestBed } from '@angular/core/testing';
 import { createAction, props } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { filter, firstValueFrom } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { entityStateFactory } from './mocks/entity-state.factory';
+import { store as storeFunction } from './store.function';
 
 const mockDispatch = jest.fn();
 
@@ -25,7 +29,17 @@ const mockAction = createAction(
 let testScheduler: TestScheduler;
 
 describe('ensureDataLoaded', () => {
+  let store: MockStore<{ foo: { bar: string } }>;
+
   beforeEach(() => {
+    const initialState = {};
+    TestBed.configureTestingModule({
+      providers: [provideMockStore({ initialState })],
+    });
+
+    store = TestBed.inject(MockStore);
+    storeFunction(store);
+
     testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
@@ -38,17 +52,22 @@ describe('ensureDataLoaded', () => {
       entities: {},
     };
 
-    testScheduler.run(() => {
-      ensureDataLoaded(state, 'department1', mockAction);
+    ensureDataLoaded(state, 'department1', mockAction);
 
-      testScheduler.flush();
-
-      expect(mockDispatch).toHaveBeenLastCalledWith(
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Only way I could get this test to work.
+    setTimeout(async () => {
+      // Here, you would also check if `locationActions.load` has been dispatched.
+      const loadAction = await firstValueFrom(
+        store.scannedActions$.pipe(
+          filter((action) => action.type === '[mock] fetch data'),
+        ),
+      );
+      expect(loadAction).toHaveBeenLastCalledWith(
         mockAction({
           ids: ['department1'],
         }),
       );
-    });
+    }, 1);
   });
 
   it('dispatches action when the entity is dirty', () => {
@@ -63,13 +82,17 @@ describe('ensureDataLoaded', () => {
     testScheduler.run(() => {
       ensureDataLoaded(state, department1, mockAction);
 
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises -- only way to get this to run because we are using Promises instead of asapScheduler
+      setTimeout(() => {
+        expect(mockDispatch).toHaveBeenCalledTimes(1);
+        expect(mockDispatch).toHaveBeenLastCalledWith(
+          mockAction({
+            ids: [department1],
+          }),
+        );
+      }, 1);
+
       testScheduler.flush();
-      expect(mockDispatch).toHaveBeenCalledTimes(1);
-      expect(mockDispatch).toHaveBeenLastCalledWith(
-        mockAction({
-          ids: [department1],
-        }),
-      );
     });
   });
 

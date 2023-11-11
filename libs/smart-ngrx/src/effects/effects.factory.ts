@@ -1,4 +1,4 @@
-import { inject, InjectionToken } from '@angular/core';
+import { inject, InjectionToken, NgZone } from '@angular/core';
 import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap, switchMap } from 'rxjs';
 
@@ -48,10 +48,11 @@ export function effectsFactory<Source extends string, T>(
       (
         actions$ = inject(Actions),
         actionService = inject(effectServiceToken),
+        zone: NgZone = inject(NgZone),
       ) => {
         return actions$.pipe(
           ofType(actions.loadByIds),
-          bufferAction(),
+          bufferAction(zone),
           mergeMap((ids) => {
             return actionService.loadByIds(ids);
           }),
