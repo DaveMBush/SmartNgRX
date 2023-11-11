@@ -9,6 +9,10 @@ import { store } from './store.function';
 declare const __zone_symbol__Promise: typeof Promise;
 
 let unpatchedPromise = __zone_symbol__Promise;
+// under normal circumstances, this should never happen,
+// but someone may have turned off zones for their app
+// and this accounts for that.
+/* istanbul ignore next */
 if (__zone_symbol__Promise === undefined) {
   unpatchedPromise = Promise;
 }
