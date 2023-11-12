@@ -1,5 +1,6 @@
 :host {
   display: block;
+  height: 100%;
 }
 
 .selected {
@@ -8,6 +9,6 @@
 }
 
 cdk-virtual-scroll-viewport {
-  height: 900px;
+  height: calc(100% - 32px);
   width: 100%;
 }
