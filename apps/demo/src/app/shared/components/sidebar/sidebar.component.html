@@ -1,4 +1,11 @@
-<p>{{ locationName }}</p>
+<mat-form-field>
+  <mat-label>Select Location</mat-label>
+  <mat-select [value]="locationId" (selectionChange)="selectionChanged($event)">
+    @for (location of locations; track location.id) {
+    <mat-option [value]="location.id">{{ location.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
 <cdk-virtual-scroll-viewport
   itemSize="48"
   [minBufferPx]="48 * 50"

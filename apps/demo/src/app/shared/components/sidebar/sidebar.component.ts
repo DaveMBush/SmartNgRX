@@ -4,13 +4,16 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   inject,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 
 import { Location } from '../../store/locations/location.interface';
 import { SidebarComponentService } from './sidebar-component.service';
@@ -26,9 +29,12 @@ import { SidebarNode } from './sidebar-node.interface';
 })
 export class SidebarComponent implements OnChanges, AfterViewInit {
   private sidebarComponentService = inject(SidebarComponentService);
+  @Input() locations: Location[] | null = [];
+  @Input() locationId: number | string | null = '';
   @Input() location: Location | null = null;
-  locationName = '';
+  @Output() locationChanged = new EventEmitter<string>();
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
+
   range = { start: 0, end: 6 };
 
   treeControl = new FlatTreeControl<SidebarNode>(
@@ -39,9 +45,12 @@ export class SidebarComponent implements OnChanges, AfterViewInit {
   dataSource: SidebarNode[] = [];
   fullDataSource: SidebarNode[] = [];
   selectedNode = '';
-
   constructor() {
     this.sidebarComponentService.form = this;
+  }
+
+  selectionChanged(event: MatSelectChange): void {
+    this.locationChanged.emit(event.value as string);
   }
 
   hasChild = (_: number, node: SidebarNode): boolean => {
@@ -54,11 +63,7 @@ export class SidebarComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['location'] !== undefined) {
-      this.locationName = '';
       this.sidebarComponentService.applyRange();
-      if (this.location) {
-        this.locationName = this.location.name;
-      }
     }
   }
 

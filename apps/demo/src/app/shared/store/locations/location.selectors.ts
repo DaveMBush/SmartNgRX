@@ -11,18 +11,28 @@ import { selectDepartmentsChildren } from '../department/department.selector';
 import { locationActions } from './location.actions';
 import { Location } from './location.interface';
 
-export const selectLocation = createSelector(selectSharedState, (state) => {
-  if (!state.locations.ids.length) {
-    // because we are using load and not loadById
-    // this will load all the locations and the id just needs to have a value
-    const id = 'xyz';
-    ensureDataLoaded(state.locations, id, locationActions.load);
-  }
-  return state.locations;
-});
+export const selectLocationEntities = createSelector(
+  selectSharedState,
+  (state) => {
+    if (!state.locations.ids.length) {
+      // because we are using load and not loadById
+      // this will load all the locations and the id just needs to have a value
+      const id = 'xyz';
+      ensureDataLoaded(state.locations, id, locationActions.load);
+    }
+    return state.locations;
+  },
+);
+
+export const selectLocations = createSelector(
+  selectLocationEntities,
+  (locations) => {
+    return locations.ids.map((id) => locations.entities[id]) as Location[];
+  },
+);
 
 export const selectLocationsDepartments = createSmartSelector<Location>(
-  selectLocation,
+  selectLocationEntities,
   [
     {
       childFeature: 'shared',

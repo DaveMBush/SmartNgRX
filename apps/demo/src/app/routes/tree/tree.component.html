@@ -1,1 +1,6 @@
-<dmb-sidebar [location]="location | async"></dmb-sidebar>
+<dmb-sidebar
+  [locations]="locations | async"
+  [locationId]="locationId | async"
+  [location]="location | async"
+  (locationChanged)="locationChanged($event)"
+></dmb-sidebar>

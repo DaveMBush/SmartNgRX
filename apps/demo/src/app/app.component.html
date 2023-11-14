@@ -1,6 +1,6 @@
 <mat-toolbar color="primary">
-  <span>Angular Material Demo</span>
-  <nav mat-tab-nav-bar [backgroundColor]="'primary'">
+  <span>Smart NgRX Demo</span>
+  <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
     <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === activeLink">
       Tree
     </a>
@@ -10,5 +10,7 @@
   </nav>
 </mat-toolbar>
 <div class="container">
-  <router-outlet></router-outlet>
+  <mat-tab-nav-panel #tabPanel>
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
 </div>
