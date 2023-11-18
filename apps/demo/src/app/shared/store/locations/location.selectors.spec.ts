@@ -64,8 +64,16 @@ describe('Location Selectors', () => {
     unregisterEntity('shared', 'departmentChildren');
   });
   describe('selectLocation', () => {
-    describe('if no items are loaded for locations', () => {
-      const initialState = {
+    let initialState: {
+      shared: {
+        locations: SharedState['locations'];
+        departments: SharedState['departments'];
+        departmentChildren: SharedState['departmentChildren'];
+      };
+      shared2: SharedState2;
+    };
+    beforeEach(() => {
+      initialState = {
         shared: {
           departments: {
             ids: [],
@@ -84,7 +92,8 @@ describe('Location Selectors', () => {
           currentLocation: '',
         },
       };
-
+    });
+    describe('if no items are loaded for locations', () => {
       beforeEach(() => {
         TestBed.configureTestingModule({
           providers: [provideMockStore({ initialState })],
@@ -136,32 +145,19 @@ describe('Location Selectors', () => {
     });
     describe('if we have at least one row loaded in locations', () => {
       let testScheduler: TestScheduler;
-
-      const initialState = {
-        shared: {
-          departments: {
-            ids: [],
-            entities: {},
-          },
-          locations: {
-            ids: ['1'],
-            entities: {
-              '1': {
-                id: '1',
-                name: 'test',
-                departments: [],
-              },
+      beforeEach(() => {
+        initialState.shared.locations = {
+          ids: ['1'],
+          entities: {
+            '1': {
+              id: '1',
+              name: 'test',
+              departments: [],
             },
           },
-          departmentChildren: {
-            ids: [],
-            entities: {},
-          },
-        },
-        shared2: {
-          currentLocation: '1',
-        },
-      };
+        };
+        initialState.shared2.currentLocation = '1';
+      });
 
       beforeEach(() => {
         testScheduler = new TestScheduler((actual, expected) => {
