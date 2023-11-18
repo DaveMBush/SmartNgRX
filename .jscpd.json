@@ -1,7 +1,10 @@
 {
   "silent": true,
+  "mode": "weak",
   "pattern": "**/*.{js,ts,html,css,scss,json,md}",
+  "//": "ignore spec files for now",
   "ignore": [
+    "**/*.spec.ts",
     "**/apps/server/src/assets/**",
     "**/documentation/**",
     "**/.eslintrc.json",

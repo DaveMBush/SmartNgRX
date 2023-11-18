@@ -32,7 +32,7 @@ export class SidebarComponent implements OnChanges, AfterViewInit {
   @Input() locations: Location[] | null = [];
   @Input() locationId: number | string | null = '';
   @Input() location: Location | null = null;
-  @Output() locationChanged = new EventEmitter<string>();
+  @Output() readonly locationChanged = new EventEmitter<string>();
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
 
   range = { start: 0, end: 6 };

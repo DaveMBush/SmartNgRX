@@ -24,6 +24,43 @@ jest.mock('./store.function', () => ({
   }),
 }));
 
+function itCreatesProxiesForChildrenThatDontExist(
+  result: EntityState<{
+    id: string;
+    name: string;
+    children: string[];
+  }>,
+) {
+  expect(result.entities[department1]?.children).toHaveLength(2);
+  expect(result.entities[department2]?.children).toHaveLength(2);
+  expect(
+    castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
+      .θisProxyθ,
+  ).toBe(true);
+  expect(
+    castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
+      .θisProxyθ,
+  ).toBe(true);
+  expect(
+    castTo<ArrayProxy<Entity>>(result.entities[department1]?.children).rawArray,
+  ).toEqual(['folder-1', 'folder-2']);
+  expect(
+    castTo<ArrayProxy<Entity>>(result.entities[department2]?.children).rawArray,
+  ).toEqual(['folder-3', 'folder-4']);
+  expect(result.entities[department1]?.children[0]).toStrictEqual({
+    id: 'folder-1',
+    name: 'Folder 1',
+    isDirty: false,
+    children: [],
+  });
+  expect(result.entities[department1]?.children[1]).toStrictEqual({
+    id: 'folder-2',
+    name: 'Folder 2',
+    isDirty: false,
+    children: [],
+  });
+}
+
 describe('createInnerSmartSelector', () => {
   let selectEntity: MemoizedSelector<
     object,
@@ -35,122 +72,64 @@ describe('createInnerSmartSelector', () => {
   let child1: EntityState<MarkAndDelete>;
   let parent: EntityState<MarkAndDelete>;
   let result: EntityState<{ id: string; name: string; children: string[] }>;
+  function commonSetup() {
+    registerEntity('feature', 'entityName', {
+      defaultRow: (id: string) => ({
+        id,
+        isDirty: false,
+        children: [],
+        name: '',
+      }),
+    });
+    selectEntity = createInnerSmartSelector(
+      jest.fn() as unknown as MemoizedSelector<
+        object,
+        EntityState<{ id: string; name: string; children: string[] }>
+      >,
+      {
+        childFeature: 'feature',
+        childFieldName: 'entityName',
+        childSelector: jest.fn() as unknown as MemoizedSelector<
+          object,
+          EntityState<MarkAndDelete>
+        >,
+        parentFieldName: 'children',
+      },
+    );
+    child1 = entityStateFactory({
+      parentCount: 2,
+      parentType: 'folder',
+      childCount: 0,
+      childType: 'list',
+    });
+
+    parent = entityStateFactory({
+      parentCount: 2,
+      childCount: 2,
+      parentType: 'department',
+      childType: 'folder',
+    });
+  }
+
   describe('when the child is not frozen', () => {
     beforeEach(() => {
-      registerEntity('feature', 'entityName', {
-        defaultRow: (id: string) => ({
-          id,
-          isDirty: false,
-          children: [],
-          name: '',
-        }),
-      });
-      selectEntity = createInnerSmartSelector(
-        jest.fn() as unknown as MemoizedSelector<
-          object,
-          EntityState<{ id: string; name: string; children: string[] }>
-        >,
-        {
-          childFeature: 'feature',
-          childFieldName: 'entityName',
-          childSelector: jest.fn() as unknown as MemoizedSelector<
-            object,
-            EntityState<MarkAndDelete>
-          >,
-          parentFieldName: 'children',
-        },
-      );
-      child1 = entityStateFactory({
-        parentCount: 2,
-        parentType: 'folder',
-        childCount: 0,
-        childType: 'list',
-      });
-
-      parent = entityStateFactory({
-        parentCount: 2,
-        childCount: 2,
-        parentType: 'department',
-        childType: 'folder',
-      });
+      commonSetup();
+      /* jscpd:ignore-start */
       // verify there is no proxy.
       result = selectEntity.projector(parent, child1);
+      /* jscpd:ignore-end */
     });
     afterEach(() => {
       unregisterEntity('feature', 'entityName');
     });
+    // eslint-disable-next-line jest/expect-expect -- expects are in the function
     it("creates proxies for children that don't exist", () => {
-      expect(result.entities[department1]?.children).toHaveLength(2);
-      expect(result.entities[department2]?.children).toHaveLength(2);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
-          .θisProxyθ,
-      ).toBe(true);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
-          .θisProxyθ,
-      ).toBe(true);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
-          .rawArray,
-      ).toEqual(['folder-1', 'folder-2']);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
-          .rawArray,
-      ).toEqual(['folder-3', 'folder-4']);
-      expect(result.entities[department1]?.children[0]).toStrictEqual({
-        id: 'folder-1',
-        name: 'Folder 1',
-        isDirty: false,
-        children: [],
-      });
-      expect(result.entities[department1]?.children[1]).toStrictEqual({
-        id: 'folder-2',
-        name: 'Folder 2',
-        isDirty: false,
-        children: [],
-      });
+      itCreatesProxiesForChildrenThatDontExist(result);
     });
   });
   describe('when the child is frozen', () => {
     beforeEach(() => {
-      registerEntity('feature', 'entityName', {
-        defaultRow: (id: string) => ({
-          id,
-          isDirty: false,
-          children: [],
-          name: '',
-        }),
-      });
-
-      selectEntity = createInnerSmartSelector(
-        jest.fn() as unknown as MemoizedSelector<
-          object,
-          EntityState<{ id: string; name: string; children: string[] }>
-        >,
-        {
-          childFeature: 'feature',
-          childFieldName: 'entityName',
-          childSelector: jest.fn() as unknown as MemoizedSelector<
-            object,
-            EntityState<MarkAndDelete>
-          >,
-          parentFieldName: 'children',
-        },
-      );
-      child1 = entityStateFactory({
-        parentCount: 2,
-        parentType: 'folder',
-        childCount: 0,
-        childType: 'list',
-      });
-
-      parent = entityStateFactory({
-        parentCount: 2,
-        childCount: 2,
-        parentType: 'department',
-        childType: 'folder',
-      });
+      commonSetup();
 
       Object.freeze(
         castTo<{ children: unknown[] }>(parent.entities[department1])?.children,
@@ -164,37 +143,9 @@ describe('createInnerSmartSelector', () => {
     afterEach(() => {
       unregisterEntity('feature', 'entityName');
     });
+    // eslint-disable-next-line jest/expect-expect -- expects are in the function
     it("creates proxies for children that don't exist", () => {
-      expect(result.entities[department1]?.children).toHaveLength(2);
-      expect(result.entities[department2]?.children).toHaveLength(2);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
-          .θisProxyθ,
-      ).toBe(true);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
-          .θisProxyθ,
-      ).toBe(true);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
-          .rawArray,
-      ).toEqual(['folder-1', 'folder-2']);
-      expect(
-        castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
-          .rawArray,
-      ).toEqual(['folder-3', 'folder-4']);
-      expect(result.entities[department1]?.children[0]).toStrictEqual({
-        id: 'folder-1',
-        name: 'Folder 1',
-        isDirty: false,
-        children: [],
-      });
-      expect(result.entities[department1]?.children[1]).toStrictEqual({
-        id: 'folder-2',
-        name: 'Folder 2',
-        isDirty: false,
-        children: [],
-      });
+      itCreatesProxiesForChildrenThatDontExist(result);
     });
   });
 });
