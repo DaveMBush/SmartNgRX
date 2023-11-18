@@ -1,12 +1,13 @@
-import { inject, InjectionToken, NgZone } from '@angular/core';
-import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, switchMap } from 'rxjs';
+import { InjectionToken } from '@angular/core';
+import { createEffect, FunctionalEffect } from '@ngrx/effects';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { bufferAction } from './buffer-action.function';
 import { EffectService } from './effect-service';
+import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
+import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
+import { loadEffect } from './effects-factory/load-effect.function';
 
 /**
  * The effects factory creates a new set of effects for the
@@ -23,43 +24,18 @@ import { EffectService } from './effect-service';
  */
 export function effectsFactory<Source extends string, T>(
   source: StringLiteralSource<Source>,
-  effectServiceToken: InjectionToken<EffectService<T>>,
+  effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<Source, T>(source);
   return castTo<Record<string, FunctionalEffect>>({
-    load: createEffect(
-      (
-        actions$ = inject(Actions),
-        actionService = inject(effectServiceToken),
-      ) => {
-        return actions$.pipe(
-          ofType(actions.load),
-          switchMap(() => {
-            return actionService.load();
-          }),
-          map((rows) => {
-            return actions.loadSuccess({ rows });
-          }),
-        );
-      },
-      { functional: true },
-    ),
-    loadByIds: createEffect(
-      (
-        actions$ = inject(Actions),
-        actionService = inject(effectServiceToken),
-        zone: NgZone = inject(NgZone),
-      ) => {
-        return actions$.pipe(
-          ofType(actions.loadByIds),
-          bufferAction(zone),
-          mergeMap((ids) => {
-            return actionService.loadByIds(ids);
-          }),
-          map((rows) => actions.loadByIdsSuccess({ rows })),
-        );
-      },
-      { functional: true },
-    ),
+    load: createEffect(loadEffect(effectsServiceToken, actions), {
+      functional: true,
+    }),
+    loadByIdsPreload: createEffect(loadByIdsPreloadEffect(actions), {
+      functional: true,
+    }),
+    loadByIds: createEffect(loadByIdsEffect(effectsServiceToken, actions), {
+      functional: true,
+    }),
   });
 }

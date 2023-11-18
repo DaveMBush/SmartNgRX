@@ -34,7 +34,8 @@ export function reducerFactory<Source extends string, T>(
 
     // make sure that when we call loadByIds the store gets set with
     // something so that we don't try to refetch the same data
-    on(actions.loadByIds, (state, { ids }) =>
+    // The other part of this is handled in an effect
+    on(actions.loadByIdsPreload, (state, { ids }) =>
       adapter.upsertMany(defaultRows(ids, state, defaultRow), state),
     ),
 
