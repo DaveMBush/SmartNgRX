@@ -466,19 +466,6 @@
     "breadcrumbs": [
       "API",
       "smart-ngrx",
-      "effectsFactory"
-    ],
-    "pageType": "api",
-    "title": "effectsFactory",
-    "section": "Parameters",
-    "route": "/api/smart-ngrx/functions/effectsFactory",
-    "fragment": "parameters",
-    "content": "The token for the service that the resulting effect will call."
-  },
-  {
-    "breadcrumbs": [
-      "API",
-      "smart-ngrx",
       "LoadByIdsEffect"
     ],
     "pageType": "api",
@@ -500,6 +487,122 @@
     "route": "/api/smart-ngrx/type-aliases/LoadEffect",
     "fragment": "loadeffect",
     "content": "Shorthand for the type of the Load effect."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadByIdsEffect"
+    ],
+    "pageType": "api",
+    "title": "loadByIdsEffect",
+    "section": "loadByIdsEffect",
+    "route": "/api/smart-ngrx/functions/loadByIdsEffect",
+    "fragment": "loadbyidseffect",
+    "content": "This is the effect that loads the ids from the service."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadByIdsEffect"
+    ],
+    "pageType": "api",
+    "title": "loadByIdsEffect",
+    "section": "Parameters",
+    "route": "/api/smart-ngrx/functions/loadByIdsEffect",
+    "fragment": "parameters",
+    "content": "the effect service token that knows how to load the ids"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadByIdsEffect"
+    ],
+    "pageType": "api",
+    "title": "loadByIdsEffect",
+    "section": "Parameters",
+    "route": "/api/smart-ngrx/functions/loadByIdsEffect",
+    "fragment": "parameters",
+    "content": "the action group for the source provided"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadByIdsPreloadEffect"
+    ],
+    "pageType": "api",
+    "title": "loadByIdsPreloadEffect",
+    "section": "loadByIdsPreloadEffect",
+    "route": "/api/smart-ngrx/functions/loadByIdsPreloadEffect",
+    "fragment": "loadbyidspreloadeffect",
+    "content": "This is the effect that queues up the ids so the dummy records can be loaded into the store while the service is retrieving the real records."
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadByIdsPreloadEffect"
+    ],
+    "pageType": "api",
+    "title": "loadByIdsPreloadEffect",
+    "section": "Parameters",
+    "route": "/api/smart-ngrx/functions/loadByIdsPreloadEffect",
+    "fragment": "parameters",
+    "content": "the action group for the source provided"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadEffect"
+    ],
+    "pageType": "api",
+    "title": "loadEffect",
+    "section": "loadEffect",
+    "route": "/api/smart-ngrx/functions/loadEffect",
+    "fragment": "loadeffect",
+    "content": "This is an internal function that defines the load effect"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadEffect"
+    ],
+    "pageType": "api",
+    "title": "loadEffect",
+    "section": "Parameters",
+    "route": "/api/smart-ngrx/functions/loadEffect",
+    "fragment": "parameters",
+    "content": "Token for the effect service that loads the data"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "loadEffect"
+    ],
+    "pageType": "api",
+    "title": "loadEffect",
+    "section": "Parameters",
+    "route": "/api/smart-ngrx/functions/loadEffect",
+    "fragment": "parameters",
+    "content": "The action group for the source provided"
+  },
+  {
+    "breadcrumbs": [
+      "API",
+      "smart-ngrx",
+      "ActionGroup"
+    ],
+    "pageType": "api",
+    "title": "ActionGroup",
+    "section": "ActionGroup",
+    "route": "/api/smart-ngrx/interfaces/ActionGroup",
+    "fragment": "actiongroup"
   },
   {
     "breadcrumbs": [
