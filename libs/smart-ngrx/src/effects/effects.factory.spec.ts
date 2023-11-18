@@ -36,6 +36,7 @@ describe('effectsFactory', () => {
   const mockActions = () => actions;
   let loadEffect: Observable<Action>;
   let loadByIdsEffect: Observable<Action>;
+  let loadByIdsPreloadEffect: Observable<Action>;
   const source = 'test';
 
   beforeEach(() => {
@@ -59,6 +60,7 @@ describe('effectsFactory', () => {
       );
       loadEffect = effect.load();
       loadByIdsEffect = effect.loadByIds();
+      loadByIdsPreloadEffect = effect.loadByIdsPreload();
     });
   });
 
@@ -103,6 +105,24 @@ describe('effectsFactory', () => {
               { id: '2', test: 'test2' },
             ],
           }),
+        });
+      });
+    });
+  });
+  describe('when loadByIds is processed by the loadByIdsPreLoad effect', () => {
+    it('should return the loadByIdsPreload action', () => {
+      const sourceActions = actionFactory<'test', MockState>(source);
+      testScheduler.run(({ hot, expectObservable }) => {
+        actions = hot('-ab', {
+          a: sourceActions.loadByIds({ ids: ['1'] }),
+          b: sourceActions.loadByIds({ ids: ['2'] }),
+        });
+        TestBed.runInInjectionContext(() => {
+          expectObservable(loadByIdsPreloadEffect).toBe('---a', {
+            a: sourceActions.loadByIdsPreload({
+              ids: ['1', '2'],
+            }),
+          });
         });
       });
     });

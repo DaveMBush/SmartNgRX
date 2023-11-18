@@ -16,6 +16,7 @@ export interface EffectsFactory<T> {
    * The effect the `load` action will end up calling.
    */
   load: LoadEffect<T>;
+  loadByIdsPreload: LoadEffect<T>;
   /**
    * The effect the `loadById` action will end up calling.
    */
