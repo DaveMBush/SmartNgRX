@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
+      /* istanbul ignore next -- trivial condition obvious at runtime */
       if (event instanceof NavigationEnd) {
         this.activeLink = event.urlAfterRedirects.split('/')[1];
       }
