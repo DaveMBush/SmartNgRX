@@ -1,1 +1,16 @@
-<dmb-sidebar [location]="location | async"></dmb-sidebar>
+<mat-toolbar color="primary">
+  <span>Smart NgRX Demo</span>
+  <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
+    <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === activeLink">
+      Tree
+    </a>
+    <a mat-tab-link [routerLink]="'memlab'" [active]="'memlab' === activeLink">
+      MemLab
+    </a>
+  </nav>
+</mat-toolbar>
+<div class="container">
+  <mat-tab-nav-panel #tabPanel>
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</div>

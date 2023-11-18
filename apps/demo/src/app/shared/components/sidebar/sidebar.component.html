@@ -1,4 +1,11 @@
-<p>{{ locationName }}</p>
+<mat-form-field>
+  <mat-label>Select Location</mat-label>
+  <mat-select [value]="locationId" (selectionChange)="selectionChanged($event)">
+    @for (location of locations; track location.id) {
+    <mat-option [value]="location.id">{{ location.name }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
 <cdk-virtual-scroll-viewport
   itemSize="48"
   [minBufferPx]="48 * 50"
@@ -7,30 +14,43 @@
   <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
     <!-- This is the tree node template for leaf nodes -->
-    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-      <div [ngClass]="{ selected: node.id === selectedNode }">
-        <button mat-icon-button disabled>&nbsp;</button>
-        <button (click)="selectNode(node)" mat-button>{{ node.name }}</button>
-      </div>
+    <mat-tree-node
+      *matTreeNodeDef="let node"
+      matTreeNodePadding
+      [ngClass]="{ selected: node.id === selectedNode }"
+    >
+      <button
+        type="button"
+        aria-label="empty disabled"
+        mat-icon-button
+        disabled
+      >
+        &nbsp;
+      </button>
+      <button type="button" (click)="selectNode(node)" mat-button>
+        {{ node.name }}
+      </button>
     </mat-tree-node>
     <!-- This is the tree node template for expandable nodes -->
     <mat-tree-node
       *matTreeNodeDef="let node; when: hasChild"
       matTreeNodePadding
+      [ngClass]="{ selected: node.id === selectedNode }"
     >
-      <div [ngClass]="{ selected: node.id === selectedNode }">
-        <button
-          mat-icon-button
-          matTreeNodeToggle
-          (click)="toggleExpand(node)"
-          [attr.aria-label]="'Toggle ' + node.name"
-        >
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{ node.isExpanded ? 'expand_more' : 'chevron_right' }}
-          </mat-icon>
-        </button>
-        <button (click)="selectNode(node)" mat-button>{{ node.name }}</button>
-      </div>
+      <button
+        type="button"
+        mat-icon-button
+        matTreeNodeToggle
+        (click)="toggleExpand(node)"
+        [attr.aria-label]="'Toggle ' + node.name"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ node.isExpanded ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+      <button type="button" (click)="selectNode(node)" mat-button>
+        {{ node.name }}
+      </button>
     </mat-tree-node>
   </mat-tree>
 </cdk-virtual-scroll-viewport>

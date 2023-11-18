@@ -16,7 +16,8 @@
     "dupcheck": "pnpm jscpd",
     "htmllint": "pnpm htmlhint \"{apps,libs}**/*.html\"",
     "prepare": "is-ci || husky install",
-    "postinstall": "pnpm dlx prisma migrate dev"
+    "postinstall": "pnpm dlx prisma migrate dev",
+    "memlab": "nx run demo-memlab:memlab"
   },
   "prisma": {
     "seed": "pnpm ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -130,6 +131,7 @@
     "jest-preset-angular": "~13.1.3",
     "jscpd": "~3.5.10",
     "lint-staged": "^15.0.2",
+    "memlab": "^1.1.41",
     "ng-packagr": "~16.2.3",
     "nx": "17.0.3",
     "nx-cloud": "16.5.2",

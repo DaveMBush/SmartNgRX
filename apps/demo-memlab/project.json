@@ -1,0 +1,21 @@
+{
+  "name": "demo-memlab",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "demo-memlab",
+  "sourceRoot": "apps/demo-memlab/src",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/demo/**/*.ts", "apps/demo/**/*.html"]
+      }
+    },
+    "memlab": {
+      "command": "memlab run --scenario ./apps/demo-memlab/src/demo/base-line-to-tree.js",
+      "inputs": ["{projectRoot}/**.*", "{workspaceRoot}/apps/demo/**/*"]
+    }
+  }
+}

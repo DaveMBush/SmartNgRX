@@ -2,9 +2,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { importProvidersFrom, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTreeModule } from '@angular/material/tree';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
@@ -38,12 +41,16 @@ const sharedReducers = castTo<ActionReducerMap<SharedState>>({
 @NgModule({
   declarations: [SidebarComponent],
   imports: [
+    FormsModule,
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
     MatTreeModule,
     MatIconModule,
     MatButtonModule,
+    MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
     ScrollingModule,
   ],
   providers: [

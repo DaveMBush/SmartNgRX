@@ -17,7 +17,7 @@ import { locationActions } from './location.actions';
 import { Location } from './location.interface';
 import {
   selectCurrentLocation,
-  selectLocation,
+  selectLocations,
   selectLocationsDepartments,
 } from './location.selectors';
 
@@ -103,10 +103,10 @@ describe('Location Selectors', () => {
           shared2: initialState.shared2,
         });
         const result = (await firstValueFrom(
-          store.select(selectLocation),
+          store.select(selectLocations),
         )) as typeof initialState.shared.locations;
 
-        expect(result).toEqual(initialState.shared.locations);
+        expect(result).toEqual(initialState.shared.locations.ids);
         // have to wait for the init() action to run.
         await firstValueFrom(store.scannedActions$);
         // Here, you would also check if `locationActions.load` has been dispatched.
@@ -123,10 +123,10 @@ describe('Location Selectors', () => {
         });
 
         const result = (await firstValueFrom(
-          store.select(selectLocation),
+          store.select(selectLocations),
         )) as typeof initialState.shared.locations;
 
-        expect(result).toEqual(initialState.shared.locations);
+        expect(result).toEqual(initialState.shared.locations.ids);
         // have to wait for the init() action to run.
         await firstValueFrom(store.scannedActions$);
         // Here, you would also check if `locationActions.load` has been dispatched.
@@ -189,10 +189,16 @@ describe('Location Selectors', () => {
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
-            store.select(selectLocation),
+            store.select(selectLocations),
           )) as typeof initialState.shared.locations;
 
-          expect(result).toEqual(initialState.shared.locations);
+          const expected = initialState.shared.locations.ids.map((id) => ({
+            ...castTo<Record<string, Location>>(
+              initialState.shared.locations.entities,
+            )[id],
+            departments: [],
+          }));
+          expect(result).toEqual(expected);
 
           expectObservable(action).toBe('');
         });
@@ -210,10 +216,17 @@ describe('Location Selectors', () => {
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
-            store.select(selectLocation),
+            store.select(selectLocations),
           )) as typeof initialState.shared.locations;
 
-          expect(result).toEqual(initialState.shared.locations);
+          const expected = initialState.shared.locations.ids.map((id) => ({
+            ...castTo<Record<string, Location>>(
+              initialState.shared.locations.entities,
+            )[id],
+            departments: [],
+          }));
+
+          expect(result).toEqual(expected);
 
           expectObservable(action).toBe('');
         });
