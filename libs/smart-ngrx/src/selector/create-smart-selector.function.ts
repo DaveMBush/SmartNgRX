@@ -26,10 +26,10 @@ import { ParentSelector } from './parent-selector.type';
  * @see `ParentSelector`
  */
 export function createSmartSelector<P extends object>(
-  parent: ParentSelector<P>,
+  parentSelector: ParentSelector<P>,
   children: ProxyChild<P>[],
 ): MemoizedSelector<object, EntityState<P>> {
   return children.reduce((p, child) => {
     return createInnerSmartSelector(p, child);
-  }, parent);
+  }, parentSelector);
 }

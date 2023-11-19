@@ -11,7 +11,7 @@ import { EffectService } from '../effect-service';
  *
  * @param effectServiceToken - the effect service token that knows how to load the ids
  * @param actions - the action group for the source provided
- * @returns
+ * @returns the loadByIds effect
  */
 export function loadByIdsEffect<T>(
   effectServiceToken: InjectionToken<EffectService<T>>,

@@ -8,6 +8,11 @@
         "project": ["./tsconfig.*?.json"]
       },
       "rules": {
+        // JSDoc Plugin
+        "jsdoc/require-description": "error",
+        "jsdoc/require-param": "error",
+        "jsdoc/require-returns": "error",
+        // Turn off rules for lib
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/explicit-function-return-type": "off"

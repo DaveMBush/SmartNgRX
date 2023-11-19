@@ -10,6 +10,7 @@ import { EffectService } from '../effect-service';
  *
  * @param effectServiceToken - Token for the effect service that loads the data
  * @param actions - The action group for the source provided
+ * @returns The load effect
  */
 export function loadEffect<T>(
   effectServiceToken: InjectionToken<EffectService<T>>,
