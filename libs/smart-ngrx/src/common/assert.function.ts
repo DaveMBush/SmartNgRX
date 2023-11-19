@@ -26,8 +26,8 @@
  * // now use the variable without having to use ? or ! everywhere
  * ```
  *
- * @param condition - condition to check
- * @param context - description of what we checked.
+ * @param condition condition to check
+ * @param context description of what we checked.
  *                  If you put a GUID in the string it will
  *                  make it easier to find the error in the
  *                  source code.

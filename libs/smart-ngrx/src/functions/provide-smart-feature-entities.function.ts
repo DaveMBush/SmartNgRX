@@ -24,9 +24,9 @@ import { registerEntity } from './register-entity.function';
  *     ...
  *   ],
  * ```
- * @param featureName - This is the name you would use for forFeature()
+ * @param featureName This is the name you would use for forFeature()
  * in standard NgRX code.
- * @param entityDefinitions - An array of entity definitions.
+ * @param entityDefinitions An array of entity definitions.
  * @returns `EnvironmentProviders` that will get used to provide the NgRX reducer and effect for this slice.
  *
  * @see `EntityDefinition`

@@ -10,10 +10,6 @@ import { isArrayProxy } from './is-array-proxy.function';
  * This is an internal class used by `createSmartSelector` to wrap the field
  * that represents the child array with a class that manages all the
  * magic of loading the data from the server as it is accessed.
- * @param childArray The array of ids to wrap
- * @param child The child entity we use to find the item in the store
- * @param childAction the action to fire if the item has not been loaded
- * @param defaultChildRow function that returns a default row for the child
  *
  * @see `createSmartSelector`
  */
@@ -26,6 +22,14 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
   private childAction: (p: { ids: string[] }) => Action;
   private defaultChildRow: (id: string) => C;
 
+  /**
+   * The constructor for the ArrayProxy class.
+   *
+   * @param childArray The array of ids to wrap
+   * @param child The child entity we use to find the item in the store
+   * @param childAction the action to fire if the item has not been loaded
+   * @param defaultChildRow function that returns a default row for the child
+   */
   constructor(
     childArray: ArrayProxy<C> | string[],
     child: EntityState<C>,
@@ -48,6 +52,11 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
     });
   }
 
+  /**
+   * This initialized the class once it has been created. We do this
+   * so that we can test the class without having to worry about
+   * executable code in the constructor.
+   */
   init(): void {
     // fill childArray with values from entity that we currently have
     if (isArrayProxy(this.childArray)) {
@@ -67,7 +76,8 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
    * This primarily exist for testing so you can stringify the array and then
    * parse it so that you get an array you can compare against instead of an
    * object of type ArrayProxy that you can't do much with.
-   * @returns
+   * @returns what this would return if it were a real array.  Mostly for
+   * unit testing.
    */
   toJSON(): C[] {
     const array: C[] = [];
@@ -80,7 +90,15 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
   [n: number]: C;
   length = 0;
 
-  // Getter for data retrieval
+  /**
+   * Allows us to go after the data in the store based on the index of the
+   * array.
+   *
+   * @param index the index into the rawArray that has the ID we will
+   * lookup in the entity.
+   * @returns the item from the store or the default row if it is not in the
+   * store yet.
+   */
   getAtIndex(index: number): C {
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];

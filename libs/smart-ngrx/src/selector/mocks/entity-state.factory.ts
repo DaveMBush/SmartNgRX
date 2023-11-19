@@ -48,17 +48,22 @@ const reduceEntityArrayToObject = (
 });
 
 /**
- * Used by unit tests
- * @param param0
+ * Used by unit tests to create a mock entity state.
+ *
+ * @param params The parameters to use to create the mock entity state.
+ *
  * @returns
  */
-export function entityStateFactory({
-  parentCount,
-  childCount,
-  parentType,
-  childType,
-  isDirty = false,
-}: EntityStateFactoryParameters): EntityState<Entity> {
+export function entityStateFactory(
+  params: EntityStateFactoryParameters,
+): EntityState<Entity> {
+  const {
+    parentCount,
+    childCount,
+    parentType,
+    childType,
+    isDirty = false,
+  } = params;
   const ids = Array(parentCount)
     .fill(0)
     .map((_, i) => `${parentType}-${i + 1}`);

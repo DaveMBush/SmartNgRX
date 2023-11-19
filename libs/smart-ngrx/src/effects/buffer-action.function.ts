@@ -64,8 +64,8 @@ function mainBuffer(
       { functional: true }
     );
  * ```
- * @param ngZone - The zone to use to run outside of Angular.
- * @param bufferTime - The time to buffer the ids before sending them to the server.
+ * @param ngZone The zone to use to run outside of Angular.
+ * @param bufferTime The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
  *     and is probably all we will ever need.
  * @returns The buffered ids.

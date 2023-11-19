@@ -14,8 +14,8 @@ import { loadEffect } from './effects-factory/load-effect.function';
  * `Action` source provided and calls the service represented
  * by the `InjectionToken` provided.
  *
- * @param source - The source of the actions for this effect
- * @param effectServiceToken - The token for the service that
+ * @param source The source of the actions for this effect
+ * @param effectsServiceToken The token for the service that
  *   the resulting effect will call.
  * @returns The effect for the source provided
  *

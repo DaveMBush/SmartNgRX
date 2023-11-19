@@ -15,9 +15,9 @@ import { ParentSelector } from './parent-selector.type';
  * support for a rawArray property that returns the original array
  * before it was proxied.
  *
- * @param parentSelector - The selector to retrieve the parent data
+ * @param parentSelector The selector to retrieve the parent data
  * from the store.
- * @param children - The array of `ProxyChild` objects that define the
+ * @param children The array of `ProxyChild` objects that define the
  * child data to retrieve.
  * @returns Memozied selector that returns the proxied arrays.  It is
  * typed as a regular Selector to keep the compiler happy.
@@ -26,10 +26,10 @@ import { ParentSelector } from './parent-selector.type';
  * @see `ParentSelector`
  */
 export function createSmartSelector<P extends object>(
-  parent: ParentSelector<P>,
+  parentSelector: ParentSelector<P>,
   children: ProxyChild<P>[],
 ): MemoizedSelector<object, EntityState<P>> {
   return children.reduce((p, child) => {
     return createInnerSmartSelector(p, child);
-  }, parent);
+  }, parentSelector);
 }
