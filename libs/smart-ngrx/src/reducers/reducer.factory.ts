@@ -10,8 +10,8 @@ import { defaultRows } from './default-rows.function';
  * and documented here for future contributions. Application code
  * should never need to use this function.
  *
- * @param source - The source of the actions for this effect
- * @param defaultRow - A function that returns a default row for the given id
+ * @param source The source of the actions for this effect
+ * @param defaultRow A function that returns a default row for the given id
  * @returns a new reducer for the source provided
  */
 export function reducerFactory<Source extends string, T>(

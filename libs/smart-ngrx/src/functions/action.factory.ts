@@ -18,7 +18,7 @@ const actionGroupCache = new Map<string, CachedActionGroup>();
  * dispatch one of these actions from your own code. They
  * are used internally and are only exposed for convenience.
  *
- * @param source - The source of the actions for this effect
+ * @param source The source of the actions for this effect
  * @returns The action group for the source provided
  *
  * @see `IdProp`

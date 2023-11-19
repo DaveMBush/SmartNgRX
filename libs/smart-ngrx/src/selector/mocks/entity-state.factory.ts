@@ -50,7 +50,7 @@ const reduceEntityArrayToObject = (
 /**
  * Used by unit tests to create a mock entity state.
  *
- * @param params - The parameters to use to create the mock entity state.
+ * @param params The parameters to use to create the mock entity state.
  *
  * @returns
  */

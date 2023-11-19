@@ -8,6 +8,10 @@ import { store } from './store.function';
  */
 @Injectable()
 export class StoreEffects {
+  /**
+   * This is the constructor that is used to set the global store.
+   * @param storeInstance
+   */
   constructor(
     // eslint-disable-next-line ngrx/use-consistent-global-store-name -- this is needed because we are calling the function store()
     storeInstance: Store,

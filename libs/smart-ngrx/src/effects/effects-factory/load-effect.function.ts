@@ -8,8 +8,8 @@ import { EffectService } from '../effect-service';
 /**
  * This is an internal function that defines the load effect
  *
- * @param effectServiceToken - Token for the effect service that loads the data
- * @param actions - The action group for the source provided
+ * @param effectServiceToken Token for the effect service that loads the data
+ * @param actions The action group for the source provided
  * @returns The load effect
  */
 export function loadEffect<T>(
