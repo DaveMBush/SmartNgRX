@@ -45,8 +45,8 @@ dependencies:
     specifier: ^10.2.9
     version: 10.2.9(@nestjs/common@10.2.9)(@nestjs/core@10.2.9)
   '@ng-doc/app':
-    specifier: 16.16.0
-    version: 16.16.0(@angular/cdk@17.0.1)(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/router@17.0.3)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
+    specifier: 17.0.0
+    version: 17.0.0(@angular/cdk@17.0.1)(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/router@17.0.3)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(di-controls@2.1.0)(rxjs@7.8.1)
   '@ng-doc/builder':
     specifier: 16.16.0
     version: 16.16.0(@angular-devkit/core@17.0.1)(@angular-devkit/schematics@17.0.1)(@angular/compiler-cli@17.0.3)(@swc/core@1.3.96)(@types/express@4.17.21)(@types/node@20.9.0)(jest-environment-jsdom@29.7.0)(jest@29.7.0)(ng-packagr@17.0.1)(stylus@0.59.0)(typescript@5.2.2)
@@ -4387,27 +4387,27 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@ng-doc/app@16.16.0(@angular/cdk@17.0.1)(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/router@17.0.3)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-TTvxWwYFI0iIyiDsY0ADewf+g04UFBTtfridyCK/OagcbA9LxTtR22wNI8JBTqMvK2Bv01FJ4Eb1VdYL5I4XMA==}
+  /@ng-doc/app@17.0.0(@angular/cdk@17.0.1)(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/router@17.0.3)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(di-controls@2.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-dtdVz+jCCt67i+qHiiK7gyS+AOB17T7Up74VY6L7CmYb7r64kjphZ1YY1yxPIOa9Gv/JhOH72unbNzDpw9hm3A==}
     peerDependencies:
-      '@angular/cdk': '>=16.0.0'
-      '@angular/common': '>=16.0.0'
-      '@angular/core': '>=16.0.0'
-      '@angular/router': '>=16.0.0'
+      '@angular/cdk': '>=17.0.0'
+      '@angular/common': '>=17.0.0'
+      '@angular/core': '>=17.0.0'
+      '@angular/router': '>=17.0.0'
       '@ng-web-apis/common': 2.0.1
-      flex-controls: 2.0.1
+      di-controls: 2.1.0
       rxjs: ^7.0.0
     dependencies:
       '@angular/cdk': 17.0.1(@angular/common@17.0.3)(@angular/core@17.0.3)(rxjs@7.8.1)
       '@angular/common': 17.0.3(@angular/core@17.0.3)(rxjs@7.8.1)
       '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
       '@angular/router': 17.0.3(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/platform-browser@17.0.3)(rxjs@7.8.1)
-      '@ng-doc/core': 16.16.0
-      '@ng-doc/ui-kit': 16.16.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
+      '@ng-doc/core': 17.0.0
+      '@ng-doc/ui-kit': 17.0.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(di-controls@2.1.0)(rxjs@7.8.1)
       '@ng-web-apis/common': 2.0.1(@angular/common@17.0.3)(@angular/core@17.0.3)(rxjs@7.8.1)
       '@orama/plugin-match-highlight': 1.0.2
       '@orama/stemmers': 1.0.2
-      flex-controls: 2.0.1(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1)
+      di-controls: 2.1.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1)
       highlight.js: 11.5.1
       rxjs: 7.8.1
       tslib: 2.6.2
@@ -4484,6 +4484,15 @@ packages:
       posthtml-render: 3.0.0
     dev: false
 
+  /@ng-doc/core@17.0.0:
+    resolution: {integrity: sha512-eYk+aLVUQR9FQlfjVd6ZmNvMiWrEyydalaovNuoQJTFrhY75ABEtwmSRZL8i4PJZY6ksxPWgqKzk1TKRIsZCtw==}
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+    dev: false
+
   /@ng-doc/ui-kit@16.16.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
     resolution: {integrity: sha512-y3j6t0F659DgLgcfTzxJfxt4y5kI0fInq7InDRNLajiU7AiZu8hdN1k07PzWUvJPFZPn1BiILV0wWWRZ9yWviQ==}
     peerDependencies:
@@ -4501,6 +4510,27 @@ packages:
       '@ngneat/until-destroy': 9.2.0(@angular/core@17.0.3)(rxjs@7.8.1)
       '@tinkoff/ng-polymorpheus': 4.0.11(@angular/core@17.0.3)
       flex-controls: 2.0.1(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ng-doc/ui-kit@17.0.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(di-controls@2.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-IRIikTZL0g+PNp3Zj0RfRhJB972VIePOPIxUw1UnbGbGVLS/CCysm9nQa3EbtdhvhB03zvARv+LAQHHKvNp/Ug==}
+    peerDependencies:
+      '@angular/common': '>=17.0.0'
+      '@angular/core': '>=17.0.0'
+      '@ngneat/until-destroy': 9.2.0
+      '@tinkoff/ng-polymorpheus': 4.0.11
+      di-controls: 2.1.0
+      rxjs: ^7.0.0
+    dependencies:
+      '@angular/cdk': 16.2.7(@angular/common@17.0.3)(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@angular/common': 17.0.3(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
+      '@ng-doc/core': 17.0.0
+      '@ngneat/until-destroy': 9.2.0(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@tinkoff/ng-polymorpheus': 4.0.11(@angular/core@17.0.3)
+      di-controls: 2.1.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
@@ -8703,6 +8733,21 @@ packages:
   /dexie@3.2.4:
     resolution: {integrity: sha512-VKoTQRSv7+RnffpOJ3Dh6ozknBqzWw/F3iqMdsZg958R0AS8AnY9x9d1lbwENr0gzeGJHXKcGhAMRaqys6SxqA==}
     engines: {node: '>=6.0'}
+    dev: false
+
+  /di-controls@2.1.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1):
+    resolution: {integrity: sha512-ChrxvFJHZ51z2vEx/xJUBIQWLkr2vvXIwH6YdiMDGxozLgVNQVuaGwETT/c/muweDnX6UFaLXnBRCrkCYDzkyg==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0'
+      '@angular/core': '>=16.0.0'
+      '@angular/forms': '>=16.0.0'
+      rxjs: '>=6.6.7'
+    dependencies:
+      '@angular/common': 17.0.3(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
+      '@angular/forms': 17.0.3(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/platform-browser@17.0.3)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
     dev: false
 
   /diff-sequences@29.6.3:
