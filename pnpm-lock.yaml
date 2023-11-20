@@ -57,8 +57,8 @@ dependencies:
     specifier: 16.16.0
     version: 16.16.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
   '@ngrx/component-store':
-    specifier: ~16.3.0
-    version: 16.3.0(@angular/core@17.0.3)(rxjs@7.8.1)
+    specifier: ~17.0.0
+    version: 17.0.0(@angular/core@17.0.3)(rxjs@7.8.1)
   '@ngrx/effects':
     specifier: ^16.3.0
     version: 16.3.0(@angular/core@17.0.3)(@ngrx/store@16.3.0)(rxjs@7.8.1)
@@ -4545,13 +4545,14 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@ngrx/component-store@16.3.0(@angular/core@17.0.3)(rxjs@7.8.1):
-    resolution: {integrity: sha512-mCUzhCHLhZPZ6Vq0JI810Vv2uhEX6ceaMqJykdDEVKmvkokm3cwsV8bvodyzn5BcJf2w47JFCvdNSaWU31XU+A==}
+  /@ngrx/component-store@17.0.0(@angular/core@17.0.3)(rxjs@7.8.1):
+    resolution: {integrity: sha512-2TBRmidAFeSkC+A8izG5DmNRH6PuJp6zPgtXHiwcSbLxUnRzGDeh0u0FNLaYBuIeHIqVREL0ccC0iISUwo8K/w==}
     peerDependencies:
-      '@angular/core': ^16.0.0
+      '@angular/core': ^17.0.0
       rxjs: ^6.5.3 || ^7.5.0
     dependencies:
       '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
+      '@ngrx/operators': 17.0.0-beta.0(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
@@ -4578,6 +4579,15 @@ packages:
     dependencies:
       '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
       '@ngrx/store': 16.3.0(@angular/core@17.0.3)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ngrx/operators@17.0.0-beta.0(rxjs@7.8.1):
+    resolution: {integrity: sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A==}
+    peerDependencies:
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
