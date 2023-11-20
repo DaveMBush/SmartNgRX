@@ -54,8 +54,8 @@ dependencies:
     specifier: 16.16.0
     version: 16.16.0
   '@ng-doc/ui-kit':
-    specifier: 16.16.0
-    version: 16.16.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1)
+    specifier: 17.0.0
+    version: 17.0.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(di-controls@2.1.0)(rxjs@7.8.1)
   '@ngrx/component-store':
     specifier: ~16.3.0
     version: 16.3.0(@angular/core@17.0.3)(rxjs@7.8.1)
@@ -4484,6 +4484,15 @@ packages:
       posthtml-render: 3.0.0
     dev: false
 
+  /@ng-doc/core@17.0.0:
+    resolution: {integrity: sha512-eYk+aLVUQR9FQlfjVd6ZmNvMiWrEyydalaovNuoQJTFrhY75ABEtwmSRZL8i4PJZY6ksxPWgqKzk1TKRIsZCtw==}
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+    dev: false
+
   /@ng-doc/ui-kit@16.16.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(flex-controls@2.0.1)(rxjs@7.8.1):
     resolution: {integrity: sha512-y3j6t0F659DgLgcfTzxJfxt4y5kI0fInq7InDRNLajiU7AiZu8hdN1k07PzWUvJPFZPn1BiILV0wWWRZ9yWviQ==}
     peerDependencies:
@@ -4501,6 +4510,27 @@ packages:
       '@ngneat/until-destroy': 9.2.0(@angular/core@17.0.3)(rxjs@7.8.1)
       '@tinkoff/ng-polymorpheus': 4.0.11(@angular/core@17.0.3)
       flex-controls: 2.0.1(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ng-doc/ui-kit@17.0.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@ngneat/until-destroy@9.2.0)(@tinkoff/ng-polymorpheus@4.0.11)(di-controls@2.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-IRIikTZL0g+PNp3Zj0RfRhJB972VIePOPIxUw1UnbGbGVLS/CCysm9nQa3EbtdhvhB03zvARv+LAQHHKvNp/Ug==}
+    peerDependencies:
+      '@angular/common': '>=17.0.0'
+      '@angular/core': '>=17.0.0'
+      '@ngneat/until-destroy': 9.2.0
+      '@tinkoff/ng-polymorpheus': 4.0.11
+      di-controls: 2.1.0
+      rxjs: ^7.0.0
+    dependencies:
+      '@angular/cdk': 16.2.7(@angular/common@17.0.3)(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@angular/common': 17.0.3(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
+      '@ng-doc/core': 17.0.0
+      '@ngneat/until-destroy': 9.2.0(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@tinkoff/ng-polymorpheus': 4.0.11(@angular/core@17.0.3)
+      di-controls: 2.1.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
@@ -8703,6 +8733,21 @@ packages:
   /dexie@3.2.4:
     resolution: {integrity: sha512-VKoTQRSv7+RnffpOJ3Dh6ozknBqzWw/F3iqMdsZg958R0AS8AnY9x9d1lbwENr0gzeGJHXKcGhAMRaqys6SxqA==}
     engines: {node: '>=6.0'}
+    dev: false
+
+  /di-controls@2.1.0(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/forms@17.0.3)(rxjs@7.8.1):
+    resolution: {integrity: sha512-ChrxvFJHZ51z2vEx/xJUBIQWLkr2vvXIwH6YdiMDGxozLgVNQVuaGwETT/c/muweDnX6UFaLXnBRCrkCYDzkyg==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0'
+      '@angular/core': '>=16.0.0'
+      '@angular/forms': '>=16.0.0'
+      rxjs: '>=6.6.7'
+    dependencies:
+      '@angular/common': 17.0.3(@angular/core@17.0.3)(rxjs@7.8.1)
+      '@angular/core': 17.0.3(rxjs@7.8.1)(zone.js@0.14.2)
+      '@angular/forms': 17.0.3(@angular/common@17.0.3)(@angular/core@17.0.3)(@angular/platform-browser@17.0.3)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
     dev: false
 
   /diff-sequences@29.6.3:
