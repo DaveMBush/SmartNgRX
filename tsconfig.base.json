@@ -17,8 +17,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ng-doc/generated": [".ng-doc/documentation/index.ts"],
-      "@ng-doc/generated/*": [".ng-doc/documentation/*"],
+      "@ng-doc/generated": ["ng-doc/documentation/index.ts"],
+      "@ng-doc/generated/*": ["ng-doc/documentation/*"],
       "@smart/smart-ngrx/*": ["libs/smart-ngrx/src/*"]
     }
   },
