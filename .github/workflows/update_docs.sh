@@ -26,7 +26,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-cp -r documentation/* docs/
+cp -r documentation/browser/* docs/
 if [ $? -ne 0 ]; then
     echo "Failed to copy contents from /documentation to /docs. Aborting."
     git checkout $current_branch

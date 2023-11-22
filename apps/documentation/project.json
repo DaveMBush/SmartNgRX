@@ -14,20 +14,19 @@
         "outputPath": "documentation",
         "commands": [
           {
-            "command": "cp documentation/index.html documentation/404.html",
+            "command": "cp documentation/browser/index.html documentation/browser/404.html",
             "forwardAllArgs": true
           }
         ]
       }
     },
     "main-build": {
-      "executor": "@ng-doc/builder:browser",
+      "executor": "@ng-doc/builder:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "baseHref": "/SmartNgRX/",
         "outputPath": "documentation",
         "index": "apps/documentation/src/index.html",
-        "main": "apps/documentation/src/main.ts",
+        "browser": "apps/documentation/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/documentation/tsconfig.app.json",
         "assets": [
@@ -58,6 +57,7 @@
       },
       "configurations": {
         "production": {
+          "baseHref": "/SmartNgRX/",
           "budgets": [
             {
               "type": "initial",
@@ -74,9 +74,7 @@
         },
         "development": {
           "baseHref": "/",
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -88,10 +86,10 @@
       "executor": "@ng-doc/builder:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "documentation:main-build:production"
+          "buildTarget": "documentation:main-build:production"
         },
         "development": {
-          "browserTarget": "documentation:main-build:development"
+          "buildTarget": "documentation:main-build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -99,7 +97,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "documentation:build"
+        "buildTarget": "documentation:build"
       }
     },
     "lint": {
