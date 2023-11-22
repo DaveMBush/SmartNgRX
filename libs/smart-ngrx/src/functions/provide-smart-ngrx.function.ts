@@ -1,4 +1,9 @@
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import {
+  EnvironmentProviders,
+  importProvidersFrom,
+  makeEnvironmentProviders,
+} from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
 
 import { StoreEffects } from '../selector/store.effects';
 
@@ -9,5 +14,8 @@ import { StoreEffects } from '../selector/store.effects';
  * the common providers to the root of the application.
  */
 export function provideSmartNgRX(): EnvironmentProviders {
-  return makeEnvironmentProviders([StoreEffects]);
+  return makeEnvironmentProviders([
+    StoreEffects,
+    importProvidersFrom(EffectsModule.forFeature([StoreEffects])),
+  ]);
 }
