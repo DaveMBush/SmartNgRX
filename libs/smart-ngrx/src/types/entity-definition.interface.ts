@@ -1,10 +1,12 @@
 import { EffectServiceToken } from './effect-service.token';
+import { MarkAndDelete } from './mark-and-delete.interface';
+import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
 
 /**
  * This is the interface that is used to define the entity for the
  * provideSmartFeatureEntities provider function
  */
-export interface EntityDefinition<Row> {
+export interface EntityDefinition<Row extends MarkAndDelete> {
   /**
    * The field name that you'd usually use in the reducer object
    * you'd use in StoreModule.forFeature(featureName, reducer)
@@ -29,4 +31,11 @@ export interface EntityDefinition<Row> {
    */
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- decorating with void because this should not use this.
   defaultRow(this: void, id: string): Row;
+
+  /**
+   * The `MarkAndDeleteInit` for this entity. This is optional and if not provided
+   * it will use the global `MarkAndDeleteInit` that is registered with the
+   * as part of `provideSmartNgRX()
+   */
+  markAndDelete?: MarkAndDeleteInit;
 }

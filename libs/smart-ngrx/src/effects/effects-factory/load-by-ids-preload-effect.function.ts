@@ -3,6 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { mergeMap, of } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
+import { MarkAndDelete } from '../../types/mark-and-delete.interface';
 import { bufferAction } from '../buffer-action.function';
 
 /**
@@ -11,7 +12,9 @@ import { bufferAction } from '../buffer-action.function';
  * @param actions the action group for the source provided
  * @returns the LoadByIdesPreload effect
  */
-export function loadByIdsPreloadEffect<T>(actions: ActionGroup<T>) {
+export function loadByIdsPreloadEffect<T extends MarkAndDelete>(
+  actions: ActionGroup<T>,
+) {
   return (actions$ = inject(Actions), zone: NgZone = inject(NgZone)) => {
     return actions$.pipe(
       ofType(actions.loadByIds),

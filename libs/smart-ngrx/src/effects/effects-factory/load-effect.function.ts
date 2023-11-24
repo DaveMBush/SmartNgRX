@@ -3,6 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
+import { MarkAndDelete } from '../../types/mark-and-delete.interface';
 import { EffectService } from '../effect-service';
 
 /**
@@ -12,7 +13,7 @@ import { EffectService } from '../effect-service';
  * @param actions The action group for the source provided
  * @returns The load effect
  */
-export function loadEffect<T>(
+export function loadEffect<T extends MarkAndDelete>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
 ) {

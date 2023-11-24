@@ -8,11 +8,12 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
+import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { EffectService } from './effect-service';
 import { effectsFactory } from './effects.factory';
 import { EffectsFactory } from './effects-factory.interface';
 
-interface MockState {
+interface MockState extends MarkAndDelete {
   id: string;
   test: string;
 }

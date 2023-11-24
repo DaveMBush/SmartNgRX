@@ -1,5 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
+import { MarkAndDelete } from '../types/mark-and-delete.interface';
+
 /**
  * Filters out the rows we already have and provides a default row
  * for the ones we don't have.
@@ -9,7 +11,7 @@ import { EntityState } from '@ngrx/entity';
  * create a new row for the ids that are missing.
  * @returns The default rows for the ids that are missing
  */
-export function defaultRows<T>(
+export function defaultRows<T extends MarkAndDelete>(
   ids: string[],
   state: EntityState<T>,
   defaultRow: (id: string) => T,

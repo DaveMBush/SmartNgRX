@@ -1,8 +1,14 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { UpdateStr } from '@ngrx/entity/src/models';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../functions/action.factory';
+import {
+  registerEntities,
+  unregisterEntities,
+} from '../mark-and-delete/register-entities.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
+import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { defaultRows } from './default-rows.function';
 
 /**
@@ -10,17 +16,19 @@ import { defaultRows } from './default-rows.function';
  * and documented here for future contributions. Application code
  * should never need to use this function.
  *
- * @param source The source of the actions for this effect
+ * @param feature The feature name for this reducer
+ * @param entity The entity name (source) for this reducer
  * @param defaultRow A function that returns a default row for the given id
  * @returns a new reducer for the source provided
  */
-export function reducerFactory<Source extends string, T>(
-  source: StringLiteralSource<Source>,
+export function reducerFactory<Source extends string, T extends MarkAndDelete>(
+  feature: string,
+  entity: StringLiteralSource<Source>,
   defaultRow: (id: string) => T,
 ): ActionReducer<EntityState<T>> {
   const adapter = createEntityAdapter<T>();
   const initialState = adapter.getInitialState();
-  const actions = actionFactory<Source, T>(source);
+  const actions = actionFactory<Source, T>(entity);
 
   return createReducer(
     initialState,
@@ -31,6 +39,18 @@ export function reducerFactory<Source extends string, T>(
     on(actions.loadSuccess, (state, { rows }) => {
       return adapter.setAll(rows, state);
     }),
+    on(actions.markDirty, (state, { ids }) => {
+      const changes = ids.map(
+        (id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>,
+      );
+      return adapter.updateMany(changes, state);
+    }),
+    on(actions.garbageCollect, (state, { ids }) => {
+      return adapter.removeMany(
+        unregisterEntities(feature, entity, ids),
+        state,
+      );
+    }),
 
     // make sure that when we call loadByIds the store gets set with
     // something so that we don't try to refetch the same data
@@ -40,7 +60,7 @@ export function reducerFactory<Source extends string, T>(
     ),
 
     on(actions.loadByIdsSuccess, (state, { rows }) =>
-      adapter.upsertMany(rows, state),
+      adapter.upsertMany(registerEntities(feature, entity, rows), state),
     ),
   );
 }

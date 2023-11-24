@@ -4,6 +4,7 @@ import { createEffect, FunctionalEffect } from '@ngrx/effects';
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
+import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { EffectService } from './effect-service';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
@@ -22,7 +23,7 @@ import { loadEffect } from './effects-factory/load-effect.function';
  * @see `EffectsFactory`
  * @see `EffectService`
  */
-export function effectsFactory<Source extends string, T>(
+export function effectsFactory<Source extends string, T extends MarkAndDelete>(
   source: StringLiteralSource<Source>,
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {

@@ -10,7 +10,10 @@ import { currentLocationActions } from '../../current-location/current-location.
 import { setLocationIdEffect$ } from './location.effects';
 import { selectCurrentLocation } from './location.selectors';
 
-const locationActions = actionFactory('location');
+const locationActions = actionFactory<
+  'location',
+  { id: string; isDirty: boolean }
+>('location');
 
 describe('Location Effects', () => {
   let testScheduler: TestScheduler;
@@ -40,7 +43,9 @@ describe('Location Effects', () => {
 
     it('should set location id', () => {
       testScheduler.run(({ hot, expectObservable }) => {
-        const action = locationActions.loadSuccess({ rows: [{ id: '1' }] });
+        const action = locationActions.loadSuccess({
+          rows: [{ id: '1', isDirty: false }],
+        });
         const actions = new Actions(hot('-a', { a: action }));
         const effects = setLocationIdEffect$(actions, store);
 
@@ -75,7 +80,9 @@ describe('Location Effects', () => {
 
     it('should set location id', () => {
       testScheduler.run(({ hot, expectObservable }) => {
-        const action = locationActions.loadSuccess({ rows: [{ id: '1' }] });
+        const action = locationActions.loadSuccess({
+          rows: [{ id: '1', isDirty: false }],
+        });
         const actions = new Actions(hot('-a', { a: action }));
         const effects = setLocationIdEffect$(actions, store);
 
@@ -110,7 +117,9 @@ describe('Location Effects', () => {
 
     it('should set location id to the first available id', () => {
       testScheduler.run(({ hot, expectObservable }) => {
-        const action = locationActions.loadSuccess({ rows: [{ id: '2' }] });
+        const action = locationActions.loadSuccess({
+          rows: [{ id: '2', isDirty: false }],
+        });
         const actions = new Actions(hot('-a', { a: action }));
         const effects = setLocationIdEffect$(actions, store);
 

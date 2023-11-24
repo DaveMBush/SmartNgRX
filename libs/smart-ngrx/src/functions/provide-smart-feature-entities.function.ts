@@ -5,6 +5,10 @@ import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
 import { effectsFactory } from '../effects/effects.factory';
+import {
+  getMarkAndDeleteInit,
+  registerMarkAndDeleteInit,
+} from '../mark-and-delete/mark-and-delete-init';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { EntityDefinition } from '../types/entity-definition.interface';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
@@ -45,11 +49,16 @@ export function provideSmartFeatureEntities(
     const store = featureName + ':' + fieldName;
     const effects = effectsFactory(store as any, effectServiceToken);
     allEffects.push(effects);
-    const reducer = reducerFactory(store as any, defaultRow);
+    const reducer = reducerFactory(featureName, store as any, defaultRow);
     reducers[fieldName] = reducer;
     registerEntity(featureName, fieldName, {
       defaultRow: entityDefinition.defaultRow,
     });
+    const global = getMarkAndDeleteInit(`θglobalθ`);
+    registerMarkAndDeleteInit(
+      `${featureName}:${fieldName}`,
+      entityDefinition.markAndDelete ?? global,
+    );
   });
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),
