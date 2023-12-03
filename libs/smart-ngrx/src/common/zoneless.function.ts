@@ -4,6 +4,7 @@ import { isNullOrUndefined } from './is-null-or-undefined.function';
 
 /**
  * retrieves the zoneless version of the function
+ *
  * @param func The name of the symbol we need the zoneless version of
  * @returns the zoneless version of the function
  */

@@ -9,10 +9,11 @@ const registry: Record<string, EntityAttributes> = {};
 /**
  * Internal function used to register attributes the entity will need
  * later on.
+ *
  * @param feature the feature we used when we registered the entity in the providers
  * @param fieldName the fieldName we used when we registered the entity in the providers
  * @param attributes things we want to be able to get at later.
- * @returns
+ * @returns the attributes associated with the entity
  */
 export function registerEntity(
   feature: string,
@@ -31,6 +32,7 @@ export function registerEntity(
 
 /**
  * This function exist so we can unregister entities in unit tests.
+ *
  * @param feature the feature we used when we registered the entity
  * in the providers
  * @param fieldName the fieldName we used when we registered the

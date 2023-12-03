@@ -4,7 +4,7 @@
  *
  * ``` typescript
  * interface Foo {
- *  bar: string;
+ * bar: string;
  * }
  * const foo: Foo = { bar: 'baz' };
  *
@@ -17,7 +17,7 @@
  * ## Usage:
  * ``` typescript
  * interface Foo {
- *  bar: string;
+ * bar: string;
  * }
  * const foo: Foo = { bar: 'baz' };
  *
@@ -26,9 +26,9 @@
  * const bar = castTo<Record<string, string>>(foo);
  * const barVar = bar['bar'];
  * ```
- * @param T the type to cast this to
- * @param value
- * @returns T
+ *
+ * @param value the value to cast
+ * @returns the value cast as T
  */
 export function castTo<T>(value: unknown): T {
   return value as T;

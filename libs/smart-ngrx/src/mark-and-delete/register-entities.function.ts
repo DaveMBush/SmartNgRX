@@ -5,9 +5,9 @@ import { getMarkAndDeleteFeatureMap } from './mark-and-delete.map';
 
 /**
  * registers the rows with the mark and delete functionality.
- * @param key the main feature/entity key to use to lookup the markAndDelete map
- * @param feature
- * @param entity
+ *
+ * @param feature the feature the rows belong to
+ * @param entity the entity within the feature the rows belong to
  * @param rows the rows to register with the mark and delete functionality
  * @returns the rows that were passed in with the `isDirty` flag set to false
  */
@@ -29,6 +29,7 @@ export function registerEntities<T extends MarkAndDelete>(
 
 /**
  * unregisters the rows with the mark and delete functionality.
+ *
  * @param feature the feature the ids belong to
  * @param entity the entity the ids belong to
  * @param ids the ids to unregister with the mark and delete functionality

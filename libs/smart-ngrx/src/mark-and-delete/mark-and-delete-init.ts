@@ -10,7 +10,6 @@ const markAndDeleteRecord = {} as Record<string, MarkAndDeleteInit>;
  *
  * @param feature the feature to register the mark and delete init for
  * @param markAndDelete the mark and delete init for the entity
- * @returns void
  */
 export function registerMarkAndDeleteInit(
   feature: string,
@@ -21,8 +20,9 @@ export function registerMarkAndDeleteInit(
 
 /**
  * retrieves previously registered `MarkAndDeleteInit` for the entity
+ *
  * @param entity the entity or ${feature}:${entity} to retrieve
- * @returns `MarkAndDeleteInit`
+ * @returns the `MarkAndDeleteInit` for the entity
  */
 export function getMarkAndDeleteInit(entity: string): MarkAndDeleteInit {
   assert(

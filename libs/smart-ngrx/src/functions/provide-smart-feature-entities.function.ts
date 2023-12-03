@@ -23,12 +23,13 @@ import { registerEntity } from './register-entity.function';
  *
  * ## Usage:
  * ``` typescript
- *   providers: [
- *     ...
- *     provideEntities('someFeature', entityDefinitions),
- *     ...
- *   ],
+ * providers: [
+ * ...
+ * provideEntities('someFeature', entityDefinitions),
+ * ...
+ * ],
  * ```
+ *
  * @param featureName This is the name you would use for forFeature()
  * in standard NgRX code.
  * @param entityDefinitions An array of entity definitions.

@@ -5,6 +5,7 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
 /**
  * Filters out the rows we already have and provides a default row
  * for the ones we don't have.
+ *
  * @param ids The ids to check
  * @param state The current state to check ids against
  * @param defaultRow The defaultRow function to use to

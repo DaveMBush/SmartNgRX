@@ -26,6 +26,7 @@ export interface SmartEntityDefinition<Row extends MarkAndDelete> {
   /**
    * The static function that returns a default row for the entity when it does not
    * yet exist in the store.
+   *
    * @param id The unique identifier for the row. You should use this to set the
    * id of the id row in the default row.
    */

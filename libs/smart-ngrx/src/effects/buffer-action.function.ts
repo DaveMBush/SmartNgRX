@@ -48,22 +48,23 @@ function mainBuffer(
  * ## Usage:
  *
  * ``` typescript
- *  load$ = createEffect(
-      (
-        actions$ = inject(Actions),
-        actionService = inject(effectServiceToken),
-        zone: NgZone = inject(NgZone)
-      ) => {
-        return actions$.pipe(
-          ofType(actions.loadByIds),
-          bufferAction(zone), // <--- buffer the ids
-          mergeMap((ids) => actionService.loadByIds(ids)),
-          map((rows) => actions.loadByIdsSuccess({ rows }))
-        );
-      },
-      { functional: true }
-    );
+ * load$ = createEffect(
+ * (
+ * actions$ = inject(Actions),
+ * actionService = inject(effectServiceToken),
+ * zone: NgZone = inject(NgZone)
+ * ) => {
+ * return actions$.pipe(
+ * ofType(actions.loadByIds),
+ * bufferAction(zone), // <--- buffer the ids
+ * mergeMap((ids) => actionService.loadByIds(ids)),
+ * map((rows) => actions.loadByIdsSuccess({ rows }))
+ * );
+ * },
+ * { functional: true }
+ * );
  * ```
+ *
  * @param ngZone The zone to use to run outside of Angular.
  * @param bufferTime The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
