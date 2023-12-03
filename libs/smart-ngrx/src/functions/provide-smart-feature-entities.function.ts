@@ -9,9 +9,10 @@ import {
   getMarkAndDeleteInit,
   registerMarkAndDeleteInit,
 } from '../mark-and-delete/mark-and-delete-init';
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
-import { EntityDefinition } from '../types/entity-definition.interface';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { registerEntity } from './register-entity.function';
 
 /**
@@ -35,9 +36,9 @@ import { registerEntity } from './register-entity.function';
  *
  * @see `EntityDefinition`
  */
-export function provideSmartFeatureEntities(
-  featureName: string,
-  entityDefinitions: EntityDefinition<MarkAndDelete>[],
+export function provideSmartFeatureEntities<F extends string>(
+  featureName: StringLiteralSource<F>,
+  entityDefinitions: SmartEntityDefinition<MarkAndDelete>[],
 ): EnvironmentProviders {
   const allEffects: Record<string, FunctionalEffect>[] = [];
   const reducers: Record<
@@ -46,10 +47,17 @@ export function provideSmartFeatureEntities(
   > = {};
   entityDefinitions.forEach((entityDefinition) => {
     const { fieldName, effectServiceToken, defaultRow } = entityDefinition;
-    const store = featureName + ':' + fieldName;
-    const effects = effectsFactory(store as any, effectServiceToken);
+    const effects = effectsFactory(
+      featureName,
+      fieldName as StringLiteralSource<typeof fieldName>,
+      effectServiceToken,
+    );
     allEffects.push(effects);
-    const reducer = reducerFactory(featureName, store as any, defaultRow);
+    const reducer = reducerFactory(
+      featureName,
+      fieldName as StringLiteralSource<typeof fieldName>,
+      defaultRow,
+    );
     reducers[fieldName] = reducer;
     registerEntity(featureName, fieldName, {
       defaultRow: entityDefinition.defaultRow,

@@ -40,7 +40,7 @@ export function createInnerSmartSelector<
   const { childFeature, childFieldName, childSelector, parentFieldName } =
     childDefinition;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- has to be any to get around the literal typing
-  const actions = actionFactory((childFeature + ':' + childFieldName) as any);
+  const actions = actionFactory(childFeature as any, childFieldName as any);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {

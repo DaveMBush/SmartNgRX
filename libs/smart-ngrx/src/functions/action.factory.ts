@@ -18,6 +18,8 @@ const actionGroupCache = new Map<string, unknown>();
  * are used internally and are only exposed for convenience.
  *
  * @param source The source of the actions for this effect
+ * @param feature
+ * @param entity
  * @returns The action group for the source provided
  *
  * @see `IdProp`
@@ -25,9 +27,15 @@ const actionGroupCache = new Map<string, unknown>();
  * @see `RowProp`
  * @see `RowsProp`
  */
-export function actionFactory<Source extends string, T extends MarkAndDelete>(
-  source: StringLiteralSource<Source>,
+export function actionFactory<
+  Feature extends string,
+  Entity extends string,
+  T extends MarkAndDelete,
+>(
+  feature: StringLiteralSource<Feature>,
+  entity: StringLiteralSource<Entity>,
 ): ActionGroup<T> {
+  const source = `${feature}θ${entity}`;
   const cached = actionGroupCache.get(source) as ActionGroup<T> | undefined;
   if (cached) {
     return cached;

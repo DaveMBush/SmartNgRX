@@ -6,7 +6,7 @@ import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
  * This is the interface that is used to define the entity for the
  * provideSmartFeatureEntities provider function
  */
-export interface EntityDefinition<Row extends MarkAndDelete> {
+export interface SmartEntityDefinition<Row extends MarkAndDelete> {
   /**
    * The field name that you'd usually use in the reducer object
    * you'd use in StoreModule.forFeature(featureName, reducer)

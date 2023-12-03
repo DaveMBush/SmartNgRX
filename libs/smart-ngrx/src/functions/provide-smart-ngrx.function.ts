@@ -1,13 +1,10 @@
-import {
-  EnvironmentProviders,
-  importProvidersFrom,
-  makeEnvironmentProviders,
-} from '@angular/core';
-import { EffectsModule } from '@ngrx/effects';
+import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
+import { provideEffects } from '@ngrx/effects';
 
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { markAndDeleteEffect } from '../mark-and-delete/mark-and-delete.effect';
 import { registerMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
-import { StoreEffects } from '../selector/store.effects';
+import { storeEffect } from '../selector/store.effects';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
 /**
@@ -49,9 +46,11 @@ export function provideSmartNgRX(
   ) {
     localConfig.runInterval = 60000; // 1 minute
   }
+  if (isNullOrUndefined(localConfig.markDirtyFetchesNew)) {
+    localConfig.markDirtyFetchesNew = true;
+  }
   registerMarkAndDeleteInit('θglobalθ', localConfig);
   return makeEnvironmentProviders([
-    StoreEffects,
-    importProvidersFrom(EffectsModule.forFeature([StoreEffects])),
+    provideEffects({ store: storeEffect, markAndDelete: markAndDeleteEffect }),
   ]);
 }

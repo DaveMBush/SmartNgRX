@@ -8,15 +8,15 @@ const markAndDeleteRecord = {} as Record<string, MarkAndDeleteInit>;
  * Function that allows us to register the `markAndDeleteInit` globally
  * and for each entity.
  *
- * @param entity the entity to register
+ * @param feature the feature to register the mark and delete init for
  * @param markAndDelete the mark and delete init for the entity
  * @returns void
  */
 export function registerMarkAndDeleteInit(
-  entity: string,
+  feature: string,
   markAndDelete: MarkAndDeleteInit,
 ): void {
-  markAndDeleteRecord[entity] = markAndDelete;
+  markAndDeleteRecord[feature] = markAndDelete;
 }
 
 /**

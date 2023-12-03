@@ -11,9 +11,10 @@ import { setLocationIdEffect$ } from './location.effects';
 import { selectCurrentLocation } from './location.selectors';
 
 const locationActions = actionFactory<
+  'shared',
   'location',
   { id: string; isDirty: boolean }
->('location');
+>('shared', 'location');
 
 describe('Location Effects', () => {
   let testScheduler: TestScheduler;

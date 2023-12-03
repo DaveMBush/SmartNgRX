@@ -18,8 +18,8 @@ export function registerEntities<T extends MarkAndDelete>(
 ): T[] {
   const adapter = createEntityAdapter<T>();
   return rows.map((row) => {
-    const markAndDeleteMap = getMarkAndDeleteFeatureMap(`${feature}:${entity}`);
-    const markAndDeleteKey = `${entity}-${adapter.selectId(row)}`;
+    const markAndDeleteMap = getMarkAndDeleteFeatureMap(feature);
+    const markAndDeleteKey = `${entity}θ${adapter.selectId(row)}`;
     markAndDeleteMap.delete(markAndDeleteKey);
     markAndDeleteMap.set(markAndDeleteKey, Date.now());
     // this is getting called from a reducer so we can't mutate the existing row

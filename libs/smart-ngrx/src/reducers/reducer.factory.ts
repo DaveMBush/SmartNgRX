@@ -21,14 +21,18 @@ import { defaultRows } from './default-rows.function';
  * @param defaultRow A function that returns a default row for the given id
  * @returns a new reducer for the source provided
  */
-export function reducerFactory<Source extends string, T extends MarkAndDelete>(
-  feature: string,
-  entity: StringLiteralSource<Source>,
+export function reducerFactory<
+  F extends string,
+  E extends string,
+  T extends MarkAndDelete,
+>(
+  feature: StringLiteralSource<F>,
+  entity: StringLiteralSource<E>,
   defaultRow: (id: string) => T,
 ): ActionReducer<EntityState<T>> {
   const adapter = createEntityAdapter<T>();
   const initialState = adapter.getInitialState();
-  const actions = actionFactory<Source, T>(entity);
+  const actions = actionFactory<F, E, T>(feature, entity);
 
   return createReducer(
     initialState,

@@ -16,6 +16,8 @@ import { loadEffect } from './effects-factory/load-effect.function';
  * by the `InjectionToken` provided.
  *
  * @param source The source of the actions for this effect
+ * @param feature
+ * @param entityName
  * @param effectsServiceToken The token for the service that
  *   the resulting effect will call.
  * @returns The effect for the source provided
@@ -23,11 +25,16 @@ import { loadEffect } from './effects-factory/load-effect.function';
  * @see `EffectsFactory`
  * @see `EffectService`
  */
-export function effectsFactory<Source extends string, T extends MarkAndDelete>(
-  source: StringLiteralSource<Source>,
+export function effectsFactory<
+  F extends string,
+  E extends string,
+  T extends MarkAndDelete,
+>(
+  feature: StringLiteralSource<F>,
+  entityName: StringLiteralSource<E>,
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
-  const actions = actionFactory<Source, T>(source);
+  const actions = actionFactory<F, E, T>(feature, entityName);
   return castTo<Record<string, FunctionalEffect>>({
     load: createEffect(loadEffect(effectsServiceToken, actions), {
       functional: true,

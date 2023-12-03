@@ -14,7 +14,7 @@
     "test:coverage": "nx affected:test --parallel=3 --max-parallel=3 --coverage",
     "test": "nx affected:test --parallel=3 --max-parallel=3",
     "dupcheck": "pnpm jscpd",
-    "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\"",
+    "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
     "prepare": "is-ci || husky install",
     "postinstall": "pnpm dlx prisma migrate dev",
     "memlab": "nx run demo-memlab:memlab"
