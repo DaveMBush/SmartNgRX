@@ -1,21 +1,19 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
+import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
-import { store } from './store.function';
+import { store as storeFunction } from './store.function';
+
 /**
  * This is the Effect that is used to provide a store that is
  * globally accessible to the application.
  */
-@Injectable()
-export class StoreEffects {
-  /**
-   * This is the constructor that is used to set the global store.
-   * @param storeInstance
-   */
-  constructor(
-    // eslint-disable-next-line ngrx/use-consistent-global-store-name -- this is needed because we are calling the function store()
-    storeInstance: Store,
-  ) {
-    store(storeInstance);
-  }
-}
+export const storeEffect = createEffect(
+  /* istanbul ignore next -- inject() can't be called from test so it is passed in */
+  (store: Store = inject(Store)) => {
+    storeFunction(store);
+    return of(null);
+  },
+  { dispatch: false, functional: true },
+);

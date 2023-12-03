@@ -4,6 +4,7 @@ import { map, Observable, of } from 'rxjs';
 
 import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
 
+import { addIsDirty } from '../functions/add-is-dirty.function';
 import { childrenTransform } from './children-transform.function';
 import { Department } from './department.interface';
 
@@ -20,8 +21,9 @@ export class DepartmentEffectsService extends EffectService<Department> {
   override loadByIds: (ids: string[]) => Observable<Department[]> = (
     ids: string[],
   ) => {
-    return this.http
-      .post<Department[]>('./api/departments', ids)
-      .pipe(map(childrenTransform));
+    return this.http.post<Department[]>('./api/departments', ids).pipe(
+      map((departments) => addIsDirty(departments) as Department[]),
+      map(childrenTransform),
+    );
   };
 }

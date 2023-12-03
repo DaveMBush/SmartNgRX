@@ -2,20 +2,11 @@ import { EntityState } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 
 import { assert } from '../common/assert.function';
+import { zoneless } from '../common/zoneless.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { store } from './store.function';
 
-// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention -- global variable
-declare const __zone_symbol__Promise: typeof Promise;
-
-let unpatchedPromise = __zone_symbol__Promise;
-// under normal circumstances, this should never happen,
-// but someone may have turned off zones for their app
-// and this accounts for that.
-/* istanbul ignore next */
-if (__zone_symbol__Promise === undefined) {
-  unpatchedPromise = Promise;
-}
+const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
 /**
  * Internal function that ensures that the ID is loaded

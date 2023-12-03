@@ -9,12 +9,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTreeModule } from '@angular/material/tree';
-import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { provideSmartFeatureEntities } from '@smart/smart-ngrx/functions/provide-smart-feature-entities.function';
-import { StoreEffects } from '@smart/smart-ngrx/selector/store.effects';
+import { provideSmartNgRX } from '@smart/smart-ngrx/functions/provide-smart-ngrx.function';
 
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { currentLocationReducer } from './current-location/current-location.reducer';
@@ -70,13 +69,8 @@ const sharedReducers = castTo<ActionReducerMap<SharedState>>({
       provide: locationEffectsServiceToken,
       useClass: LocationEffectsService,
     },
-    importProvidersFrom([
-      StoreModule.forFeature('shared2', sharedReducers),
-      EffectsModule.forFeature([
-        // StoreEffects is temporary
-        StoreEffects,
-      ]),
-    ]),
+    importProvidersFrom([StoreModule.forFeature('shared2', sharedReducers)]),
+    provideSmartNgRX(),
     provideSmartFeatureEntities('shared', [
       locationsDefinition,
       departmentsDefinition,

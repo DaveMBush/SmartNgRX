@@ -1,0 +1,415 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`provideSmartFeatureEntities when we define a feature/entity with a mark and delete config should provide the NgRX reducer and effect for this slice and use the entity's mark and delete information 1`] = `
+{
+  "ɵfromNgModule": true,
+  "ɵproviders": [
+    {
+      "deps": [],
+      "provide": [Function],
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "INJECTOR_DEF_TYPES",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "ENVIRONMENT_INITIALIZER",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "deps": [],
+      "provide": [Function],
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "INJECTOR_DEF_TYPES",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "ENVIRONMENT_INITIALIZER",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Configs",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": {},
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Store Features",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": {
+        "initialState": undefined,
+        "key": "someFeature",
+        "metaReducers": [],
+        "reducerFactory": [Function],
+      },
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/store Internal Feature Configs",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+        InjectionToken {
+          "_desc": "@ngrx/store Store Features",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+      ],
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Store Features",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Reducers",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": {
+        "reducerName": [Function],
+      },
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Reducers Token",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useExisting": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Reducers",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/store Internal Feature Reducers",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+        [
+          ParamDecoratorFactory {
+            "token": InjectionToken {
+              "_desc": "@ngrx/store Internal Feature Reducers Token",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            },
+          },
+        ],
+      ],
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Feature Reducers",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/store Internal Runtime Checks",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+      ],
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Check if Action types are unique",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/effects Internal Feature Effects",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [
+        {
+          "load": [Function],
+          "loadByIds": [Function],
+          "loadByIdsPreload": [Function],
+        },
+      ],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/effects User Provided Effects",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [],
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/effects Internal Feature Effects",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+        InjectionToken {
+          "_desc": "@ngrx/effects User Provided Effects",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+      ],
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/effects Internal Feature Effects Instance Groups",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+  ],
+}
+`;
+
+exports[`provideSmartFeatureEntities when we define a feature/entity with no mark and delete config should provide the NgRX reducer and effect for this slice and use the global mark and delete information 1`] = `
+{
+  "ɵfromNgModule": true,
+  "ɵproviders": [
+    {
+      "deps": [],
+      "provide": [Function],
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "INJECTOR_DEF_TYPES",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "ENVIRONMENT_INITIALIZER",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "deps": [],
+      "provide": [Function],
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "INJECTOR_DEF_TYPES",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "ENVIRONMENT_INITIALIZER",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Configs",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": {},
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Store Features",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": {
+        "initialState": undefined,
+        "key": "someFeature",
+        "metaReducers": [],
+        "reducerFactory": [Function],
+      },
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/store Internal Feature Configs",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+        InjectionToken {
+          "_desc": "@ngrx/store Store Features",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+      ],
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Store Features",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Reducers",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": {
+        "reducerName": [Function],
+      },
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Reducers Token",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useExisting": InjectionToken {
+        "_desc": "@ngrx/store Internal Feature Reducers",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/store Internal Feature Reducers",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+        [
+          ParamDecoratorFactory {
+            "token": InjectionToken {
+              "_desc": "@ngrx/store Internal Feature Reducers Token",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            },
+          },
+        ],
+      ],
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Feature Reducers",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/store Internal Runtime Checks",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+      ],
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/store Check if Action types are unique",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/effects Internal Feature Effects",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [
+        {
+          "load": [Function],
+          "loadByIds": [Function],
+          "loadByIdsPreload": [Function],
+        },
+      ],
+    },
+    {
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/effects User Provided Effects",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useValue": [],
+    },
+    {
+      "deps": [
+        InjectionToken {
+          "_desc": "@ngrx/effects Internal Feature Effects",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+        InjectionToken {
+          "_desc": "@ngrx/effects User Provided Effects",
+          "ngMetadataName": "InjectionToken",
+          "ɵprov": undefined,
+        },
+      ],
+      "multi": true,
+      "provide": InjectionToken {
+        "_desc": "@ngrx/effects Internal Feature Effects Instance Groups",
+        "ngMetadataName": "InjectionToken",
+        "ɵprov": undefined,
+      },
+      "useFactory": [Function],
+    },
+  ],
+}
+`;
