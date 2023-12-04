@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { isProxy } from '../common/is-proxy.const';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { isArrayProxy } from './is-array-proxy.function';
@@ -54,8 +55,8 @@ describe('proxyArray', () => {
     });
   });
 
-  it('has the θisProxyθ property for internal usage', () => {
-    expect(castTo<ArrayProxy<TestType>>(arr).θisProxyθ).toBe(true);
+  it('has the isProxy property for internal usage', () => {
+    expect(castTo<Record<string, boolean>>(arr)[isProxy]).toBe(true);
   });
 
   it('gives access to the raw array', () => {

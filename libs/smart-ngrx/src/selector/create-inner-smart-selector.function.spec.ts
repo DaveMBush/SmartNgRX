@@ -2,6 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { isProxy } from '../common/is-proxy.const';
 import {
   registerEntity,
   unregisterEntity,
@@ -34,12 +35,14 @@ function itCreatesProxiesForChildrenThatDontExist(
   expect(result.entities[department1]?.children).toHaveLength(2);
   expect(result.entities[department2]?.children).toHaveLength(2);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
-      .θisProxyθ,
+    castTo<Record<string, boolean>>(result.entities[department1]?.children)[
+      isProxy
+    ],
   ).toBe(true);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
-      .θisProxyθ,
+    castTo<Record<string, boolean>>(result.entities[department2]?.children)[
+      isProxy
+    ],
   ).toBe(true);
   expect(
     castTo<ArrayProxy<Entity>>(result.entities[department1]?.children).rawArray,

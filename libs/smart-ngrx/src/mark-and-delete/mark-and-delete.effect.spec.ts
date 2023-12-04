@@ -3,15 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { global } from '../common/global.const';
+import { psi } from '../common/theta.const';
 import { store as storeFunction } from '../selector/store.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { markAndDeleteEffect } from './mark-and-delete.effect';
 import { registerMarkAndDeleteInit } from './mark-and-delete-init';
 import { registerEntities } from './register-entities.function';
 
-const featureEntity1MarkDirtyActionType = '[featureθentity1] Mark Dirty';
-const featureEntity1GarbageCollectActionType =
-  '[featureθentity1] Garbage Collect';
+const featureEntity1MarkDirtyActionType = `[feature${psi}entity1] Mark Dirty`;
+const featureEntity1GarbageCollectActionType = `[feature${psi}entity1] Garbage Collect`;
 
 interface FeatureEntity1 extends MarkAndDelete {
   id: string;
@@ -39,7 +40,7 @@ describe('markAndDeleteEffect', () => {
     const store = TestBed.inject(Store);
     storeFunction(store);
     storeDispatch = jest.spyOn(store, 'dispatch');
-    registerMarkAndDeleteInit('θglobalθ', {
+    registerMarkAndDeleteInit(global, {
       runInterval: 100,
       removeTime: 1000,
       markDirtyFetchesNew: true,

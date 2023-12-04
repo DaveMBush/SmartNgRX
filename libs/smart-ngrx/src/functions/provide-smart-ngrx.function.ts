@@ -1,6 +1,7 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import { provideEffects } from '@ngrx/effects';
 
+import { global } from '../common/global.const';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { markAndDeleteEffect } from '../mark-and-delete/mark-and-delete.effect';
 import { registerMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
@@ -49,7 +50,7 @@ export function provideSmartNgRX(
   if (isNullOrUndefined(localConfig.markDirtyFetchesNew)) {
     localConfig.markDirtyFetchesNew = true;
   }
-  registerMarkAndDeleteInit('θglobalθ', localConfig);
+  registerMarkAndDeleteInit(global, localConfig);
   return makeEnvironmentProviders([
     provideEffects({ store: storeEffect, markAndDelete: markAndDeleteEffect }),
   ]);

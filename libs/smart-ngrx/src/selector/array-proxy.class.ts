@@ -2,6 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { isProxy } from '../common/is-proxy.const';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
@@ -14,7 +15,7 @@ import { isArrayProxy } from './is-array-proxy.function';
  * @see `createSmartSelector`
  */
 export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
-  θisProxyθ = true;
+  [isProxy] = true;
   rawArray: string[] = [];
   private childArray: ArrayProxy<C> | string[];
 

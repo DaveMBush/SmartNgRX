@@ -4,6 +4,7 @@ import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
+import { global } from '../common/global.const';
 import { effectsFactory } from '../effects/effects.factory';
 import {
   getMarkAndDeleteInit,
@@ -63,10 +64,10 @@ export function provideSmartFeatureEntities<F extends string>(
     registerEntity(featureName, fieldName, {
       defaultRow: entityDefinition.defaultRow,
     });
-    const global = getMarkAndDeleteInit(`θglobalθ`);
+    const globalInit = getMarkAndDeleteInit(global);
     registerMarkAndDeleteInit(
       `${featureName}:${fieldName}`,
-      entityDefinition.markAndDelete ?? global,
+      entityDefinition.markAndDelete ?? globalInit,
     );
   });
   return importProvidersFrom(

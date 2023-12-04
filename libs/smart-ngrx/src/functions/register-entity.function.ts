@@ -11,23 +11,23 @@ const registry: Record<string, EntityAttributes> = {};
  * later on.
  *
  * @param feature the feature we used when we registered the entity in the providers
- * @param fieldName the fieldName we used when we registered the entity in the providers
+ * @param entity the fieldName we used when we registered the entity in the providers
  * @param attributes things we want to be able to get at later.
  * @returns the attributes associated with the entity
  */
 export function registerEntity(
   feature: string,
-  fieldName: string,
+  entity: string,
   attributes?: EntityAttributes,
 ): EntityAttributes {
   if (attributes !== undefined) {
     assert(
-      registry[feature + ':' + fieldName] === undefined,
+      registry[feature + ':' + entity] === undefined,
       'Entity already registered',
     );
-    registry[feature + ':' + fieldName] = attributes;
+    registry[feature + ':' + entity] = attributes;
   }
-  return registry[feature + ':' + fieldName];
+  return registry[feature + ':' + entity];
 }
 
 /**
@@ -35,10 +35,10 @@ export function registerEntity(
  *
  * @param feature the feature we used when we registered the entity
  * in the providers
- * @param fieldName the fieldName we used when we registered the
+ * @param entity the fieldName we used when we registered the
  * entity in the providers
  */
-export function unregisterEntity(feature: string, fieldName: string): void {
+export function unregisterEntity(feature: string, entity: string): void {
   // eslint-disable-next-line @typescript-eslint/no-dynamic-delete -- need this if we are going to use Records instead of Map
-  delete registry[feature + ':' + fieldName];
+  delete registry[feature + ':' + entity];
 }

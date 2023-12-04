@@ -4,7 +4,9 @@ import { Store } from '@ngrx/store';
 import { interval, of, tap } from 'rxjs';
 
 import { assert } from '../common/assert.function';
+import { global } from '../common/global.const';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { psi } from '../common/theta.const';
 import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { store } from '../selector/store.function';
@@ -31,7 +33,7 @@ export const markAndDeleteEffect = createEffect(
 );
 
 function markAndDeleteFeaturesInterval(): void {
-  const markAndDeleteInterval = getMarkAndDeleteInit('θglobalθ').runInterval;
+  const markAndDeleteInterval = getMarkAndDeleteInit(global).runInterval;
   const featureKeys = markAndDeleteFeatures();
   interval(markAndDeleteInterval)
     .pipe(
@@ -66,7 +68,7 @@ function markAndDeleteFeature<F extends string>(
       featureInit.removeTime! > 0 &&
       value < Date.now() - featureInit.removeTime!
     ) {
-      const splitKey = key.split('θ');
+      const splitKey = key.split(psi);
       garbageCollectKeysMap[splitKey[0]] =
         garbageCollectKeysMap[splitKey[0]] || [];
       garbageCollectKeysMap[splitKey[0]]!.push(splitKey[1]);
@@ -75,7 +77,7 @@ function markAndDeleteFeature<F extends string>(
       featureInit.markDirtyTime! > 0 &&
       value < Date.now() - featureInit.markDirtyTime!
     ) {
-      const splitKey = key.split('θ');
+      const splitKey = key.split(psi);
       markDirtyKeysMap[splitKey[0]] = markDirtyKeysMap[splitKey[0]] || [];
       markDirtyKeysMap[splitKey[0]]!.push(splitKey[1]);
     } else {
@@ -127,6 +129,6 @@ function processMarkAndDelete(
           );
         });
     },
-    { timeout: getMarkAndDeleteInit('θglobalθ').runInterval! - 100 },
+    { timeout: getMarkAndDeleteInit(global).runInterval! - 100 },
   );
 }

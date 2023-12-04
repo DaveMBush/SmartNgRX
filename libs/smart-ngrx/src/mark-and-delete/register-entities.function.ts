@@ -1,5 +1,6 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
+import { psi } from '../common/theta.const';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { getMarkAndDeleteFeatureMap } from './mark-and-delete.map';
 
@@ -19,7 +20,7 @@ export function registerEntities<T extends MarkAndDelete>(
   const adapter = createEntityAdapter<T>();
   return rows.map((row) => {
     const markAndDeleteMap = getMarkAndDeleteFeatureMap(feature);
-    const markAndDeleteKey = `${entity}θ${adapter.selectId(row)}`;
+    const markAndDeleteKey = `${entity}${psi}${adapter.selectId(row)}`;
     markAndDeleteMap.delete(markAndDeleteKey);
     markAndDeleteMap.set(markAndDeleteKey, Date.now());
     // this is getting called from a reducer so we can't mutate the existing row

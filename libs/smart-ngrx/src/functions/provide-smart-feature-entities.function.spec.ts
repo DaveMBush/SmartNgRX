@@ -1,6 +1,7 @@
 import { Injectable, InjectionToken } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
+import { global } from '../common/global.const';
 import { EffectService } from '../effects/effect-service';
 import { getMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
@@ -60,7 +61,7 @@ describe('provideSmartFeatureEntities', () => {
       expect(result).toMatchSnapshot();
       expect(
         getMarkAndDeleteInit(`${featureName}:${entityDefinition.fieldName}`),
-      ).toBe(getMarkAndDeleteInit(`θglobalθ`));
+      ).toBe(getMarkAndDeleteInit(global));
     });
   });
   describe('when we define a feature/entity with a mark and delete config', () => {
