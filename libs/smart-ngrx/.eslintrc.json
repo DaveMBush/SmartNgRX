@@ -10,6 +10,15 @@
       "rules": {
         // JSDoc Plugin
         "jsdoc/require-description": "error",
+        "jsdoc/tag-lines": [
+          "error",
+          "any",
+          {
+            "startLines": 1
+          }
+        ],
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-returns-type": "off",
         "jsdoc/require-param": "error",
         "jsdoc/require-returns": "error",
         "jsdoc/require-hyphen-before-param-description": ["error", "never"],
@@ -32,6 +41,7 @@
         "@typescript-eslint/explicit-function-return-type": "off"
       },
       "extends": [
+        "plugin:jsdoc/recommended-error",
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
       ]

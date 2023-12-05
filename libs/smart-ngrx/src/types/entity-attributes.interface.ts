@@ -8,6 +8,7 @@ import { MarkAndDelete } from './mark-and-delete.interface';
 export interface EntityAttributes {
   /**
    * Function that defines the default row for the entity
+   *
    * @param id the unique ID of the row
    */
   defaultRow(id: string): MarkAndDelete;

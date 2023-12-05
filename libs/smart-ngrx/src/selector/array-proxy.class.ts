@@ -76,6 +76,7 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
    * This primarily exist for testing so you can stringify the array and then
    * parse it so that you get an array you can compare against instead of an
    * object of type ArrayProxy that you can't do much with.
+   *
    * @returns what this would return if it were a real array.  Mostly for
    * unit testing.
    */

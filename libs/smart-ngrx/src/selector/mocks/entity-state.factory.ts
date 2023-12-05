@@ -52,7 +52,7 @@ const reduceEntityArrayToObject = (
  *
  * @param params The parameters to use to create the mock entity state.
  *
- * @returns
+ * @returns the mock entity state
  */
 export function entityStateFactory(
   params: EntityStateFactoryParameters,

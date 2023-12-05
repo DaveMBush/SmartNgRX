@@ -26,11 +26,12 @@ Have a look at our "Ultimate Goals" to see where we are headed.
 
 - [x] Hide the NgRX boiler-plate code from the developer
 - [x] Dynamically generate Actions, Reducers and Effects.
-- [ ] Support server side searching for rows
+- [ ] Support server-side searching for rows
 - [ ] Provide optimistic UI natively
-- [ ] Optionally remove unused entity rows from the store.
+- [x] Optionally remove unused entity rows from the store.
+- [x] Optionally allow data to refresh using polling.
 - [ ] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
-- [ ] Provide multiples ways to retrieve child rows.
+- [ ] Provide multiple ways to retrieve child rows.
   - [x] For small sets of nested data, provide the IDs of the child elements in an array of the parent.
   - [ ] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
 - [x] Allow this to work with code that has to account for write lag on the server

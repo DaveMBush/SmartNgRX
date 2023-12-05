@@ -31,7 +31,6 @@
  *                  If you put a GUID in the string it will
  *                  make it easier to find the error in the
  *                  source code.
- * @returns asserts condition or throws exception
  */
 export function assert(condition: boolean, context: string): asserts condition {
   if (!condition) {

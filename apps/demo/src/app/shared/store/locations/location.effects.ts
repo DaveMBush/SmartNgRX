@@ -15,7 +15,7 @@ import { selectCurrentLocation } from './location.selectors';
  * This is how we access the actions we've already defined in the
  * store for location.
  */
-const locationActions = actionFactory('location');
+const locationActions = actionFactory('shared', 'location');
 
 function locationIdExist(
   currentLocation: Location,

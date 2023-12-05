@@ -16,6 +16,11 @@ export interface EffectsFactory<T> {
    * The effect the `load` action will end up calling.
    */
   load: LoadEffect<T>;
+  /**
+   * Used internally to make the store think the records
+   * represented by the IDs has already been loaded by using
+   * the defaultRow functionality.
+   */
   loadByIdsPreload: LoadEffect<T>;
   /**
    * The effect the `loadById` action will end up calling.
