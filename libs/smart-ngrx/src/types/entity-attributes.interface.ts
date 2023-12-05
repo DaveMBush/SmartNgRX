@@ -1,4 +1,5 @@
 import { MarkAndDelete } from './mark-and-delete.interface';
+import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
 
 /**
  * This is an interface that holds all the attributes we will
@@ -12,4 +13,6 @@ export interface EntityAttributes {
    * @param id the unique ID of the row
    */
   defaultRow(id: string): MarkAndDelete;
+  markAndDeleteInit: MarkAndDeleteInit;
+  markAndDeleteEntityMap: Map<string, number>;
 }

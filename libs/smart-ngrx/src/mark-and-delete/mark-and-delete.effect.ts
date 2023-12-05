@@ -4,17 +4,14 @@ import { Store } from '@ngrx/store';
 import { interval, of, tap } from 'rxjs';
 
 import { assert } from '../common/assert.function';
-import { global } from '../common/global.const';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { psi } from '../common/theta.const';
 import { actionFactory } from '../functions/action.factory';
+import { getEntityRegistry } from '../functions/register-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { store } from '../selector/store.function';
-import {
-  getMarkAndDeleteFeatureMap,
-  markAndDeleteFeatures,
-} from './mark-and-delete.map';
-import { getMarkAndDeleteInit } from './mark-and-delete-init';
+import { markAndDeleteEntities } from './mark-and-delete-entity.map';
+import { getGlobalMarkAndDeleteInit } from './mark-and-delete-init';
 
 let storeFunction: Store | undefined;
 /**
@@ -33,36 +30,43 @@ export const markAndDeleteEffect = createEffect(
 );
 
 function markAndDeleteFeaturesInterval(): void {
-  const markAndDeleteInterval = getMarkAndDeleteInit(global).runInterval;
-  const featureKeys = markAndDeleteFeatures();
+  const markAndDeleteInterval = getGlobalMarkAndDeleteInit().runInterval;
+  const featureKeys = markAndDeleteEntities();
   interval(markAndDeleteInterval)
     .pipe(
       tap(() =>
         featureKeys.forEach((key) =>
-          markAndDeleteFeature(key as StringLiteralSource<typeof key>),
+          markAndDeleteEntity(
+            key.split(psi) as [
+              StringLiteralSource<string>,
+              StringLiteralSource<string>,
+            ],
+          ),
         ),
       ),
     )
     .subscribe();
 }
 
-function markAndDeleteFeature<F extends string>(
-  featureKey: StringLiteralSource<F>,
-) {
+function markAndDeleteEntity([feature, entity]: [
+  StringLiteralSource<string>,
+  StringLiteralSource<string>,
+]): void {
+  const registry = getEntityRegistry(feature, entity);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- need any here because it is looking for a literal
-  const featureMap = getMarkAndDeleteFeatureMap(featureKey);
-  const featureInit = getMarkAndDeleteInit(featureKey);
+  const entityMap = registry.markAndDeleteEntityMap;
+  const featureInit = registry.markAndDeleteInit;
   assert(
-    !isNullOrUndefined(featureMap),
-    `MarkAndDelete feature ${featureKey} is not registered in map`,
+    !isNullOrUndefined(entityMap),
+    `MarkAndDelete feature: ${feature} and entity: ${entity} is not registered in map`,
   );
   assert(
     !isNullOrUndefined(featureInit),
-    `MarkAndDelete feature ${featureKey} is not registered in init`,
+    `MarkAndDelete feature ${feature} is not registered in init`,
   );
   const garbageCollectKeysMap: Record<string, string[] | undefined> = {};
   const markDirtyKeysMap: Record<string, string[] | undefined> = {};
-  for (const [key, value] of featureMap) {
+  for (const [key, value] of entityMap) {
     if (
       !isNullOrUndefined(featureInit.removeTime) &&
       featureInit.removeTime! > 0 &&
@@ -85,7 +89,7 @@ function markAndDeleteFeature<F extends string>(
     }
   }
   processMarkAndDelete(
-    featureKey as StringLiteralSource<string>,
+    feature as StringLiteralSource<string>,
     garbageCollectKeysMap,
     markDirtyKeysMap,
   );
@@ -129,6 +133,6 @@ function processMarkAndDelete(
           );
         });
     },
-    { timeout: getMarkAndDeleteInit(global).runInterval! - 100 },
+    { timeout: getGlobalMarkAndDeleteInit().runInterval! - 100 },
   );
 }

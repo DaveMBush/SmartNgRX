@@ -1,33 +1,24 @@
-import { assert } from '../common/assert.function';
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
-const markAndDeleteRecord = {} as Record<string, MarkAndDeleteInit>;
+let globalMarkAndDelete = {} as MarkAndDeleteInit;
 
 /**
- * Function that allows us to register the `markAndDeleteInit` globally
- * and for each entity.
+ * Function that allows us to register the global `markAndDeleteInit`
+ * globally so we can retrieve it when we need it.
  *
- * @param feature the feature to register the mark and delete init for
  * @param markAndDelete the mark and delete init for the entity
  */
-export function registerMarkAndDeleteInit(
-  feature: string,
+export function registerGlobalMarkAndDeleteInit(
   markAndDelete: MarkAndDeleteInit,
 ): void {
-  markAndDeleteRecord[feature] = markAndDelete;
+  globalMarkAndDelete = markAndDelete;
 }
 
 /**
- * retrieves previously registered `MarkAndDeleteInit` for the entity
+ * retrieves previously registered global `MarkAndDeleteInit`
  *
- * @param entity the entity or ${feature}:${entity} to retrieve
  * @returns the `MarkAndDeleteInit` for the entity
  */
-export function getMarkAndDeleteInit(entity: string): MarkAndDeleteInit {
-  assert(
-    !isNullOrUndefined(markAndDeleteRecord[entity]),
-    `MarkAndDeleteInit for ${entity} is not registered`,
-  );
-  return markAndDeleteRecord[entity];
+export function getGlobalMarkAndDeleteInit(): MarkAndDeleteInit {
+  return globalMarkAndDelete;
 }

@@ -4,9 +4,9 @@ import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../functions/action.factory';
 import {
-  registerEntities,
-  unregisterEntities,
-} from '../mark-and-delete/register-entities.function';
+  registerEntityRows,
+  unregisterEntityRows,
+} from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { defaultRows } from './default-rows.function';
@@ -51,7 +51,7 @@ export function reducerFactory<
     }),
     on(actions.garbageCollect, (state, { ids }) => {
       return adapter.removeMany(
-        unregisterEntities(feature, entity, ids),
+        unregisterEntityRows(feature, entity, ids),
         state,
       );
     }),
@@ -64,7 +64,7 @@ export function reducerFactory<
     ),
 
     on(actions.loadByIdsSuccess, (state, { rows }) =>
-      adapter.upsertMany(registerEntities(feature, entity, rows), state),
+      adapter.upsertMany(registerEntityRows(feature, entity, rows), state),
     ),
   );
 }

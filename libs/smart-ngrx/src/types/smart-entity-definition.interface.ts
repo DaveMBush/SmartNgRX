@@ -8,7 +8,7 @@ import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
  */
 export interface SmartEntityDefinition<Row extends MarkAndDelete> {
   /**
-   * The field name that you'd usually use in the reducer object
+   * The entity name that you'd usually use in the reducer object
    * you'd use in StoreModule.forFeature(featureName, reducer)
    * OR the name you'd use in provideState(featureName, reducer)
    *
@@ -17,7 +17,7 @@ export interface SmartEntityDefinition<Row extends MarkAndDelete> {
    * be using actions we've created or using your own actions for your
    * specific purposes.
    */
-  fieldName: string;
+  entityName: string;
   /**
    * This is the service token related to the service the effect for this entity
    * should call to do CRUD operations against the backend.
