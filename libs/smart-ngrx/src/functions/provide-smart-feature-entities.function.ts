@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- any needed to get past the literal guard */
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
