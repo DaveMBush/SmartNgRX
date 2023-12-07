@@ -18,8 +18,8 @@ export const selectDepartmentsChildren = createSmartSelector<Department>(
   [
     {
       childFeature: 'shared',
-      childFieldName: 'departmentChildren',
-      parentFieldName: 'children',
+      childEntity: 'departmentChildren',
+      parentField: 'children',
       childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentChildren),
     },
   ],

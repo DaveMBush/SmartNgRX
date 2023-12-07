@@ -27,9 +27,10 @@ import { ParentSelector } from './parent-selector.type';
  */
 export function createSmartSelector<P extends object>(
   parentSelector: ParentSelector<P>,
-  children: ProxyChild<P>[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- easiest way to allow any string definition
+  children: ProxyChild<P, any, any>[],
 ): MemoizedSelector<object, EntityState<P>> {
   return children.reduce((p, child) => {
-    return createInnerSmartSelector(p, child);
+    return createInnerSmartSelector(p, child as ProxyChild<P>);
   }, parentSelector);
 }
