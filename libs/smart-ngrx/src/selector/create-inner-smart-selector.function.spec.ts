@@ -82,6 +82,8 @@ describe('createInnerSmartSelector', () => {
       markAndDeleteInit: {
         markDirtyTime: 15 * 60 * 1000,
         removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
+        runInterval: 60 * 1000,
       },
       defaultRow: (id: string) => ({
         id,
