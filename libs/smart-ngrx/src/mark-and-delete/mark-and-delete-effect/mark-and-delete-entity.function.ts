@@ -1,6 +1,7 @@
 import { getEntityRegistry } from '../..';
 import { psi } from '../../common/theta.const';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
+import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 
 /**
@@ -27,13 +28,15 @@ export function markAndDeleteEntity([feature, entity]: [
     // we also seem to be sending markDirty message every time between when
     // we need to mark it dirty and when we need to remove it.
     // there must be a more efficient way to do this!
-    // - Don't do any check between dirty time and remove time accounting for
-    //   interval time. (use 2x interval time as a buffer)
-    // - Need to change only the input to be partial and everywhere else
+    // - [x] Don't do any check between dirty time and remove time accounting for
+    //   interval time. (use 1x interval time as a buffer)
+    // - [x] Need to change only the input to be partial and everywhere else
     //   to have a default value so we can remove the null/undefined checks.
     if (
       0 === featureInit.removeTime &&
-      value < now - featureInit.markDirtyTime * 2
+      value <
+        now -
+          (featureInit.markDirtyTime + getGlobalMarkAndDeleteInit().runInterval)
     ) {
       continue;
     }

@@ -2,6 +2,8 @@ import { registerEntity, unregisterEntity } from '../..';
 import { castTo } from '../../common/cast-to.function';
 import { psi } from '../../common/theta.const';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
+import { MarkAndDeleteInit } from '../../types/mark-and-delete-init.interface';
+import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 import * as processMarkAndDelete from './process-mark-and-delete.function';
 
@@ -24,7 +26,8 @@ describe('markAndDeleteEntity', () => {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 30 * 60 * 1000,
-        },
+          markDirtyFetchesNew: true,
+        } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>(),
         defaultRow: (id) => {
           return {
@@ -44,11 +47,18 @@ describe('markAndDeleteEntity', () => {
   });
   describe('when there is something to remove but the feature removeTime is 0', () => {
     it('should not send anything to processMarkAndDelete(...)', () => {
+      registerGlobalMarkAndDeleteInit({
+        runInterval: 60 * 1000,
+        markDirtyTime: 15 * 60 * 1000,
+        removeTime: 60 * 60 * 1000,
+        markDirtyFetchesNew: true,
+      });
       registerEntity('feature', 'entity', {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 0,
-        },
+          markDirtyFetchesNew: true,
+        } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>([
           [`feature${psi}entity`, Date.now() - 30 * 60 * 1000],
         ]),
@@ -74,7 +84,8 @@ describe('markAndDeleteEntity', () => {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 20 * 60 * 1000,
-        },
+          markDirtyFetchesNew: true,
+        } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>([
           [`feature${psi}entity`, Date.now() - 30 * 60 * 1000],
         ]),
@@ -106,7 +117,8 @@ describe('markAndDeleteEntity', () => {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 20 * 60 * 1000,
-        },
+          markDirtyFetchesNew: true,
+        } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>([
           [`feature${psi}entity`, Date.now() - 17 * 60 * 1000],
         ]),
@@ -138,7 +150,8 @@ describe('markAndDeleteEntity', () => {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 20 * 60 * 1000,
-        },
+          markDirtyFetchesNew: true,
+        } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>([
           [`feature${psi}entity`, Date.now() - 10 * 60 * 1000],
         ]),
