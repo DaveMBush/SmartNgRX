@@ -22,9 +22,9 @@ export function getMarkAndDeleteEntityMap(
 }
 
 /**
- * returns the features that have been registered with markAndDelete
+ * returns the entities that have been registered with markAndDelete
  *
- * @returns the features that have been registered with markAndDelete
+ * @returns the entities that have been registered with markAndDelete
  */
 export function markAndDeleteEntities(): string[] {
   return Object.keys(markAndDelete);

@@ -13,13 +13,15 @@ const registry: Record<string, EntityAttributes> = {};
  *
  * @param feature the feature we used when we registered the entity in the providers
  * @param entity the fieldName we used when we registered the entity in the providers
- * @param attributes things we want to be able to get at later.
+ * @param attributes the `EntityAttributes` we want to be able to get to later.
  * @returns the attributes associated with the entity
+ *
+ * @see `EntityAttributes`
  */
 export function registerEntity(
   feature: string,
   entity: string,
-  attributes?: EntityAttributes,
+  attributes: EntityAttributes,
 ): EntityAttributes {
   if (attributes !== undefined) {
     assert(

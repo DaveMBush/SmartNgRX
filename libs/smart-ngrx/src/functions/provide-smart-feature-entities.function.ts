@@ -11,6 +11,7 @@ import { reducerFactory } from '../reducers/reducer.factory';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { registerEntity } from './register-entity.function';
+import { resolveRemoveTime } from './resolve-remove-time.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -59,9 +60,7 @@ export function provideSmartFeatureEntities<F extends string>(
     reducers[entityName] = reducer;
     const globalInit = getGlobalMarkAndDeleteInit();
     const init = { ...globalInit, ...entityDefinition.markAndDelete };
-    if (init.removeTime! < init.markDirtyTime! && init.markDirtyTime! > -1) {
-      init.removeTime = init.markDirtyTime! * 2; // 30 minutes
-    }
+    init.removeTime = resolveRemoveTime(init);
 
     registerEntity(featureName, entityName, {
       defaultRow: entityDefinition.defaultRow,

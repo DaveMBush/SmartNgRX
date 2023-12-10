@@ -37,7 +37,7 @@ export function ensureDataLoaded<
   const ids = entityState.entities as Record<string, T>;
   const markDirtyFetchesNew = !(
     isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
-    !registry.markAndDeleteInit.markDirtyFetchesNew!
+    !registry.markAndDeleteInit.markDirtyFetchesNew
   );
 
   if (

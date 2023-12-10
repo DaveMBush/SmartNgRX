@@ -21,20 +21,20 @@ export interface MarkAndDeleteInit {
    *
    * If `markAndDelete` is not set, it will default to 15 minutes.
    */
-  markDirtyTime?: number;
+  markDirtyTime: number;
   /**
    * If this is set to true, than any time a row is marked as dirty
    * the system will retrieve a new value from the server. Otherwise,
    * it will just reset the dirty timeout internally.
    */
-  markDirtyFetchesNew?: boolean;
+  markDirtyFetchesNew: boolean;
   /**
    * the time in milliseconds to wait before removing a row from the
    * store. `removeTime` must be greater than `markDirtyTime` and will
    * be ignored if it is less than `markDirtyTime` or if `markDirtyTime`
    * is set to -1.
    */
-  removeTime?: number;
+  removeTime: number;
   /**
    * the time in milliseconds that determines how often the system looks
    * at the rows to see if they need to be marked dirty or removed. If
@@ -43,5 +43,5 @@ export interface MarkAndDeleteInit {
    * runInterval is only recognized at the global level. If you want to
    * change it, you must change it at the global level.
    */
-  runInterval?: number;
+  runInterval: number;
 }

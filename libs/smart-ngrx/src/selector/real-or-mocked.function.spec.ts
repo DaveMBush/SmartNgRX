@@ -6,12 +6,15 @@ const real = {
     department1: {
       id: 'department1',
       name: 'Department 1',
+      isDirty: false,
     },
   },
 };
 
 const defaultObject = {
+  id: 'department2',
   name: 'to be fetched',
+  isDirty: false,
 };
 
 describe('realOrMocked', () => {
@@ -21,6 +24,7 @@ describe('realOrMocked', () => {
     expect(r).toEqual({
       id: 'department1',
       name: 'Department 1',
+      isDirty: false,
     });
   });
 
@@ -30,6 +34,7 @@ describe('realOrMocked', () => {
     expect(r).toEqual({
       id: 'department2',
       name: 'to be fetched',
+      isDirty: false,
     });
   });
 });
