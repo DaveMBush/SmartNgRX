@@ -33,6 +33,7 @@ describe('proxyArray', () => {
     markDirtyTime: 15 * 60 * 1000,
     removeTime: 30 * 60 * 1000,
     runInterval: 60 * 1000,
+    markDirtyFetchesNew: true,
   });
   registerEntity('feature', 'department', {
     defaultRow: (id: string) => ({ id, name: '', isDirty: false }),
@@ -40,6 +41,8 @@ describe('proxyArray', () => {
     markAndDeleteInit: {
       markDirtyTime: 15 * 60 * 1000,
       removeTime: 30 * 60 * 1000,
+      runInterval: 60 * 1000,
+      markDirtyFetchesNew: true,
     },
   });
 
