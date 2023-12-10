@@ -8,7 +8,6 @@ import {
   registerEntity,
   unregisterEntity,
 } from '@smart/smart-ngrx/functions/register-entity.function';
-import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 import { store as storeFunction } from '@smart/smart-ngrx/selector/store.function';
 
 import { SharedState, SharedState2 } from '../../shared-state.interface';
@@ -49,6 +48,7 @@ describe('Location Selectors', () => {
         runInterval: 1000,
         markDirtyTime: 15 * 60 * 1000,
         removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
       },
       markAndDeleteEntityMap: new Map(),
       defaultRow: (id: string) => ({
@@ -64,6 +64,7 @@ describe('Location Selectors', () => {
         runInterval: 1000,
         markDirtyTime: 15 * 60 * 1000,
         removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
       },
       markAndDeleteEntityMap: new Map(),
       defaultRow: (id: string) => ({
@@ -79,6 +80,7 @@ describe('Location Selectors', () => {
         runInterval: 1000,
         markDirtyTime: 15 * 60 * 1000,
         removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
       },
       markAndDeleteEntityMap: new Map(),
       defaultRow: (id: string) => ({
@@ -248,9 +250,7 @@ describe('Location Selectors', () => {
             '1': {
               id: '1',
               name: locationName,
-              departments: [] as
-                | ArrayProxy<Department & { lastUpdate: number }>
-                | string[],
+              departments: [] as Department[] | string[],
             },
           },
         },
@@ -321,15 +321,14 @@ describe('Location Selectors', () => {
 
         const expected = { ...initialState.shared.locations };
         expected.entities = { ...expected.entities };
-        expected.entities['1'].departments = [
+        expected.entities['1']!.departments = [
           {
             id: '1',
             name: 'test department',
-            lastUpdate: 0,
             children: [] as string[],
             isDirty: false,
           },
-        ] as unknown as ArrayProxy<Department & { lastUpdate: number }>;
+        ] as Department[];
         // Perform the assertion
         expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
@@ -366,15 +365,14 @@ describe('Location Selectors', () => {
 
         const expected = { ...initialState.shared.locations };
         expected.entities = { ...expected.entities };
-        expected.entities['1'].departments = [
+        expected.entities['1']!.departments = [
           {
             id: '1',
             name: '',
             isDirty: false,
-            lastUpdate: 0,
             children: [],
           },
-        ] as unknown as ArrayProxy<Department & { lastUpdate: number }>;
+        ] as Department[];
         // Perform the assertion
         expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
