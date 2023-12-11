@@ -4,7 +4,7 @@ import { Department } from './department.interface';
 import { departmentEffectsServiceToken } from './department-effects.service-token';
 
 export const departmentsDefinition: SmartEntityDefinition<Department> = {
-  fieldName: 'departments',
+  entityName: 'departments',
   effectServiceToken: departmentEffectsServiceToken,
   defaultRow: (id) => ({
     id,

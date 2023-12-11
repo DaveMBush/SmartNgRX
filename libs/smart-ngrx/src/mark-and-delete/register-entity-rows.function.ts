@@ -1,7 +1,8 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
+import { psi } from '../common/theta.const';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
-import { getMarkAndDeleteFeatureMap } from './mark-and-delete.map';
+import { getMarkAndDeleteEntityMap } from './mark-and-delete-entity.map';
 
 /**
  * registers the rows with the mark and delete functionality.
@@ -11,15 +12,15 @@ import { getMarkAndDeleteFeatureMap } from './mark-and-delete.map';
  * @param rows the rows to register with the mark and delete functionality
  * @returns the rows that were passed in with the `isDirty` flag set to false
  */
-export function registerEntities<T extends MarkAndDelete>(
+export function registerEntityRows<T extends MarkAndDelete>(
   feature: string,
   entity: string,
   rows: T[],
 ): T[] {
   const adapter = createEntityAdapter<T>();
   return rows.map((row) => {
-    const markAndDeleteMap = getMarkAndDeleteFeatureMap(feature);
-    const markAndDeleteKey = `${entity}θ${adapter.selectId(row)}`;
+    const markAndDeleteMap = getMarkAndDeleteEntityMap(feature, entity);
+    const markAndDeleteKey = `${entity}${psi}${adapter.selectId(row)}`;
     markAndDeleteMap.delete(markAndDeleteKey);
     markAndDeleteMap.set(markAndDeleteKey, Date.now());
     // this is getting called from a reducer so we can't mutate the existing row
@@ -35,12 +36,12 @@ export function registerEntities<T extends MarkAndDelete>(
  * @param ids the ids to unregister with the mark and delete functionality
  * @returns the ids that were passed in
  */
-export function unregisterEntities(
+export function unregisterEntityRows(
   feature: string,
   entity: string,
   ids: string[],
 ): string[] {
-  const markAndDeleteMap = getMarkAndDeleteFeatureMap(`${feature}:${entity}`);
+  const markAndDeleteMap = getMarkAndDeleteEntityMap(feature, entity);
   return ids.map((id) => {
     const markAndDeleteKey = `${entity}-${id}`;
     markAndDeleteMap.delete(markAndDeleteKey);

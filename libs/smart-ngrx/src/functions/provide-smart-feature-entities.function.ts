@@ -1,19 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- any needed to get past the literal guard */
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
 import { effectsFactory } from '../effects/effects.factory';
-import {
-  getMarkAndDeleteInit,
-  registerMarkAndDeleteInit,
-} from '../mark-and-delete/mark-and-delete-init';
+import { getMarkAndDeleteEntityMap } from '../mark-and-delete/mark-and-delete-entity.map';
+import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { registerEntity } from './register-entity.function';
+import { resolveRemoveTime } from './resolve-remove-time.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -47,27 +45,31 @@ export function provideSmartFeatureEntities<F extends string>(
     ActionReducer<EntityState<MarkAndDelete>>
   > = {};
   entityDefinitions.forEach((entityDefinition) => {
-    const { fieldName, effectServiceToken, defaultRow } = entityDefinition;
+    const { entityName, effectServiceToken, defaultRow } = entityDefinition;
     const effects = effectsFactory(
       featureName,
-      fieldName as StringLiteralSource<typeof fieldName>,
+      entityName as StringLiteralSource<string>,
       effectServiceToken,
     );
     allEffects.push(effects);
     const reducer = reducerFactory(
       featureName,
-      fieldName as StringLiteralSource<typeof fieldName>,
+      entityName as StringLiteralSource<string>,
       defaultRow,
     );
-    reducers[fieldName] = reducer;
-    registerEntity(featureName, fieldName, {
+    reducers[entityName] = reducer;
+    const globalInit = getGlobalMarkAndDeleteInit();
+    const init = { ...globalInit, ...entityDefinition.markAndDelete };
+    init.removeTime = resolveRemoveTime(init);
+
+    registerEntity(featureName, entityName, {
       defaultRow: entityDefinition.defaultRow,
+      markAndDeleteInit: init,
+      markAndDeleteEntityMap: getMarkAndDeleteEntityMap(
+        featureName,
+        entityName,
+      ),
     });
-    const global = getMarkAndDeleteInit(`θglobalθ`);
-    registerMarkAndDeleteInit(
-      `${featureName}:${fieldName}`,
-      entityDefinition.markAndDelete ?? global,
-    );
   });
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),

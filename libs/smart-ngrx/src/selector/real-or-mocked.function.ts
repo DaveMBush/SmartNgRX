@@ -1,5 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
+import { MarkAndDelete } from '../types/mark-and-delete.interface';
+
 /**
  * Internal function used by `createInnerSmartSelector` use to load the data if
  * it doesn't exist in the store and return a placeholder row if it doesn't
@@ -11,7 +13,7 @@ import { EntityState } from '@ngrx/entity';
  *
  * @see `createInnerSmartSelector`
  */
-export function realOrMocked<T>(
+export function realOrMocked<T extends MarkAndDelete>(
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,

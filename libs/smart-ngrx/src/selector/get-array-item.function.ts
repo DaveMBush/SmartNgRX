@@ -1,7 +1,7 @@
 import { EntityState } from '@ngrx/entity';
-import { Action } from '@ngrx/store';
 
-import { IdsProp } from '../types/ids-prop.interface';
+import { getEntityRegistry } from '../functions/register-entity.function';
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
@@ -13,16 +13,21 @@ import { realOrMocked } from './real-or-mocked.function';
  *
  * @param entityState The entity to check for the id
  * @param id The id to check
- * @param action The action to dispatch if the id isn't loaded
- * @param mockRow The row to return if the row for the id doesn't exist
+ * @param feature the feature name we are running this code for
+ * @param entity the entity in the feature we are running this code for
  * @returns real or placeholder row
  */
-export function getArrayItem<T extends MarkAndDelete>(
+export function getArrayItem<
+  T extends MarkAndDelete,
+  F extends string,
+  E extends string,
+>(
   entityState: EntityState<T>,
   id: string,
-  action: (p: IdsProp) => Action,
-  mockRow: T,
+  feature: StringLiteralSource<F>,
+  entity: StringLiteralSource<E>,
 ): T {
-  ensureDataLoaded(entityState, id, action);
-  return realOrMocked(entityState, id, mockRow);
+  const registry = getEntityRegistry(feature, entity);
+  ensureDataLoaded(entityState, id, feature, entity);
+  return realOrMocked(entityState, id, registry.defaultRow(id)) as T;
 }

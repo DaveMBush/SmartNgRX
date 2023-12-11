@@ -5,7 +5,7 @@ import { departmentChildEffectsServiceToken } from './department-child-effects.s
 
 export const departmentChildrenDefinition: SmartEntityDefinition<DepartmentChild> =
   {
-    fieldName: 'departmentChildren',
+    entityName: 'departmentChildren',
     effectServiceToken: departmentChildEffectsServiceToken,
     defaultRow: (id) => ({
       id,

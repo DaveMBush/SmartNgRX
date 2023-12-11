@@ -1,7 +1,8 @@
 import { EntityState } from '@ngrx/entity';
-import { Action } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { isProxy } from '../common/is-proxy.const';
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
@@ -13,33 +14,29 @@ import { isArrayProxy } from './is-array-proxy.function';
  *
  * @see `createSmartSelector`
  */
-export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
-  θisProxyθ = true;
+export class ArrayProxy<
+  C extends MarkAndDelete,
+  F extends string = string,
+  E extends string = string,
+> implements ArrayLike<C>
+{
+  [isProxy] = true;
   rawArray: string[] = [];
-  private childArray: ArrayProxy<C> | string[];
-
-  private child: EntityState<C>;
-  private childAction: (p: { ids: string[] }) => Action;
-  private defaultChildRow: (id: string) => C;
 
   /**
    * The constructor for the ArrayProxy class.
    *
    * @param childArray The array of ids to wrap
    * @param child The child entity we use to find the item in the store
-   * @param childAction the action to fire if the item has not been loaded
-   * @param defaultChildRow function that returns a default row for the child
+   * @param feature the feature the child belongs to
+   * @param entity the entity in the feature the child belongs to
    */
   constructor(
-    childArray: ArrayProxy<C> | string[],
-    child: EntityState<C>,
-    childAction: (p: { ids: string[] }) => Action,
-    defaultChildRow: (id: string) => C,
+    private childArray: ArrayProxy<C, F, E> | string[],
+    private child: EntityState<C>,
+    private feature: StringLiteralSource<F>,
+    private entity: StringLiteralSource<E>,
   ) {
-    this.childArray = childArray;
-    this.child = child;
-    this.childAction = childAction;
-    this.defaultChildRow = defaultChildRow;
     // proxying this so that we can intercept going after
     // an index and return the item from the store instead
     return new Proxy(this, {
@@ -60,14 +57,15 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
   init(): void {
     // fill childArray with values from entity that we currently have
     if (isArrayProxy(this.childArray)) {
-      this.childArray = castTo<ArrayProxy<C>>(this.childArray).rawArray;
+      this.childArray = castTo<ArrayProxy<C, F, E>>(this.childArray).rawArray;
     }
-    if (Object.isFrozen(this.childArray)) {
+    // at this point, we can be sure that childArray is a string[]
+    if (Object.isFrozen(this.childArray as string[])) {
       // unfreeze the original array so we can proxy it.
-      this.childArray = [...this.childArray];
+      this.childArray = [...(this.childArray as string[])];
     }
 
-    this.rawArray = this.childArray;
+    this.rawArray = this.childArray as string[];
     this.childArray = [];
     this.length = this.rawArray.length;
   }
@@ -103,12 +101,7 @@ export class ArrayProxy<C extends MarkAndDelete> implements ArrayLike<C> {
   getAtIndex(index: number): C {
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
-      return getArrayItem<C>(
-        this.child,
-        id,
-        this.childAction,
-        this.defaultChildRow(id),
-      );
+      return getArrayItem<C, F, E>(this.child, id, this.feature, this.entity);
     }
     throw new Error('Index out of bounds');
   }

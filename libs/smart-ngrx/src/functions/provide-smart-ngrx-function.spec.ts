@@ -1,13 +1,13 @@
 // create unit tests for provideSmartNgrx()
 
-import { getMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
+import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { provideSmartNgRX } from './provide-smart-ngrx.function';
 
 describe('provideSmartNgrx', () => {
   describe("when we don't provide any config", () => {
     it('the global init should get set to the defaults', () => {
       provideSmartNgRX();
-      expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+      expect(getGlobalMarkAndDeleteInit()).toEqual({
         markDirtyTime: 15 * 60 * 1000, // 15 minutes
         removeTime: 30 * 60 * 1000, // 30 minutes
         runInterval: 60000, // 1 minute
@@ -21,7 +21,7 @@ describe('provideSmartNgrx', () => {
         provideSmartNgRX({
           markDirtyTime: 60000, // 1 minute
         });
-        expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+        expect(getGlobalMarkAndDeleteInit()).toEqual({
           markDirtyTime: 60000, // 1 minute
           removeTime: 120000, // 2 minutes
           runInterval: 60000, // 1 minute
@@ -34,7 +34,7 @@ describe('provideSmartNgrx', () => {
         provideSmartNgRX({
           removeTime: 20 * 60 * 1000, // 20 minutes
         });
-        expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+        expect(getGlobalMarkAndDeleteInit()).toEqual({
           markDirtyTime: 15 * 60 * 1000, // 15 minutes
           removeTime: 20 * 60 * 1000, // 20 minutes
           runInterval: 60000, // 1 minute
@@ -46,7 +46,7 @@ describe('provideSmartNgrx', () => {
           provideSmartNgRX({
             removeTime: 10 * 60 * 1000, // 10 minutes
           });
-          expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+          expect(getGlobalMarkAndDeleteInit()).toEqual({
             markDirtyTime: 15 * 60 * 1000, // 15 minutes
             removeTime: 30 * 60 * 1000, // 30 minutes
             runInterval: 60000, // 1 minute
@@ -60,7 +60,7 @@ describe('provideSmartNgrx', () => {
         provideSmartNgRX({
           runInterval: 120000, // 2 minutes
         });
-        expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+        expect(getGlobalMarkAndDeleteInit()).toEqual({
           markDirtyTime: 15 * 60 * 1000, // 15 minutes
           removeTime: 30 * 60 * 1000, // 30 minutes
           runInterval: 120000, // 2 minutes
@@ -70,7 +70,7 @@ describe('provideSmartNgrx', () => {
       describe('but the runInterval is less than 1', () => {
         it('should reset runInterval to 1 and then expected defaults', () => {
           provideSmartNgRX({ runInterval: 0 });
-          expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+          expect(getGlobalMarkAndDeleteInit()).toEqual({
             markDirtyTime: 15 * 60 * 1000, // 15 minutes
             removeTime: 30 * 60 * 1000, // 30 minutes
             runInterval: 60000, // 1 minute
@@ -84,7 +84,7 @@ describe('provideSmartNgrx', () => {
         provideSmartNgRX({
           markDirtyFetchesNew: false,
         });
-        expect(getMarkAndDeleteInit('θglobalθ')).toEqual({
+        expect(getGlobalMarkAndDeleteInit()).toEqual({
           markDirtyTime: 15 * 60 * 1000, // 15 minutes
           removeTime: 30 * 60 * 1000, // 30 minutes
           runInterval: 60000, // 1 minute

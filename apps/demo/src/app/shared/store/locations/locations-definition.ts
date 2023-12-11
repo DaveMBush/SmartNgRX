@@ -4,7 +4,7 @@ import { Location } from './location.interface';
 import { locationEffectsServiceToken } from './location-effects.service-token';
 
 export const locationsDefinition: SmartEntityDefinition<Location> = {
-  fieldName: 'locations',
+  entityName: 'locations',
   effectServiceToken: locationEffectsServiceToken,
   defaultRow: (id) => ({
     id,

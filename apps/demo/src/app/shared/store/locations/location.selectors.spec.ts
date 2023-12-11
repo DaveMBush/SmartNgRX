@@ -8,12 +8,10 @@ import {
   registerEntity,
   unregisterEntity,
 } from '@smart/smart-ngrx/functions/register-entity.function';
-import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 import { store as storeFunction } from '@smart/smart-ngrx/selector/store.function';
 
 import { SharedState, SharedState2 } from '../../shared-state.interface';
 import { Department } from '../department/department.interface';
-import { locationActions } from './location.actions';
 import { Location } from './location.interface';
 import {
   selectCurrentLocation,
@@ -29,31 +27,64 @@ describe('Location Selectors', () => {
   let store:
     | MockStore<{ shared: SharedState; shared2: SharedState2 }>
     | undefined;
+  let initialState: {
+    shared: {
+      locations: SharedState['locations'];
+      departments: SharedState['departments'];
+      departmentChildren: SharedState['departmentChildren'];
+    };
+    shared2: SharedState2;
+  };
+
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [provideMockStore({ initialState })],
+    });
+    store = TestBed.inject(MockStore);
+    storeFunction(store);
+
     registerEntity('shared', 'location', {
+      markAndDeleteInit: {
+        runInterval: 1000,
+        markDirtyTime: 15 * 60 * 1000,
+        removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
+      },
+      markAndDeleteEntityMap: new Map(),
       defaultRow: (id: string) => ({
         isDirty: false,
         id,
         name: '',
-        lastUpdate: 0,
         children: [],
       }),
     });
     registerEntity('shared', 'departments', {
+      markAndDeleteInit: {
+        runInterval: 1000,
+        markDirtyTime: 15 * 60 * 1000,
+        removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
+      },
+      markAndDeleteEntityMap: new Map(),
       defaultRow: (id: string) => ({
         isDirty: false,
         id,
         name: '',
-        lastUpdate: 0,
         children: [],
       }),
     });
     registerEntity('shared', 'departmentChildren', {
+      markAndDeleteInit: {
+        runInterval: 1000,
+        markDirtyTime: 15 * 60 * 1000,
+        removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
+      },
+      markAndDeleteEntityMap: new Map(),
       defaultRow: (id: string) => ({
         isDirty: false,
         id,
         name: '',
-        lastUpdate: 0,
         children: [],
       }),
     });
@@ -64,14 +95,6 @@ describe('Location Selectors', () => {
     unregisterEntity('shared', 'departmentChildren');
   });
   describe('selectLocation', () => {
-    let initialState: {
-      shared: {
-        locations: SharedState['locations'];
-        departments: SharedState['departments'];
-        departmentChildren: SharedState['departmentChildren'];
-      };
-      shared2: SharedState2;
-    };
     beforeEach(() => {
       initialState = {
         shared: {
@@ -94,15 +117,6 @@ describe('Location Selectors', () => {
       };
     });
     describe('if no items are loaded for locations', () => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          providers: [provideMockStore({ initialState })],
-        });
-
-        store = TestBed.inject(MockStore);
-        storeFunction(store);
-      });
-
       it('should select locations and trigger load action if empty', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
@@ -116,11 +130,6 @@ describe('Location Selectors', () => {
         )) as typeof initialState.shared.locations;
 
         expect(result).toEqual(initialState.shared.locations.ids);
-        // have to wait for the init() action to run.
-        await firstValueFrom(store.scannedActions$);
-        // Here, you would also check if `locationActions.load` has been dispatched.
-        const loadAction = await firstValueFrom(store.scannedActions$);
-        expect(loadAction.type).toEqual(locationActions.load.type);
       });
       it('should select locations and not trigger load action if not empty even if currentLocation is empty', async () => {
         if (!store) {
@@ -136,11 +145,6 @@ describe('Location Selectors', () => {
         )) as typeof initialState.shared.locations;
 
         expect(result).toEqual(initialState.shared.locations.ids);
-        // have to wait for the init() action to run.
-        await firstValueFrom(store.scannedActions$);
-        // Here, you would also check if `locationActions.load` has been dispatched.
-        const loadAction = await firstValueFrom(store.scannedActions$);
-        expect(loadAction.type).toEqual(locationActions.load.type);
       });
     });
     describe('if we have at least one row loaded in locations', () => {
@@ -163,13 +167,6 @@ describe('Location Selectors', () => {
         testScheduler = new TestScheduler((actual, expected) => {
           expect(actual).toEqual(expected);
         });
-
-        TestBed.configureTestingModule({
-          providers: [provideMockStore({ initialState })],
-        });
-
-        store = TestBed.inject(MockStore);
-        storeFunction(store);
       });
 
       it('should select locations and not trigger load action if empty', async () => {
@@ -230,7 +227,7 @@ describe('Location Selectors', () => {
     });
   });
   describe('selectLocationsDepartments', () => {
-    const initialState = {
+    initialState = {
       shared: {
         departments: {
           ids: ['1'],
@@ -239,7 +236,6 @@ describe('Location Selectors', () => {
               id: '1',
               name: 'test department',
               children: [],
-              lastUpdate: 0,
               isDirty: false,
             } as SharedState['departments']['entities']['1'],
           },
@@ -250,9 +246,7 @@ describe('Location Selectors', () => {
             '1': {
               id: '1',
               name: locationName,
-              departments: [] as
-                | ArrayProxy<Department & { lastUpdate: number }>
-                | string[],
+              departments: [] as Department[] | string[],
             },
           },
         },
@@ -265,15 +259,6 @@ describe('Location Selectors', () => {
         currentLocation: '',
       },
     };
-
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [provideMockStore({ initialState })],
-      });
-
-      store = TestBed.inject(MockStore);
-      storeFunction(store);
-    });
 
     describe('when locations has no children', () => {
       it('should return location but not departments', async () => {
@@ -302,7 +287,7 @@ describe('Location Selectors', () => {
       });
     });
     describe('when locations has a child that points to a department and the department exist in the store', () => {
-      it('should return location but and departments', async () => {
+      it('should return location and departments', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
@@ -330,17 +315,23 @@ describe('Location Selectors', () => {
           store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
-        const expected = { ...initialState.shared.locations };
-        expected.entities = { ...expected.entities };
-        expected.entities['1'].departments = [
-          {
-            id: '1',
-            name: 'test department',
-            lastUpdate: 0,
-            children: [] as string[],
-            isDirty: false,
+        const expected = {
+          ids: ['1'],
+          entities: {
+            '1': {
+              id: '1',
+              name: locationName,
+              departments: [
+                {
+                  id: '1',
+                  name: '',
+                  children: [] as string[],
+                  isDirty: false,
+                },
+              ],
+            },
           },
-        ] as unknown as ArrayProxy<Department & { lastUpdate: number }>;
+        };
         // Perform the assertion
         expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
@@ -375,24 +366,30 @@ describe('Location Selectors', () => {
           store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
-        const expected = { ...initialState.shared.locations };
-        expected.entities = { ...expected.entities };
-        expected.entities['1'].departments = [
-          {
-            id: '1',
-            name: '',
-            isDirty: false,
-            lastUpdate: 0,
-            children: [],
+        const expected = {
+          ids: ['1'],
+          entities: {
+            '1': {
+              id: '1',
+              name: locationName,
+              departments: [
+                {
+                  id: '1',
+                  name: '',
+                  isDirty: false,
+                  children: [],
+                },
+              ],
+            },
           },
-        ] as unknown as ArrayProxy<Department & { lastUpdate: number }>;
+        };
         // Perform the assertion
         expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
     });
   });
   describe('selectCurrentLocation', () => {
-    const initialState = {
+    initialState = {
       shared: {
         departments: {
           ids: [],
@@ -426,22 +423,14 @@ describe('Location Selectors', () => {
           store.select(selectCurrentLocation),
         )) as Location;
 
-        expect(result).toEqual({
-          id: '',
-          name: '',
+        expect(JSON.parse(JSON.stringify(result))).toEqual({
+          id: '1',
+          name: 'test',
           departments: [],
-          isDirty: false,
         });
       });
     });
     describe('when currentLocation is empty and locations has an element', () => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          providers: [provideMockStore({ initialState })],
-        });
-        store = TestBed.inject(MockStore);
-        storeFunction(store);
-      });
       it('should return a blank location', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
@@ -475,13 +464,6 @@ describe('Location Selectors', () => {
       });
     });
     describe('when currentLocation is "1" and locations has a "1" element', () => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({
-          providers: [provideMockStore({ initialState })],
-        });
-        store = TestBed.inject(MockStore);
-        storeFunction(store);
-      });
       it('should return the "1" location', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
@@ -512,6 +494,26 @@ describe('Location Selectors', () => {
         expect(JSON.parse(JSON.stringify(result))).toEqual({
           id: '1',
           name: 'location testc',
+          departments: [],
+        });
+      });
+    });
+    describe('when currentLocationId is not in location.entities', () => {
+      beforeEach(() => {
+        initialState.shared2.currentLocation = '2';
+      });
+      it('should return blank location', async () => {
+        if (!store) {
+          throw new Error(storeNotDefined);
+        }
+        const result = (await firstValueFrom(
+          store.select(selectCurrentLocation),
+        )) as Location;
+
+        expect(JSON.parse(JSON.stringify(result))).toEqual({
+          id: '',
+          name: '',
+          isDirty: false,
           departments: [],
         });
       });

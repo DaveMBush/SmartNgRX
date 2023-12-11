@@ -1,9 +1,10 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
 import { provideEffects } from '@ngrx/effects';
 
+import { castTo } from '../common/cast-to.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { markAndDeleteEffect } from '../mark-and-delete/mark-and-delete.effect';
-import { registerMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
+import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { storeEffect } from '../selector/store.effects';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
@@ -20,7 +21,7 @@ import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
  * @see `MarkAndDeleteInit`
  */
 export function provideSmartNgRX(
-  config?: MarkAndDeleteInit,
+  config?: Partial<MarkAndDeleteInit>,
 ): EnvironmentProviders {
   const localConfig =
     config ??
@@ -36,7 +37,8 @@ export function provideSmartNgRX(
   if (
     (isNullOrUndefined(localConfig.removeTime) ||
       localConfig.removeTime! < localConfig.markDirtyTime!) &&
-    localConfig.markDirtyTime! > -1
+    localConfig.markDirtyTime! > -1 &&
+    localConfig.removeTime! !== 0
   ) {
     localConfig.removeTime = localConfig.markDirtyTime! * 2; // 30 minutes
   }
@@ -49,7 +51,7 @@ export function provideSmartNgRX(
   if (isNullOrUndefined(localConfig.markDirtyFetchesNew)) {
     localConfig.markDirtyFetchesNew = true;
   }
-  registerMarkAndDeleteInit('θglobalθ', localConfig);
+  registerGlobalMarkAndDeleteInit(castTo<MarkAndDeleteInit>(localConfig));
   return makeEnvironmentProviders([
     provideEffects({ store: storeEffect, markAndDelete: markAndDeleteEffect }),
   ]);

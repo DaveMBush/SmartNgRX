@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
+import { psi } from '../common/theta.const';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
@@ -33,7 +34,7 @@ export function actionFactory<
   feature: StringLiteralSource<Feature>,
   entity: StringLiteralSource<Entity>,
 ): ActionGroup<T> {
-  const source = `${feature}θ${entity}`;
+  const source = `${feature}${psi}${entity}`;
   const cached = actionGroupCache.get(source) as ActionGroup<T> | undefined;
   if (cached) {
     return cached;

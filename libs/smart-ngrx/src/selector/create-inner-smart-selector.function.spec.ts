@@ -2,10 +2,12 @@ import { EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { isProxy } from '../common/is-proxy.const';
 import {
   registerEntity,
   unregisterEntity,
 } from '../functions/register-entity.function';
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
@@ -34,12 +36,14 @@ function itCreatesProxiesForChildrenThatDontExist(
   expect(result.entities[department1]?.children).toHaveLength(2);
   expect(result.entities[department2]?.children).toHaveLength(2);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department1]?.children)
-      .θisProxyθ,
+    castTo<Record<string, boolean>>(result.entities[department1]?.children)[
+      isProxy
+    ],
   ).toBe(true);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department2]?.children)
-      .θisProxyθ,
+    castTo<Record<string, boolean>>(result.entities[department2]?.children)[
+      isProxy
+    ],
   ).toBe(true);
   expect(
     castTo<ArrayProxy<Entity>>(result.entities[department1]?.children).rawArray,
@@ -74,6 +78,13 @@ describe('createInnerSmartSelector', () => {
   let result: EntityState<{ id: string; name: string; children: string[] }>;
   function commonSetup() {
     registerEntity('feature', 'entityName', {
+      markAndDeleteEntityMap: new Map(),
+      markAndDeleteInit: {
+        markDirtyTime: 15 * 60 * 1000,
+        removeTime: 30 * 60 * 1000,
+        markDirtyFetchesNew: true,
+        runInterval: 60 * 1000,
+      },
       defaultRow: (id: string) => ({
         id,
         isDirty: false,
@@ -87,13 +98,13 @@ describe('createInnerSmartSelector', () => {
         EntityState<{ id: string; name: string; children: string[] }>
       >,
       {
-        childFeature: 'feature',
-        childFieldName: 'entityName',
+        childFeature: castTo<StringLiteralSource<string>>('feature'),
+        childEntity: castTo<StringLiteralSource<string>>('entityName'),
         childSelector: jest.fn() as unknown as MemoizedSelector<
           object,
           EntityState<MarkAndDelete>
         >,
-        parentFieldName: 'children',
+        parentField: 'children',
       },
     );
     child1 = entityStateFactory({

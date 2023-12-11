@@ -1,6 +1,7 @@
-import { createAction, props } from '@ngrx/store';
-
 import { castTo } from '../common/cast-to.function';
+import { isProxy } from '../common/is-proxy.const';
+import { registerEntity } from '../functions/register-entity.function';
+import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { isArrayProxy } from './is-array-proxy.function';
@@ -9,11 +10,6 @@ interface TestType extends MarkAndDelete {
   id: string;
   name: string;
 }
-
-const mockAction = createAction(
-  '[mock] fetch department',
-  props<{ ids: string[] }>(),
-);
 
 describe('proxyArray', () => {
   const childArray: string[] = ['department1', 'department2'];
@@ -33,11 +29,28 @@ describe('proxyArray', () => {
     },
   };
 
-  const arr = new ArrayProxy<TestType>(
+  registerGlobalMarkAndDeleteInit({
+    markDirtyTime: 15 * 60 * 1000,
+    removeTime: 30 * 60 * 1000,
+    runInterval: 60 * 1000,
+    markDirtyFetchesNew: true,
+  });
+  registerEntity('feature', 'department', {
+    defaultRow: (id: string) => ({ id, name: '', isDirty: false }),
+    markAndDeleteEntityMap: new Map(),
+    markAndDeleteInit: {
+      markDirtyTime: 15 * 60 * 1000,
+      removeTime: 30 * 60 * 1000,
+      runInterval: 60 * 1000,
+      markDirtyFetchesNew: true,
+    },
+  });
+
+  const arr = new ArrayProxy<TestType, 'feature', 'department'>(
     childArray,
     child,
-    mockAction,
-    (id: string) => ({ id, name: '', isDirty: false }),
+    'feature',
+    'department',
   );
   arr.init();
 
@@ -54,8 +67,8 @@ describe('proxyArray', () => {
     });
   });
 
-  it('has the θisProxyθ property for internal usage', () => {
-    expect(castTo<ArrayProxy<TestType>>(arr).θisProxyθ).toBe(true);
+  it('has the isProxy property for internal usage', () => {
+    expect(castTo<Record<string, boolean>>(arr)[isProxy]).toBe(true);
   });
 
   it('gives access to the raw array', () => {
@@ -65,14 +78,15 @@ describe('proxyArray', () => {
     ]);
   });
   describe('if we pass in the proxy as the child', () => {
-    let arr2: ArrayProxy<TestType>;
+    let arr2: ArrayProxy<TestType, 'feature', 'department'>;
     beforeEach(() => {
       // give parent the children from above
-      arr2 = new ArrayProxy<TestType>(arr, child, mockAction, (id: string) => ({
-        id,
-        name: '',
-        isDirty: false,
-      }));
+      arr2 = new ArrayProxy<TestType, 'feature', 'department'>(
+        arr,
+        child,
+        'feature',
+        'department',
+      );
       arr2.init();
     });
     it('should not re-proxy the child', () => {
