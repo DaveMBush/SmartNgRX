@@ -423,21 +423,10 @@ describe('Location Selectors', () => {
           store.select(selectCurrentLocation),
         )) as Location;
 
-        expect(result).toEqual({
+        expect(JSON.parse(JSON.stringify(result))).toEqual({
           id: '1',
           name: 'test',
-          departments: {
-            child: {
-              entities: {},
-              ids: [],
-            },
-            childArray: [],
-            entity: 'departments',
-            feature: 'shared',
-            length: 0,
-            rawArray: [],
-            πisProxyπ: true,
-          },
+          departments: [],
         });
       });
     });
@@ -505,6 +494,26 @@ describe('Location Selectors', () => {
         expect(JSON.parse(JSON.stringify(result))).toEqual({
           id: '1',
           name: 'location testc',
+          departments: [],
+        });
+      });
+    });
+    describe('when currentLocationId is not in location.entities', () => {
+      beforeEach(() => {
+        initialState.shared2.currentLocation = '2';
+      });
+      it('should return blank location', async () => {
+        if (!store) {
+          throw new Error(storeNotDefined);
+        }
+        const result = (await firstValueFrom(
+          store.select(selectCurrentLocation),
+        )) as Location;
+
+        expect(JSON.parse(JSON.stringify(result))).toEqual({
+          id: '',
+          name: '',
+          isDirty: false,
           departments: [],
         });
       });
