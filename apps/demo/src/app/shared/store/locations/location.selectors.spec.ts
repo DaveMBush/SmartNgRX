@@ -55,7 +55,6 @@ describe('Location Selectors', () => {
         isDirty: false,
         id,
         name: '',
-        lastUpdate: 0,
         children: [],
       }),
     });
@@ -71,7 +70,6 @@ describe('Location Selectors', () => {
         isDirty: false,
         id,
         name: '',
-        lastUpdate: 0,
         children: [],
       }),
     });
@@ -87,7 +85,6 @@ describe('Location Selectors', () => {
         isDirty: false,
         id,
         name: '',
-        lastUpdate: 0,
         children: [],
       }),
     });
@@ -239,7 +236,6 @@ describe('Location Selectors', () => {
               id: '1',
               name: 'test department',
               children: [],
-              lastUpdate: 0,
               isDirty: false,
             } as SharedState['departments']['entities']['1'],
           },
@@ -291,7 +287,7 @@ describe('Location Selectors', () => {
       });
     });
     describe('when locations has a child that points to a department and the department exist in the store', () => {
-      it('should return location but and departments', async () => {
+      it('should return location and departments', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
@@ -319,16 +315,23 @@ describe('Location Selectors', () => {
           store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
-        const expected = { ...initialState.shared.locations };
-        expected.entities = { ...expected.entities };
-        expected.entities['1']!.departments = [
-          {
-            id: '1',
-            name: 'test department',
-            children: [] as string[],
-            isDirty: false,
+        const expected = {
+          ids: ['1'],
+          entities: {
+            '1': {
+              id: '1',
+              name: locationName,
+              departments: [
+                {
+                  id: '1',
+                  name: '',
+                  children: [] as string[],
+                  isDirty: false,
+                },
+              ],
+            },
           },
-        ] as Department[];
+        };
         // Perform the assertion
         expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
@@ -363,16 +366,23 @@ describe('Location Selectors', () => {
           store.select(selectLocationsDepartments),
         )) as typeof initialState.shared.locations;
 
-        const expected = { ...initialState.shared.locations };
-        expected.entities = { ...expected.entities };
-        expected.entities['1']!.departments = [
-          {
-            id: '1',
-            name: '',
-            isDirty: false,
-            children: [],
+        const expected = {
+          ids: ['1'],
+          entities: {
+            '1': {
+              id: '1',
+              name: locationName,
+              departments: [
+                {
+                  id: '1',
+                  name: '',
+                  isDirty: false,
+                  children: [],
+                },
+              ],
+            },
           },
-        ] as Department[];
+        };
         // Perform the assertion
         expect(JSON.parse(JSON.stringify(result))).toEqual(expected);
       });
@@ -414,10 +424,20 @@ describe('Location Selectors', () => {
         )) as Location;
 
         expect(result).toEqual({
-          id: '',
-          name: '',
-          departments: [],
-          isDirty: false,
+          id: '1',
+          name: 'test',
+          departments: {
+            child: {
+              entities: {},
+              ids: [],
+            },
+            childArray: [],
+            entity: 'departments',
+            feature: 'shared',
+            length: 0,
+            rawArray: [],
+            πisProxyπ: true,
+          },
         });
       });
     });
