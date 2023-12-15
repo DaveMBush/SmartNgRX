@@ -6,9 +6,9 @@ This project merges two concepts I've been playing with for a while.
 
 At one of my previous jobs, I needed to work with data that could be essentially an infinite number of rows. This made retrieving the entire data set practically impossible and required that we not only use virtual scrolling to render the data but also use a concept of virtual data where we only retrieved the data that was needed to render the current view.
 
-Fast forward to a similar situation and a lot more experience. One of the issues with the previous implementation was that I had to retrieve the data every time is scrolled into view. As you can imagine, even with the fastest retrieval times this didn't paint nearly as fast as anyone would have liked. This time, we had more control over the data. It was still a large data set. But it was not infinite.
+Fast forward to a similar situation and a lot more experience. One of the issues with the previous implementation was that I had to retrieve the data every time it scrolled into view. As you can imagine, even with the fastest retrieval times, this didn't paint nearly as fast as anyone would have liked. This time, we had more control over the data. It was still a large data set. But it was not infinite.
 
-As we were in a meeting one day with everyone discussing various ways would could make the application perform better, I said, "Let me tell you what I've been thinking about." And I proceeded to layout a concept based on my earlier work where we'd only load the rows as we need them AND remove them once we had some assurance they were no longer being used.
+As we were in a meeting one day with everyone discussing various ways would could make the application perform better, I said, "Let me tell you what I've been thinking about." I proceeded to lay out a concept based on my earlier work where we'd only load the rows as we needed them AND remove them once we had some assurance they were no longer being used.
 
 I was then told to go work on a POC for that concept and got far enough to know I was on to something but not far enough to solve all the issues we were going to run into.
 
@@ -16,7 +16,7 @@ Meanwhile, new management came in that talked the original manager out of workin
 
 Now, I couldn't let it go. I kept thinking about it. And another thought came to mind. If we always use essentially the same Actions, Effects and Reducers for each entity, could we just create factory methods that would generate them for us? And if we could do that, could we hide the bulk of what is NgRX from the developer?
 
-At this point, I how merged the two concepts. Using the main library of this project, you can register your NgRX entities in a providers section and then use "SmartSelectors" to join the data back together again. Only the join doesn't just join the data, it retrieves the data as it is accessed.
+At this point, I merged the two concepts. Using the main library of this project, you can register your NgRX entities in a providers section and then use "SmartSelectors" to join the data back together again. Only the join doesn't just join the data, it retrieves the data as it is accessed.
 
 We are still at the very beginning of this project. We still need to provide a way of removing rows that are no longer being accessed. We still need to provide a way to perform CRUD operations on the rows. But the groundwork has been laid. At this point, the two things you need to know about NgRX are 1) You'll need to use selectors or the Smart Selectors from this library to "Join" or "Nest" rows and 2) you'll need to create Effect Services to deal with retrieving the data from the server (and ultimately perform the CRUD operations).
 
