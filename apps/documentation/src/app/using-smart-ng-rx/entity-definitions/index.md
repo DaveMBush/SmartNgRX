@@ -13,8 +13,8 @@ import { EntityDefinition } from '@smart/smart-ngrx/types/entity-definition.inte
 import { User } from './user.interface';
 import { userEffectsServiceToken } from './user-effects.service-token';
 
-export const usersDefinition: EntityDefinition<User> = {
-  fieldName: 'users',
+export const usersDefinition: SmartEntityDefinition<User> = {
+  entityName: 'users',
   effectServiceToken: userEffectsServiceToken,
   defaultRow: (id) => ({
     id,
@@ -25,10 +25,20 @@ export const usersDefinition: EntityDefinition<User> = {
 };
 ```
 
-As outlined in the `EntityDefinition` interface, we need to provide the following information:
+As outlined in the `SmartEntityDefinition` interface, we need to provide the following information:
 
-- `fieldName`: The field name that you'd usually use in the reducer object you'd use in StoreModule.forFeature(featureName, reducer) OR the name you'd use in provideState(featureName, reducer)<br><br>We also use this name along with the feature as the Source field in actions but this should not matter to you because you'll either be using actions we've created or using your own actions for your specific purposes.<br><br>NOTE: this is not a "field" in the database sense but a "field in the sense of a "field" in a JavaScript object.
+## entityName
 
-- `effectServiceToken`: The Injection Token for the Effect Service that will be used by the entity. This is the service that the effect will call to perform CRUD operations against the server.
+The field name that you'd usually use in the reducer object you'd use in StoreModule.forFeature(featureName, reducer) OR the name you'd use in provideState(featureName, reducer)
 
-- `defaultRow`: A function that returns a default row for the entity. This is used by the reducer to create a new row when the `addRow` action is dispatched. The function takes an `id` parameter that is the id of the row that is being created. This is useful if you need to create a row that has a reference to the id of the row that is being created.
+We also use this name along with the feature as the Source field in actions but this should not matter to you because you'll either be using actions we've created or using your own actions for your specific purposes.
+
+If you think of this as the name of the NgRX entity, you'll be fine.
+
+## effectServiceToken
+
+The Injection Token for the Effect Service that will be used by the entity. This is the service that the effect will call to perform CRUD operations against the server.
+
+## defaultRow
+
+A function that returns a default row for the entity. This is used by the reducer to create a new row when the `addRow` action is dispatched. The function takes an `id` parameter that is the id of the row that is being created. This is useful if you need to create a row that has a reference to the id of the row that is being created.

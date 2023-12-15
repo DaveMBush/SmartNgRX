@@ -8,6 +8,8 @@ import {
   StoreDevtoolsModule,
 } from '@ngrx/store-devtools';
 
+import { provideSmartNgRX } from '@smart/smart-ngrx/index';
+
 import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -23,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({}),
     provideEffects(),
+    provideSmartNgRX(),
     provideAnimations(),
     provideStoreDevtools(),
   ],

@@ -10,6 +10,17 @@ import {
 } from 'rxjs';
 
 import { castTo } from '../common/cast-to.function';
+import { forNext } from '../common/for-next.function';
+
+function flatten<T>(array: T[][]): T[] {
+  const returnArray = [] as T[];
+  forNext(array, (a) => {
+    forNext(a, (b) => {
+      returnArray.push(b);
+    });
+  });
+  return returnArray;
+}
 
 function mainBuffer(
   source: Observable<Action>,
@@ -22,11 +33,7 @@ function mainBuffer(
       map((a) => castTo<{ ids: string[] }>(a).ids),
       buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
       map((ids: string[][]) => {
-        let newIds: string[] = [];
-        ids.forEach((ids2) => {
-          newIds = [...newIds, ...ids2];
-        });
-        return newIds;
+        return flatten(ids);
       }),
       map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
     )

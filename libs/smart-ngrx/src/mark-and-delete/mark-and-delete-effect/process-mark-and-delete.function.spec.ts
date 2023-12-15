@@ -34,6 +34,7 @@ describe('processMarkAndDelete', () => {
     const garbageCollectKeysMap = {
       key1: ['id1', 'id2'],
       key2: ['id3', 'id4'],
+      key3: [],
     };
     const markDirtyKeysMap = {};
 
@@ -48,6 +49,10 @@ describe('processMarkAndDelete', () => {
       type: `[${featureKey}${psi}key2] Garbage Collect`,
       ids: ['id3', 'id4'],
     });
+    expect(mockStore.dispatch).not.toHaveBeenCalledWith({
+      type: `[${featureKey}${psi}key3] Garbage Collect`,
+      ids: [],
+    });
   });
 
   it('should dispatch markDirty actions for each key in markDirtyKeysMap', () => {
@@ -55,6 +60,7 @@ describe('processMarkAndDelete', () => {
     const markDirtyKeysMap = {
       key1: ['id1', 'id2'],
       key2: ['id3', 'id4'],
+      key3: [],
     };
 
     processMarkAndDelete(featureKey, garbageCollectKeysMap, markDirtyKeysMap);
@@ -67,6 +73,10 @@ describe('processMarkAndDelete', () => {
     expect(mockStore.dispatch).toHaveBeenCalledWith({
       type: `[${featureKey}${psi}key2] Mark Dirty`,
       ids: ['id3', 'id4'],
+    });
+    expect(mockStore.dispatch).not.toHaveBeenCalledWith({
+      type: `[${featureKey}${psi}key3] Mark Dirty`,
+      ids: [],
     });
   });
 

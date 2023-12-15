@@ -579,7 +579,9 @@
         "@typescript-eslint/non-nullable-type-assertion-style": "error",
         "@typescript-eslint/padding-line-between-statements": "error",
         "@typescript-eslint/prefer-enum-initializers": "error",
-        "@typescript-eslint/prefer-for-of": "error",
+        // for of is 10x slower than for/next.  Use the forNext function
+        // instead to gain the performance benefits as well as readability.
+        "@typescript-eslint/prefer-for-of": "off",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-includes": "error",
         "@typescript-eslint/prefer-literal-enum-member": "error",

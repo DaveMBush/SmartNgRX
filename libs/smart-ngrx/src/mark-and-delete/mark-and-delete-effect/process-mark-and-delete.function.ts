@@ -1,5 +1,6 @@
 import { actionFactory } from '../..';
 import { assert } from '../../common/assert.function';
+import { forNext } from '../../common/for-next.function';
 import { isNullOrUndefined } from '../../common/is-null-or-undefined.function';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { store as storeFunction } from '../../selector/store.function';
@@ -25,36 +26,38 @@ export function processMarkAndDelete(
         !isNullOrUndefined(store),
         'could not find store from store function',
       );
-      Object.keys(garbageCollectKeysMap)
-        .filter(
-          (key) =>
-            !isNullOrUndefined(garbageCollectKeysMap[key]) &&
-            garbageCollectKeysMap[key]!.length,
-        )
-        .forEach((key) => {
-          const featureAction = actionFactory(
-            featureKey,
-            key as StringLiteralSource<typeof key>,
-          );
-          store!.dispatch(
-            featureAction.garbageCollect({ ids: garbageCollectKeysMap[key]! }),
-          );
-        });
-      Object.keys(markDirtyKeysMap)
-        .filter(
-          (key) =>
-            !isNullOrUndefined(markDirtyKeysMap[key]) &&
-            markDirtyKeysMap[key]!.length,
-        )
-        .forEach((key) => {
-          const featureAction = actionFactory(
-            featureKey,
-            key as StringLiteralSource<typeof key>,
-          );
-          store!.dispatch(
-            featureAction.markDirty({ ids: markDirtyKeysMap[key]! }),
-          );
-        });
+      // optimized to use for/next and not create new arrays
+      // along the way (no filter, map, tap, etc.)
+      forNext(Object.keys(garbageCollectKeysMap), (key) => {
+        if (
+          isNullOrUndefined(garbageCollectKeysMap[key]) ||
+          garbageCollectKeysMap[key]!.length === 0
+        ) {
+          return;
+        }
+        const entityAction = actionFactory(
+          featureKey,
+          key as StringLiteralSource<typeof key>,
+        );
+        store!.dispatch(
+          entityAction.garbageCollect({ ids: garbageCollectKeysMap[key]! }),
+        );
+      });
+      forNext(Object.keys(markDirtyKeysMap), (key) => {
+        if (
+          isNullOrUndefined(markDirtyKeysMap[key]) ||
+          markDirtyKeysMap[key]!.length === 0
+        ) {
+          return;
+        }
+        const featureAction = actionFactory(
+          featureKey,
+          key as StringLiteralSource<typeof key>,
+        );
+        store!.dispatch(
+          featureAction.markDirty({ ids: markDirtyKeysMap[key]! }),
+        );
+      });
     },
     { timeout: getGlobalMarkAndDeleteInit().runInterval - 100 },
   );
