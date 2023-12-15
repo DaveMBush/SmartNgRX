@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { assert } from '@smart/smart-ngrx/common/assert.function';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
+import { forNext } from '@smart/smart-ngrx/common/for-next.function';
 import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 
 import type { SidebarComponent } from './sidebar.component';
@@ -53,7 +54,8 @@ export class SidebarComponentService {
     if (children.length === 0) {
       return [];
     }
-    castTo<ArrayProxy<SidebarCommonSourceNode>>(children).rawArray.forEach(
+    forNext(
+      castTo<ArrayProxy<SidebarCommonSourceNode>>(children).rawArray,
       (c, i) => {
         let node: SidebarCommonSourceNode | string = c;
         if (startRange <= result.length && result.length <= endRange) {
@@ -77,7 +79,9 @@ export class SidebarComponentService {
             startRange - result.length,
             endRange - result.length,
           );
-          childNodes.forEach((child) => result.push(child));
+          forNext(childNodes, (child) => {
+            result.push(child);
+          });
         }
       },
     );

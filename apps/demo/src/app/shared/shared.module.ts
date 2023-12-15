@@ -13,7 +13,6 @@ import { ActionReducerMap, StoreModule } from '@ngrx/store';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { provideSmartFeatureEntities } from '@smart/smart-ngrx/functions/provide-smart-feature-entities.function';
-import { provideSmartNgRX } from '@smart/smart-ngrx/functions/provide-smart-ngrx.function';
 
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { currentLocationReducer } from './current-location/current-location.reducer';
@@ -70,7 +69,6 @@ const sharedReducers = castTo<ActionReducerMap<SharedState>>({
       useClass: LocationEffectsService,
     },
     importProvidersFrom([StoreModule.forFeature('shared2', sharedReducers)]),
-    provideSmartNgRX(),
     provideSmartFeatureEntities('shared', [
       locationsDefinition,
       departmentsDefinition,

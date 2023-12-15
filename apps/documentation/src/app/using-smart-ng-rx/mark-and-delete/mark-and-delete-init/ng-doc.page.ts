@@ -1,11 +1,11 @@
 import { NgDocPage } from '@ng-doc/core';
-import UsingSmartNgRXCategory from '../ng-doc.category';
+import MarkAndDeleteCategory from '../ng-doc.category';
 
 const ProxyChildPage: NgDocPage = {
-  title: `ProxyChild`,
+  title: `MarkAndDeleteInit`,
   mdFile: './index.md',
-  order: 7,
-  category: UsingSmartNgRXCategory,
+  order: 2,
+  category: MarkAndDeleteCategory,
 };
 
 export default ProxyChildPage;

@@ -15,7 +15,7 @@ import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
 import { User } from './user.interface';
 
 @Injectable()
-export class UserEffectsService extends EffectService<Department> {
+export class UserEffectsService extends EffectService<User> {
   constructor(private http: HttpClient) {
     super();
   }

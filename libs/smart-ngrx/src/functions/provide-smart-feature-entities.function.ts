@@ -3,6 +3,7 @@ import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
+import { forNext } from '../common/for-next.function';
 import { effectsFactory } from '../effects/effects.factory';
 import { getMarkAndDeleteEntityMap } from '../mark-and-delete/mark-and-delete-entity.map';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
@@ -44,7 +45,7 @@ export function provideSmartFeatureEntities<F extends string>(
     string,
     ActionReducer<EntityState<MarkAndDelete>>
   > = {};
-  entityDefinitions.forEach((entityDefinition) => {
+  forNext(entityDefinitions, (entityDefinition) => {
     const { entityName, effectServiceToken, defaultRow } = entityDefinition;
     const effects = effectsFactory(
       featureName,
