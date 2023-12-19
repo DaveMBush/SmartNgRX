@@ -1,5 +1,4 @@
 import { getEntityRegistry } from '../..';
-import { psi } from '../../common/theta.const';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
@@ -18,20 +17,10 @@ export function markAndDeleteEntity([feature, entity]: [
   const registry = getEntityRegistry(feature, entity);
   const entityMap = registry.markAndDeleteEntityMap;
   const featureInit = registry.markAndDeleteInit;
-  const garbageCollectKeysMap: Record<string, string[] | undefined> = {};
-  const markDirtyKeysMap: Record<string, string[] | undefined> = {};
+  const garbageCollectRowIds: string[] = [];
+  const markDirtyRowIds: string[] = [];
   const now = Date.now();
   for (const [key, value] of entityMap) {
-    // this is not adequately covering the case where removeTime is 0
-    // but we have already tested for markDirtyTime so the record is dirty
-    // but not visible.
-    // we also seem to be sending markDirty message every time between when
-    // we need to mark it dirty and when we need to remove it.
-    // there must be a more efficient way to do this!
-    // - [x] Don't do any check between dirty time and remove time accounting for
-    //   interval time. (use 1x interval time as a buffer)
-    // - [x] Need to change only the input to be partial and everywhere else
-    //   to have a default value so we can remove the null/undefined checks.
     if (
       0 === featureInit.removeTime &&
       value <
@@ -41,24 +30,15 @@ export function markAndDeleteEntity([feature, entity]: [
       continue;
     }
     if (featureInit.removeTime > 0 && value < now - featureInit.removeTime) {
-      const splitKey = key.split(psi);
-      garbageCollectKeysMap[splitKey[0]] =
-        garbageCollectKeysMap[splitKey[0]] || [];
-      garbageCollectKeysMap[splitKey[0]]!.push(splitKey[1]);
+      garbageCollectRowIds.push(key);
     } else if (
       featureInit.markDirtyTime > 0 &&
       value < now - featureInit.markDirtyTime
     ) {
-      const splitKey = key.split(psi);
-      markDirtyKeysMap[splitKey[0]] = markDirtyKeysMap[splitKey[0]] || [];
-      markDirtyKeysMap[splitKey[0]]!.push(splitKey[1]);
+      markDirtyRowIds.push(key);
     } else {
       break;
     }
   }
-  processMarkAndDelete(
-    feature as StringLiteralSource<string>,
-    garbageCollectKeysMap,
-    markDirtyKeysMap,
-  );
+  processMarkAndDelete(feature, entity, garbageCollectRowIds, markDirtyRowIds);
 }

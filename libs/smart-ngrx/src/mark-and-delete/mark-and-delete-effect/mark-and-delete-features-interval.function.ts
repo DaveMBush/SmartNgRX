@@ -12,10 +12,10 @@ import { markAndDeleteEntity } from './mark-and-delete-entity.function';
  */
 export function markAndDeleteFeaturesInterval(): void {
   const markAndDeleteInterval = getGlobalMarkAndDeleteInit().runInterval;
-  const featureKeys = markAndDeleteEntities();
   interval(markAndDeleteInterval)
     .pipe(
       tap(() => {
+        const featureKeys = markAndDeleteEntities();
         const featureKeyLength = featureKeys.length;
         // for/next is faster than forEach
         for (let i = 0; i < featureKeyLength; i++) {
