@@ -42,7 +42,12 @@ describe('markAndDeleteEntity', () => {
           'entity',
         ]),
       );
-      expect(processMarkAndDeleteSpy).toHaveBeenCalledWith('feature', {}, {});
+      expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
+        'feature',
+        'entity',
+        [],
+        [],
+      );
     });
   });
   describe('when there is something to remove but the feature removeTime is 0', () => {
@@ -75,7 +80,12 @@ describe('markAndDeleteEntity', () => {
           'entity',
         ]),
       );
-      expect(processMarkAndDeleteSpy).toHaveBeenCalledWith('feature', {}, {});
+      expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
+        'feature',
+        'entity',
+        [],
+        [],
+      );
     });
   });
   describe('when there is something to remove and the removeTime is not 0', () => {
@@ -87,7 +97,7 @@ describe('markAndDeleteEntity', () => {
           markDirtyFetchesNew: true,
         } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>([
-          [`feature${psi}entity`, Date.now() - 30 * 60 * 1000],
+          [`1`, Date.now() - 30 * 60 * 1000],
         ]),
         defaultRow: (id) => {
           return {
@@ -104,10 +114,9 @@ describe('markAndDeleteEntity', () => {
       );
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
-        {
-          feature: ['entity'],
-        },
-        {},
+        'entity',
+        ['1'],
+        [],
       );
     });
   });
@@ -120,7 +129,7 @@ describe('markAndDeleteEntity', () => {
           markDirtyFetchesNew: true,
         } as MarkAndDeleteInit & { runInterval?: number },
         markAndDeleteEntityMap: new Map<string, number>([
-          [`feature${psi}entity`, Date.now() - 17 * 60 * 1000],
+          [`1`, Date.now() - 15 * 60 * 1000 - 1],
         ]),
         defaultRow: (id) => {
           return {
@@ -137,10 +146,9 @@ describe('markAndDeleteEntity', () => {
       );
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
-        {},
-        {
-          feature: ['entity'],
-        },
+        'entity',
+        [],
+        ['1'],
       );
     });
   });
@@ -168,7 +176,12 @@ describe('markAndDeleteEntity', () => {
           'entity',
         ]),
       );
-      expect(processMarkAndDeleteSpy).toHaveBeenCalledWith('feature', {}, {});
+      expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
+        'feature',
+        'entity',
+        [],
+        [],
+      );
     });
   });
 });
