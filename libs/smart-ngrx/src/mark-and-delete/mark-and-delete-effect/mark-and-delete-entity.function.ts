@@ -20,12 +20,11 @@ export function markAndDeleteEntity([feature, entity]: [
   const garbageCollectRowIds: string[] = [];
   const markDirtyRowIds: string[] = [];
   const now = Date.now();
+  const runInterval = getGlobalMarkAndDeleteInit().runInterval;
   for (const [key, value] of entityMap) {
     if (
       0 === featureInit.removeTime &&
-      value <
-        now -
-          (featureInit.markDirtyTime + getGlobalMarkAndDeleteInit().runInterval)
+      value < now - (featureInit.markDirtyTime + runInterval)
     ) {
       continue;
     }
@@ -33,7 +32,8 @@ export function markAndDeleteEntity([feature, entity]: [
       garbageCollectRowIds.push(key);
     } else if (
       featureInit.markDirtyTime > 0 &&
-      value < now - featureInit.markDirtyTime
+      value < now - featureInit.markDirtyTime &&
+      value > now - featureInit.markDirtyTime - runInterval
     ) {
       markDirtyRowIds.push(key);
     } else {
