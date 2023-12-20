@@ -18,6 +18,7 @@ window.requestIdleCallback = (
 describe('processMarkAndDelete', () => {
   let mockStore: { dispatch: jest.Mock };
   const featureKey = 'exampleFeature' as StringLiteralSource<string>;
+  const entityKey = 'entity' as StringLiteralSource<string>;
 
   beforeEach(() => {
     mockStore = {
@@ -31,60 +32,51 @@ describe('processMarkAndDelete', () => {
   });
 
   it('should dispatch garbageCollect actions for each key in garbageCollectKeysMap', () => {
-    const garbageCollectKeysMap = {
-      key1: ['id1', 'id2'],
-      key2: ['id3', 'id4'],
-      key3: [],
-    };
-    const markDirtyKeysMap = {};
+    const garbageCollectKeysArray = ['id1', 'id2'];
+    const markDirtyKeysArray: string[] = [];
 
-    processMarkAndDelete(featureKey, garbageCollectKeysMap, markDirtyKeysMap);
+    processMarkAndDelete(
+      featureKey,
+      entityKey,
+      garbageCollectKeysArray,
+      markDirtyKeysArray,
+    );
 
-    expect(mockStore.dispatch).toHaveBeenCalledTimes(2);
+    expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
     expect(mockStore.dispatch).toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}key1] Garbage Collect`,
+      type: `[${featureKey}${psi}${entityKey}] Garbage Collect`,
       ids: ['id1', 'id2'],
-    });
-    expect(mockStore.dispatch).toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}key2] Garbage Collect`,
-      ids: ['id3', 'id4'],
-    });
-    expect(mockStore.dispatch).not.toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}key3] Garbage Collect`,
-      ids: [],
     });
   });
 
   it('should dispatch markDirty actions for each key in markDirtyKeysMap', () => {
-    const garbageCollectKeysMap = {};
-    const markDirtyKeysMap = {
-      key1: ['id1', 'id2'],
-      key2: ['id3', 'id4'],
-      key3: [],
-    };
+    const garbageCollectKeysArray: string[] = [];
+    const markDirtyKeysArray = ['id1', 'id2'];
 
-    processMarkAndDelete(featureKey, garbageCollectKeysMap, markDirtyKeysMap);
+    processMarkAndDelete(
+      featureKey,
+      entityKey,
+      garbageCollectKeysArray,
+      markDirtyKeysArray,
+    );
 
-    expect(mockStore.dispatch).toHaveBeenCalledTimes(2);
+    expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
     expect(mockStore.dispatch).toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}key1] Mark Dirty`,
+      type: `[${featureKey}${psi}${entityKey}] Mark Dirty`,
       ids: ['id1', 'id2'],
-    });
-    expect(mockStore.dispatch).toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}key2] Mark Dirty`,
-      ids: ['id3', 'id4'],
-    });
-    expect(mockStore.dispatch).not.toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}key3] Mark Dirty`,
-      ids: [],
     });
   });
 
   it('should not dispatch any actions if garbageCollectKeysMap and markDirtyKeysMap are empty', () => {
-    const garbageCollectKeysMap = {};
-    const markDirtyKeysMap = {};
+    const garbageCollectKeysArray: string[] = [];
+    const markDirtyKeysArray: string[] = [];
 
-    processMarkAndDelete(featureKey, garbageCollectKeysMap, markDirtyKeysMap);
+    processMarkAndDelete(
+      featureKey,
+      entityKey,
+      garbageCollectKeysArray,
+      markDirtyKeysArray,
+    );
 
     expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
