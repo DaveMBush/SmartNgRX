@@ -29,12 +29,16 @@ interface TestableSidebarComponent
   ></dmb-sidebar>`,
 })
 class TestHostComponent {
-  testLocation = { id: '1', name: 'Initial Location', departments: [] as Department[] };
+  testLocation = {
+    id: '1',
+    name: 'Initial Location',
+    departments: [] as Department[],
+  };
+
   locations: Location[] | null = [this.testLocation];
 }
 
 describe('SidebarComponent', () => {
-
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 
