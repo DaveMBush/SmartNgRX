@@ -1,10 +1,20 @@
 <mat-toolbar color="primary">
   <span>Smart NgRX Demo</span>
   <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
-    <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === activeLink" matTooltip="Tree with standard Mark and Delete">
+    <a
+      mat-tab-link
+      [routerLink]="'tree'"
+      [active]="'tree' === activeLink"
+      matTooltip="Tree with standard Mark and Delete"
+    >
       Tree
     </a>
-    <a mat-tab-link [routerLink]="'memlab'" [active]="'memlab' === activeLink" matTooltip="Used to test for memory leaks">
+    <a
+      mat-tab-link
+      [routerLink]="'memlab'"
+      [active]="'memlab' === activeLink"
+      matTooltip="Used to test for memory leaks"
+    >
       MemLab
     </a>
   </nav>

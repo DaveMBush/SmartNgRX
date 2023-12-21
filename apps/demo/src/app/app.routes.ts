@@ -35,7 +35,11 @@ export const appRoutes: Routes = [
   {
     path: 'tree',
     loadComponent: async () =>
-      (await import('./routes/tree-with-standard-mark-and-delete/tree.component')).TreeComponent,
+      (
+        await import(
+          './routes/tree-with-standard-mark-and-delete/tree.component'
+        )
+      ).TreeComponent,
     providers: [
       DocsService,
       FoldersService,
@@ -59,7 +63,7 @@ export const appRoutes: Routes = [
         departmentsDefinition,
         departmentChildrenDefinition,
       ]),
-    ]
+    ],
   },
   {
     path: 'memlab',

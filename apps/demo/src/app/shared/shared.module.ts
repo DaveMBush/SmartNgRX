@@ -12,7 +12,6 @@ import { MatTreeModule } from '@angular/material/tree';
 
 import { SidebarComponent } from '../routes/tree-with-standard-mark-and-delete/components/sidebar.component';
 
-
 @NgModule({
   declarations: [SidebarComponent],
   imports: [
@@ -28,8 +27,7 @@ import { SidebarComponent } from '../routes/tree-with-standard-mark-and-delete/c
     MatFormFieldModule,
     ScrollingModule,
   ],
-  providers: [
-  ],
+  providers: [],
   exports: [SidebarComponent],
 })
 export class SharedModule {}
