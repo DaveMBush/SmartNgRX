@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectSharedState, selectSharedState2 } from '../shared.selectors';
+import { selectSharedState, selectSharedState2 } from '../../shared.selectors';
 
 export const selectCurrentLocationId = createSelector(
   selectSharedState,

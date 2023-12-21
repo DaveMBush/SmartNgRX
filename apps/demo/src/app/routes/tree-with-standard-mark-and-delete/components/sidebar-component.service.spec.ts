@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 
-import { Department } from '../../store/department/department.interface';
+import { Department } from '../store/department/department.interface';
 import { SidebarComponent } from './sidebar.component';
 import { SidebarComponentService } from './sidebar-component.service';
 import { SidebarNode } from './sidebar-node.interface';

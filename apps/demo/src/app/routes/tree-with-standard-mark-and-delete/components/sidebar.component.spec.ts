@@ -9,10 +9,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Location } from '../../store/locations/location.interface';
+import { Department } from '../store/department/department.interface';
+import { Location } from '../store/locations/location.interface';
 import { SidebarComponent } from './sidebar.component';
 import { SidebarComponentService } from './sidebar-component.service';
-
 interface TestableSidebarComponent
   extends Omit<SidebarComponent, 'sidebarComponentService'> {
   sidebarComponentService: SidebarComponentService;
@@ -29,11 +29,12 @@ interface TestableSidebarComponent
   ></dmb-sidebar>`,
 })
 class TestHostComponent {
-  testLocation = { id: '1', name: 'Initial Location', departments: [] };
+  testLocation = { id: '1', name: 'Initial Location', departments: [] as Department[] };
   locations: Location[] | null = [this.testLocation];
 }
 
 describe('SidebarComponent', () => {
+
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 

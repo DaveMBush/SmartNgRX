@@ -10,8 +10,8 @@ import {
 } from '@smart/smart-ngrx/functions/register-entity.function';
 import { store as storeFunction } from '@smart/smart-ngrx/selector/store.function';
 
-import { SharedState, SharedState2 } from '../../shared-state.interface';
 import { Department } from '../department/department.interface';
+import { SharedState, SharedState2 } from '../shared-state.interface';
 import { Location } from './location.interface';
 import {
   selectCurrentLocation,

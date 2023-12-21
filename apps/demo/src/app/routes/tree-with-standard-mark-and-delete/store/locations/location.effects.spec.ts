@@ -6,7 +6,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { actionFactory } from '@smart/smart-ngrx/functions/action.factory';
 
-import { currentLocationActions } from '../../current-location/current-location.actions';
+import { currentLocationActions } from '../current-location/current-location.actions';
 import { setLocationIdEffect$ } from './location.effects';
 import { selectCurrentLocation } from './location.selectors';
 

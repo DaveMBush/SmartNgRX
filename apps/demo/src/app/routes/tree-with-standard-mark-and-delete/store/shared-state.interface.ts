@@ -2,7 +2,7 @@ import {
   DepartmentChildEntity,
   DepartmentEntity,
   LocationEntity,
-} from './store/entities';
+} from './entities';
 
 export interface SharedState {
   locations: LocationEntity;

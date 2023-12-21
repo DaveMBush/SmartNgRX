@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -18,6 +19,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
     HttpClientModule,
     MatToolbarModule,
     MatTabsModule,
+    MatTooltipModule,
   ],
   selector: 'dmb-demo-root',
   templateUrl: './app.component.html',

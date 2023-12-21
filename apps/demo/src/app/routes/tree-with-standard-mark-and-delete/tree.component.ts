@@ -5,15 +5,15 @@ import { Observable, of } from 'rxjs';
 
 import { MarkAndDelete } from '@smart/smart-ngrx/types/mark-and-delete.interface';
 
-import { currentLocationActions } from '../../shared/current-location/current-location.actions';
-import { selectCurrentLocationId } from '../../shared/current-location/current-location.selector';
 import { SharedModule } from '../../shared/shared.module';
-import { locationActions } from '../../shared/store/locations/location.actions';
-import { Location } from '../../shared/store/locations/location.interface';
+import { currentLocationActions } from './store/current-location/current-location.actions';
+import { selectCurrentLocationId } from './store/current-location/current-location.selector';
+import { locationActions } from './store/locations/location.actions';
+import { Location } from './store/locations/location.interface';
 import {
   selectCurrentLocation,
   selectLocations,
-} from '../../shared/store/locations/location.selectors';
+} from './store/locations/location.selectors';
 
 @Component({
   selector: 'dmb-demo-tree',

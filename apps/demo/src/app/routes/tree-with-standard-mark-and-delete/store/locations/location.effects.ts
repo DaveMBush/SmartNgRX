@@ -7,7 +7,7 @@ import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { actionFactory } from '@smart/smart-ngrx/functions/action.factory';
 import { RowsProp } from '@smart/smart-ngrx/types/rows-prop.interface';
 
-import { currentLocationActions } from '../../current-location/current-location.actions';
+import { currentLocationActions } from '../current-location/current-location.actions';
 import { Location } from './location.interface';
 import { selectCurrentLocation } from './location.selectors';
 

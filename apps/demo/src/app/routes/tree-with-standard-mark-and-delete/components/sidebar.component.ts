@@ -15,7 +15,7 @@ import {
 } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 
-import { Location } from '../../store/locations/location.interface';
+import { Location } from '../store/locations/location.interface';
 import { SidebarComponentService } from './sidebar-component.service';
 import { SidebarNode } from './sidebar-node.interface';
 
