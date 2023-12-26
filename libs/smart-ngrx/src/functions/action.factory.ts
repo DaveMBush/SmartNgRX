@@ -46,6 +46,7 @@ export function actionFactory<
       Load: emptyProps(),
       'Load Success': props<RowsProp<T>>(),
       'Mark Dirty': props<IdsProp>(),
+      'Mark Not Dirty': props<IdsProp>(),
       'Garbage Collect': props<IdsProp>(),
       'Load By Ids': props<IdsProp>(),
       'Load By Ids Preload': props<IdsProp>(),

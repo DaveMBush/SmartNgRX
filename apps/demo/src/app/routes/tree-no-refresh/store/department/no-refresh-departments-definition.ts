@@ -9,6 +9,8 @@ export const noRefreshDepartmentsDefinition: SmartEntityDefinition<Department> =
     effectServiceToken: departmentEffectsServiceToken,
     markAndDelete: {
       markDirtyFetchesNew: false,
+      markDirtyTime: 2 * 60 * 1000,
+      removeTime: 4 * 60 * 1000,
     },
     defaultRow: (id) => ({
       id,

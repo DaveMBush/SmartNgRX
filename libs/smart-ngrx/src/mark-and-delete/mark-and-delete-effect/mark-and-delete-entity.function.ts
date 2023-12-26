@@ -24,7 +24,8 @@ export function markAndDeleteEntity([feature, entity]: [
   for (const [key, value] of entityMap) {
     if (
       0 === featureInit.removeTime &&
-      value < now - (featureInit.markDirtyTime + runInterval)
+      value < now - (featureInit.markDirtyTime + runInterval) &&
+      value > now - featureInit.removeTime
     ) {
       continue;
     }

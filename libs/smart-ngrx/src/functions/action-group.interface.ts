@@ -18,6 +18,10 @@ export interface ActionGroup<T extends MarkAndDelete> {
     `[${any}] Mark Dirty`,
     (props: IdsProp) => IdsProp & TypedAction<`[${any}] Mark Dirty`>
   >;
+  markNotDirty: ActionCreator<
+    `[${any}] Mark Not Dirty`,
+    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Mark Not Dirty`>
+  >;
   garbageCollect: ActionCreator<
     `[${any}] Garbage Collect`,
     (props: IdsProp) => IdsProp & TypedAction<`[${any}] Garbage Collect`>
