@@ -38,5 +38,5 @@ export interface SmartEntityDefinition<Row extends MarkAndDelete> {
    * it will use the global `MarkAndDeleteInit` that is registered with the
    * as part of `provideSmartNgRX()
    */
-  markAndDelete?: MarkAndDeleteInit;
+  markAndDelete?: Partial<MarkAndDeleteInit>;
 }

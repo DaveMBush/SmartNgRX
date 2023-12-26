@@ -1,6 +1,5 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,15 +9,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTreeModule } from '@angular/material/tree';
 
-import { SidebarComponent } from '../routes/tree-with-standard-mark-and-delete/components/sidebar.component';
+import { TreeComponent } from './components/tree/tree.component';
 
 @NgModule({
-  declarations: [SidebarComponent],
+  declarations: [TreeComponent],
   imports: [
     FormsModule,
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
     MatTreeModule,
     MatIconModule,
     MatButtonModule,
@@ -28,6 +26,6 @@ import { SidebarComponent } from '../routes/tree-with-standard-mark-and-delete/c
     ScrollingModule,
   ],
   providers: [],
-  exports: [SidebarComponent],
+  exports: [TreeComponent],
 })
 export class SharedModule {}

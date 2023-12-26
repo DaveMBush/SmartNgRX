@@ -1,21 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Smart NgRX Demo</span>
+  <span><a [routerLink]="'home'">Smart NgRX Demo</a></span>
   <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
-    <a
-      mat-tab-link
-      [routerLink]="'tree'"
-      [active]="'tree' === activeLink"
-      matTooltip="Tree with standard Mark and Delete"
-    >
-      Tree
+    <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === activeLink">
+      Tree (Standard)
     </a>
     <a
       mat-tab-link
-      [routerLink]="'memlab'"
-      [active]="'memlab' === activeLink"
-      matTooltip="Used to test for memory leaks"
+      [routerLink]="'treeNoRefresh'"
+      [active]="'treeNoRefresh' === activeLink"
     >
-      MemLab
+      Tree (No Refresh)
     </a>
   </nav>
 </mat-toolbar>

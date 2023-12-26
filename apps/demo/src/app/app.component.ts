@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +15,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule,
     MatToolbarModule,
     MatTabsModule,
     MatTooltipModule,
@@ -28,7 +26,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   private router = inject(Router);
-  activeLink = 'tree';
+  activeLink = '';
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {

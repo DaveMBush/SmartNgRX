@@ -1,0 +1,64 @@
+<p>
+  This series of demos illustrates the various capabilities of SmartNgRX
+  attempting to use various "real world" scenarios.
+</p>
+<p>
+  Note: Even though each demo is running off the same data from the server,
+  we've loaded each demo into its own feature store to give us the control we
+  need to show the various capabilities.
+</p>
+
+<h1><a [routerLink]="'/tree'">Tree (Standard)</a></h1>
+<p>
+  The first demo is a standard tree view that loads the data as it is needed.
+</p>
+<p>
+  It uses the default MarkAndDelete strategy to manage how refreshing and
+  removing the data should work.
+</p>
+<ul>
+  <li><strong>markDirtyTime</strong>: Marks a row dirty avery 15 minutes.</li>
+  <li>
+    <strong>markDirtyFetchesNew</strong>: Uses the default value of TRUE to tell
+    the system to reload data that has been marked dirty.
+  </li>
+  <li>
+    <strong>removeTime</strong>: Removes a row from memory if it is still dirty
+    15 minutes after being marked dirty.
+  </li>
+  <li>
+    <strong>runInterval</strong>: Uses the default polling time of 1 minute to
+    mark rows dirty or remove them.
+  </li>
+</ul>
+<p>
+  When you run the demo, use the Redux Dev Tools to see the actions that are
+  being fired and the resulting state changes. You will see that once data is
+  marked dirty, actions are dispatched that ask for data from the server. You
+  can also watch the network tab to see the network requests.
+</p>
+<h1><a [routerLink]="'/treeNoRefresh'">Tree (No Refresh)</a></h1>
+<p>
+  Unlike the first demo, this demo does not ask for new data from the server
+  when it is marked dirty.
+</p>
+<ul>
+  <li><strong>markDirtyTime</strong>: Marks a row dirty avery 15 minutes.</li>
+  <li>
+    <strong>markDirtyFetchesNew</strong>: Sets this value to FALSE to tell the
+    system to not reload data that has been marked dirty.
+  </li>
+  <li>
+    <strong>removeTime</strong>: Removes a row from memory if it is still dirty
+    15 minutes after being marked dirty.
+  </li>
+  <li>
+    <strong>runInterval</strong>: Uses the default polling time of 1 minute to
+    mark rows dirty or remove them.
+  </li>
+</ul>
+<p>
+  When you run the demo, use the Redux Dev Tools to see the actions that are
+  being fired and the resulting state changes. Here you will see that once rows
+  have been marked dirty, no actions are dispatched asking for new data.
+</p>

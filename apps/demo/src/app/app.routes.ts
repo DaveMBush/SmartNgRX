@@ -5,69 +5,65 @@ import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { provideSmartFeatureEntities } from '@smart/smart-ngrx/index';
 
-import { currentLocationReducer } from './routes/tree-with-standard-mark-and-delete/store/current-location/current-location.reducer';
-import { DepartmentEffectsService } from './routes/tree-with-standard-mark-and-delete/store/department/department-effects.service';
-import { departmentEffectsServiceToken } from './routes/tree-with-standard-mark-and-delete/store/department/department-effects.service-token';
-import { departmentsDefinition } from './routes/tree-with-standard-mark-and-delete/store/department/departments-definition';
-import { DepartmentChildEffectsService } from './routes/tree-with-standard-mark-and-delete/store/department-children/department-child-effects.service';
-import { departmentChildEffectsServiceToken } from './routes/tree-with-standard-mark-and-delete/store/department-children/department-child-effects.service-token';
-import { departmentChildrenDefinition } from './routes/tree-with-standard-mark-and-delete/store/department-children/department-children-definition';
-import { DocsService } from './routes/tree-with-standard-mark-and-delete/store/docs/docs.service';
-import { FoldersService } from './routes/tree-with-standard-mark-and-delete/store/folders/folders.service';
-import { ListsService } from './routes/tree-with-standard-mark-and-delete/store/lists/lists.service';
-import { LocationEffectsService } from './routes/tree-with-standard-mark-and-delete/store/locations/location-effects.service';
-import { locationEffectsServiceToken } from './routes/tree-with-standard-mark-and-delete/store/locations/location-effects.service-token';
-import { locationsDefinition } from './routes/tree-with-standard-mark-and-delete/store/locations/locations-definition';
-import { SharedState } from './routes/tree-with-standard-mark-and-delete/store/shared-state.interface';
-import { SprintFoldersService } from './routes/tree-with-standard-mark-and-delete/store/sprint-folders/sprint-folders.service';
+import { currentLocationNoRefreshReducer } from './routes/tree-no-refresh/store/current-location/current-location-no-refresh.reducer';
+import { noRefreshDepartmentsDefinition } from './routes/tree-no-refresh/store/department/no-refresh-departments-definition';
+import { noRefreshDepartmentChildrenDefinition } from './routes/tree-no-refresh/store/department-children/department-children-definition';
+import { noRefreshLocationsDefinition } from './routes/tree-no-refresh/store/locations/no-refresh-locations-definition';
+import { currentLocationStandardReducer } from './routes/tree-standard/store/current-location/current-location-standard.reducer';
+import { standardDepartmentsDefinition } from './routes/tree-standard/store/department/standard-departments-definition';
+import { standardDepartmentChildrenDefinition } from './routes/tree-standard/store/department-children/standard-department-children-definition';
+import { standardLocationsDefinition } from './routes/tree-standard/store/locations/standard-locations-definition';
+import { TreeStandardState } from './routes/tree-standard/store/tree-standard-state.interface';
 
 // This ensure we have one key per SharedState property
-const sharedReducers = castTo<ActionReducerMap<SharedState>>({
-  currentLocation: currentLocationReducer,
+const sharedReducersStandard = castTo<ActionReducerMap<TreeStandardState>>({
+  currentLocation: currentLocationStandardReducer,
+});
+
+const sharedReducersNoRefresh = castTo<ActionReducerMap<TreeStandardState>>({
+  currentLocation: currentLocationNoRefreshReducer,
 });
 
 export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'tree',
+    redirectTo: 'home',
     pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    loadComponent: async () =>
+      (await import('./routes/home/home.component')).HomeComponent,
   },
   {
     path: 'tree',
     loadComponent: async () =>
-      (
-        await import(
-          './routes/tree-with-standard-mark-and-delete/tree.component'
-        )
-      ).TreeComponent,
+      (await import('./routes/tree-standard/tree.component')).TreeComponent,
     providers: [
-      DocsService,
-      FoldersService,
-      SprintFoldersService,
-      ListsService,
-      {
-        provide: departmentEffectsServiceToken,
-        useClass: DepartmentEffectsService,
-      },
-      {
-        provide: departmentChildEffectsServiceToken,
-        useClass: DepartmentChildEffectsService,
-      },
-      {
-        provide: locationEffectsServiceToken,
-        useClass: LocationEffectsService,
-      },
-      importProvidersFrom([StoreModule.forFeature('shared2', sharedReducers)]),
-      provideSmartFeatureEntities('shared', [
-        locationsDefinition,
-        departmentsDefinition,
-        departmentChildrenDefinition,
+      importProvidersFrom([
+        StoreModule.forFeature('tree-standard2', sharedReducersStandard),
+      ]),
+      provideSmartFeatureEntities('tree-standard', [
+        standardLocationsDefinition,
+        standardDepartmentsDefinition,
+        standardDepartmentChildrenDefinition,
       ]),
     ],
   },
   {
-    path: 'memlab',
+    path: 'treeNoRefresh',
     loadComponent: async () =>
-      (await import('./routes/memlab/memlab.component')).MemlabComponent,
+      (await import('./routes/tree-no-refresh/tree-no-refresh.component'))
+        .TreeNoRefreshComponent,
+    providers: [
+      importProvidersFrom([
+        StoreModule.forFeature('tree-no-refresh2', sharedReducersNoRefresh),
+      ]),
+      provideSmartFeatureEntities('tree-no-refresh', [
+        noRefreshLocationsDefinition,
+        noRefreshDepartmentsDefinition,
+        noRefreshDepartmentChildrenDefinition,
+      ]),
+    ],
   },
 ];
