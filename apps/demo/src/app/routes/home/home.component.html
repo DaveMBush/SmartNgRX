@@ -60,5 +60,16 @@
 <p>
   When you run the demo, use the Redux Dev Tools to see the actions that are
   being fired and the resulting state changes. Here you will see that once rows
-  have been marked dirty, no actions are dispatched asking for new data.
+  have been marked dirty, no actions are dispatched asking for new data. But
+  actions are dispatched to mark the rows clean that are still in use.
+</p>
+<h1><a [routerLink]="'/treeNoDirty'">Tree (No Dirty)</a></h1>
+<p>
+  This demo sets the markDirtyTime to -1 so that nothing ever gets marked as
+  dirty. This means that data will never be refreshed and it will never be
+  removed from memory.
+</p>
+<p>
+  You would typically use this feature for lookup tables that don't change very
+  often so there is no good need to keep them up to date.
 </p>

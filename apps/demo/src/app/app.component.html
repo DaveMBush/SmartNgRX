@@ -11,6 +11,13 @@
     >
       Tree (No Refresh)
     </a>
+    <a
+      mat-tab-link
+      [routerLink]="'treeNoDirty'"
+      [active]="'treeNoDirty' === activeLink"
+    >
+      Tree (No Dirty)
+    </a>
   </nav>
 </mat-toolbar>
 <div class="container">
