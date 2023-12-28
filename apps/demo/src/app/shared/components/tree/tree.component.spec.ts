@@ -11,10 +11,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Department } from '../../department/department.interface';
 import { Location } from '../../locations/location.interface';
-import { SidebarComponent } from './tree.component';
+import { TreeComponent } from './tree.component';
 import { TreeComponentService } from './tree-component.service';
-interface TestableSidebarComponent
-  extends Omit<SidebarComponent, 'sidebarComponentService'> {
+interface TestableTreeComponent
+  extends Omit<TreeComponent, 'sidebarComponentService'> {
   sidebarComponentService: TreeComponentService;
 }
 
@@ -22,11 +22,11 @@ interface TestableSidebarComponent
 @Component({
   selector: `dmb-test-host-component`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<dmb-sidebar
+  template: `<dmb-tree
     locationId="1"
     [location]="testLocation"
     [locations]="locations"
-  ></dmb-sidebar>`,
+  ></dmb-tree>`,
 })
 class TestHostComponent {
   testLocation = {
@@ -38,13 +38,13 @@ class TestHostComponent {
   locations: Location[] | null = [this.testLocation];
 }
 
-describe('SidebarComponent', () => {
+describe('TreeComponent', () => {
   let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SidebarComponent, TestHostComponent],
+      declarations: [TreeComponent, TestHostComponent],
       imports: [
         NoopAnimationsModule,
         FormsModule,
@@ -63,11 +63,11 @@ describe('SidebarComponent', () => {
   });
 
   it('should handle ngOnChanges when location changes', () => {
-    const sidebarComponent = testHostFixture.debugElement.children[0]
-      .componentInstance as TestableSidebarComponent;
-    // Spy on the correct instance of SidebarComponentService
+    const treeComponent = testHostFixture.debugElement.children[0]
+      .componentInstance as TestableTreeComponent;
+    // Spy on the correct instance of TreeComponentService
     const applyRangeSpy = jest.spyOn(
-      sidebarComponent.sidebarComponentService,
+      treeComponent.sidebarComponentService,
       'applyRange',
     );
 
@@ -80,7 +80,7 @@ describe('SidebarComponent', () => {
     testHostFixture.detectChanges();
 
     // Verify that locationName is updated
-    expect(sidebarComponent.locationId).toBe('1');
+    expect(treeComponent.locationId).toBe('1');
 
     // Verify that applyRange has been called
     expect(applyRangeSpy).toHaveBeenCalled();

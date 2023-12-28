@@ -45,7 +45,12 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({}),
     provideEffects(),
-    provideSmartNgRX(),
+    provideSmartNgRX({
+      markDirtyFetchesNew: true,
+      markDirtyTime: 2 * 60 * 1000,
+      removeTime: 4 * 60 * 1000,
+      runInterval: 60 * 1000,
+    }),
     provideAnimations(),
     provideStoreDevtools(),
   ],

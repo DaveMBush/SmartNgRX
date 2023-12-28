@@ -12,6 +12,7 @@ import { store as storeFunction } from '@smart/smart-ngrx/selector/store.functio
 
 import { Department } from '../../../../shared/department/department.interface';
 import { Location } from '../../../../shared/locations/location.interface';
+import { LocationEntity } from '../entities';
 import {
   TreeStandardState,
   TreeStandardState2,
@@ -27,18 +28,22 @@ const storeNotDefined = 'store not defined';
 const locationName = 'test location';
 
 const treeStandardKey = 'tree-standard';
+const treeStandardKey2 = 'tree-standard2';
 
 describe('Location Selectors', () => {
   let store:
-    | MockStore<{ shared: TreeStandardState; shared2: TreeStandardState2 }>
+    | MockStore<{
+        [treeStandardKey]: TreeStandardState;
+        [treeStandardKey2]: TreeStandardState2;
+      }>
     | undefined;
   let initialState: {
-    shared: {
+    [treeStandardKey]: {
       locations: TreeStandardState['locations'];
       departments: TreeStandardState['departments'];
       departmentChildren: TreeStandardState['departmentChildren'];
     };
-    shared2: TreeStandardState2;
+    [treeStandardKey2]: TreeStandardState2;
   };
 
   beforeEach(() => {
@@ -102,7 +107,7 @@ describe('Location Selectors', () => {
   describe('selectLocation', () => {
     beforeEach(() => {
       initialState = {
-        shared: {
+        [treeStandardKey]: {
           departments: {
             ids: [],
             entities: {},
@@ -116,7 +121,7 @@ describe('Location Selectors', () => {
             entities: {},
           },
         },
-        shared2: {
+        [treeStandardKey2]: {
           currentLocation: '',
         },
       };
@@ -127,35 +132,35 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: initialState.shared,
-          shared2: initialState.shared2,
+          [treeStandardKey]: initialState[treeStandardKey],
+          [treeStandardKey2]: initialState[treeStandardKey2],
         });
         const result = (await firstValueFrom(
           store.select(selectLocations),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
-        expect(result).toEqual(initialState.shared.locations.ids);
+        expect(result).toEqual(initialState[treeStandardKey].locations.ids);
       });
       it('should select locations and not trigger load action if not empty even if currentLocation is empty', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: { ...initialState.shared },
-          shared2: { currentLocation: '' },
+          [treeStandardKey]: { ...initialState[treeStandardKey] },
+          [treeStandardKey2]: { currentLocation: '' },
         });
 
         const result = (await firstValueFrom(
           store.select(selectLocations),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
-        expect(result).toEqual(initialState.shared.locations.ids);
+        expect(result).toEqual(initialState[treeStandardKey].locations.ids);
       });
     });
     describe('if we have at least one row loaded in locations', () => {
       let testScheduler: TestScheduler;
       beforeEach(() => {
-        initialState.shared.locations = {
+        initialState[treeStandardKey].locations = {
           ids: ['1'],
           entities: {
             '1': {
@@ -165,7 +170,7 @@ describe('Location Selectors', () => {
             },
           },
         };
-        initialState.shared2.currentLocation = '1';
+        initialState[treeStandardKey2].currentLocation = '1';
       });
 
       beforeEach(() => {
@@ -180,22 +185,24 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            shared: initialState.shared,
-            shared2: initialState.shared2,
+            [treeStandardKey]: initialState[treeStandardKey],
+            [treeStandardKey2]: initialState[treeStandardKey2],
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
             store.select(selectLocations),
-          )) as typeof initialState.shared.locations;
+          )) as LocationEntity;
 
-          const expected = initialState.shared.locations.ids.map((id) => ({
-            ...castTo<Record<string, Location>>(
-              initialState.shared.locations.entities,
-            )[id],
-            departments: [],
-          }));
+          const expected = initialState[treeStandardKey].locations.ids.map(
+            (id) => ({
+              ...castTo<Record<string, Location>>(
+                initialState[treeStandardKey].locations.entities,
+              )[id],
+              departments: [],
+            }),
+          );
           expect(result).toEqual(expected);
 
           expectObservable(action).toBe('');
@@ -207,22 +214,24 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            shared: { ...initialState.shared },
-            shared2: { currentLocation: '' },
+            [treeStandardKey]: { ...initialState[treeStandardKey] },
+            [treeStandardKey2]: { currentLocation: '' },
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
             store.select(selectLocations),
-          )) as typeof initialState.shared.locations;
+          )) as LocationEntity;
 
-          const expected = initialState.shared.locations.ids.map((id) => ({
-            ...castTo<Record<string, Location>>(
-              initialState.shared.locations.entities,
-            )[id],
-            departments: [],
-          }));
+          const expected = initialState[treeStandardKey].locations.ids.map(
+            (id) => ({
+              ...castTo<Record<string, Location>>(
+                initialState[treeStandardKey].locations.entities,
+              )[id],
+              departments: [],
+            }),
+          );
 
           expect(result).toEqual(expected);
 
@@ -233,7 +242,7 @@ describe('Location Selectors', () => {
   });
   describe('selectLocationsDepartments', () => {
     initialState = {
-      shared: {
+      [treeStandardKey]: {
         departments: {
           ids: ['1'],
           entities: {
@@ -242,7 +251,7 @@ describe('Location Selectors', () => {
               name: 'test department',
               children: [],
               isDirty: false,
-            } as TreeStandardState['departments']['entities']['1'],
+            } as Department,
           },
         },
         locations: {
@@ -260,7 +269,7 @@ describe('Location Selectors', () => {
           entities: {},
         },
       },
-      shared2: {
+      [treeStandardKey2]: {
         currentLocation: '',
       },
     };
@@ -273,21 +282,21 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: castTo<TreeStandardState>(initialState.shared),
-          shared2: initialState.shared2,
+          [treeStandardKey]: initialState[treeStandardKey],
+          [treeStandardKey2]: initialState[treeStandardKey2],
         });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
         // Perform the assertion
         // we have to stringify because the ArrayProxy is not an Array and the comparison
         // sees the left and right has side as different.
         // using stringify uses toJSON() on the ArrayProxy
         expect(JSON.parse(JSON.stringify(result.entities))).toEqual(
-          initialState.shared.locations.entities,
+          initialState[treeStandardKey].locations.entities,
         );
       });
     });
@@ -299,8 +308,8 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeStandardKey]: {
+            ...initialState[treeStandardKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -312,13 +321,13 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: initialState.shared2,
+          [treeStandardKey2]: initialState[treeStandardKey2],
         });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
         const expected = {
           ids: ['1'],
@@ -349,8 +358,8 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeStandardKey]: {
+            ...initialState[treeStandardKey],
             departments: { ids: [], entities: {} },
             locations: {
               ids: ['1'],
@@ -363,13 +372,13 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: initialState.shared2,
+          [treeStandardKey2]: initialState[treeStandardKey2],
         });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
         const expected = {
           ids: ['1'],
@@ -395,7 +404,7 @@ describe('Location Selectors', () => {
   });
   describe('selectCurrentLocation', () => {
     initialState = {
-      shared: {
+      [treeStandardKey]: {
         departments: {
           ids: [],
           entities: {},
@@ -409,7 +418,7 @@ describe('Location Selectors', () => {
           entities: {},
         },
       },
-      shared2: {
+      [treeStandardKey2]: {
         currentLocation: '',
       },
     };
@@ -420,8 +429,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: initialState.shared,
-          shared2: initialState.shared2,
+          [treeStandardKey]: initialState[treeStandardKey],
+          [treeStandardKey2]: initialState[treeStandardKey2],
         });
 
         const result = (await firstValueFrom(
@@ -441,8 +450,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeStandardKey]: {
+            ...initialState[treeStandardKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -454,7 +463,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: initialState.shared2,
+          [treeStandardKey2]: initialState[treeStandardKey2],
         });
 
         const result = (await firstValueFrom(
@@ -474,8 +483,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeStandardKey]: {
+            ...initialState[treeStandardKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -487,7 +496,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: {
+          [treeStandardKey2]: {
             currentLocation: '1',
           },
         });
@@ -505,7 +514,7 @@ describe('Location Selectors', () => {
     });
     describe('when currentLocationId is not in location.entities', () => {
       beforeEach(() => {
-        initialState.shared2.currentLocation = '2';
+        initialState[treeStandardKey2].currentLocation = '2';
       });
       it('should return blank location', async () => {
         if (!store) {

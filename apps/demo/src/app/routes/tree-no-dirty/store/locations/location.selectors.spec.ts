@@ -12,6 +12,7 @@ import { store as storeFunction } from '@smart/smart-ngrx/selector/store.functio
 
 import { Department } from '../../../../shared/department/department.interface';
 import { Location } from '../../../../shared/locations/location.interface';
+import { LocationEntity } from '../entities';
 import {
   TreeNoDirtyState,
   TreeNoDirtyState2,
@@ -27,18 +28,22 @@ const storeNotDefined = 'store not defined';
 const locationName = 'test location';
 
 const treeNoRefreshFeatureKey = 'tree-no-dirty';
+const treeNoRefreshFeatureKey2 = 'tree-no-dirty2';
 
 describe('Location Selectors', () => {
   let store:
-    | MockStore<{ shared: TreeNoDirtyState; shared2: TreeNoDirtyState2 }>
+    | MockStore<{
+        [treeNoRefreshFeatureKey]: TreeNoDirtyState;
+        [treeNoRefreshFeatureKey2]: TreeNoDirtyState2;
+      }>
     | undefined;
   let initialState: {
-    shared: {
+    [treeNoRefreshFeatureKey]: {
       locations: TreeNoDirtyState['locations'];
       departments: TreeNoDirtyState['departments'];
       departmentChildren: TreeNoDirtyState['departmentChildren'];
     };
-    shared2: TreeNoDirtyState2;
+    [treeNoRefreshFeatureKey2]: TreeNoDirtyState2;
   };
 
   beforeEach(() => {
@@ -102,7 +107,7 @@ describe('Location Selectors', () => {
   describe('selectLocation', () => {
     beforeEach(() => {
       initialState = {
-        shared: {
+        [treeNoRefreshFeatureKey]: {
           departments: {
             ids: [],
             entities: {},
@@ -116,7 +121,7 @@ describe('Location Selectors', () => {
             entities: {},
           },
         },
-        shared2: {
+        [treeNoRefreshFeatureKey2]: {
           currentLocation: '',
         },
       };
@@ -127,35 +132,41 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: initialState.shared,
-          shared2: initialState.shared2,
+          [treeNoRefreshFeatureKey]: initialState[treeNoRefreshFeatureKey],
+          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
         });
         const result = (await firstValueFrom(
           store.select(selectLocations),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
-        expect(result).toEqual(initialState.shared.locations.ids);
+        expect(result).toEqual(
+          initialState[treeNoRefreshFeatureKey].locations.ids,
+        );
       });
       it('should select locations and not trigger load action if not empty even if currentLocation is empty', async () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: { ...initialState.shared },
-          shared2: { currentLocation: '' },
+          [treeNoRefreshFeatureKey]: {
+            ...initialState[treeNoRefreshFeatureKey],
+          },
+          [treeNoRefreshFeatureKey2]: { currentLocation: '' },
         });
 
         const result = (await firstValueFrom(
           store.select(selectLocations),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
-        expect(result).toEqual(initialState.shared.locations.ids);
+        expect(result).toEqual(
+          initialState[treeNoRefreshFeatureKey].locations.ids,
+        );
       });
     });
     describe('if we have at least one row loaded in locations', () => {
       let testScheduler: TestScheduler;
       beforeEach(() => {
-        initialState.shared.locations = {
+        initialState[treeNoRefreshFeatureKey].locations = {
           ids: ['1'],
           entities: {
             '1': {
@@ -165,7 +176,7 @@ describe('Location Selectors', () => {
             },
           },
         };
-        initialState.shared2.currentLocation = '1';
+        initialState[treeNoRefreshFeatureKey2].currentLocation = '1';
       });
 
       beforeEach(() => {
@@ -180,19 +191,21 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            shared: initialState.shared,
-            shared2: initialState.shared2,
+            [treeNoRefreshFeatureKey]: initialState[treeNoRefreshFeatureKey],
+            [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
             store.select(selectLocations),
-          )) as typeof initialState.shared.locations;
+          )) as LocationEntity;
 
-          const expected = initialState.shared.locations.ids.map((id) => ({
+          const expected = initialState[
+            treeNoRefreshFeatureKey
+          ].locations.ids.map((id) => ({
             ...castTo<Record<string, Location>>(
-              initialState.shared.locations.entities,
+              initialState[treeNoRefreshFeatureKey].locations.entities,
             )[id],
             departments: [],
           }));
@@ -207,19 +220,23 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            shared: { ...initialState.shared },
-            shared2: { currentLocation: '' },
+            [treeNoRefreshFeatureKey]: {
+              ...initialState[treeNoRefreshFeatureKey],
+            },
+            [treeNoRefreshFeatureKey2]: { currentLocation: '' },
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
 
           const result = (await firstValueFrom(
             store.select(selectLocations),
-          )) as typeof initialState.shared.locations;
+          )) as LocationEntity;
 
-          const expected = initialState.shared.locations.ids.map((id) => ({
+          const expected = initialState[
+            treeNoRefreshFeatureKey
+          ].locations.ids.map((id) => ({
             ...castTo<Record<string, Location>>(
-              initialState.shared.locations.entities,
+              initialState[treeNoRefreshFeatureKey].locations.entities,
             )[id],
             departments: [],
           }));
@@ -233,7 +250,7 @@ describe('Location Selectors', () => {
   });
   describe('selectLocationsDepartments', () => {
     initialState = {
-      shared: {
+      [treeNoRefreshFeatureKey]: {
         departments: {
           ids: ['1'],
           entities: {
@@ -260,7 +277,7 @@ describe('Location Selectors', () => {
           entities: {},
         },
       },
-      shared2: {
+      [treeNoRefreshFeatureKey2]: {
         currentLocation: '',
       },
     };
@@ -273,21 +290,23 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: castTo<TreeNoDirtyState>(initialState.shared),
-          shared2: initialState.shared2,
+          [treeNoRefreshFeatureKey]: castTo<TreeNoDirtyState>(
+            initialState[treeNoRefreshFeatureKey],
+          ),
+          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
         });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
         // Perform the assertion
         // we have to stringify because the ArrayProxy is not an Array and the comparison
         // sees the left and right has side as different.
         // using stringify uses toJSON() on the ArrayProxy
         expect(JSON.parse(JSON.stringify(result.entities))).toEqual(
-          initialState.shared.locations.entities,
+          initialState[treeNoRefreshFeatureKey].locations.entities,
         );
       });
     });
@@ -299,8 +318,8 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeNoRefreshFeatureKey]: {
+            ...initialState[treeNoRefreshFeatureKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -312,13 +331,13 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: initialState.shared2,
+          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
         });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
         const expected = {
           ids: ['1'],
@@ -349,8 +368,8 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeNoRefreshFeatureKey]: {
+            ...initialState[treeNoRefreshFeatureKey],
             departments: { ids: [], entities: {} },
             locations: {
               ids: ['1'],
@@ -363,13 +382,13 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: initialState.shared2,
+          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
         });
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
-        )) as typeof initialState.shared.locations;
+        )) as LocationEntity;
 
         const expected = {
           ids: ['1'],
@@ -395,7 +414,7 @@ describe('Location Selectors', () => {
   });
   describe('selectCurrentLocation', () => {
     initialState = {
-      shared: {
+      [treeNoRefreshFeatureKey]: {
         departments: {
           ids: [],
           entities: {},
@@ -409,7 +428,7 @@ describe('Location Selectors', () => {
           entities: {},
         },
       },
-      shared2: {
+      [treeNoRefreshFeatureKey2]: {
         currentLocation: '',
       },
     };
@@ -420,8 +439,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: initialState.shared,
-          shared2: initialState.shared2,
+          [treeNoRefreshFeatureKey]: initialState[treeNoRefreshFeatureKey],
+          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
         });
 
         const result = (await firstValueFrom(
@@ -441,8 +460,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeNoRefreshFeatureKey]: {
+            ...initialState[treeNoRefreshFeatureKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -454,7 +473,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: initialState.shared2,
+          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
         });
 
         const result = (await firstValueFrom(
@@ -474,8 +493,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          shared: {
-            ...initialState.shared,
+          [treeNoRefreshFeatureKey]: {
+            ...initialState[treeNoRefreshFeatureKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -487,7 +506,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          shared2: {
+          [treeNoRefreshFeatureKey2]: {
             currentLocation: '1',
           },
         });
@@ -505,7 +524,7 @@ describe('Location Selectors', () => {
     });
     describe('when currentLocationId is not in location.entities', () => {
       beforeEach(() => {
-        initialState.shared2.currentLocation = '2';
+        initialState[treeNoRefreshFeatureKey2].currentLocation = '2';
       });
       it('should return blank location', async () => {
         if (!store) {
