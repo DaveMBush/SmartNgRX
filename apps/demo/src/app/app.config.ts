@@ -33,7 +33,6 @@ export const appConfig: ApplicationConfig = {
       provide: locationEffectsServiceToken,
       useClass: LocationEffectsService,
     },
-    provideRouter(appRoutes, withViewTransitions()),
     provideHttpClient(),
     importProvidersFrom(
       StoreModule.forRoot({}),
@@ -45,13 +44,9 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({}),
     provideEffects(),
-    provideSmartNgRX({
-      markDirtyFetchesNew: true,
-      markDirtyTime: 2 * 60 * 1000,
-      removeTime: 4 * 60 * 1000,
-      runInterval: 60 * 1000,
-    }),
+    provideSmartNgRX(),
     provideAnimations(),
     provideStoreDevtools(),
+    provideRouter(appRoutes, withViewTransitions()),
   ],
 };

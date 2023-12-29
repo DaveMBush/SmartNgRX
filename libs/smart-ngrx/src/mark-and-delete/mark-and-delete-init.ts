@@ -1,6 +1,6 @@
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
-let globalMarkAndDelete = {} as MarkAndDeleteInit;
+let globalMarkAndDelete = {} as Partial<MarkAndDeleteInit>;
 
 /**
  * Function that allows us to register the global `markAndDeleteInit`
@@ -19,6 +19,6 @@ export function registerGlobalMarkAndDeleteInit(
  *
  * @returns the `MarkAndDeleteInit` for the entity
  */
-export function getGlobalMarkAndDeleteInit(): MarkAndDeleteInit {
+export function getGlobalMarkAndDeleteInit(): Partial<MarkAndDeleteInit> {
   return globalMarkAndDelete;
 }
