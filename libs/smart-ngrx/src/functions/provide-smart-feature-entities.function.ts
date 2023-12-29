@@ -2,6 +2,7 @@ import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
+import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { effectsFactory } from '../effects/effects.factory';
@@ -56,8 +57,14 @@ export function provideSmartFeatureEntities<F extends string>(
       defaultRow,
     );
     reducers[entityName] = reducer;
-
-    delayedRegisterEntity(featureName, entityName, entityDefinition);
+    interval(500)
+      .pipe(
+        map(() =>
+          delayedRegisterEntity(featureName, entityName, entityDefinition),
+        ),
+        takeWhile((t) => t),
+      )
+      .subscribe();
   });
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),

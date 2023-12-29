@@ -1,5 +1,3 @@
-import { interval, map, takeWhile } from 'rxjs';
-
 import { getMarkAndDeleteEntityMap } from '../mark-and-delete/mark-and-delete-entity.map';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
@@ -22,36 +20,28 @@ import { resolveRemoveTime } from './resolve-remove-time.function';
  * @param entityName the entity in the feature to register
  * @param entityDefinition the entity definition that was originally
  * passed to provideSmartFeatureEntities()
+ * @returns true if the entity can't be registered yet and false if it has
+ * this is so it works with the takeWhile() in the calling code.
  */
 export function delayedRegisterEntity(
   featureName: string,
   entityName: string,
   entityDefinition: SmartEntityDefinition<MarkAndDelete>,
-): void {
-  interval(500)
-    .pipe(
-      map(() => {
-        const globalInit = getGlobalMarkAndDeleteInit();
-        if (globalInit.removeTime === undefined) {
-          return true;
-        }
-        const init = {
-          ...globalInit,
-          ...entityDefinition.markAndDelete,
-        } as MarkAndDeleteInit;
-        init.removeTime = resolveRemoveTime(init);
+): boolean {
+  const globalInit = getGlobalMarkAndDeleteInit();
+  if (globalInit.removeTime === undefined) {
+    return true;
+  }
+  const init = {
+    ...globalInit,
+    ...entityDefinition.markAndDelete,
+  } as MarkAndDeleteInit;
+  init.removeTime = resolveRemoveTime(init);
 
-        registerEntity(featureName, entityName, {
-          defaultRow: entityDefinition.defaultRow,
-          markAndDeleteInit: init,
-          markAndDeleteEntityMap: getMarkAndDeleteEntityMap(
-            featureName,
-            entityName,
-          ),
-        });
-        return false;
-      }),
-      takeWhile((t) => t),
-    )
-    .subscribe();
+  registerEntity(featureName, entityName, {
+    defaultRow: entityDefinition.defaultRow,
+    markAndDeleteInit: init,
+    markAndDeleteEntityMap: getMarkAndDeleteEntityMap(featureName, entityName),
+  });
+  return false;
 }
