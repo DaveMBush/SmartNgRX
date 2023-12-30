@@ -37,6 +37,6 @@ export function processMarkAndDelete(
         store!.dispatch(entityAction.markDirty({ ids: markDirtyRowIds }));
       }
     },
-    { timeout: getGlobalMarkAndDeleteInit().runInterval - 100 },
+    { timeout: getGlobalMarkAndDeleteInit().runInterval! - 100 },
   );
 }

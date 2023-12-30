@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -15,9 +15,9 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    HttpClientModule,
     MatToolbarModule,
     MatTabsModule,
+    MatTooltipModule,
   ],
   selector: 'dmb-demo-root',
   templateUrl: './app.component.html',
@@ -26,7 +26,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   private router = inject(Router);
-  activeLink = 'tree';
+  activeLink = '';
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {

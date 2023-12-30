@@ -55,5 +55,10 @@ export function ensureDataLoaded<
     });
   } else if (ids[id].isDirty === true && !markDirtyFetchesNew) {
     registerEntityRows(feature, entity, [ids[id]]);
+    void unpatchedPromise.resolve().then(() => {
+      const s = store();
+      assert(!!s, 'store is undefined');
+      s.dispatch(actions.markNotDirty({ ids: [id] }));
+    });
   }
 }

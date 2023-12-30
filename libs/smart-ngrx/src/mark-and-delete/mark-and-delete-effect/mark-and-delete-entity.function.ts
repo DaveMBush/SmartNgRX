@@ -20,10 +20,10 @@ export function markAndDeleteEntity([feature, entity]: [
   const garbageCollectRowIds: string[] = [];
   const markDirtyRowIds: string[] = [];
   const now = Date.now();
-  const runInterval = getGlobalMarkAndDeleteInit().runInterval;
+  const runInterval = getGlobalMarkAndDeleteInit().runInterval!;
   for (const [key, value] of entityMap) {
     if (
-      0 === featureInit.removeTime &&
+      1 > featureInit.removeTime &&
       value < now - (featureInit.markDirtyTime + runInterval)
     ) {
       continue;

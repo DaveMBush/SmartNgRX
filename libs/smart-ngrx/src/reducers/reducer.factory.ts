@@ -49,6 +49,12 @@ export function reducerFactory<
       );
       return adapter.updateMany(changes, state);
     }),
+    on(actions.markNotDirty, (state, { ids }) => {
+      const changes = ids.map(
+        (id) => ({ id, changes: { isDirty: false } }) as UpdateStr<T>,
+      );
+      return adapter.updateMany(changes, state);
+    }),
     on(actions.garbageCollect, (state, { ids }) => {
       return adapter.removeMany(
         unregisterEntityRows(feature, entity, ids),

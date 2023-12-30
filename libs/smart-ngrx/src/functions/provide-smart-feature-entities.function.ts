@@ -2,17 +2,15 @@ import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
+import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { effectsFactory } from '../effects/effects.factory';
-import { getMarkAndDeleteEntityMap } from '../mark-and-delete/mark-and-delete-entity.map';
-import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
-import { registerEntity } from './register-entity.function';
-import { resolveRemoveTime } from './resolve-remove-time.function';
+import { delayedRegisterEntity } from './delayed-register-entity.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -59,18 +57,14 @@ export function provideSmartFeatureEntities<F extends string>(
       defaultRow,
     );
     reducers[entityName] = reducer;
-    const globalInit = getGlobalMarkAndDeleteInit();
-    const init = { ...globalInit, ...entityDefinition.markAndDelete };
-    init.removeTime = resolveRemoveTime(init);
-
-    registerEntity(featureName, entityName, {
-      defaultRow: entityDefinition.defaultRow,
-      markAndDeleteInit: init,
-      markAndDeleteEntityMap: getMarkAndDeleteEntityMap(
-        featureName,
-        entityName,
-      ),
-    });
+    interval(500)
+      .pipe(
+        map(() =>
+          delayedRegisterEntity(featureName, entityName, entityDefinition),
+        ),
+        takeWhile((t) => t),
+      )
+      .subscribe();
   });
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),
