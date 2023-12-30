@@ -27,23 +27,23 @@ const storeNotDefined = 'store not defined';
 
 const locationName = 'test location';
 
-const treeNoRefreshFeatureKey = 'tree-no-remove';
-const treeNoRefreshFeatureKey2 = 'tree-no-dirty2';
+const treeNoRemoveFeatureKey = 'tree-no-remove';
+const treeNoRemoveFeatureKey2 = 'tree-no-remove2';
 
 describe('Location Selectors', () => {
   let store:
     | MockStore<{
-        [treeNoRefreshFeatureKey]: TreeNoRemoveState;
-        [treeNoRefreshFeatureKey2]: TreeNoRemoveState2;
+        [treeNoRemoveFeatureKey]: TreeNoRemoveState;
+        [treeNoRemoveFeatureKey2]: TreeNoRemoveState2;
       }>
     | undefined;
   let initialState: {
-    [treeNoRefreshFeatureKey]: {
+    [treeNoRemoveFeatureKey]: {
       locations: TreeNoRemoveState['locations'];
       departments: TreeNoRemoveState['departments'];
       departmentChildren: TreeNoRemoveState['departmentChildren'];
     };
-    [treeNoRefreshFeatureKey2]: TreeNoRemoveState2;
+    [treeNoRemoveFeatureKey2]: TreeNoRemoveState2;
   };
 
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe('Location Selectors', () => {
     store = TestBed.inject(MockStore);
     storeFunction(store);
 
-    registerEntity(treeNoRefreshFeatureKey, 'location', {
+    registerEntity(treeNoRemoveFeatureKey, 'location', {
       markAndDeleteInit: {
         runInterval: 1000,
         markDirtyTime: 15 * 60 * 1000,
@@ -68,7 +68,7 @@ describe('Location Selectors', () => {
         children: [],
       }),
     });
-    registerEntity(treeNoRefreshFeatureKey, 'departments', {
+    registerEntity(treeNoRemoveFeatureKey, 'departments', {
       markAndDeleteInit: {
         runInterval: 1000,
         markDirtyTime: 15 * 60 * 1000,
@@ -83,7 +83,7 @@ describe('Location Selectors', () => {
         children: [],
       }),
     });
-    registerEntity(treeNoRefreshFeatureKey, 'departmentChildren', {
+    registerEntity(treeNoRemoveFeatureKey, 'departmentChildren', {
       markAndDeleteInit: {
         runInterval: 1000,
         markDirtyTime: 15 * 60 * 1000,
@@ -100,14 +100,14 @@ describe('Location Selectors', () => {
     });
   });
   afterEach(() => {
-    unregisterEntity(treeNoRefreshFeatureKey, 'location');
-    unregisterEntity(treeNoRefreshFeatureKey, 'departments');
-    unregisterEntity(treeNoRefreshFeatureKey, 'departmentChildren');
+    unregisterEntity(treeNoRemoveFeatureKey, 'location');
+    unregisterEntity(treeNoRemoveFeatureKey, 'departments');
+    unregisterEntity(treeNoRemoveFeatureKey, 'departmentChildren');
   });
   describe('selectLocation', () => {
     beforeEach(() => {
       initialState = {
-        [treeNoRefreshFeatureKey]: {
+        [treeNoRemoveFeatureKey]: {
           departments: {
             ids: [],
             entities: {},
@@ -121,7 +121,7 @@ describe('Location Selectors', () => {
             entities: {},
           },
         },
-        [treeNoRefreshFeatureKey2]: {
+        [treeNoRemoveFeatureKey2]: {
           currentLocation: '',
         },
       };
@@ -132,15 +132,15 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          [treeNoRefreshFeatureKey]: initialState[treeNoRefreshFeatureKey],
-          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+          [treeNoRemoveFeatureKey]: initialState[treeNoRemoveFeatureKey],
+          [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
         const result = (await firstValueFrom(
           store.select(selectLocations),
         )) as LocationEntity;
 
         expect(result).toEqual(
-          initialState[treeNoRefreshFeatureKey].locations.ids,
+          initialState[treeNoRemoveFeatureKey].locations.ids,
         );
       });
       it('should select locations and not trigger load action if not empty even if currentLocation is empty', async () => {
@@ -148,10 +148,10 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          [treeNoRefreshFeatureKey]: {
-            ...initialState[treeNoRefreshFeatureKey],
+          [treeNoRemoveFeatureKey]: {
+            ...initialState[treeNoRemoveFeatureKey],
           },
-          [treeNoRefreshFeatureKey2]: { currentLocation: '' },
+          [treeNoRemoveFeatureKey2]: { currentLocation: '' },
         });
 
         const result = (await firstValueFrom(
@@ -159,14 +159,14 @@ describe('Location Selectors', () => {
         )) as LocationEntity;
 
         expect(result).toEqual(
-          initialState[treeNoRefreshFeatureKey].locations.ids,
+          initialState[treeNoRemoveFeatureKey].locations.ids,
         );
       });
     });
     describe('if we have at least one row loaded in locations', () => {
       let testScheduler: TestScheduler;
       beforeEach(() => {
-        initialState[treeNoRefreshFeatureKey].locations = {
+        initialState[treeNoRemoveFeatureKey].locations = {
           ids: ['1'],
           entities: {
             '1': {
@@ -176,7 +176,7 @@ describe('Location Selectors', () => {
             },
           },
         };
-        initialState[treeNoRefreshFeatureKey2].currentLocation = '1';
+        initialState[treeNoRemoveFeatureKey2].currentLocation = '1';
       });
 
       beforeEach(() => {
@@ -191,8 +191,8 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            [treeNoRefreshFeatureKey]: initialState[treeNoRefreshFeatureKey],
-            [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+            [treeNoRemoveFeatureKey]: initialState[treeNoRemoveFeatureKey],
+            [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
@@ -202,10 +202,10 @@ describe('Location Selectors', () => {
           )) as LocationEntity;
 
           const expected = initialState[
-            treeNoRefreshFeatureKey
+            treeNoRemoveFeatureKey
           ].locations.ids.map((id) => ({
             ...castTo<Record<string, Location>>(
-              initialState[treeNoRefreshFeatureKey].locations.entities,
+              initialState[treeNoRemoveFeatureKey].locations.entities,
             )[id],
             departments: [],
           }));
@@ -220,10 +220,10 @@ describe('Location Selectors', () => {
             throw new Error(storeNotDefined);
           }
           store.setState({
-            [treeNoRefreshFeatureKey]: {
-              ...initialState[treeNoRefreshFeatureKey],
+            [treeNoRemoveFeatureKey]: {
+              ...initialState[treeNoRemoveFeatureKey],
             },
-            [treeNoRefreshFeatureKey2]: { currentLocation: '' },
+            [treeNoRemoveFeatureKey2]: { currentLocation: '' },
           });
           // eslint-disable-next-line rxjs/no-unsafe-first -- need for this test
           const action = store.scannedActions$.pipe(take(1));
@@ -233,10 +233,10 @@ describe('Location Selectors', () => {
           )) as LocationEntity;
 
           const expected = initialState[
-            treeNoRefreshFeatureKey
+            treeNoRemoveFeatureKey
           ].locations.ids.map((id) => ({
             ...castTo<Record<string, Location>>(
-              initialState[treeNoRefreshFeatureKey].locations.entities,
+              initialState[treeNoRemoveFeatureKey].locations.entities,
             )[id],
             departments: [],
           }));
@@ -250,7 +250,7 @@ describe('Location Selectors', () => {
   });
   describe('selectLocationsDepartments', () => {
     initialState = {
-      [treeNoRefreshFeatureKey]: {
+      [treeNoRemoveFeatureKey]: {
         departments: {
           ids: ['1'],
           entities: {
@@ -277,7 +277,7 @@ describe('Location Selectors', () => {
           entities: {},
         },
       },
-      [treeNoRefreshFeatureKey2]: {
+      [treeNoRemoveFeatureKey2]: {
         currentLocation: '',
       },
     };
@@ -290,10 +290,10 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          [treeNoRefreshFeatureKey]: castTo<TreeNoRemoveState>(
-            initialState[treeNoRefreshFeatureKey],
+          [treeNoRemoveFeatureKey]: castTo<TreeNoRemoveState>(
+            initialState[treeNoRemoveFeatureKey],
           ),
-          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+          [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
 
         // Get the first emitted value from the selector
@@ -306,7 +306,7 @@ describe('Location Selectors', () => {
         // sees the left and right has side as different.
         // using stringify uses toJSON() on the ArrayProxy
         expect(JSON.parse(JSON.stringify(result.entities))).toEqual(
-          initialState[treeNoRefreshFeatureKey].locations.entities,
+          initialState[treeNoRemoveFeatureKey].locations.entities,
         );
       });
     });
@@ -318,8 +318,8 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          [treeNoRefreshFeatureKey]: {
-            ...initialState[treeNoRefreshFeatureKey],
+          [treeNoRemoveFeatureKey]: {
+            ...initialState[treeNoRemoveFeatureKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -331,7 +331,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+          [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
 
         // Get the first emitted value from the selector
@@ -368,8 +368,8 @@ describe('Location Selectors', () => {
 
         // Set the state if necessary
         store.setState({
-          [treeNoRefreshFeatureKey]: {
-            ...initialState[treeNoRefreshFeatureKey],
+          [treeNoRemoveFeatureKey]: {
+            ...initialState[treeNoRemoveFeatureKey],
             departments: { ids: [], entities: {} },
             locations: {
               ids: ['1'],
@@ -382,7 +382,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+          [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
 
         // Get the first emitted value from the selector
@@ -414,7 +414,7 @@ describe('Location Selectors', () => {
   });
   describe('selectCurrentLocation', () => {
     initialState = {
-      [treeNoRefreshFeatureKey]: {
+      [treeNoRemoveFeatureKey]: {
         departments: {
           ids: [],
           entities: {},
@@ -428,7 +428,7 @@ describe('Location Selectors', () => {
           entities: {},
         },
       },
-      [treeNoRefreshFeatureKey2]: {
+      [treeNoRemoveFeatureKey2]: {
         currentLocation: '',
       },
     };
@@ -439,8 +439,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          [treeNoRefreshFeatureKey]: initialState[treeNoRefreshFeatureKey],
-          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+          [treeNoRemoveFeatureKey]: initialState[treeNoRemoveFeatureKey],
+          [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
 
         const result = (await firstValueFrom(
@@ -460,8 +460,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          [treeNoRefreshFeatureKey]: {
-            ...initialState[treeNoRefreshFeatureKey],
+          [treeNoRemoveFeatureKey]: {
+            ...initialState[treeNoRemoveFeatureKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -473,7 +473,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          [treeNoRefreshFeatureKey2]: initialState[treeNoRefreshFeatureKey2],
+          [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
 
         const result = (await firstValueFrom(
@@ -493,8 +493,8 @@ describe('Location Selectors', () => {
           throw new Error(storeNotDefined);
         }
         store.setState({
-          [treeNoRefreshFeatureKey]: {
-            ...initialState[treeNoRefreshFeatureKey],
+          [treeNoRemoveFeatureKey]: {
+            ...initialState[treeNoRemoveFeatureKey],
             locations: {
               ids: ['1'],
               entities: {
@@ -506,7 +506,7 @@ describe('Location Selectors', () => {
               },
             },
           },
-          [treeNoRefreshFeatureKey2]: {
+          [treeNoRemoveFeatureKey2]: {
             currentLocation: '1',
           },
         });
@@ -524,7 +524,7 @@ describe('Location Selectors', () => {
     });
     describe('when currentLocationId is not in location.entities', () => {
       beforeEach(() => {
-        initialState[treeNoRefreshFeatureKey2].currentLocation = '2';
+        initialState[treeNoRemoveFeatureKey2].currentLocation = '2';
       });
       it('should return blank location', async () => {
         if (!store) {
