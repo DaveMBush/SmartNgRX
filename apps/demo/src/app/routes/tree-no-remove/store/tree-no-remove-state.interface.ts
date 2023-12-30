@@ -2,7 +2,7 @@ import {
   DepartmentChildEntity,
   DepartmentEntity,
   LocationEntity,
-} from './entities';
+} from '../../../shared/entities';
 
 export interface TreeNoRemoveState {
   locations: LocationEntity;

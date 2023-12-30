@@ -1,3 +1,5 @@
+// jscpd:ignore-start
+// intentionally duplicated because it is for different state for demo purposes
 import { createSelector } from '@ngrx/store';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
@@ -49,3 +51,4 @@ export const selectCurrentLocation = createSelector(
     );
   },
 );
+// jscpd:ignore-end

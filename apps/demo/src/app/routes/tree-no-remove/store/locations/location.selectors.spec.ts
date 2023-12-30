@@ -11,8 +11,8 @@ import {
 import { store as storeFunction } from '@smart/smart-ngrx/selector/store.function';
 
 import { Department } from '../../../../shared/department/department.interface';
+import { LocationEntity } from '../../../../shared/entities';
 import { Location } from '../../../../shared/locations/location.interface';
-import { LocationEntity } from '../entities';
 import {
   TreeNoRemoveState,
   TreeNoRemoveState2,

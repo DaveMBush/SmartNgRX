@@ -1,3 +1,5 @@
+// jscpd:ignore-start
+// component is intentionally duplicated.
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -41,3 +43,4 @@ export class TreeNoRefreshComponent implements OnInit {
     this.location = this.store.select(selectCurrentLocation);
   }
 }
+// jscpd:ignore-end

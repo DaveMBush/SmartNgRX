@@ -2,16 +2,13 @@ import { SmartEntityDefinition } from '@smart/smart-ngrx/types/smart-entity-defi
 
 import { Department } from '../../../../shared/department/department.interface';
 import { departmentEffectsServiceToken } from '../../../../shared/department/department-effects.service-token';
+import { markAndDelete } from '../mark-and-delete-init';
 
 export const noRefreshDepartmentsDefinition: SmartEntityDefinition<Department> =
   {
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
-    markAndDelete: {
-      markDirtyFetchesNew: false,
-      markDirtyTime: 2 * 60 * 1000,
-      removeTime: 4 * 60 * 1000,
-    },
+    markAndDelete,
     defaultRow: (id) => ({
       id,
       name: '',

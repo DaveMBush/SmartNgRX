@@ -52,10 +52,6 @@
     <strong>removeTime</strong>: Removes a row from memory if it is still dirty
     2 minutes after being marked dirty.
   </li>
-  <li>
-    <strong>runInterval</strong>: Uses the default polling time of 1 minute to
-    mark rows dirty or remove them.
-  </li>
 </ul>
 <p>
   When you run the demo, use the Redux Dev Tools to see the actions that are
@@ -73,16 +69,8 @@
 <ul>
   <li><strong>markDirtyTime</strong>: Marks a row dirty every 2 minutes.</li>
   <li>
-    <strong>markDirtyFetchesNew</strong>: Sets this value to FALSE to tell the
-    system to not reload data that has been marked dirty.
-  </li>
-  <li>
     <strong>removeTime</strong>: Set to 0 so that it never removes a row from
     memory.
-  </li>
-  <li>
-    <strong>runInterval</strong>: Uses the default polling time of 1 minute to
-    mark rows dirty or remove them.
   </li>
 </ul>
 

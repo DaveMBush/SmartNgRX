@@ -1,3 +1,5 @@
+// jscpd:ignore-start
+// intentionally duplicated because it is for different state for demo purposes
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
@@ -58,3 +60,4 @@ export const setLocationIdEffect$ = createEffect(
   },
   { functional: true },
 );
+// jscpd:ignore-end
