@@ -13,6 +13,13 @@
     </a>
     <a
       mat-tab-link
+      [routerLink]="'treeNoRemove'"
+      [active]="'treeNoRemove' === activeLink"
+    >
+      Tree (No Remove)
+    </a>
+    <a
+      mat-tab-link
       [routerLink]="'treeNoDirty'"
       [active]="'treeNoDirty' === activeLink"
     >

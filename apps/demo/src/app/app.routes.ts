@@ -13,6 +13,10 @@ import { currentLocationNoRefreshReducer } from './routes/tree-no-refresh/store/
 import { noRefreshDepartmentsDefinition } from './routes/tree-no-refresh/store/department/no-refresh-departments-definition';
 import { noRefreshDepartmentChildrenDefinition } from './routes/tree-no-refresh/store/department-children/no-refresh-department-children-definition';
 import { noRefreshLocationsDefinition } from './routes/tree-no-refresh/store/locations/no-refresh-locations-definition';
+import { currentLocationNoRemoveReducer } from './routes/tree-no-remove/store/current-location/current-location-no-remove.reducer';
+import { noRemoveDepartmentsDefinition } from './routes/tree-no-remove/store/department/no-remove-departments-definition';
+import { noRemoveDepartmentChildrenDefinition } from './routes/tree-no-remove/store/department-children/no-remove-department-children-definition';
+import { noRemoveLocationsDefinition } from './routes/tree-no-remove/store/locations/no-remove-locations-definition';
 import { currentLocationStandardReducer } from './routes/tree-standard/store/current-location/current-location-standard.reducer';
 import { standardDepartmentsDefinition } from './routes/tree-standard/store/department/standard-departments-definition';
 import { standardDepartmentChildrenDefinition } from './routes/tree-standard/store/department-children/standard-department-children-definition';
@@ -29,6 +33,9 @@ const sharedReducersNoRefresh = castTo<ActionReducerMap<TreeStandardState>>({
 });
 const sharedReducersNoDirty = castTo<ActionReducerMap<TreeStandardState>>({
   currentLocation: currentLocationNoDirtyReducer,
+});
+const sharedReducersNoRemove = castTo<ActionReducerMap<TreeStandardState>>({
+  currentLocation: currentLocationNoRemoveReducer,
 });
 
 export const appRoutes: Routes = [
@@ -86,6 +93,22 @@ export const appRoutes: Routes = [
         noDirtyLocationsDefinition,
         noDirtyDepartmentsDefinition,
         noDirtyDepartmentChildrenDefinition,
+      ]),
+    ],
+  },
+  {
+    path: 'treeNoRemove',
+    loadComponent: async () =>
+      (await import('./routes/tree-no-remove/tree-no-remove.component'))
+        .TreeNoRemoveComponent,
+    providers: [
+      importProvidersFrom([
+        StoreModule.forFeature('tree-no-remove2', sharedReducersNoRemove),
+      ]),
+      provideSmartFeatureEntities('tree-no-remove', [
+        noRemoveLocationsDefinition,
+        noRemoveDepartmentsDefinition,
+        noRemoveDepartmentChildrenDefinition,
       ]),
     ],
   },

@@ -17,7 +17,7 @@
   removing the data should work.
 </p>
 <ul>
-  <li><strong>markDirtyTime</strong>: Marks a row dirty avery 15 minutes.</li>
+  <li><strong>markDirtyTime</strong>: Marks a row dirty every 15 minutes.</li>
   <li>
     <strong>markDirtyFetchesNew</strong>: Uses the default value of TRUE to tell
     the system to reload data that has been marked dirty.
@@ -43,14 +43,14 @@
   when it is marked dirty.
 </p>
 <ul>
-  <li><strong>markDirtyTime</strong>: Marks a row dirty avery 15 minutes.</li>
+  <li><strong>markDirtyTime</strong>: Marks a row dirty every 2 minutes.</li>
   <li>
     <strong>markDirtyFetchesNew</strong>: Sets this value to FALSE to tell the
     system to not reload data that has been marked dirty.
   </li>
   <li>
     <strong>removeTime</strong>: Removes a row from memory if it is still dirty
-    15 minutes after being marked dirty.
+    2 minutes after being marked dirty.
   </li>
   <li>
     <strong>runInterval</strong>: Uses the default polling time of 1 minute to
@@ -63,6 +63,29 @@
   have been marked dirty, no actions are dispatched asking for new data. But
   actions are dispatched to mark the rows clean that are still in use.
 </p>
+<h1><a [routerLink]="'/treeNoRemove'">Tree (No Remove)</a></h1>
+<p>
+  This demo does not remove items from memory but it does mark them dirty. You
+  might use this feature if your application does not display a lot of data and
+  can support the extra memory pressure. It will also make your application feel
+  faster.
+</p>
+<ul>
+  <li><strong>markDirtyTime</strong>: Marks a row dirty every 2 minutes.</li>
+  <li>
+    <strong>markDirtyFetchesNew</strong>: Sets this value to FALSE to tell the
+    system to not reload data that has been marked dirty.
+  </li>
+  <li>
+    <strong>removeTime</strong>: Set to 0 so that it never removes a row from
+    memory.
+  </li>
+  <li>
+    <strong>runInterval</strong>: Uses the default polling time of 1 minute to
+    mark rows dirty or remove them.
+  </li>
+</ul>
+
 <h1><a [routerLink]="'/treeNoDirty'">Tree (No Dirty)</a></h1>
 <p>
   This demo sets the markDirtyTime to -1 so that nothing ever gets marked as
