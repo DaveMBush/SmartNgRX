@@ -13,4 +13,6 @@ export abstract class EffectService<T> {
    * Loads the rows represented by the array of ids passed in.
    */
   abstract loadByIds: (ids: string[]) => Observable<T[]>;
+
+  abstract update: (row: T) => Observable<T[]>;
 }

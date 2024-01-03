@@ -1,6 +1,6 @@
-import { MarkAndDelete } from '@smart/smart-ngrx/types/mark-and-delete.interface';
+import { DepartmentChild } from '../department-children/department-child.interface';
 
-export function addIsDirty(rows: MarkAndDelete[]): MarkAndDelete[] {
+export function addIsDirty(rows: DepartmentChild[]): DepartmentChild[] {
   return rows.map((row) => {
     row.isDirty = false;
     return row;

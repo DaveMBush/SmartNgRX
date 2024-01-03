@@ -8,10 +8,11 @@ import { DocsService } from '../docs/docs.service';
 import { FoldersService } from '../folders/folders.service';
 import { ListsService } from '../lists/lists.service';
 import { SprintFoldersService } from '../sprint-folders/sprint-folders.service';
-import { CommonService } from './common-service.interface';
+import { CommonService } from './common-service.class';
 import { DepartmentChild } from './department-child.interface';
 import { filterIds } from './filter-ids.function';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
+import { updateForType } from './update-for-type.function';
 
 @Injectable()
 export class DepartmentChildEffectsService extends EffectService<DepartmentChild> {
@@ -31,12 +32,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     const listIds = filterIds(ids, 'lists:');
     const sprintFolderIds = filterIds(ids, 'sprint-folders:');
 
-    const docStream = loadByIdsForType(
-      castTo<CommonService>(this.doc),
-      docIds,
-      'docs',
-      'did',
-    );
+    const docStream = loadByIdsForType(this.doc, docIds, 'docs', 'did');
 
     const folderStream = loadByIdsForType(
       castTo<CommonService>(this.folder),
@@ -67,5 +63,33 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
         ...sprintFolders,
       ]),
     );
+  };
+
+  override update: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
+    row: DepartmentChild,
+  ) => {
+    const ids = [row.id];
+    const docIds = filterIds(ids, 'docs:');
+    const folderIds = filterIds(ids, 'folders:');
+    const listIds = filterIds(ids, 'lists:');
+    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+
+    let updateStream: Observable<DepartmentChild[]> = of(
+      [] as DepartmentChild[],
+    );
+    if (docIds.length > 0) {
+      updateStream = updateForType(this.doc, row, 'did');
+    }
+    if (folderIds.length > 0) {
+      updateStream = updateForType(this.folder, row);
+    }
+    if (listIds.length > 0) {
+      updateStream = updateForType(this.list, row);
+    }
+    if (sprintFolderIds.length > 0) {
+      updateStream = updateForType(this.sprintFolder, row);
+    }
+
+    return updateStream;
   };
 }

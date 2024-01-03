@@ -25,4 +25,10 @@ export class LocationEffectsService extends EffectService<Location> {
   ) => {
     return of([] as Location[]);
   };
+
+  override update: (row: Location) => Observable<Location[]> = (
+    row: Location,
+  ) => {
+    return this.http.put<Location[]>('./api/locations', row);
+  };
 }

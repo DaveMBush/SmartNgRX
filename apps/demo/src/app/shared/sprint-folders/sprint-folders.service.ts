@@ -1,18 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
 
-import { addIsDirty } from '../functions/add-is-dirty.function';
-import { SprintFolder } from './sprint-folder.interface';
+import { CommonService } from '../department-children/common-service.class';
 
 @Injectable({ providedIn: 'root' })
-export class SprintFoldersService {
-  constructor(private http: HttpClient) {}
-  loadByIds(ids: string[]): Observable<SprintFolder[]> {
-    return this.http
-      .post<SprintFolder[]>('./api/sprintFolders', ids)
-      .pipe(
-        map((sprintFolders) => addIsDirty(sprintFolders) as SprintFolder[]),
-      );
+export class SprintFoldersService extends CommonService {
+  constructor(http: HttpClient) {
+    super(http, './api/sprintFolders');
   }
 }

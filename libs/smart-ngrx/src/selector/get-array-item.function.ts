@@ -1,5 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
+import { actionFactory } from '../functions/action.factory';
 import { getEntityRegistry } from '../functions/register-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
@@ -29,5 +30,6 @@ export function getArrayItem<
 ): T {
   const registry = getEntityRegistry(feature, entity);
   ensureDataLoaded(entityState, id, feature, entity);
-  return realOrMocked(entityState, id, registry.defaultRow(id)) as T;
+  const actions = actionFactory(feature, entity);
+  return realOrMocked(entityState, id, registry.defaultRow(id), actions) as T;
 }

@@ -1,5 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
+import { ActionGroup } from '../functions/action-group.interface';
+import { rowProxy } from '../row-proxy/row-proxy.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
 
 /**
@@ -9,6 +11,7 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
  * @param entityState the entity used to lookup the id
  * @param id the id to lookup
  * @param defaultObject the default object to return if the id doesn't exist
+ * @param actions actions associated with the entity
  * @returns the row from the store or the default object
  *
  * @see `createInnerSmartSelector`
@@ -17,12 +20,12 @@ export function realOrMocked<T extends MarkAndDelete>(
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,
+  actions: ActionGroup<T>,
 ): T {
   const record = entityState.entities;
-  return (
-    record[id] ?? {
-      id,
-      ...defaultObject,
-    }
-  );
+  const row = record[id];
+  if (row === undefined) {
+    return { ...defaultObject, id };
+  }
+  return rowProxy(row, actions);
 }
