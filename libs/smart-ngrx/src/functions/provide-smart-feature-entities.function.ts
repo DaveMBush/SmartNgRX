@@ -57,7 +57,7 @@ export function provideSmartFeatureEntities<F extends string>(
       defaultRow,
     );
     reducers[entityName] = reducer;
-    interval(500)
+    interval(1)
       .pipe(
         map(() =>
           delayedRegisterEntity(featureName, entityName, entityDefinition),

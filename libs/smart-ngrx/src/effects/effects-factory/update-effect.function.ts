@@ -38,7 +38,7 @@ export function updateEffect<T extends MarkAndDelete>(
         return effectService.update(action.row);
       }),
       map((rows) => {
-        return actions.loadSuccess({ rows });
+        return actions.loadByIdsSuccess({ rows });
       }),
     );
   };

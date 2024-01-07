@@ -17,7 +17,7 @@
     <mat-tree-node
       *matTreeNodeDef="let node"
       matTreeNodePadding
-      [ngClass]="{ selected: node.id === selectedNode }"
+      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
     >
       <button
         type="button"
@@ -27,15 +27,15 @@
       >
         &nbsp;
       </button>
-      <button type="button" (click)="selectNode(node)" mat-button>
-        {{ node.name }}
-      </button>
+      <ng-container
+        *ngTemplateOutlet="treeNode; context: { $implicit: node }"
+      ></ng-container>
     </mat-tree-node>
     <!-- This is the tree node template for expandable nodes -->
     <mat-tree-node
       *matTreeNodeDef="let node; when: hasChild"
       matTreeNodePadding
-      [ngClass]="{ selected: node.id === selectedNode }"
+      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
     >
       <button
         type="button"
@@ -48,9 +48,38 @@
           {{ node.isExpanded ? 'expand_more' : 'chevron_right' }}
         </mat-icon>
       </button>
-      <button type="button" (click)="selectNode(node)" mat-button>
-        {{ node.name }}
-      </button>
+      <ng-container
+        *ngTemplateOutlet="treeNode; context: { $implicit: node }"
+      ></ng-container>
     </mat-tree-node>
   </mat-tree>
 </cdk-virtual-scroll-viewport>
+
+<ng-template #treeNode let-node>
+  @if (node.level + ':' + node.node.id !== editingNode) {
+    <button type="button" (click)="selectNode(node)" mat-button>
+      {{ node.name }}
+    </button>
+    @if (editingNode.length === 0) {
+      <button
+        class="edit-button"
+        type="button"
+        aria-label="edit"
+        mat-icon-button
+        (click)="editNode(node)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    }
+  } @else {
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Name"
+        [(ngModel)]="node.name"
+        (keyup.enter)="saveNode(node)"
+        (keyup.escape)="cancelEdit(node)"
+      />
+    </mat-form-field>
+  }
+</ng-template>

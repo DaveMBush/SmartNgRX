@@ -20,10 +20,10 @@ export class TreeComponentService {
 
   toggleExpand(node: TreeNode): void {
     if (this.isExpanded(node)) {
-      this.expandMap.delete(node.level + ':' + node.id);
+      this.expandMap.delete(node.level + ':' + node.node.id);
       node.isExpanded = false;
     } else {
-      this.expandMap.set(node.level + ':' + node.id, true);
+      this.expandMap.set(node.level + ':' + node.node.id, true);
       node.isExpanded = true;
     }
     this.applyRange();
@@ -61,16 +61,16 @@ export class TreeComponentService {
       }
       const r =
         typeof node === 'string'
-          ? { id: node, name: '', level, hasChildren: false }
+          ? { node: { id: node }, name: '', level, hasChildren: false }
           : {
-              id: node.id,
               name: node.name,
+              node,
               level,
               hasChildren: Boolean(node.children?.length),
-              isExpanded: this.isExpanded({ id: node.id, level }),
+              isExpanded: this.isExpanded({ node, level } as TreeNode),
             };
-      result.push(r);
-      if (this.isExpanded(r)) {
+      result.push(r as TreeNode);
+      if (this.isExpanded(r as TreeNode)) {
         const childNodes = this.transform(
           castTo<CommonSourceNode>(children[i]).children,
           level + 1,
@@ -85,7 +85,7 @@ export class TreeComponentService {
     return result;
   }
 
-  private isExpanded(node: { id: string; level: number }): boolean {
-    return this.expandMap.get(node.level + ':' + node.id) ?? false;
+  private isExpanded(node: TreeNode): boolean {
+    return this.expandMap.get(node.level + ':' + node.node.id) ?? false;
   }
 }

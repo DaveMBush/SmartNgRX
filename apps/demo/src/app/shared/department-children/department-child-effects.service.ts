@@ -78,16 +78,19 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
       [] as DepartmentChild[],
     );
     if (docIds.length > 0) {
-      updateStream = updateForType(this.doc, row, 'did');
+      updateStream = updateForType(this.doc, { ...row, id: docIds[0] }, 'did');
     }
     if (folderIds.length > 0) {
-      updateStream = updateForType(this.folder, row);
+      updateStream = updateForType(this.folder, { ...row, id: folderIds[0] });
     }
     if (listIds.length > 0) {
-      updateStream = updateForType(this.list, row);
+      updateStream = updateForType(this.list, { ...row, id: listIds[0] });
     }
     if (sprintFolderIds.length > 0) {
-      updateStream = updateForType(this.sprintFolder, row);
+      updateStream = updateForType(this.sprintFolder, {
+        ...row,
+        id: sprintFolderIds[0],
+      });
     }
 
     return updateStream;

@@ -30,9 +30,11 @@ export class DepartmentEffectsService extends EffectService<Department> {
   override update: (row: Department) => Observable<Department[]> = (
     row: Department,
   ) => {
-    return this.http.put<Department[]>('./api/departments', [row]).pipe(
-      map((departments) => addIsDirty(departments) as Department[]),
-      map(childrenTransform),
-    );
+    return this.http
+      .put<Department[]>('./api/departments', { id: row.id, name: row.name })
+      .pipe(
+        map((departments) => addIsDirty(departments) as Department[]),
+        map(childrenTransform),
+      );
   };
 }

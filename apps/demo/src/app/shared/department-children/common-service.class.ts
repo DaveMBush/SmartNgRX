@@ -16,9 +16,11 @@ export class CommonService {
       .pipe(map((rows) => addIsDirty(rows)));
   }
 
-  update(row: DepartmentChild): Observable<DepartmentChild[]> {
+  update(
+    row: Pick<DepartmentChild, 'id' | 'name'>,
+  ): Observable<DepartmentChild[]> {
     return this.http
-      .put<DepartmentChild[]>('./api/docs', [row])
+      .put<DepartmentChild[]>(this.path, row)
       .pipe(map((docs) => addIsDirty(docs)));
   }
 }

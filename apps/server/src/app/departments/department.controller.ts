@@ -1,7 +1,7 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { idToString } from '../functions/id-to-string.function';
 import { prismaServiceToken } from '../orm/prisma-service.token';
@@ -18,6 +18,17 @@ function toDepartmentChild(
 @Controller('departments')
 export class DepartmentsController {
   constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
+
+  @Put()
+  update(@Body() department: DepartmentDTO): Observable<DepartmentDTO[]> {
+    return from(
+      this.prisma.departments.update({
+        where: { id: department.id },
+        data: { name: department.name },
+      }),
+    ).pipe(switchMap(() => this.getByIds([department.id])));
+  }
+
   @Post()
   getByIds(@Body() ids: string[]): Observable<DepartmentDTO[]> {
     return from(

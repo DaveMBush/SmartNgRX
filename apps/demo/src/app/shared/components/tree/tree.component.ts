@@ -35,7 +35,8 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   @Output() readonly locationChanged = new EventEmitter<string>();
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
 
-  range = { start: 0, end: 6 };
+  // end = -1 to force first render to be everything that can be displayed
+  range = { start: 0, end: -1 };
 
   treeControl = new FlatTreeControl<TreeNode>(
     (node) => node.level,
@@ -45,6 +46,8 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   dataSource: TreeNode[] = [];
   fullDataSource: TreeNode[] = [];
   selectedNode = '';
+  editingNode = '';
+
   constructor() {
     this.sidebarComponentService.form = this;
   }
@@ -68,7 +71,21 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   selectNode(node: TreeNode): void {
-    this.selectedNode = node.id;
+    this.selectedNode = node.level + ':' + node.node.id;
+  }
+
+  editNode(node: TreeNode): void {
+    this.editingNode = node.level + ':' + node.node.id;
+  }
+
+  cancelEdit(node: TreeNode): void {
+    this.editingNode = '';
+    node.name = node.node.name;
+  }
+
+  saveNode(node: TreeNode): void {
+    node.node.name = node.name;
+    this.editingNode = '';
   }
 
   ngAfterViewInit(): void {

@@ -1,15 +1,26 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { from, Observable, switchMap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
-import { DocsDTO } from './docs-dto.interface';
+import { DocInDTO, DocOutDTO } from './doc-dto.interface';
 
 @Controller('docs')
 export class DocsController {
   constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
 
+  @Put()
+  update(@Body() doc: DocInDTO): Observable<DocOutDTO[]> {
+    return from(
+      this.prisma.docs.update({
+        where: { did: doc.id },
+        data: { name: doc.name },
+      }),
+    ).pipe(switchMap(async () => this.getByIds([doc.id])));
+  }
+
   @Post()
-  async getByIds(@Body() ids: string[]): Promise<DocsDTO[]> {
+  async getByIds(@Body() ids: string[]): Promise<DocOutDTO[]> {
     return this.prisma.docs.findMany({
       where: { did: { in: ids } },
       select: {
