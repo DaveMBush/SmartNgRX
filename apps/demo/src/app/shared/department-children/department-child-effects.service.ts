@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of } from 'rxjs';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
@@ -65,10 +65,14 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     );
   };
 
-  override update: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
-    row: DepartmentChild,
+  override update: (
+    oldRow: DepartmentChild,
+    newRow: DepartmentChild,
+  ) => Observable<DepartmentChild[]> = (
+    oldRow: DepartmentChild,
+    newRow: DepartmentChild,
   ) => {
-    const ids = [row.id];
+    const ids = [newRow.id];
     const docIds = filterIds(ids, 'docs:');
     const folderIds = filterIds(ids, 'folders:');
     const listIds = filterIds(ids, 'lists:');
@@ -78,21 +82,28 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
       [] as DepartmentChild[],
     );
     if (docIds.length > 0) {
-      updateStream = updateForType(this.doc, { ...row, id: docIds[0] }, 'did');
+      updateStream = updateForType(
+        this.doc,
+        { ...newRow, id: docIds[0] },
+        'did',
+      );
     }
     if (folderIds.length > 0) {
-      updateStream = updateForType(this.folder, { ...row, id: folderIds[0] });
+      updateStream = updateForType(this.folder, {
+        ...newRow,
+        id: folderIds[0],
+      });
     }
     if (listIds.length > 0) {
-      updateStream = updateForType(this.list, { ...row, id: listIds[0] });
+      updateStream = updateForType(this.list, { ...newRow, id: listIds[0] });
     }
     if (sprintFolderIds.length > 0) {
       updateStream = updateForType(this.sprintFolder, {
-        ...row,
+        ...newRow,
         id: sprintFolderIds[0],
       });
     }
 
-    return updateStream;
+    return updateStream.pipe(catchError((_: unknown) => of([oldRow])));
   };
 }

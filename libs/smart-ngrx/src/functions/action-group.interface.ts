@@ -42,7 +42,10 @@ export interface ActionGroup<T extends MarkAndDelete> {
   >;
   update: ActionCreator<
     `[${any}] Update`,
-    (props: RowProp<T>) => RowProp<T> & TypedAction<`[${any}] Update`>
+    (props: {
+      old: RowProp<T>;
+      new: RowProp<T>;
+    }) => TypedAction<`[${any}] Update`> & { old: RowProp<T>; new: RowProp<T> }
   >;
   addToStore: ActionCreator<
     `[${any}] Add To Store`,

@@ -35,7 +35,7 @@ export function updateEffect<T extends MarkAndDelete>(
       // we are using optimistic updates
       debounceTime(5000),
       concatMap((action) => {
-        return effectService.update(action.row);
+        return effectService.update(action.old.row, action.new.row);
       }),
       map((rows) => {
         return actions.loadByIdsSuccess({ rows });

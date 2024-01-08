@@ -14,5 +14,5 @@ export abstract class EffectService<T> {
    */
   abstract loadByIds: (ids: string[]) => Observable<T[]>;
 
-  abstract update: (row: T) => Observable<T[]>;
+  abstract update: (oldRow: T, newRow: T) => Observable<T[]>;
 }

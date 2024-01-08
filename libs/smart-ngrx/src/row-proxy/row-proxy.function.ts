@@ -53,7 +53,10 @@ class CustomProxy<T extends MarkAndDelete> {
         const store = storeFunction();
         assert(!!store, 'store is undefined');
         store.dispatch(
-          actions.update({ row: { ...target.row, [prop]: value } }),
+          actions.update({
+            new: { row: { ...target.row, [prop]: value } },
+            old: { row: target.row },
+          }),
         );
         return true;
       },
