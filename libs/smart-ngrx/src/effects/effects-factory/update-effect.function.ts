@@ -1,6 +1,6 @@
 import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { concatMap, debounceTime, map } from 'rxjs';
+import { concatMap, map } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
 import { MarkAndDelete } from '../../types/mark-and-delete.interface';
@@ -31,9 +31,6 @@ export function updateEffect<T extends MarkAndDelete>(
   ) => {
     return actions$.pipe(
       ofType(actions.update),
-      // we can use a long debounce here because
-      // we are using optimistic updates
-      debounceTime(5000),
       concatMap((action) => {
         return effectService.update(action.old.row, action.new.row);
       }),
