@@ -52,10 +52,25 @@ class CustomProxy<T extends MarkAndDelete> {
         }
         const store = storeFunction();
         assert(!!store, 'store is undefined');
+        const keys = Object.keys(target.row);
+        const realRow: Record<string | symbol, unknown> = {};
+        // We have to create a row that uses the rawArray instead of the
+        // one we are proxying so that the proxy doesn't get triggered
+        // and cause an infinite loop.
+        for (let i = 0; i < keys.length; i++) {
+          const rawArray = castTo<{ rawArray: string[] }>(
+            target.record[keys[i]],
+          ).rawArray;
+          if (rawArray !== undefined) {
+            realRow[keys[i]] = rawArray;
+          } else {
+            realRow[keys[i]] = target.record[keys[i]];
+          }
+        }
         store.dispatch(
           actions.update({
-            new: { row: { ...target.row, [prop]: value } },
-            old: { row: target.row },
+            new: { row: { ...realRow, [prop]: value } as T },
+            old: { row: realRow as T },
           }),
         );
         return true;

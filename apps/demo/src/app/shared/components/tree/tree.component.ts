@@ -84,8 +84,8 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   saveNode(node: TreeNode): void {
-    node.node.name = node.name;
     this.editingNode = '';
+    node.node.name = node.name;
   }
 
   ngAfterViewInit(): void {
