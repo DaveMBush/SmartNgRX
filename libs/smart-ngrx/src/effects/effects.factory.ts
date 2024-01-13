@@ -9,6 +9,7 @@ import { EffectService } from './effect-service';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
 import { loadEffect } from './effects-factory/load-effect.function';
+import { updateEffect } from './effects-factory/update-effect.function';
 
 /**
  * The effects factory creates a new set of effects for the
@@ -42,6 +43,9 @@ export function effectsFactory<
       functional: true,
     }),
     loadByIds: createEffect(loadByIdsEffect(effectsServiceToken, actions), {
+      functional: true,
+    }),
+    update: createEffect(updateEffect(effectsServiceToken, actions), {
       functional: true,
     }),
   });

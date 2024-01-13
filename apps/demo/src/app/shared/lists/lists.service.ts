@@ -1,16 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
 
-import { addIsDirty } from '../functions/add-is-dirty.function';
-import { List } from './list.interface';
+import { CommonService } from '../department-children/common-service.class';
 
 @Injectable({ providedIn: 'root' })
-export class ListsService {
-  constructor(private http: HttpClient) {}
-  loadByIds(ids: string[]): Observable<List[]> {
-    return this.http
-      .post<List[]>('./api/lists', ids)
-      .pipe(map((lists) => addIsDirty(lists) as List[]));
+export class ListsService extends CommonService {
+  constructor(http: HttpClient) {
+    super(http, './api/lists');
   }
 }

@@ -51,7 +51,7 @@ export function actionFactory<
       'Load By Ids': props<IdsProp>(),
       'Load By Ids Preload': props<IdsProp>(),
       'Load By Ids Success': props<RowsProp<T>>(),
-      Update: props<RowProp<T>>(),
+      Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),
       Add: props<{ row: T; options?: Record<string, unknown> }>(),
       Delete: props<IdProp>(),

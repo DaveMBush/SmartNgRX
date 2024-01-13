@@ -31,7 +31,7 @@ describe('TreeComponentService', () => {
   });
   it('should toggle node expansion on and off', () => {
     const node: TreeNode = {
-      id: '1',
+      node: { id: '1', name: 'node1', children: [] },
       name: 'node1',
       level: 0,
       isExpanded: false,
@@ -74,8 +74,8 @@ describe('TreeComponentService', () => {
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].id).toBe('1');
-      expect(mockComponent.dataSource[0].id).toBe('1');
+      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
+      expect(mockComponent.dataSource[0].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of ""', () => {
       expect(mockComponent.fullDataSource[0].name).toBe('');
@@ -117,8 +117,8 @@ describe('TreeComponentService', () => {
       expect(mockComponent.dataSource.length).toBe(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].id).toBe('1');
-      expect(mockComponent.dataSource[0].id).toBe('1');
+      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
+      expect(mockComponent.dataSource[0].node.id).toBe('1');
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
@@ -160,8 +160,8 @@ describe('TreeComponentService', () => {
       expect(mockComponent.dataSource.length).toBe(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].id).toBe('1');
-      expect(mockComponent.dataSource[0].id).toBe('1');
+      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
+      expect(mockComponent.dataSource[0].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
       expect(mockComponent.fullDataSource[0].name).toBe('department1');
@@ -209,13 +209,13 @@ describe('TreeComponentService', () => {
       };
       jest
         .spyOn(
-          castTo<{ isExpanded(node: { id: string; level: number }): boolean }>(
-            service,
-          ),
+          castTo<{
+            isExpanded(node: { node: { id: string }; level: number }): boolean;
+          }>(service),
           'isExpanded',
         )
         .mockImplementation((node) => {
-          return !!(node.id === '1' && node.level === 0);
+          return !!(node.node.id === '1' && node.level === 0);
         });
       service.applyRange();
     });
@@ -224,10 +224,10 @@ describe('TreeComponentService', () => {
       expect(mockComponent.dataSource.length).toBe(2);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].id).toBe('1');
-      expect(mockComponent.dataSource[0].id).toBe('1');
-      expect(mockComponent.fullDataSource[1].id).toBe('1');
-      expect(mockComponent.dataSource[1].id).toBe('1');
+      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
+      expect(mockComponent.dataSource[0].node.id).toBe('1');
+      expect(mockComponent.fullDataSource[1].node.id).toBe('1');
+      expect(mockComponent.dataSource[1].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
       expect(mockComponent.fullDataSource[0].name).toBe('department1');

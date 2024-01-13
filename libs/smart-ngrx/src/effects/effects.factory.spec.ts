@@ -28,6 +28,10 @@ class MockService extends EffectService<MockState> {
   loadByIds = (ids: string[]) => {
     return of(ids.map((id) => ({ id, test: 'test' + id })) as MockState[]);
   };
+
+  update = (oldRow: MockState, _: MockState) => {
+    return this.loadByIds([oldRow.id]);
+  };
 }
 
 describe('effectsFactory', () => {

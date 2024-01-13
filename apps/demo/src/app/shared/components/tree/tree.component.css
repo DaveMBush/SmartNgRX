@@ -12,3 +12,15 @@ cdk-virtual-scroll-viewport {
   height: calc(100% - 78px);
   width: 100%;
 }
+
+.edit-button {
+  display: none;
+}
+
+mat-tree-node:hover .edit-button {
+  display: block;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0;
+}

@@ -61,6 +61,9 @@ export function reducerFactory<
         state,
       );
     }),
+    on(actions.update, (state, { new: { row } }) =>
+      adapter.upsertOne(row, state),
+    ),
 
     // make sure that when we call loadByIds the store gets set with
     // something so that we don't try to refetch the same data

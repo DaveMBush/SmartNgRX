@@ -4,7 +4,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 
 import { List } from '../lists/list.interface';
-import { CommonService } from './common-service.interface';
+import { CommonService } from './common-service.class';
 import { DepartmentChild } from './department-child.interface';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
 

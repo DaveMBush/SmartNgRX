@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
 
@@ -25,5 +25,24 @@ export class DepartmentEffectsService extends EffectService<Department> {
       map((departments) => addIsDirty(departments) as Department[]),
       map(childrenTransform),
     );
+  };
+
+  override update: (
+    oldRow: Department,
+    newRow: Department,
+  ) => Observable<Department[]> = (oldRow: Department, newRow: Department) => {
+    return this.http
+      .put<Department[]>('./api/departments', {
+        id: newRow.id,
+        name: newRow.name,
+      })
+      .pipe(
+        map((departments) => addIsDirty(departments) as Department[]),
+        map(childrenTransform),
+        catchError((_: unknown) => {
+          // probably would want to send a message to the user here
+          return of([oldRow]);
+        }),
+      );
   };
 }

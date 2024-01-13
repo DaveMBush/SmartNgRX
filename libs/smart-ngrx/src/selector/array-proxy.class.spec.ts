@@ -55,12 +55,12 @@ describe('proxyArray', () => {
   arr.init();
 
   it('creates an array that proxies to the actual entity', () => {
-    expect(arr[0]).toEqual({
+    expect(JSON.parse(JSON.stringify(arr[0]))).toEqual({
       id: 'department1',
       name: 'Department 1',
       isDirty: false,
     });
-    expect(arr[1]).toEqual({
+    expect(JSON.parse(JSON.stringify(arr[1]))).toEqual({
       id: 'department2',
       name: 'Department 2',
       isDirty: false,
