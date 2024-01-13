@@ -51,13 +51,17 @@ function itCreatesProxiesForChildrenThatDontExist(
   expect(
     castTo<ArrayProxy<Entity>>(result.entities[department2]?.children).rawArray,
   ).toEqual(['folder-3', 'folder-4']);
-  expect(result.entities[department1]?.children[0]).toStrictEqual({
+  expect(
+    JSON.parse(JSON.stringify(result.entities[department1]?.children[0])),
+  ).toStrictEqual({
     id: 'folder-1',
     name: 'Folder 1',
     isDirty: false,
     children: [],
   });
-  expect(result.entities[department1]?.children[1]).toStrictEqual({
+  expect(
+    JSON.parse(JSON.stringify(result.entities[department1]?.children[1])),
+  ).toStrictEqual({
     id: 'folder-2',
     name: 'Folder 2',
     isDirty: false,

@@ -80,7 +80,8 @@ function mainBuffer(
  */
 export function bufferAction(
   ngZone: NgZone,
-  bufferTime = 1,
+  /* istanbul ignore next */
+  bufferTime = 1, // default value does not need to be tested
 ): (source: Observable<Action>) => Observable<string[]> {
   return (source: Observable<Action>): Observable<string[]> => {
     return new Observable<string[]>((observer) => {

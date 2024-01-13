@@ -81,28 +81,32 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     let updateStream: Observable<DepartmentChild[]> = of(
       [] as DepartmentChild[],
     );
-    if (docIds.length > 0) {
+    docIds.forEach((id) => {
+      updateStream = updateForType(this.doc, { ...newRow, id }, 'docs', 'did');
+    });
+    folderIds.forEach((id) => {
       updateStream = updateForType(
-        this.doc,
-        { ...newRow, id: docIds[0] },
-        'did',
+        this.folder,
+        {
+          ...newRow,
+          id,
+        },
+        'folders',
       );
-    }
-    if (folderIds.length > 0) {
-      updateStream = updateForType(this.folder, {
-        ...newRow,
-        id: folderIds[0],
-      });
-    }
-    if (listIds.length > 0) {
-      updateStream = updateForType(this.list, { ...newRow, id: listIds[0] });
-    }
-    if (sprintFolderIds.length > 0) {
-      updateStream = updateForType(this.sprintFolder, {
-        ...newRow,
-        id: sprintFolderIds[0],
-      });
-    }
+    });
+    listIds.forEach((id) => {
+      updateStream = updateForType(this.list, { ...newRow, id }, 'lists');
+    });
+    sprintFolderIds.forEach((id) => {
+      updateStream = updateForType(
+        this.sprintFolder,
+        {
+          ...newRow,
+          id,
+        },
+        'sprint-folders',
+      );
+    });
 
     return updateStream.pipe(catchError((_: unknown) => of([oldRow])));
   };

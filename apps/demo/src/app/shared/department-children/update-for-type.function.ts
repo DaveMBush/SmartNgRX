@@ -8,7 +8,9 @@ import { DepartmentChild } from './department-child.interface';
 export function updateForType(
   service: CommonService,
   row: DepartmentChild,
-  idName: string = 'id',
+  type: string,
+  /* istanbul ignore next */
+  idName: string = 'id', // this is just a default value that does not need to be tested
 ): Observable<DepartmentChild[]> {
   return service.update({ id: row.id, name: row.name }).pipe(
     map((items) =>
@@ -16,7 +18,7 @@ export function updateForType(
         const itemRecord = castTo<Record<string, string>>(item);
         return castTo<DepartmentChild>({
           ...item,
-          id: `docs:${itemRecord[idName]}`,
+          id: `${type}:${itemRecord[idName]}`,
         });
       }),
     ),

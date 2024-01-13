@@ -16,7 +16,12 @@ import { bufferAction } from '../buffer-action.function';
 export function loadByIdsPreloadEffect<T extends MarkAndDelete>(
   actions: ActionGroup<T>,
 ) {
-  return (actions$ = inject(Actions), zone: NgZone = inject(NgZone)) => {
+  return (
+    /* istanbul ignore next -- default value, not really a condition */
+    actions$ = inject(Actions),
+    /* istanbul ignore next -- default value, not really a condition */
+    zone: NgZone = inject(NgZone),
+  ) => {
     return actions$.pipe(
       ofType(actions.loadByIds),
       bufferAction(zone),

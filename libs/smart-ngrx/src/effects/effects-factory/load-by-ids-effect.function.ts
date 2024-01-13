@@ -19,8 +19,11 @@ export function loadByIdsEffect<T extends MarkAndDelete>(
   actions: ActionGroup<T>,
 ) {
   return (
+    /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
+    /* istanbul ignore next -- default value, not really a condition */
     actionService = inject(effectServiceToken),
+    /* istanbul ignore next -- default value, not really a condition */
     zone: NgZone = inject(NgZone),
   ) => {
     return actions$.pipe(

@@ -1,5 +1,6 @@
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
+import { forNext } from '../common/for-next.function';
 import { ActionGroup } from '../functions/action-group.interface';
 import { store as storeFunction } from '../selector/store.function';
 import { MarkAndDelete } from '../types/mark-and-delete.interface';
@@ -35,6 +36,7 @@ export function rowProxy<T extends MarkAndDelete>(
 class CustomProxy<T extends MarkAndDelete> {
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
+
   constructor(
     public row: T,
     actions: ActionGroup<T>,
@@ -42,39 +44,53 @@ class CustomProxy<T extends MarkAndDelete> {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
       get(target, prop) {
+        if (prop === 'toJSON') {
+          return () => target.toJSON();
+        }
         return prop in target.changes
           ? target.changes[prop]
           : target.record[prop];
       },
       set(target, prop, value) {
+        /* istanbul ignore next -- untestable using strong typing but here to protect misuse by others */
         if (!(prop in target.record)) {
           return false;
         }
+        target.changes[prop] = value;
+        const realRow = target.getRealRow();
         const store = storeFunction();
         assert(!!store, 'store is undefined');
-        const keys = Object.keys(target.row);
-        const realRow: Record<string | symbol, unknown> = {};
-        // We have to create a row that uses the rawArray instead of the
-        // one we are proxying so that the proxy doesn't get triggered
-        // and cause an infinite loop.
-        for (let i = 0; i < keys.length; i++) {
-          const rawArray = castTo<{ rawArray: string[] }>(
-            target.record[keys[i]],
-          ).rawArray;
-          if (rawArray !== undefined) {
-            realRow[keys[i]] = rawArray;
-          } else {
-            realRow[keys[i]] = target.record[keys[i]];
-          }
-        }
         store.dispatch(
           actions.update({
             new: { row: { ...realRow, [prop]: value } as T },
-            old: { row: realRow as T },
+            old: { row: realRow },
           }),
         );
         return true;
       },
     });
+  }
+
+  getRealRow(): T {
+    const keys = Object.keys(this.row);
+    const realRow: Record<string | symbol, unknown> = {};
+    // We have to create a row that uses the rawArray instead of the
+    // one we are proxying so that the proxy doesn't get triggered
+    // and cause an infinite loop.
+    forNext(keys, (key) => {
+      const rawArray = castTo<{ rawArray: string[] }>(
+        this.record[key],
+      ).rawArray;
+      if (rawArray !== undefined) {
+        realRow[key] = rawArray;
+      } else {
+        realRow[key] = this.record[key];
+      }
+    });
+    return realRow as T;
+  }
+
+  toJSON() {
+    return { ...this.getRealRow(), ...this.changes };
   }
 }

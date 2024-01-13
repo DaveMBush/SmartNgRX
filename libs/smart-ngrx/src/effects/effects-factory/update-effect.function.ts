@@ -26,7 +26,9 @@ export function updateEffect<T extends MarkAndDelete>(
   actions: ActionGroup<T>,
 ) {
   return (
+    /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
+    /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
   ) => {
     return actions$.pipe(
