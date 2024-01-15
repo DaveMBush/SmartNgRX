@@ -131,8 +131,8 @@ devDependencies:
     specifier: 17.1.1
     version: 17.1.1(eslint@8.56.0)(typescript@5.2.2)
   '@angular-eslint/template-parser':
-    specifier: ~17.1.1
-    version: 17.1.1(eslint@8.56.0)(typescript@5.2.2)
+    specifier: ~17.2.0
+    version: 17.2.0(eslint@8.56.0)(typescript@5.2.2)
   '@angular/cli':
     specifier: ~17.0.8
     version: 17.0.8
@@ -708,6 +708,10 @@ packages:
     resolution: {integrity: sha512-xRlSh9qjdUdUKAy/0UQsxX7wf1tHApAsHsfismebPriqfmVAPyEg4HBrM8ImWaZxiqaTGC1AyHsUBQD5FK8o6w==}
     dev: true
 
+  /@angular-eslint/bundled-angular-compiler@17.2.0:
+    resolution: {integrity: sha512-uBvPbPE2JxqpdLs//Nd5+TRLgjxDxvTYgmGFTKI9Eo98krqps+rhSQCRSHWACukzc25X3Q4ITHfvjODQL8qQkg==}
+    dev: true
+
   /@angular-eslint/eslint-plugin-template@17.1.1(eslint@8.56.0)(typescript@5.2.2):
     resolution: {integrity: sha512-unZ6QNwtxuB8Eni7UPdw7uK6iZipZUXIsH+ZuLMOxwFgGMqeRnpv8SW0212rto3d/Ec0jESzVHKcwZ9pT+jxgw==}
     peerDependencies:
@@ -740,15 +744,15 @@ packages:
       - supports-color
     dev: true
 
-  /@angular-eslint/template-parser@17.1.1(eslint@8.56.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-ofL46rNhRVeSxrSQF0vwhKMco+vJuo+ZGjSOzFmT9N3KAMB0j+WXTbpyGGMy0gQSBc4W6p+j+zxGa2CR2xb6wA==}
+  /@angular-eslint/template-parser@17.2.0(eslint@8.56.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-Js9w1IXWPvXEjd05bWkZzRaLw0g0mJPztAWOj3DiU7H9LKkautQq0zZu02cAAnXZim2CsAagEh2GmGjhaYvoKg==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 17.1.1
+      '@angular-eslint/bundled-angular-compiler': 17.2.0
       eslint: 8.56.0
-      eslint-scope: 7.2.2
+      eslint-scope: 8.0.0
       typescript: 5.2.2
     dev: true
 
@@ -9663,6 +9667,14 @@ packages:
     dependencies:
       esrecurse: 4.3.0
       estraverse: 5.3.0
+
+  /eslint-scope@8.0.0:
+    resolution: {integrity: sha512-zj3Byw6jX4TcFCJmxOzLt6iol5FAr9xQyZZSQjEzW2UiCJXLwXdRIKCYVFftnpZckaC9Ps9xlC7jB8tSeWWOaw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    dependencies:
+      esrecurse: 4.3.0
+      estraverse: 5.3.0
+    dev: true
 
   /eslint-visitor-keys@3.4.3:
     resolution: {integrity: sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==}
