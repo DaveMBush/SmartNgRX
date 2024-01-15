@@ -1,10 +1,19 @@
 import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { concatMap, debounceTime, map, tap } from 'rxjs';
+import {
+  concatMap,
+  debounceTime,
+  filter,
+  map,
+  mergeMap,
+  scan,
+  tap,
+} from 'rxjs';
 
 import { castTo } from '../../common/cast-to.function';
 import { ActionGroup } from '../../functions/action-group.interface';
 import { MarkAndDelete } from '../../types/mark-and-delete.interface';
+import { RowProp } from '../../types/row-prop.interface';
 import { EffectService } from '../effect-service';
 import { manageMaps } from './update-effect/manage-maps.function';
 
@@ -40,9 +49,25 @@ export function updateEffect<T extends MarkAndDelete>(
       tap((action) => {
         manageMaps<T>(lastRow, lastRowTimeout, action);
       }),
+      // scan allows us to change fields in multiple rows
+      // within the same event loop
+      scan(
+        (acc, action) => ({
+          ...acc,
+          [castTo<{ id: string }>(action.old.row).id]: action,
+        }),
+        {} as Record<string, { old: RowProp<T>; new: RowProp<T> }>,
+      ),
       // debounceTime(1) lets us set multiple fields in a row but only
       // call the server once
       debounceTime(1),
+      // mergeMap allows us to call the server once for each
+      // row that was updated
+      mergeMap((accActions) => {
+        return Object.values(accActions);
+      }),
+      // we should never need the filter, but just to be safe.
+      filter((action) => action !== undefined),
       concatMap((action) => {
         const id = castTo<{ id: string }>(action.old.row).id;
         return effectService.update(lastRow.get(id)!, action.new.row);
