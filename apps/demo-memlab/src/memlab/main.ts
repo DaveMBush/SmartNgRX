@@ -1,6 +1,5 @@
 import * as memlab from 'memlab';
 import { scenario as demoStandard } from './demo/base-line-to-tree';
-import { config } from '@memlab/core';
 
 (async function () {
   const { leaks, runResult } = await memlab.run({ scenario: demoStandard });
