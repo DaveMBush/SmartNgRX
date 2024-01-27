@@ -143,8 +143,8 @@ devDependencies:
     specifier: ~17.0.8
     version: 17.0.8
   '@memlab/api':
-    specifier: ^1.0.25
-    version: 1.0.25(typescript@5.2.2)
+    specifier: ^1.0.26
+    version: 1.0.26(typescript@5.2.2)
   '@memlab/core':
     specifier: ^1.1.27
     version: 1.1.27(typescript@5.2.2)
@@ -5089,8 +5089,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@memlab/api@1.0.25(typescript@5.2.2):
-    resolution: {integrity: sha512-7IZfaWbhzXFeCN1RihCo8RzF3HPVWKPOlwfk5/E3yhxKXK/aAjD4tnTpdf0uWMgVP9aWeMJmAEVsTA9qzndOEw==}
+  /@memlab/api@1.0.26(typescript@5.2.2):
+    resolution: {integrity: sha512-If0Yufcof5h8APs3t9e65o0Z3wdNd72ISUupBGUnwWfMmfvojH/JP2q2qhxLAtNEb6TYOLUvULb/fgRPUKStzQ==}
     dependencies:
       '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.27(typescript@5.2.2)
@@ -5118,7 +5118,7 @@ packages:
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@memlab/api': 1.0.25(typescript@5.2.2)
+      '@memlab/api': 1.0.26(typescript@5.2.2)
       '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.27(typescript@5.2.2)
       '@memlab/heap-analysis': 1.0.24(typescript@5.2.2)
@@ -13701,7 +13701,7 @@ packages:
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@memlab/api': 1.0.25(typescript@5.2.2)
+      '@memlab/api': 1.0.26(typescript@5.2.2)
       '@memlab/cli': 1.0.29(typescript@5.2.2)
       '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.27(typescript@5.2.2)

@@ -4,6 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve demo",
+    "start:prod": "nx serve demo --configuration=production",
     "start:server": "nx serve server",
     "start:documentation": "nx serve documentation --configuration=serve --port=4201",
     "build": "nx affected:build --parallel=3",
@@ -17,7 +18,7 @@
     "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
     "prepare": "is-ci || husky install",
     "postinstall": "pnpm dlx prisma migrate dev",
-    "memlab": "nx run demo-memlab:memlab"
+    "memlab": "nx run demo-memlab:memlab --skip-nx-cache"
   },
   "prisma": {
     "seed": "pnpm ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -83,7 +84,7 @@
     "@angular/compiler-cli": "~17.0.8",
     "@angular/language-service": "~17.0.8",
     "@memlab/core": "^1.1.27",
-    "@memlab/api": "^1.0.25",
+    "@memlab/api": "^1.0.26",
     "@nestjs/schematics": "^10.0.3",
     "@nestjs/testing": "^10.3.0",
     "@ngrx/schematics": "~17.0.1",
