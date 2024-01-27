@@ -2,7 +2,7 @@ import { IScenario, Page } from '@memlab/core';
 
 function url(): string {
   // start by going to the tree
-  return 'http://localhost:4200/tree';
+  return 'http://localhost:4200/tree#edit';
 }
 
 async function common(page: Page) {

@@ -8,10 +8,14 @@ import { scenario as editRowOnStandard } from './demo/edit-row-on-standard';
 (async function () {
   const workDir = '/home/dave/code/SmartNgRX/apps/demo-memlab/work-dir';
   const skipWarmup = true;
-  memlab.config.isHeadfulBrowser = true;
+  memlab.config.isHeadfulBrowser = false;
   const errors = new Map<string, number>();
   const scenarios = [
-    /*demoStandard , demoNoRefresh, demoNoRemove, demoNoDirty,*/ editRowOnStandard,
+    demoStandard,
+    demoNoRefresh,
+    demoNoRemove,
+    demoNoDirty,
+    editRowOnStandard,
   ];
   for (const scenario of scenarios) {
     const { leaks, runResult } = await memlab.run({
