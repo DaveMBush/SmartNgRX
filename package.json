@@ -18,7 +18,7 @@
     "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
     "prepare": "is-ci || husky install",
     "postinstall": "pnpm dlx prisma migrate dev",
-    "memlab": "nx run demo-memlab:memlab --skip-nx-cache"
+    "memlab": "ts-node ./apps/demo-memlab/src/memlab/main.ts"
   },
   "prisma": {
     "seed": "pnpm ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

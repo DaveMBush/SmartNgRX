@@ -1,4 +1,5 @@
 import * as memlab from 'memlab';
+import { run } from '@memlab/api';
 import { scenario as demoStandard } from './demo/base-line-to-standard';
 import { scenario as demoNoRefresh } from './demo/base-line-to-no-refresh';
 import { scenario as demoNoRemove } from './demo/base-line-to-no-remove';
@@ -9,6 +10,9 @@ import { scenario as editRowOnStandard } from './demo/edit-row-on-standard';
   const workDir = '/home/dave/code/SmartNgRX/apps/demo-memlab/work-dir';
   const skipWarmup = true;
   memlab.config.isHeadfulBrowser = false;
+  memlab.config.isContinuousTest = true;
+  memlab.heapConfig.isCliInteractiveMode = false;
+
   const errors = new Map<string, number>();
   const scenarios = [
     demoStandard,
@@ -18,7 +22,7 @@ import { scenario as editRowOnStandard } from './demo/edit-row-on-standard';
     editRowOnStandard,
   ];
   for (const scenario of scenarios) {
-    const { leaks, runResult } = await memlab.run({
+    const { leaks, runResult } = await run({
       scenario,
       skipWarmup,
       workDir,

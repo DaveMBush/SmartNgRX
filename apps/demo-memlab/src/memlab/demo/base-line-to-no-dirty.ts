@@ -1,3 +1,3 @@
 import { baseLineToTab } from './base-line-to-tab.factory';
 
-export const scenario = baseLineToTab('treeNoRemove');
+export const scenario = baseLineToTab('treeNoDirty');
