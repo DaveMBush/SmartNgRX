@@ -142,6 +142,12 @@ devDependencies:
   '@angular/language-service':
     specifier: ~17.1.0
     version: 17.1.0
+  '@memlab/api':
+    specifier: ^1.0.26
+    version: 1.0.26(typescript@5.2.2)
+  '@memlab/core':
+    specifier: ^1.1.27
+    version: 1.1.27(typescript@5.2.2)
   '@nestjs/schematics':
     specifier: ^10.1.0
     version: 10.1.0(typescript@5.2.2)
@@ -287,8 +293,8 @@ devDependencies:
     specifier: ^15.2.0
     version: 15.2.0
   memlab:
-    specifier: ^1.1.42
-    version: 1.1.42(typescript@5.2.2)
+    specifier: ^1.1.43
+    version: 1.1.43(typescript@5.2.2)
   ng-packagr:
     specifier: ~17.1.2
     version: 17.1.2(@angular/compiler-cli@17.1.0)(tslib@2.6.2)(typescript@5.2.2)
@@ -1087,7 +1093,7 @@ packages:
     resolution: {integrity: sha512-XktuhWlJ5g+3TJXc5upd9Ks1HutSArik6jf2eAjYFyIOf4ej3RN+184cZbzDvbPnuTJIUhPKKJE3cIsYTiAT3w==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/highlight': 7.22.20
+      '@babel/highlight': 7.23.4
       chalk: 2.4.2
 
   /@babel/code-frame@7.23.5:
@@ -1415,10 +1421,6 @@ packages:
     dependencies:
       '@babel/types': 7.23.0
 
-  /@babel/helper-string-parser@7.22.5:
-    resolution: {integrity: sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==}
-    engines: {node: '>=6.9.0'}
-
   /@babel/helper-string-parser@7.23.4:
     resolution: {integrity: sha512-803gmbQdqwdf4olxrX4AJyFBV/RTr3rSmOj0rKwesmzlfhYNDEs+/iOcznzpNWlJlIlTJC2QfPFcHB6DlzdVLQ==}
     engines: {node: '>=6.9.0'}
@@ -1453,14 +1455,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@babel/highlight@7.22.20:
-    resolution: {integrity: sha512-dkdMCN3py0+ksCgYmGG8jKeGA/8Tk+gJwSYYlFGxG5lmhfKNoAy004YpLxpS1W2J8m/EK2Ew+yOs9pVRwO89mg==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/helper-validator-identifier': 7.22.20
-      chalk: 2.4.2
-      js-tokens: 4.0.0
-
   /@babel/highlight@7.23.4:
     resolution: {integrity: sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==}
     engines: {node: '>=6.9.0'}
@@ -1468,13 +1462,6 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
       js-tokens: 4.0.0
-
-  /@babel/parser@7.23.0:
-    resolution: {integrity: sha512-vvPKKdMemU85V9WE/l5wZEmImpCtLqbnTvqDS2U1fJ96KrxoW7KrXhNsNCblQlg8Ck4b85yxdTyelsMUgFUXiw==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-    dependencies:
-      '@babel/types': 7.23.0
 
   /@babel/parser@7.23.6:
     resolution: {integrity: sha512-Z2uID7YJ7oNvAI20O9X0bblw7Qqs8Q2hFy0R9tAfnfLkp5MW0UH9eUvnDSnFwKZ0AvgS1ucqR4KzvVHgnke1VQ==}
@@ -3189,14 +3176,14 @@ packages:
     resolution: {integrity: sha512-azpe59SQ48qG6nu2CzcMLbxUudtN+dOM9kDbUqGq3HXUJRlo7i8fvPoxQUzYgLZ4cMVmuZgm8vvBpNeRhd6XSw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
       '@babel/generator': 7.23.6
       '@babel/helper-environment-visitor': 7.22.20
       '@babel/helper-function-name': 7.23.0
       '@babel/helper-hoist-variables': 7.22.5
       '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/parser': 7.23.0
-      '@babel/types': 7.23.0
+      '@babel/parser': 7.23.6
+      '@babel/types': 7.23.6
       debug: 4.3.4(supports-color@8.1.1)
       globals: 11.12.0
     transitivePeerDependencies:
@@ -3223,7 +3210,7 @@ packages:
     resolution: {integrity: sha512-0oIyUfKoI3mSqMvsxBdclDwxXKXAUA8v/apZbc+iSyARYou1o8ZGDxbUYyLFoW2arqS2jDGqJuZvv1d/io1axg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/helper-string-parser': 7.22.5
+      '@babel/helper-string-parser': 7.23.4
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
@@ -5269,10 +5256,10 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@memlab/api@1.0.24(typescript@5.2.2):
-    resolution: {integrity: sha512-JvblNCqYG868Qjyviq9QhwH5rWrBuvI7alxg6L75/zwrl4NP5jVGevaNXuVUvKswUaY0619/2f2zp0AOnj+gHg==}
+  /@memlab/api@1.0.26(typescript@5.2.2):
+    resolution: {integrity: sha512-If0Yufcof5h8APs3t9e65o0Z3wdNd72ISUupBGUnwWfMmfvojH/JP2q2qhxLAtNEb6TYOLUvULb/fgRPUKStzQ==}
     dependencies:
-      '@memlab/core': 1.1.25(typescript@5.2.2)
+      '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.25(typescript@5.2.2)
       '@memlab/heap-analysis': 1.0.22(typescript@5.2.2)
       ansi: 0.3.1
@@ -5298,8 +5285,8 @@ packages:
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@memlab/api': 1.0.24(typescript@5.2.2)
-      '@memlab/core': 1.1.25(typescript@5.2.2)
+      '@memlab/api': 1.0.26(typescript@5.2.2)
+      '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.25(typescript@5.2.2)
       '@memlab/heap-analysis': 1.0.22(typescript@5.2.2)
       ansi: 0.3.1
@@ -5321,8 +5308,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@memlab/core@1.1.25(typescript@5.2.2):
-    resolution: {integrity: sha512-p52Lyf9Qrk/OjO9V9oubXQxJlZRyKZGMDFgqL2KoYFiv291LIFF/RAfou2To9HqTlK0rrqNLr1ToZoaoyCsv1A==}
+  /@memlab/core@1.1.27(typescript@5.2.2):
+    resolution: {integrity: sha512-JW7cYzN42D3cLWjtdWdk+3KVaCSxg2fPB0eASzQq4LMmLRb6APYi6jdcmNllV67O9QCySPO3OPDLkY2/b2nrjw==}
     engines: {node: '>= 12.6.0'}
     dependencies:
       ansi: 0.3.1
@@ -5347,10 +5334,10 @@ packages:
     resolution: {integrity: sha512-sVAdgSikokHLby6aT0BhkZJvihVgV+W7J6LbRmdnpEMddU5oGLUk9CsEq96M3DnOf0uyXcv4DSJ01xzXDkcIUg==}
     dependencies:
       '@babel/generator': 7.23.6
-      '@babel/parser': 7.23.0
+      '@babel/parser': 7.23.6
       '@babel/template': 7.22.15
-      '@babel/traverse': 7.23.2
-      '@memlab/core': 1.1.25(typescript@5.2.2)
+      '@babel/traverse': 7.23.7
+      '@memlab/core': 1.1.27(typescript@5.2.2)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2
@@ -5372,7 +5359,7 @@ packages:
   /@memlab/heap-analysis@1.0.22(typescript@5.2.2):
     resolution: {integrity: sha512-6OflPn5BQMQxJR20P08k/HihziMW0TAy0cHfX3OJH/zVS+x3FWHrwq2v0Yg+3LuGUtZ+7z+y2VXRM8QgU6pqLQ==}
     dependencies:
-      '@memlab/core': 1.1.25(typescript@5.2.2)
+      '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.25(typescript@5.2.2)
       ansi: 0.3.1
       babar: 0.2.3
@@ -12541,7 +12528,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       '@babel/core': 7.23.7
-      '@babel/parser': 7.23.0
+      '@babel/parser': 7.23.6
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
       semver: 7.5.4
@@ -12807,7 +12794,7 @@ packages:
     resolution: {integrity: sha512-GBEV4GRADeP+qtB2+6u61stea8mGcOT4mCtrYISZwfu9/ISHFJ/5zOMXYbpBE9RsS5+Gb63DW4FgmnKJ79Kf6w==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@babel/code-frame': 7.22.13
+      '@babel/code-frame': 7.23.5
       '@jest/types': 29.6.3
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
@@ -12963,7 +12950,7 @@ packages:
       '@babel/generator': 7.23.6
       '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.23.7)
       '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.23.7)
-      '@babel/types': 7.23.0
+      '@babel/types': 7.23.6
       '@jest/expect-utils': 29.7.0
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
@@ -13679,14 +13666,14 @@ packages:
     dependencies:
       fs-monkey: 1.0.4
 
-  /memlab@1.1.42(typescript@5.2.2):
-    resolution: {integrity: sha512-jjgOOZ+CfG4ZOKX0t6OCibdVB7jlWLgvCE/EoW8QX//2NcQgTbtcPfJh/Jt7tCqotx4NvlfiKQUlgYiRuA2mAQ==}
+  /memlab@1.1.43(typescript@5.2.2):
+    resolution: {integrity: sha512-6YBvKcuKLiOCe5uJH94rPtQD6JLJZoxclOdk2m9lTAaEUkNckWtchWCBl+NFH2BbUlAbnJmKbylnC6WtCBsZ+g==}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@memlab/api': 1.0.24(typescript@5.2.2)
+      '@memlab/api': 1.0.26(typescript@5.2.2)
       '@memlab/cli': 1.0.27(typescript@5.2.2)
-      '@memlab/core': 1.1.25(typescript@5.2.2)
+      '@memlab/core': 1.1.27(typescript@5.2.2)
       '@memlab/e2e': 1.0.25(typescript@5.2.2)
       '@memlab/heap-analysis': 1.0.22(typescript@5.2.2)
       ansi: 0.3.1
@@ -16675,9 +16662,9 @@ packages:
     resolution: {integrity: sha512-omv1DIv5z1kV+zDAEjaDjWSkx8w5TbFp5NZoPwUipwzYVcor/4So9ZU3bUyQ1c8lxY5Q0Es/ztWW7PGjY7to0Q==}
     hasBin: true
     dependencies:
-      '@babel/parser': 7.23.0
-      '@babel/traverse': 7.23.2
-      '@babel/types': 7.23.0
+      '@babel/parser': 7.23.6
+      '@babel/traverse': 7.23.7
+      '@babel/types': 7.23.6
       bent: 7.3.12
       chalk: 4.1.2
       glob: 7.2.3

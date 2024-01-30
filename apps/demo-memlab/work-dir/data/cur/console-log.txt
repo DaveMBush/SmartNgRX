@@ -1,0 +1,60 @@
+Memory usage across all steps:
+9.8 
+8.7 
+7.6 
+6.5 
+5.4 
+4.3 
+3.2 
+2.1 
+1.0 
+    
+
+lightweight parsing /home/dave/code/SmartNgRX/apps/demo-memlab/work-dir/data/cur/s1.heapsnapshot ...
+lightweight parsing /home/dave/code/SmartNgRX/apps/demo-memlab/work-dir/data/cur/s6.heapsnapshot ...
+parsing /home/dave/code/SmartNgRX/apps/demo-memlab/work-dir/data/cur/s7.heapsnapshot ...
+calculating basic meta info...
+building reference index...
+building referrers index...
+propagating detachedness state...
+building node index...
+building location index...
+building extra meta info...
+identifying snapshot engine...
+annotating shortest path for all nodes
+calculating dominators and retained sizes .
+calculating dominators and retained sizes ..
+calculating dominators and retained sizes ...
+calculating dominators and retained sizes .
+calculating dominators and retained sizes ..
+calculating dominators and retained sizes ...
+marking all detached Fiber nodes...
+marking alternate Fiber nodes...
+Clustering leak traces
+
+MemLab found 1 leak(s)
+Number of clusters loaded: 0
+Diffing clusters
+
+0 stale clusters
+1 new clusters
+1 clusters in total
+
+--Similar leaks in this run: 96--
+--Retained size of leaked objects: 11.7KB--
+[<synthetic>] (synthetic) @1 [8.8MB]
+  --3 (shortcut)--->  [Window / http://localhost:4200] (object) @6253 [87.4KB]
+  --$localize (property)--->  [<closure>] (closure) @102383 [80 bytes]
+  --context (internal)--->  [<function scope>] (object) @51133 [143.9KB]
+  --TRACKED_LVIEWS (variable)--->  [Map] (object) @82045 [260 bytes]
+  --table (internal)--->  [<array>] (array) @374369 [244 bytes]
+  --15 (internal)--->  [Array] (object) @68987 [3.7KB]
+  --11 (element)--->  [BaseAnimationRenderer] (object) @54489 [120 bytes]
+  --engine (property)--->  [_InjectableAnimationEngine] (object) @100433 [26.8KB]
+  --_transitionEngine (property)--->  [TransitionAnimationEngine] (object) @210983 [18.5KB]
+  --collectedLeaveElements (property)--->  [Array] (object) @311177 [92 bytes]
+  --0 (element)--->  [Detached HTMLDivElement] (native) @336821 [964 bytes]
+  --10 (element)--->  [Detached InternalNode] (native) @9580 [112 bytes]
+  --1 (element)--->  [Detached InternalNode] (native) @9582 [112 bytes]
+  --1 (element)--->  [Detached DOMTokenList] (native) @8832 [56 bytes]
+

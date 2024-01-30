@@ -14,7 +14,7 @@
       }
     },
     "memlab": {
-      "command": "memlab run --scenario ./apps/demo-memlab/src/demo/base-line-to-tree.js",
+      "command": "ts-node {projectRoot}/src/memlab/main.ts",
       "inputs": ["{projectRoot}/**.*", "{workspaceRoot}/apps/demo/**/*"]
     }
   }
