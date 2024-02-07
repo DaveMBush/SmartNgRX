@@ -22,11 +22,6 @@ async function common(page: Page) {
   await new Promise((r) => setTimeout(r, 2000));
 }
 
-async function setup(page: Page) {
-  await common(page);
-  await page.mouse.move(0, 0);
-}
-
 async function action(page: Page) {
   // our action makes sure editing a node
   // does not increase the memory usage
@@ -70,8 +65,8 @@ async function back(page: Page) {
 }
 
 export const scenario = {
-  setup,
   action,
   back,
   url,
-} as IScenario;
+  name: 'editRowOnStandard',
+} as IScenario & { name: string };

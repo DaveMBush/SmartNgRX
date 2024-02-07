@@ -1,6 +1,9 @@
 import { IScenario, Page } from '@memlab/core';
 
-export function baseLineToTab(tab: string): IScenario {
+export function baseLineToTab(
+  tab: string,
+  name: string,
+): IScenario & { name: string } {
   function url(): string {
     // start by going to the tree
     return `http://localhost:4200/${tab}`;
@@ -40,11 +43,10 @@ export function baseLineToTab(tab: string): IScenario {
   }
 
   return {
-    //externalLeakFilter,
-    repeat: () => 2,
     setup,
     action,
     back,
     url,
-  } as IScenario;
+    name,
+  } as IScenario & { name: string };
 }

@@ -1,19 +1,25 @@
-import * as memlab from 'memlab';
 import { run } from '@memlab/api';
-import { scenario as demoStandard } from './demo/base-line-to-standard';
-import { scenario as demoNoRefresh } from './demo/base-line-to-no-refresh';
-import { scenario as demoNoRemove } from './demo/base-line-to-no-remove';
-import { scenario as demoNoDirty } from './demo/base-line-to-no-dirty';
-import { scenario as editRowOnStandard } from './demo/edit-row-on-standard';
+import { IScenario } from '@memlab/core';
+import * as memlab from 'memlab';
+
+import { scenario as demoNoDirty } from './scenarios/base-line-to-no-dirty';
+import { scenario as demoNoRefresh } from './scenarios/base-line-to-no-refresh';
+import { scenario as demoNoRemove } from './scenarios/base-line-to-no-remove';
+import { scenario as demoStandard } from './scenarios/base-line-to-standard';
+import { scenario as editRowOnStandard } from './scenarios/edit-row-on-standard';
+import { checkForFalseLeaks } from './src/check-for-false-leaks.function';
+import { displaySummary } from './src/display-summary.function';
+import { LeakErrors } from './src/leak-errors.interface';
+import { LeakItem } from './src/leak-item.interface';
 
 (async function () {
   const workDir = '/home/dave/code/SmartNgRX/apps/demo-memlab/work-dir';
+  const traceDir = workDir + '/data/logger/trace-clusters';
   const skipWarmup = true;
   memlab.config.isHeadfulBrowser = false;
-  memlab.config.isContinuousTest = true;
-  memlab.heapConfig.isCliInteractiveMode = false;
+  memlab.config.muteConsole = true;
 
-  const errors = new Map<string, number>();
+  const errors = new Map<string, LeakErrors>();
   const scenarios = [
     demoStandard,
     demoNoRefresh,
@@ -21,24 +27,39 @@ import { scenario as editRowOnStandard } from './demo/edit-row-on-standard';
     demoNoDirty,
     editRowOnStandard,
   ];
-  for (const scenario of scenarios) {
-    const { leaks, runResult } = await run({
+  for (const s of scenarios) {
+    console.log(`Running scenario: ${s.name}.`);
+    const scenario = { ...s } as IScenario;
+    delete scenario.name;
+    const r = await run({
       scenario,
       skipWarmup,
       workDir,
     });
-    if (leaks.length > 0) {
-      errors.set(scenario.url(), leaks.length);
-    }
+    const leaks = r.leaks as unknown as LeakItem[];
+    let runResult = r.runResult;
+    runResult = await checkForFalseLeaks(
+      leaks,
+      traceDir,
+      runResult,
+      scenario,
+      skipWarmup,
+      workDir,
+      errors,
+      s,
+    );
     runResult.cleanup();
   }
-  if (errors.size > 0) {
-    console.log('Errors found:');
-    errors.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
-    process.exit(1);
-  } else {
-    console.log('No errors found in any scenarios!');
-  }
-})();
+
+  // filter out items with leakCount === 0
+  errors.forEach((value, key) => {
+    if (value.leakCount === 0) {
+      errors.delete(key);
+    }
+  });
+
+  displaySummary(errors);
+})().catch(() => {
+  console.log('Error occurred.');
+  process.exit(1);
+});
