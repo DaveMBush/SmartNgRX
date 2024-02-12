@@ -296,8 +296,8 @@ devDependencies:
     specifier: ^15.2.0
     version: 15.2.0
   memlab:
-    specifier: ^1.1.43
-    version: 1.1.43(typescript@5.3.3)
+    specifier: ^1.1.45
+    version: 1.1.45(typescript@5.3.3)
   ng-packagr:
     specifier: ~17.1.2
     version: 17.1.2(@angular/compiler-cli@17.1.0)(tslib@2.6.2)(typescript@5.3.3)
@@ -4354,15 +4354,39 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@memlab/cli@1.0.27(typescript@5.3.3):
-    resolution: {integrity: sha512-OitKfT2F+3kwHzdSp3gLyoyHuTwL3PoDl7hma2OtDogZXuD/PmZt/l7Bczb0XNU2fU5aj5szttnM46drbDoLRw==}
+  /@memlab/api@1.0.27(typescript@5.3.3):
+    resolution: {integrity: sha512-cLpEoxPU9sz00mQC685h57TT65izUosk1DTTNxG3rFYr9ZO5rUq29FeKxpdXafxdP0xTHfHlyIkEelZuu6c64Q==}
+    dependencies:
+      '@memlab/core': 1.1.28(typescript@5.3.3)
+      '@memlab/e2e': 1.0.28(typescript@5.3.3)
+      '@memlab/heap-analysis': 1.0.25(typescript@5.3.3)
+      ansi: 0.3.1
+      babar: 0.2.3
+      chalk: 4.1.2
+      fs-extra: 4.0.3
+      minimist: 1.2.8
+      puppeteer: 21.5.2(typescript@5.3.3)
+      puppeteer-core: 21.5.2
+      string-width: 4.2.3
+      util.promisify: 1.1.2
+      xvfb: 0.4.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /@memlab/cli@1.0.30(typescript@5.3.3):
+    resolution: {integrity: sha512-U5S3sZ+XPi/tQXEhztZ2iuk7Zcn6yEnV3Sofb4j7zTZDl789koqlyx2dxAI3lfnvIT0GHBCsEbegRgmBjv+wKA==}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@memlab/api': 1.0.26(typescript@5.3.3)
-      '@memlab/core': 1.1.27(typescript@5.3.3)
-      '@memlab/e2e': 1.0.25(typescript@5.3.3)
-      '@memlab/heap-analysis': 1.0.22(typescript@5.3.3)
+      '@memlab/api': 1.0.27(typescript@5.3.3)
+      '@memlab/core': 1.1.28(typescript@5.3.3)
+      '@memlab/e2e': 1.0.28(typescript@5.3.3)
+      '@memlab/heap-analysis': 1.0.25(typescript@5.3.3)
       ansi: 0.3.1
       babar: 0.2.3
       blessed: 0.1.81
@@ -4404,6 +4428,28 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@memlab/core@1.1.28(typescript@5.3.3):
+    resolution: {integrity: sha512-ew1ohhZAzmDreEow3A8Nl/fNHfUBh+DVzO8Y1sKfUhF1/eun025LUeV9uNNRVmxYaOb1nOVHAUhPtfrrh94TQQ==}
+    engines: {node: '>= 12.6.0'}
+    dependencies:
+      ansi: 0.3.1
+      babar: 0.2.3
+      chalk: 4.1.2
+      fs-extra: 4.0.3
+      minimist: 1.2.8
+      puppeteer: 21.5.2(typescript@5.3.3)
+      puppeteer-core: 21.5.2
+      string-width: 4.2.3
+      util.promisify: 1.1.2
+      xvfb: 0.4.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
   /@memlab/e2e@1.0.25(typescript@5.3.3):
     resolution: {integrity: sha512-sVAdgSikokHLby6aT0BhkZJvihVgV+W7J6LbRmdnpEMddU5oGLUk9CsEq96M3DnOf0uyXcv4DSJ01xzXDkcIUg==}
     dependencies:
@@ -4411,7 +4457,33 @@ packages:
       '@babel/parser': 7.23.6
       '@babel/template': 7.22.15
       '@babel/traverse': 7.23.7
-      '@memlab/core': 1.1.27(typescript@5.3.3)
+      '@memlab/core': 1.1.28(typescript@5.3.3)
+      ansi: 0.3.1
+      babar: 0.2.3
+      chalk: 4.1.2
+      fs-extra: 4.0.3
+      minimist: 1.2.8
+      puppeteer: 21.5.2(typescript@5.3.3)
+      puppeteer-core: 21.5.2
+      string-width: 4.2.3
+      util.promisify: 1.1.2
+      xvfb: 0.4.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /@memlab/e2e@1.0.28(typescript@5.3.3):
+    resolution: {integrity: sha512-IKlO7H9UnoBWhGN68EQjT1tqCaJDFo6BPXB+sYUl1elxsENP+9f2dtEZbsHAts3txw/X0uXM90qpZTVm5MpFyA==}
+    dependencies:
+      '@babel/generator': 7.23.6
+      '@babel/parser': 7.23.6
+      '@babel/template': 7.22.15
+      '@babel/traverse': 7.23.7
+      '@memlab/core': 1.1.28(typescript@5.3.3)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2
@@ -4433,8 +4505,31 @@ packages:
   /@memlab/heap-analysis@1.0.22(typescript@5.3.3):
     resolution: {integrity: sha512-6OflPn5BQMQxJR20P08k/HihziMW0TAy0cHfX3OJH/zVS+x3FWHrwq2v0Yg+3LuGUtZ+7z+y2VXRM8QgU6pqLQ==}
     dependencies:
-      '@memlab/core': 1.1.27(typescript@5.3.3)
-      '@memlab/e2e': 1.0.25(typescript@5.3.3)
+      '@memlab/core': 1.1.28(typescript@5.3.3)
+      '@memlab/e2e': 1.0.28(typescript@5.3.3)
+      ansi: 0.3.1
+      babar: 0.2.3
+      chalk: 4.1.2
+      fs-extra: 4.0.3
+      minimist: 1.2.8
+      puppeteer: 21.5.2(typescript@5.3.3)
+      puppeteer-core: 21.5.2
+      string-width: 4.2.3
+      util.promisify: 1.1.2
+      xvfb: 0.4.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: true
+
+  /@memlab/heap-analysis@1.0.25(typescript@5.3.3):
+    resolution: {integrity: sha512-u+hLqP6wN7fYv4Y9+JYkjER6fA+UzOMf85FQ07VXraTt4WwWpPVvJsbD74JksPXLPOdXh29uUXpSHwID07Q5xw==}
+    dependencies:
+      '@memlab/core': 1.1.28(typescript@5.3.3)
+      '@memlab/e2e': 1.0.28(typescript@5.3.3)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2
@@ -12551,16 +12646,16 @@ packages:
     dependencies:
       fs-monkey: 1.0.4
 
-  /memlab@1.1.43(typescript@5.3.3):
-    resolution: {integrity: sha512-6YBvKcuKLiOCe5uJH94rPtQD6JLJZoxclOdk2m9lTAaEUkNckWtchWCBl+NFH2BbUlAbnJmKbylnC6WtCBsZ+g==}
+  /memlab@1.1.45(typescript@5.3.3):
+    resolution: {integrity: sha512-S0kNnkeDL8EYgWb03wPUMsgEtfYMlow+3y2B+rhi2hfSPLN1cqa23YTvGF13Rp1CBbTYWoi0lIzLxa5tKRYQyw==}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@memlab/api': 1.0.26(typescript@5.3.3)
-      '@memlab/cli': 1.0.27(typescript@5.3.3)
-      '@memlab/core': 1.1.27(typescript@5.3.3)
-      '@memlab/e2e': 1.0.25(typescript@5.3.3)
-      '@memlab/heap-analysis': 1.0.22(typescript@5.3.3)
+      '@memlab/api': 1.0.27(typescript@5.3.3)
+      '@memlab/cli': 1.0.30(typescript@5.3.3)
+      '@memlab/core': 1.1.28(typescript@5.3.3)
+      '@memlab/e2e': 1.0.28(typescript@5.3.3)
+      '@memlab/heap-analysis': 1.0.25(typescript@5.3.3)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2
