@@ -12,13 +12,13 @@
     "lint:fix": "nx affected:lint --parallel=3 --fix",
     "format": "nx format:write",
     "format:check": "nx format:check",
-    "test:coverage": "nx affected:test --parallel=3 --max-parallel=3 --coverage",
+    "test:coverage": "nx affected:test --parallel=3 --max-parallel=3 --coverage --skip-nx-cache",
     "test": "nx affected:test --parallel=3 --max-parallel=3",
     "dupcheck": "pnpm jscpd",
     "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
     "prepare": "is-ci || husky install",
     "postinstall": "pnpm dlx prisma migrate dev",
-    "memlab": "ts-node ./apps/demo-memlab/src/memlab/main.ts"
+    "memlab": "tsx ./apps/demo-memlab/src/memlab/main.ts"
   },
   "prisma": {
     "seed": "pnpm ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -71,6 +71,7 @@
     "reflect-metadata": "^0.2.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
+    "tsx": "^4.7.1",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

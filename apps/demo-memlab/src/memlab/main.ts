@@ -1,5 +1,4 @@
 import { run } from '@memlab/api';
-import { IScenario } from '@memlab/core';
 import * as memlab from 'memlab';
 
 import { scenario as demoNoDirty } from './scenarios/base-line-to-no-dirty';
@@ -11,11 +10,12 @@ import { checkForFalseLeaks } from './src/check-for-false-leaks.function';
 import { displaySummary } from './src/display-summary.function';
 import { LeakErrors } from './src/leak-errors.interface';
 import { LeakItem } from './src/leak-item.interface';
+import { skipWarmup } from './src/skip-warmup.function';
+import { workDirectory } from './src/work-directory.function';
 
 (async function () {
-  const workDir = '/home/dave/code/SmartNgRX/apps/demo-memlab/work-dir';
-  const traceDir = workDir + '/data/logger/trace-clusters';
-  const skipWarmup = true;
+  workDirectory('/home/dave/code/SmartNgRX/apps/demo-memlab/work-dir');
+  skipWarmup(true);
   memlab.config.isHeadfulBrowser = false;
   memlab.config.muteConsole = true;
 
@@ -27,36 +27,29 @@ import { LeakItem } from './src/leak-item.interface';
     demoNoDirty,
     editRowOnStandard,
   ];
-  for (const s of scenarios) {
-    console.log(`Running scenario: ${s.name}.`);
-    const scenario = { ...s } as IScenario;
-    delete scenario.name;
-    const r = await run({
-      scenario,
-      skipWarmup,
-      workDir,
-    });
-    const leaks = r.leaks as unknown as LeakItem[];
+  for (const scenario of scenarios) {
+    console.log(`Running scenario: ${scenario.name}.`);
+    let r: memlab.RunResult;
+    try {
+      r = await run({
+        scenario: {
+          action: scenario.action,
+          back: scenario.back,
+          url: scenario.url,
+          setup: scenario.setup,
+        },
+        skipWarmup: skipWarmup(),
+        workDir: workDirectory(),
+      });
+    } catch (e) {
+      console.log(`Error occurred running scenario: ${scenario.name}.`);
+      console.log(e);
+      continue;
+    }
     let runResult = r.runResult;
-    runResult = await checkForFalseLeaks(
-      leaks,
-      traceDir,
-      runResult,
-      scenario,
-      skipWarmup,
-      workDir,
-      errors,
-      s,
-    );
+    runResult = await checkForFalseLeaks(runResult, scenario, errors);
     runResult.cleanup();
   }
-
-  // filter out items with leakCount === 0
-  errors.forEach((value, key) => {
-    if (value.leakCount === 0) {
-      errors.delete(key);
-    }
-  });
 
   displaySummary(errors);
 })().catch(() => {

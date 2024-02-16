@@ -9,7 +9,9 @@
       },
       "rules": {
         // we need to spit out information to the console as part of this app.
-        "no-console": "off"
+        "no-console": "off",
+        // turns off the Promise restriction because MemLab uses Promises
+        "no-restricted-syntax": "off"
       },
       "extends": [
         "plugin:@nx/angular",

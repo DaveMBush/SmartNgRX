@@ -11,10 +11,6 @@ export function compareLines(
     if (failMap.has(targetI)) {
       continue;
     }
-    if (targetI === foundLeakTrace.length) {
-      failMap.set(targetI, i);
-      continue;
-    }
     const targetLine = cleanUpString(foundLeakTrace[targetI][i]);
     if (targetLine !== sourceLine) {
       failMap.set(targetI, i);

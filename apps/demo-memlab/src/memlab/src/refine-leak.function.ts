@@ -3,12 +3,14 @@ import { LeakItem } from './leak-item.interface';
 
 export function refineLeak(
   sourceLeakTraceSummary: string,
-  foundLeak: LeakItem[],
+  foundLeaks: LeakItem[],
 ): LeakItem | null {
   const failMap = new Map<number, number>();
   const sourceLeakTrace = sourceLeakTraceSummary.split('\n');
 
-  const foundLeakTrace = foundLeak.map((lt) => lt.leakTraceSummary.split('\n'));
+  const foundLeakTrace = foundLeaks.map((lt) =>
+    lt.leakTraceSummary.split('\n'),
+  );
   // eslint-disable-next-line no-constant-condition -- easy way to do a while and increment i.
   for (let i = 0; true; i++) {
     if (i === sourceLeakTrace.length) {
@@ -21,7 +23,7 @@ export function refineLeak(
   let maxFailIndex = 0;
   for (let targetI = 0; targetI < foundLeakTrace.length; targetI++) {
     if (!failMap.has(targetI)) {
-      return foundLeak[targetI];
+      return foundLeaks[targetI];
     }
     const currentFail = failMap.get(targetI)!;
     if (currentFail > maxFail) {
@@ -37,5 +39,5 @@ export function refineLeak(
     console.log('Multiple traces failed at the same location.');
     return null;
   }
-  return foundLeak[maxFailIndex];
+  return foundLeaks[maxFailIndex];
 }
