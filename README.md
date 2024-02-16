@@ -66,6 +66,13 @@ All the documentation can be found at [SmartNgRX Documentation](https://davembus
 - start the client with `pnpm run start`
 - open a browser to `http://localhost:4200`
 
+> [!NOTE]
+> If you get an error about file watcher running out of file handles, you may need to increase the number of file handles available to the system. In Ubuntu and similar linux systems, including WSL, you can do this by running:
+
+```bash
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
+
 ## How to run the documentation project
 
 - Checkout the project (if you haven't already)
