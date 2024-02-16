@@ -1,4 +1,4 @@
-import { Store } from '@ngrx/store';
+import type { Store } from '@ngrx/store';
 
 /**
  * This code allows us to make the store globally available without using dependency injection.
