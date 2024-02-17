@@ -33,7 +33,10 @@ describe('displaySummary', () => {
   describe('when one error has a leakCount === 2', () => {
     beforeEach(() => {
       errors.set('foo', { leakCount: 0 } as LeakErrors);
-      errors.set('bar', { leakCount: 2 } as LeakErrors);
+      errors.set('bar', {
+        leakCount: 2,
+        leaks: [{ leakTraceSummary: 'foo' }],
+      } as LeakErrors);
     });
     it('should display the errors', () => {
       displaySummary(errors);

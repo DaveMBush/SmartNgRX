@@ -6,6 +6,8 @@ export function displaySummary(errors: Map<string, LeakErrors>): void {
   errors.forEach((value, key) => {
     if (value.leakCount === 0) {
       errors.delete(key);
+    } else {
+      value.leaks = value.leaks.filter((leak) => leak.numDuplicates > 0);
     }
   });
 
