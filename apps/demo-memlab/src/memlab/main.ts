@@ -9,7 +9,6 @@ import { scenario as editRowOnStandard } from './scenarios/edit-row-on-standard'
 import { checkForFalseLeaks } from './src/check-for-false-leaks.function';
 import { displaySummary } from './src/display-summary.function';
 import { LeakErrors } from './src/leak-errors.interface';
-import { LeakItem } from './src/leak-item.interface';
 import { skipWarmup } from './src/skip-warmup.function';
 import { workDirectory } from './src/work-directory.function';
 
