@@ -90,8 +90,8 @@ dependencies:
     specifier: 1.6.7
     version: 1.6.7
   better-sqlite3:
-    specifier: ^9.1.1
-    version: 9.1.1
+    specifier: ^9.4.3
+    version: 9.4.3
   cors:
     specifier: ^2.8.5
     version: 2.8.5
@@ -7822,7 +7822,7 @@ packages:
       '@typescript-eslint/types': 6.19.0
       '@typescript-eslint/typescript-estree': 6.19.0(typescript@5.3.3)
       eslint: 8.56.0
-      semver: 7.5.4
+      semver: 7.6.0
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -8727,8 +8727,8 @@ packages:
       is-stream: 2.0.1
     dev: true
 
-  /better-sqlite3@9.1.1:
-    resolution: {integrity: sha512-FhW7bS7cXwkB2SFnPJrSGPmQerVSCzwBgmQ1cIRcYKxLsyiKjljzCbyEqqhYXo5TTBqt5BISiBj2YE2Sy2ynaA==}
+  /better-sqlite3@9.4.3:
+    resolution: {integrity: sha512-ud0bTmD9O3uWJGuXDltyj3R47Nz0OHX8iqPOT5PMspGqlu/qQFn+5S2eFBUCrySpavTjFXbi4EgrfVvPAHlImw==}
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
