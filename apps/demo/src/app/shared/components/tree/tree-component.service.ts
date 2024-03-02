@@ -94,6 +94,12 @@ export class TreeComponentService {
     );
   }
 
+  removeChild(row: TreeNode, parent: TreeNode): void {
+    castTo<ArrayProxy<Department, DepartmentChild>>(
+      parent.node.children,
+    ).remove(row.node, parent.node);
+  }
+
   private isExpanded(node: TreeNode): boolean {
     return this.expandMap.get(node.level + ':' + node.node.id) ?? false;
   }

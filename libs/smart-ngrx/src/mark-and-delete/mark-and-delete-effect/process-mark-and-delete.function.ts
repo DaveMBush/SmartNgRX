@@ -34,11 +34,6 @@ export function processMarkAndDelete(
         );
       }
       if (markDirtyRowIds.length > 0) {
-        // for each id, filter out rows that have a child in add mode
-
-        // re-register the rows that have children in add mode for the next run
-
-        // mark the remaining rows as dirty
         store!.dispatch(entityAction.markDirty({ ids: markDirtyRowIds }));
       }
     },

@@ -135,16 +135,54 @@ export class ArrayProxy<
     const parentActions = actionFactory(parentFeature, parentEntity);
     const store = storeFunction();
     assert(!!store, 'store is undefined');
-    let newParent = { ...parent };
+    let newParent: P = { ...parent, isEditing: true };
     const customProxy = castTo<CustomProxy<P>>(parent);
     if (customProxy.getRealRow !== undefined) {
-      newParent = { ...customProxy.getRealRow(), ...customProxy.changes };
+      newParent = {
+        ...customProxy.getRealRow(),
+        ...customProxy.changes,
+        isEditing: true,
+      };
     }
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = [...this.rawArray, childId];
     row.isAdding = true;
     store.dispatch(actions.loadByIdsSuccess({ rows: [row] }));
+    store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
+  }
+
+  /**
+   * This removes a row from the store that was previously added, but not
+   * saved to the server yet.
+   *
+   * @param row the row to remove from the array
+   * @param parent the parent entity that contains the array
+   */
+  remove(row: C, parent: P): void {
+    const { childFeature, childEntity, parentFeature, parentEntity } =
+      this.childDefinition;
+    const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
+      row,
+    ) as string;
+    const actions = actionFactory(childFeature, childEntity);
+    const parentActions = actionFactory(parentFeature, parentEntity);
+    const store = storeFunction();
+    assert(!!store, 'store is undefined');
+    let newParent: P = { ...parent, isEditing: false };
+    const customProxy = castTo<CustomProxy<P>>(parent);
+    if (customProxy.getRealRow !== undefined) {
+      newParent = {
+        ...customProxy.getRealRow(),
+        ...customProxy.changes,
+        isEditing: false,
+      };
+    }
+    castTo<Record<keyof P, string[]>>(newParent)[
+      this.childDefinition.parentField
+    ] = this.rawArray.filter((cid) => cid !== childId);
+    row.isAdding = true;
+    store.dispatch(actions.garbageCollect({ ids: [childId] }));
     store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
   }
 }

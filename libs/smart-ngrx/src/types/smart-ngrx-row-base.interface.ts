@@ -20,4 +20,11 @@ export interface SmartNgRXRowBase {
    * this is used internally.
    */
   isAdding?: boolean;
+
+  /**
+   * This flag indicates that the row is currently being edited
+   * this is used internally.
+   */
+
+  isEditing?: boolean;
 }

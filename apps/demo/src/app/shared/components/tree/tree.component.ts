@@ -15,6 +15,8 @@ import {
 } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 
+import { assert } from '@smart/smart-ngrx/common/assert.function';
+
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
@@ -48,6 +50,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   selectedNode = '';
   editingNode = '';
   addingNode = '';
+  addingParent: TreeNode | null = null;
   addMenuOpenedNode = '';
 
   constructor() {
@@ -81,6 +84,11 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   cancelEdit(node: TreeNode): void {
+    if (this.addingNode === node.level + ':' + node.node.id) {
+      assert(!!this.addingParent, 'addingParent is null');
+      this.sidebarComponentService.removeChild(node, this.addingParent);
+    }
+    this.addingParent = null;
     this.editingNode = '';
     this.addingNode = '';
     node.name = node.node.name;
@@ -108,6 +116,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
       parent,
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;
+    this.addingParent = parent;
   }
 
   ngAfterViewInit(): void {
