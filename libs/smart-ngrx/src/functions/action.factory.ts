@@ -5,9 +5,9 @@ import { psi } from '../common/theta.const';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionGroup } from './action-group.interface';
 
 const actionGroupCache = new Map<string, unknown>();
@@ -29,7 +29,7 @@ const actionGroupCache = new Map<string, unknown>();
 export function actionFactory<
   Feature extends string,
   Entity extends string,
-  T extends MarkAndDelete,
+  T extends SmartNgRXRowBase,
 >(
   feature: StringLiteralSource<Feature>,
   entity: StringLiteralSource<Entity>,
@@ -53,7 +53,7 @@ export function actionFactory<
       'Load By Ids Success': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),
-      Add: props<{ row: T; options?: Record<string, unknown> }>(),
+      Add: props<{ row: T; parentId: string }>(),
       Delete: props<IdProp>(),
     },
   });

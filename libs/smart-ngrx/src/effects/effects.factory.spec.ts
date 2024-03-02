@@ -8,7 +8,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { MarkAndDelete } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { effectsFactory } from './effects.factory';
 import { EffectsFactory } from './effects-factory.interface';

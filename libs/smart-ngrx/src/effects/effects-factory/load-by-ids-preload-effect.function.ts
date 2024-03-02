@@ -3,7 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { mergeMap, of } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
-import { MarkAndDelete } from '../../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferAction } from '../buffer-action.function';
 
 /**
@@ -13,7 +13,7 @@ import { bufferAction } from '../buffer-action.function';
  * @param actions the action group for the source provided
  * @returns the LoadByIdesPreload effect
  */
-export function loadByIdsPreloadEffect<T extends MarkAndDelete>(
+export function loadByIdsPreloadEffect<T extends SmartNgRXRowBase>(
   actions: ActionGroup<T>,
 ) {
   return (

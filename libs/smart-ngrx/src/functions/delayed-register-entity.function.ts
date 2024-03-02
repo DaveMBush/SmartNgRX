@@ -1,8 +1,8 @@
 import { getMarkAndDeleteEntityMap } from '../mark-and-delete/mark-and-delete-entity.map';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { registerEntity } from './register-entity.function';
 import { resolveRemoveTime } from './resolve-remove-time.function';
 
@@ -26,7 +26,7 @@ import { resolveRemoveTime } from './resolve-remove-time.function';
 export function delayedRegisterEntity(
   featureName: string,
   entityName: string,
-  entityDefinition: SmartEntityDefinition<MarkAndDelete>,
+  entityDefinition: SmartEntityDefinition<SmartNgRXRowBase>,
 ): boolean {
   const globalInit = getGlobalMarkAndDeleteInit();
   if (globalInit.removeTime === undefined) {

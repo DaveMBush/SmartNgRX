@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import { MarkAndDelete } from '@smart/smart-ngrx/types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
 
 import { Location } from '../../shared/locations/location.interface';
 import { SharedModule } from '../../shared/shared.module';
@@ -27,7 +27,7 @@ import {
 })
 export class TreeNoRemoveComponent implements OnInit {
   locationId: Observable<number | string> = of('');
-  locations: Observable<(Location & MarkAndDelete)[]> = of([]);
+  locations: Observable<(Location & SmartNgRXRowBase)[]> = of([]);
   location: Observable<Location> | null = null;
   constructor(private store: Store) {}
 

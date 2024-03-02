@@ -12,8 +12,8 @@ import {
 
 import { castTo } from '../../common/cast-to.function';
 import { ActionGroup } from '../../functions/action-group.interface';
-import { MarkAndDelete } from '../../types/mark-and-delete.interface';
 import { RowProp } from '../../types/row-prop.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { manageMaps } from './update-effect/manage-maps.function';
 
@@ -32,7 +32,7 @@ import { manageMaps } from './update-effect/manage-maps.function';
  * @param actions the action group for the source provided
  * @returns the update effect
  */
-export function updateEffect<T extends MarkAndDelete>(
+export function updateEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
 ) {

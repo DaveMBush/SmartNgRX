@@ -6,7 +6,7 @@ import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { store as storeFunction } from '../selector/store.function';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { MarkAndDelete } from '../types/smart-ngrx-row-base.interface';
 import { rowProxy } from './row-proxy.function';
 interface ProxyRow extends MarkAndDelete {
   id: number;

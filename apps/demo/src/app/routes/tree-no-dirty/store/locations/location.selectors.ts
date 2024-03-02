@@ -31,6 +31,8 @@ export const selectLocationsDepartments = createSmartSelector<Location>(
     {
       childFeature: 'tree-no-dirty',
       childEntity: 'departments',
+      parentFeature: 'tree-no-dirty',
+      parentEntity: 'locations',
       parentField: 'departments',
       childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentsChildren),
     },

@@ -1,6 +1,5 @@
-import { createEntityAdapter } from '@ngrx/entity';
-
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { getMarkAndDeleteEntityMap } from './mark-and-delete-entity.map';
 
 /**
@@ -11,19 +10,19 @@ import { getMarkAndDeleteEntityMap } from './mark-and-delete-entity.map';
  * @param rows the rows to register with the mark and delete functionality
  * @returns the rows that were passed in with the `isDirty` flag set to false
  */
-export function registerEntityRows<T extends MarkAndDelete>(
+export function registerEntityRows<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
   rows: T[],
 ): T[] {
-  const adapter = createEntityAdapter<T>();
+  const adapter = adapterForEntity<T>(feature, entity);
   const markAndDeleteMap = getMarkAndDeleteEntityMap(feature, entity);
   return rows.map((row) => {
     const markAndDeleteKey = `${adapter.selectId(row)}`;
     markAndDeleteMap.delete(markAndDeleteKey);
     markAndDeleteMap.set(markAndDeleteKey, Date.now());
     // this is getting called from a reducer so we can't mutate the existing row
-    return { ...row, isDirty: false };
+    return { ...row, isDirty: false, isLoading: false };
   });
 }
 

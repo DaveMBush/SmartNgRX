@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 
 import { ActionGroup } from '../functions/action-group.interface';
 import { rowProxy } from '../row-proxy/row-proxy.function';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Internal function used by `createInnerSmartSelector` use to load the data if
@@ -16,7 +16,7 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
  *
  * @see `createInnerSmartSelector`
  */
-export function realOrMocked<T extends MarkAndDelete>(
+export function realOrMocked<T extends SmartNgRXRowBase>(
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,

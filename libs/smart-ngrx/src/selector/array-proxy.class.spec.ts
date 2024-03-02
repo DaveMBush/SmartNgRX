@@ -2,7 +2,7 @@ import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { registerEntity } from '../functions/register-entity.function';
 import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { MarkAndDelete } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { isArrayProxy } from './is-array-proxy.function';
 

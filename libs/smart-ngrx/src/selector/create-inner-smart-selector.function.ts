@@ -2,8 +2,8 @@ import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { ProxyChild } from '../types/proxy-child.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
 
@@ -30,19 +30,14 @@ import { ParentSelector } from './parent-selector.type';
  */
 export function createInnerSmartSelector<
   P extends object,
-  C extends MarkAndDelete,
+  C extends SmartNgRXRowBase,
   F extends string,
   E extends string,
 >(
   parentSelector: ParentSelector<P>,
-  childDefinition: ProxyChild<P>,
+  childDefinition: ProxyChild<P, F, E>,
 ): MemoizedSelector<object, EntityState<P>> {
-  const {
-    childFeature,
-    childEntity: childFieldName,
-    childSelector,
-    parentField: parentFieldName,
-  } = castTo<ProxyChild<P, F, E>>(childDefinition);
+  const { childSelector, parentField: parentFieldName } = childDefinition;
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {
@@ -53,14 +48,13 @@ export function createInnerSmartSelector<
         const entity: P = { ...newParentEntity.entities[w] } as P;
         newParentEntity.entities[w] = entity;
         const childArray = entity[parentFieldName] as
-          | ArrayProxy<C, F, E>
+          | ArrayProxy<P, C, F, E>
           | string[];
 
-        const arrayProxy = new ArrayProxy<C, F, E>(
+        const arrayProxy = new ArrayProxy<P, C, F, E>(
           childArray,
           child as EntityState<C>,
-          childFeature,
-          childFieldName,
+          childDefinition,
         );
         arrayProxy.init();
         castTo<Record<string, unknown>>(entity)[parentFieldName as string] =

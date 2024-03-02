@@ -3,7 +3,7 @@ import { EntityState } from '@ngrx/entity';
 import { actionFactory } from '../functions/action.factory';
 import { getEntityRegistry } from '../functions/register-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
 
@@ -19,7 +19,7 @@ import { realOrMocked } from './real-or-mocked.function';
  * @returns real or placeholder row
  */
 export function getArrayItem<
-  T extends MarkAndDelete,
+  T extends SmartNgRXRowBase,
   F extends string,
   E extends string,
 >(

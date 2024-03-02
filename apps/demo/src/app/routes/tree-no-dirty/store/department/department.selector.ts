@@ -22,6 +22,8 @@ export const selectDepartmentsChildren = createSmartSelector<Department>(
     {
       childFeature: 'tree-no-dirty',
       childEntity: 'departmentChildren',
+      parentFeature: 'tree-no-dirty',
+      parentEntity: 'departments',
       parentField: 'children',
       childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentChildren),
     },

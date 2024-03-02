@@ -4,11 +4,11 @@ import { TypedAction } from '@ngrx/store/src/models';
 
 import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
-export interface ActionGroup<T extends MarkAndDelete> {
+export interface ActionGroup<T extends SmartNgRXRowBase> {
   load: ActionCreator<`[${any}] Load`, () => TypedAction<`[${any}] Load`>>;
   loadSuccess: ActionCreator<
     `[${any}] Load Success`,
@@ -53,12 +53,9 @@ export interface ActionGroup<T extends MarkAndDelete> {
   >;
   add: ActionCreator<
     `[${any}] Add`,
-    (props: {
+    (props: { row: T; parentId: string }) => TypedAction<`[${any}] Add`> & {
       row: T;
-      options?: Record<string, unknown> | undefined;
-    }) => TypedAction<`[${any}] Add`> & {
-      row: T;
-      options?: Record<string, unknown> | undefined;
+      parentId: string;
     }
   >;
   delete: ActionCreator<

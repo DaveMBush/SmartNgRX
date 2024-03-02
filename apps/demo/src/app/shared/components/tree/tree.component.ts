@@ -47,6 +47,8 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   fullDataSource: TreeNode[] = [];
   selectedNode = '';
   editingNode = '';
+  addingNode = '';
+  addMenuOpenedNode = '';
 
   constructor() {
     this.sidebarComponentService.form = this;
@@ -80,12 +82,32 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   cancelEdit(node: TreeNode): void {
     this.editingNode = '';
+    this.addingNode = '';
     node.name = node.node.name;
   }
 
   saveNode(node: TreeNode): void {
     this.editingNode = '';
     node.node.name = node.name;
+  }
+
+  addMenuOpened(node: TreeNode): void {
+    this.addMenuOpenedNode = node.level + ':' + node.node.id;
+  }
+
+  addMenuClosed(_: TreeNode): void {
+    this.addMenuOpenedNode = '';
+  }
+
+  addChild(parent: TreeNode, type: string): void {
+    if (parent.isExpanded === false) {
+      this.toggleExpand(parent);
+    }
+    this.sidebarComponentService.addChild(
+      { id: type + ':new', name: `New ${type}`, children: [] },
+      parent,
+    );
+    this.addingNode = `${parent.level + 1}:${type}:new`;
   }
 
   ngAfterViewInit(): void {

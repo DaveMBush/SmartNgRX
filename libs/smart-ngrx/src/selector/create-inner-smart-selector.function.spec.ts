@@ -8,7 +8,7 @@ import {
   unregisterEntity,
 } from '../functions/register-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
 import { Entity } from './mocks/entity.interface';
@@ -77,8 +77,8 @@ describe('createInnerSmartSelector', () => {
       EntityState<{ id: string; name: string; children: string[] }>
     >
   >;
-  let child1: EntityState<MarkAndDelete>;
-  let parent: EntityState<MarkAndDelete>;
+  let child1: EntityState<SmartNgRXRowBase>;
+  let parent: EntityState<SmartNgRXRowBase>;
   let result: EntityState<{ id: string; name: string; children: string[] }>;
   function commonSetup() {
     registerEntity('feature', 'entityName', {
@@ -106,7 +106,7 @@ describe('createInnerSmartSelector', () => {
         childEntity: castTo<StringLiteralSource<string>>('entityName'),
         childSelector: jest.fn() as unknown as MemoizedSelector<
           object,
-          EntityState<MarkAndDelete>
+          EntityState<SmartNgRXRowBase>
         >,
         parentField: 'children',
       },

@@ -3,7 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
-import { MarkAndDelete } from '../../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferAction } from '../buffer-action.function';
 import { EffectService } from '../effect-service';
 
@@ -14,7 +14,7 @@ import { EffectService } from '../effect-service';
  * @param actions the action group for the source provided
  * @returns the loadByIds effect
  */
-export function loadByIdsEffect<T extends MarkAndDelete>(
+export function loadByIdsEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
 ) {

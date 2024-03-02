@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { actionFactory } from '../..';
-import { MarkAndDelete } from '../../types/mark-and-delete.interface';
+import { MarkAndDelete } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { updateEffect } from './update-effect.function';
 

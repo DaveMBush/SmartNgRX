@@ -1,16 +1,16 @@
 import { EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 
-import { MarkAndDelete } from './mark-and-delete.interface';
+import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 
 /**
  * This type allows us to deal with just the MarkAndDelete part
  * of an entity. This is used internally.
  *
- * @see MarkAndDelete
+ * @see SmartNgRXRowBase
  */
 export type MarkAndDeleteSelector = MemoizedSelector<
   object,
-  EntityState<MarkAndDelete>,
-  DefaultProjectorFn<EntityState<MarkAndDelete>>
+  EntityState<SmartNgRXRowBase>,
+  DefaultProjectorFn<EntityState<SmartNgRXRowBase>>
 >;

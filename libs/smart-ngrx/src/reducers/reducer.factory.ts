@@ -1,14 +1,15 @@
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../functions/action.factory';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
 } from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { defaultRows } from './default-rows.function';
 
 /**
@@ -24,13 +25,13 @@ import { defaultRows } from './default-rows.function';
 export function reducerFactory<
   F extends string,
   E extends string,
-  T extends MarkAndDelete,
+  T extends SmartNgRXRowBase,
 >(
   feature: StringLiteralSource<F>,
   entity: StringLiteralSource<E>,
   defaultRow: (id: string) => T,
 ): ActionReducer<EntityState<T>> {
-  const adapter = createEntityAdapter<T>();
+  const adapter = adapterForEntity<T>(feature, entity);
   const initialState = adapter.getInitialState();
   const actions = actionFactory<F, E, T>(feature, entity);
 
