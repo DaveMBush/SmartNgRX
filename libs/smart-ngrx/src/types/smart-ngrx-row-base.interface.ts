@@ -16,10 +16,10 @@ export interface SmartNgRXRowBase {
    */
   isLoading?: boolean;
   /**
-   * This flag indicates that the row is currently being added
-   * this is used internally.
+   * We use parentId to store the parentId of this row while we are adding it
+   * and to indicate that we are in adding mode. This is used internally.
    */
-  isAdding?: boolean;
+  parentId?: string;
 
   /**
    * This flag indicates that the row is currently being edited

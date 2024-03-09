@@ -1,8 +1,9 @@
-import { Body, Controller, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { ListDTO } from './lists-dto.interface';
+import { Observable, from, switchMap } from 'rxjs';
 
 @Controller('lists')
 export class ListsController {
@@ -14,8 +15,32 @@ export class ListsController {
       where: { id: { in: ids } },
       select: {
         id: true,
+        version: true,
         name: true,
       },
     });
   }
+
+  @Put()
+  update(@Body() list: ListDTO): Observable<ListDTO[]> {
+    return from(
+      this.prisma.docs.update({
+        where: { did: list.id },
+        data: { name: list.name },
+      }),
+    ).pipe(switchMap(async () => this.getByIds([list.id])));
+  }
+
+
+  @Post('add')
+  async add(@Body() list: ListDTO): Promise<ListDTO[]> {
+    const result = await this.prisma.lists.create({
+      data: {
+        name: list.name,
+        departmentId: list.parentId!,
+      },
+    });
+    return this.getByIds([result.id]);
+  }
+
 }

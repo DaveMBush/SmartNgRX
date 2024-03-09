@@ -23,4 +23,10 @@ export class CommonService {
       .put<DepartmentChild[]>(this.path, row)
       .pipe(map((docs) => addIsDirty(docs)));
   }
+
+  add(row: DepartmentChild): Observable<DepartmentChild[]> {
+    return this.http
+      .post<DepartmentChild[]>(this.path+'/add', row)
+      .pipe(map((docs) => addIsDirty(docs)));
+  }
 }

@@ -4,6 +4,8 @@ export interface DocOutDTO {
 }
 
 export interface DocInDTO {
-  id: string;
+  id?: string;
   name: string;
+  parentId?: string;
+  version: number;
 }

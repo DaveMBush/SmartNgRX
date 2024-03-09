@@ -22,14 +22,19 @@ export function getArrayItem<
   T extends SmartNgRXRowBase,
   F extends string,
   E extends string,
+  PF extends string,
+  PE extends string
 >(
   entityState: EntityState<T>,
   id: string,
   feature: StringLiteralSource<F>,
   entity: StringLiteralSource<E>,
+  parentFeature: StringLiteralSource<PF>,
+  parentEntity: StringLiteralSource<PE>,
 ): T {
   const registry = getEntityRegistry(feature, entity);
   ensureDataLoaded(entityState, id, feature, entity);
   const actions = actionFactory(feature, entity);
-  return realOrMocked(entityState, id, registry.defaultRow(id), actions) as T;
+  const parentActions = actionFactory(parentFeature, parentEntity);
+  return realOrMocked(entityState, id, registry.defaultRow(id), actions, parentActions) as T;
 }

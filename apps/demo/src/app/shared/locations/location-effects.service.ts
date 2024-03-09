@@ -9,6 +9,7 @@ import { Location } from './location.interface';
 
 @Injectable()
 export class LocationEffectsService extends EffectService<Location> {
+  apiLocation = './api/locations';
   constructor(
     private http: HttpClient,
     private store: Store,
@@ -17,7 +18,7 @@ export class LocationEffectsService extends EffectService<Location> {
   }
 
   override load: () => Observable<Location[]> = () => {
-    return this.http.get<Location[]>('./api/locations');
+    return this.http.get<Location[]>(this.apiLocation);
   };
 
   override loadByIds: (ids: string[]) => Observable<Location[]> = (
@@ -31,7 +32,13 @@ export class LocationEffectsService extends EffectService<Location> {
     newRow: Location,
   ) => Observable<Location[]> = (oldRow: Location, newRow: Location) => {
     return this.http
-      .put<Location[]>('./api/locations', newRow)
+      .put<Location[]>(this.apiLocation, newRow)
       .pipe(catchError(() => of([oldRow])));
-  };
+    };
+
+  override add: (row: Location) => Observable<Location[]> = (
+    row: Location
+  ) => {
+    return this.http.post<Location[]>(this.apiLocation, row);
+  }
 }

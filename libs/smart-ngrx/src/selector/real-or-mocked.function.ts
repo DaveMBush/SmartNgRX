@@ -16,16 +16,17 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  *
  * @see `createInnerSmartSelector`
  */
-export function realOrMocked<T extends SmartNgRXRowBase>(
+export function realOrMocked<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase>(
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,
   actions: ActionGroup<T>,
+  parentActions: ActionGroup<P>
 ): T {
   const record = entityState.entities;
   const row = record[id];
   if (row === undefined) {
     return { ...defaultObject, id };
   }
-  return rowProxy(row, actions);
+  return rowProxy(row, actions, parentActions);
 }

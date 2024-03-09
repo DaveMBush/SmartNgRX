@@ -6,6 +6,10 @@ import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
+ * CustomProxy wraps the row so we can intercept changes to it
+ * and fire off the appropriate actions to update the store and
+ * the server.
+ *
  * Since proxying the row directly will cause the setter to throw
  * an error when the NgRX rules are turned on that disallow mutating
  * the row directly, we need to wrap the row in our own class that
@@ -13,7 +17,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  * to type T (above) the rest of our code still believes it is working
  * with the original row.
  */
-export class CustomProxy<T extends SmartNgRXRowBase> {
+export class CustomProxy<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase> {
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
 
@@ -28,6 +32,7 @@ export class CustomProxy<T extends SmartNgRXRowBase> {
   constructor(
     public row: T,
     actions: ActionGroup<T>,
+    parentActions: ActionGroup<P>,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
@@ -51,6 +56,14 @@ export class CustomProxy<T extends SmartNgRXRowBase> {
         const realRow = target.getRealRow();
         const store = storeFunction();
         assert(!!store, 'store is undefined');
+        if (realRow.parentId !== undefined) {
+          store.dispatch(actions.add({
+            row: realRow,
+            parentId: realRow.parentId,
+            parentActions: castTo<ActionGroup<SmartNgRXRowBase>>(parentActions),
+          }));
+          return true;
+        }
         store.dispatch(
           actions.update({
             new: { row: { ...realRow, [prop]: value } as T },

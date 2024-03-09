@@ -110,10 +110,10 @@ export class ArrayProxy<
    * store yet.
    */
   getAtIndex(index: number): C {
-    const { childFeature, childEntity } = this.childDefinition;
+    const { parentFeature, parentEntity, childFeature, childEntity } = this.childDefinition;
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
-      return getArrayItem<C, F, E>(this.child, id, childFeature, childEntity);
+      return getArrayItem(this.child, id, childFeature, childEntity, parentFeature, parentEntity);
     }
     throw new Error('Index out of bounds');
   }
@@ -125,18 +125,23 @@ export class ArrayProxy<
    * @param row the item to add to the array
    * @param parent the parent entity that contains the array
    */
-  add(row: C, parent: P): void {
+  addToStore(row: C, parent: P): void {
     const { childFeature, childEntity, parentFeature, parentEntity } =
       this.childDefinition;
     const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
       row,
+    ) as string;
+    const parentId = adapterForEntity<P>(parentFeature, parentEntity).selectId(
+      parent,
     ) as string;
     const actions = actionFactory(childFeature, childEntity);
     const parentActions = actionFactory(parentFeature, parentEntity);
     const store = storeFunction();
     assert(!!store, 'store is undefined');
     let newParent: P = { ...parent, isEditing: true };
-    const customProxy = castTo<CustomProxy<P>>(parent);
+    // We aren't using the 2nd generic parameter of CustomProxy, so we just
+    // use the base type of SmartNgRXRowBase here.
+    const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(parent);
     if (customProxy.getRealRow !== undefined) {
       newParent = {
         ...customProxy.getRealRow(),
@@ -144,13 +149,42 @@ export class ArrayProxy<
         isEditing: true,
       };
     }
+    row.parentId = parentId;
+    store.dispatch(actions.loadByIdsSuccess({ rows: [row] }));
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = [...this.rawArray, childId];
-    row.isAdding = true;
-    store.dispatch(actions.loadByIdsSuccess({ rows: [row] }));
     store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
   }
+
+  // we may be moving this code
+  // add(row: C, parent: P): void {
+  //   const { childFeature, childEntity, parentFeature, parentEntity } =
+  //     this.childDefinition;
+  //   const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
+  //     row,
+  //   ) as string;
+  //   const actions = actionFactory(childFeature, childEntity);
+  //   const parentActions = actionFactory(parentFeature, parentEntity);
+  //   const store = storeFunction();
+  //   assert(!!store, 'store is undefined');
+  //   let newParent: P = { ...parent, isEditing: false };
+  //   const customProxy = castTo<CustomProxy<P>>(parent);
+  //   if (customProxy.getRealRow !== undefined) {
+  //     newParent = {
+  //       ...customProxy.getRealRow(),
+  //       ...customProxy.changes,
+  //       isEditing: false,
+  //     };
+  //   }
+  //   castTo<Record<keyof P, string[]>>(newParent)[
+  //     this.childDefinition.parentField
+  //   ] = [...this.rawArray, childId];
+  //   const parentId = adapterForEntity<P>(parentFeature, parentEntity).selectId(newParent) as string;
+  //   row.parentId = undefined;
+
+  //   store.dispatch(actions.add({ row, parentId, parentActions }));
+  // }
 
   /**
    * This removes a row from the store that was previously added, but not
@@ -159,7 +193,7 @@ export class ArrayProxy<
    * @param row the row to remove from the array
    * @param parent the parent entity that contains the array
    */
-  remove(row: C, parent: P): void {
+  removeFromStore(row: C, parent: P): void {
     const { childFeature, childEntity, parentFeature, parentEntity } =
       this.childDefinition;
     const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
@@ -170,7 +204,9 @@ export class ArrayProxy<
     const store = storeFunction();
     assert(!!store, 'store is undefined');
     let newParent: P = { ...parent, isEditing: false };
-    const customProxy = castTo<CustomProxy<P>>(parent);
+    // we aren't using the 2nd generic parameter of CustomProxy, so we just
+    // use the base type of SmartNgRXRowBase here.
+    const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(parent);
     if (customProxy.getRealRow !== undefined) {
       newParent = {
         ...customProxy.getRealRow(),
@@ -181,7 +217,6 @@ export class ArrayProxy<
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = this.rawArray.filter((cid) => cid !== childId);
-    row.isAdding = true;
     store.dispatch(actions.garbageCollect({ ids: [childId] }));
     store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
   }

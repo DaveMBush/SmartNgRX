@@ -95,7 +95,11 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   saveNode(node: TreeNode): void {
+    if (this.addingNode === node.level + ':' + node.node.id) {
+      this.addingParent = null;
+    }
     this.editingNode = '';
+    this.addingNode = '';
     node.node.name = node.name;
   }
 

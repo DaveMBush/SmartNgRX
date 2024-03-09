@@ -88,8 +88,15 @@ export class TreeComponentService {
   }
 
   addChild(row: DepartmentChild, parent: TreeNode): void {
-    castTo<ArrayProxy<Department, DepartmentChild>>(parent.node.children).add(
+    castTo<ArrayProxy<Department, DepartmentChild>>(parent.node.children).addToStore(
       row,
+      parent.node,
+    );
+  }
+
+  saveChild(row: TreeNode, parent: TreeNode): void {
+    castTo<ArrayProxy<Department, DepartmentChild>>(parent.node.children).addToStore(
+      row.node,
       parent.node,
     );
   }
@@ -97,7 +104,7 @@ export class TreeComponentService {
   removeChild(row: TreeNode, parent: TreeNode): void {
     castTo<ArrayProxy<Department, DepartmentChild>>(
       parent.node.children,
-    ).remove(row.node, parent.node);
+    ).removeFromStore(row.node, parent.node);
   }
 
   private isExpanded(node: TreeNode): boolean {

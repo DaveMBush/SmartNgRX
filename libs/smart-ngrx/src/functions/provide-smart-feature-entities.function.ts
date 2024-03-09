@@ -5,7 +5,7 @@ import { ActionReducer, StoreModule } from '@ngrx/store';
 import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
-import { effectsFactory } from '../effects/effects.factory';
+import { effectsFactory } from '../effects/effects.factory.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';

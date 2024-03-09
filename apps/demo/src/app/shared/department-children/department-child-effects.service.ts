@@ -109,5 +109,31 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return updateStream.pipe(catchError((_: unknown) => of([oldRow])));
-  };
+    };
+
+  override add: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
+    row: DepartmentChild
+  ) => {
+    const ids = [row.id];
+    const docIds = filterIds(ids, 'docs:');
+    const folderIds = filterIds(ids, 'folders:');
+    const listIds = filterIds(ids, 'lists:');
+    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+
+    let addStream: Observable<DepartmentChild[]> = of([] as DepartmentChild[]);
+    docIds.forEach(() => {
+      addStream = this.doc.add(row);
+    });
+    folderIds.forEach(() => {
+      addStream = this.folder.add(row);
+    });
+    listIds.forEach(() => {
+      addStream = this.list.add(row);
+    });
+    sprintFolderIds.forEach(() => {
+      addStream = this.sprintFolder.add(row);
+    });
+
+    return addStream;
+  }
 }

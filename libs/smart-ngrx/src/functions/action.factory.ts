@@ -53,7 +53,7 @@ export function actionFactory<
       'Load By Ids Success': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),
-      Add: props<{ row: T; parentId: string }>(),
+      Add: props<{ row: T; parentId: string, parentActions: ActionGroup<SmartNgRXRowBase> }>(),
       Delete: props<IdProp>(),
     },
   });
