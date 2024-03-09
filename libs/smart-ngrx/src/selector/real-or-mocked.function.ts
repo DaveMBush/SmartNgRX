@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 
 import { actionFactory } from '../functions/action.factory';
 import { rowProxy } from '../row-proxy/row-proxy.function';
-import { ProxyChild } from '../types/proxy-child.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
@@ -24,7 +24,7 @@ export function realOrMocked<
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,
-  childDefinition: ProxyChild<P>,
+  childDefinition: ChildDefinition<P>,
 ): T {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;

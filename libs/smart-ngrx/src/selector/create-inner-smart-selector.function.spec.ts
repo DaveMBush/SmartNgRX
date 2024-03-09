@@ -1,8 +1,9 @@
-import { EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import {
   registerEntity,
   unregisterEntity,
@@ -85,6 +86,7 @@ describe('createInnerSmartSelector', () => {
   let parent: EntityState<SmartNgRXRowBase>;
   let result: EntityState<{ id: string; name: string; children: string[] }>;
   function commonSetup() {
+    adapterForEntity('feature', 'entityName', createEntityAdapter());
     registerEntity('feature', 'entityName', {
       markAndDeleteEntityMap: new Map(),
       markAndDeleteInit: {
@@ -108,6 +110,8 @@ describe('createInnerSmartSelector', () => {
       {
         childFeature: castTo<StringLiteralSource<string>>('feature'),
         childEntity: castTo<StringLiteralSource<string>>('entityName'),
+        parentFeature: castTo<StringLiteralSource<string>>('parentFeature'),
+        parentEntity: castTo<StringLiteralSource<string>>('parentEntity'),
         childSelector: jest.fn() as unknown as MemoizedSelector<
           object,
           EntityState<SmartNgRXRowBase>

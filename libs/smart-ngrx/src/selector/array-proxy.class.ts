@@ -8,7 +8,7 @@ import { actionFactory } from '../functions/action.factory';
 import { ActionGroup } from '../functions/action-group.interface';
 import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import { CustomProxy } from '../row-proxy/custom-proxy.class';
-import { ProxyChild } from '../types/proxy-child.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
@@ -21,12 +21,8 @@ import { store as storeFunction } from './store.function';
  *
  * @see `createSmartSelector`
  */
-export class ArrayProxy<
-  P extends object,
-  C extends SmartNgRXRowBase,
-  F extends string = string,
-  E extends string = string,
-> implements ArrayLike<C>
+export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
+  implements ArrayLike<C>
 {
   entityAdapter: EntityAdapter<C>;
   [isProxy] = true;
@@ -41,9 +37,9 @@ export class ArrayProxy<
    *     to get at features, entities and other things we need.
    */
   constructor(
-    private childArray: ArrayProxy<P, C, F, E> | string[],
+    private childArray: ArrayProxy<P, C> | string[],
     private child: EntityState<C>,
-    private childDefinition: ProxyChild<P, F, E>,
+    private childDefinition: ChildDefinition<P>,
   ) {
     const { childFeature, childEntity } = this.childDefinition;
     // needed primarily for adding items to the array
@@ -68,17 +64,15 @@ export class ArrayProxy<
   init(): void {
     // fill childArray with values from entity that we currently have
     if (isArrayProxy<P, C>(this.childArray)) {
-      this.childArray = castTo<ArrayProxy<P, C, F, E>>(
-        this.childArray,
-      ).rawArray;
+      this.childArray = castTo<ArrayProxy<P, C>>(this.childArray).rawArray;
     }
     // at this point, we can be sure that childArray is a string[]
     if (Object.isFrozen(this.childArray)) {
       // unfreeze the original array so we can proxy it.
-      this.childArray = [...(this.childArray as string[])];
+      this.childArray = [...this.childArray];
     }
 
-    this.rawArray = this.childArray as string[];
+    this.rawArray = this.childArray;
     this.childArray = [];
     this.length = this.rawArray.length;
   }
@@ -112,18 +106,9 @@ export class ArrayProxy<
    * store yet.
    */
   getAtIndex(index: number): C {
-    const { parentFeature, parentEntity, childFeature, childEntity } =
-      this.childDefinition;
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
-      return getArrayItem(
-        this.child,
-        id,
-        childFeature,
-        childEntity,
-        parentFeature,
-        parentEntity,
-      );
+      return getArrayItem<C, P>(this.child, id, this.childDefinition);
     }
     throw new Error('Index out of bounds');
   }

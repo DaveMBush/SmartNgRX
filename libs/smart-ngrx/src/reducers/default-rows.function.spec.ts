@@ -13,7 +13,9 @@ describe('default-rows.function.ts', () => {
         entities: {},
       };
       returnedRows = defaultRows(ids, state, defaultRow);
-      expect(returnedRows).toEqual([{ id: '1', isDirty: false }]);
+      expect(returnedRows).toEqual([
+        { id: '1', isDirty: false, isLoading: true },
+      ]);
     });
   });
   describe('when I pass an ID that is in state', () => {
@@ -42,9 +44,9 @@ describe('default-rows.function.ts', () => {
       };
       returnedRows = defaultRows(ids, state, defaultRow);
       expect(returnedRows).toEqual([
-        { id: '2', isDirty: false },
-        { id: '5', isDirty: false },
-        { id: '6', isDirty: false },
+        { id: '2', isDirty: false, isLoading: true },
+        { id: '5', isDirty: false, isLoading: true },
+        { id: '6', isDirty: false, isLoading: true },
       ]);
     });
   });

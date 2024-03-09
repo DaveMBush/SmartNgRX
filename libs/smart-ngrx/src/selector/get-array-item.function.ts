@@ -1,7 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
 import { getEntityRegistry } from '../functions/register-entity.function';
-import { ProxyChild } from '../types/proxy-child.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
@@ -18,12 +18,11 @@ import { realOrMocked } from './real-or-mocked.function';
  */
 export function getArrayItem<
   T extends SmartNgRXRowBase,
-  F extends string,
-  E extends string,
+  P extends SmartNgRXRowBase,
 >(
   entityState: EntityState<T>,
   id: string,
-  childDefinition: ProxyChild<P, F, E>,
+  childDefinition: ChildDefinition<P>,
 ): T {
   const { childFeature, childEntity } = childDefinition;
 

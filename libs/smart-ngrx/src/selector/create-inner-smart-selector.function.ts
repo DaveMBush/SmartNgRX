@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
-import { ProxyChild } from '../types/proxy-child.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
@@ -31,11 +31,9 @@ import { ParentSelector } from './parent-selector.type';
 export function createInnerSmartSelector<
   P extends object,
   C extends SmartNgRXRowBase,
-  F extends string,
-  E extends string,
 >(
   parentSelector: ParentSelector<P>,
-  childDefinition: ProxyChild<P, F, E>,
+  childDefinition: ChildDefinition<P>,
 ): MemoizedSelector<object, EntityState<P>> {
   const { childSelector, parentField: parentFieldName } = childDefinition;
   return castTo<MemoizedSelector<object, EntityState<P>>>(
@@ -48,10 +46,10 @@ export function createInnerSmartSelector<
         const entity: P = { ...newParentEntity.entities[w] } as P;
         newParentEntity.entities[w] = entity;
         const childArray = entity[parentFieldName] as
-          | ArrayProxy<P, C, F, E>
+          | ArrayProxy<P, C>
           | string[];
 
-        const arrayProxy = new ArrayProxy<P, C, F, E>(
+        const arrayProxy = new ArrayProxy<P, C>(
           childArray,
           child as EntityState<C>,
           childDefinition,

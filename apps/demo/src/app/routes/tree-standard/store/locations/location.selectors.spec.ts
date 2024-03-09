@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { createEntityAdapter } from '@ngrx/entity';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { firstValueFrom, take } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
+import { adapterForEntity } from '@smart/smart-ngrx/functions/adapter-for-entity.function';
 import {
   registerEntity,
   unregisterEntity,
@@ -285,6 +287,7 @@ describe('Location Selectors', () => {
           [treeStandardKey]: initialState[treeStandardKey],
           [treeStandardKey2]: initialState[treeStandardKey2],
         });
+        adapterForEntity(treeStandardKey, 'departments', createEntityAdapter());
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
@@ -323,6 +326,8 @@ describe('Location Selectors', () => {
           },
           [treeStandardKey2]: initialState[treeStandardKey2],
         });
+
+        adapterForEntity(treeStandardKey, 'departments', createEntityAdapter());
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
@@ -374,6 +379,8 @@ describe('Location Selectors', () => {
           },
           [treeStandardKey2]: initialState[treeStandardKey2],
         });
+
+        adapterForEntity(treeStandardKey, 'departments', createEntityAdapter());
 
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(

@@ -1,14 +1,19 @@
 import { TestBed } from '@angular/core/testing';
+import { createEntityAdapter } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { store as storeFunction } from '../selector/store.function';
-import { MarkAndDelete } from '../types/smart-ngrx-row-base.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { MarkAndDeleteSelector } from '../types/mark-and-delete-selector.type';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { rowProxy } from './row-proxy.function';
-interface ProxyRow extends MarkAndDelete {
+interface ProxyRow extends SmartNgRXRowBase {
   id: number;
   name: string;
   isDirty?: boolean;
@@ -24,11 +29,19 @@ describe('row-proxy.function.ts', () => {
     isDirty: false,
     children: ['1'],
   };
-  const children = new ArrayProxy(
+  const childDefinition: ChildDefinition<ProxyRow> = {
+    childFeature: castTo<StringLiteralSource<string>>('feature'),
+    childEntity: castTo<StringLiteralSource<string>>('entity'),
+    childSelector: null as unknown as MarkAndDeleteSelector,
+    parentField: 'children',
+    parentFeature: castTo<StringLiteralSource<string>>('parentFeature'),
+    parentEntity: castTo<StringLiteralSource<string>>('parentEntity'),
+  };
+  adapterForEntity('feature', 'entity', createEntityAdapter());
+  const children = new ArrayProxy<ProxyRow, typeof childEntity>(
     ['1'],
     { ids: ['1'], entities: { 1: childEntity } },
-    'feature',
-    'entity',
+    childDefinition,
   );
   children.init();
   const row = { id: '1', name: 'test', isDirty: false, children };
@@ -48,7 +61,16 @@ describe('row-proxy.function.ts', () => {
       'feature',
       'entity',
     );
-    proxyRow = rowProxy<ProxyRow>(castTo<ProxyRow>(row), actions);
+    const parentActions = actionFactory<
+      SmartNgRXRowBase,
+      'parentFeature',
+      'parentEntity'
+    >('parentFeature', 'parentEntity');
+    proxyRow = rowProxy<ProxyRow, SmartNgRXRowBase>(
+      castTo<ProxyRow>(row),
+      actions,
+      parentActions,
+    );
   });
   describe('when I retrieve an unset property', () => {
     it('returns the value from the row', () => {

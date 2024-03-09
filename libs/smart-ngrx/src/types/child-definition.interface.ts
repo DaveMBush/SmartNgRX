@@ -4,7 +4,7 @@ import { MarkAndDeleteSelector } from './mark-and-delete-selector.type';
 /**
  * The definition of how to access the child data from a parent entity.
  */
-export interface ProxyChild<
+export interface ChildDefinition<
   P,
   CF extends string = string,
   CE extends string = string,

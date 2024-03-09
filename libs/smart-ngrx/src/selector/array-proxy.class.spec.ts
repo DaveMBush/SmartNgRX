@@ -1,16 +1,16 @@
+import { createEntityAdapter } from '@ngrx/entity';
+
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import { registerEntity } from '../functions/register-entity.function';
 import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
-import { ProxyChild } from '../types/proxy-child.interface';
-import {
-  MarkAndDelete,
-  SmartNgRXRowBase,
-} from '../types/smart-ngrx-row-base.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { isArrayProxy } from './is-array-proxy.function';
 
-interface TestType extends MarkAndDelete {
+interface TestType extends SmartNgRXRowBase {
   id: string;
   name: string;
 }
@@ -49,16 +49,16 @@ describe('proxyArray', () => {
       markDirtyFetchesNew: true,
     },
   });
+  adapterForEntity('feature', 'entity', createEntityAdapter());
+  adapterForEntity('feature', 'department', createEntityAdapter());
 
-  const arr = new ArrayProxy<
-    TestType,
-    SmartNgRXRowBase,
-    'feature',
-    'department'
-  >(childArray, child, {
+  const arr = new ArrayProxy<TestType, SmartNgRXRowBase>(childArray, child, {
     childFeature: 'feature',
     childEntity: 'department',
-  } as ProxyChild<TestType, 'feature', 'department'>);
+    parentFeature: 'parentFeature',
+    parentEntity: 'parentEntity',
+    parentField: 'children',
+  } as unknown as ChildDefinition<TestType>);
   arr.init();
 
   it('creates an array that proxies to the actual entity', () => {
@@ -84,15 +84,16 @@ describe('proxyArray', () => {
     ).toEqual(['department1', 'department2']);
   });
   describe('if we pass in the proxy as the child', () => {
-    let arr2: ArrayProxy<TestType, 'feature', 'department'>;
+    let arr2: ArrayProxy<TestType, SmartNgRXRowBase>;
     beforeEach(() => {
       // give parent the children from above
-      arr2 = new ArrayProxy<TestType, 'feature', 'department'>(
-        arr,
-        child,
-        'feature',
-        'department',
-      );
+      arr2 = new ArrayProxy<TestType, SmartNgRXRowBase>(arr, child, {
+        childFeature: 'feature',
+        childEntity: 'department',
+        parentFeature: 'parentFeature',
+        parentEntity: 'parentEntity',
+        parentField: 'children',
+      } as unknown as ChildDefinition<TestType>);
       arr2.init();
     });
     it('should not re-proxy the child', () => {

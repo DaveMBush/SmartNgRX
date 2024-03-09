@@ -1,9 +1,11 @@
 import { TestBed } from '@angular/core/testing';
+import { createEntityAdapter } from '@ngrx/entity';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { firstValueFrom, take } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
+import { adapterForEntity } from '@smart/smart-ngrx/functions/adapter-for-entity.function';
 import {
   registerEntity,
   unregisterEntity,
@@ -296,6 +298,12 @@ describe('Location Selectors', () => {
           [treeNoRemoveFeatureKey2]: initialState[treeNoRemoveFeatureKey2],
         });
 
+        adapterForEntity(
+          treeNoRemoveFeatureKey,
+          'departments',
+          createEntityAdapter(),
+        );
+
         // Get the first emitted value from the selector
         const result = (await firstValueFrom(
           store.select(selectLocationsDepartments),
@@ -530,6 +538,13 @@ describe('Location Selectors', () => {
         if (!store) {
           throw new Error(storeNotDefined);
         }
+
+        adapterForEntity(
+          treeNoRemoveFeatureKey,
+          'departments',
+          createEntityAdapter(),
+        );
+
         const result = (await firstValueFrom(
           store.select(selectCurrentLocation),
         )) as Location;

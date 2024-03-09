@@ -8,12 +8,12 @@ import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
-import { MarkAndDelete } from '../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { effectsFactory } from './effects.factory.function';
 import { EffectsFactory } from './effects-factory.interface';
 
-interface MockState extends MarkAndDelete {
+interface MockState extends SmartNgRXRowBase {
   id: string;
   test: string;
 }
@@ -31,6 +31,10 @@ class MockService extends EffectService<MockState> {
 
   update = (oldRow: MockState, _: MockState) => {
     return this.loadByIds([oldRow.id]);
+  };
+
+  add = (row: MockState) => {
+    return this.loadByIds([row.id]);
   };
 }
 

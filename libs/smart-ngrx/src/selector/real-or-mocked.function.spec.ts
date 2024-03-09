@@ -1,4 +1,5 @@
-import { actionFactory } from '../functions/action.factory';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { realOrMocked } from './real-or-mocked.function';
 
 const real = {
@@ -19,9 +20,14 @@ const defaultObject = {
 };
 
 describe('realOrMocked', () => {
-  const actions = actionFactory('feature', 'entity');
+  const childDefinition = {
+    childFeature: 'feature',
+    childEntity: 'entity',
+    parentFeature: 'parentFeature',
+    parentEntity: 'parentEntity',
+  } as unknown as ChildDefinition<SmartNgRXRowBase>;
   it('returns the real value if available', () => {
-    const r = realOrMocked(real, 'department1', defaultObject, actions);
+    const r = realOrMocked(real, 'department1', defaultObject, childDefinition);
 
     expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department1',
@@ -31,7 +37,7 @@ describe('realOrMocked', () => {
   });
 
   it('returns the mocked value if real one is not available', () => {
-    const r = realOrMocked(real, 'department2', defaultObject, actions);
+    const r = realOrMocked(real, 'department2', defaultObject, childDefinition);
 
     expect(r).toEqual({
       id: 'department2',
