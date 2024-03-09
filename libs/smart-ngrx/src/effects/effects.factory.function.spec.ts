@@ -70,7 +70,7 @@ describe('effectsFactory', () => {
   });
 
   it('should return loadSuccess when it processes the load action', () => {
-    const sourceActions = actionFactory<'feature', 'test', MockState>(
+    const sourceActions = actionFactory<MockState, 'feature', 'test'>(
       'feature',
       source,
     );
@@ -85,7 +85,7 @@ describe('effectsFactory', () => {
   });
 
   it('should return loadByIdsSuccess when it processes the loadByIds action', () => {
-    const sourceActions = actionFactory<'feature', 'test', MockState>(
+    const sourceActions = actionFactory<MockState, 'feature', 'test'>(
       'feature',
       source,
     );
@@ -102,7 +102,7 @@ describe('effectsFactory', () => {
   });
 
   it('should return buffer Ids loadByIds within 1ms', () => {
-    const sourceActions = actionFactory<'feature', 'test', MockState>(
+    const sourceActions = actionFactory<MockState, 'feature', 'test'>(
       'feature',
       source,
     );
@@ -125,7 +125,7 @@ describe('effectsFactory', () => {
   });
   describe('when loadByIds is processed by the loadByIdsPreLoad effect', () => {
     it('should return the loadByIdsPreload action', () => {
-      const sourceActions = actionFactory<'feature', 'test', MockState>(
+      const sourceActions = actionFactory<MockState, 'feature', 'test'>(
         'feature',
         source,
       );

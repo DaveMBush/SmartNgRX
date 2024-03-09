@@ -88,17 +88,15 @@ export class TreeComponentService {
   }
 
   addChild(row: DepartmentChild, parent: TreeNode): void {
-    castTo<ArrayProxy<Department, DepartmentChild>>(parent.node.children).addToStore(
-      row,
-      parent.node,
-    );
+    castTo<ArrayProxy<Department, DepartmentChild>>(
+      parent.node.children,
+    ).addToStore(row, parent.node);
   }
 
   saveChild(row: TreeNode, parent: TreeNode): void {
-    castTo<ArrayProxy<Department, DepartmentChild>>(parent.node.children).addToStore(
-      row.node,
-      parent.node,
-    );
+    castTo<ArrayProxy<Department, DepartmentChild>>(
+      parent.node.children,
+    ).addToStore(row.node, parent.node);
   }
 
   removeChild(row: TreeNode, parent: TreeNode): void {

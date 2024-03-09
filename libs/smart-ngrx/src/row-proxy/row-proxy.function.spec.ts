@@ -44,7 +44,7 @@ describe('row-proxy.function.ts', () => {
     store = TestBed.inject(Store) as Store;
     storeFunction(store);
     dispatchSpy = jest.spyOn(store, 'dispatch');
-    const actions = actionFactory<'feature', 'entity', ProxyRow>(
+    const actions = actionFactory<ProxyRow, 'feature', 'entity'>(
       'feature',
       'entity',
     );

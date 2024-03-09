@@ -46,10 +46,14 @@ function itCreatesProxiesForChildrenThatDontExist(
     ],
   ).toBe(true);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department1]?.children).rawArray,
+    castTo<ArrayProxy<Entity, SmartNgRXRowBase>>(
+      result.entities[department1]?.children,
+    ).rawArray,
   ).toEqual(['folder-1', 'folder-2']);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department2]?.children).rawArray,
+    castTo<ArrayProxy<Entity, SmartNgRXRowBase>>(
+      result.entities[department2]?.children,
+    ).rawArray,
   ).toEqual(['folder-3', 'folder-4']);
   expect(
     JSON.parse(JSON.stringify(result.entities[department1]?.children[0])),

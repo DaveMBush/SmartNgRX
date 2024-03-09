@@ -14,12 +14,12 @@ import { CustomProxy } from './custom-proxy.class';
  *
  * @param row the row to wrap
  * @param actions the action group for the feature/entity this will be used to dispatch the update.
+ * @param parentActions the action group of the parent of this row
  * @returns a proxy that will handle updating the row
  */
-export function rowProxy<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase>(
-  row: T,
-  actions: ActionGroup<T>,
-  parentActions: ActionGroup<P>
-): T {
+export function rowProxy<
+  T extends SmartNgRXRowBase,
+  P extends SmartNgRXRowBase,
+>(row: T, actions: ActionGroup<T>, parentActions: ActionGroup<P>): T {
   return castTo<T>(new CustomProxy(row, actions, parentActions));
 }

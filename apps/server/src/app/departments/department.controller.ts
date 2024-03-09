@@ -1,6 +1,6 @@
 import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { firstValueFrom, from, Observable, of } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import { idToString } from '../functions/id-to-string.function';
@@ -77,12 +77,13 @@ export class DepartmentsController {
 
   @Post('add')
   add(@Body() department: DepartmentDTO): Observable<DepartmentDTO[]> {
-    return from(this.prisma.departments.create({
-      data: {
-        name: department.name,
-        locationId: department.parentId!,
-      },
-    })).pipe(switchMap((result) => this.getByIds([result.id])));
+    return from(
+      this.prisma.departments.create({
+        data: {
+          name: department.name,
+          locationId: department.parentId!,
+        },
+      }),
+    ).pipe(switchMap((result) => this.getByIds([result.id])));
   }
-
 }

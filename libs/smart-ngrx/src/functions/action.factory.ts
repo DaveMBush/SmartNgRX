@@ -27,9 +27,9 @@ const actionGroupCache = new Map<string, unknown>();
  * @see `RowsProp`
  */
 export function actionFactory<
-  Feature extends string,
-  Entity extends string,
   T extends SmartNgRXRowBase,
+  Feature extends string = string,
+  Entity extends string = string,
 >(
   feature: StringLiteralSource<Feature>,
   entity: StringLiteralSource<Entity>,
@@ -53,7 +53,11 @@ export function actionFactory<
       'Load By Ids Success': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),
-      Add: props<{ row: T; parentId: string, parentActions: ActionGroup<SmartNgRXRowBase> }>(),
+      Add: props<{
+        row: T;
+        parentId: string;
+        parentActions: ActionGroup<SmartNgRXRowBase>;
+      }>(),
       Delete: props<IdProp>(),
     },
   });

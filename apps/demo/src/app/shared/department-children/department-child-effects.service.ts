@@ -24,13 +24,18 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     return of([] as DepartmentChild[]);
   };
 
+  private sprintFolders = 'sprint-folders:';
+  private docs = 'docs:';
+  private folders = 'folders:';
+  private lists = 'lists:';
+
   override loadByIds: (ids: string[]) => Observable<DepartmentChild[]> = (
     ids: string[],
   ) => {
-    const docIds = filterIds(ids, 'docs:');
-    const folderIds = filterIds(ids, 'folders:');
-    const listIds = filterIds(ids, 'lists:');
-    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+    const docIds = filterIds(ids, this.docs);
+    const folderIds = filterIds(ids, this.folders);
+    const listIds = filterIds(ids, this.lists);
+    const sprintFolderIds = filterIds(ids, this.sprintFolders);
 
     const docStream = loadByIdsForType(this.doc, docIds, 'docs', 'did');
 
@@ -65,6 +70,20 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     );
   };
 
+  bucketId(id: string): {
+    docIds: string[];
+    folderIds: string[];
+    listIds: string[];
+    sprintFolderIds: string[];
+  } {
+    const ids = [id];
+    const docIds = filterIds(ids, this.docs);
+    const folderIds = filterIds(ids, this.folders);
+    const listIds = filterIds(ids, this.lists);
+    const sprintFolderIds = filterIds(ids, this.sprintFolders);
+    return { docIds, folderIds, listIds, sprintFolderIds };
+  }
+
   override update: (
     oldRow: DepartmentChild,
     newRow: DepartmentChild,
@@ -72,11 +91,9 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     oldRow: DepartmentChild,
     newRow: DepartmentChild,
   ) => {
-    const ids = [newRow.id];
-    const docIds = filterIds(ids, 'docs:');
-    const folderIds = filterIds(ids, 'folders:');
-    const listIds = filterIds(ids, 'lists:');
-    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+    const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
+      newRow.id,
+    );
 
     let updateStream: Observable<DepartmentChild[]> = of(
       [] as DepartmentChild[],
@@ -109,16 +126,14 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return updateStream.pipe(catchError((_: unknown) => of([oldRow])));
-    };
+  };
 
   override add: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
-    row: DepartmentChild
+    row: DepartmentChild,
   ) => {
-    const ids = [row.id];
-    const docIds = filterIds(ids, 'docs:');
-    const folderIds = filterIds(ids, 'folders:');
-    const listIds = filterIds(ids, 'lists:');
-    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+    const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
+      row.id,
+    );
 
     let addStream: Observable<DepartmentChild[]> = of([] as DepartmentChild[]);
     docIds.forEach(() => {
@@ -135,5 +150,5 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return addStream;
-  }
+  };
 }

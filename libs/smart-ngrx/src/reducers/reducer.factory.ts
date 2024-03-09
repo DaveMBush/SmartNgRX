@@ -33,7 +33,7 @@ export function reducerFactory<
 ): ActionReducer<EntityState<T>> {
   const adapter = adapterForEntity<T>(feature, entity);
   const initialState = adapter.getInitialState();
-  const actions = actionFactory<F, E, T>(feature, entity);
+  const actions = actionFactory<T, F, E>(feature, entity);
 
   return createReducer(
     initialState,

@@ -45,14 +45,14 @@ export class DepartmentEffectsService extends EffectService<Department> {
           return of([oldRow]);
         }),
       );
-    };
+  };
 
   override add: (row: Department) => Observable<Department[]> = (
-    row: Department
+    row: Department,
   ) => {
     return this.http.post<Department[]>(this.apiDepartments + '/add', row).pipe(
       map((departments) => addIsDirty(departments) as Department[]),
       map(childrenTransform),
     );
-  }
+  };
 }

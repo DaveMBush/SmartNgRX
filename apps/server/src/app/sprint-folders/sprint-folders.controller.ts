@@ -41,5 +41,4 @@ export class SprintFoldersController {
     });
     return this.getByIds([result.id]);
   }
-
 }

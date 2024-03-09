@@ -6,11 +6,11 @@ import { actionFactory } from '../functions/action.factory';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
+import { addEffect } from './effects-factory/add-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
 import { loadEffect } from './effects-factory/load-effect.function';
 import { updateEffect } from './effects-factory/update-effect.function';
-import { addEffect } from './effects-factory/add-effect.function';
 
 /**
  * The effects factory creates a new set of effects for the
@@ -35,7 +35,7 @@ export function effectsFactory<
   entityName: StringLiteralSource<E>,
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
-  const actions = actionFactory<F, E, T>(feature, entityName);
+  const actions = actionFactory<T, F, E>(feature, entityName);
   return castTo<Record<string, FunctionalEffect>>({
     load: createEffect(loadEffect(effectsServiceToken, actions), {
       functional: true,
@@ -49,6 +49,8 @@ export function effectsFactory<
     update: createEffect(updateEffect(effectsServiceToken, actions), {
       functional: true,
     }),
-    add: createEffect(addEffect(effectsServiceToken, actions), { functional: true }),
+    add: createEffect(addEffect(effectsServiceToken, actions), {
+      functional: true,
+    }),
   });
 }

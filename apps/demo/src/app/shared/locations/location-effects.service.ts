@@ -34,11 +34,9 @@ export class LocationEffectsService extends EffectService<Location> {
     return this.http
       .put<Location[]>(this.apiLocation, newRow)
       .pipe(catchError(() => of([oldRow])));
-    };
+  };
 
-  override add: (row: Location) => Observable<Location[]> = (
-    row: Location
-  ) => {
+  override add: (row: Location) => Observable<Location[]> = (row: Location) => {
     return this.http.post<Location[]>(this.apiLocation, row);
-  }
+  };
 }

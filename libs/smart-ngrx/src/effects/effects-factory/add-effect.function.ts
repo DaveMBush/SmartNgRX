@@ -1,10 +1,10 @@
-import { inject,InjectionToken } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects";
-import { catchError, concatMap, EMPTY, map, of } from "rxjs";
+import { inject, InjectionToken } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
+import { catchError, concatMap, map, of } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { EffectService } from "../effect-service";
+import { EffectService } from '../effect-service';
 
 /**
  * This is the effect that handles adding a new row to the store.
@@ -32,16 +32,16 @@ export function addEffect<T extends SmartNgRXRowBase>(
       // it in since we are in an effect that we own?
       concatMap((action) => {
         return effectService.add(action.row).pipe(
-          map((rows) => {
-            return action.parentActions.markDirty({ids: [action.parentId]});
+          map(() => {
+            return action.parentActions.markDirty({ ids: [action.parentId] });
           }),
-          catchError((_, __) => {
-            return of(action.parentActions.markDirty({ids: [action.parentId]}));
-          })
-
+          catchError((_: unknown, __) => {
+            return of(
+              action.parentActions.markDirty({ ids: [action.parentId] }),
+            );
+          }),
         );
-      })
+      }),
     );
   };
-
 }

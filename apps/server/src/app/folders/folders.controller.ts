@@ -1,9 +1,9 @@
 import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { from, Observable, switchMap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { FolderDTO } from './folders-dto.interface';
-import { Observable, from, switchMap } from 'rxjs';
 
 @Controller('folders')
 export class FoldersController {
@@ -31,7 +31,6 @@ export class FoldersController {
     ).pipe(switchMap(async () => this.getByIds([folder.id])));
   }
 
-
   @Post('add')
   async add(@Body() folder: FolderDTO): Promise<FolderDTO[]> {
     const result = await this.prisma.folders.create({
@@ -42,5 +41,4 @@ export class FoldersController {
     });
     return this.getByIds([result.id]);
   }
-
 }

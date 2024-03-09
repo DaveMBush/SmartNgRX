@@ -2,7 +2,11 @@ import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { registerEntity } from '../functions/register-entity.function';
 import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
-import { MarkAndDelete } from '../types/smart-ngrx-row-base.interface';
+import { ProxyChild } from '../types/proxy-child.interface';
+import {
+  MarkAndDelete,
+  SmartNgRXRowBase,
+} from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { isArrayProxy } from './is-array-proxy.function';
 
@@ -46,12 +50,15 @@ describe('proxyArray', () => {
     },
   });
 
-  const arr = new ArrayProxy<TestType, 'feature', 'department'>(
-    childArray,
-    child,
+  const arr = new ArrayProxy<
+    TestType,
+    SmartNgRXRowBase,
     'feature',
-    'department',
-  );
+    'department'
+  >(childArray, child, {
+    childFeature: 'feature',
+    childEntity: 'department',
+  } as ProxyChild<TestType, 'feature', 'department'>);
   arr.init();
 
   it('creates an array that proxies to the actual entity', () => {
@@ -72,10 +79,9 @@ describe('proxyArray', () => {
   });
 
   it('gives access to the raw array', () => {
-    expect(castTo<ArrayProxy<TestType>>(arr).rawArray).toEqual([
-      'department1',
-      'department2',
-    ]);
+    expect(
+      castTo<ArrayProxy<TestType, SmartNgRXRowBase>>(arr).rawArray,
+    ).toEqual(['department1', 'department2']);
   });
   describe('if we pass in the proxy as the child', () => {
     let arr2: ArrayProxy<TestType, 'feature', 'department'>;

@@ -1,7 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionGroup } from '../functions/action-group.interface';
+import { actionFactory } from '../functions/action.factory';
 import { rowProxy } from '../row-proxy/row-proxy.function';
+import { ProxyChild } from '../types/proxy-child.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
@@ -11,22 +12,29 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  * @param entityState the entity used to lookup the id
  * @param id the id to lookup
  * @param defaultObject the default object to return if the id doesn't exist
- * @param actions actions associated with the entity
+ * @param childDefinition the definition of the child object that lets us retrieve the feature and entity names
  * @returns the row from the store or the default object
  *
  * @see `createInnerSmartSelector`
  */
-export function realOrMocked<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase>(
+export function realOrMocked<
+  T extends SmartNgRXRowBase,
+  P extends SmartNgRXRowBase,
+>(
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,
-  actions: ActionGroup<T>,
-  parentActions: ActionGroup<P>
+  childDefinition: ProxyChild<P>,
 ): T {
+  const { childFeature, childEntity, parentFeature, parentEntity } =
+    childDefinition;
+  const actions = actionFactory<T>(childFeature, childEntity);
+  const parentActions = actionFactory<P>(parentFeature, parentEntity);
+
   const record = entityState.entities;
   const row = record[id];
   if (row === undefined) {
     return { ...defaultObject, id };
   }
-  return rowProxy(row, actions, parentActions);
+  return rowProxy<T, P>(row, actions, parentActions);
 }

@@ -17,7 +17,10 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  * to type T (above) the rest of our code still believes it is working
  * with the original row.
  */
-export class CustomProxy<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase> {
+export class CustomProxy<
+  T extends SmartNgRXRowBase,
+  P extends SmartNgRXRowBase,
+> {
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
 
@@ -26,7 +29,7 @@ export class CustomProxy<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase>
    *
    * @param row The row to create the custom proxy for
    * @param actions the action group associated with the row entity
-   *
+   * @param parentActions the action group associated with the parent entity
    * @returns a proxy that will handle updating the row
    */
   constructor(
@@ -57,11 +60,14 @@ export class CustomProxy<T extends SmartNgRXRowBase, P extends SmartNgRXRowBase>
         const store = storeFunction();
         assert(!!store, 'store is undefined');
         if (realRow.parentId !== undefined) {
-          store.dispatch(actions.add({
-            row: realRow,
-            parentId: realRow.parentId,
-            parentActions: castTo<ActionGroup<SmartNgRXRowBase>>(parentActions),
-          }));
+          store.dispatch(
+            actions.add({
+              row: realRow,
+              parentId: realRow.parentId,
+              parentActions:
+                castTo<ActionGroup<SmartNgRXRowBase>>(parentActions),
+            }),
+          );
           return true;
         }
         store.dispatch(

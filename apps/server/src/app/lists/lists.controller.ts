@@ -1,9 +1,9 @@
 import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { from, Observable, switchMap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { ListDTO } from './lists-dto.interface';
-import { Observable, from, switchMap } from 'rxjs';
 
 @Controller('lists')
 export class ListsController {
@@ -31,7 +31,6 @@ export class ListsController {
     ).pipe(switchMap(async () => this.getByIds([list.id])));
   }
 
-
   @Post('add')
   async add(@Body() list: ListDTO): Promise<ListDTO[]> {
     const result = await this.prisma.lists.create({
@@ -42,5 +41,4 @@ export class ListsController {
     });
     return this.getByIds([result.id]);
   }
-
 }

@@ -1,9 +1,11 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
 
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { actionFactory } from '../functions/action.factory';
+import { ActionGroup } from '../functions/action-group.interface';
 import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import { CustomProxy } from '../row-proxy/custom-proxy.class';
 import { ProxyChild } from '../types/proxy-child.interface';
@@ -110,12 +112,39 @@ export class ArrayProxy<
    * store yet.
    */
   getAtIndex(index: number): C {
-    const { parentFeature, parentEntity, childFeature, childEntity } = this.childDefinition;
+    const { parentFeature, parentEntity, childFeature, childEntity } =
+      this.childDefinition;
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
-      return getArrayItem(this.child, id, childFeature, childEntity, parentFeature, parentEntity);
+      return getArrayItem(
+        this.child,
+        id,
+        childFeature,
+        childEntity,
+        parentFeature,
+        parentEntity,
+      );
     }
     throw new Error('Index out of bounds');
+  }
+
+  /**
+   * grabs common actions and store used by other methods
+   *
+   * @returns actions, parentActions, and store
+   */
+  getActionsAndStore(): {
+    actions: ActionGroup<SmartNgRXRowBase>;
+    parentActions: ActionGroup<SmartNgRXRowBase>;
+    store: Store;
+  } {
+    const { childFeature, childEntity, parentFeature, parentEntity } =
+      this.childDefinition;
+    const actions = actionFactory(childFeature, childEntity);
+    const parentActions = actionFactory(parentFeature, parentEntity);
+    const store = storeFunction();
+    assert(!!store, 'store is undefined');
+    return { actions, parentActions, store };
   }
 
   /**
@@ -134,10 +163,7 @@ export class ArrayProxy<
     const parentId = adapterForEntity<P>(parentFeature, parentEntity).selectId(
       parent,
     ) as string;
-    const actions = actionFactory(childFeature, childEntity);
-    const parentActions = actionFactory(parentFeature, parentEntity);
-    const store = storeFunction();
-    assert(!!store, 'store is undefined');
+    const { actions, parentActions, store } = this.getActionsAndStore();
     let newParent: P = { ...parent, isEditing: true };
     // We aren't using the 2nd generic parameter of CustomProxy, so we just
     // use the base type of SmartNgRXRowBase here.
@@ -157,35 +183,6 @@ export class ArrayProxy<
     store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
   }
 
-  // we may be moving this code
-  // add(row: C, parent: P): void {
-  //   const { childFeature, childEntity, parentFeature, parentEntity } =
-  //     this.childDefinition;
-  //   const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
-  //     row,
-  //   ) as string;
-  //   const actions = actionFactory(childFeature, childEntity);
-  //   const parentActions = actionFactory(parentFeature, parentEntity);
-  //   const store = storeFunction();
-  //   assert(!!store, 'store is undefined');
-  //   let newParent: P = { ...parent, isEditing: false };
-  //   const customProxy = castTo<CustomProxy<P>>(parent);
-  //   if (customProxy.getRealRow !== undefined) {
-  //     newParent = {
-  //       ...customProxy.getRealRow(),
-  //       ...customProxy.changes,
-  //       isEditing: false,
-  //     };
-  //   }
-  //   castTo<Record<keyof P, string[]>>(newParent)[
-  //     this.childDefinition.parentField
-  //   ] = [...this.rawArray, childId];
-  //   const parentId = adapterForEntity<P>(parentFeature, parentEntity).selectId(newParent) as string;
-  //   row.parentId = undefined;
-
-  //   store.dispatch(actions.add({ row, parentId, parentActions }));
-  // }
-
   /**
    * This removes a row from the store that was previously added, but not
    * saved to the server yet.
@@ -194,15 +191,11 @@ export class ArrayProxy<
    * @param parent the parent entity that contains the array
    */
   removeFromStore(row: C, parent: P): void {
-    const { childFeature, childEntity, parentFeature, parentEntity } =
-      this.childDefinition;
+    const { childFeature, childEntity } = this.childDefinition;
     const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
       row,
     ) as string;
-    const actions = actionFactory(childFeature, childEntity);
-    const parentActions = actionFactory(parentFeature, parentEntity);
-    const store = storeFunction();
-    assert(!!store, 'store is undefined');
+    const { actions, parentActions, store } = this.getActionsAndStore();
     let newParent: P = { ...parent, isEditing: false };
     // we aren't using the 2nd generic parameter of CustomProxy, so we just
     // use the base type of SmartNgRXRowBase here.
