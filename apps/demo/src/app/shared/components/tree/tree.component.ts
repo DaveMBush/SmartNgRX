@@ -15,8 +15,6 @@ import {
 } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 
-import { assert } from '@smart/smart-ngrx/common/assert.function';
-
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
@@ -30,7 +28,7 @@ import { TreeNode } from './tree-node.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeComponent implements OnChanges, AfterViewInit {
-  private sidebarComponentService = inject(TreeComponentService);
+  private treeComponentService = inject(TreeComponentService);
   @Input() locations: Location[] | null = [];
   @Input() locationId: number | string | null = '';
   @Input() location: Location | null = null;
@@ -54,7 +52,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   addMenuOpenedNode = '';
 
   constructor() {
-    this.sidebarComponentService.form = this;
+    this.treeComponentService.form = this;
   }
 
   selectionChanged(event: MatSelectChange): void {
@@ -66,12 +64,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   };
 
   toggleExpand(node: TreeNode): void {
-    this.sidebarComponentService.toggleExpand(node);
+    this.treeComponentService.toggleExpand(node);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['location'] !== undefined) {
-      this.sidebarComponentService.applyRange();
+      this.treeComponentService.applyRange();
     }
   }
 
@@ -84,20 +82,11 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   cancelEdit(node: TreeNode): void {
-    if (this.addingNode === node.level + ':' + node.node.id) {
-      assert(!!this.addingParent, 'addingParent is null');
-      this.sidebarComponentService.removeChild(node, this.addingParent);
-    }
-    this.addingParent = null;
-    this.editingNode = '';
-    this.addingNode = '';
-    node.name = node.node.name;
+    this.treeComponentService.cancelEdit(node);
   }
 
   saveNode(node: TreeNode): void {
-    if (this.addingNode === node.level + ':' + node.node.id) {
-      this.addingParent = null;
-    }
+    this.addingParent = null;
     this.editingNode = '';
     this.addingNode = '';
     node.node.name = node.name;
@@ -112,10 +101,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   addChild(parent: TreeNode, type: string): void {
-    if (parent.isExpanded === false) {
-      this.toggleExpand(parent);
-    }
-    this.sidebarComponentService.addChild(
+    this.treeComponentService.addChild(
       { id: type + ':new', name: `New ${type}`, children: [] },
       parent,
     );
@@ -126,7 +112,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     this.virtualScroll.renderedRangeStream.subscribe((range) => {
       this.range = range;
-      this.sidebarComponentService.applyRange();
+      this.treeComponentService.applyRange();
     });
   }
 }

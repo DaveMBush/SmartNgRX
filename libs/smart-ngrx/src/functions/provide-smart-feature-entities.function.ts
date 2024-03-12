@@ -1,17 +1,17 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
-import { effectsFactory } from '../effects/effects.factory.function';
+import { effectsFactory } from '../effects/effects-factory.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { adapterForEntity } from './adapter-for-entity.function';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { registerAdapterForDefinition } from './register-adapter-for-definition.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -45,19 +45,7 @@ export function provideSmartFeatureEntities<F extends string>(
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
   forNext(entityDefinitions, (entityDefinition) => {
-    if (entityDefinition.entityAdapter !== undefined) {
-      adapterForEntity(
-        featureName,
-        entityDefinition.entityName,
-        entityDefinition.entityAdapter,
-      );
-    } else {
-      adapterForEntity(
-        featureName,
-        entityDefinition.entityName,
-        createEntityAdapter(),
-      );
-    }
+    registerAdapterForDefinition(featureName, entityDefinition);
     const { entityName, effectServiceToken, defaultRow } = entityDefinition;
     const effects = effectsFactory(
       featureName,
