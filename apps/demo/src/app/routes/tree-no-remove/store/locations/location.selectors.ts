@@ -4,7 +4,7 @@ import { createSelector } from '@ngrx/store';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { createSmartSelector } from '@smart/smart-ngrx/selector/create-smart-selector.function';
-import { MarkAndDeleteSelector } from '@smart/smart-ngrx/types/mark-and-delete-selector.type';
+import { SmartNgRXRowBaseSelector } from '@smart/smart-ngrx/types/smart-ngrx-row-base-selector.type';
 
 import { Location } from '../../../../shared/locations/location.interface';
 import { selectCurrentLocationId } from '../current-location/current-location.selector';
@@ -34,7 +34,9 @@ export const selectLocationsDepartments = createSmartSelector<Location>(
       parentFeature: 'tree-no-remove',
       parentEntity: 'locations',
       parentField: 'departments',
-      childSelector: castTo<MarkAndDeleteSelector>(selectDepartmentsChildren),
+      childSelector: castTo<SmartNgRXRowBaseSelector>(
+        selectDepartmentsChildren,
+      ),
     },
   ],
 );

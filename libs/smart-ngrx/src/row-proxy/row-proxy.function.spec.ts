@@ -10,8 +10,8 @@ import { StringLiteralSource } from '../ngrx-internals/string-literal-source.typ
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { store as storeFunction } from '../selector/store.function';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { MarkAndDeleteSelector } from '../types/mark-and-delete-selector.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBaseSelector } from '../types/smart-ngrx-row-base-selector.type';
 import { rowProxy } from './row-proxy.function';
 interface ProxyRow extends SmartNgRXRowBase {
   id: number;
@@ -32,7 +32,7 @@ describe('row-proxy.function.ts', () => {
   const childDefinition: ChildDefinition<ProxyRow> = {
     childFeature: castTo<StringLiteralSource<string>>('feature'),
     childEntity: castTo<StringLiteralSource<string>>('entity'),
-    childSelector: null as unknown as MarkAndDeleteSelector,
+    childSelector: null as unknown as SmartNgRXRowBaseSelector,
     parentField: 'children',
     parentFeature: castTo<StringLiteralSource<string>>('parentFeature'),
     parentEntity: castTo<StringLiteralSource<string>>('parentEntity'),

@@ -1,6 +1,6 @@
-import { MarkAndDelete } from '@smart/smart-ngrx/types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
 
-export interface List extends MarkAndDelete {
+export interface List extends SmartNgRXRowBase {
   id: string;
   name: string;
 }

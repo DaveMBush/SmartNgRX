@@ -1,5 +1,5 @@
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDeleteSelector } from './mark-and-delete-selector.type';
+import { SmartNgRXRowBaseSelector } from './smart-ngrx-row-base-selector.type';
 
 /**
  * The definition of how to access the child data from a parent entity.
@@ -22,7 +22,7 @@ export interface ChildDefinition<
   /**
    *  The selector to retrieve the child data from the store.
    */
-  childSelector: MarkAndDeleteSelector;
+  childSelector: SmartNgRXRowBaseSelector;
 
   /**
    * The name of the field in the parent that contains the child IDs
