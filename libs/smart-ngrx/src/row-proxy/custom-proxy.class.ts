@@ -59,10 +59,12 @@ export class CustomProxy<
         const realRow = target.getRealRow();
         const store = storeFunction();
         assert(!!store, 'store is undefined');
+        // if there is a parentId then we need to
+        // add the row on the server
         if (realRow.parentId !== undefined) {
           store.dispatch(
             actions.add({
-              row: realRow,
+              row: { ...realRow, [prop]: value } as T,
               parentId: realRow.parentId,
               parentActions:
                 castTo<ActionGroup<SmartNgRXRowBase>>(parentActions),
@@ -70,6 +72,8 @@ export class CustomProxy<
           );
           return true;
         }
+        // if there is not parentId then we are simply saving the
+        // row to the server
         store.dispatch(
           actions.update({
             new: { row: { ...realRow, [prop]: value } as T },

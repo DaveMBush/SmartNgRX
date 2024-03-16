@@ -136,23 +136,23 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * This method allows us to add an item to the array. Make sure it contains
    * and ID field and any other defaults you might need
    *
-   * @param row the item to add to the array
-   * @param parent the parent entity that contains the array
+   * @param newRow the item to add to the array
+   * @param thisRow the parent entity (this row) that contains the array
    */
-  addToStore(row: C, parent: P): void {
+  addToStore(newRow: C, thisRow: P): void {
     const { childFeature, childEntity, parentFeature, parentEntity } =
       this.childDefinition;
     const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
-      row,
+      newRow,
     ) as string;
     const parentId = adapterForEntity<P>(parentFeature, parentEntity).selectId(
-      parent,
+      thisRow,
     ) as string;
     const { actions, parentActions, store } = this.getActionsAndStore();
-    let newParent: P = { ...parent, isEditing: true };
+    let newParent: P = { ...thisRow, isEditing: true };
     // We aren't using the 2nd generic parameter of CustomProxy, so we just
     // use the base type of SmartNgRXRowBase here.
-    const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(parent);
+    const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(thisRow);
     if (customProxy.getRealRow !== undefined) {
       newParent = {
         ...customProxy.getRealRow(),
@@ -160,8 +160,8 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
         isEditing: true,
       };
     }
-    row.parentId = parentId;
-    store.dispatch(actions.loadByIdsSuccess({ rows: [row] }));
+    newRow.parentId = parentId;
+    store.dispatch(actions.loadByIdsSuccess({ rows: [newRow] }));
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = [...this.rawArray, childId];
