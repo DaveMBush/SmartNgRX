@@ -2,7 +2,7 @@
 
 ## Entities Under the Hood
 
-Smart NgRX uses NgRX Entities under the hood to manage the state of the application. This means that the state of the application is stored in a normalized way. This is a very powerful approach that allows us to easily manage the state of the application and to easily update the state of the application.
+Smart NgRX uses NgRX Entities under the hood to manage the state of the application. This means that the state of the application is stored in a de-normalized way. This is a very powerful approach that allows us to easily manage the state of the application and to easily update the state of the application.
 
 The main benefit of using Entities is that we can do lookups for existing data quickly.
 
@@ -15,6 +15,10 @@ However, because this is still NgRX, any NgRX dev tools you might be using, such
 Another concept you'll need to understand is that Smart NgRX only loads the data that you need. This means that if you have a page that only needs to display a list of users, then Smart NgRX will only load the users. If you have a page that needs to display a list of users and a list of roles, then Smart NgRX will load the users and the roles.
 
 It also only loads the data when you need it. Not only does this mean that it will only navigate the data when you are on the page that request the data, but if you've already loaded the data, it won't load it again, unless the data has been marked dirty (coming soon).
+
+But what, exactly, does it mean for an application to "need" the data? It means that something in your code has requested it. This could be because you've requested it directly, or because you've used a selector that has requested it. This is a very powerful concept that allows us to only load the data that is needed. But what this means is that you'll want to be careful about how you access your data.
+
+For example, as our example app demonstrates, if you are using Virtual Scrolling, you'll want to be sure you only access the data that is being displayed. Don't request every row in a list. Instead, request only the rows that are being displayed. This will ensure that your application is as performant as possible.
 
 ## Dirty Data
 

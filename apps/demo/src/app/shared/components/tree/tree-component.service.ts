@@ -97,12 +97,6 @@ export class TreeComponentService {
     ).addToStore(row, parent.node);
   }
 
-  saveChild(row: TreeNode, parent: TreeNode): void {
-    castTo<ArrayProxy<Department, DepartmentChild>>(
-      parent.node.children,
-    ).addToStore(row.node, parent.node);
-  }
-
   cancelEdit(node: TreeNode): void {
     if (this.component!.addingParent) {
       this.removeChild(node, this.component!.addingParent);
