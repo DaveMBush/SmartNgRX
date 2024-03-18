@@ -5,3 +5,5 @@ By now, you should be familiar with the structure of SmartNgRX rows. A row can h
 At this point, the row is in the store and you can edit it like you would edit an already existing row. The only difference is that the row is not yet in the server.
 
 To save the row to the server, you update the row in the same way you would update any other row. The system is smart enough to know that the row is new and will ultimately call the `add` method in the corresponding `EffectService`.
+
+To remove a row that has not been saved to the server yet, you would call the `ArrayProxy`'s `removeFromStore` method. This will remove the row from the store and the ID from the array.

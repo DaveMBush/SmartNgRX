@@ -1,7 +1,7 @@
 export function idToString(
   idField: string = 'id',
-): (p: Record<string, string>) => string {
-  return (p: Record<string, string>): string => {
-    return p[idField];
+): (p: Record<string, Date | string>) => { id: string; created: Date } {
+  return (p: Record<string, Date | string>): { id: string; created: Date } => {
+    return { id: p[idField] as string, created: p.created as Date };
   };
 }

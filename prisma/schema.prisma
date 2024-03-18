@@ -10,7 +10,6 @@ datasource db {
 model departments {
   id       String    @id @default(uuid())
   location locations @relation(fields: [locationId], references: [id])
-
   locationId    String
   name          String
   version       Int             @default(1)
@@ -18,6 +17,7 @@ model departments {
   lists         lists[]
   folders       folders[]
   docs          docs[]
+  created      DateTime    @default(now())
 }
 
 model docs {
@@ -26,6 +26,7 @@ model docs {
   departmentId String
   name         String
   version      Int         @default(1)
+  created      DateTime    @default(now())
 }
 
 model folders {
@@ -34,6 +35,7 @@ model folders {
   departmentId String
   name         String
   version      Int         @default(1)
+  created      DateTime    @default(now())
 }
 
 model lists {
@@ -42,6 +44,7 @@ model lists {
   departmentId String
   name         String
   version      Int         @default(1)
+  created      DateTime    @default(now())
 }
 
 model locations {
@@ -49,6 +52,7 @@ model locations {
   name        String
   version     Int           @default(1)
   departments departments[]
+  created      DateTime    @default(now())
 }
 
 model sprintFolders {
@@ -57,4 +61,5 @@ model sprintFolders {
   departmentId String
   name         String
   version      Int         @default(1)
+  created      DateTime    @default(now())
 }

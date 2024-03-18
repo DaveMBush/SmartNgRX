@@ -102,9 +102,13 @@
           <button mat-menu-item (click)="addChild(node, 'docs')">
             Document
           </button>
-          <button mat-menu-item>Folder</button>
-          <button mat-menu-item>Sprint Folder</button>
-          <button mat-menu-item>List</button>
+          <button mat-menu-item (click)="addChild(node, 'folders')">
+            Folder
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'sprintFolders')">
+            Sprint Folder
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'lists')">List</button>
         </mat-menu>
       }
     }
