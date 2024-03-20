@@ -1,6 +1,7 @@
 import { idToString } from '../functions/id-to-string.function';
 import { toIdType } from '../functions/to-id-type.function';
 import { WithCreatedDate } from '../functions/with-created-date.interface';
+import { DepartmentDTO } from './department-dto.interface';
 
 function toDepartmentChild(
   type: string,
@@ -23,7 +24,7 @@ export function consolidateChildren(
     sprintFolders: { id: string; created: Date }[];
     lists: { id: string; created: Date }[];
   }[],
-): { id: string }[] {
+): DepartmentDTO[] {
   return departments.map((department) => ({
     id: department.id,
     name: department.name,
