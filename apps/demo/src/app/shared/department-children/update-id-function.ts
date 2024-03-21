@@ -5,6 +5,7 @@ import { DepartmentChild } from './department-child.interface';
 export function updateId(
   rows: DepartmentChild[],
   type: string,
+  /* istanbul ignore next -- not a true condition */
   idName = 'id',
 ): DepartmentChild[] {
   return rows.map((row) => {
