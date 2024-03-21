@@ -37,13 +37,12 @@ export function reducerFactory<
 
   return createReducer(
     initialState,
-    on(actions.add, (state, { row }) => adapter.addOne(row, state)),
-    on(actions.load, (state, _) => {
-      return adapter.setAll(defaultRows(['1'], state, defaultRow), state);
-    }),
-    on(actions.loadSuccess, (state, { rows }) => {
-      return adapter.setAll(rows, state);
-    }),
+    on(actions.add, (state, { row }) => adapter.upsertOne(row, state)),
+    on(actions.addSuccess, (state, { row }) => adapter.upsertOne(row, state)),
+    on(actions.load, (state, _) =>
+      adapter.setAll(defaultRows(['1'], state, defaultRow), state),
+    ),
+    on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state)),
     on(actions.markDirty, (state, { ids }) => {
       const changes = ids.map(
         (id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>,
@@ -56,12 +55,9 @@ export function reducerFactory<
       );
       return adapter.updateMany(changes, state);
     }),
-    on(actions.garbageCollect, (state, { ids }) => {
-      return adapter.removeMany(
-        unregisterEntityRows(feature, entity, ids),
-        state,
-      );
-    }),
+    on(actions.garbageCollect, (state, { ids }) =>
+      adapter.removeMany(unregisterEntityRows(feature, entity, ids), state),
+    ),
     on(actions.update, (state, { new: { row } }) =>
       adapter.upsertOne(row, state),
     ),

@@ -7,6 +7,7 @@ import { StringLiteralSource } from '../ngrx-internals/string-literal-source.typ
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { addEffect } from './effects-factory/add-effect.function';
+import { addSuccessEffect } from './effects-factory/add-success-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
 import { loadEffect } from './effects-factory/load-effect.function';
@@ -50,6 +51,9 @@ export function effectsFactory<
       functional: true,
     }),
     add: createEffect(addEffect(effectsServiceToken, actions), {
+      functional: true,
+    }),
+    addSuccess: createEffect(addSuccessEffect(effectsServiceToken, actions), {
       functional: true,
     }),
   });

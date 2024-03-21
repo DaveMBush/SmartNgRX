@@ -1,6 +1,6 @@
 import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { catchError, concatMap, map, of } from 'rxjs';
+import { map } from 'rxjs';
 
 import { ActionGroup } from '../../functions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -15,7 +15,7 @@ import { EffectService } from '../effect-service';
  *
  * @returns The effect that will be called when the action is triggered
  */
-export function addEffect<T extends SmartNgRXRowBase>(
+export function addSuccessEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
 ) {
@@ -23,28 +23,12 @@ export function addEffect<T extends SmartNgRXRowBase>(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
-    effectService = inject(effectServiceToken),
+    _ = inject(effectServiceToken),
   ) => {
     return actions$.pipe(
-      ofType(actions.add),
-      // action.parentActions has to get passed to map and catchError
-      // could we get the action from the registration instead of passing
-      // it in since we are in an effect that we own?
-      concatMap((action) => {
-        return effectService.add(action.row).pipe(
-          map((rows) => {
-            return actions.addSuccess({
-              row: rows[0],
-              parentId: action.parentId,
-              parentActions: action.parentActions,
-            });
-          }),
-          catchError((_: unknown, __) => {
-            return of(
-              action.parentActions.markDirty({ ids: [action.parentId] }),
-            );
-          }),
-        );
+      ofType(actions.addSuccess),
+      map((action) => {
+        return action.parentActions.markDirty({ ids: [action.parentId] });
       }),
     );
   };

@@ -58,6 +58,11 @@ export function actionFactory<
         parentId: string;
         parentActions: ActionGroup<SmartNgRXRowBase>;
       }>(),
+      'Add Success': props<{
+        row: T;
+        parentId: string;
+        parentActions: ActionGroup<SmartNgRXRowBase>;
+      }>(),
       Delete: props<IdProp>(),
     },
   });
