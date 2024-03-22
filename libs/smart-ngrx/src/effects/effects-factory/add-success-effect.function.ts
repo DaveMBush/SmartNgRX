@@ -3,6 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { EntityAdapter } from '@ngrx/entity';
 import { map, tap, timer } from 'rxjs';
 
+import { assert } from '../../common/assert.function';
 import { ActionGroup } from '../../functions/action-group.interface';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -36,13 +37,15 @@ export function addSuccessEffect<T extends SmartNgRXRowBase>(
         // we want the garbage collection to happen well after the parent has refreshed
         // so that the system doesn't insert a dummy record while it is still in the
         // parent's child array.
-        timer(1000).subscribe(() =>
-          store()?.dispatch(
+        timer(1000).subscribe(() => {
+          const s = store();
+          assert(!!s, 'Store is not available');
+          s.dispatch(
             actions.garbageCollect({
               ids: [adapter.selectId(action.oldRow) as string],
             }),
-          ),
-        ),
+          );
+        }),
       ),
       map((action) =>
         action.parentActions.markDirty({ ids: [action.parentId] }),

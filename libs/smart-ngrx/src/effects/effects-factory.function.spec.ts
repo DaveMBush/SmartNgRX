@@ -2,12 +2,14 @@ import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { createEntityAdapter } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { effectsFactory } from './effects-factory.function';
@@ -49,6 +51,7 @@ describe('effectsFactory', () => {
   const source = 'test';
 
   beforeEach(() => {
+    adapterForEntity('feature', 'test', createEntityAdapter<MockState>());
     TestBed.configureTestingModule({
       providers: [
         Actions,
