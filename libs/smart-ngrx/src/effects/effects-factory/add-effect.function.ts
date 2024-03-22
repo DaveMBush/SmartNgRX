@@ -34,7 +34,8 @@ export function addEffect<T extends SmartNgRXRowBase>(
         return effectService.add(action.row).pipe(
           map((rows) => {
             return actions.addSuccess({
-              row: rows[0],
+              oldRow: action.row,
+              newRow: rows[0],
               parentId: action.parentId,
               parentActions: action.parentActions,
             });

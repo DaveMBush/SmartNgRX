@@ -59,7 +59,8 @@ export function actionFactory<
         parentActions: ActionGroup<SmartNgRXRowBase>;
       }>(),
       'Add Success': props<{
-        row: T;
+        newRow: T;
+        oldRow: T;
         parentId: string;
         parentActions: ActionGroup<SmartNgRXRowBase>;
       }>(),

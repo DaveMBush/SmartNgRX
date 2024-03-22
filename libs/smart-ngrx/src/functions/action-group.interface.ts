@@ -66,11 +66,13 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
   addSuccess: ActionCreator<
     `[${any}] Add Success`,
     (props: {
-      row: T;
+      oldRow: T;
+      newRow: T;
       parentId: string;
       parentActions: ActionGroup<SmartNgRXRowBase>;
     }) => TypedAction<`[${any}] Add Success`> & {
-      row: T;
+      oldRow: T;
+      newRow: T;
       parentId: string;
       parentActions: ActionGroup<SmartNgRXRowBase>;
     }

@@ -3,6 +3,7 @@ import { createEffect, FunctionalEffect } from '@ngrx/effects';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
@@ -37,6 +38,8 @@ export function effectsFactory<
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<T, F, E>(feature, entityName);
+  const adapter = adapterForEntity<T>(feature, entityName);
+
   return castTo<Record<string, FunctionalEffect>>({
     load: createEffect(loadEffect(effectsServiceToken, actions), {
       functional: true,
@@ -53,8 +56,11 @@ export function effectsFactory<
     add: createEffect(addEffect(effectsServiceToken, actions), {
       functional: true,
     }),
-    addSuccess: createEffect(addSuccessEffect(effectsServiceToken, actions), {
-      functional: true,
-    }),
+    addSuccess: createEffect(
+      addSuccessEffect(effectsServiceToken, actions, adapter),
+      {
+        functional: true,
+      },
+    ),
   });
 }

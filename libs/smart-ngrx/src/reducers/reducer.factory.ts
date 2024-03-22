@@ -38,7 +38,9 @@ export function reducerFactory<
   return createReducer(
     initialState,
     on(actions.add, (state, { row }) => adapter.upsertOne(row, state)),
-    on(actions.addSuccess, (state, { row }) => adapter.upsertOne(row, state)),
+    on(actions.addSuccess, (state, { newRow }) =>
+      adapter.upsertOne(newRow, state),
+    ),
     on(actions.load, (state, _) =>
       adapter.setAll(defaultRows(['1'], state, defaultRow), state),
     ),
