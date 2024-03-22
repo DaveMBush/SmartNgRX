@@ -1,5 +1,5 @@
 export * from './effects/effect-service';
-export * from './effects/effects.factory';
+export * from './effects/effects-factory.function';
 export * from './functions/action.factory';
 export * from './functions/provide-smart-feature-entities.function';
 export * from './functions/provide-smart-ngrx.function';

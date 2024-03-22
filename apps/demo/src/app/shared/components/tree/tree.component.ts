@@ -28,7 +28,7 @@ import { TreeNode } from './tree-node.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeComponent implements OnChanges, AfterViewInit {
-  private sidebarComponentService = inject(TreeComponentService);
+  private treeComponentService = inject(TreeComponentService);
   @Input() locations: Location[] | null = [];
   @Input() locationId: number | string | null = '';
   @Input() location: Location | null = null;
@@ -47,9 +47,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   fullDataSource: TreeNode[] = [];
   selectedNode = '';
   editingNode = '';
+  addingNode = '';
+  addingParent: TreeNode | null = null;
+  addMenuOpenedNode = '';
 
   constructor() {
-    this.sidebarComponentService.form = this;
+    this.treeComponentService.form = this;
   }
 
   selectionChanged(event: MatSelectChange): void {
@@ -61,12 +64,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   };
 
   toggleExpand(node: TreeNode): void {
-    this.sidebarComponentService.toggleExpand(node);
+    this.treeComponentService.toggleExpand(node);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['location'] !== undefined) {
-      this.sidebarComponentService.applyRange();
+      this.treeComponentService.applyRange();
     }
   }
 
@@ -79,19 +82,37 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   cancelEdit(node: TreeNode): void {
-    this.editingNode = '';
-    node.name = node.node.name;
+    this.treeComponentService.cancelEdit(node);
   }
 
   saveNode(node: TreeNode): void {
+    this.addingParent = null;
     this.editingNode = '';
+    this.addingNode = '';
     node.node.name = node.name;
+  }
+
+  addMenuOpened(node: TreeNode): void {
+    this.addMenuOpenedNode = node.level + ':' + node.node.id;
+  }
+
+  addMenuClosed(_: TreeNode): void {
+    this.addMenuOpenedNode = '';
+  }
+
+  addChild(parent: TreeNode, type: string): void {
+    this.treeComponentService.addChild(
+      { id: type + ':new', name: `New ${type}`, children: [] },
+      parent,
+    );
+    this.addingNode = `${parent.level + 1}:${type}:new`;
+    this.addingParent = parent;
   }
 
   ngAfterViewInit(): void {
     this.virtualScroll.renderedRangeStream.subscribe((range) => {
       this.range = range;
-      this.sidebarComponentService.applyRange();
+      this.treeComponentService.applyRange();
     });
   }
 }

@@ -41,4 +41,4 @@ The Injection Token for the Effect Service that will be used by the entity. This
 
 ## defaultRow
 
-A function that returns a default row for the entity. This is used by the reducer to create a new row when the `addRow` action is dispatched. The function takes an `id` parameter that is the id of the row that is being created. This is useful if you need to create a row that has a reference to the id of the row that is being created.
+A function that returns a default row for the entity. This is used by the reducer to create a new row when the `addToStore` action is dispatched. The function takes an `id` parameter that is the id of the row that is being created. This is useful if you need to create a row that has a reference to the id of the row that is being created.

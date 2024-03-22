@@ -10,6 +10,7 @@ import { Department } from './department.interface';
 
 @Injectable()
 export class DepartmentEffectsService extends EffectService<Department> {
+  apiDepartments = './api/departments';
   constructor(private http: HttpClient) {
     super();
   }
@@ -21,7 +22,7 @@ export class DepartmentEffectsService extends EffectService<Department> {
   override loadByIds: (ids: string[]) => Observable<Department[]> = (
     ids: string[],
   ) => {
-    return this.http.post<Department[]>('./api/departments', ids).pipe(
+    return this.http.post<Department[]>(this.apiDepartments, ids).pipe(
       map((departments) => addIsDirty(departments) as Department[]),
       map(childrenTransform),
     );
@@ -32,7 +33,7 @@ export class DepartmentEffectsService extends EffectService<Department> {
     newRow: Department,
   ) => Observable<Department[]> = (oldRow: Department, newRow: Department) => {
     return this.http
-      .put<Department[]>('./api/departments', {
+      .put<Department[]>(this.apiDepartments, {
         id: newRow.id,
         name: newRow.name,
       })
@@ -44,5 +45,14 @@ export class DepartmentEffectsService extends EffectService<Department> {
           return of([oldRow]);
         }),
       );
+  };
+
+  override add: (row: Department) => Observable<Department[]> = (
+    row: Department,
+  ) => {
+    return this.http.post<Department[]>(this.apiDepartments + '/add', row).pipe(
+      map((departments) => addIsDirty(departments) as Department[]),
+      map(childrenTransform),
+    );
   };
 }

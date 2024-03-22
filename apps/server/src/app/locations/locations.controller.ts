@@ -7,6 +7,10 @@ import { idToString } from '../functions/id-to-string.function';
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { LocationDTO } from './location-dto.interface';
 
+function toLocationId({ id: id }: { id: string }): string {
+  return id;
+}
+
 @Controller('locations')
 export class LocationsController {
   constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
@@ -19,6 +23,7 @@ export class LocationsController {
           name: true,
           departments: {
             select: { id: true },
+            orderBy: { created: 'asc' },
           },
         },
       }),
@@ -27,7 +32,7 @@ export class LocationsController {
         locations.map((location) => ({
           id: location.id,
           name: location.name,
-          departments: location.departments.map(idToString()),
+          departments: location.departments.map(idToString()).map(toLocationId),
         })),
       ),
     );

@@ -5,6 +5,8 @@ import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
 import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 
+import { Department } from '../../department/department.interface';
+import { DepartmentChild } from '../../department-children/department-child.interface';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
@@ -54,7 +56,7 @@ export class TreeComponentService {
     if (children.length === 0) {
       return [];
     }
-    forNext(castTo<ArrayProxy<CommonSourceNode>>(children).rawArray, (c, i) => {
+    forNext(castTo<{ rawArray: string[] }>(children).rawArray, (c, i) => {
       let node: CommonSourceNode | string = c;
       if (startRange <= result.length && result.length <= endRange) {
         node = children[i];
@@ -83,6 +85,32 @@ export class TreeComponentService {
       }
     });
     return result;
+  }
+
+  addChild(row: DepartmentChild, parent: TreeNode): void {
+    if (parent.isExpanded === false) {
+      this.toggleExpand(parent);
+    }
+
+    castTo<ArrayProxy<Department, DepartmentChild>>(
+      parent.node.children,
+    ).addToStore(row, parent.node);
+  }
+
+  cancelEdit(node: TreeNode): void {
+    if (this.component!.addingParent) {
+      this.removeChild(node, this.component!.addingParent);
+    }
+    this.component!.addingParent = null;
+    this.component!.editingNode = '';
+    this.component!.addingNode = '';
+    node.name = node.node.name;
+  }
+
+  removeChild(row: TreeNode, parent: TreeNode): void {
+    castTo<ArrayProxy<Department, DepartmentChild>>(
+      parent.node.children,
+    ).removeFromStore(row.node, parent.node);
   }
 
   private isExpanded(node: TreeNode): boolean {

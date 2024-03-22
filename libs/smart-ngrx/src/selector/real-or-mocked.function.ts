@@ -1,8 +1,9 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionGroup } from '../functions/action-group.interface';
+import { actionFactory } from '../functions/action.factory';
 import { rowProxy } from '../row-proxy/row-proxy.function';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Internal function used by `createInnerSmartSelector` use to load the data if
@@ -11,21 +12,29 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
  * @param entityState the entity used to lookup the id
  * @param id the id to lookup
  * @param defaultObject the default object to return if the id doesn't exist
- * @param actions actions associated with the entity
+ * @param childDefinition the definition of the child object that lets us retrieve the feature and entity names
  * @returns the row from the store or the default object
  *
  * @see `createInnerSmartSelector`
  */
-export function realOrMocked<T extends MarkAndDelete>(
+export function realOrMocked<
+  T extends SmartNgRXRowBase,
+  P extends SmartNgRXRowBase,
+>(
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,
-  actions: ActionGroup<T>,
+  childDefinition: ChildDefinition<P>,
 ): T {
+  const { childFeature, childEntity, parentFeature, parentEntity } =
+    childDefinition;
+  const actions = actionFactory<T>(childFeature, childEntity);
+  const parentActions = actionFactory<P>(parentFeature, parentEntity);
+
   const record = entityState.entities;
   const row = record[id];
   if (row === undefined) {
     return { ...defaultObject, id };
   }
-  return rowProxy(row, actions);
+  return rowProxy<T, P>(row, actions, parentActions);
 }

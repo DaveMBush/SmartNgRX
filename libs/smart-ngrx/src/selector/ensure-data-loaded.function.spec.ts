@@ -1,10 +1,12 @@
 /* eslint-disable sonarjs/no-duplicate-string -- duplicate strings are necessary and intentional */
 import { TestBed } from '@angular/core/testing';
+import { createEntityAdapter } from '@ngrx/entity';
 import { createAction, props } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { filter, firstValueFrom } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import {
   registerEntity,
   unregisterEntity,
@@ -70,6 +72,7 @@ describe('ensureDataLoaded', () => {
         },
         markAndDeleteEntityMap: new Map<string, number>(),
       });
+      adapterForEntity('feature', 'departments', createEntityAdapter());
       jest.resetAllMocks();
     });
     afterEach(() => {

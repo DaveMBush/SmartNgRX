@@ -11,9 +11,9 @@ import { setLocationIdEffect$ } from './location.effects';
 import { selectCurrentLocation } from './location.selectors';
 
 const locationActions = actionFactory<
+  { id: string; isDirty: boolean },
   'tree-standard',
-  'location',
-  { id: string; isDirty: boolean }
+  'location'
 >('tree-standard', 'location');
 
 describe('Location Effects', () => {

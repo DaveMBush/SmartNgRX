@@ -16,7 +16,7 @@ export class DocsController {
         where: { did: doc.id },
         data: { name: doc.name },
       }),
-    ).pipe(switchMap(async () => this.getByIds([doc.id])));
+    ).pipe(switchMap(async () => this.getByIds([doc.id!])));
   }
 
   @Post()
@@ -28,5 +28,16 @@ export class DocsController {
         name: true,
       },
     });
+  }
+
+  @Post('add')
+  async add(@Body() doc: DocInDTO): Promise<DocOutDTO[]> {
+    const result = await this.prisma.docs.create({
+      data: {
+        name: doc.name,
+        departmentId: doc.parentId!,
+      },
+    });
+    return this.getByIds([result.did]);
   }
 }

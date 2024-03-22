@@ -1,0 +1,10 @@
+<input
+  #input
+  [placeholder]="placeholder"
+  (keyup.enter)="save.emit(value)"
+  (keyup.escape)="cancel.emit()"
+  (blur)="save.emit(value)"
+  [ngModel]="value"
+  (ngModelChange)="writeValue($event)"
+  [disabled]="disabled"
+/>

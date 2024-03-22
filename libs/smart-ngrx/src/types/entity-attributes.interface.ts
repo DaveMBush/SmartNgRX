@@ -1,5 +1,5 @@
-import { MarkAndDelete } from './mark-and-delete.interface';
 import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
+import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 
 /**
  * This is an interface that holds all the attributes we will
@@ -12,7 +12,7 @@ export interface EntityAttributes {
    *
    * @param id the unique ID of the row
    */
-  defaultRow(id: string): MarkAndDelete;
+  defaultRow(id: string): SmartNgRXRowBase;
   markAndDeleteInit: MarkAndDeleteInit;
   markAndDeleteEntityMap: Map<string, number>;
 }

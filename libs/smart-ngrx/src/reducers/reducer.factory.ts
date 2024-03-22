@@ -1,14 +1,15 @@
-import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../functions/action.factory';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
 } from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { defaultRows } from './default-rows.function';
 
 /**
@@ -24,25 +25,26 @@ import { defaultRows } from './default-rows.function';
 export function reducerFactory<
   F extends string,
   E extends string,
-  T extends MarkAndDelete,
+  T extends SmartNgRXRowBase,
 >(
   feature: StringLiteralSource<F>,
   entity: StringLiteralSource<E>,
   defaultRow: (id: string) => T,
 ): ActionReducer<EntityState<T>> {
-  const adapter = createEntityAdapter<T>();
+  const adapter = adapterForEntity<T>(feature, entity);
   const initialState = adapter.getInitialState();
-  const actions = actionFactory<F, E, T>(feature, entity);
+  const actions = actionFactory<T, F, E>(feature, entity);
 
   return createReducer(
     initialState,
-    on(actions.add, (state, { row }) => adapter.addOne(row, state)),
-    on(actions.load, (state, _) => {
-      return adapter.setAll(defaultRows(['1'], state, defaultRow), state);
-    }),
-    on(actions.loadSuccess, (state, { rows }) => {
-      return adapter.setAll(rows, state);
-    }),
+    on(actions.add, (state, { row }) => adapter.upsertOne(row, state)),
+    on(actions.addSuccess, (state, { newRow }) =>
+      adapter.upsertOne(newRow, state),
+    ),
+    on(actions.load, (state, _) =>
+      adapter.setAll(defaultRows(['1'], state, defaultRow), state),
+    ),
+    on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state)),
     on(actions.markDirty, (state, { ids }) => {
       const changes = ids.map(
         (id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>,
@@ -55,12 +57,9 @@ export function reducerFactory<
       );
       return adapter.updateMany(changes, state);
     }),
-    on(actions.garbageCollect, (state, { ids }) => {
-      return adapter.removeMany(
-        unregisterEntityRows(feature, entity, ids),
-        state,
-      );
-    }),
+    on(actions.garbageCollect, (state, { ids }) =>
+      adapter.removeMany(unregisterEntityRows(feature, entity, ids), state),
+    ),
     on(actions.update, (state, { new: { row } }) =>
       adapter.upsertOne(row, state),
     ),

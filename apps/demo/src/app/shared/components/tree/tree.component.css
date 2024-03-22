@@ -17,7 +17,18 @@ cdk-virtual-scroll-viewport {
   display: none;
 }
 
+.add-button {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
 mat-tree-node:hover .edit-button {
+  display: block;
+}
+mat-tree-node:hover .add-button {
   display: block;
 }
 

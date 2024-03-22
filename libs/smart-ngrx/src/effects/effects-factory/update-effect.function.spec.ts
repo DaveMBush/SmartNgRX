@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { actionFactory } from '../..';
-import { MarkAndDelete } from '../../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { updateEffect } from './update-effect.function';
 
@@ -11,7 +11,7 @@ const testScheduler = new TestScheduler((actual, expected) => {
   expect(actual).toEqual(expected);
 });
 
-interface Row extends MarkAndDelete {
+interface Row extends SmartNgRXRowBase {
   id: string;
   name: string;
   foo: string;
@@ -27,15 +27,19 @@ class TestService extends EffectService<Row> {
   };
 
   override update: (oldRow: Row, newRow: Row) => Observable<Row[]> = (
-    oldRow: Row,
+    _: Row,
     newRow: Row,
   ) => {
     return of([newRow] as Row[]);
   };
+
+  override add: (row: Row) => Observable<Row[]> = (_: Row) => {
+    return of([] as Row[]);
+  };
 }
 
 const serviceToken = new InjectionToken<TestService>('TestService');
-const actions = actionFactory<'feature', 'entity', Row>('feature', 'entity');
+const actions = actionFactory<Row, 'feature', 'entity'>('feature', 'entity');
 
 describe('update-effect.function.ts', () => {
   const effect = updateEffect(serviceToken, actions);

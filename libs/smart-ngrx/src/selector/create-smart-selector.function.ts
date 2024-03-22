@@ -1,7 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 import { MemoizedSelector } from '@ngrx/store';
 
-import { ProxyChild } from '../types/proxy-child.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
 import { ParentSelector } from './parent-selector.type';
 
@@ -28,9 +28,9 @@ import { ParentSelector } from './parent-selector.type';
 export function createSmartSelector<P extends object>(
   parentSelector: ParentSelector<P>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- easiest way to allow any string definition
-  children: ProxyChild<P, any, any>[],
+  children: ChildDefinition<P, any, any, any, any>[],
 ): MemoizedSelector<object, EntityState<P>> {
   return children.reduce((p, child) => {
-    return createInnerSmartSelector(p, child as ProxyChild<P>);
+    return createInnerSmartSelector(p, child as ChildDefinition<P>);
   }, parentSelector);
 }

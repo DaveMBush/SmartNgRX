@@ -1,9 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 
-import { actionFactory } from '../functions/action.factory';
 import { getEntityRegistry } from '../functions/register-entity.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
 
@@ -14,22 +13,25 @@ import { realOrMocked } from './real-or-mocked.function';
  *
  * @param entityState The entity to check for the id
  * @param id The id to check
- * @param feature the feature name we are running this code for
- * @param entity the entity in the feature we are running this code for
+ * @param childDefinition The definition of the child object that lets us retrieve the feature and entity names
  * @returns real or placeholder row
  */
 export function getArrayItem<
-  T extends MarkAndDelete,
-  F extends string,
-  E extends string,
+  T extends SmartNgRXRowBase,
+  P extends SmartNgRXRowBase,
 >(
   entityState: EntityState<T>,
   id: string,
-  feature: StringLiteralSource<F>,
-  entity: StringLiteralSource<E>,
+  childDefinition: ChildDefinition<P>,
 ): T {
-  const registry = getEntityRegistry(feature, entity);
-  ensureDataLoaded(entityState, id, feature, entity);
-  const actions = actionFactory(feature, entity);
-  return realOrMocked(entityState, id, registry.defaultRow(id), actions) as T;
+  const { childFeature, childEntity } = childDefinition;
+
+  const registry = getEntityRegistry(childFeature, childEntity);
+  ensureDataLoaded(entityState, id, childFeature, childEntity);
+  return realOrMocked(
+    entityState,
+    id,
+    registry.defaultRow(id),
+    childDefinition,
+  ) as T;
 }

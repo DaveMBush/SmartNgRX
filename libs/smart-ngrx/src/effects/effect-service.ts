@@ -10,9 +10,17 @@ export abstract class EffectService<T> {
    */
   abstract load: () => Observable<T[]>;
   /**
-   * Loads the rows represented by the array of ids passed in.
+   * Loads the rows represented by the array of ids passed in from the server
    */
   abstract loadByIds: (ids: string[]) => Observable<T[]>;
 
+  /**
+   * Sends the updated row in the store to the server.
+   */
   abstract update: (oldRow: T, newRow: T) => Observable<T[]>;
+
+  /**
+   * Sends a new row to the server
+   */
+  abstract add: (row: T) => Observable<T[]>;
 }

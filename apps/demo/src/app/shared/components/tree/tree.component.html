@@ -56,12 +56,25 @@
 </cdk-virtual-scroll-viewport>
 
 <ng-template #treeNode let-node>
-  @if (node.level + ':' + node.node.id !== editingNode) {
-    <button type="button" (click)="selectNode(node)" mat-button>
-      {{ node.name }}
-    </button>
-    @if (editingNode.length === 0) {
+  @if (
+    editingNode !== node.level + ':' + node.node.id &&
+    addingNode !== node.level + ':' + node.node.id
+  ) {
+    @if (node.node.isLoading) {
+      <ngx-skeleton-loader
+        [theme]="{ width: '200px', margin: '8px' }"
+        animation="pulse"
+      />
+    } @else {
+      <button type="button" (click)="selectNode(node)" mat-button>
+        {{ node.name }}
+      </button>
+    }
+    @if (editingNode.length === 0 || addingNode.length === 0) {
       <button
+        [ngClass]="{
+          show: this.addMenuOpenedNode === node.level + ':' + node.node.id
+        }"
         class="edit-button"
         type="button"
         aria-label="edit"
@@ -70,16 +83,41 @@
       >
         <mat-icon>edit</mat-icon>
       </button>
+      @if (node.level === 0) {
+        <button
+          [ngClass]="{
+            show: this.addMenuOpenedNode === node.level + ':' + node.node.id
+          }"
+          [matMenuTriggerFor]="addMenu"
+          class="add-button"
+          type="button"
+          aria-label="add"
+          mat-icon-button
+          (menuOpened)="addMenuOpened(node)"
+          (menuClosed)="addMenuClosed(node)"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <mat-menu #addMenu="matMenu">
+          <button mat-menu-item (click)="addChild(node, 'docs')">
+            Document
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'folders')">
+            Folder
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'sprintFolders')">
+            Sprint Folder
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'lists')">List</button>
+        </mat-menu>
+      }
     }
   } @else {
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Name"
-        [(ngModel)]="node.name"
-        (keyup.enter)="saveNode(node)"
-        (keyup.escape)="cancelEdit(node)"
-      />
-    </mat-form-field>
+    <dmb-node-editor
+      placeholder="Edit Label"
+      [(ngModel)]="node.name"
+      (save)="saveNode(node)"
+      (cancel)="cancelEdit(node)"
+    />
   }
 </ng-template>

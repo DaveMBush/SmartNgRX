@@ -6,9 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTreeModule } from '@angular/material/tree';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
+import { NodeEditorComponent } from './components/node-editor/node-editor.component';
 import { TreeComponent } from './components/tree/tree.component';
 
 @NgModule({
@@ -23,7 +26,10 @@ import { TreeComponent } from './components/tree/tree.component';
     MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
+    MatMenuModule,
     ScrollingModule,
+    NodeEditorComponent,
+    NgxSkeletonLoaderModule,
   ],
   providers: [],
   exports: [TreeComponent],

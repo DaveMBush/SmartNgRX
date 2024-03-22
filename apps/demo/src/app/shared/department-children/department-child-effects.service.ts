@@ -13,6 +13,7 @@ import { DepartmentChild } from './department-child.interface';
 import { filterIds } from './filter-ids.function';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
 import { updateForType } from './update-for-type.function';
+import { updateId } from './update-id-function';
 
 @Injectable()
 export class DepartmentChildEffectsService extends EffectService<DepartmentChild> {
@@ -24,30 +25,39 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     return of([] as DepartmentChild[]);
   };
 
+  private sprintFolderPrefix = 'sprint-folders:';
+  private sprintFolders = 'sprint-folders';
+  private docPrefix = 'docs:';
+  private docs = 'docs';
+  private folderPrefix = 'folders:';
+  private folders = 'folders';
+  private listPrefix = 'lists:';
+  private lists = 'lists';
+
   override loadByIds: (ids: string[]) => Observable<DepartmentChild[]> = (
     ids: string[],
   ) => {
-    const docIds = filterIds(ids, 'docs:');
-    const folderIds = filterIds(ids, 'folders:');
-    const listIds = filterIds(ids, 'lists:');
-    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+    const docIds = filterIds(ids, this.docPrefix);
+    const folderIds = filterIds(ids, this.folderPrefix);
+    const listIds = filterIds(ids, this.listPrefix);
+    const sprintFolderIds = filterIds(ids, this.sprintFolderPrefix);
 
-    const docStream = loadByIdsForType(this.doc, docIds, 'docs', 'did');
+    const docStream = loadByIdsForType(this.doc, docIds, this.docs, 'did');
 
     const folderStream = loadByIdsForType(
       castTo<CommonService>(this.folder),
       folderIds,
-      'folders',
+      this.folders,
     );
     const listStream = loadByIdsForType(
       castTo<CommonService>(this.list),
       listIds,
-      'lists',
+      this.lists,
     );
     const sprintFolderStream = loadByIdsForType(
       castTo<CommonService>(this.sprintFolder),
       sprintFolderIds,
-      'sprint-folders',
+      this.sprintFolders,
     );
 
     return forkJoin({
@@ -65,6 +75,20 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     );
   };
 
+  bucketId(id: string): {
+    docIds: string[];
+    folderIds: string[];
+    listIds: string[];
+    sprintFolderIds: string[];
+  } {
+    const ids = [id];
+    const docIds = filterIds(ids, this.docPrefix);
+    const folderIds = filterIds(ids, this.folderPrefix);
+    const listIds = filterIds(ids, this.listPrefix);
+    const sprintFolderIds = filterIds(ids, this.sprintFolderPrefix);
+    return { docIds, folderIds, listIds, sprintFolderIds };
+  }
+
   override update: (
     oldRow: DepartmentChild,
     newRow: DepartmentChild,
@@ -72,17 +96,20 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     oldRow: DepartmentChild,
     newRow: DepartmentChild,
   ) => {
-    const ids = [newRow.id];
-    const docIds = filterIds(ids, 'docs:');
-    const folderIds = filterIds(ids, 'folders:');
-    const listIds = filterIds(ids, 'lists:');
-    const sprintFolderIds = filterIds(ids, 'sprint-folders:');
+    const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
+      newRow.id,
+    );
 
     let updateStream: Observable<DepartmentChild[]> = of(
       [] as DepartmentChild[],
     );
     docIds.forEach((id) => {
-      updateStream = updateForType(this.doc, { ...newRow, id }, 'docs', 'did');
+      updateStream = updateForType(
+        this.doc,
+        { ...newRow, id },
+        this.docs,
+        'did',
+      );
     });
     folderIds.forEach((id) => {
       updateStream = updateForType(
@@ -91,11 +118,11 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
           ...newRow,
           id,
         },
-        'folders',
+        this.folders,
       );
     });
     listIds.forEach((id) => {
-      updateStream = updateForType(this.list, { ...newRow, id }, 'lists');
+      updateStream = updateForType(this.list, { ...newRow, id }, this.lists);
     });
     sprintFolderIds.forEach((id) => {
       updateStream = updateForType(
@@ -104,10 +131,43 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
           ...newRow,
           id,
         },
-        'sprint-folders',
+        this.sprintFolders,
       );
     });
 
     return updateStream.pipe(catchError((_: unknown) => of([oldRow])));
+  };
+
+  override add: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
+    row: DepartmentChild,
+  ) => {
+    const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
+      row.id,
+    );
+
+    let addStream: Observable<DepartmentChild[]> = of([] as DepartmentChild[]);
+    docIds.forEach(() => {
+      addStream = this.doc
+        .add(row)
+        .pipe(map((rows) => updateId(rows, this.docs, 'did')));
+    });
+    folderIds.forEach(() => {
+      addStream = this.folder
+        .add(row)
+        .pipe(map((rows) => updateId(rows, this.folders)));
+    });
+    listIds.forEach(() => {
+      addStream = this.list
+        .add(row)
+        .pipe(map((rows) => updateId(rows, this.lists)));
+    });
+    sprintFolderIds.forEach(() => {
+      addStream = this.sprintFolder
+        .add(row)
+        .pipe(map((rows) => updateId(rows, this.sprintFolders)));
+    });
+
+    // need to do something here similar to updateForType except we already have the row.
+    return addStream;
   };
 }

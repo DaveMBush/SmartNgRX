@@ -5,12 +5,13 @@ import { ActionReducer, StoreModule } from '@ngrx/store';
 import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
-import { effectsFactory } from '../effects/effects.factory';
+import { effectsFactory } from '../effects/effects-factory.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { registerAdapterForDefinition } from './register-adapter-for-definition.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -36,14 +37,15 @@ import { delayedRegisterEntity } from './delayed-register-entity.function';
  */
 export function provideSmartFeatureEntities<F extends string>(
   featureName: StringLiteralSource<F>,
-  entityDefinitions: SmartEntityDefinition<MarkAndDelete>[],
+  entityDefinitions: SmartEntityDefinition<SmartNgRXRowBase>[],
 ): EnvironmentProviders {
   const allEffects: Record<string, FunctionalEffect>[] = [];
   const reducers: Record<
     string,
-    ActionReducer<EntityState<MarkAndDelete>>
+    ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
   forNext(entityDefinitions, (entityDefinition) => {
+    registerAdapterForDefinition(featureName, entityDefinition);
     const { entityName, effectServiceToken, defaultRow } = entityDefinition;
     const effects = effectsFactory(
       featureName,

@@ -2,18 +2,20 @@ import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { createEntityAdapter } from '@ngrx/entity';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { castTo } from '../common/cast-to.function';
 import { actionFactory } from '../functions/action.factory';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
-import { effectsFactory } from './effects.factory';
+import { effectsFactory } from './effects-factory.function';
 import { EffectsFactory } from './effects-factory.interface';
 
-interface MockState extends MarkAndDelete {
+interface MockState extends SmartNgRXRowBase {
   id: string;
   test: string;
 }
@@ -32,6 +34,10 @@ class MockService extends EffectService<MockState> {
   update = (oldRow: MockState, _: MockState) => {
     return this.loadByIds([oldRow.id]);
   };
+
+  add = (row: MockState) => {
+    return this.loadByIds([row.id]);
+  };
 }
 
 describe('effectsFactory', () => {
@@ -45,6 +51,7 @@ describe('effectsFactory', () => {
   const source = 'test';
 
   beforeEach(() => {
+    adapterForEntity('feature', 'test', createEntityAdapter<MockState>());
     TestBed.configureTestingModule({
       providers: [
         Actions,
@@ -70,7 +77,7 @@ describe('effectsFactory', () => {
   });
 
   it('should return loadSuccess when it processes the load action', () => {
-    const sourceActions = actionFactory<'feature', 'test', MockState>(
+    const sourceActions = actionFactory<MockState, 'feature', 'test'>(
       'feature',
       source,
     );
@@ -85,7 +92,7 @@ describe('effectsFactory', () => {
   });
 
   it('should return loadByIdsSuccess when it processes the loadByIds action', () => {
-    const sourceActions = actionFactory<'feature', 'test', MockState>(
+    const sourceActions = actionFactory<MockState, 'feature', 'test'>(
       'feature',
       source,
     );
@@ -102,7 +109,7 @@ describe('effectsFactory', () => {
   });
 
   it('should return buffer Ids loadByIds within 1ms', () => {
-    const sourceActions = actionFactory<'feature', 'test', MockState>(
+    const sourceActions = actionFactory<MockState, 'feature', 'test'>(
       'feature',
       source,
     );
@@ -125,7 +132,7 @@ describe('effectsFactory', () => {
   });
   describe('when loadByIds is processed by the loadByIdsPreLoad effect', () => {
     it('should return the loadByIdsPreload action', () => {
-      const sourceActions = actionFactory<'feature', 'test', MockState>(
+      const sourceActions = actionFactory<MockState, 'feature', 'test'>(
         'feature',
         source,
       );

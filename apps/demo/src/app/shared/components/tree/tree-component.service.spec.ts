@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 
 import { Department } from '../../department/department.interface';
+import { CommonSourceNode } from './common-source-node.interface';
 import { TreeComponent } from './tree.component';
 import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
@@ -29,26 +30,30 @@ describe('TreeComponentService', () => {
 
     service.form = mockComponent;
   });
-  it('should toggle node expansion on and off', () => {
-    const node: TreeNode = {
-      node: { id: '1', name: 'node1', children: [] },
-      name: 'node1',
-      level: 0,
-      isExpanded: false,
-      hasChildren: false,
-    };
-    service.toggleExpand(node);
-    expect(node.isExpanded).toBe(true);
-    service.toggleExpand(node);
-    expect(node.isExpanded).toBe(false);
+  describe('When toggleExpand() is called', () => {
+    it('should toggle node expansion on and off', () => {
+      const node: TreeNode = {
+        node: { id: '1', name: 'node1', children: [] },
+        name: 'node1',
+        level: 0,
+        isExpanded: false,
+        hasChildren: false,
+      };
+      service.toggleExpand(node);
+      expect(node.isExpanded).toBe(true);
+      service.toggleExpand(node);
+      expect(node.isExpanded).toBe(false);
+    });
   });
 
-  it('should throw an error if component is null', () => {
-    // we have to force the service to accept a null value
-    // for the form for this test to run because we already
-    // assigned it a value in the beforeEach
-    castTo<{ form: null }>(service).form = null;
-    expect(() => service.applyRange()).toThrow('component is null');
+  describe('when the form field is null', () => {
+    it('applyRange should throw an error', () => {
+      // we have to force the service to accept a null value
+      // for the form for this test to run because we already
+      // assigned it a value in the beforeEach
+      castTo<{ form: null }>(service).form = null;
+      expect(() => service.applyRange()).toThrow('component is null');
+    });
   });
 
   describe('When applyRange() is called and only one element is in the array and the object has not resolved', () => {
@@ -246,6 +251,94 @@ describe('TreeComponentService', () => {
       expect(mockComponent.dataSource[0].level).toBe(0);
       expect(mockComponent.fullDataSource[1].level).toBe(1);
       expect(mockComponent.dataSource[1].level).toBe(1);
+    });
+  });
+  describe('when addChild is called and the node is not expanded', () => {
+    let toggleExpandSpy: jest.SpyInstance;
+    beforeEach(() => {
+      // setup a spy on toggleExpand
+      toggleExpandSpy = jest.spyOn(service, 'toggleExpand');
+    });
+    it('should expand the row', () => {
+      // call addChild
+      const node: TreeNode = {
+        node: {
+          id: '1',
+          name: 'node1',
+          children: {
+            addToStore: () => {
+              /* noop */
+            },
+          } as unknown as CommonSourceNode[],
+        },
+        name: 'node1',
+        level: 0,
+        isExpanded: false,
+        hasChildren: false,
+      };
+      service.addChild({ id: '1', name: 'new', children: [] }, node);
+      expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
+      // see if toggleExpand was called
+    });
+  });
+  describe('when addChild is called and the node is expanded', () => {
+    let toggleExpandSpy: jest.SpyInstance;
+    beforeEach(() => {
+      // setup a spy on toggleExpand
+      toggleExpandSpy = jest.spyOn(service, 'toggleExpand');
+    });
+    it('should expand the row', () => {
+      // call addChild
+      const node: TreeNode = {
+        node: {
+          id: '1',
+          name: 'node1',
+          children: {
+            addToStore: () => {
+              /* noop */
+            },
+          } as unknown as CommonSourceNode[],
+        },
+        name: 'node1',
+        level: 0,
+        isExpanded: true,
+        hasChildren: false,
+      };
+      service.addChild({ id: '1', name: 'new', children: [] }, node);
+      expect(toggleExpandSpy).not.toHaveBeenCalled();
+      // see if toggleExpand was called
+    });
+  });
+  describe('when cancelEdit is called and we are adding a new node', () => {
+    let removeChildSpy: jest.SpyInstance;
+    beforeEach(() => {
+      removeChildSpy = jest
+        .spyOn(service, 'removeChild')
+        .mockImplementation(() => {
+          /* noop */
+        });
+    });
+    it('should remove the node from the child array', () => {
+      service.form = {
+        addingParent: { name: 't' } as TreeNode,
+      } as TreeComponent;
+      service.cancelEdit({ name: 'new', node: { name: 'boo' } } as TreeNode);
+      expect(removeChildSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('when cancelEdit is called and we are not adding a new node', () => {
+    let removeChildSpy: jest.SpyInstance;
+    beforeEach(() => {
+      removeChildSpy = jest
+        .spyOn(service, 'removeChild')
+        .mockImplementation(() => {
+          /* noop */
+        });
+    });
+    it('should remove the node from the child array', () => {
+      service.form = { addingParent: null } as TreeComponent;
+      service.cancelEdit({ name: 'new', node: { name: 'boo' } } as TreeNode);
+      expect(removeChildSpy).not.toHaveBeenCalled();
     });
   });
 });

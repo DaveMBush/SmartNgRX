@@ -7,7 +7,7 @@ import { actionFactory } from '../functions/action.factory';
 import { getEntityRegistry } from '../functions/register-entity.function';
 import { registerEntityRows } from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { store } from './store.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -23,7 +23,7 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  * @param entity The entity in the feature this row belongs to
  */
 export function ensureDataLoaded<
-  T extends MarkAndDelete,
+  T extends SmartNgRXRowBase,
   F extends string,
   E extends string,
 >(

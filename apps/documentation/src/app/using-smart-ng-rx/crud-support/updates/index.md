@@ -6,7 +6,7 @@ You will need to implement the update method in your effects service for the row
 
 As an example, here is how we've updated the `update` method in the `DepartmentEffectsService` in the demo:
 
-> **Note:** explanation of this code will follow
+> **Note:** explanation of this code will follow the code snippet.
 
 ```typescript
   override update: (

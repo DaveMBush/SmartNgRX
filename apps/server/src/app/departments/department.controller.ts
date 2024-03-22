@@ -3,17 +3,9 @@ import { PrismaClient } from '@prisma/client';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-import { idToString } from '../functions/id-to-string.function';
 import { prismaServiceToken } from '../orm/prisma-service.token';
+import { consolidateChildren } from './consolidate-children.function';
 import { DepartmentDTO } from './department-dto.interface';
-
-function toDepartmentChild(
-  type: string,
-): (p: string) => { type: string; id: string } {
-  return (id: string): { type: string; id: string } => {
-    return { type, id };
-  };
-}
 
 @Controller('departments')
 export class DepartmentsController {
@@ -38,40 +30,35 @@ export class DepartmentsController {
           id: true,
           name: true,
           docs: {
-            select: { did: true },
+            select: { did: true, created: true },
+            orderBy: { created: 'asc' },
           },
           folders: {
-            select: { id: true },
+            select: { id: true, created: true },
+            orderBy: { created: 'asc' },
           },
           sprintFolders: {
-            select: { id: true },
+            select: { id: true, created: true },
+            orderBy: { created: 'asc' },
           },
           lists: {
-            select: { id: true },
+            select: { id: true, created: true },
+            orderBy: { created: 'asc' },
           },
         },
       }),
-    ).pipe(
-      map((departments) =>
-        departments.map((department) => ({
-          id: department.id,
+    ).pipe(map(consolidateChildren));
+  }
+
+  @Post('add')
+  add(@Body() department: DepartmentDTO): Observable<DepartmentDTO[]> {
+    return from(
+      this.prisma.departments.create({
+        data: {
           name: department.name,
-          children: [
-            ...department.docs
-              .map(idToString('did'))
-              .map(toDepartmentChild('docs')),
-            ...department.folders
-              .map(idToString())
-              .map(toDepartmentChild('folders')),
-            ...department.sprintFolders
-              .map(idToString())
-              .map(toDepartmentChild('sprint-folders')),
-            ...department.lists
-              .map(idToString())
-              .map(toDepartmentChild('lists')),
-          ],
-        })),
-      ),
-    );
+          locationId: department.parentId!,
+        },
+      }),
+    ).pipe(switchMap((result) => this.getByIds([result.id])));
   }
 }

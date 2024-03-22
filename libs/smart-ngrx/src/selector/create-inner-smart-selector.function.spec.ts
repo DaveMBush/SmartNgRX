@@ -1,14 +1,15 @@
-import { EntityState } from '@ngrx/entity';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
+import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import {
   registerEntity,
   unregisterEntity,
 } from '../functions/register-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
 import { Entity } from './mocks/entity.interface';
@@ -46,10 +47,14 @@ function itCreatesProxiesForChildrenThatDontExist(
     ],
   ).toBe(true);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department1]?.children).rawArray,
+    castTo<ArrayProxy<Entity, SmartNgRXRowBase>>(
+      result.entities[department1]?.children,
+    ).rawArray,
   ).toEqual(['folder-1', 'folder-2']);
   expect(
-    castTo<ArrayProxy<Entity>>(result.entities[department2]?.children).rawArray,
+    castTo<ArrayProxy<Entity, SmartNgRXRowBase>>(
+      result.entities[department2]?.children,
+    ).rawArray,
   ).toEqual(['folder-3', 'folder-4']);
   expect(
     JSON.parse(JSON.stringify(result.entities[department1]?.children[0])),
@@ -77,10 +82,11 @@ describe('createInnerSmartSelector', () => {
       EntityState<{ id: string; name: string; children: string[] }>
     >
   >;
-  let child1: EntityState<MarkAndDelete>;
-  let parent: EntityState<MarkAndDelete>;
+  let child1: EntityState<SmartNgRXRowBase>;
+  let parent: EntityState<SmartNgRXRowBase>;
   let result: EntityState<{ id: string; name: string; children: string[] }>;
   function commonSetup() {
+    adapterForEntity('feature', 'entityName', createEntityAdapter());
     registerEntity('feature', 'entityName', {
       markAndDeleteEntityMap: new Map(),
       markAndDeleteInit: {
@@ -104,9 +110,11 @@ describe('createInnerSmartSelector', () => {
       {
         childFeature: castTo<StringLiteralSource<string>>('feature'),
         childEntity: castTo<StringLiteralSource<string>>('entityName'),
+        parentFeature: castTo<StringLiteralSource<string>>('parentFeature'),
+        parentEntity: castTo<StringLiteralSource<string>>('parentEntity'),
         childSelector: jest.fn() as unknown as MemoizedSelector<
           object,
-          EntityState<MarkAndDelete>
+          EntityState<SmartNgRXRowBase>
         >,
         parentField: 'children',
       },

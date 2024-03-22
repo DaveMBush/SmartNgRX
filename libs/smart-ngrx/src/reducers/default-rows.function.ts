@@ -1,6 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
-import { MarkAndDelete } from '../types/mark-and-delete.interface';
+import { forNext } from '../common/for-next.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Filters out the rows we already have and provides a default row
@@ -12,12 +13,19 @@ import { MarkAndDelete } from '../types/mark-and-delete.interface';
  * create a new row for the ids that are missing.
  * @returns The default rows for the ids that are missing
  */
-export function defaultRows<T extends MarkAndDelete>(
+export function defaultRows<T extends SmartNgRXRowBase>(
   ids: string[],
   state: EntityState<T>,
   defaultRow: (id: string) => T,
 ): T[] {
-  return ids
-    .filter((id) => state.entities[id] === undefined)
-    .map((id) => defaultRow(id));
+  const t: T[] = [];
+  forNext(ids, (id) => {
+    if (state.entities[id] !== undefined) {
+      return;
+    }
+    const row: T = defaultRow(id);
+    row.isLoading = true;
+    t.push(row);
+  });
+  return t;
 }

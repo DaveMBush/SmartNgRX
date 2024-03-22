@@ -14,8 +14,10 @@ import { Location } from '../../locations/location.interface';
 import { TreeComponent } from './tree.component';
 import { TreeComponentService } from './tree-component.service';
 interface TestableTreeComponent
-  extends Omit<TreeComponent, 'sidebarComponentService'> {
-  sidebarComponentService: TreeComponentService;
+  // we omit treeComponentService from the original component
+  // because it is private and we need it available as public
+  extends Omit<TreeComponent, 'treeComponentService'> {
+  treeComponentService: TreeComponentService;
 }
 
 // Create a test host component
@@ -67,7 +69,7 @@ describe('TreeComponent', () => {
       .componentInstance as TestableTreeComponent;
     // Spy on the correct instance of TreeComponentService
     const applyRangeSpy = jest.spyOn(
-      treeComponent.sidebarComponentService,
+      treeComponent.treeComponentService,
       'applyRange',
     );
 
