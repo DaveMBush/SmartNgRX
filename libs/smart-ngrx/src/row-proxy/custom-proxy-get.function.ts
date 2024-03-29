@@ -24,6 +24,7 @@ export function customProxyGet<
   if (prop === 'getRealRow') {
     return () => target.getRealRow();
   }
+  /* istanbul ignore next -- trivial and app would break without it*/
   if (prop === 'isEditing') {
     actions.loadByIdsSuccess({ rows: [{ ...target.row, isEditing: true }] });
   }

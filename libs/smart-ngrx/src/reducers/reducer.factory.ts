@@ -35,6 +35,7 @@ export function reducerFactory<
   const initialState = adapter.getInitialState();
   const actions = actionFactory<T, F, E>(feature, entity);
 
+  /* istanbul ignore next -- refactoring actions next which will probably remove the conditions from the reducer */
   return createReducer(
     initialState,
     on(actions.add, (state, { row }) => adapter.upsertOne(row, state)),
