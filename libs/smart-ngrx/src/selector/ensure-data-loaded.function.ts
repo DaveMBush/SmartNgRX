@@ -40,10 +40,12 @@ export function ensureDataLoaded<
     !registry.markAndDeleteInit.markDirtyFetchesNew
   );
 
+  const idsId = ids[id];
+
   if (
-    ids[id] === undefined ||
-    (ids[id].isDirty === true && markDirtyFetchesNew) ||
-    ids[id].isDirty === undefined
+    idsId === undefined ||
+    (idsId.isDirty === true && markDirtyFetchesNew) ||
+    idsId.isDirty === undefined
   ) {
     const s = store();
     assert(!!s, 'store is undefined');
@@ -53,8 +55,8 @@ export function ensureDataLoaded<
       // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
       s.dispatch(actions.loadByIds({ ids: [id] }));
     });
-  } else if (ids[id].isDirty === true && !markDirtyFetchesNew) {
-    registerEntityRows(feature, entity, [ids[id]]);
+  } else if (idsId.isDirty && !markDirtyFetchesNew) {
+    registerEntityRows(feature, entity, [idsId]);
     void unpatchedPromise.resolve().then(() => {
       const s = store();
       assert(!!s, 'store is undefined');

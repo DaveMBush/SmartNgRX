@@ -46,9 +46,11 @@ export function reducerFactory<
     ),
     on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state)),
     on(actions.markDirty, (state, { ids }) => {
-      const changes = ids.map(
-        (id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>,
-      );
+      const changes = ids
+        .filter((id) => {
+          return state.entities[id]?.isEditing !== true;
+        })
+        .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
       return adapter.updateMany(changes, state);
     }),
     on(actions.markNotDirty, (state, { ids }) => {
@@ -58,7 +60,14 @@ export function reducerFactory<
       return adapter.updateMany(changes, state);
     }),
     on(actions.garbageCollect, (state, { ids }) =>
-      adapter.removeMany(unregisterEntityRows(feature, entity, ids), state),
+      adapter.removeMany(
+        unregisterEntityRows(
+          feature,
+          entity,
+          ids.filter((id) => state.entities[id]?.isEditing !== true),
+        ),
+        state,
+      ),
     ),
     on(actions.update, (state, { new: { row } }) =>
       adapter.upsertOne(row, state),

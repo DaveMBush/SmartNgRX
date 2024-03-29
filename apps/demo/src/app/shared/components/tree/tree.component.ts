@@ -47,6 +47,9 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   fullDataSource: TreeNode[] = [];
   selectedNode = '';
   editingNode = '';
+  // we can't edit the node in place because it will get overwritten when the
+  // data updates.
+  editingContent = '';
   addingNode = '';
   addingParent: TreeNode | null = null;
   addMenuOpenedNode = '';
@@ -79,17 +82,20 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   editNode(node: TreeNode): void {
     this.editingNode = node.level + ':' + node.node.id;
+    this.editingContent = node.name;
   }
 
   cancelEdit(node: TreeNode): void {
     this.treeComponentService.cancelEdit(node);
+    this.editingContent = '';
   }
 
   saveNode(node: TreeNode): void {
     this.addingParent = null;
     this.editingNode = '';
     this.addingNode = '';
-    node.node.name = node.name;
+    node.node.name = this.editingContent;
+    this.editingContent = '';
   }
 
   addMenuOpened(node: TreeNode): void {
@@ -101,8 +107,9 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   addChild(parent: TreeNode, type: string): void {
+    this.editingContent = `New ${type}`;
     this.treeComponentService.addChild(
-      { id: type + ':new', name: `New ${type}`, children: [] },
+      { id: type + ':new', name: this.editingContent, children: [] },
       parent,
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;

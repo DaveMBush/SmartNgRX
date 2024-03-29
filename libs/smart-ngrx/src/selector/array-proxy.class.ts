@@ -161,6 +161,7 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
       };
     }
     newRow.parentId = parentId;
+    newRow.isEditing = true;
     store.dispatch(actions.loadByIdsSuccess({ rows: [newRow] }));
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField

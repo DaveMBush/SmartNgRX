@@ -44,7 +44,9 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({}),
     provideEffects(),
-    provideSmartNgRX(),
+    provideSmartNgRX({
+      markDirtyTime: 120000,
+    }),
     provideAnimations(),
     provideStoreDevtools(),
     provideRouter(appRoutes, withViewTransitions()),

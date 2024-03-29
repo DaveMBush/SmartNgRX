@@ -115,7 +115,7 @@
   } @else {
     <dmb-node-editor
       placeholder="Edit Label"
-      [(ngModel)]="node.name"
+      [(ngModel)]="editingContent"
       (save)="saveNode(node)"
       (cancel)="cancelEdit(node)"
     />
