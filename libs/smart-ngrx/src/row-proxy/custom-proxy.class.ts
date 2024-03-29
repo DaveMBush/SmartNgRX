@@ -1,9 +1,9 @@
-import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 import { ActionGroup } from '../functions/action-group.interface';
-import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { customProxyGet } from './custom-proxy-get.function';
+import { customProxySet } from './custom-proxy-set.function';
 
 /**
  * CustomProxy wraps the row so we can intercept changes to it
@@ -39,49 +39,9 @@ export class CustomProxy<
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
-      get(target, prop) {
-        if (prop === 'toJSON') {
-          return () => target.toJSON();
-        }
-        if (prop === 'getRealRow') {
-          return () => target.getRealRow();
-        }
-        return prop in target.changes
-          ? target.changes[prop]
-          : target.record[prop];
-      },
-      set(target, prop, value) {
-        /* istanbul ignore next -- untestable using strong typing but here to protect misuse by others */
-        if (!(prop in target.record)) {
-          return false;
-        }
-        target.changes[prop] = value;
-        const realRow = target.getRealRow();
-        const store = storeFunction();
-        assert(!!store, 'store is undefined');
-        // if there is a parentId then we need to
-        // add the row on the server
-        if (realRow.parentId !== undefined) {
-          store.dispatch(
-            actions.add({
-              row: { ...realRow, [prop]: value } as T,
-              parentId: realRow.parentId,
-              parentActions:
-                castTo<ActionGroup<SmartNgRXRowBase>>(parentActions),
-            }),
-          );
-          return true;
-        }
-        // if there is not parentId then we are simply saving the
-        // row to the server
-        store.dispatch(
-          actions.update({
-            new: { row: { ...realRow, [prop]: value } as T },
-            old: { row: realRow },
-          }),
-        );
-        return true;
-      },
+      get: (target, prop) => customProxyGet(target, prop, actions),
+      set: (target, prop, value) =>
+        customProxySet(target, prop, value, { actions, parentActions }),
     });
   }
 

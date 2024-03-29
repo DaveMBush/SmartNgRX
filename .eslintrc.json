@@ -804,6 +804,12 @@
       }
     },
     {
+      "files": ["reducer.factory.ts"],
+      "rules": {
+        "max-lines-per-function": "off"
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@nx/angular-template"],
       "rules": {

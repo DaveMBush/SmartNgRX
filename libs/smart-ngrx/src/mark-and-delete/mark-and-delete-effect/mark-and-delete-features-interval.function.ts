@@ -1,5 +1,6 @@
 import { interval, tap } from 'rxjs';
 
+import { forNext } from '../../common/for-next.function';
 import { psi } from '../../common/theta.const';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { markAndDeleteEntities } from '../mark-and-delete-entity.map';
@@ -16,16 +17,15 @@ export function markAndDeleteFeaturesInterval(): void {
     .pipe(
       tap(() => {
         const featureKeys = markAndDeleteEntities();
-        const featureKeyLength = featureKeys.length;
         // for/next is faster than forEach
-        for (let i = 0; i < featureKeyLength; i++) {
+        forNext(featureKeys, (item) =>
           markAndDeleteEntity(
-            featureKeys[i].split(psi) as [
+            item.split(psi) as [
               StringLiteralSource<string>,
               StringLiteralSource<string>,
             ],
-          );
-        }
+          ),
+        );
       }),
     )
     .subscribe();
