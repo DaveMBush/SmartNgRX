@@ -24,10 +24,11 @@ const dispatchFalse = {
   dispatch: false;
 };
 
-const functional = {
+const dispatchTrue = {
   functional: true,
 } as EffectConfig & {
   functional: true;
+  dispatch: true;
 };
 
 /**
@@ -62,7 +63,7 @@ export function effectsFactory<
     `Entity adapter for feature: ${feature} and entity: ${entityName} not found.`,
   );
   return castTo<Record<string, FunctionalEffect>>({
-    load: createEffect(loadEffect(effectsServiceToken, actions), functional),
+    load: createEffect(loadEffect(effectsServiceToken, actions), dispatchTrue),
     loadByIdsPreload: createEffect(
       loadByIdsPreloadEffect(feature, entityName, actions),
       dispatchFalse,
@@ -85,7 +86,7 @@ export function effectsFactory<
       ),
       dispatchFalse,
     ),
-    add: createEffect(addEffect(effectsServiceToken, actions), functional),
+    add: createEffect(addEffect(effectsServiceToken, actions), dispatchTrue),
     addSuccess: createEffect(
       addSuccessEffect(effectsServiceToken, actions, adapter),
       dispatchFalse,
