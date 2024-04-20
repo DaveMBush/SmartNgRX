@@ -1,4 +1,4 @@
-import { ActionGroup } from '../functions/action-group.interface';
+import { ActionService } from '../actions/action.service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { CustomProxy } from './custom-proxy.class';
 
@@ -7,7 +7,7 @@ import { CustomProxy } from './custom-proxy.class';
  *
  * @param target the CustomProxy the Proxy targets
  * @param prop the property the proxy needs to retrieve
- * @param actions the action group associated with the row entity
+ * @param service the service that handles the actions for the row
  * @returns the value of the property
  */
 export function customProxyGet<
@@ -16,7 +16,7 @@ export function customProxyGet<
 >(
   target: CustomProxy<T, P>,
   prop: string | symbol,
-  actions: ActionGroup<T>,
+  service: ActionService<T>,
 ): unknown {
   if (prop === 'toJSON') {
     return () => target.toJSON();
@@ -24,9 +24,8 @@ export function customProxyGet<
   if (prop === 'getRealRow') {
     return () => target.getRealRow();
   }
-  /* istanbul ignore next -- trivial and app would break without it*/
   if (prop === 'isEditing') {
-    actions.loadByIdsSuccess({ rows: [{ ...target.row, isEditing: true }] });
+    service.loadByIdsSuccess([{ ...target.row, isEditing: true }]);
   }
   return prop in target.changes ? target.changes[prop] : target.record[prop];
 }

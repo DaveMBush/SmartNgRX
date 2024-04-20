@@ -1,372 +1,107 @@
-/* eslint-disable sonarjs/no-duplicate-string -- duplicate strings are necessary and intentional */
-import { TestBed } from '@angular/core/testing';
+/* eslint-disable sonarjs/no-duplicate-string -- conflicting rule */
 import { createEntityAdapter } from '@ngrx/entity';
-import { createAction, props } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { filter, firstValueFrom } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
 
-import { adapterForEntity } from '../functions/adapter-for-entity.function';
+import { ActionService } from '../actions/action.service';
+import { castTo } from '../common/cast-to.function';
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import {
   registerEntity,
   unregisterEntity,
-} from '../functions/register-entity.function';
-import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
+} from '../registrations/register-entity.function';
+import { createStore } from '../tests/functions/create-store.function';
+import { EntityAttributes } from '../types/entity-attributes.interface';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
-import { entityStateFactory } from './mocks/entity-state.factory';
-import { store as storeFunction } from './store.function';
 
-const mockDispatch = jest.fn();
+const feature = 'feature' as StringLiteralSource<string>;
+const entity = 'entity' as StringLiteralSource<string>;
 
-const department1 = 'department-1';
+interface Row extends SmartNgRXRowBase {
+  id: string;
+  name: string;
+}
 
-jest.mock('./store.function', () => ({
-  __esModule: true,
-  store: () => ({
-    dispatch: mockDispatch,
-  }),
-}));
-
-const mockAction = createAction(
-  '[mock] fetch data',
-  props<{
-    ids: string[];
-  }>(),
-);
-
-let testScheduler: TestScheduler;
-
-describe('ensureDataLoaded', () => {
-  let store: MockStore<{ foo: { bar: string } }>;
-  describe('when markDirtyFetchesNew is undefined', () => {
+describe('ensureDataLoaded()', () => {
+  let actionServiceLoadByIdsSpy: jest.SpyInstance;
+  let actionServiceMarkDirtySpy: jest.SpyInstance;
+  let actionService: ActionService<Row>;
+  beforeEach(() => {
+    createStore();
+    entityDefinitionCache(feature, entity, {
+      entityAdapter: createEntityAdapter(),
+    } as SmartEntityDefinition<SmartNgRXRowBase>);
+    registerEntity(feature, entity, {
+      markAndDeleteInit: { markDirtyFetchesNew: true },
+    } as EntityAttributes);
+    actionService = castTo<ActionService<Row>>(
+      actionServiceRegistry(feature, entity),
+    );
+    actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
+    actionServiceMarkDirtySpy = jest.spyOn(actionService, 'markDirty');
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+    unregisterEntity(feature, entity);
+  });
+  describe('when the id is not loaded', () => {
     beforeEach(() => {
-      const initialState = {};
-      TestBed.configureTestingModule({
-        providers: [provideMockStore({ initialState })],
-      });
-
-      store = TestBed.inject(MockStore);
-      storeFunction(store);
-
-      testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
-      registerGlobalMarkAndDeleteInit({
-        markDirtyTime: 15 * 60 * 1000,
-        removeTime: 30 * 60 * 1000,
-        runInterval: 60 * 1000,
-        markDirtyFetchesNew: true,
-      });
-      registerEntity('feature', 'departments', {
-        defaultRow: (id: string) => ({
-          id,
-          name: '',
-          children: [],
-          isDirty: false,
-        }),
-        markAndDeleteInit: {
-          markDirtyTime: 15 * 60 * 1000,
-          removeTime: 30 * 60 * 1000,
-          runInterval: 60 * 1000,
-          markDirtyFetchesNew: true,
-        },
-        markAndDeleteEntityMap: new Map<string, number>(),
-      });
-      adapterForEntity('feature', 'departments', createEntityAdapter());
-      jest.resetAllMocks();
+      ensureDataLoaded({ ids: [], entities: {} }, 'id', 'feature', 'entity');
     });
-    afterEach(() => {
-      unregisterEntity('feature', 'departments');
-    });
-
-    describe('when the entity does not exist', () => {
-      it('dispatches action', () => {
-        const state = {
-          ids: [],
-          entities: {},
-        };
-
-        ensureDataLoaded(state, department1, 'feature', 'departments');
-
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Only way I could get this test to work.
-        setTimeout(async () => {
-          // Here, you would also check if `locationActions.load` has been dispatched.
-          const loadAction = await firstValueFrom(
-            store.scannedActions$.pipe(
-              filter((action) => action.type === '[mock] fetch data'),
-            ),
-          );
-          expect(loadAction).toHaveBeenLastCalledWith(
-            mockAction({
-              ids: [department1],
-            }),
-          );
-        }, 1);
-      });
-    });
-
-    describe('when the entity is dirty', () => {
-      it('dispatches action when the entity is dirty', () => {
-        const state = entityStateFactory({
-          parentCount: 1,
-          childCount: 0,
-          parentType: 'department',
-          childType: 'folder',
-          isDirty: true,
-        });
-
-        testScheduler.run(() => {
-          ensureDataLoaded(state, department1, 'feature', 'departments');
-
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises -- only way to get this to run because we are using Promises instead of asapScheduler
-          setTimeout(() => {
-            expect(mockDispatch).toHaveBeenCalledTimes(1);
-            expect(mockDispatch).toHaveBeenLastCalledWith(
-              mockAction({
-                ids: [department1],
-              }),
-            );
-          }, 1);
-
-          testScheduler.flush();
-        });
-      });
-    });
-
-    describe('when the entity is loaded and not dirty', () => {
-      it('does not dispatch action if the entity is already loaded and is not dirty', () => {
-        const state = entityStateFactory({
-          parentCount: 1,
-          childCount: 0,
-          parentType: 'department',
-          childType: 'folder',
-          isDirty: false,
-        });
-
-        testScheduler.run(() => {
-          ensureDataLoaded(state, department1, 'feature', 'departments');
-          testScheduler.flush();
-          expect(mockDispatch).toHaveBeenCalledTimes(0);
-        });
-      });
+    it('should call the action service to load the id', () => {
+      expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
     });
   });
-  describe('when markDirtyFetchesNew is true', () => {
-    beforeEach(() => {
-      const initialState = {};
-      TestBed.configureTestingModule({
-        providers: [provideMockStore({ initialState })],
+  describe('when the id is loaded', () => {
+    describe('but isDirty has never been set', () => {
+      beforeEach(() => {
+        ensureDataLoaded<Row, 'feature', 'entity'>(
+          { ids: [], entities: { id: { id: 'id', name: 'foo' } } },
+          'id',
+          'feature',
+          'entity',
+        );
       });
-
-      store = TestBed.inject(MockStore);
-      storeFunction(store);
-
-      testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
-      registerGlobalMarkAndDeleteInit({
-        markDirtyTime: 15 * 60 * 1000,
-        removeTime: 30 * 60 * 1000,
-        runInterval: 60 * 1000,
-        markDirtyFetchesNew: true,
-      });
-      registerEntity('feature', 'departments', {
-        defaultRow: (id: string) => ({
-          id,
-          name: '',
-          children: [],
-          isDirty: false,
-        }),
-        markAndDeleteInit: {
-          markDirtyTime: 15 * 60 * 1000,
-          removeTime: 30 * 60 * 1000,
-          runInterval: 60 * 1000,
-          markDirtyFetchesNew: true,
-        },
-        markAndDeleteEntityMap: new Map<string, number>(),
-      });
-      jest.resetAllMocks();
-    });
-    afterEach(() => {
-      unregisterEntity('feature', 'departments');
-    });
-
-    describe('when the entity does not exist', () => {
-      it('dispatches action', () => {
-        const state = {
-          ids: [],
-          entities: {},
-        };
-
-        ensureDataLoaded(state, department1, 'feature', 'departments');
-
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Only way I could get this test to work.
-        setTimeout(async () => {
-          // Here, you would also check if `locationActions.load` has been dispatched.
-          const loadAction = await firstValueFrom(
-            store.scannedActions$.pipe(
-              filter((action) => action.type === '[mock] fetch data'),
-            ),
-          );
-          expect(loadAction).toHaveBeenLastCalledWith(
-            mockAction({
-              ids: [department1],
-            }),
-          );
-        }, 1);
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
       });
     });
-
-    describe('when the entity is dirty', () => {
-      it('dispatches action when the entity is dirty', () => {
-        const state = entityStateFactory({
-          parentCount: 1,
-          childCount: 0,
-          parentType: 'department',
-          childType: 'folder',
-          isDirty: true,
-        });
-
-        testScheduler.run(() => {
-          ensureDataLoaded(state, department1, 'feature', 'departments');
-
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises -- only way to get this to run because we are using Promises instead of asapScheduler
-          setTimeout(() => {
-            expect(mockDispatch).toHaveBeenCalledTimes(1);
-            expect(mockDispatch).toHaveBeenLastCalledWith(
-              mockAction({
-                ids: [department1],
-              }),
-            );
-          }, 1);
-
-          testScheduler.flush();
-        });
+    describe('and isDirty is true and mark dirty fetches new', () => {
+      beforeEach(() => {
+        ensureDataLoaded<Row, 'feature', 'entity'>(
+          {
+            ids: [],
+            entities: { id: { id: 'id', name: 'foo', isDirty: true } },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
+      });
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
       });
     });
-
-    describe('when the entity is loaded and not dirty', () => {
-      it('does not dispatch action if the entity is already loaded and is not dirty', () => {
-        const state = entityStateFactory({
-          parentCount: 1,
-          childCount: 0,
-          parentType: 'department',
-          childType: 'folder',
-          isDirty: false,
-        });
-
-        testScheduler.run(() => {
-          ensureDataLoaded(state, department1, 'feature', 'departments');
-          testScheduler.flush();
-          expect(mockDispatch).toHaveBeenCalledTimes(0);
-        });
+    describe('and isDirty is true and mark dirty does not fetch new', () => {
+      beforeEach(() => {
+        unregisterEntity(feature, entity);
+        registerEntity(feature, entity, {
+          markAndDeleteInit: { markDirtyFetchesNew: false },
+        } as EntityAttributes);
+        ensureDataLoaded<Row, 'feature', 'entity'>(
+          {
+            ids: [],
+            entities: { id: { id: 'id', name: 'foo', isDirty: true } },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
       });
-    });
-  });
-  describe('when markDirtyFetchesNew is false', () => {
-    beforeEach(() => {
-      const initialState = {};
-      TestBed.configureTestingModule({
-        providers: [provideMockStore({ initialState })],
-      });
-
-      store = TestBed.inject(MockStore);
-      storeFunction(store);
-
-      testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected);
-      });
-      registerGlobalMarkAndDeleteInit({
-        markDirtyTime: 15 * 60 * 1000,
-        removeTime: 30 * 60 * 1000,
-        runInterval: 60 * 1000,
-        markDirtyFetchesNew: true,
-      });
-      registerEntity('feature', 'departments', {
-        defaultRow: (id: string) => ({
-          id,
-          name: '',
-          children: [],
-          isDirty: false,
-        }),
-        markAndDeleteInit: {
-          markDirtyTime: 15 * 60 * 1000,
-          removeTime: 30 * 60 * 1000,
-          runInterval: 60 * 1000,
-          markDirtyFetchesNew: false,
-        },
-        markAndDeleteEntityMap: new Map<string, number>(),
-      });
-      jest.resetAllMocks();
-    });
-    afterEach(() => {
-      unregisterEntity('feature', 'departments');
-    });
-
-    describe('when the entity does not exist', () => {
-      it('dispatches action', () => {
-        const state = {
-          ids: [],
-          entities: {},
-        };
-
-        ensureDataLoaded(state, department1, 'feature', 'departments');
-
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises -- Only way I could get this test to work.
-        setTimeout(async () => {
-          // Here, you would also check if `locationActions.load` has been dispatched.
-          const loadAction = await firstValueFrom(
-            store.scannedActions$.pipe(
-              filter((action) => action.type === '[mock] fetch data'),
-            ),
-          );
-          expect(loadAction).toHaveBeenLastCalledWith(
-            mockAction({
-              ids: [department1],
-            }),
-          );
-        }, 1);
-      });
-    });
-
-    describe('when the entity is dirty', () => {
-      it('dispatches action when the entity is dirty', () => {
-        const state = entityStateFactory({
-          parentCount: 1,
-          childCount: 0,
-          parentType: 'department',
-          childType: 'folder',
-          isDirty: true,
-        });
-
-        testScheduler.run(() => {
-          ensureDataLoaded(state, department1, 'feature', 'departments');
-
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises -- only way to get this to run because we are using Promises instead of asapScheduler
-          setTimeout(() => {
-            expect(mockDispatch).toHaveBeenCalledTimes(0);
-          }, 1);
-
-          testScheduler.flush();
-        });
-      });
-    });
-
-    describe('when the entity is loaded and not dirty', () => {
-      it('does not dispatch action if the entity is already loaded and is not dirty', () => {
-        const state = entityStateFactory({
-          parentCount: 1,
-          childCount: 0,
-          parentType: 'department',
-          childType: 'folder',
-          isDirty: false,
-        });
-
-        testScheduler.run(() => {
-          ensureDataLoaded(state, department1, 'feature', 'departments');
-          testScheduler.flush();
-          expect(mockDispatch).toHaveBeenCalledTimes(0);
-        });
+      it('should call the action service to mark the id dirty', () => {
+        expect(actionServiceMarkDirtySpy).toHaveBeenCalled();
       });
     });
   });

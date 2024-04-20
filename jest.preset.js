@@ -5,6 +5,7 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/{main.ts,test-setup.ts}',
+    '!<rootDir>/src/**/mocks/**/*.ts',
   ],
   coverageThreshold: {
     global: {

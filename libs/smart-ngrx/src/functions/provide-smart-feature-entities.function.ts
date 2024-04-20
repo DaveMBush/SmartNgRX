@@ -8,10 +8,10 @@ import { forNext } from '../common/for-next.function';
 import { effectsFactory } from '../effects/effects-factory.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
-import { registerAdapterForDefinition } from './register-adapter-for-definition.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -45,8 +45,12 @@ export function provideSmartFeatureEntities<F extends string>(
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
   forNext(entityDefinitions, (entityDefinition) => {
-    registerAdapterForDefinition(featureName, entityDefinition);
-    const { entityName, effectServiceToken, defaultRow } = entityDefinition;
+    entityDefinitionCache(
+      featureName,
+      entityDefinition.entityName,
+      entityDefinition,
+    );
+    const { entityName, effectServiceToken } = entityDefinition;
     const effects = effectsFactory(
       featureName,
       entityName as StringLiteralSource<string>,
@@ -56,7 +60,6 @@ export function provideSmartFeatureEntities<F extends string>(
     const reducer = reducerFactory(
       featureName,
       entityName as StringLiteralSource<string>,
-      defaultRow,
     );
     reducers[entityName] = reducer;
     interval(1)

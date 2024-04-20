@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { map, withLatestFrom } from 'rxjs';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
-import { actionFactory } from '@smart/smart-ngrx/functions/action.factory';
+import { actionFactory } from '@smart/smart-ngrx/index';
 import { RowsProp } from '@smart/smart-ngrx/types/rows-prop.interface';
 
 import { Location } from '../../../../shared/locations/location.interface';

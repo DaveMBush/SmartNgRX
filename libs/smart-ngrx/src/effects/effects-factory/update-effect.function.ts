@@ -10,8 +10,10 @@ import {
   tap,
 } from 'rxjs';
 
+import { ActionGroup } from '../../actions/action-group.interface';
 import { castTo } from '../../common/cast-to.function';
-import { ActionGroup } from '../../functions/action-group.interface';
+import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
+import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
@@ -30,14 +32,19 @@ import { manageMaps } from './update-effect/manage-maps.function';
  *
  * @param effectServiceToken the token for the effectService that will be called
  * @param actions the action group for the source provided
+ * @param feature the name of the feature this is for
+ * @param entity the name of the entity this is for
  * @returns the update effect
  */
 export function updateEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
+  feature: StringLiteralSource<string>,
+  entity: StringLiteralSource<string>,
 ) {
   const lastRow: Map<string, T> = new Map();
   const lastRowTimeout: Map<string, number> = new Map();
+
   return (
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
@@ -82,7 +89,12 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRowTimeout.delete(id);
         lastRowTimeout.set(id, now);
         lastRow.set(id, rows[0]);
-        return actions.loadByIdsSuccess({ rows });
+        // have to call the service to pickup the registration
+        const service = actionServiceRegistry(
+          feature as StringLiteralSource<string>,
+          entity as StringLiteralSource<string>,
+        );
+        service.loadByIdsSuccess(rows);
       }),
     );
   };

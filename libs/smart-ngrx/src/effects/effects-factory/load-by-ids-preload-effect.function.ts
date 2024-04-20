@@ -1,8 +1,10 @@
 import { inject, NgZone } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { mergeMap, of } from 'rxjs';
+import { EMPTY, mergeMap } from 'rxjs';
 
-import { ActionGroup } from '../../functions/action-group.interface';
+import { ActionService } from '../../actions/action.service';
+import { ActionGroup } from '../../actions/action-group.interface';
+import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferAction } from '../buffer-action.function';
 
@@ -10,10 +12,18 @@ import { bufferAction } from '../buffer-action.function';
  * This is the effect that queues up the ids so the dummy records can be
  * loaded into the store while the service is retrieving the real records.
  *
+ * @param feature the feature name this effect is for
+ * @param entityName the entity name this effect is for
  * @param actions the action group for the source provided
  * @returns the LoadByIdesPreload effect
  */
-export function loadByIdsPreloadEffect<T extends SmartNgRXRowBase>(
+export function loadByIdsPreloadEffect<
+  F extends string,
+  E extends string,
+  T extends SmartNgRXRowBase,
+>(
+  feature: StringLiteralSource<F>,
+  entityName: StringLiteralSource<E>,
   actions: ActionGroup<T>,
 ) {
   return (
@@ -25,7 +35,13 @@ export function loadByIdsPreloadEffect<T extends SmartNgRXRowBase>(
     return actions$.pipe(
       ofType(actions.loadByIds),
       bufferAction(zone),
-      mergeMap((ids) => of(actions.loadByIdsPreload({ ids }))),
+      mergeMap((ids) => {
+        new ActionService<T>(
+          feature as StringLiteralSource<string>,
+          entityName as StringLiteralSource<string>,
+        ).loadByIdsPreload(ids);
+        return EMPTY;
+      }),
     );
   };
 }
