@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
+/* jscpd:ignore-start */
 import { ActionCreator } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 
+import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { UpdateChanges } from '../types/update-changes.interface';
+/* jscpd:ignore-start */
 
 export interface ActionGroup<T extends SmartNgRXRowBase> {
   load: ActionCreator<`[${any}] Load`, () => TypedAction<`[${any}] Load`>>;
@@ -14,31 +18,23 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
     `[${any}] Load Success`,
     (props: RowsProp<T>) => RowsProp<T> & TypedAction<`[${any}] Load Success`>
   >;
-  markDirty: ActionCreator<
-    `[${any}] Mark Dirty`,
-    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Mark Dirty`>
+  updateMany: ActionCreator<
+    `[${any}] Update Many`,
+    (
+      props: UpdateChanges<T>,
+    ) => TypedAction<`[${any}] Update Many`> & UpdateChanges<T>
   >;
-  markNotDirty: ActionCreator<
-    `[${any}] Mark Not Dirty`,
-    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Mark Not Dirty`>
-  >;
-  garbageCollect: ActionCreator<
-    `[${any}] Garbage Collect`,
-    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Garbage Collect`>
+  remove: ActionCreator<
+    `[${any}] Remove`,
+    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Remove`>
   >;
   loadByIds: ActionCreator<
     `[${any}] Load By Ids`,
     (props: IdsProp) => IdsProp & TypedAction<`[${any}] Load By Ids`>
   >;
-  loadByIdsPreload: ActionCreator<
-    `[${any}] Load By Ids Preload`,
-    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Load By Ids Preload`>
-  >;
-  loadByIdsSuccess: ActionCreator<
-    `[${any}] Load By Ids Success`,
-    (
-      props: RowsProp<T>,
-    ) => RowsProp<T> & TypedAction<`[${any}] Load By Ids Success`>
+  storeRows: ActionCreator<
+    `[${any}] Store Rows`,
+    (props: RowsProp<T>) => RowsProp<T> & TypedAction<`[${any}] Store Rows`>
   >;
   update: ActionCreator<
     `[${any}] Update`,
@@ -56,11 +52,13 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
     (props: {
       row: T;
       parentId: string;
-      parentActions: ActionGroup<SmartNgRXRowBase>;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
     }) => TypedAction<`[${any}] Add`> & {
       row: T;
       parentId: string;
-      parentActions: ActionGroup<SmartNgRXRowBase>;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
     }
   >;
   addSuccess: ActionCreator<
@@ -69,12 +67,14 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
       oldRow: T;
       newRow: T;
       parentId: string;
-      parentActions: ActionGroup<SmartNgRXRowBase>;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
     }) => TypedAction<`[${any}] Add Success`> & {
       oldRow: T;
       newRow: T;
       parentId: string;
-      parentActions: ActionGroup<SmartNgRXRowBase>;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
     }
   >;
   delete: ActionCreator<

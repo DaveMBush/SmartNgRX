@@ -1,4 +1,4 @@
-import { actionFactory } from '@smart/smart-ngrx/functions/action.factory';
+import { actionFactory } from '@smart/smart-ngrx/index';
 
 export const departmentActions = actionFactory(
   'tree-no-refresh',

@@ -1,18 +1,17 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
-import { Store } from '@ngrx/store';
 
+import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
-import { actionFactory } from '../functions/action.factory';
-import { ActionGroup } from '../functions/action-group.interface';
-import { adapterForEntity } from '../functions/adapter-for-entity.function';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { CustomProxy } from '../row-proxy/custom-proxy.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { arrayProxyClassGet } from './array-proxy-class.get.function';
 import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
-import { store as storeFunction } from './store.function';
 
 /**
  * This is an internal class used by `createSmartSelector` to wrap the field
@@ -27,6 +26,7 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
   entityAdapter: EntityAdapter<C>;
   [isProxy] = true;
   rawArray: string[] = [];
+  childActionService: ActionService<C>;
 
   /**
    * The constructor for the ArrayProxy class.
@@ -42,17 +42,23 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
     private childDefinition: ChildDefinition<P>,
   ) {
     const { childFeature, childEntity } = this.childDefinition;
+    this.childActionService = castTo<ActionService<C>>(
+      actionServiceRegistry(childFeature, childEntity),
+    );
     // needed primarily for adding items to the array
-    this.entityAdapter = adapterForEntity<C>(childFeature, childEntity);
+    const entityAdapter = entityDefinitionCache(
+      childFeature,
+      childEntity,
+    ).entityAdapter;
+    assert(
+      !!entityAdapter,
+      `Entity adapter for feature: ${childFeature} and entity: ${childEntity} not found.`,
+    );
+    this.entityAdapter = castTo<EntityAdapter<C>>(entityAdapter);
     // proxying this so that we can intercept going after
     // an index and return the item from the store instead
     return new Proxy(this, {
-      get(target, prop) {
-        if (typeof prop === 'string' && !isNaN(+prop)) {
-          return target.getAtIndex(+prop);
-        }
-        return Reflect.get(target, prop);
-      },
+      get: (target, prop) => arrayProxyClassGet(target, prop),
     });
   }
 
@@ -62,7 +68,6 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * executable code in the constructor.
    */
   init(): void {
-    // fill childArray with values from entity that we currently have
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = castTo<ArrayProxy<P, C>>(this.childArray).rawArray;
     }
@@ -118,18 +123,15 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    *
    * @returns actions, parentActions, and store
    */
-  getActionsAndStore(): {
-    actions: ActionGroup<SmartNgRXRowBase>;
-    parentActions: ActionGroup<SmartNgRXRowBase>;
-    store: Store;
+  getServices(): {
+    service: ActionService<SmartNgRXRowBase>;
+    parentService: ActionService<SmartNgRXRowBase>;
   } {
     const { childFeature, childEntity, parentFeature, parentEntity } =
       this.childDefinition;
-    const actions = actionFactory(childFeature, childEntity);
-    const parentActions = actionFactory(parentFeature, parentEntity);
-    const store = storeFunction();
-    assert(!!store, 'store is undefined');
-    return { actions, parentActions, store };
+    const service = actionServiceRegistry(childFeature, childEntity);
+    const parentService = actionServiceRegistry(parentFeature, parentEntity);
+    return { service, parentService };
   }
 
   /**
@@ -140,33 +142,26 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * @param thisRow the parent entity (this row) that contains the array
    */
   addToStore(newRow: C, thisRow: P): void {
-    const { childFeature, childEntity, parentFeature, parentEntity } =
-      this.childDefinition;
-    const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
-      newRow,
-    ) as string;
-    const parentId = adapterForEntity<P>(parentFeature, parentEntity).selectId(
-      thisRow,
-    ) as string;
-    const { actions, parentActions, store } = this.getActionsAndStore();
-    let newParent: P = { ...thisRow, isEditing: true };
-    // We aren't using the 2nd generic parameter of CustomProxy, so we just
-    // use the base type of SmartNgRXRowBase here.
-    const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(thisRow);
-    if (customProxy.getRealRow !== undefined) {
-      newParent = {
-        ...customProxy.getRealRow(),
-        ...customProxy.changes,
-        isEditing: true,
-      };
-    }
+    const { parentFeature, parentEntity } = this.childDefinition;
+    const childId = this.entityAdapter.selectId(newRow) as string;
+    const adapter = entityDefinitionCache(
+      parentFeature,
+      parentEntity,
+    ).entityAdapter;
+    assert(
+      !!adapter,
+      `Entity adapter for feature: ${parentFeature} and entity: ${parentEntity} not found.`,
+    );
+    const parentId = adapter.selectId(thisRow) as string;
+    const { service, parentService } = this.getServices();
+    const newParent = this.createNewParentFromParent(thisRow, true);
     newRow.parentId = parentId;
     newRow.isEditing = true;
-    store.dispatch(actions.loadByIdsSuccess({ rows: [newRow] }));
+    service.loadByIdsSuccess([newRow]);
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = [...this.rawArray, childId];
-    store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
+    parentService.loadByIdsSuccess([newParent]);
   }
 
   /**
@@ -177,12 +172,21 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * @param parent the parent entity that contains the array
    */
   removeFromStore(row: C, parent: P): void {
-    const { childFeature, childEntity } = this.childDefinition;
-    const childId = adapterForEntity<C>(childFeature, childEntity).selectId(
-      row,
-    ) as string;
-    const { actions, parentActions, store } = this.getActionsAndStore();
-    let newParent: P = { ...parent, isEditing: false };
+    const childId = this.entityAdapter.selectId(row) as string;
+    const { parentService } = this.getServices();
+    const newParent = this.createNewParentFromParent(parent, false);
+    castTo<Record<keyof P, string[]>>(newParent)[
+      this.childDefinition.parentField
+    ] = this.rawArray.filter((cid) => cid !== childId);
+    this.childActionService.remove([childId]);
+    parentService.loadByIdsSuccess([newParent]);
+  }
+
+  /**
+   * @ignore
+   */
+  private createNewParentFromParent(parent: P, isEditing: boolean): P {
+    let newParent: P = { ...parent, isEditing };
     // we aren't using the 2nd generic parameter of CustomProxy, so we just
     // use the base type of SmartNgRXRowBase here.
     const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(parent);
@@ -190,13 +194,9 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
       newParent = {
         ...customProxy.getRealRow(),
         ...customProxy.changes,
-        isEditing: false,
+        isEditing,
       };
     }
-    castTo<Record<keyof P, string[]>>(newParent)[
-      this.childDefinition.parentField
-    ] = this.rawArray.filter((cid) => cid !== childId);
-    store.dispatch(actions.garbageCollect({ ids: [childId] }));
-    store.dispatch(parentActions.loadByIdsSuccess({ rows: [newParent] }));
+    return newParent;
   }
 }

@@ -2,9 +2,10 @@ import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { catchError, concatMap, map, of } from 'rxjs';
 
-import { ActionGroup } from '../../functions/action-group.interface';
+import { ActionGroup } from '../../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
+import { markParentDirty } from './mark-parent-dirty.function';
 
 /**
  * This is the effect that handles adding a new row to the store.
@@ -27,7 +28,7 @@ export function addEffect<T extends SmartNgRXRowBase>(
   ) => {
     return actions$.pipe(
       ofType(actions.add),
-      // action.parentActions has to get passed to map and catchError
+      // action.parentService has to get passed to map and catchError
       // could we get the action from the registration instead of passing
       // it in since we are in an effect that we own?
       concatMap((action) => {
@@ -37,13 +38,18 @@ export function addEffect<T extends SmartNgRXRowBase>(
               oldRow: action.row,
               newRow: rows[0],
               parentId: action.parentId,
-              parentActions: action.parentActions,
+              parentFeature: action.parentFeature,
+              parentEntityName: action.parentEntityName,
             });
           }),
           catchError((_: unknown, __) => {
-            return of(
-              action.parentActions.markDirty({ ids: [action.parentId] }),
+            markParentDirty(
+              action.parentFeature,
+              action.parentEntityName,
+              action.parentId,
             );
+            // because NgRX requires an action to be returned
+            return of({ type: 'noop' });
           }),
         );
       }),

@@ -12,7 +12,7 @@ describe('default-rows.function.ts', () => {
         ids: [],
         entities: {},
       };
-      returnedRows = defaultRows(ids, state, defaultRow);
+      returnedRows = defaultRows(ids, state.entities, defaultRow);
       expect(returnedRows).toEqual([
         { id: '1', isDirty: false, isLoading: true },
       ]);
@@ -27,7 +27,7 @@ describe('default-rows.function.ts', () => {
           '1': { id: '1', isDirty: false },
         },
       };
-      returnedRows = defaultRows(ids, state, defaultRow);
+      returnedRows = defaultRows(ids, state.entities, defaultRow);
       expect(returnedRows).toEqual([]);
     });
   });
@@ -42,9 +42,23 @@ describe('default-rows.function.ts', () => {
           '4': { id: '4', isDirty: false },
         },
       };
-      returnedRows = defaultRows(ids, state, defaultRow);
+      returnedRows = defaultRows(ids, state.entities, defaultRow);
       expect(returnedRows).toEqual([
         { id: '2', isDirty: false, isLoading: true },
+        { id: '5', isDirty: false, isLoading: true },
+        { id: '6', isDirty: false, isLoading: true },
+      ]);
+    });
+  });
+  describe('if entities is undefined', () => {
+    it('all rows should be returned', () => {
+      const ids = ['1', '2', '3', '4', '5', '6'];
+      returnedRows = defaultRows(ids, undefined, defaultRow);
+      expect(returnedRows).toEqual([
+        { id: '1', isDirty: false, isLoading: true },
+        { id: '2', isDirty: false, isLoading: true },
+        { id: '3', isDirty: false, isLoading: true },
+        { id: '4', isDirty: false, isLoading: true },
         { id: '5', isDirty: false, isLoading: true },
         { id: '6', isDirty: false, isLoading: true },
       ]);

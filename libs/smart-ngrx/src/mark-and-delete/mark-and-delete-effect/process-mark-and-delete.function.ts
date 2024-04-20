@@ -1,8 +1,5 @@
-import { actionFactory } from '../..';
-import { assert } from '../../common/assert.function';
-import { isNullOrUndefined } from '../../common/is-null-or-undefined.function';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
-import { store as storeFunction } from '../../selector/store.function';
+import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 
 /**
@@ -22,19 +19,12 @@ export function processMarkAndDelete(
 ) {
   requestIdleCallback(
     () => {
-      const store = storeFunction();
-      assert(
-        !isNullOrUndefined(store),
-        'could not find store from store function',
-      );
-      const entityAction = actionFactory(featureKey, entity);
+      const actionService = actionServiceRegistry(featureKey, entity);
       if (garbageCollectRowIds.length > 0) {
-        store!.dispatch(
-          entityAction.garbageCollect({ ids: garbageCollectRowIds }),
-        );
+        actionService.garbageCollect(garbageCollectRowIds);
       }
       if (markDirtyRowIds.length > 0) {
-        store!.dispatch(entityAction.markDirty({ ids: markDirtyRowIds }));
+        actionService.markDirty(markDirtyRowIds);
       }
     },
     { timeout: getGlobalMarkAndDeleteInit().runInterval! - 100 },

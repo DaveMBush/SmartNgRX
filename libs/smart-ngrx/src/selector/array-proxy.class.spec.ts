@@ -1,229 +1,234 @@
-import { TestBed } from '@angular/core/testing';
 import { createEntityAdapter } from '@ngrx/entity';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
 
+import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
-import { isProxy } from '../common/is-proxy.const';
-import { ActionGroup } from '../functions/action-group.interface';
-import { adapterForEntity } from '../functions/adapter-for-entity.function';
-import { registerEntity } from '../functions/register-entity.function';
-import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { CustomProxy } from '../row-proxy/custom-proxy.class';
+import { createStore } from '../tests/functions/create-store.function';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
-import { isArrayProxy } from './is-array-proxy.function';
-import { store as storeFunction } from './store.function';
+import * as getArrayItem from './get-array-item.function';
 
-interface TestType extends SmartNgRXRowBase {
-  id: string;
-  name: string;
-  isDirty?: boolean;
-  children: string[];
-}
+const childDefinition = {
+  childFeature: 'feature',
+  childEntity: 'entity',
+} as unknown as ChildDefinition<SmartNgRXRowBase>;
 
-const feature = 'feature';
-const department = 'department';
-const entity = 'entity';
-const department3 = 'Department 3';
-
-describe('proxyArray', () => {
-  const childArray: string[] = ['department1', 'department2'];
-  const child = {
-    ids: ['department1', 'department2'],
-    entities: {
-      department1: {
-        id: 'department1',
-        name: 'Department 1',
-        isDirty: false,
-      },
-      department2: {
-        id: 'department2',
-        name: 'Department 2',
-        isDirty: false,
-      },
-    },
-  };
-
-  registerGlobalMarkAndDeleteInit({
-    markDirtyTime: 15 * 60 * 1000,
-    removeTime: 30 * 60 * 1000,
-    runInterval: 60 * 1000,
-    markDirtyFetchesNew: true,
-  });
-  registerEntity(feature, department, {
-    defaultRow: (id: string) => ({ id, name: '', isDirty: false }),
-    markAndDeleteEntityMap: new Map(),
-    markAndDeleteInit: {
-      markDirtyTime: 15 * 60 * 1000,
-      removeTime: 30 * 60 * 1000,
-      runInterval: 60 * 1000,
-      markDirtyFetchesNew: true,
-    },
-  });
-  adapterForEntity(feature, entity, createEntityAdapter());
-  adapterForEntity(feature, department, createEntityAdapter());
-
-  const arr = new ArrayProxy<TestType, SmartNgRXRowBase>(childArray, child, {
-    childFeature: feature,
-    childEntity: department,
-    parentFeature: 'parentFeature',
-    parentEntity: 'parentEntity',
-    parentField: 'children',
-  } as unknown as ChildDefinition<TestType>);
-  arr.init();
-  let parentActions: ActionGroup<SmartNgRXRowBase>;
-  let actions: ActionGroup<SmartNgRXRowBase>;
-  let store: Store;
+describe('ArrayProxy', () => {
+  let arrayProxy: ArrayProxy<object, SmartNgRXRowBase> | undefined;
+  let originalArray: string[] = [];
+  let getArrayItemSpy: jest.SpyInstance;
+  function assertArrayProxy(ap: boolean): asserts ap {
+    assert(ap, 'arrayProxy is undefined');
+  }
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        provideMockStore({
-          initialState: {},
-        }),
-      ],
-    });
-    store = TestBed.inject(Store) as Store;
-    storeFunction(store);
-    const actionsAndStore = arr.getActionsAndStore();
-    parentActions = actionsAndStore.parentActions;
-    actions = actionsAndStore.actions;
+    getArrayItemSpy = jest
+      .spyOn(getArrayItem, 'getArrayItem')
+      .mockImplementation(() => ({}));
+    createStore();
+    entityDefinitionCache(
+      childDefinition.childFeature,
+      childDefinition.childEntity,
+      {
+        entityAdapter: createEntityAdapter<SmartNgRXRowBase>(),
+      } as SmartEntityDefinition<SmartNgRXRowBase>,
+    );
   });
   afterEach(() => {
-    jest.clearAllMocks();
+    arrayProxy = undefined;
   });
-
-  it('creates an array that proxies to the actual entity', () => {
-    expect(JSON.parse(JSON.stringify(arr[0]))).toEqual({
-      id: 'department1',
-      name: 'Department 1',
-      isDirty: false,
+  describe('init()', () => {
+    describe('when the childArray has never been proxied before', () => {
+      describe('and it is not frozen', () => {
+        beforeEach(() => {
+          originalArray = ['1', '2', '3'];
+          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+            originalArray,
+            { ids: [], entities: {} },
+            childDefinition,
+          );
+        });
+        it('should set the rawArray to the childArray and set the childArray to an empty array', () => {
+          assertArrayProxy(!!arrayProxy);
+          arrayProxy.init();
+          // make sure rawArray is the same object as the original array
+          expect(arrayProxy.rawArray).toBe(originalArray);
+          expect(arrayProxy.length).toEqual(3);
+          expect(
+            castTo<{ childArray: string[] }>(arrayProxy).childArray,
+          ).toEqual([]);
+        });
+      });
+      describe('and the childArray  is frozen', () => {
+        beforeEach(() => {
+          originalArray = ['1', '2', '3'];
+          Object.freeze(originalArray);
+          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+            originalArray,
+            { ids: [], entities: {} },
+            childDefinition,
+          );
+          arrayProxy.init();
+        });
+        it('should set the rawArray a copy of the childArray and set the childArray to an empty array', () => {
+          assertArrayProxy(!!arrayProxy);
+          expect(arrayProxy.rawArray).not.toBe(originalArray);
+          expect(arrayProxy.rawArray).toEqual(originalArray);
+          expect(arrayProxy.length).toEqual(3);
+          expect(
+            castTo<{ childArray: string[] }>(arrayProxy).childArray,
+          ).toEqual([]);
+        });
+      });
     });
-    expect(JSON.parse(JSON.stringify(arr[1]))).toEqual({
-      id: 'department2',
-      name: 'Department 2',
-      isDirty: false,
+    describe('when the childArray has been proxied before', () => {
+      describe('and it is not frozen', () => {
+        beforeEach(() => {
+          originalArray = ['1', '2', '3'];
+          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+            originalArray,
+            { ids: [], entities: {} },
+            childDefinition,
+          );
+          arrayProxy.init();
+          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+            arrayProxy,
+            { ids: [], entities: {} },
+            childDefinition,
+          );
+        });
+        it('should set the rawArray to the childArray and set the childArray to an empty array', () => {
+          assertArrayProxy(!!arrayProxy);
+          arrayProxy.init();
+          // make sure rawArray is the same object as the original array
+          expect(arrayProxy.rawArray).toBe(originalArray);
+          expect(arrayProxy.length).toEqual(3);
+          expect(
+            castTo<{ childArray: string[] }>(arrayProxy).childArray,
+          ).toEqual([]);
+        });
+      });
     });
   });
-
-  it('has the isProxy property for internal usage', () => {
-    expect(castTo<Record<string, boolean>>(arr)[isProxy]).toBe(true);
-  });
-
-  it('gives access to the raw array', () => {
-    expect(
-      castTo<ArrayProxy<TestType, SmartNgRXRowBase>>(arr).rawArray,
-    ).toEqual(['department1', 'department2']);
-  });
-  describe('if we pass in the proxy as the child', () => {
-    let arr2: ArrayProxy<TestType, SmartNgRXRowBase>;
-    beforeEach(() => {
-      // give parent the children from above
-      arr2 = new ArrayProxy<TestType, SmartNgRXRowBase>(arr, child, {
-        childFeature: feature,
-        childEntity: department,
-        parentFeature: 'parentFeature',
-        parentEntity: 'parentEntity',
-        parentField: 'children',
-      } as unknown as ChildDefinition<TestType>);
-      arr2.init();
-    });
-    it('should not re-proxy the child', () => {
-      expect(isArrayProxy(arr2)).toBe(true);
-      expect(isArrayProxy(arr2.rawArray)).toBe(false);
-    });
-  });
-  describe('addToStore(newRow, thisRow)', () => {
-    beforeEach(() => {
-      adapterForEntity('parentFeature', 'parentEntity', createEntityAdapter());
-    });
-    describe('when thisRow is a CustomProxy', () => {
-      it('should call customProxy.getRealRow()', () => {
-        const newRow = {
-          id: 'department3',
-          name: department3,
-          isDirty: false,
-          children: [] as string[],
-        };
-        const thisRow = {
-          id: 'parent1',
-          name: 'Parent 1',
-          isDirty: false,
-          children: ['department1', 'department2'],
-        } as TestType;
-        const customProxy = new CustomProxy<TestType, SmartNgRXRowBase>(
-          thisRow,
-          castTo<ActionGroup<TestType>>(parentActions),
-          actions,
+  describe('getAtIndex()', () => {
+    describe('when the index is between 0 and the length of the array', () => {
+      beforeEach(() => {
+        originalArray = ['1', '2', '3'];
+        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
         );
-        const getRealRowSpy = jest.spyOn(CustomProxy.prototype, 'getRealRow');
-        arr.addToStore(newRow, castTo<TestType>(customProxy));
-        expect(getRealRowSpy).toHaveBeenCalled();
+        arrayProxy.init();
+        arrayProxy.getAtIndex(0);
+        arrayProxy.getAtIndex(1);
+        arrayProxy.getAtIndex(2);
+      });
+      it('should call getArrayItem', () => {
+        assertArrayProxy(!!arrayProxy);
+        expect(getArrayItemSpy).toHaveBeenCalledTimes(3);
       });
     });
-    describe('when thisRow is not a CustomProxy', () => {
-      it('should not call customProxy.getRealRow()', () => {
-        const newRow = {
-          id: 'department3',
-          name: department3,
-          isDirty: false,
-          children: [] as string[],
-        };
-        const thisRow = {
-          id: 'parent1',
-          name: 'Parent 1',
-          isDirty: false,
-          children: ['department1', 'department2'],
-        } as TestType;
-        const getRealRowSpy = jest.spyOn(CustomProxy.prototype, 'getRealRow');
-        arr.addToStore(newRow, thisRow);
-        expect(getRealRowSpy).not.toHaveBeenCalled();
+    describe('when the index is negative', () => {
+      beforeEach(() => {
+        originalArray = ['1', '2', '3'];
+        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+      });
+      it('should throw exception', () => {
+        expect(() => {
+          assertArrayProxy(!!arrayProxy);
+          arrayProxy.getAtIndex(-1);
+        }).toThrow('Index out of bounds');
+      });
+    });
+    describe('when the index is length or greater', () => {
+      beforeEach(() => {
+        originalArray = ['1', '2', '3'];
+        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+      });
+      it('should throw exception', () => {
+        expect(() => {
+          assertArrayProxy(!!arrayProxy);
+          arrayProxy.getAtIndex(originalArray.length);
+        }).toThrow('Index out of bounds');
       });
     });
   });
-  describe('removeFromStore(row, parent)', () => {
-    describe('when thisRow is a CustomProxy', () => {
-      it('should call customProxy.getRealRow()', () => {
-        const newRow = {
-          id: 'department3',
-          name: department3,
-          isDirty: false,
-          children: [] as string[],
-        };
-        const thisRow = {
-          id: 'parent1',
-          name: 'Parent 1',
-          isDirty: false,
-          children: ['department1', 'department2', 'department3'],
-        } as TestType;
-        const customProxy = new CustomProxy<TestType, SmartNgRXRowBase>(
-          thisRow,
-          castTo<ActionGroup<TestType>>(parentActions),
-          actions,
+  describe('createNewParentFromParent()', () => {
+    describe('when parent is not a CustomProxy', () => {
+      beforeEach(() => {
+        originalArray = ['1', '2', '3'];
+        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
         );
-        const getRealRowSpy = jest.spyOn(CustomProxy.prototype, 'getRealRow');
-        arr.removeFromStore(newRow, castTo<TestType>(customProxy));
-        expect(getRealRowSpy).toHaveBeenCalled();
+        arrayProxy.init();
+      });
+      it('should return a new parent based on the object passed in', () => {
+        assertArrayProxy(!!arrayProxy);
+        const parent = {
+          id: '1',
+          name: 'foo',
+          isEditing: false,
+          isDirty: false,
+        };
+        const newParent = castTo<{
+          createNewParentFromParent(p: object, b: boolean): object;
+        }>(arrayProxy).createNewParentFromParent(parent, true);
+        expect(newParent).toEqual({
+          id: '1',
+          name: 'foo',
+          isEditing: true,
+          isDirty: false,
+        });
       });
     });
-    describe('when thisRow is not a CustomProxy', () => {
-      it('should not call customProxy.getRealRow()', () => {
-        const newRow = {
-          id: 'department3',
-          name: department3,
+    describe('when parent is a CustomProxy', () => {
+      beforeEach(() => {
+        originalArray = ['1', '2', '3'];
+        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+      });
+      it('should return a new parent based on the object passed in', () => {
+        assertArrayProxy(!!arrayProxy);
+        const parent = {
+          id: '1',
+          name: 'foo',
+          isEditing: false,
           isDirty: false,
-          children: [] as string[],
         };
-        const thisRow = {
-          id: 'parent1',
-          name: 'Parent 1',
+        const parentProxy = new CustomProxy(
+          parent,
+          {} as unknown as ActionService<typeof parent>,
+          {} as unknown as ActionService<SmartNgRXRowBase>,
+        );
+        const newParent = castTo<{
+          createNewParentFromParent(p: object, b: boolean): object;
+        }>(arrayProxy).createNewParentFromParent(parentProxy, true);
+        expect(newParent).toEqual({
+          id: '1',
+          name: 'foo',
+          isEditing: true,
           isDirty: false,
-          children: ['department1', 'department2', 'department3'],
-        } as TestType;
-        const getRealRowSpy = jest.spyOn(CustomProxy.prototype, 'getRealRow');
-        arr.removeFromStore(newRow, thisRow);
-        expect(getRealRowSpy).not.toHaveBeenCalled();
+        });
       });
     });
   });

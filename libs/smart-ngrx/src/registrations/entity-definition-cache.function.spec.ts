@@ -4,7 +4,7 @@ import * as createEntityAdapterObject from '@ngrx/entity';
 import { EffectServiceToken } from '../types/effect-service.token';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { registerAdapterForDefinition } from './register-adapter-for-definition.function';
+import { entityDefinitionCache } from './entity-definition-cache.function';
 
 jest.mock('@ngrx/entity', () => {
   return {
@@ -17,8 +17,9 @@ jest.mock('@ngrx/entity', () => {
 describe('provideSmartFeatureEntities', () => {
   let createEntityAdapterSpy: jest.SpyInstance;
   const featureName = 'featureName';
+  const entityName = 'entityName';
   const definition: SmartEntityDefinition<SmartNgRXRowBase & { id: string }> = {
-    entityName: 'entityName',
+    entityName,
     entityAdapter: {} as unknown as EntityAdapter<SmartNgRXRowBase>,
     effectServiceToken: null as unknown as EffectServiceToken<SmartNgRXRowBase>,
     defaultRow: () => ({
@@ -54,7 +55,7 @@ describe('provideSmartFeatureEntities', () => {
   });
   describe('when entityDefinitions has an entityAdapter', () => {
     it('should not call createEntityAdapter', () => {
-      registerAdapterForDefinition(featureName, definition);
+      entityDefinitionCache(featureName, entityName, definition);
       expect(createEntityAdapterSpy).not.toHaveBeenCalled();
     });
   });
@@ -63,7 +64,7 @@ describe('provideSmartFeatureEntities', () => {
       delete definition.entityAdapter;
     });
     it('should call createEntityAdapter', () => {
-      registerAdapterForDefinition(featureName, definition);
+      entityDefinitionCache(featureName, entityName, definition);
       expect(createEntityAdapterSpy).toHaveBeenCalledTimes(1);
     });
   });

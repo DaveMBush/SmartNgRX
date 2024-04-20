@@ -1,6 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 
-import { actionFactory } from '../functions/action.factory';
+import { ActionService } from '../actions/action.service';
+import { castTo } from '../common/cast-to.function';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { rowProxy } from '../row-proxy/row-proxy.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -28,13 +30,17 @@ export function realOrMocked<
 ): T {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
-  const actions = actionFactory<T>(childFeature, childEntity);
-  const parentActions = actionFactory<P>(parentFeature, parentEntity);
+  const service = castTo<ActionService<T>>(
+    actionServiceRegistry(childFeature, childEntity),
+  );
+  const parentService = castTo<ActionService<P>>(
+    actionServiceRegistry(parentFeature, parentEntity),
+  );
 
   const record = entityState.entities;
   const row = record[id];
   if (row === undefined) {
     return { ...defaultObject, id };
   }
-  return rowProxy<T, P>(row, actions, parentActions);
+  return rowProxy<T, P>(row, service, parentService);
 }

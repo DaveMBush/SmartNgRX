@@ -1,5 +1,7 @@
 import type { Store } from '@ngrx/store';
 
+import { assert } from '../common/assert.function';
+
 /**
  * This code allows us to make the store globally available without using dependency injection.
  *
@@ -19,9 +21,10 @@ export let globalStore: Store | undefined;
 export function store(
   // eslint-disable-next-line ngrx/use-consistent-global-store-name -- it is either this or get a shadowing lint issue
   storeParam?: Store,
-): Store | undefined {
+): Store {
   if (storeParam) {
     globalStore = storeParam;
   }
+  assert(!!globalStore, 'store is undefined');
   return globalStore;
 }

@@ -1,11 +1,8 @@
-import { Store } from '@ngrx/store';
-
-import { castTo } from '../../common/cast-to.function';
-import { psi } from '../../common/theta.const';
+import { ActionService } from '../../actions/action.service';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
-import { store as storeFunction } from '../../selector/store.function';
+import * as actionServiceRegistry from '../../registrations/action.service.registry';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
-
 // we have to supply requestIdleCallback for jest
 window.requestIdleCallback = (
   cb: IdleRequestCallback,
@@ -15,69 +12,120 @@ window.requestIdleCallback = (
   return 0;
 };
 
+class MockActionService {
+  garbageCollect = (_: string[]) => {
+    /* noop */
+  };
+
+  markDirty = (_: string[]) => {
+    /* noop */
+  };
+}
+
 describe('processMarkAndDelete', () => {
-  let mockStore: { dispatch: jest.Mock };
-  const featureKey = 'exampleFeature' as StringLiteralSource<string>;
-  const entityKey = 'entity' as StringLiteralSource<string>;
-
+  let garbageCollectSpy: jest.SpyInstance;
+  let markDirtySpy: jest.SpyInstance;
   beforeEach(() => {
-    mockStore = {
-      dispatch: jest.fn(),
-    };
-    storeFunction(castTo<Store>(mockStore));
+    const mockActionService = new MockActionService();
+    jest
+      .spyOn(actionServiceRegistry, 'actionServiceRegistry')
+      .mockImplementation(
+        (_: StringLiteralSource<string>, __: StringLiteralSource<string>) =>
+          mockActionService as unknown as ActionService<SmartNgRXRowBase>,
+      );
+    garbageCollectSpy = jest
+      .spyOn(mockActionService, 'garbageCollect')
+      .mockImplementation(() => {
+        /* noop */
+      });
+    markDirtySpy = jest
+      .spyOn(mockActionService, 'markDirty')
+      .mockImplementation(() => {
+        /* noop */
+      });
   });
-
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
   });
+  it('should mark rows as dirty and garbage collect them', () => {
+    // Arrange
+    const featureKey = 'exampleFeature';
+    const entity = 'exampleEntity';
+    const garbageCollectRowIds = ['row1', 'row2'];
+    const markDirtyRowIds = ['row3', 'row4'];
 
-  it('should dispatch garbageCollect actions for each key in garbageCollectKeysMap', () => {
-    const garbageCollectKeysArray = ['id1', 'id2'];
-    const markDirtyKeysArray: string[] = [];
-
+    // Act
     processMarkAndDelete(
-      featureKey,
-      entityKey,
-      garbageCollectKeysArray,
-      markDirtyKeysArray,
+      featureKey as StringLiteralSource<string>,
+      entity as StringLiteralSource<string>,
+      garbageCollectRowIds,
+      markDirtyRowIds,
     );
 
-    expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
-    expect(mockStore.dispatch).toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}${entityKey}] Garbage Collect`,
-      ids: ['id1', 'id2'],
+    // Assert
+    expect(garbageCollectSpy).toHaveBeenCalledWith(garbageCollectRowIds);
+    expect(markDirtySpy).toHaveBeenCalledWith(markDirtyRowIds);
+  });
+
+  it('should handle empty row arrays', () => {
+    // Arrange
+    const featureKey = 'exampleFeature';
+    const entity = 'exampleEntity';
+    const garbageCollectRowIds: string[] = [];
+    const markDirtyRowIds: string[] = [];
+
+    // Act
+    processMarkAndDelete(
+      featureKey as StringLiteralSource<string>,
+      entity as StringLiteralSource<string>,
+      garbageCollectRowIds,
+      markDirtyRowIds,
+    );
+
+    // Assert
+    expect(garbageCollectSpy).not.toHaveBeenCalled();
+    expect(markDirtySpy).not.toHaveBeenCalled();
+  });
+  describe('when garbageCollectRowIds is empty but markDirtyRowIds is not', () => {
+    it('should only garbage collect rows', () => {
+      // Arrange
+      const featureKey = 'exampleFeature';
+      const entity = 'exampleEntity';
+      const garbageCollectRowIds = ['row1', 'row2'];
+      const markDirtyRowIds: string[] = [];
+
+      // Act
+      processMarkAndDelete(
+        featureKey as StringLiteralSource<string>,
+        entity as StringLiteralSource<string>,
+        garbageCollectRowIds,
+        markDirtyRowIds,
+      );
+
+      // Assert
+      expect(garbageCollectSpy).toHaveBeenCalled();
+      expect(markDirtySpy).not.toHaveBeenCalled();
     });
   });
+  describe('when markDirtyRowIds is empty but garbageCollectRowIds is not', () => {
+    it('should only garbage collect rows', () => {
+      // Arrange
+      const featureKey = 'exampleFeature';
+      const entity = 'exampleEntity';
+      const garbageCollectRowIds: string[] = [];
+      const markDirtyRowIds = ['row1', 'row2'];
 
-  it('should dispatch markDirty actions for each key in markDirtyKeysMap', () => {
-    const garbageCollectKeysArray: string[] = [];
-    const markDirtyKeysArray = ['id1', 'id2'];
+      // Act
+      processMarkAndDelete(
+        featureKey as StringLiteralSource<string>,
+        entity as StringLiteralSource<string>,
+        garbageCollectRowIds,
+        markDirtyRowIds,
+      );
 
-    processMarkAndDelete(
-      featureKey,
-      entityKey,
-      garbageCollectKeysArray,
-      markDirtyKeysArray,
-    );
-
-    expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
-    expect(mockStore.dispatch).toHaveBeenCalledWith({
-      type: `[${featureKey}${psi}${entityKey}] Mark Dirty`,
-      ids: ['id1', 'id2'],
+      // Assert
+      expect(garbageCollectSpy).not.toHaveBeenCalled();
+      expect(markDirtySpy).toHaveBeenCalled();
     });
-  });
-
-  it('should not dispatch any actions if garbageCollectKeysMap and markDirtyKeysMap are empty', () => {
-    const garbageCollectKeysArray: string[] = [];
-    const markDirtyKeysArray: string[] = [];
-
-    processMarkAndDelete(
-      featureKey,
-      entityKey,
-      garbageCollectKeysArray,
-      markDirtyKeysArray,
-    );
-
-    expect(mockStore.dispatch).not.toHaveBeenCalled();
   });
 });

@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { getEntityRegistry } from '../functions/register-entity.function';
+import { getEntityRegistry } from '../registrations/register-entity.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';

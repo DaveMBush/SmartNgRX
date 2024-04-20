@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
+/* jscpd:ignore-start */
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { psi } from '../common/theta.const';
@@ -8,8 +9,9 @@ import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { UpdateChanges } from '../types/update-changes.interface';
 import { ActionGroup } from './action-group.interface';
-
+/* jscpd:ignore-end */
 const actionGroupCache = new Map<string, unknown>();
 
 /**
@@ -45,24 +47,25 @@ export function actionFactory<
     events: {
       Load: emptyProps(),
       'Load Success': props<RowsProp<T>>(),
-      'Mark Dirty': props<IdsProp>(),
-      'Mark Not Dirty': props<IdsProp>(),
-      'Garbage Collect': props<IdsProp>(),
+      'Update Many': props<UpdateChanges<T>>(),
+      Remove: props<IdsProp>(),
       'Load By Ids': props<IdsProp>(),
       'Load By Ids Preload': props<IdsProp>(),
-      'Load By Ids Success': props<RowsProp<T>>(),
+      'Store Rows': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),
       Add: props<{
         row: T;
         parentId: string;
-        parentActions: ActionGroup<SmartNgRXRowBase>;
+        parentFeature: StringLiteralSource<string>;
+        parentEntityName: StringLiteralSource<string>;
       }>(),
       'Add Success': props<{
         newRow: T;
         oldRow: T;
         parentId: string;
-        parentActions: ActionGroup<SmartNgRXRowBase>;
+        parentFeature: StringLiteralSource<string>;
+        parentEntityName: StringLiteralSource<string>;
       }>(),
       Delete: props<IdProp>(),
     },

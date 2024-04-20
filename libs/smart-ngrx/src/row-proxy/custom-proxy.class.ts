@@ -1,6 +1,6 @@
+import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
-import { ActionGroup } from '../functions/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { customProxyGet } from './custom-proxy-get.function';
 import { customProxySet } from './custom-proxy-set.function';
@@ -28,20 +28,20 @@ export class CustomProxy<
    * This is the constructor for the CustomProxy class.
    *
    * @param row The row to create the custom proxy for
-   * @param actions the action group associated with the row entity
-   * @param parentActions the action group associated with the parent entity
+   * @param service The service that will handle updating the row
+   * @param parentService The service that will handle updating the parent row
    * @returns a proxy that will handle updating the row
    */
   constructor(
     public row: T,
-    actions: ActionGroup<T>,
-    parentActions: ActionGroup<P>,
+    service: ActionService<T>,
+    parentService: ActionService<P>,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
-      get: (target, prop) => customProxyGet(target, prop, actions),
+      get: (target, prop) => customProxyGet(target, prop, service),
       set: (target, prop, value) =>
-        customProxySet(target, prop, value, { actions, parentActions }),
+        customProxySet(target, prop, value, { service, parentService }),
     });
   }
 

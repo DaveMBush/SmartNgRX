@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestScheduler } from 'rxjs/testing';
 
-import { actionFactory } from '@smart/smart-ngrx/functions/action.factory';
+import { actionFactory } from '@smart/smart-ngrx/actions/action.factory';
 
 import { currentLocationActions } from '../current-location/current-location.actions';
 import { setLocationIdEffect$ } from './location.effects';

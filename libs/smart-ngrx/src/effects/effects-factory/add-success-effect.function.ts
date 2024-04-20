@@ -3,11 +3,11 @@ import { Actions, ofType } from '@ngrx/effects';
 import { EntityAdapter } from '@ngrx/entity';
 import { map, tap, timer } from 'rxjs';
 
-import { assert } from '../../common/assert.function';
-import { ActionGroup } from '../../functions/action-group.interface';
+import { ActionGroup } from '../../actions/action-group.interface';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
+import { markParentDirty } from './mark-parent-dirty.function';
 
 /**
  * This is the effect that handles adding a new row to the store.
@@ -39,17 +39,20 @@ export function addSuccessEffect<T extends SmartNgRXRowBase>(
         // parent's child array.
         timer(1000).subscribe(() => {
           const s = store();
-          assert(!!s, 'Store is not available');
           s.dispatch(
-            actions.garbageCollect({
+            actions.remove({
               ids: [adapter.selectId(action.oldRow) as string],
             }),
           );
         }),
       ),
-      map((action) =>
-        action.parentActions.markDirty({ ids: [action.parentId] }),
-      ),
+      map((action) => {
+        markParentDirty(
+          action.parentFeature,
+          action.parentEntityName,
+          action.parentId,
+        );
+      }),
     );
   };
 }

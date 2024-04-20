@@ -2,7 +2,7 @@ import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs';
 
-import { ActionGroup } from '../../functions/action-group.interface';
+import { ActionGroup } from '../../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 

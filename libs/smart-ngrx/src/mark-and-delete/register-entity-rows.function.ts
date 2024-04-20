@@ -1,4 +1,5 @@
-import { adapterForEntity } from '../functions/adapter-for-entity.function';
+import { assert } from '../common/assert.function';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { getMarkAndDeleteEntityMap } from './mark-and-delete-entity.map';
 
@@ -15,7 +16,11 @@ export function registerEntityRows<T extends SmartNgRXRowBase>(
   entity: string,
   rows: T[],
 ): T[] {
-  const adapter = adapterForEntity<T>(feature, entity);
+  const adapter = entityDefinitionCache(feature, entity).entityAdapter;
+  assert(
+    !!adapter,
+    `Entity adapter for feature: ${feature} and entity: ${entity} not found.`,
+  );
   const markAndDeleteMap = getMarkAndDeleteEntityMap(feature, entity);
   return rows.map((row) => {
     const markAndDeleteKey = `${adapter.selectId(row)}`;

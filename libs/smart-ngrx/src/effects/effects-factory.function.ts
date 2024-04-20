@@ -1,10 +1,12 @@
 import { InjectionToken } from '@angular/core';
-import { createEffect, FunctionalEffect } from '@ngrx/effects';
+import { createEffect, EffectConfig, FunctionalEffect } from '@ngrx/effects';
+import { EntityAdapter } from '@ngrx/entity';
 
+import { actionFactory } from '../actions/action.factory';
+import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
-import { actionFactory } from '../functions/action.factory';
-import { adapterForEntity } from '../functions/adapter-for-entity.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { addEffect } from './effects-factory/add-effect.function';
@@ -13,6 +15,21 @@ import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
 import { loadEffect } from './effects-factory/load-effect.function';
 import { updateEffect } from './effects-factory/update-effect.function';
+
+const dispatchFalse = {
+  dispatch: false,
+  functional: true,
+} as EffectConfig & {
+  functional: true;
+  dispatch: false;
+};
+
+const dispatchTrue = {
+  functional: true,
+} as EffectConfig & {
+  functional: true;
+  dispatch: true;
+};
 
 /**
  * The effects factory creates a new set of effects for the
@@ -38,29 +55,41 @@ export function effectsFactory<
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<T, F, E>(feature, entityName);
-  const adapter = adapterForEntity<T>(feature, entityName);
-
+  const adapter = castTo<EntityAdapter<T> | undefined>(
+    entityDefinitionCache(feature, entityName).entityAdapter,
+  );
+  assert(
+    !!adapter,
+    `Entity adapter for feature: ${feature} and entity: ${entityName} not found.`,
+  );
   return castTo<Record<string, FunctionalEffect>>({
-    load: createEffect(loadEffect(effectsServiceToken, actions), {
-      functional: true,
-    }),
-    loadByIdsPreload: createEffect(loadByIdsPreloadEffect(actions), {
-      functional: true,
-    }),
-    loadByIds: createEffect(loadByIdsEffect(effectsServiceToken, actions), {
-      functional: true,
-    }),
-    update: createEffect(updateEffect(effectsServiceToken, actions), {
-      functional: true,
-    }),
-    add: createEffect(addEffect(effectsServiceToken, actions), {
-      functional: true,
-    }),
+    load: createEffect(loadEffect(effectsServiceToken, actions), dispatchTrue),
+    loadByIdsPreload: createEffect(
+      loadByIdsPreloadEffect(feature, entityName, actions),
+      dispatchFalse,
+    ),
+    loadByIds: createEffect(
+      loadByIdsEffect(
+        effectsServiceToken,
+        actions,
+        feature as StringLiteralSource<string>,
+        entityName as StringLiteralSource<string>,
+      ),
+      dispatchFalse,
+    ),
+    update: createEffect(
+      updateEffect<T>(
+        effectsServiceToken,
+        actions,
+        feature as StringLiteralSource<string>,
+        entityName as StringLiteralSource<string>,
+      ),
+      dispatchFalse,
+    ),
+    add: createEffect(addEffect(effectsServiceToken, actions), dispatchTrue),
     addSuccess: createEffect(
       addSuccessEffect(effectsServiceToken, actions, adapter),
-      {
-        functional: true,
-      },
+      dispatchFalse,
     ),
   });
 }

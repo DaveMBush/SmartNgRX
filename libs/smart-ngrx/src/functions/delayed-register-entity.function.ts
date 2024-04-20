@@ -1,9 +1,9 @@
 import { getMarkAndDeleteEntityMap } from '../mark-and-delete/mark-and-delete-entity.map';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete/mark-and-delete-init';
+import { registerEntity } from '../registrations/register-entity.function';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { registerEntity } from './register-entity.function';
 import { resolveRemoveTime } from './resolve-remove-time.function';
 
 /**
