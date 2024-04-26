@@ -33,7 +33,7 @@ async function action(page: Page) {
   if (button) {
     await button.click();
   }
-  let edit = await page.waitForSelector('input[placeholder="Name"]');
+  let edit = await page.waitForSelector('input[placeholder="Edit Label"]');
   if (edit) {
     await edit.type('test' + String.fromCharCode(13));
   }
@@ -45,7 +45,7 @@ async function action(page: Page) {
   if (button) {
     await button.click();
   }
-  edit = await page.waitForSelector('input[placeholder="Name"]');
+  edit = await page.waitForSelector('input[placeholder="Edit Label"]');
   if (edit) {
     await edit.type('');
     await page.keyboard.press('Backspace');
