@@ -101,6 +101,9 @@ dependencies:
   express:
     specifier: ^4.19.2
     version: 4.19.2
+  is-ci:
+    specifier: ^3.0.1
+    version: 3.0.1
   reflect-metadata:
     specifier: ^0.2.1
     version: 0.2.1
@@ -11594,7 +11597,6 @@ packages:
     hasBin: true
     dependencies:
       ci-info: 3.8.0
-    dev: true
 
   /is-core-module@2.13.1:
     resolution: {integrity: sha512-hHrIjvZsftOsvKSn2TRYl63zvxsgE0K+0mYMoH6gD4omR5IWB2KynivBQczo3+wF1cCkjzvptnI9Q0sPU66ilw==}

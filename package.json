@@ -16,7 +16,7 @@
     "test:coverage": "pnpm test -- --coverage --skip-nx-cache",
     "dupcheck": "pnpm jscpd",
     "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
-    "prepare": "is-ci || husky install",
+    "prepare": "is-ci || husky",
     "postinstall": "pnpm dlx prisma migrate dev",
     "memlab": "tsx ./apps/demo-memlab/src/memlab/main.ts"
   },
@@ -68,6 +68,7 @@
     "cors": "^2.8.5",
     "dexie": "^3.2.6",
     "express": "^4.19.2",
+    "is-ci": "^3.0.1",
     "reflect-metadata": "^0.2.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
