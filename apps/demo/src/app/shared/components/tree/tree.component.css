@@ -13,7 +13,9 @@ cdk-virtual-scroll-viewport {
   width: 100%;
 }
 
-.edit-button, .add-button, .delete-button {
+.edit-button,
+.add-button,
+.delete-button {
   display: none;
 }
 
@@ -21,7 +23,9 @@ cdk-virtual-scroll-viewport {
   display: block;
 }
 
-mat-tree-node:hover .edit-button, mat-tree-node:hover .delete-button, mat-tree-node:hover .add-button {
+mat-tree-node:hover .edit-button,
+mat-tree-node:hover .delete-button,
+mat-tree-node:hover .add-button {
   display: block;
 }
 

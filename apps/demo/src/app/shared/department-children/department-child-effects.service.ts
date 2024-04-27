@@ -189,5 +189,5 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return deleteStream;
-  }
+  };
 }

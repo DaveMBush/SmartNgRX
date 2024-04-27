@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
@@ -90,7 +89,9 @@ export class CustomProxy<
     const adapter = entityDefinitionCache('feature', 'entity').entityAdapter;
     assert(!!adapter, 'Adapter not found');
     const id = adapter.selectId(this.row) as string;
-    this.service.delete(id, castTo<ActionService<SmartNgRXRowBase>>(this.parentService));
+    this.service.delete(
+      id,
+      castTo<ActionService<SmartNgRXRowBase>>(this.parentService),
+    );
   }
-
 }

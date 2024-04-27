@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { assert } from '@smart/smart-ngrx/common/assert.function';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
+import { CustomProxy } from '@smart/smart-ngrx/row-proxy/custom-proxy.class';
 import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
+import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
 
 import { Department } from '../../department/department.interface';
 import { DepartmentChild } from '../../department-children/department-child.interface';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
-import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
-import { CustomProxy } from '@smart/smart-ngrx/row-proxy/custom-proxy.class';
 
 @Injectable({ providedIn: 'root' })
 export class TreeComponentService {
@@ -100,7 +100,7 @@ export class TreeComponentService {
   }
 
   deleteNode(node: TreeNode): void {
-    castTo<CustomProxy<SmartNgRXRowBase,SmartNgRXRowBase>>(node.node).delete();
+    castTo<CustomProxy<SmartNgRXRowBase, SmartNgRXRowBase>>(node.node).delete();
   }
 
   cancelEdit(node: TreeNode): void {

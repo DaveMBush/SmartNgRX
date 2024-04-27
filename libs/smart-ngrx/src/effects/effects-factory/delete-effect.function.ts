@@ -1,12 +1,13 @@
-import { inject,InjectionToken } from "@angular/core";
-import { Actions, ofType } from "@ngrx/effects"
-import { catchError, concatMap, of } from "rxjs";
+import { inject, InjectionToken } from '@angular/core';
+import { Actions, ofType } from '@ngrx/effects';
+import { catchError, concatMap, of } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { EffectService } from "../effect-service";
-import { markParentsDirty } from "./mark-parents-dirty.function";
+import { EffectService } from '../effect-service';
+import { markParentsDirty } from './mark-parents-dirty.function';
 
+/* jscpd:ignore-start */
 /**
  * This is the effect that handles deleting a row from the store.
  *
@@ -24,6 +25,7 @@ export function deleteEffect<T extends SmartNgRXRowBase>(
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
   ) => {
+    /* jscpd:ignore-end */
     return actions$.pipe(
       ofType(actions.delete),
       concatMap((action) => {
@@ -32,12 +34,12 @@ export function deleteEffect<T extends SmartNgRXRowBase>(
             markParentsDirty(
               action.parentFeature,
               action.parentEntityName,
-              action.parentIds
+              action.parentIds,
             );
             return of();
           }),
         );
       }),
-    )
-  }
+    );
+  };
 }

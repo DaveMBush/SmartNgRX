@@ -11,12 +11,12 @@ import {
 } from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { defaultRows } from '../reducers/default-rows.function';
+import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -265,20 +265,32 @@ export class ActionService<
    * @param parentService the parent service that we will call to report items from parent
    * @param id the id of the row to delete
    */
-  private innerDelete(entities: Dictionary<SmartNgRXRowBase>, parentService: ActionService<SmartNgRXRowBase, string, string>, id: string) {
+  private innerDelete(
+    entities: Dictionary<SmartNgRXRowBase>,
+    parentService: ActionService<SmartNgRXRowBase>,
+    id: string,
+  ) {
     const parentIds: string[] = Object.keys(entities).filter((key) => {
       const entity = entities[key];
       assert(!!entity, `Entity with key ${key} not found in parent service`);
       const child = childDefinitionRegistry.getChildDefinition(
         parentService.feature,
-        parentService.entity
+        parentService.entity,
       ).parentField as keyof SmartNgRXRowBase;
       const childArray = entity[child] as string[] | undefined;
       assert(!!childArray, `Child array not found in parent entity`);
       return childArray.some((v) => id === v);
     });
-    parentService.updateMany(parentIds.map((v) => ({ id: v, changes: { isDirty: false } })));
-    this.store.dispatch(this.actions.delete({ id, parentFeature: parentService.feature, parentEntityName: parentService.entity, parentIds }));
+    parentService.updateMany(
+      parentIds.map((v) => ({ id: v, changes: { isDirty: false } })),
+    );
+    this.store.dispatch(
+      this.actions.delete({
+        id,
+        parentFeature: parentService.feature,
+        parentEntityName: parentService.entity,
+        parentIds,
+      }),
+    );
   }
-
 }

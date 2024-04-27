@@ -78,6 +78,16 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
   >;
   delete: ActionCreator<
     `[${any}] Delete`,
-    (props: {id: string, parentFeature: StringLiteralSource<string>, parentEntityName: StringLiteralSource<string>, parentIds: string[] }) => TypedAction<`[${any}] Delete`> & {id: string, parentFeature: StringLiteralSource<string>, parentEntityName: StringLiteralSource<string>, parentIds: string[] }
+    (props: {
+      id: string;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
+      parentIds: string[];
+    }) => TypedAction<`[${any}] Delete`> & {
+      id: string;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
+      parentIds: string[];
+    }
   >;
 }

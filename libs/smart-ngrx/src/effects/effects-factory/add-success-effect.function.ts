@@ -47,11 +47,9 @@ export function addSuccessEffect<T extends SmartNgRXRowBase>(
         }),
       ),
       map((action) => {
-        markParentsDirty(
-          action.parentFeature,
-          action.parentEntityName,
-          [action.parentId],
-        );
+        markParentsDirty(action.parentFeature, action.parentEntityName, [
+          action.parentId,
+        ]);
       }),
     );
   };

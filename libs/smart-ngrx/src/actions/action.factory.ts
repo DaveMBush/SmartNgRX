@@ -66,7 +66,12 @@ export function actionFactory<
         parentFeature: StringLiteralSource<string>;
         parentEntityName: StringLiteralSource<string>;
       }>(),
-      Delete: props<{id: string, parentFeature: StringLiteralSource<string>, parentEntityName: StringLiteralSource<string>, parentIds: string[] }>(),
+      Delete: props<{
+        id: string;
+        parentFeature: StringLiteralSource<string>;
+        parentEntityName: StringLiteralSource<string>;
+        parentIds: string[];
+      }>(),
     },
   });
   actionGroupCache.set(source, actionGroup);

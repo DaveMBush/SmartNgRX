@@ -7,6 +7,7 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { markParentsDirty } from './mark-parents-dirty.function';
 
+/* jscpd:ignore-start */
 /**
  * This is the effect that handles adding a new row to the store.
  *
@@ -26,6 +27,7 @@ export function addEffect<T extends SmartNgRXRowBase>(
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
   ) => {
+    /* jscpd:ignore-end */
     return actions$.pipe(
       ofType(actions.add),
       concatMap((action) => {
@@ -43,11 +45,9 @@ export function addEffect<T extends SmartNgRXRowBase>(
             });
           }),
           catchError((_: unknown, __) => {
-            markParentsDirty(
-              action.parentFeature,
-              action.parentEntityName,
-              [action.parentId],
-            );
+            markParentsDirty(action.parentFeature, action.parentEntityName, [
+              action.parentId,
+            ]);
             // because NgRX requires an action to be returned
             return of({ type: 'noop' });
           }),

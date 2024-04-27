@@ -57,20 +57,20 @@ dependencies:
     specifier: 17.6.4
     version: 17.6.4(@angular/cdk@17.3.6)(@angular/common@17.3.6)(@angular/core@17.3.6)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
   '@ngrx/component-store':
-    specifier: ~17.1.1
-    version: 17.1.1(@angular/core@17.3.6)(rxjs@7.8.1)
+    specifier: ~17.2.0
+    version: 17.2.0(@angular/core@17.3.6)(rxjs@7.8.1)
   '@ngrx/effects':
-    specifier: ^17.1.1
-    version: 17.1.1(@angular/core@17.3.6)(@ngrx/store@17.1.1)(rxjs@7.8.1)
+    specifier: ^17.2.0
+    version: 17.2.0(@angular/core@17.3.6)(@ngrx/store@17.2.0)(rxjs@7.8.1)
   '@ngrx/entity':
-    specifier: ^17.1.1
-    version: 17.1.1(@angular/core@17.3.6)(@ngrx/store@17.1.1)(rxjs@7.8.1)
+    specifier: ^17.2.0
+    version: 17.2.0(@angular/core@17.3.6)(@ngrx/store@17.2.0)(rxjs@7.8.1)
   '@ngrx/store':
-    specifier: ^17.1.1
-    version: 17.1.1(@angular/core@17.3.6)(rxjs@7.8.1)
+    specifier: ^17.2.0
+    version: 17.2.0(@angular/core@17.3.6)(rxjs@7.8.1)
   '@ngrx/store-devtools':
-    specifier: ^17.1.1
-    version: 17.1.1(@ngrx/store@17.1.1)(rxjs@7.8.1)
+    specifier: ^17.2.0
+    version: 17.2.0(@ngrx/store@17.2.0)(rxjs@7.8.1)
   '@nx/angular':
     specifier: 18.3.4
     version: 18.3.4(@angular-devkit/build-angular@17.3.6)(@angular-devkit/core@17.3.6)(@angular-devkit/schematics@17.3.6)(@schematics/angular@17.2.2)(@swc-node/register@1.9.0)(@swc/core@1.4.14)(@types/node@20.11.30)(esbuild@0.19.12)(eslint@8.56.0)(nx@18.0.2)(rxjs@7.8.1)(typescript@5.3.3)
@@ -158,8 +158,8 @@ devDependencies:
     specifier: ^10.3.7
     version: 10.3.7(@nestjs/common@10.3.7)(@nestjs/core@10.3.7)(@nestjs/platform-express@10.3.7)
   '@ngrx/schematics':
-    specifier: ~17.1.1
-    version: 17.1.1
+    specifier: ~17.2.0
+    version: 17.2.0
   '@nx/cypress':
     specifier: 18.3.4
     version: 18.3.4(@swc-node/register@1.9.0)(@swc/core@1.4.14)(@types/node@20.11.30)(cypress@13.7.3)(nx@18.0.2)(typescript@5.3.3)
@@ -302,8 +302,8 @@ devDependencies:
     specifier: ^15.2.2
     version: 15.2.2
   memlab:
-    specifier: ^1.1.45
-    version: 1.1.45(typescript@5.3.3)
+    specifier: ^1.1.46
+    version: 1.1.46(typescript@5.3.3)
   ng-packagr:
     specifier: ~17.1.2
     version: 17.1.2(@angular/compiler-cli@17.3.6)(tslib@2.6.2)(typescript@5.3.3)
@@ -4380,8 +4380,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@memlab/cli@1.0.30(typescript@5.3.3):
-    resolution: {integrity: sha512-U5S3sZ+XPi/tQXEhztZ2iuk7Zcn6yEnV3Sofb4j7zTZDl789koqlyx2dxAI3lfnvIT0GHBCsEbegRgmBjv+wKA==}
+  /@memlab/cli@1.0.31(typescript@5.3.3):
+    resolution: {integrity: sha512-/WRAzLji5IgxyZap6i7QFrVLdcgMid6awkN2zahYF5+kXVdqEKQrnjxXsgfW4mpgyMpdqr55LNtj37nc2gbW6A==}
     hasBin: true
     requiresBuild: true
     dependencies:
@@ -4430,32 +4430,6 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@memlab/e2e@1.0.28(typescript@5.3.3):
-    resolution: {integrity: sha512-IKlO7H9UnoBWhGN68EQjT1tqCaJDFo6BPXB+sYUl1elxsENP+9f2dtEZbsHAts3txw/X0uXM90qpZTVm5MpFyA==}
-    dependencies:
-      '@babel/generator': 7.24.1
-      '@babel/parser': 7.24.1
-      '@babel/template': 7.24.0
-      '@babel/traverse': 7.24.1
-      '@memlab/core': 1.1.29(typescript@5.3.3)
-      ansi: 0.3.1
-      babar: 0.2.3
-      chalk: 4.1.2
-      fs-extra: 4.0.3
-      minimist: 1.2.8
-      puppeteer: 21.5.2(typescript@5.3.3)
-      puppeteer-core: 21.5.2
-      string-width: 4.2.3
-      util.promisify: 1.1.2
-      xvfb: 0.4.0
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - supports-color
-      - typescript
-      - utf-8-validate
-    dev: true
-
   /@memlab/e2e@1.0.29(typescript@5.3.3):
     resolution: {integrity: sha512-1CGzMKAd2QEz2YJ3wEEkR7ORAR1p8EPbeLn/Yj9tyxNXD25fIgzMoViXCqSW0xu4Vx2nUKjk3e7by/bS4h5niw==}
     dependencies:
@@ -4464,29 +4438,6 @@ packages:
       '@babel/template': 7.24.0
       '@babel/traverse': 7.24.1
       '@memlab/core': 1.1.29(typescript@5.3.3)
-      ansi: 0.3.1
-      babar: 0.2.3
-      chalk: 4.1.2
-      fs-extra: 4.0.3
-      minimist: 1.2.8
-      puppeteer: 21.5.2(typescript@5.3.3)
-      puppeteer-core: 21.5.2
-      string-width: 4.2.3
-      util.promisify: 1.1.2
-      xvfb: 0.4.0
-    transitivePeerDependencies:
-      - bufferutil
-      - encoding
-      - supports-color
-      - typescript
-      - utf-8-validate
-    dev: true
-
-  /@memlab/heap-analysis@1.0.25(typescript@5.3.3):
-    resolution: {integrity: sha512-u+hLqP6wN7fYv4Y9+JYkjER6fA+UzOMf85FQ07VXraTt4WwWpPVvJsbD74JksPXLPOdXh29uUXpSHwID07Q5xw==}
-    dependencies:
-      '@memlab/core': 1.1.29(typescript@5.3.3)
-      '@memlab/e2e': 1.0.29(typescript@5.3.3)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2
@@ -4807,8 +4758,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@ngrx/component-store@17.1.1(@angular/core@17.3.6)(rxjs@7.8.1):
-    resolution: {integrity: sha512-pknwettIC52JELk9PjhTgBBsY/WtdltB91jPW9c6hWCxW8X89ipV9Fe+alKBhqqL8pQiK/gPpWmbp0zPauUChQ==}
+  /@ngrx/component-store@17.2.0(@angular/core@17.3.6)(rxjs@7.8.1):
+    resolution: {integrity: sha512-ywhyoZpkbVIY1t5zf7xfWLGkY0A/fQdMjPehHloDI6bRLrmbllBhQRazwZ+FAGIi2myx1+mGcmAc6FbtIikedA==}
     peerDependencies:
       '@angular/core': ^17.0.0
       rxjs: ^6.5.3 || ^7.5.0
@@ -4819,29 +4770,29 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@ngrx/effects@17.1.1(@angular/core@17.3.6)(@ngrx/store@17.1.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-VDNVI70wfEwqoNliffAiMhsPry0CWKkifCLmfzr+SZEEdAaPEBr4FtRrrdcdq/ovmkcgoWukkH2MBljbCyHwtA==}
+  /@ngrx/effects@17.2.0(@angular/core@17.3.6)(@ngrx/store@17.2.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-tXDJNsuBtbvI/7+vYnkDKKpUvLbopw1U5G6LoPnKNrbTPsPcUGmCqF5Su/ZoRN3BhXjt2j+eoeVdpBkxdxMRgg==}
     peerDependencies:
       '@angular/core': ^17.0.0
-      '@ngrx/store': 17.1.1
+      '@ngrx/store': 17.2.0
       rxjs: ^6.5.3 || ^7.5.0
     dependencies:
       '@angular/core': 17.3.6(rxjs@7.8.1)(zone.js@0.14.4)
       '@ngrx/operators': 17.0.0-beta.0(rxjs@7.8.1)
-      '@ngrx/store': 17.1.1(@angular/core@17.3.6)(rxjs@7.8.1)
+      '@ngrx/store': 17.2.0(@angular/core@17.3.6)(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
 
-  /@ngrx/entity@17.1.1(@angular/core@17.3.6)(@ngrx/store@17.1.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-MNjJY2K0Ci6RS64AEEy4P8nYWVP8EQnt5/Rjy4IQ8IAjw2zFlDSiOJA5xmFcWTk9v0m8x9YZ/7clVGA4Es69kA==}
+  /@ngrx/entity@17.2.0(@angular/core@17.3.6)(@ngrx/store@17.2.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-epXgojGXCrVMNrFdv60704iRUU+pYkE1qHBppP/wqKbZZIZHaagsg2jy8/ptDP7U3udvVq0z9suc1s+zpmL2EA==}
     peerDependencies:
       '@angular/core': ^17.0.0
-      '@ngrx/store': 17.1.1
+      '@ngrx/store': 17.2.0
       rxjs: ^6.5.3 || ^7.5.0
     dependencies:
       '@angular/core': 17.3.6(rxjs@7.8.1)(zone.js@0.14.4)
-      '@ngrx/store': 17.1.1(@angular/core@17.3.6)(rxjs@7.8.1)
+      '@ngrx/store': 17.2.0(@angular/core@17.3.6)(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
@@ -4855,23 +4806,23 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@ngrx/schematics@17.1.1:
-    resolution: {integrity: sha512-DaBU97P+lCRWnphvYkE0qvZW16oCpn43/IA8XktFJa6hJP/JVlqk6cLR5fhfoLL2zdhpPkj9w5vsdqIlXZYXgw==}
+  /@ngrx/schematics@17.2.0:
+    resolution: {integrity: sha512-7YQyPWaadxY2+Fe0oFIkClMpEKsC2HaxdjJY8SRTLnFOHj070r3Kp6mxGee46MVdfDNK47bUYnMPQi9A25EcVQ==}
     dev: true
 
-  /@ngrx/store-devtools@17.1.1(@ngrx/store@17.1.1)(rxjs@7.8.1):
-    resolution: {integrity: sha512-MCzM44wHzc0eY6FSvPQwuXn1HFst8Y4Ckq7jvlPA202nJYwMZQQJReI5KQNHfGiqe0RpZKov0FUmy6sIyOOt2A==}
+  /@ngrx/store-devtools@17.2.0(@ngrx/store@17.2.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-ig0qr6hMexZGnrlxfHvZmu5CanRjH7hhx60XUbB5BdBvWJIIRaWKPLcsniiDUhljAD87gvzrrilbCTiML38+CA==}
     peerDependencies:
-      '@ngrx/store': 17.1.1
+      '@ngrx/store': 17.2.0
       rxjs: ^6.5.3 || ^7.5.0
     dependencies:
-      '@ngrx/store': 17.1.1(@angular/core@17.3.6)(rxjs@7.8.1)
+      '@ngrx/store': 17.2.0(@angular/core@17.3.6)(rxjs@7.8.1)
       rxjs: 7.8.1
       tslib: 2.6.2
     dev: false
 
-  /@ngrx/store@17.1.1(@angular/core@17.3.6)(rxjs@7.8.1):
-    resolution: {integrity: sha512-MGbKLTcl4uq2Uzx+qbMYNy6xW+JnkpRiznaGFX2/NFflq/zNZsjbxZrvn4/Z6ClVYIjj3uadjM1fupwMYMJxVA==}
+  /@ngrx/store@17.2.0(@angular/core@17.3.6)(rxjs@7.8.1):
+    resolution: {integrity: sha512-7wKgZ59B/6yQSvvsU0DQXipDqpkAXv7LwcXLD5Ww7nvqN0fQoRPThMh4+Wv55DCJhE0bQc1NEMciLA47uRt7Wg==}
     peerDependencies:
       '@angular/core': ^17.0.0
       rxjs: ^6.5.3 || ^7.5.0
@@ -13113,16 +13064,16 @@ packages:
     dependencies:
       fs-monkey: 1.0.4
 
-  /memlab@1.1.45(typescript@5.3.3):
-    resolution: {integrity: sha512-S0kNnkeDL8EYgWb03wPUMsgEtfYMlow+3y2B+rhi2hfSPLN1cqa23YTvGF13Rp1CBbTYWoi0lIzLxa5tKRYQyw==}
+  /memlab@1.1.46(typescript@5.3.3):
+    resolution: {integrity: sha512-NnaNxsWhy9UhuvTQb5/BEXy+KmRBzxlbNRgn8xYw+NYUO4MEuXKgRgkd8XTN+V2aPkhfB7BazR3esykwHSNEiw==}
     hasBin: true
     requiresBuild: true
     dependencies:
       '@memlab/api': 1.0.28(typescript@5.3.3)
-      '@memlab/cli': 1.0.30(typescript@5.3.3)
+      '@memlab/cli': 1.0.31(typescript@5.3.3)
       '@memlab/core': 1.1.29(typescript@5.3.3)
-      '@memlab/e2e': 1.0.28(typescript@5.3.3)
-      '@memlab/heap-analysis': 1.0.25(typescript@5.3.3)
+      '@memlab/e2e': 1.0.29(typescript@5.3.3)
+      '@memlab/heap-analysis': 1.0.26(typescript@5.3.3)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2

@@ -36,8 +36,17 @@ export function createInnerSmartSelector<
   parentSelector: ParentSelector<P>,
   childDefinition: ChildDefinition<P>,
 ): MemoizedSelector<object, EntityState<P>> {
-  const { childFeature, childEntity, childSelector, parentField: parentFieldName } = childDefinition;
-  childDefinitionRegistry.registerChildDefinition(childFeature, childEntity, childDefinition);
+  const {
+    childFeature,
+    childEntity,
+    childSelector,
+    parentField: parentFieldName,
+  } = childDefinition;
+  childDefinitionRegistry.registerChildDefinition(
+    childFeature,
+    childEntity,
+    childDefinition,
+  );
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {

@@ -61,7 +61,7 @@ export class DepartmentsController {
       }),
     ).pipe(switchMap((result) => this.getByIds([result.id])));
   }
-  
+
   @Delete(':id')
   delete(id: string): Observable<void> {
     return from(this.prisma.departments.delete({ where: { id } })).pipe(
