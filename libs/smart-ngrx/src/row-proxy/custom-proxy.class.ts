@@ -1,6 +1,9 @@
+import { Action } from '@ngrx/store';
 import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { customProxyGet } from './custom-proxy-get.function';
 import { customProxySet } from './custom-proxy-set.function';
@@ -34,8 +37,8 @@ export class CustomProxy<
    */
   constructor(
     public row: T,
-    service: ActionService<T>,
-    parentService: ActionService<P>,
+    private service: ActionService<T>,
+    private parentService: ActionService<P>,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
@@ -78,4 +81,16 @@ export class CustomProxy<
   toJSON() {
     return { ...this.getRealRow(), ...this.changes };
   }
+
+  /**
+   * Initiates delete of this object from the server which will
+   * also optimistically update the store
+   */
+  delete(): void {
+    const adapter = entityDefinitionCache('feature', 'entity').entityAdapter;
+    assert(!!adapter, 'Adapter not found');
+    const id = adapter.selectId(this.row) as string;
+    this.service.delete(id, castTo<ActionService<SmartNgRXRowBase>>(this.parentService));
+  }
+
 }

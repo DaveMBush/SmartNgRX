@@ -4,7 +4,6 @@ import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { psi } from '../common/theta.const';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
@@ -67,7 +66,7 @@ export function actionFactory<
         parentFeature: StringLiteralSource<string>;
         parentEntityName: StringLiteralSource<string>;
       }>(),
-      Delete: props<IdProp>(),
+      Delete: props<{id: string, parentFeature: StringLiteralSource<string>, parentEntityName: StringLiteralSource<string>, parentIds: string[] }>(),
     },
   });
   actionGroupCache.set(source, actionGroup);

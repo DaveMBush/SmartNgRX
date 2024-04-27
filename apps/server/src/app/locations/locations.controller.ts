@@ -1,4 +1,4 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Delete, Get, Inject } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -36,5 +36,10 @@ export class LocationsController {
         })),
       ),
     );
+  }
+
+  @Delete(':id')
+  async delete(id: string): Promise<void> {
+    await this.prisma.locations.delete({ where: { id } });
   }
 }

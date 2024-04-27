@@ -170,4 +170,24 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     // need to do something here similar to updateForType except we already have the row.
     return addStream;
   };
+
+  override delete: (id: string) => Observable<void> = (id: string) => {
+    const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(id);
+
+    let deleteStream: Observable<void> = of(undefined);
+    docIds.forEach(() => {
+      deleteStream = this.doc.delete(id);
+    });
+    folderIds.forEach(() => {
+      deleteStream = this.folder.delete(id);
+    });
+    listIds.forEach(() => {
+      deleteStream = this.list.delete(id);
+    });
+    sprintFolderIds.forEach(() => {
+      deleteStream = this.sprintFolder.delete(id);
+    });
+
+    return deleteStream;
+  }
 }

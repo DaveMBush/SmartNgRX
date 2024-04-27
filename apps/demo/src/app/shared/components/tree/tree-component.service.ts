@@ -10,6 +10,8 @@ import { DepartmentChild } from '../../department-children/department-child.inte
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
+import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
+import { CustomProxy } from '@smart/smart-ngrx/row-proxy/custom-proxy.class';
 
 @Injectable({ providedIn: 'root' })
 export class TreeComponentService {
@@ -95,6 +97,10 @@ export class TreeComponentService {
     castTo<ArrayProxy<Department, DepartmentChild>>(
       parent.node.children,
     ).addToStore(row, parent.node);
+  }
+
+  deleteNode(node: TreeNode): void {
+    castTo<CustomProxy<SmartNgRXRowBase,SmartNgRXRowBase>>(node.node).delete();
   }
 
   cancelEdit(node: TreeNode): void {

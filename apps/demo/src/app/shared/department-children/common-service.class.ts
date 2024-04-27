@@ -29,4 +29,8 @@ export class CommonService {
       .post<DepartmentChild[]>(this.path + '/add', row)
       .pipe(map((docs) => addIsDirty(docs)));
   }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<undefined>(`${this.path}/${id}`);
+  }
 }

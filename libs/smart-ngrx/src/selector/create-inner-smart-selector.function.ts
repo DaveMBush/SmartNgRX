@@ -2,6 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
@@ -35,7 +36,8 @@ export function createInnerSmartSelector<
   parentSelector: ParentSelector<P>,
   childDefinition: ChildDefinition<P>,
 ): MemoizedSelector<object, EntityState<P>> {
-  const { childSelector, parentField: parentFieldName } = childDefinition;
+  const { childFeature, childEntity, childSelector, parentField: parentFieldName } = childDefinition;
+  childDefinitionRegistry.registerChildDefinition(childFeature, childEntity, childDefinition);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {

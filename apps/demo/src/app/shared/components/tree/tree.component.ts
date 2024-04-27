@@ -85,6 +85,10 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.editingContent = node.name;
   }
 
+  deleteNode(node: TreeNode): void {
+    this.treeComponentService.deleteNode(node);
+  }
+
   cancelEdit(node: TreeNode): void {
     this.treeComponentService.cancelEdit(node);
     this.editingContent = '';

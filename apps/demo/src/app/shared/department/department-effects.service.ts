@@ -55,4 +55,10 @@ export class DepartmentEffectsService extends EffectService<Department> {
       map(childrenTransform),
     );
   };
+
+  override delete: (id: string) => Observable<void> = (
+    id: string,
+  ): Observable<void> => {
+    return this.http.delete<undefined>(`${this.apiDepartments}/${id}`);
+  };
 }

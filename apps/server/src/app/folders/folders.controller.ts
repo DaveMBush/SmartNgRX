@@ -1,4 +1,4 @@
-import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Inject, Post, Put } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap } from 'rxjs';
 
@@ -40,5 +40,10 @@ export class FoldersController {
       },
     });
     return this.getByIds([result.id]);
+  }
+
+  @Delete(':id')
+  async delete(id: string): Promise<void> {
+    await this.prisma.folders.delete({ where: { id } });
   }
 }

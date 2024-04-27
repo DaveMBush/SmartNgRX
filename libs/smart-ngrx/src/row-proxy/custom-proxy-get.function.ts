@@ -24,6 +24,9 @@ export function customProxyGet<
   if (prop === 'getRealRow') {
     return () => target.getRealRow();
   }
+  if (prop === 'delete') {
+    return () => target.delete();
+  }
   if (prop === 'isEditing') {
     service.loadByIdsSuccess([{ ...target.row, isEditing: true }]);
   }
