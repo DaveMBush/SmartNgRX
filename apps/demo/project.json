@@ -92,7 +92,10 @@
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "demo:build"
+        "spa": true,
+        "port": 4200,
+        "buildTarget": "demo:build",
+        "staticFilePath": "./dist/apps/demo/browser"
       }
     }
   }

@@ -18,7 +18,8 @@
     "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
     "prepare": "is-ci || husky",
     "postinstall": "pnpm dlx prisma migrate dev",
-    "memlab": "tsx ./apps/demo-memlab/src/memlab/main.ts"
+    "memlab": "tsx ./apps/demo-memlab/src/memlab/main.ts",
+    "reset": "rm -rf dist && rm -rf node_modules && rm -rf .angular && rm -rf .nx && pnpm install"
   },
   "prisma": {
     "seed": "pnpm ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
