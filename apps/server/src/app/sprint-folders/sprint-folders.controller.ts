@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Inject, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Inject,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap } from 'rxjs';
 
@@ -31,6 +39,11 @@ export class SprintFoldersController {
     ).pipe(switchMap(async () => this.getByIds([sprintFolder.id])));
   }
 
+  @Delete('/:id')
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.prisma.sprintFolders.delete({ where: { id } });
+  }
+
   @Post('add')
   async add(@Body() sprintFolder: SprintFolderDTO): Promise<SprintFolderDTO[]> {
     const result = await this.prisma.lists.create({
@@ -40,10 +53,5 @@ export class SprintFoldersController {
       },
     });
     return this.getByIds([result.id]);
-  }
-
-  @Delete(':id')
-  async delete(id: string): Promise<void> {
-    await this.prisma.sprintFolders.delete({ where: { id } });
   }
 }

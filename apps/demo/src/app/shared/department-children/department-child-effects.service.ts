@@ -175,17 +175,17 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(id);
 
     let deleteStream: Observable<void> = of(undefined);
-    docIds.forEach(() => {
-      deleteStream = this.doc.delete(id);
+    docIds.forEach((docId) => {
+      deleteStream = this.doc.delete(docId);
     });
-    folderIds.forEach(() => {
-      deleteStream = this.folder.delete(id);
+    folderIds.forEach((folderId) => {
+      deleteStream = this.folder.delete(folderId);
     });
-    listIds.forEach(() => {
-      deleteStream = this.list.delete(id);
+    listIds.forEach((listId) => {
+      deleteStream = this.list.delete(listId);
     });
-    sprintFolderIds.forEach(() => {
-      deleteStream = this.sprintFolder.delete(id);
+    sprintFolderIds.forEach((sprintFolderId) => {
+      deleteStream = this.sprintFolder.delete(sprintFolderId);
     });
 
     return deleteStream;

@@ -2,7 +2,6 @@ import { EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../actions/action.factory';
-import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -26,7 +25,6 @@ export function reducerFactory<
   entity: StringLiteralSource<E>,
 ): ActionReducer<EntityState<T>> {
   const adapter = entityDefinitionCache(feature, entity).entityAdapter;
-  assert(!!adapter, `Entity adapter for ${feature} ${entity} not found.`);
   const initialState = adapter.getInitialState();
   const actions = actionFactory<T, F, E>(feature, entity);
 

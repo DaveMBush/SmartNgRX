@@ -1,9 +1,8 @@
 import { Dictionary } from '@ngrx/entity';
-import { EntityState, UpdateStr } from '@ngrx/entity/src/models';
+import { EntityAdapter, EntityState, UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
-import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import {
   registerEntityRows,
@@ -11,12 +10,12 @@ import {
 } from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { defaultRows } from '../reducers/default-rows.function';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
+import { removeIdFromParents } from './remove-id-from-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -30,6 +29,10 @@ export class ActionService<
   Feature extends string = string,
   Entity extends string = string,
 > {
+  /**
+   * entityAdapter is needed for delete
+   */
+  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
   private actions: ActionGroup<T>;
   private entities: Observable<Dictionary<T>>;
   private store = storeFunction();
@@ -41,23 +44,22 @@ export class ActionService<
    * @param entity the name of the entity this class is for
    */
   constructor(
-    private feature: StringLiteralSource<Feature>,
-    private entity: StringLiteralSource<Entity>,
+    public feature: StringLiteralSource<Feature>,
+    public entity: StringLiteralSource<Entity>,
   ) {
     this.actions = actionFactory(feature, entity);
-    const selectFeature = createFeatureSelector<EntityState<T>>(this.feature);
-    const entityAdapter = entityDefinitionCache(
+    const selectFeature = createFeatureSelector<Record<string, EntityState<T>>>(
+      this.feature,
+    );
+    this.entityAdapter = entityDefinitionCache(
       this.feature,
       this.entity,
     ).entityAdapter;
-    assert(
-      !!entityAdapter,
-      `Entity adapter for feature: ${this.feature} and entity: ${this.entity} not found.`,
-    );
-    const selectEntities = entityAdapter.getSelectors().selectEntities;
-    const selectEntity = createSelector(selectFeature, selectEntities);
+    const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
+    const selectEntities = this.entityAdapter.getSelectors().selectEntities;
+    const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = castTo<Observable<Dictionary<T>>>(
-      this.store.select(selectEntity),
+      this.store.select(selectFeatureEntities),
     );
   }
 
@@ -185,11 +187,29 @@ export class ActionService<
    * Deletes the row represented by the Id from the store
    *
    * @param id the id of the row to delete
+   * @param service the service for this row
    * @param parentService the service for the parent row
    */
-  delete(id: string, parentService: ActionService<SmartNgRXRowBase>): void {
+  delete(
+    id: string,
+    service: ActionService<SmartNgRXRowBase>,
+    parentService: ActionService<SmartNgRXRowBase>,
+  ): void {
     parentService.entities.pipe(take(1)).subscribe((entities) => {
-      this.innerDelete(entities, parentService, id);
+      const parentIds = removeIdFromParents(
+        entities,
+        service,
+        parentService,
+        id,
+      );
+      this.store.dispatch(
+        this.actions.delete({
+          id,
+          parentFeature: parentService.feature,
+          parentEntityName: parentService.entity,
+          parentIds,
+        }),
+      );
     });
   }
 
@@ -254,42 +274,6 @@ export class ActionService<
     this.store.dispatch(
       this.actions.storeRows({
         rows: registeredRows,
-      }),
-    );
-  }
-
-  /**
-   * Used by delete to actually delete the row from the store once we have the entity to look in
-   *
-   * @param entities the entities to look in
-   * @param parentService the parent service that we will call to report items from parent
-   * @param id the id of the row to delete
-   */
-  private innerDelete(
-    entities: Dictionary<SmartNgRXRowBase>,
-    parentService: ActionService<SmartNgRXRowBase>,
-    id: string,
-  ) {
-    const parentIds: string[] = Object.keys(entities).filter((key) => {
-      const entity = entities[key];
-      assert(!!entity, `Entity with key ${key} not found in parent service`);
-      const child = childDefinitionRegistry.getChildDefinition(
-        parentService.feature,
-        parentService.entity,
-      ).parentField as keyof SmartNgRXRowBase;
-      const childArray = entity[child] as string[] | undefined;
-      assert(!!childArray, `Child array not found in parent entity`);
-      return childArray.some((v) => id === v);
-    });
-    parentService.updateMany(
-      parentIds.map((v) => ({ id: v, changes: { isDirty: false } })),
-    );
-    this.store.dispatch(
-      this.actions.delete({
-        id,
-        parentFeature: parentService.feature,
-        parentEntityName: parentService.entity,
-        parentIds,
       }),
     );
   }
