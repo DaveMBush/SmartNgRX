@@ -31,10 +31,10 @@ Have a look at our "Ultimate Goals" to see where we are headed.
   - [x] Create
   - [x] Read
   - [x] Update
-  - [ ] Delete
+  - [x] Delete (only deletes from multiple parents of the same type)
 - [ ] Provide optimistic UI natively
   - [x] Update
-  - [ ] Delete
+  - [x] Delete
   - [x] Create
 - [x] Optionally remove unused entity rows from the store.
 - [x] Optionally allow data to refresh using polling.
