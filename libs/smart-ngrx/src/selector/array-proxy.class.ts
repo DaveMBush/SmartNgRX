@@ -1,7 +1,6 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
@@ -50,10 +49,6 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
       childFeature,
       childEntity,
     ).entityAdapter;
-    assert(
-      !!entityAdapter,
-      `Entity adapter for feature: ${childFeature} and entity: ${childEntity} not found.`,
-    );
     this.entityAdapter = castTo<EntityAdapter<C>>(entityAdapter);
     // proxying this so that we can intercept going after
     // an index and return the item from the store instead
@@ -148,10 +143,6 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
       parentFeature,
       parentEntity,
     ).entityAdapter;
-    assert(
-      !!adapter,
-      `Entity adapter for feature: ${parentFeature} and entity: ${parentEntity} not found.`,
-    );
     const parentId = adapter.selectId(thisRow) as string;
     const { service, parentService } = this.getServices();
     const newParent = this.createNewParentFromParent(thisRow, true);

@@ -6,13 +6,15 @@ import { actionServiceRegistry } from '../../registrations/action.service.regist
  *
  * @param parentFeature the feature the parent is part of
  * @param parentEntity the entity the parent is part of
- * @param parentId the id of the parent to mark dirty
+ * @param parentIds the ids of the parents to mark dirty
  */
-export function markParentDirty(
+export function markParentsDirty(
   parentFeature: StringLiteralSource<string>,
   parentEntity: StringLiteralSource<string>,
-  parentId: string,
+  parentIds: string[],
 ): void {
   const parentService = actionServiceRegistry(parentFeature, parentEntity);
-  parentService.updateMany([{ id: parentId, changes: { isDirty: true } }]);
+  parentService.updateMany(
+    parentIds.map((id) => ({ id, changes: { isDirty: true } })),
+  );
 }

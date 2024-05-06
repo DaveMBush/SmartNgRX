@@ -11,6 +11,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { addEffect } from './effects-factory/add-effect.function';
 import { addSuccessEffect } from './effects-factory/add-success-effect.function';
+import { deleteEffect } from './effects-factory/delete-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
 import { loadEffect } from './effects-factory/load-effect.function';
@@ -58,11 +59,12 @@ export function effectsFactory<
   const adapter = castTo<EntityAdapter<T> | undefined>(
     entityDefinitionCache(feature, entityName).entityAdapter,
   );
-  assert(
-    !!adapter,
-    `Entity adapter for feature: ${feature} and entity: ${entityName} not found.`,
-  );
+  assert(!!adapter, `Missing adapter for ${feature}:${entityName}.`);
   return castTo<Record<string, FunctionalEffect>>({
+    delete: createEffect(
+      deleteEffect(effectsServiceToken, actions),
+      dispatchFalse,
+    ),
     load: createEffect(loadEffect(effectsServiceToken, actions), dispatchTrue),
     loadByIdsPreload: createEffect(
       loadByIdsPreloadEffect(feature, entityName, actions),

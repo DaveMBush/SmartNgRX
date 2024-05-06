@@ -7,7 +7,7 @@ import { ActionGroup } from '../../actions/action-group.interface';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
-import { markParentDirty } from './mark-parent-dirty.function';
+import { markParentsDirty } from './mark-parents-dirty.function';
 
 /**
  * This is the effect that handles adding a new row to the store.
@@ -47,11 +47,9 @@ export function addSuccessEffect<T extends SmartNgRXRowBase>(
         }),
       ),
       map((action) => {
-        markParentDirty(
-          action.parentFeature,
-          action.parentEntityName,
+        markParentsDirty(action.parentFeature, action.parentEntityName, [
           action.parentId,
-        );
+        ]);
       }),
     );
   };

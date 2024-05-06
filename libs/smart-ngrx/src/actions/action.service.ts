@@ -1,9 +1,8 @@
 import { Dictionary } from '@ngrx/entity';
-import { EntityState, UpdateStr } from '@ngrx/entity/src/models';
+import { EntityAdapter, EntityState, UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
-import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import {
   registerEntityRows,
@@ -16,6 +15,7 @@ import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
+import { removeIdFromParents } from './remove-id-from-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -29,6 +29,10 @@ export class ActionService<
   Feature extends string = string,
   Entity extends string = string,
 > {
+  /**
+   * entityAdapter is needed for delete
+   */
+  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
   private actions: ActionGroup<T>;
   private entities: Observable<Dictionary<T>>;
   private store = storeFunction();
@@ -40,23 +44,22 @@ export class ActionService<
    * @param entity the name of the entity this class is for
    */
   constructor(
-    private feature: StringLiteralSource<Feature>,
-    private entity: StringLiteralSource<Entity>,
+    public feature: StringLiteralSource<Feature>,
+    public entity: StringLiteralSource<Entity>,
   ) {
     this.actions = actionFactory(feature, entity);
-    const selectFeature = createFeatureSelector<EntityState<T>>(this.feature);
-    const entityAdapter = entityDefinitionCache(
+    const selectFeature = createFeatureSelector<Record<string, EntityState<T>>>(
+      this.feature,
+    );
+    this.entityAdapter = entityDefinitionCache(
       this.feature,
       this.entity,
     ).entityAdapter;
-    assert(
-      !!entityAdapter,
-      `Entity adapter for feature: ${this.feature} and entity: ${this.entity} not found.`,
-    );
-    const selectEntities = entityAdapter.getSelectors().selectEntities;
-    const selectEntity = createSelector(selectFeature, selectEntities);
+    const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
+    const selectEntities = this.entityAdapter.getSelectors().selectEntities;
+    const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = castTo<Observable<Dictionary<T>>>(
-      this.store.select(selectEntity),
+      this.store.select(selectFeatureEntities),
     );
   }
 
@@ -67,15 +70,7 @@ export class ActionService<
    */
   markDirty(ids: string[]): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
-      const changes = ids
-        .filter((id) => {
-          return entities[id] && entities[id]!.isEditing !== true;
-        })
-        .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
-      if (changes.length === 0) {
-        return;
-      }
-      this.store.dispatch(this.actions.updateMany({ changes }));
+      this.markDirtyWithEntities<T>(entities, ids);
     });
   }
 
@@ -102,18 +97,7 @@ export class ActionService<
    */
   garbageCollect(ids: string[]): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
-      let idsToRemove = ids.filter(
-        (id) => entities[id] && entities[id]!.isEditing !== true,
-      );
-      if (idsToRemove.length === 0) {
-        return;
-      }
-      idsToRemove = unregisterEntityRows(this.feature, this.entity, ids);
-      this.store.dispatch(
-        this.actions.remove({
-          ids: idsToRemove,
-        }),
-      );
+      this.garbageCollectWithEntities(entities, ids);
     });
   }
 
@@ -181,6 +165,36 @@ export class ActionService<
   }
 
   /**
+   * Deletes the row represented by the Id from the store
+   *
+   * @param id the id of the row to delete
+   * @param service the service for this row
+   * @param parentService the service for the parent row
+   */
+  delete(
+    id: string,
+    service: ActionService<SmartNgRXRowBase>,
+    parentService: ActionService<SmartNgRXRowBase>,
+  ): void {
+    parentService.entities.pipe(take(1)).subscribe((entities) => {
+      const parentIds = removeIdFromParents(
+        entities,
+        service,
+        parentService,
+        id,
+      );
+      this.store.dispatch(
+        this.actions.delete({
+          id,
+          parentFeature: parentService.feature,
+          parentEntityName: parentService.entity,
+          parentIds,
+        }),
+      );
+    });
+  }
+
+  /**
    * Calls the loadByIds action to load the rows into the store.
    *
    * @param ids the ids to load
@@ -241,6 +255,39 @@ export class ActionService<
     this.store.dispatch(
       this.actions.storeRows({
         rows: registeredRows,
+      }),
+    );
+  }
+
+  private markDirtyWithEntities<R extends SmartNgRXRowBase>(
+    entities: Dictionary<R>,
+    ids: string[],
+  ): void {
+    const changes = ids
+      .filter((id) => {
+        return entities[id] !== undefined && entities[id]!.isEditing !== true;
+      })
+      .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
+    if (changes.length === 0) {
+      return;
+    }
+    this.store.dispatch(this.actions.updateMany({ changes }));
+  }
+
+  private garbageCollectWithEntities<R extends SmartNgRXRowBase>(
+    entities: Dictionary<R>,
+    ids: string[],
+  ): void {
+    let idsToRemove = ids.filter(
+      (id) => entities[id] && entities[id]!.isEditing !== true,
+    );
+    if (idsToRemove.length === 0) {
+      return;
+    }
+    idsToRemove = unregisterEntityRows(this.feature, this.entity, ids);
+    this.store.dispatch(
+      this.actions.remove({
+        ids: idsToRemove,
       }),
     );
   }

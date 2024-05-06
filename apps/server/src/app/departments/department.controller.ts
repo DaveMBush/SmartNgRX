@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Inject,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -60,5 +68,12 @@ export class DepartmentsController {
         },
       }),
     ).pipe(switchMap((result) => this.getByIds([result.id])));
+  }
+
+  @Delete('/:id')
+  delete(@Param('id') id: string): Observable<void> {
+    return from(this.prisma.departments.delete({ where: { id } })).pipe(
+      map(() => undefined),
+    );
   }
 }

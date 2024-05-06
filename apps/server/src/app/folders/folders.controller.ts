@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Inject,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap } from 'rxjs';
 
@@ -33,12 +41,17 @@ export class FoldersController {
 
   @Post('add')
   async add(@Body() folder: FolderDTO): Promise<FolderDTO[]> {
-    const result = await this.prisma.folders.create({
+    const folderRow = await this.prisma.folders.create({
       data: {
         name: folder.name,
         departmentId: folder.parentId!,
       },
     });
-    return this.getByIds([result.id]);
+    return this.getByIds([folderRow.id]);
+  }
+
+  @Delete('/:id')
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.prisma.folders.delete({ where: { id } });
   }
 }

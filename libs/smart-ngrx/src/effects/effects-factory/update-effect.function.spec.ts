@@ -43,6 +43,10 @@ class TestService extends EffectService<Row> {
   override add: (row: Row) => Observable<Row[]> = (_: Row) => {
     return of([] as Row[]);
   };
+
+  override delete: (id: string) => Observable<void> = (_: string) => {
+    return of();
+  };
 }
 
 const serviceToken = new InjectionToken<TestService>('TestService');

@@ -4,7 +4,6 @@ import { ActionCreator } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
-import { IdProp } from '../types/id-prop.interface';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
@@ -79,6 +78,16 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
   >;
   delete: ActionCreator<
     `[${any}] Delete`,
-    (props: IdProp) => IdProp & TypedAction<`[${any}] Delete`>
+    (props: {
+      id: string;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
+      parentIds: string[];
+    }) => TypedAction<`[${any}] Delete`> & {
+      id: string;
+      parentFeature: StringLiteralSource<string>;
+      parentEntityName: StringLiteralSource<string>;
+      parentIds: string[];
+    }
   >;
 }

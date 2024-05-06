@@ -1,8 +1,12 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
 import { assert } from '../common/assert.function';
+import { castTo } from '../common/cast-to.function';
 import { psi } from '../common/theta.const';
-import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import {
+  SmartEntityDefinition,
+  SmartValidatedEntityDefinition,
+} from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const entityDefinitionMap = new Map<
@@ -24,7 +28,7 @@ export function entityDefinitionCache(
   featureName: string,
   entityName: string,
   entityDefinition?: SmartEntityDefinition<SmartNgRXRowBase>,
-): SmartEntityDefinition<SmartNgRXRowBase> {
+): SmartValidatedEntityDefinition<SmartNgRXRowBase> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
     cached = entityDefinition;
@@ -40,5 +44,11 @@ export function entityDefinitionCache(
     !!cached,
     `Entity definition for ${featureName}${psi}${entityName} not found.`,
   );
-  return cached;
+  const entityAdapter = cached.entityAdapter;
+  assert(
+    !!entityAdapter,
+    `Entity adapter for ${featureName}${psi}${entityName} not found.`,
+  );
+  // we can cast this now because we've validated that it obeys the type rules
+  return castTo<SmartValidatedEntityDefinition<SmartNgRXRowBase>>(cached);
 }

@@ -31,11 +31,12 @@ Have a look at our "Ultimate Goals" to see where we are headed.
   - [x] Create
   - [x] Read
   - [x] Update
-  - [ ] Delete
+  - [x] Delete
 - [ ] Provide optimistic UI natively
   - [x] Update
-  - [ ] Delete
+  - [x] Delete
   - [x] Create
+  - [x] Delete (only deletes from multiple parents of the same type)
 - [x] Optionally remove unused entity rows from the store.
 - [x] Optionally allow data to refresh using polling.
 - [ ] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.

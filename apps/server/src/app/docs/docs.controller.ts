@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Inject,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap } from 'rxjs';
 
@@ -39,5 +47,10 @@ export class DocsController {
       },
     });
     return this.getByIds([result.did]);
+  }
+
+  @Delete('/:id')
+  async delete(@Param('id') id: string): Promise<void> {
+    await this.prisma.docs.delete({ where: { did: id } });
   }
 }

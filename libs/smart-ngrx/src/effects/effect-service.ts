@@ -23,4 +23,9 @@ export abstract class EffectService<T> {
    * Sends a new row to the server
    */
   abstract add: (row: T) => Observable<T[]>;
+
+  /**
+   * Deletes the row represented by the id from the server
+   */
+  abstract delete: (id: string) => Observable<void>;
 }

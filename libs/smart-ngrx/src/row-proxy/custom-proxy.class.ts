@@ -34,8 +34,8 @@ export class CustomProxy<
    */
   constructor(
     public row: T,
-    service: ActionService<T>,
-    parentService: ActionService<P>,
+    private service: ActionService<T>,
+    private parentService: ActionService<P>,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
@@ -77,5 +77,18 @@ export class CustomProxy<
    */
   toJSON() {
     return { ...this.getRealRow(), ...this.changes };
+  }
+
+  /**
+   * Initiates delete of this object from the server which will
+   * also optimistically update the store
+   */
+  delete(): void {
+    const id = this.service.entityAdapter.selectId(this.row) as string;
+    this.service.delete(
+      id,
+      castTo<ActionService<SmartNgRXRowBase>>(this.service),
+      castTo<ActionService<SmartNgRXRowBase>>(this.parentService),
+    );
   }
 }

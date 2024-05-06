@@ -111,6 +111,16 @@
           <button mat-menu-item (click)="addChild(node, 'lists')">List</button>
         </mat-menu>
       }
+      <button
+        class="delete-button"
+        type="button"
+        aria-label="delete"
+        mat-icon-button
+        (click)="deleteNode(node)"
+        [disabled]="node.hasChildren"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
     }
   } @else {
     <dmb-node-editor

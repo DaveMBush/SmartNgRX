@@ -39,4 +39,10 @@ export class LocationEffectsService extends EffectService<Location> {
   override add: (row: Location) => Observable<Location[]> = (row: Location) => {
     return this.http.post<Location[]>(this.apiLocation, row);
   };
+
+  override delete: (id: string) => Observable<void> = (
+    id: string,
+  ): Observable<void> => {
+    return this.http.delete<undefined>(`${this.apiLocation}/${id}`);
+  };
 }

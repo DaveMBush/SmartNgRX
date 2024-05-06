@@ -5,8 +5,9 @@ import { catchError, concatMap, map, of } from 'rxjs';
 import { ActionGroup } from '../../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
-import { markParentDirty } from './mark-parent-dirty.function';
+import { markParentsDirty } from './mark-parents-dirty.function';
 
+/* jscpd:ignore-start */
 /**
  * This is the effect that handles adding a new row to the store.
  *
@@ -26,13 +27,14 @@ export function addEffect<T extends SmartNgRXRowBase>(
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
   ) => {
+    /* jscpd:ignore-end */
     return actions$.pipe(
       ofType(actions.add),
-      // action.parentService has to get passed to map and catchError
-      // could we get the action from the registration instead of passing
-      // it in since we are in an effect that we own?
       concatMap((action) => {
         return effectService.add(action.row).pipe(
+          // action.parentService has to get passed to map and catchError
+          // could we get the action from the registration instead of passing
+          // it in since we are in an effect that we own?
           map((rows) => {
             return actions.addSuccess({
               oldRow: action.row,
@@ -43,11 +45,9 @@ export function addEffect<T extends SmartNgRXRowBase>(
             });
           }),
           catchError((_: unknown, __) => {
-            markParentDirty(
-              action.parentFeature,
-              action.parentEntityName,
+            markParentsDirty(action.parentFeature, action.parentEntityName, [
               action.parentId,
-            );
+            ]);
             // because NgRX requires an action to be returned
             return of({ type: 'noop' });
           }),
