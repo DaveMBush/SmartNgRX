@@ -40,6 +40,9 @@ export function removeIdFromParents(
     }
     return hasChild;
   });
+  if (parentIds.length === 0) {
+    return [];
+  }
   parentService.updateMany(
     // remove the child id from the parent's child field
     parentIds.map((v) => ({

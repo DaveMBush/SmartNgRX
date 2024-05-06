@@ -70,15 +70,7 @@ export class ActionService<
    */
   markDirty(ids: string[]): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
-      const changes = ids
-        .filter((id) => {
-          return entities[id] && entities[id]!.isEditing !== true;
-        })
-        .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
-      if (changes.length === 0) {
-        return;
-      }
-      this.store.dispatch(this.actions.updateMany({ changes }));
+      this.markDirtyWithEntities<T>(entities, ids);
     });
   }
 
@@ -105,18 +97,7 @@ export class ActionService<
    */
   garbageCollect(ids: string[]): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
-      let idsToRemove = ids.filter(
-        (id) => entities[id] && entities[id]!.isEditing !== true,
-      );
-      if (idsToRemove.length === 0) {
-        return;
-      }
-      idsToRemove = unregisterEntityRows(this.feature, this.entity, ids);
-      this.store.dispatch(
-        this.actions.remove({
-          ids: idsToRemove,
-        }),
-      );
+      this.garbageCollectWithEntities(entities, ids);
     });
   }
 
@@ -274,6 +255,39 @@ export class ActionService<
     this.store.dispatch(
       this.actions.storeRows({
         rows: registeredRows,
+      }),
+    );
+  }
+
+  private markDirtyWithEntities<R extends SmartNgRXRowBase>(
+    entities: Dictionary<R>,
+    ids: string[],
+  ): void {
+    const changes = ids
+      .filter((id) => {
+        return entities[id] !== undefined && entities[id]!.isEditing !== true;
+      })
+      .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
+    if (changes.length === 0) {
+      return;
+    }
+    this.store.dispatch(this.actions.updateMany({ changes }));
+  }
+
+  private garbageCollectWithEntities<R extends SmartNgRXRowBase>(
+    entities: Dictionary<R>,
+    ids: string[],
+  ): void {
+    let idsToRemove = ids.filter(
+      (id) => entities[id] && entities[id]!.isEditing !== true,
+    );
+    if (idsToRemove.length === 0) {
+      return;
+    }
+    idsToRemove = unregisterEntityRows(this.feature, this.entity, ids);
+    this.store.dispatch(
+      this.actions.remove({
+        ids: idsToRemove,
       }),
     );
   }

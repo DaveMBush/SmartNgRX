@@ -11,6 +11,9 @@ describe('customProxyGet()', () => {
     getRealRow: () => {
       /*noop*/
     },
+    delete: () => {
+      /*noop*/
+    },
     changes: {
       a: 'a',
     },
@@ -28,10 +31,12 @@ describe('customProxyGet()', () => {
   let getRealRowSpy: jest.SpyInstance;
   let getJsonSpy: jest.SpyInstance;
   let loadByIdsSuccessSpy: jest.SpyInstance;
+  let deleteSpy: jest.SpyInstance;
   beforeEach(() => {
     getRealRowSpy = jest.spyOn(target, 'getRealRow');
     getJsonSpy = jest.spyOn(target, 'toJSON');
     loadByIdsSuccessSpy = jest.spyOn(service, 'loadByIdsSuccess');
+    deleteSpy = jest.spyOn(target, 'delete');
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -60,13 +65,19 @@ describe('customProxyGet()', () => {
   });
   describe('when prop is "getRealRow"', () => {
     it('should return a function that calls target.getRealRow()', () => {
-      // Arrange
       const prop = 'getRealRow';
-      // Act
       const result = customProxyGet(target, prop, service) as () => void;
       result();
-      // Assert
       expect(getRealRowSpy).toHaveBeenCalled();
+      expect(getJsonSpy).not.toHaveBeenCalled();
+    });
+  });
+  describe('when prop is "delete"', () => {
+    it('should return a function that calls target.delete()', () => {
+      const prop = 'delete';
+      const result = customProxyGet(target, prop, service) as () => void;
+      result();
+      expect(deleteSpy).toHaveBeenCalled();
       expect(getJsonSpy).not.toHaveBeenCalled();
     });
   });

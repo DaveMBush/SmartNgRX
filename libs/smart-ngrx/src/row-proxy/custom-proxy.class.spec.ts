@@ -23,10 +23,10 @@ describe('CustomProxy', () => {
       children: ['child1a', 'child2a'] as unknown as ArrayProxy<object, CRow>,
     };
     row.children.rawArray = ['child1', 'child2'];
-    customProxy = new CustomProxy<TRow, SmartNgRXRowBase>(
+    customProxy = new CustomProxy<TRow, CRow>(
       row as unknown as TRow,
       {} as ActionService<TRow>,
-      {} as ActionService<SmartNgRXRowBase>,
+      {} as ActionService<CRow>,
     );
   });
   describe('getRealRow()', () => {
