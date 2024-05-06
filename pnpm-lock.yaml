@@ -54,8 +54,8 @@ dependencies:
     specifier: 17.6.4
     version: 17.6.4
   '@ng-doc/ui-kit':
-    specifier: 17.6.4
-    version: 17.6.4(@angular/cdk@17.3.6)(@angular/common@17.3.6)(@angular/core@17.3.6)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
+    specifier: 17.6.7
+    version: 17.6.7(@angular/cdk@17.3.6)(@angular/common@17.3.6)(@angular/core@17.3.6)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
   '@ngrx/component-store':
     specifier: ~17.2.0
     version: 17.2.0(@angular/core@17.3.6)(rxjs@7.8.1)
@@ -5631,6 +5631,15 @@ packages:
       posthtml-render: 3.0.0
     dev: false
 
+  /@ng-doc/core@17.6.7:
+    resolution: {integrity: sha512-Kf4VUBYrkYy1l23S0V7vhTsLCLLYWWYdMBAhRLBGxBrTfBUZJD/UqoRlte+VYJO/izErwJ5FTxP9kLu09L8yYA==}
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+    dev: false
+
   /@ng-doc/ui-kit@17.6.4(@angular/cdk@17.3.6)(@angular/common@17.3.6)(@angular/core@17.3.6)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1):
     resolution: {integrity: sha512-t0wZuIORX8zNK2EHBGCsKIo/h0uL5abCWJsSvX/5c4XHQoK5l3xft3VGmyrmQVtDjzGNUjXOhi2/8jnOYpeZhg==}
     peerDependencies:
@@ -5646,6 +5655,28 @@ packages:
       '@angular/common': 17.3.6(@angular/core@17.3.6)(rxjs@7.8.1)
       '@angular/core': 17.3.6(rxjs@7.8.1)(zone.js@0.14.4)
       '@ng-doc/core': 17.6.4
+      '@ngneat/until-destroy': 10.0.0(@angular/core@17.3.6)(rxjs@7.8.1)
+      '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@17.3.6)(@angular/platform-browser@17.3.6)
+      di-controls: 2.1.0(@angular/common@17.3.6)(@angular/core@17.3.6)(@angular/forms@17.3.6)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
+  /@ng-doc/ui-kit@17.6.7(@angular/cdk@17.3.6)(@angular/common@17.3.6)(@angular/core@17.3.6)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-Okmvk9ofrApnbrgwLZUmerpXHqi19z7uVt7o3bRub7HRFJhHCAcxcZp1o3UBrTXb6lV4tXuVHgekBEphR6VvcQ==}
+    peerDependencies:
+      '@angular/cdk': '>=17.0.0'
+      '@angular/common': '>=17.0.0'
+      '@angular/core': '>=17.0.0'
+      '@ngneat/until-destroy': ^10.0.0
+      '@tinkoff/ng-polymorpheus': 4.3.0
+      di-controls: 2.1.0
+      rxjs: ^7.0.0
+    dependencies:
+      '@angular/cdk': 17.3.6(@angular/common@17.3.6)(@angular/core@17.3.6)(rxjs@7.8.1)
+      '@angular/common': 17.3.6(@angular/core@17.3.6)(rxjs@7.8.1)
+      '@angular/core': 17.3.6(rxjs@7.8.1)(zone.js@0.14.4)
+      '@ng-doc/core': 17.6.7
       '@ngneat/until-destroy': 10.0.0(@angular/core@17.3.6)(rxjs@7.8.1)
       '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@17.3.6)(@angular/platform-browser@17.3.6)
       di-controls: 2.1.0(@angular/common@17.3.6)(@angular/core@17.3.6)(@angular/forms@17.3.6)(rxjs@7.8.1)
