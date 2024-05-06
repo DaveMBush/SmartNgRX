@@ -1,0 +1,1 @@
+import"./chunk-P2VZOJAX.js";var t=[{path:"",redirectTo:"create",pathMatch:"full"},{path:"",title:"CRUD Support",children:[{path:"create",loadChildren:()=>import("./chunk-YYT2XEBR.js")},{path:"retrieving",loadChildren:()=>import("./chunk-FZH7FDHS.js")},{path:"updates",loadChildren:()=>import("./chunk-LST7YZMB.js")}]}],e=t;export{e as default};

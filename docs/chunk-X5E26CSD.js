@@ -1,0 +1,1 @@
+import"./chunk-P2VZOJAX.js";var t=[{path:"",redirectTo:"tbd",pathMatch:"full"},{path:"",title:"Cookbook",children:[{path:"tbd",loadChildren:()=>import("./chunk-O3G5C5UA.js")}]}],o=t;export{o as default};
