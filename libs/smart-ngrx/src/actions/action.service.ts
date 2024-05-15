@@ -228,24 +228,6 @@ export class ActionService<
   }
 
   /**
-   * loads a dummy row for the load so that the load won't fire again
-   */
-  load(): void {
-    const defaultRow = entityDefinitionCache(
-      this.feature,
-      this.entity,
-    ).defaultRow;
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      const rows = defaultRows(['1'], entities, defaultRow) as T[];
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows,
-        }),
-      );
-    });
-  }
-
-  /**
    * puts the rows in the store
    *
    * @param rows the rows to put in the store

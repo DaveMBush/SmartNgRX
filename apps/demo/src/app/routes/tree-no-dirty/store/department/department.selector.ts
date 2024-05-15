@@ -4,7 +4,6 @@ import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { createSmartSelector } from '@smart/smart-ngrx/selector/create-smart-selector.function';
 import { SmartNgRXRowBaseSelector } from '@smart/smart-ngrx/types/smart-ngrx-row-base-selector.type';
 
-import { Department } from '../../../../shared/department/department.interface';
 import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { selectTreeNoDirtyState } from '../tree-no-dirty.selectors';
 
@@ -15,7 +14,7 @@ export const selectDepartments = createSelector(
   },
 );
 
-export const selectDepartmentsChildren = createSmartSelector<Department>(
+export const selectDepartmentsChildren = createSmartSelector(
   // parent table selector
   selectDepartments,
   [

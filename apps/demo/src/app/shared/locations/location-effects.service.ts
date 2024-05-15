@@ -17,14 +17,10 @@ export class LocationEffectsService extends EffectService<Location> {
     super();
   }
 
-  override load: () => Observable<Location[]> = () => {
-    return this.http.get<Location[]>(this.apiLocation);
-  };
-
   override loadByIds: (ids: string[]) => Observable<Location[]> = (
-    _: string[],
+    ids: string[],
   ) => {
-    return of([] as Location[]);
+    return this.http.post<Location[]>(this.apiLocation, ids);
   };
 
   override update: (

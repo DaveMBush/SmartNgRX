@@ -7,10 +7,12 @@ import { ListsModule } from './lists/lists.module';
 import { LocationsModule } from './locations/locations.module';
 import { PrismaModule } from './orm/prisma.module';
 import { SprintFoldersModule } from './sprint-folders/sprint-folders.module';
+import { TopModule } from './top/top.module';
 
 @Module({
   imports: [
     PrismaModule,
+    TopModule,
     LocationsModule,
     DepartmentsModule,
     DocsModule,

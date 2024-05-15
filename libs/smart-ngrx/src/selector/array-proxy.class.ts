@@ -20,7 +20,7 @@ import { isArrayProxy } from './is-array-proxy.function';
  * @see `createSmartSelector`
  */
 export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
-  implements ArrayLike<C>
+  implements ArrayLike<C>, Iterable<C>
 {
   entityAdapter: EntityAdapter<C>;
   [isProxy] = true;
@@ -55,6 +55,21 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
     return new Proxy(this, {
       get: (target, prop) => arrayProxyClassGet(target, prop),
     });
+  }
+
+  /**
+   * Implements iterator so we can use methods that depend on
+   * iterable.
+   *
+   * @yields The next item in the iteration.
+   * @returns The next item in the iteration.
+   */
+  *[Symbol.iterator](): Iterator<C> {
+    const len = this.rawArray.length;
+    for (let i = 0; i < len; i++) {
+      yield this.getAtIndex(i);
+    }
+    return undefined;
   }
 
   /**

@@ -6,7 +6,6 @@ import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { createSmartSelector } from '@smart/smart-ngrx/selector/create-smart-selector.function';
 import { SmartNgRXRowBaseSelector } from '@smart/smart-ngrx/types/smart-ngrx-row-base-selector.type';
 
-import { Location } from '../../../../shared/locations/location.interface';
 import { selectCurrentLocationId } from '../current-location/current-location.selector';
 import { selectDepartmentsChildren } from '../department/department.selector';
 import { selectTreeStandardState } from '../tree-standard-state.selectors';
@@ -18,14 +17,7 @@ export const selectLocationEntities = createSelector(
   },
 );
 
-export const selectLocations = createSelector(
-  selectLocationEntities,
-  (locations) => {
-    return locations.ids.map((id) => locations.entities[id]) as Location[];
-  },
-);
-
-export const selectLocationsDepartments = createSmartSelector<Location>(
+export const selectLocationsDepartments = createSmartSelector(
   selectLocationEntities,
   [
     {
