@@ -1,11 +1,12 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
-import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
+import { createEffect, EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { effectsFactory } from '../effects/effects-factory.function';
+import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -45,7 +46,7 @@ export function provideSmartFeatureEntities<F extends string>(
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
   forNext(entityDefinitions, (entityDefinition) => {
-    entityDefinitionCache(
+    entityDefinition = entityDefinitionCache(
       featureName,
       entityDefinition.entityName,
       entityDefinition,
@@ -56,6 +57,16 @@ export function provideSmartFeatureEntities<F extends string>(
       entityName as StringLiteralSource<string>,
       effectServiceToken,
     );
+    if (entityDefinition.isInitialRow === true) {
+      effects['watchInitialRow'] = createEffect(
+        watchInitialRowEffect(
+          featureName as StringLiteralSource<string>,
+          entityName as StringLiteralSource<string>,
+        ),
+        { dispatch: false, functional: true },
+      );
+    }
+
     allEffects.push(effects);
     const reducer = reducerFactory(
       featureName,

@@ -25,10 +25,6 @@ interface Row extends SmartNgRXRowBase {
   isDirty: boolean;
 }
 class TestService extends EffectService<Row> {
-  override load: () => Observable<Row[]> = () => {
-    return of([] as Row[]);
-  };
-
   override loadByIds: (ids: string[]) => Observable<Row[]> = (_: string[]) => {
     return new Observable<Row[]>();
   };

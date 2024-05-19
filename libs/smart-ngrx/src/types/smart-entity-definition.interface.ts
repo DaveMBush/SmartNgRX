@@ -36,6 +36,18 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
   defaultRow(this: void, id: string): Row;
 
   /**
+   * If this is true, the assumption is that this is the top level row that has
+   * an ID and child fields that hold the IDs of the children. There can be
+   * multiple top level rows and each should have at least one child field for
+   * it to be useful.
+   *
+   * When this is true, the loadById action will be fired with one element of value '1'
+   * the effectService will be called with this array where you can make a call
+   * to the backend to get the IDs for the child fields.
+   */
+  isInitialRow?: boolean;
+
+  /**
    * Supply your own entityAdapter if you are not using ID as the primary key.
    */
   entityAdapter?: EntityAdapter<SmartNgRXRowBase>;

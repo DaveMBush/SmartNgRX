@@ -10,6 +10,7 @@ export const noRemoveTopDefinition: SmartEntityDefinition<Top> = {
     markDirtyTime: 2 * 60 * 1000,
     removeTime: 0,
   },
+  isInitialRow: true,
   defaultRow: (id) => ({
     id,
     locations: [],

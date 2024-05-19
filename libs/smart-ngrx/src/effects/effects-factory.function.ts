@@ -55,8 +55,9 @@ export function effectsFactory<
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<T, F, E>(feature, entityName);
+  const entityDefinition = entityDefinitionCache(feature, entityName);
   const adapter = castTo<EntityAdapter<T> | undefined>(
-    entityDefinitionCache(feature, entityName).entityAdapter,
+    entityDefinition.entityAdapter,
   );
   assert(!!adapter, `Missing adapter for ${feature}:${entityName}.`);
   return castTo<Record<string, FunctionalEffect>>({
