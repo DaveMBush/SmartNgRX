@@ -22,7 +22,7 @@ describe('customProxyGet()', () => {
       b: 'c',
     },
     row: {},
-  } as unknown as CustomProxy<object, SmartNgRXRowBase>;
+  } as unknown as CustomProxy<object>;
   const service = {
     loadByIdsSuccess: () => {
       /*noop*/

@@ -18,10 +18,9 @@ export class DepartmentEffectsService extends EffectService<Department> {
   override loadByIds: (ids: string[]) => Observable<Department[]> = (
     ids: string[],
   ) => {
-    return this.http.post<Department[]>(this.apiDepartments, ids).pipe(
-      // map((departments) => addIsDirty(departments) as Department[]),
-      map(childrenTransform),
-    );
+    return this.http
+      .post<Department[]>(this.apiDepartments, ids)
+      .pipe(map(childrenTransform));
   };
 
   override update: (

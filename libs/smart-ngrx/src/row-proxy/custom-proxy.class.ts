@@ -18,8 +18,8 @@ import { customProxySet } from './custom-proxy-set.function';
  * with the original row.
  */
 export class CustomProxy<
-  T extends SmartNgRXRowBase,
-  P extends SmartNgRXRowBase,
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+  P extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
