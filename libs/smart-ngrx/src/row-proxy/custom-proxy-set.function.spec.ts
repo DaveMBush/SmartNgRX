@@ -4,7 +4,7 @@ import { CustomProxy } from './custom-proxy.class';
 import { customProxySet } from './custom-proxy-set.function';
 
 describe('customProxySet', () => {
-  let target: CustomProxy<SmartNgRXRowBase, SmartNgRXRowBase> | undefined;
+  let target: CustomProxy | undefined;
   let services: {
     service: ActionService<SmartNgRXRowBase>;
     parentService: ActionService<SmartNgRXRowBase>;
@@ -19,7 +19,7 @@ describe('customProxySet', () => {
         b: 'c',
       },
       getRealRow: () => ({}) as SmartNgRXRowBase,
-    } as unknown as CustomProxy<SmartNgRXRowBase, SmartNgRXRowBase>;
+    } as unknown as CustomProxy;
     services = {
       service: {
         add: () => {

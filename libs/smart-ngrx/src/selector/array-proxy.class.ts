@@ -195,7 +195,7 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
     let newParent: P = { ...parent, isEditing };
     // we aren't using the 2nd generic parameter of CustomProxy, so we just
     // use the base type of SmartNgRXRowBase here.
-    const customProxy = castTo<CustomProxy<P, SmartNgRXRowBase>>(parent);
+    const customProxy = castTo<CustomProxy<P>>(parent);
     if (customProxy.getRealRow !== undefined) {
       newParent = {
         ...customProxy.getRealRow(),

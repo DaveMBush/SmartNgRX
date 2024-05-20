@@ -42,3 +42,19 @@ The Injection Token for the Effect Service that will be used by the entity. This
 ## defaultRow
 
 A function that returns a default row for the entity. This is used by the reducer to create a new row when the `addToStore` action is dispatched. The function takes an `id` parameter that is the id of the row that is being created. This is useful if you need to create a row that has a reference to the id of the row that is being created.
+
+## Optional Fields
+
+You can also provide the following optional fields as your needs dictate:
+
+### entityAdapter
+
+This field will let you supply your own EntityAdapter for the entity. This would be useful if your code uses a field other than `id` as the primary key for the entity. Nothing in SmartNgRX makes use of the sortComparer function so you can ignore that.
+
+### markAndDelete
+
+This provides configuration information for the mark and delete feature that we will cover later.
+
+### isInitialRow
+
+Set this field to true if this is a top level row. Top level rows are used as a mechanism to retrieve data from the server without having a parent row, typically used to retrieve the top level of entities your application needs.
