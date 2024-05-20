@@ -28,16 +28,11 @@ export const selectTopLocations = createSmartSelector(selectTopEntities, [
   },
 ]);
 
-export const selectTop = createSelector(selectTopLocations, (top) => {
-  const ids = top.ids ?? [];
-  return ids.map((id) => top.entities[id]!);
-});
-
 // It seems logical to put selectLocations in the locations.selectors.ts
 // but that causes a circular reference
 export const selectLocations = createSelector(selectTopLocations, (tops) => {
   return (
-    tops.ids.length === 1 ? tops.entities[tops.ids[0]]?.locations : []
+    tops.ids.length === 1 ? tops.entities[tops.ids[0]]!.locations : []
   ) as Location[];
 });
 // jscpd:ignore-end

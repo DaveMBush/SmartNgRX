@@ -15,6 +15,7 @@ export const locationEqualsLocationId = (id: string) => {
 };
 
 export const watchLocations = createEffect(
+  /* istanbul ignore next -- not real conditions but injectables */
   (actions = inject(Actions), store = inject(Store)) => {
     return actions.pipe(
       ofType(locationActions.storeRows),

@@ -39,7 +39,7 @@ export const selectCurrentLocation = createSelector(
   (locations, id) => {
     return (
       locations.entities[id] ?? {
-        id: '',
+        id,
         name: '',
         departments: [],
         isDirty: false,
