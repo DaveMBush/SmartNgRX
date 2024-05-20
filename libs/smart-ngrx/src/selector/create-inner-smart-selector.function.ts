@@ -7,7 +7,6 @@ import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
-
 /**
  * This is an internal function used by `createSmartSelector`.
  * It is documented here for completeness.  Use `createSmartSelector` instead.

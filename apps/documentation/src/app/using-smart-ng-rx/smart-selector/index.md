@@ -7,7 +7,7 @@ Note that the `createSmartSelector` function takes an array of `ChildDefinition`
 In the case where your `User` row might have some child field named, `roles` your `createSmartSelector` call might look like this:
 
 ```typescript
-export const selectUserChildren = createSmartSelector<Location>(selectUser, [
+export const selectUserChildren = createSmartSelector(selectUser, [
   {
     childFeature: 'shared',
     childEntity: 'roles',

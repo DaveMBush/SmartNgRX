@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
 /* jscpd:ignore-start */
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 
 import { psi } from '../common/theta.const';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
@@ -44,8 +44,6 @@ export function actionFactory<
   const actionGroup = createActionGroup({
     source: source as any,
     events: {
-      Load: emptyProps(),
-      'Load Success': props<RowsProp<T>>(),
       'Update Many': props<UpdateChanges<T>>(),
       Remove: props<IdsProp>(),
       'Load By Ids': props<IdsProp>(),

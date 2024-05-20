@@ -1,39 +1,45 @@
-import { Controller, Delete, Get, Inject, Param } from '@nestjs/common';
+import { Body, Controller, Delete, Inject, Param, Post } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, map, Observable } from 'rxjs';
 
-import { idToString } from '../functions/id-to-string.function';
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { LocationDTO } from './location-dto.interface';
 
-function toLocationId({ id: id }: { id: string }): string {
-  return id;
+function departmentToId(department: { id: string }): string {
+  return department.id;
 }
 
 @Controller('locations')
 export class LocationsController {
   constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
-  @Get()
-  getAll(): Observable<LocationDTO[]> {
+
+  @Post()
+  getByIds(@Body() ids: string[]): Observable<LocationDTO[]> {
     return from(
       this.prisma.locations.findMany({
+        where: { id: { in: ids } },
         select: {
           id: true,
           name: true,
+          version: true,
           departments: {
-            select: { id: true },
+            select: {
+              id: true,
+            },
             orderBy: { created: 'asc' },
           },
         },
       }),
     ).pipe(
       map((locations) =>
-        locations.map((location) => ({
-          id: location.id,
-          name: location.name,
-          departments: location.departments.map(idToString()).map(toLocationId),
-        })),
+        locations.map((location) => {
+          return {
+            id: location.id,
+            name: location.name,
+            version: location.version,
+            departments: location.departments.map(departmentToId),
+          };
+        }),
       ),
     );
   }

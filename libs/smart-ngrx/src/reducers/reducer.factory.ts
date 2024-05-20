@@ -35,7 +35,6 @@ export function reducerFactory<
       on(actions.addSuccess, (state, { newRow }) =>
         adapter.upsertOne(newRow, state),
       ),
-      on(actions.loadSuccess, (state, { rows }) => adapter.setAll(rows, state)),
       on(actions.updateMany, (state, { changes }) => {
         return adapter.updateMany(changes, state);
       }),

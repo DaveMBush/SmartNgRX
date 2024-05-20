@@ -12,11 +12,6 @@ import { UpdateChanges } from '../types/update-changes.interface';
 /* jscpd:ignore-start */
 
 export interface ActionGroup<T extends SmartNgRXRowBase> {
-  load: ActionCreator<`[${any}] Load`, () => TypedAction<`[${any}] Load`>>;
-  loadSuccess: ActionCreator<
-    `[${any}] Load Success`,
-    (props: RowsProp<T>) => RowsProp<T> & TypedAction<`[${any}] Load Success`>
-  >;
   updateMany: ActionCreator<
     `[${any}] Update Many`,
     (

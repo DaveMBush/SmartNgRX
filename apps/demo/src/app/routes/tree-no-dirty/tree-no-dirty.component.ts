@@ -11,11 +11,8 @@ import { Location } from '../../shared/locations/location.interface';
 import { SharedModule } from '../../shared/shared.module';
 import { currentLocationActions } from './store/current-location/current-location.actions';
 import { selectCurrentLocationId } from './store/current-location/current-location.selector';
-import { locationActions } from './store/locations/location.actions';
-import {
-  selectCurrentLocation,
-  selectLocations,
-} from './store/locations/location.selectors';
+import { selectCurrentLocation } from './store/locations/location.selectors';
+import { selectLocations } from './store/top/top.selector';
 
 @Component({
   selector: 'dmb-tree-no-dirty',
@@ -36,8 +33,6 @@ export class TreeNoDirtyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // at the top level, you'll need to do something to load the data
-    this.store.dispatch(locationActions.load());
     this.locations = this.store.select(selectLocations);
     this.locationId = this.store.select(selectCurrentLocationId);
     this.location = this.store.select(selectCurrentLocation);

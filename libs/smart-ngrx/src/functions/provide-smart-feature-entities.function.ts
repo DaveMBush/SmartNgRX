@@ -12,6 +12,7 @@ import { entityDefinitionCache } from '../registrations/entity-definition-cache.
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { provideWatchInitialRowEffect } from './provide-watch-initial-row-effect.function';
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -45,7 +46,7 @@ export function provideSmartFeatureEntities<F extends string>(
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
   forNext(entityDefinitions, (entityDefinition) => {
-    entityDefinitionCache(
+    entityDefinition = entityDefinitionCache(
       featureName,
       entityDefinition.entityName,
       entityDefinition,
@@ -56,6 +57,13 @@ export function provideSmartFeatureEntities<F extends string>(
       entityName as StringLiteralSource<string>,
       effectServiceToken,
     );
+    provideWatchInitialRowEffect<F>(
+      entityDefinition,
+      effects,
+      featureName,
+      entityName,
+    );
+
     allEffects.push(effects);
     const reducer = reducerFactory(
       featureName,

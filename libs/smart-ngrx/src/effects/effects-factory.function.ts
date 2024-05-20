@@ -14,7 +14,6 @@ import { addSuccessEffect } from './effects-factory/add-success-effect.function'
 import { deleteEffect } from './effects-factory/delete-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
-import { loadEffect } from './effects-factory/load-effect.function';
 import { updateEffect } from './effects-factory/update-effect.function';
 
 const dispatchFalse = {
@@ -56,8 +55,9 @@ export function effectsFactory<
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<T, F, E>(feature, entityName);
+  const entityDefinition = entityDefinitionCache(feature, entityName);
   const adapter = castTo<EntityAdapter<T> | undefined>(
-    entityDefinitionCache(feature, entityName).entityAdapter,
+    entityDefinition.entityAdapter,
   );
   assert(!!adapter, `Missing adapter for ${feature}:${entityName}.`);
   return castTo<Record<string, FunctionalEffect>>({
@@ -65,7 +65,6 @@ export function effectsFactory<
       deleteEffect(effectsServiceToken, actions),
       dispatchFalse,
     ),
-    load: createEffect(loadEffect(effectsServiceToken, actions), dispatchTrue),
     loadByIdsPreload: createEffect(
       loadByIdsPreloadEffect(feature, entityName, actions),
       dispatchFalse,

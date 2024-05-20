@@ -21,10 +21,6 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
   private list = inject(ListsService);
   private folder = inject(FoldersService);
   private sprintFolder = inject(SprintFoldersService);
-  override load: () => Observable<DepartmentChild[]> = () => {
-    return of([] as DepartmentChild[]);
-  };
-
   private sprintFolderPrefix = 'sprint-folders:';
   private sprintFolders = 'sprint-folders';
   private docPrefix = 'docs:';
