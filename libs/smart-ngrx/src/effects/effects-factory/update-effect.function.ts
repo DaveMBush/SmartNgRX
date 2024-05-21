@@ -1,11 +1,12 @@
 import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import {
+  catchError,
   concatMap,
   debounceTime,
-  filter,
   map,
   mergeMap,
+  of,
   scan,
   tap,
 } from 'rxjs';
@@ -44,6 +45,11 @@ export function updateEffect<T extends SmartNgRXRowBase>(
 ) {
   const lastRow: Map<string, T> = new Map();
   const lastRowTimeout: Map<string, number> = new Map();
+  // have to call the service to pickup the registration
+  const service = actionServiceRegistry(
+    feature as StringLiteralSource<string>,
+    entity as StringLiteralSource<string>,
+  );
 
   return (
     /* istanbul ignore next -- default value, not really a condition */
@@ -73,11 +79,12 @@ export function updateEffect<T extends SmartNgRXRowBase>(
       mergeMap((accActions) => {
         return Object.values(accActions);
       }),
-      // we should never need the filter, but just to be safe.
-      filter((action) => action !== undefined),
       concatMap((action) => {
-        const id = castTo<{ id: string }>(action.old.row).id;
-        return effectService.update(lastRow.get(id)!, action.new.row);
+        return effectService.update(action.new.row).pipe(
+          catchError(() => {
+            return of([action.old.row]);
+          }),
+        );
       }),
       map((rows) => {
         // set the last row to the row we got back here.
@@ -89,11 +96,6 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRowTimeout.delete(id);
         lastRowTimeout.set(id, now);
         lastRow.set(id, rows[0]);
-        // have to call the service to pickup the registration
-        const service = actionServiceRegistry(
-          feature as StringLiteralSource<string>,
-          entity as StringLiteralSource<string>,
-        );
         service.loadByIdsSuccess(rows);
       }),
     );
