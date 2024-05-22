@@ -29,10 +29,7 @@ class TestService extends EffectService<Row> {
     return new Observable<Row[]>();
   };
 
-  override update: (oldRow: Row, newRow: Row) => Observable<Row[]> = (
-    _: Row,
-    newRow: Row,
-  ) => {
+  override update: (newRow: Row) => Observable<Row[]> = (newRow: Row) => {
     return of([newRow] as Row[]);
   };
 
@@ -51,12 +48,7 @@ const actions = actionFactory<Row, 'feature', 'entity'>('feature', 'entity');
 describe('update-effect.function.ts', () => {
   const feature = 'feature';
   const entity = 'entity';
-  const effect = updateEffect(
-    serviceToken,
-    actions,
-    feature as StringLiteralSource<string>,
-    entity as StringLiteralSource<string>,
-  );
+  let effect: ReturnType<typeof updateEffect<Row>>;
   let actionServiceLoadByIdsSuccessSpy: jest.SpyInstance;
   entityDefinitionCache(feature, entity, {
     entityName: entity,
@@ -72,6 +64,12 @@ describe('update-effect.function.ts', () => {
     });
     const store = TestBed.inject(MockStore);
     storeFunction(store);
+    effect = updateEffect(
+      serviceToken,
+      actions,
+      feature as StringLiteralSource<string>,
+      entity as StringLiteralSource<string>,
+    );
     const actionService = actionServiceRegistry(
       'feature' as StringLiteralSource<string>,
       'entity' as StringLiteralSource<string>,
