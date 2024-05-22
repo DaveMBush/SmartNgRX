@@ -45,11 +45,6 @@ export function updateEffect<T extends SmartNgRXRowBase>(
 ) {
   const lastRow: Map<string, T> = new Map();
   const lastRowTimeout: Map<string, number> = new Map();
-  // have to call the service to pickup the registration
-  const service = actionServiceRegistry(
-    feature as StringLiteralSource<string>,
-    entity as StringLiteralSource<string>,
-  );
 
   return (
     /* istanbul ignore next -- default value, not really a condition */
@@ -96,6 +91,11 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRowTimeout.delete(id);
         lastRowTimeout.set(id, now);
         lastRow.set(id, rows[0]);
+        // have to call the service to pickup the registration
+        const service = actionServiceRegistry(
+          feature as StringLiteralSource<string>,
+          entity as StringLiteralSource<string>,
+        );
         service.loadByIdsSuccess(rows);
       }),
     );
