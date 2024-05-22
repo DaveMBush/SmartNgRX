@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { catchError, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
 
@@ -23,13 +23,10 @@ export class LocationEffectsService extends EffectService<Location> {
     return this.http.post<Location[]>(this.apiLocation, ids);
   };
 
-  override update: (
-    oldRow: Location,
+  override update: (newRow: Location) => Observable<Location[]> = (
     newRow: Location,
-  ) => Observable<Location[]> = (oldRow: Location, newRow: Location) => {
-    return this.http
-      .put<Location[]>(this.apiLocation, newRow)
-      .pipe(catchError(() => of([oldRow])));
+  ) => {
+    return this.http.put<Location[]>(this.apiLocation, newRow);
   };
 
   override add: (row: Location) => Observable<Location[]> = (row: Location) => {

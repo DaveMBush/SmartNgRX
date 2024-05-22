@@ -13,7 +13,7 @@ export abstract class EffectService<T> {
   /**
    * Sends the updated row in the store to the server.
    */
-  abstract update: (oldRow: T, newRow: T) => Observable<T[]>;
+  abstract update: (newRow: T) => Observable<T[]>;
 
   /**
    * Sends a new row to the server

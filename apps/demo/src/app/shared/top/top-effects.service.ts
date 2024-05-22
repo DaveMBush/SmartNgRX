@@ -20,10 +20,7 @@ export class TopEffectsService extends EffectService<Top> {
     return this.http.post<Top[]>(this.apiTop, ids);
   };
 
-  override update: (oldRow: Top, newRow: Top) => Observable<Top[]> = (
-    _: Top,
-    __: Top,
-  ) => {
+  override update: (newRow: Top) => Observable<Top[]> = (_: Top) => {
     return of([]);
   };
 

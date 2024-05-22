@@ -9,31 +9,16 @@ As an example, here is how we've updated the `update` method in the `DepartmentE
 > **Note:** explanation of this code will follow the code snippet.
 
 ```typescript
-  override update: (
-    oldRow: Department,
-    newRow: Department,
-  ) => Observable<Department[]> = (oldRow: Department, newRow: Department) => {
-    return this.http
-      .put<Department[]>('./api/departments', {
-        id: newRow.id,
-        name: newRow.name,
-      })
-      .pipe(
-        map((departments) => addIsDirty(departments) as Department[]),
-        map(childrenTransform),
-        catchError((_: unknown) => {
-          // probably would want to send a message to the user here
-          return of([oldRow]);
-        }),
-      );
-  };
+override update: (newRow: Location) => Observable<Location[]> = (
+  newRow: Location,
+) => {
+  return this.http.put<Location[]>(this.apiLocation, newRow);
+};
 ```
 
-The first thing you will note is that the method takes two parameters, `oldRow` and `newRow`. The `oldRow` is the row that was in the store before the update was requested. The `newRow` is the row that was passed in to the `update` method. This allows you to roll back the update if the update fails as we do in the `catchError` block.
+Everything is handled for you including optimistic updates of the store and rollbacks as required.
 
 This needs a bit of explanation. The effect that calls this service keeps track of the row that was updated. Instead of using switchMap() around our call to this service, we use concatMap(). By doing this, if a call fails, we can rollback each call so that when the next call comes in, the row is in the state is was prior to the update that just failed.
-
-So, just like we've done here, you want to catch errors and return the old row. Whatever is in the return value row is what we'll use to pass in to the next update for the same row.
 
 Also, notice that we always return an array of rows even though there should only ever be one row in the array. This allows us to reuse code that we used previously to get the list of rows from the server. You'll see that in our implementation on the server, we reuse the getByIds code to get the row we just updated.
 
