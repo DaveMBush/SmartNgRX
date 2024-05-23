@@ -23,13 +23,11 @@ export function registerEntity(
   entity: string,
   attributes: EntityAttributes,
 ): EntityAttributes {
-  if (attributes !== undefined) {
-    assert(
-      registry[feature + psi + entity] === undefined,
-      'Entity already registered',
-    );
-    registry[feature + psi + entity] = attributes;
-  }
+  assert(
+    registry[feature + psi + entity] === undefined,
+    'Entity already registered',
+  );
+  registry[feature + psi + entity] = attributes;
   return registry[feature + psi + entity];
 }
 
