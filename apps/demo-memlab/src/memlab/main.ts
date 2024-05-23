@@ -15,7 +15,7 @@ import { workDirectory } from './src/work-directory.function';
 (async function () {
   workDirectory('/home/dave/code/SmartNgRX/apps/demo-memlab/work-dir');
   skipWarmup(true);
-  memlab.config.isHeadfulBrowser = true;
+  memlab.config.isHeadfulBrowser = false;
   memlab.config.muteConsole = true;
 
   const errors = new Map<string, LeakErrors>();
