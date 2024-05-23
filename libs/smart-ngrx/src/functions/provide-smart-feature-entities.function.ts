@@ -2,9 +2,9 @@ import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
-import { interval, map, takeWhile } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
+import { zoneless } from '../common/zoneless.function';
 import { effectsFactory } from '../effects/effects-factory.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
@@ -13,6 +13,8 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 import { provideWatchInitialRowEffect } from './provide-watch-initial-row-effect.function';
+
+const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
 /**
  * This provides all the NgRX parts for a given feature and entity
@@ -70,14 +72,9 @@ export function provideSmartFeatureEntities<F extends string>(
       entityName as StringLiteralSource<string>,
     );
     reducers[entityName] = reducer;
-    interval(1)
-      .pipe(
-        map(() =>
-          delayedRegisterEntity(featureName, entityName, entityDefinition),
-        ),
-        takeWhile((t) => t),
-      )
-      .subscribe();
+    void unpatchedPromise.resolve().then(() => {
+      delayedRegisterEntity(featureName, entityName, entityDefinition);
+    });
   });
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),
