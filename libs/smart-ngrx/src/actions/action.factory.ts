@@ -66,9 +66,7 @@ export function actionFactory<
       }>(),
       Delete: props<{
         id: string;
-        parentFeature: StringLiteralSource<string>;
-        parentEntityName: StringLiteralSource<string>;
-        parentIds: string[];
+        parentInfo: { feature: string; entity: string; ids: string[] }[];
       }>(),
     },
   });

@@ -10,7 +10,7 @@ type GenericChildDefinition = ChildField &
   Omit<ChildDefinition<object>, 'childField'>;
 
 class ChildDefinitionRegistry {
-  private childDefinitionMap = new Map<string, GenericChildDefinition>();
+  private childDefinitionMap = new Map<string, GenericChildDefinition[]>();
 
   /**
    * Register a child definition so we can get at it later
@@ -24,9 +24,11 @@ class ChildDefinitionRegistry {
     entity: string,
     childDefinition: ChildDefinition<P>,
   ): void {
+    const existingEntries =
+      this.childDefinitionMap.get(`${feature}${psi}${entity}`) ?? [];
     this.childDefinitionMap.set(
       `${feature}${psi}${entity}`,
-      castTo<GenericChildDefinition>(childDefinition),
+      castTo<GenericChildDefinition[]>([...existingEntries, childDefinition]),
     );
   }
 
@@ -37,7 +39,7 @@ class ChildDefinitionRegistry {
    * @param entity the entity the definition is for
    * @returns the previously registered child definition
    */
-  getChildDefinition<P>(feature: string, entity: string): ChildDefinition<P> {
+  getChildDefinition<P>(feature: string, entity: string): ChildDefinition<P>[] {
     const childDefinition = this.childDefinitionMap.get(
       `${feature}${psi}${entity}`,
     );

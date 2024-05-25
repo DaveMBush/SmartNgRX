@@ -1,54 +1,42 @@
-import { Dictionary } from '@ngrx/entity';
+import { take } from 'rxjs';
 
-import { assert } from '../common/assert.function';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionService } from './action.service';
+import { ParentInfo } from './parent-info.interface';
+import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.function';
 
 /**
- * Used by delete to remove the id from the parent's child field and return the list of parentIds that were affected.
+ * Helper method to remove the id of the row from the parent rows looking at it
  *
- * @param entities the entities to look in
- * @param service the service for this row. We use this to grab the feature and entity
- *                names to lookup additional information that we need
- * @param parentService the parent service that we will call to report items from parent
- * @param id the id of the row to delete
- * @returns the parent ids that are affected by the delete
+ * @param childDefinition the `ChildDefinition` that defines the parent/child relationship for the row being deleted
+ * @param service the `ActionService` for the row being deleted
+ * @param id the id of the row being deleted
+ * @param parentInfo holds the parent feature, entity, and ids that are affected by the delete
  */
 export function removeIdFromParents(
-  entities: Dictionary<SmartNgRXRowBase>,
+  childDefinition: ChildDefinition<SmartNgRXRowBase>,
   service: ActionService<SmartNgRXRowBase>,
-  parentService: ActionService<SmartNgRXRowBase>,
   id: string,
-): string[] {
-  const mapChildIdToChildren = new Map<string, string[]>();
-  const child = childDefinitionRegistry.getChildDefinition(
-    service.feature,
-    service.entity,
-  ).parentField as keyof SmartNgRXRowBase;
-  const parentIds: string[] = Object.keys(entities).filter((key) => {
-    const entity = entities[key];
-    assert(!!entity, `Entity with key ${key} not found in parent service`);
-    const childArray = entity[child] as string[] | undefined;
-    assert(!!childArray, `Child array not found in parent entity`);
-    const hasChild = childArray.some((v) => id === v);
-    if (hasChild) {
-      mapChildIdToChildren.set(
-        key,
-        childArray.filter((v) => id !== v),
-      );
-    }
-    return hasChild;
-  });
-  if (parentIds.length === 0) {
-    return [];
-  }
-  parentService.updateMany(
-    // remove the child id from the parent's child field
-    parentIds.map((v) => ({
-      id: v,
-      changes: { [child]: mapChildIdToChildren.get(v) },
-    })),
+  parentInfo: ParentInfo[],
+) {
+  const parentService = actionServiceRegistry(
+    childDefinition.parentFeature,
+    childDefinition.parentEntity,
   );
-  return parentIds;
+  parentService.entities.pipe(take(1)).subscribe((entities) => {
+    // optimistically remove the ids from the parent
+    const parentIds = removeIdFromFeatureParents(
+      entities,
+      service,
+      parentService,
+      id,
+    );
+    parentInfo.push({
+      feature: childDefinition.parentFeature,
+      entity: childDefinition.parentEntity,
+      ids: parentIds,
+    });
+  });
 }
