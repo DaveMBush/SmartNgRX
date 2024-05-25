@@ -75,14 +75,10 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
     `[${any}] Delete`,
     (props: {
       id: string;
-      parentFeature: StringLiteralSource<string>;
-      parentEntityName: StringLiteralSource<string>;
-      parentIds: string[];
+      parentInfo: { feature: string; entity: string; ids: string[] }[];
     }) => TypedAction<`[${any}] Delete`> & {
       id: string;
-      parentFeature: StringLiteralSource<string>;
-      parentEntityName: StringLiteralSource<string>;
-      parentIds: string[];
+      parentInfo: { feature: string; entity: string; ids: string[] }[];
     }
   >;
 }

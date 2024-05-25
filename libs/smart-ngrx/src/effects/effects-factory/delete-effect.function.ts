@@ -5,7 +5,7 @@ import { catchError, concatMap, of } from 'rxjs';
 import { ActionGroup } from '../../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
-import { markParentsDirty } from './mark-parents-dirty.function';
+import { markFeatureParentsDirty } from './mark-feature-parents-dirty.function';
 
 /* jscpd:ignore-start */
 /**
@@ -31,11 +31,7 @@ export function deleteEffect<T extends SmartNgRXRowBase>(
       concatMap((action) => {
         return effectService.delete(action.id).pipe(
           catchError((_: unknown, __) => {
-            markParentsDirty(
-              action.parentFeature,
-              action.parentEntityName,
-              action.parentIds,
-            );
+            markFeatureParentsDirty(action);
             return of();
           }),
         );

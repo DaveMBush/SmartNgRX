@@ -3,7 +3,7 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionService } from './action.service';
-import { removeIdFromParents } from './remove-id-from-parents.function';
+import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.function';
 
 interface Row extends SmartNgRXRowBase {
   id: string;
@@ -58,7 +58,12 @@ describe('removeIdFromParents()', () => {
   });
   describe('if the id is not in any of the entities', () => {
     beforeEach(() => {
-      returnValue = removeIdFromParents(entities, service, parentService, 'f');
+      returnValue = removeIdFromFeatureParents(
+        entities,
+        service,
+        parentService,
+        'f',
+      );
     });
     it('should return an empty array', () => {
       expect(returnValue).toEqual([]);
@@ -69,7 +74,12 @@ describe('removeIdFromParents()', () => {
   });
   describe('if the id is at least one of the entities', () => {
     beforeEach(() => {
-      returnValue = removeIdFromParents(entities, service, parentService, 'a');
+      returnValue = removeIdFromFeatureParents(
+        entities,
+        service,
+        parentService,
+        'a',
+      );
     });
 
     it("should remove the id from the parent's child field", () => {

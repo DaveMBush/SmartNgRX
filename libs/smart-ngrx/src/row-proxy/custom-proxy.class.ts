@@ -35,7 +35,7 @@ export class CustomProxy<
   constructor(
     public row: T,
     private service: ActionService<T>,
-    private parentService: ActionService<P>,
+    parentService: ActionService<P>,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
@@ -85,10 +85,6 @@ export class CustomProxy<
    */
   delete(): void {
     const id = this.service.entityAdapter.selectId(this.row) as string;
-    this.service.delete(
-      id,
-      castTo<ActionService<SmartNgRXRowBase>>(this.service),
-      castTo<ActionService<SmartNgRXRowBase>>(this.parentService),
-    );
+    this.service.delete(id);
   }
 }

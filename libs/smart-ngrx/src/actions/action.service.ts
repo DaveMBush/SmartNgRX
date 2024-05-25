@@ -4,17 +4,20 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
 import { castTo } from '../common/cast-to.function';
+import { forNext } from '../common/for-next.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
 } from '../mark-and-delete/register-entity-rows.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { defaultRows } from '../reducers/default-rows.function';
+import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
+import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 
 /**
@@ -33,8 +36,8 @@ export class ActionService<
    * entityAdapter is needed for delete
    */
   entityAdapter: EntityAdapter<SmartNgRXRowBase>;
+  entities: Observable<Dictionary<T>>;
   private actions: ActionGroup<T>;
-  private entities: Observable<Dictionary<T>>;
   private store = storeFunction();
 
   /**
@@ -168,30 +171,26 @@ export class ActionService<
    * Deletes the row represented by the Id from the store
    *
    * @param id the id of the row to delete
-   * @param service the service for this row
-   * @param parentService the service for the parent row
    */
-  delete(
-    id: string,
-    service: ActionService<SmartNgRXRowBase>,
-    parentService: ActionService<SmartNgRXRowBase>,
-  ): void {
-    parentService.entities.pipe(take(1)).subscribe((entities) => {
-      const parentIds = removeIdFromParents(
-        entities,
-        service,
-        parentService,
-        id,
-      );
-      this.store.dispatch(
-        this.actions.delete({
-          id,
-          parentFeature: parentService.feature,
-          parentEntityName: parentService.entity,
-          parentIds,
-        }),
-      );
+  delete(id: string): void {
+    const service = castTo<ActionService<SmartNgRXRowBase>>(this);
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    let parentInfo: ParentInfo[] = [];
+    forNext(childDefinitions, (childDefinition) => {
+      removeIdFromParents(childDefinition, service, id, parentInfo);
     });
+
+    parentInfo = parentInfo.filter((info) => info.ids.length > 0);
+    // remove the row from the store
+    this.store.dispatch(
+      this.actions.delete({
+        id,
+        parentInfo,
+      }),
+    );
   }
 
   /**

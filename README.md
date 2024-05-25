@@ -27,12 +27,12 @@ Have a look at our "Ultimate Goals" to see where we are headed.
 - [x] Hide the NgRX boiler-plate code from the developer
 - [x] Dynamically generate Actions, Reducers and Effects.
 - [ ] Support server-side searching for rows
-- [ ] Complete CRUD support.
+- [x] Complete CRUD support.
   - [x] Create
   - [x] Read
   - [x] Update
   - [x] Delete
-- [ ] Provide optimistic UI natively
+- [x] Provide optimistic UI natively
   - [x] Update
   - [x] Delete
   - [x] Create
