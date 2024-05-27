@@ -11,6 +11,7 @@ import { isNullOrUndefined } from './is-null-or-undefined.function';
 export function zoneless(func: string): unknown {
   const windowRecord = castTo<Record<string, unknown>>(window);
   const zonelessSymbol = windowRecord['__zone_symbol__' + func];
+  /* istanbul ignore next -- can only be triggered at runtime without some hacking mocking for trivial code */
   if (isNullOrUndefined(zonelessSymbol)) {
     switch (func) {
       case 'Promise':
