@@ -1,10 +1,17 @@
 <mat-form-field>
   <mat-label>Select Location</mat-label>
-  <mat-select [value]="locationId" (selectionChange)="selectionChanged($event)">
-    @for (location of locations; track location.id) {
-      <mat-option [value]="location.id">{{ location.name }}</mat-option>
+  <select
+    matNativeControl
+    [ngModel]="locationId()"
+    (ngModelChange)="selectionChanged($event)"
+    title="Select Location"
+  >
+    @for (location of locations(); track location.id) {
+      <option [value]="location.id" [selected]="locationId() === location.id">
+        {{ location.name }}
+      </option>
     }
-  </mat-select>
+  </select>
 </mat-form-field>
 <cdk-virtual-scroll-viewport
   itemSize="48"

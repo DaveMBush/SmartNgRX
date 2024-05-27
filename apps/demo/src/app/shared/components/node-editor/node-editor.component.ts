@@ -4,10 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   forwardRef,
-  Input,
-  Output,
+  input,
+  output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -46,9 +45,9 @@ export class NodeEditorComponent
     /* */
   };
 
-  @Input() placeholder = '';
-  @Output() readonly save = new EventEmitter<string>();
-  @Output() readonly cancel = new EventEmitter<void>();
+  placeholder = input<string>('');
+  readonly save = output<string>();
+  cancel = output();
   @ViewChild('input', { read: ElementRef })
   inputField!: ElementRef<HTMLInputElement>;
 

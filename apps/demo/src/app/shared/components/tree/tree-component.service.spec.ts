@@ -1,4 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CommonModule } from '@angular/common';
+import { signal } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTreeModule } from '@angular/material/tree';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 
@@ -12,23 +22,43 @@ const department1a = 'department1-a';
 
 describe('TreeComponentService', () => {
   let service: TreeComponentService;
-  let mockComponent: TreeComponent;
+  let mockComponent: ComponentFixture<TreeComponent>;
+  let componentInstance: TreeComponent;
+  let fixture: TestBed;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
+    fixture = TestBed.configureTestingModule({
+      declarations: [TreeComponent],
+      imports: [
+        NoopAnimationsModule,
+        FormsModule,
+        CommonModule,
+        ScrollingModule,
+        MatInputModule,
+        MatTreeModule,
+        MatFormFieldModule,
+        MatTabsModule,
+        MatSelectModule,
+      ],
       providers: [TreeComponentService],
     });
     service = TestBed.inject(TreeComponentService);
 
     // Mock TreeComponent
-    mockComponent = {
-      location: null,
-      range: { start: 0, end: 6 },
-      fullDataSource: [],
-      dataSource: [],
-    } as unknown as TreeComponent;
-
-    service.form = mockComponent;
+    mockComponent = fixture.createComponent(TreeComponent);
+    mockComponent.componentInstance.range = { start: 0, end: 6 };
+    mockComponent.componentInstance.locationId = signal(
+      '1',
+    ) as unknown as typeof mockComponent.componentInstance.locationId;
+    mockComponent.componentInstance.location = signal(
+      null,
+    ) as unknown as typeof mockComponent.componentInstance.location;
+    mockComponent.componentInstance.locations = signal(
+      [],
+    ) as unknown as typeof mockComponent.componentInstance.locations;
+    componentInstance = mockComponent.componentInstance;
+    service.form = componentInstance;
+    mockComponent.detectChanges();
   });
   describe('When toggleExpand() is called', () => {
     it('should toggle node expansion on and off', () => {
@@ -58,7 +88,7 @@ describe('TreeComponentService', () => {
 
   describe('When applyRange() is called and only one element is in the array and the object has not resolved', () => {
     beforeEach(() => {
-      mockComponent.location = {
+      componentInstance.location = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -69,36 +99,37 @@ describe('TreeComponentService', () => {
             return '1';
           },
         }),
-      };
+      }) as unknown as typeof componentInstance.location;
+      mockComponent.detectChanges();
       service.applyRange();
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(mockComponent.fullDataSource.length).toBe(1);
-      expect(mockComponent.dataSource.length).toBe(1);
+      expect(componentInstance.fullDataSource.length).toBe(1);
+      expect(componentInstance.dataSource.length).toBe(1);
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
-      expect(mockComponent.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
+      expect(componentInstance.dataSource[0].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of ""', () => {
-      expect(mockComponent.fullDataSource[0].name).toBe('');
-      expect(mockComponent.dataSource[0].name).toBe('');
+      expect(componentInstance.fullDataSource[0].name).toBe('');
+      expect(componentInstance.dataSource[0].name).toBe('');
     });
     it('should return fullDataSource and dataSource [0].hasChildren false', () => {
-      expect(mockComponent.fullDataSource[0].hasChildren).toBe(false);
-      expect(mockComponent.dataSource[0].hasChildren).toBe(false);
+      expect(componentInstance.fullDataSource[0].hasChildren).toBe(false);
+      expect(componentInstance.dataSource[0].hasChildren).toBe(false);
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(mockComponent.fullDataSource[0].level).toBe(0);
-      expect(mockComponent.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource[0].level).toBe(0);
+      expect(componentInstance.dataSource[0].level).toBe(0);
     });
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved', () => {
     beforeEach(() => {
-      mockComponent.location = {
+      componentInstance.location = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -114,35 +145,36 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      };
+      }) as unknown as typeof componentInstance.location;
+      mockComponent.detectChanges();
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(mockComponent.fullDataSource.length).toBe(1);
-      expect(mockComponent.dataSource.length).toBe(1);
+      expect(componentInstance.fullDataSource.length).toBe(1);
+      expect(componentInstance.dataSource.length).toBe(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
-      expect(mockComponent.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
+      expect(componentInstance.dataSource[0].node.id).toBe('1');
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
-      expect(mockComponent.fullDataSource[0].name).toBe('department1');
-      expect(mockComponent.dataSource[0].name).toBe('department1');
+      expect(componentInstance.fullDataSource[0].name).toBe('department1');
+      expect(componentInstance.dataSource[0].name).toBe('department1');
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].hasChildren true', () => {
-      expect(mockComponent.fullDataSource[0].hasChildren).toBe(true);
-      expect(mockComponent.dataSource[0].hasChildren).toBe(true);
+      expect(componentInstance.fullDataSource[0].hasChildren).toBe(true);
+      expect(componentInstance.dataSource[0].hasChildren).toBe(true);
     });
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(mockComponent.fullDataSource[0].level).toBe(0);
-      expect(mockComponent.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource[0].level).toBe(0);
+      expect(componentInstance.dataSource[0].level).toBe(0);
     });
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved but no children array supplied', () => {
     beforeEach(() => {
-      mockComponent.location = {
+      componentInstance.location = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -157,33 +189,34 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      };
+      }) as unknown as typeof componentInstance.location;
+      mockComponent.detectChanges();
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(mockComponent.fullDataSource.length).toBe(1);
-      expect(mockComponent.dataSource.length).toBe(1);
+      expect(componentInstance.fullDataSource.length).toBe(1);
+      expect(componentInstance.dataSource.length).toBe(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
-      expect(mockComponent.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
+      expect(componentInstance.dataSource[0].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
-      expect(mockComponent.fullDataSource[0].name).toBe('department1');
-      expect(mockComponent.dataSource[0].name).toBe('department1');
+      expect(componentInstance.fullDataSource[0].name).toBe('department1');
+      expect(componentInstance.dataSource[0].name).toBe('department1');
     });
     it('should return fullDataSource and dataSource [0].hasChildren true', () => {
-      expect(mockComponent.fullDataSource[0].hasChildren).toBe(false);
-      expect(mockComponent.dataSource[0].hasChildren).toBe(false);
+      expect(componentInstance.fullDataSource[0].hasChildren).toBe(false);
+      expect(componentInstance.dataSource[0].hasChildren).toBe(false);
     });
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(mockComponent.fullDataSource[0].level).toBe(0);
-      expect(mockComponent.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource[0].level).toBe(0);
+      expect(componentInstance.dataSource[0].level).toBe(0);
     });
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved and node is expanded', () => {
     beforeEach(() => {
-      mockComponent.location = {
+      componentInstance.location = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -211,7 +244,7 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      };
+      }) as unknown as typeof componentInstance.location;
       jest
         .spyOn(
           castTo<{
@@ -222,35 +255,36 @@ describe('TreeComponentService', () => {
         .mockImplementation((node) => {
           return !!(node.node.id === '1' && node.level === 0);
         });
+      mockComponent.detectChanges();
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 2', () => {
-      expect(mockComponent.fullDataSource.length).toBe(2);
-      expect(mockComponent.dataSource.length).toBe(2);
+      expect(componentInstance.fullDataSource.length).toBe(2);
+      expect(componentInstance.dataSource.length).toBe(2);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(mockComponent.fullDataSource[0].node.id).toBe('1');
-      expect(mockComponent.dataSource[0].node.id).toBe('1');
-      expect(mockComponent.fullDataSource[1].node.id).toBe('1');
-      expect(mockComponent.dataSource[1].node.id).toBe('1');
+      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
+      expect(componentInstance.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource[1].node.id).toBe('1');
+      expect(componentInstance.dataSource[1].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
-      expect(mockComponent.fullDataSource[0].name).toBe('department1');
-      expect(mockComponent.dataSource[0].name).toBe('department1');
-      expect(mockComponent.fullDataSource[1].name).toBe(department1a);
-      expect(mockComponent.dataSource[1].name).toBe(department1a);
+      expect(componentInstance.fullDataSource[0].name).toBe('department1');
+      expect(componentInstance.dataSource[0].name).toBe('department1');
+      expect(componentInstance.fullDataSource[1].name).toBe(department1a);
+      expect(componentInstance.dataSource[1].name).toBe(department1a);
     });
     it('should return fullDataSource and dataSource [0].hasChildren true', () => {
-      expect(mockComponent.fullDataSource[0].hasChildren).toBe(true);
-      expect(mockComponent.dataSource[0].hasChildren).toBe(true);
-      expect(mockComponent.fullDataSource[1].hasChildren).toBe(false);
-      expect(mockComponent.dataSource[1].hasChildren).toBe(false);
+      expect(componentInstance.fullDataSource[0].hasChildren).toBe(true);
+      expect(componentInstance.dataSource[0].hasChildren).toBe(true);
+      expect(componentInstance.fullDataSource[1].hasChildren).toBe(false);
+      expect(componentInstance.dataSource[1].hasChildren).toBe(false);
     });
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(mockComponent.fullDataSource[0].level).toBe(0);
-      expect(mockComponent.dataSource[0].level).toBe(0);
-      expect(mockComponent.fullDataSource[1].level).toBe(1);
-      expect(mockComponent.dataSource[1].level).toBe(1);
+      expect(componentInstance.fullDataSource[0].level).toBe(0);
+      expect(componentInstance.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource[1].level).toBe(1);
+      expect(componentInstance.dataSource[1].level).toBe(1);
     });
   });
   describe('when addChild is called and the node is not expanded', () => {

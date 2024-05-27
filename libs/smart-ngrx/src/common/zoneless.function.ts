@@ -11,6 +11,14 @@ import { isNullOrUndefined } from './is-null-or-undefined.function';
 export function zoneless(func: string): unknown {
   const windowRecord = castTo<Record<string, unknown>>(window);
   const zonelessSymbol = windowRecord['__zone_symbol__' + func];
+  if (isNullOrUndefined(zonelessSymbol)) {
+    switch (func) {
+      case 'Promise':
+        return Promise;
+      default:
+        break;
+    }
+  }
   assert(
     !isNullOrUndefined(zonelessSymbol),
     `${func} does not appear to be patched by ngZone`,
