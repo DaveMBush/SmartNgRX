@@ -4,6 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
@@ -52,6 +53,7 @@ describe('TreeComponent', () => {
         FormsModule,
         CommonModule,
         ScrollingModule,
+        MatInputModule,
         MatTreeModule,
         MatFormFieldModule,
         MatTabsModule,
@@ -82,7 +84,7 @@ describe('TreeComponent', () => {
     testHostFixture.detectChanges();
 
     // Verify that locationName is updated
-    expect(treeComponent.locationId).toBe('1');
+    expect(treeComponent.locationId()).toBe('1');
 
     // Verify that applyRange has been called
     expect(applyRangeSpy).toHaveBeenCalled();

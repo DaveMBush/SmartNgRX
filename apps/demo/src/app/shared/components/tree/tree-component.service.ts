@@ -36,7 +36,7 @@ export class TreeComponentService {
     const component = this.component;
     assert(!!component, 'component is null');
     component.fullDataSource = this.transform(
-      component.location?.departments ?? [],
+      component.location()?.departments ?? [],
       0,
       component.range.start,
       component.range.end,

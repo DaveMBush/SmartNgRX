@@ -4,16 +4,14 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   inject,
-  Input,
+  input,
   OnChanges,
-  Output,
+  output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -29,10 +27,11 @@ import { TreeNode } from './tree-node.interface';
 })
 export class TreeComponent implements OnChanges, AfterViewInit {
   private treeComponentService = inject(TreeComponentService);
-  @Input() locations: Location[] | null = [];
-  @Input() locationId: number | string | null = '';
-  @Input() location: Location | null = null;
-  @Output() readonly locationChanged = new EventEmitter<string>();
+  locations = input.required<Location[] | null>();
+  locationId = input<number | string | null>('');
+  location = input<Location | null>(null);
+  locationChanged = output<string>();
+
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
 
   // end = -1 to force first render to be everything that can be displayed
@@ -58,8 +57,8 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.treeComponentService.form = this;
   }
 
-  selectionChanged(event: MatSelectChange): void {
-    this.locationChanged.emit(event.value as string);
+  selectionChanged(event: string): void {
+    this.locationChanged.emit(event);
   }
 
   hasChild = (_: number, node: TreeNode): boolean => {

@@ -1,6 +1,6 @@
 <input
   #input
-  [placeholder]="placeholder"
+  [placeholder]="placeholder()"
   (keyup.enter)="save.emit(value)"
   (keyup.escape)="cancel.emit()"
   (blur)="save.emit(value)"

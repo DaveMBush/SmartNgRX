@@ -1,5 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
@@ -23,6 +27,7 @@ import { topEffectsServiceToken } from './shared/top/top-effects.service-token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideExperimentalZonelessChangeDetection(),
     {
       provide: topEffectsServiceToken,
       useClass: TopEffectsService,
@@ -50,9 +55,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideStore({}),
     provideEffects(),
-    provideSmartNgRX({
-      markDirtyTime: 120000,
-    }),
+    provideSmartNgRX({}),
     provideAnimations(),
     provideStoreDevtools(),
     provideRouter(appRoutes, withViewTransitions()),
