@@ -37,25 +37,25 @@ dependencies:
     version: 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
   '@nestjs/common':
     specifier: ^10.3.8
-    version: 10.3.8(reflect-metadata@0.2.1)(rxjs@7.8.1)
+    version: 10.3.8(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@nestjs/core':
     specifier: ^10.3.8
-    version: 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.1)(rxjs@7.8.1)
+    version: 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1)
   '@nestjs/platform-express':
     specifier: ^10.3.8
     version: 10.3.8(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)
   '@ng-doc/app':
-    specifier: 17.6.8
-    version: 17.6.8(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/router@18.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
+    specifier: 17.6.10
+    version: 17.6.10(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/router@18.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
   '@ng-doc/builder':
-    specifier: 17.6.8
-    version: 17.6.8(@angular-devkit/core@18.0.1)(@angular-devkit/schematics@18.0.1)(@angular/compiler-cli@18.0.0)(@swc/core@1.4.14)(@types/node@20.11.30)(jest-environment-jsdom@29.7.0)(jest@29.7.0)(karma@6.4.3)(ng-packagr@18.0.0)(stylus@0.59.0)(typescript@5.4.5)
+    specifier: 17.6.10
+    version: 17.6.10(@angular-devkit/core@18.0.1)(@angular-devkit/schematics@18.0.1)(@angular/compiler-cli@18.0.0)(@swc/core@1.4.14)(@types/node@20.11.30)(jest-environment-jsdom@29.7.0)(jest@29.7.0)(karma@6.4.3)(ng-packagr@18.0.0)(stylus@0.59.0)(typescript@5.4.5)
   '@ng-doc/core':
-    specifier: 17.6.8
-    version: 17.6.8
+    specifier: 17.6.10
+    version: 17.6.10
   '@ng-doc/ui-kit':
-    specifier: 17.6.8
-    version: 17.6.8(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
+    specifier: 17.6.10
+    version: 17.6.10(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
   '@ngrx/component-store':
     specifier: ~17.2.0
     version: 17.2.0(@angular/core@18.0.0)(rxjs@7.8.1)
@@ -87,8 +87,8 @@ dependencies:
     specifier: ^4.17.21
     version: 4.17.21
   axios:
-    specifier: 1.7.1
-    version: 1.7.1
+    specifier: 1.7.2
+    version: 1.7.2
   better-sqlite3:
     specifier: ^10.0.0
     version: 10.0.0
@@ -105,8 +105,8 @@ dependencies:
     specifier: ^3.0.1
     version: 3.0.1
   reflect-metadata:
-    specifier: ^0.2.1
-    version: 0.2.1
+    specifier: ^0.2.2
+    version: 0.2.2
   rxjs:
     specifier: ~7.8.1
     version: 7.8.1
@@ -218,8 +218,8 @@ devDependencies:
     specifier: 6.21.0
     version: 6.21.0(eslint@8.56.0)(typescript@5.4.5)
   autoprefixer:
-    specifier: ^10.4.18
-    version: 10.4.18(postcss@8.4.38)
+    specifier: ^10.4.19
+    version: 10.4.19(postcss@8.4.38)
   cypress:
     specifier: ^13.9.0
     version: 13.9.0
@@ -358,16 +358,6 @@ packages:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
-
-  /@angular-devkit/architect@0.1703.7(chokidar@3.5.3):
-    resolution: {integrity: sha512-SwXbdsZqEE3JtvujCLChAii+FA20d1931VDjDYffrGWdQEViTBAr4NKtDr/kOv8KkgiL3fhGibPnRNUHTeAMtg==}
-    engines: {node: ^18.13.0 || >=20.9.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    dependencies:
-      '@angular-devkit/core': 17.3.7(chokidar@3.5.3)
-      rxjs: 7.8.1
-    transitivePeerDependencies:
-      - chokidar
-    dev: false
 
   /@angular-devkit/architect@0.1800.1(chokidar@3.5.3):
     resolution: {integrity: sha512-L3n1Rh0NUNTlQZBBuPY8VFc5Skr6Oa6xT821k+XLLZTbz1ci2e3ltINyUhqISeksa3AyyL8e4JR2kCbDli9uJA==}
@@ -721,24 +711,6 @@ packages:
       rxjs: 7.8.1
       source-map: 0.7.4
 
-  /@angular-devkit/core@17.3.7(chokidar@3.5.3):
-    resolution: {integrity: sha512-qpZ7BShyqS/Jqld36E7kL02cyb2pjn1Az1p9439SbP8nsvJgYlsyjwYK2Kmcn/Wi+TZGIKxkqxgBBw9vqGgeJw==}
-    engines: {node: ^18.13.0 || >=20.9.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
-    peerDependencies:
-      chokidar: ^3.5.2
-    peerDependenciesMeta:
-      chokidar:
-        optional: true
-    dependencies:
-      ajv: 8.12.0
-      ajv-formats: 2.1.1(ajv@8.12.0)
-      chokidar: 3.5.3
-      jsonc-parser: 3.2.1
-      picomatch: 4.0.1
-      rxjs: 7.8.1
-      source-map: 0.7.4
-    dev: false
-
   /@angular-devkit/core@18.0.1(chokidar@3.5.3):
     resolution: {integrity: sha512-91eKZoObs+wRgwssw81Y/94Nvixj0WqJkNusBAg+gAfZTCEeJoGGZJkRK8wrONbM79C3Bx8lN/TfSIPRbjnfOQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -1022,7 +994,7 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
       chokidar: 3.6.0
       convert-source-map: 1.9.0
-      reflect-metadata: 0.2.1
+      reflect-metadata: 0.2.2
       semver: 7.6.2
       tslib: 2.6.2
       typescript: 5.4.5
@@ -5040,7 +5012,7 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@nestjs/common@10.3.8(reflect-metadata@0.2.1)(rxjs@7.8.1):
+  /@nestjs/common@10.3.8(reflect-metadata@0.2.2)(rxjs@7.8.1):
     resolution: {integrity: sha512-P+vPEIvqx2e+fonsYVlFXKvoChyJ8Tq+lfpqdVFqblovHbFr3kZ/nYX0cPs+XuW6bnRT8tz0SSR9XBGU43kJhw==}
     peerDependencies:
       class-transformer: '*'
@@ -5054,12 +5026,12 @@ packages:
         optional: true
     dependencies:
       iterare: 1.2.1
-      reflect-metadata: 0.2.1
+      reflect-metadata: 0.2.2
       rxjs: 7.8.1
       tslib: 2.6.2
       uid: 2.0.2
 
-  /@nestjs/core@10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.1)(rxjs@7.8.1):
+  /@nestjs/core@10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1):
     resolution: {integrity: sha512-AxF4tpYLDNn5Wfb3C4bNaaHJ4pREH5FJrSisR2A5zkYpQFORFs0Tc36lOFPMwBTy8Iv2wUwWLUVc5ftBnxEv4w==}
     requiresBuild: true
     peerDependencies:
@@ -5077,13 +5049,13 @@ packages:
       '@nestjs/websockets':
         optional: true
     dependencies:
-      '@nestjs/common': 10.3.8(reflect-metadata@0.2.1)(rxjs@7.8.1)
+      '@nestjs/common': 10.3.8(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/platform-express': 10.3.8(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)
       '@nuxtjs/opencollective': 0.3.2
       fast-safe-stringify: 2.1.1
       iterare: 1.2.1
       path-to-regexp: 3.2.0
-      reflect-metadata: 0.2.1
+      reflect-metadata: 0.2.2
       rxjs: 7.8.1
       tslib: 2.6.2
       uid: 2.0.2
@@ -5096,8 +5068,8 @@ packages:
       '@nestjs/common': ^10.0.0
       '@nestjs/core': ^10.0.0
     dependencies:
-      '@nestjs/common': 10.3.8(reflect-metadata@0.2.1)(rxjs@7.8.1)
-      '@nestjs/core': 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.1)(rxjs@7.8.1)
+      '@nestjs/common': 10.3.8(reflect-metadata@0.2.2)(rxjs@7.8.1)
+      '@nestjs/core': 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       body-parser: 1.20.2
       cors: 2.8.5
       express: 4.19.2
@@ -5148,14 +5120,14 @@ packages:
       '@nestjs/platform-express':
         optional: true
     dependencies:
-      '@nestjs/common': 10.3.8(reflect-metadata@0.2.1)(rxjs@7.8.1)
-      '@nestjs/core': 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.1)(rxjs@7.8.1)
+      '@nestjs/common': 10.3.8(reflect-metadata@0.2.2)(rxjs@7.8.1)
+      '@nestjs/core': 10.3.8(@nestjs/common@10.3.8)(@nestjs/platform-express@10.3.8)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@nestjs/platform-express': 10.3.8(@nestjs/common@10.3.8)(@nestjs/core@10.3.8)
       tslib: 2.6.2
     dev: true
 
-  /@ng-doc/app@17.6.8(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/router@18.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-uWLBoF9Pzv8uS2d3uzaVWlUZztRhAxOZp2SRim2LARl5ZRn17JmhyudW5dX42s6+yEJ+x+q2T90mlgo7dtIprg==}
+  /@ng-doc/app@17.6.10(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/router@18.0.0)(@ng-web-apis/common@2.0.1)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-G18NKB/AZSYNe4E8tJibep/jSLdkN9niPocaRrp53s3PZWdVqou2Fhhpb82x/9XytF5w3tDn/xvPVUwPOm20hw==}
     peerDependencies:
       '@angular/cdk': '>=17.0.0'
       '@angular/common': '>=17.0.0'
@@ -5169,8 +5141,8 @@ packages:
       '@angular/common': 18.0.0(@angular/core@18.0.0)(rxjs@7.8.1)
       '@angular/core': 18.0.0(rxjs@7.8.1)(zone.js@0.14.4)
       '@angular/router': 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/platform-browser@18.0.0)(rxjs@7.8.1)
-      '@ng-doc/core': 17.6.8
-      '@ng-doc/ui-kit': 17.6.8(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
+      '@ng-doc/core': 17.6.10
+      '@ng-doc/ui-kit': 17.6.10(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1)
       '@ng-web-apis/common': 2.0.1(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1)
       '@orama/plugin-match-highlight': 1.0.2
       '@orama/stemmers': 1.0.2
@@ -5183,14 +5155,14 @@ packages:
       - '@tinkoff/ng-polymorpheus'
     dev: false
 
-  /@ng-doc/builder@17.6.8(@angular-devkit/core@18.0.1)(@angular-devkit/schematics@18.0.1)(@angular/compiler-cli@18.0.0)(@swc/core@1.4.14)(@types/node@20.11.30)(jest-environment-jsdom@29.7.0)(jest@29.7.0)(karma@6.4.3)(ng-packagr@18.0.0)(stylus@0.59.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-Hznnxxc/sxMNBZHAhGpEfLs7qzumuggm1/qEhZOlAZFj4tAcTu75OxyxJwcSchEizzdQjLC/THM78wnydDDklw==}
+  /@ng-doc/builder@17.6.10(@angular-devkit/core@18.0.1)(@angular-devkit/schematics@18.0.1)(@angular/compiler-cli@18.0.0)(@swc/core@1.4.14)(@types/node@20.11.30)(jest-environment-jsdom@29.7.0)(jest@29.7.0)(karma@6.4.3)(ng-packagr@18.0.0)(stylus@0.59.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-RCBgk15X0Wdb2k1nxNR74yUeDrJUCrVMvSx0G1iME1pJdPG0Hd5oIK42Drzfvog6VP10VF7xRxAkaUiuOLdpmg==}
     dependencies:
-      '@angular-devkit/architect': 0.1703.7(chokidar@3.5.3)
+      '@angular-devkit/architect': 0.1800.1(chokidar@3.5.3)
       '@angular-devkit/build-angular': 18.0.1(@angular/compiler-cli@18.0.0)(@swc/core@1.4.14)(@types/node@20.11.30)(chokidar@3.5.3)(jest-environment-jsdom@29.7.0)(jest@29.7.0)(karma@6.4.3)(ng-packagr@18.0.0)(stylus@0.59.0)(typescript@5.4.5)
       '@microsoft/tsdoc': 0.14.2
-      '@ng-doc/core': 17.6.8
-      '@ng-doc/utils': 17.6.8
+      '@ng-doc/core': 17.6.10
+      '@ng-doc/utils': 17.6.10
       '@orama/orama': 1.0.2
       '@orama/plugin-parsedoc': 1.0.2
       chokidar: 3.5.3
@@ -5243,8 +5215,8 @@ packages:
       - webpack-cli
     dev: false
 
-  /@ng-doc/core@17.6.8:
-    resolution: {integrity: sha512-doL8Ph3fbcVfqcFHOzVW9HfiL4m7TLNITHIcLgKcPpRFNU91kP1VfRjvBqh8lGAhiu3arXqO96azIcl+x90/1A==}
+  /@ng-doc/core@17.6.10:
+    resolution: {integrity: sha512-cBiOdOvGMitzIlQV6GV4R5VXHaCfWPuQwQ0JOJtFGvvubCF85NKLVDkUIb777yOMtz1PluxoNVpUc0JmgQEUhg==}
     dependencies:
       css-what: 6.1.0
       esthetic: 0.5.6-beta.1
@@ -5252,8 +5224,8 @@ packages:
       posthtml-render: 3.0.0
     dev: false
 
-  /@ng-doc/ui-kit@17.6.8(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-uo3lqQxUx9cI43unGnI3CyTur0/faFnOA/oJzcfMYglOxXM/zY8mmid/CJx27jlRbM0ZXafCZAr7HgxpBZJHiw==}
+  /@ng-doc/ui-kit@17.6.10(@angular/cdk@18.0.0)(@angular/common@18.0.0)(@angular/core@18.0.0)(@ngneat/until-destroy@10.0.0)(@tinkoff/ng-polymorpheus@4.3.0)(di-controls@2.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-Yt+Xkou+quqYNlmD5lvX8DUY6k/K6T6fHxJ+hIq1nP56aV5s7CpvaHMdHd+00Fqg7n/A0r55lywMzg0VLYk3pQ==}
     peerDependencies:
       '@angular/cdk': '>=17.0.0'
       '@angular/common': '>=17.0.0'
@@ -5266,7 +5238,7 @@ packages:
       '@angular/cdk': 18.0.0(@angular/common@18.0.0)(@angular/core@18.0.0)(rxjs@7.8.1)
       '@angular/common': 18.0.0(@angular/core@18.0.0)(rxjs@7.8.1)
       '@angular/core': 18.0.0(rxjs@7.8.1)(zone.js@0.14.4)
-      '@ng-doc/core': 17.6.8
+      '@ng-doc/core': 17.6.10
       '@ngneat/until-destroy': 10.0.0(@angular/core@18.0.0)(rxjs@7.8.1)
       '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@18.0.0)(@angular/platform-browser@18.0.0)
       di-controls: 2.1.0(@angular/common@18.0.0)(@angular/core@18.0.0)(@angular/forms@18.0.0)(rxjs@7.8.1)
@@ -5274,8 +5246,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@ng-doc/utils@17.6.8:
-    resolution: {integrity: sha512-hffx945YFZZfhjO3rLuL1o7yMlDFs6wFKimNZzufC/VzfxEDQCGjRNG6/sPC4XnkErFTi/+lRIUi/cUkaNaUyw==}
+  /@ng-doc/utils@17.6.10:
+    resolution: {integrity: sha512-IjmEvAl8eMYrm7B9UPxh7lAL0QVYgxZc0urCoD1f9EqKIl2Tjc0FyFDO9YEQkqIWq1fB0C9BpSkZqq+qTEu8ow==}
     dependencies:
       chalk: 5.2.0
       github-slugger: 2.0.0
@@ -8074,22 +8046,6 @@ packages:
     engines: {node: '>= 4.0.0'}
     dev: true
 
-  /autoprefixer@10.4.18(postcss@8.4.38):
-    resolution: {integrity: sha512-1DKbDfsr6KUElM6wg+0zRNkB/Q7WcKYAaK+pzXn+Xqmszm/5Xa9coeNdtP88Vi+dPzZnMjhge8GIV49ZQkDa+g==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      browserslist: 4.23.0
-      caniuse-lite: 1.0.30001613
-      fraction.js: 4.3.7
-      normalize-range: 0.1.2
-      picocolors: 1.0.0
-      postcss: 8.4.38
-      postcss-value-parser: 4.2.0
-    dev: true
-
   /autoprefixer@10.4.19(postcss@8.4.38):
     resolution: {integrity: sha512-BaENR2+zBZ8xXhM4pUaKUxlVdxZ0EZhjvbopwnXmxRUfqDmwSpC2lAi/QXvx7NRdPCo1WKEcEF6mV64si1z4Ew==}
     engines: {node: ^10 || ^12 || >=14}
@@ -8120,8 +8076,8 @@ packages:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
     dev: true
 
-  /axios@1.7.1:
-    resolution: {integrity: sha512-+LV37nQcd1EpFalkXksWNBiA17NZ5m5/WspmHGmZmdx1qBOg/VNq/c4eRJiA9VQQHBOs+N0ZhhdU10h2TyNK7Q==}
+  /axios@1.7.2:
+    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
     dependencies:
       follow-redirects: 1.15.6(debug@4.3.4)
       form-data: 4.0.0
@@ -8451,12 +8407,6 @@ packages:
     dependencies:
       balanced-match: 1.0.2
 
-  /braces@3.0.2:
-    resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
-    engines: {node: '>=8'}
-    dependencies:
-      fill-range: 7.1.1
-
   /braces@3.0.3:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
@@ -8667,7 +8617,7 @@ packages:
     engines: {node: '>= 8.10.0'}
     dependencies:
       anymatch: 3.1.3
-      braces: 3.0.2
+      braces: 3.0.3
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
       is-glob: 4.0.3
@@ -11330,6 +11280,7 @@ packages:
   /glob@8.1.0:
     resolution: {integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==}
     engines: {node: '>=12'}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -14507,7 +14458,7 @@ packages:
     hasBin: true
     dependencies:
       '@nrwl/nx-cloud': 19.0.0
-      axios: 1.7.1
+      axios: 1.7.2
       chalk: 4.1.2
       dotenv: 10.0.0
       fs-extra: 11.2.0
@@ -14539,7 +14490,7 @@ packages:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.7
-      axios: 1.7.1
+      axios: 1.7.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -16189,9 +16140,8 @@ packages:
     dependencies:
       picomatch: 2.3.1
 
-  /reflect-metadata@0.2.1:
-    resolution: {integrity: sha512-i5lLI6iw9AU3Uu4szRNPPEkomnkjRTaVt9hy/bn5g/oSzekBSMeLZblcjP74AW0vBabqERLLIrz+gR8QYR54Tw==}
-    deprecated: This version has a critical bug in fallback handling. Please upgrade to reflect-metadata@0.2.2 or newer.
+  /reflect-metadata@0.2.2:
+    resolution: {integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==}
 
   /regenerate-unicode-properties@10.1.1:
     resolution: {integrity: sha512-X007RyZLsCJVVrjgEFVpLUTZwyOZk3oiL75ZcuYjlIWd6rNJtOjkBwQc5AsRrpbKVkxN6sklw/k/9m2jJYOf8Q==}
