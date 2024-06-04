@@ -8,11 +8,11 @@ import { selectLocationEntities } from '../locations/location.selectors';
 import { currentLocationActions } from './current-location.actions';
 import { selectCurrentLocationId } from './current-location.selector';
 
-export const locationEqualsLocationId = (id: string) => {
-  return (l: string, _: number, __: string[]): boolean => {
+function locationEqualsLocationId(id: string) {
+  return (l: string): boolean => {
     return l === id;
   };
-};
+}
 
 export const watchLocations = createEffect(
   /* istanbul ignore next -- not real conditions but injectables */

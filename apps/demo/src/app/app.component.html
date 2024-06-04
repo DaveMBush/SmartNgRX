@@ -1,27 +1,27 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" *ngIf="activeLink | async as link">
   <span><a [routerLink]="'home'">Smart NgRX Demo</a></span>
   <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
-    <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === activeLink">
+    <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === link">
       Tree (Standard)
     </a>
     <a
       mat-tab-link
       [routerLink]="'treeNoRefresh'"
-      [active]="'treeNoRefresh' === activeLink"
+      [active]="'treeNoRefresh' === link"
     >
       Tree (No Refresh)
     </a>
     <a
       mat-tab-link
       [routerLink]="'treeNoRemove'"
-      [active]="'treeNoRemove' === activeLink"
+      [active]="'treeNoRemove' === link"
     >
       Tree (No Remove)
     </a>
     <a
       mat-tab-link
       [routerLink]="'treeNoDirty'"
-      [active]="'treeNoDirty' === activeLink"
+      [active]="'treeNoDirty' === link"
     >
       Tree (No Dirty)
     </a>

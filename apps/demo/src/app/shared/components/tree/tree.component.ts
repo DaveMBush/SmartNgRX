@@ -4,6 +4,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   inject,
   input,
   OnChanges,
@@ -12,6 +13,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -52,6 +54,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   addingNode = '';
   addingParent: TreeNode | null = null;
   addMenuOpenedNode = '';
+  destroyRef = inject(DestroyRef);
 
   constructor() {
     this.treeComponentService.form = this;
@@ -61,9 +64,9 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.locationChanged.emit(event);
   }
 
-  hasChild = (_: number, node: TreeNode): boolean => {
+  hasChild(_: number, node: TreeNode): boolean {
     return node.hasChildren;
-  };
+  }
 
   toggleExpand(node: TreeNode): void {
     this.treeComponentService.toggleExpand(node);
@@ -120,9 +123,11 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.virtualScroll.renderedRangeStream.subscribe((range) => {
-      this.range = range;
-      this.treeComponentService.applyRange();
-    });
+    this.virtualScroll.renderedRangeStream
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((range) => {
+        this.range = range;
+        this.treeComponentService.applyRange();
+      });
   }
 }
