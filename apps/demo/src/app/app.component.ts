@@ -9,6 +9,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter, map, Observable, of } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -26,14 +27,19 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   private router = inject(Router);
-  activeLink = '';
+  activeLink: Observable<string> = of('');
+  static navigationEndRoute(event: NavigationEnd): string {
+    return event.urlAfterRedirects.split('/')[1];
+  }
+
+  static navigationEndGuard(event: unknown): event is NavigationEnd {
+    return event instanceof NavigationEnd;
+  }
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
-      /* istanbul ignore next -- trivial condition obvious at runtime */
-      if (event instanceof NavigationEnd) {
-        this.activeLink = event.urlAfterRedirects.split('/')[1];
-      }
-    });
+    this.activeLink = this.router.events.pipe(
+      filter(AppComponent.navigationEndGuard),
+      map(AppComponent.navigationEndRoute),
+    );
   }
 }

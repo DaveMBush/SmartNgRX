@@ -12,7 +12,7 @@ import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TreeComponentService {
   private expandMap = new Map<string, boolean>();
   private component: TreeComponent | null = null;
@@ -80,9 +80,7 @@ export class TreeComponentService {
           startRange - result.length,
           endRange - result.length,
         );
-        forNext(childNodes, (child) => {
-          result.push(child);
-        });
+        result.push(...childNodes);
       }
     });
     return result;

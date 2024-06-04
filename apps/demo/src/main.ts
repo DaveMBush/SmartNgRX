@@ -7,6 +7,8 @@ import { appConfig } from './app/app.config';
 // we only need this for localhost memlab support
 //enableProdMode()
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  alert(JSON.stringify(err)),
-);
+function catchError(err: unknown): void {
+  alert(JSON.stringify(err));
+}
+
+bootstrapApplication(AppComponent, appConfig).catch(catchError);

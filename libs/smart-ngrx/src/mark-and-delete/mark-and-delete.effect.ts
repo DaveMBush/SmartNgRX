@@ -1,10 +1,5 @@
-import { inject, NgZone } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
-import { of } from 'rxjs';
 
-import { assert } from '../common/assert.function';
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { store } from '../selector/store.function';
 import { markAndDeleteFeaturesInterval } from './mark-and-delete-effect/mark-and-delete-features-interval.function';
 
 /**
@@ -12,11 +7,9 @@ import { markAndDeleteFeaturesInterval } from './mark-and-delete-effect/mark-and
  * refreshed or deleted.
  */
 export const markAndDeleteEffect = createEffect(
-  /* istanbul ignore next -- zone is passed in from test */
-  (zone = inject(NgZone)) => {
-    assert(!isNullOrUndefined(store), 'could not find store from function');
-    zone.runOutsideAngular(markAndDeleteFeaturesInterval);
-    return of(null);
+  /* istanbul ignore next -- not optional */
+  () => {
+    return markAndDeleteFeaturesInterval();
   },
   { dispatch: false, functional: true },
 );
