@@ -18,15 +18,13 @@ Now, I couldn't let it go. I kept thinking about it. And another thought came to
 
 At this point, I merged the two concepts. Using the main library of this project, you can register your NgRX entities in a providers section and then use "SmartSelectors" to join the data back together again. Only the join doesn't just join the data, it retrieves the data as it is accessed.
 
-We are still at the very beginning of this project. We still need to provide a way of removing rows that are no longer being accessed. We still need to provide a way to perform CRUD operations on the rows. But the groundwork has been laid. At this point, the two things you need to know about NgRX are 1) You'll need to use selectors or the Smart Selectors from this library to "Join" or "Nest" rows and 2) you'll need to create Effect Services to deal with retrieving the data from the server (and ultimately perform the CRUD operations).
-
-Have a look at our "Ultimate Goals" to see where we are headed.
+Have a look at our "Ultimate Goals" to see where we are headed and how much we've completed so far.
 
 ## Ultimate Goals
 
 - [x] Hide the NgRX boiler-plate code from the developer
 - [x] Dynamically generate Actions, Reducers and Effects.
-- [ ] Support server-side searching for rows
+- [ ] Demonstrate server-side searching for rows
 - [x] Complete CRUD support.
   - [x] Create
   - [x] Read
@@ -39,7 +37,7 @@ Have a look at our "Ultimate Goals" to see where we are headed.
   - [x] Delete (only deletes from multiple parents of the same type)
 - [x] Optionally remove unused entity rows from the store.
 - [x] Optionally allow data to refresh using polling.
-- [ ] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
+- [x] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
 - [ ] Provide multiple ways to retrieve child rows.
   - [x] For small sets of nested data, provide the IDs of the child elements in an array of the parent.
   - [ ] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
