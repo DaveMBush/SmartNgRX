@@ -137,8 +137,8 @@ devDependencies:
     specifier: 17.5.1
     version: 17.5.1(eslint@8.56.0)(typescript@5.4.5)
   '@angular-eslint/template-parser':
-    specifier: ~17.5.1
-    version: 17.5.1(eslint@8.56.0)(typescript@5.4.5)
+    specifier: ~17.5.2
+    version: 17.5.2(eslint@8.56.0)(typescript@5.4.5)
   '@angular/cli':
     specifier: ~18.0.1
     version: 18.0.1
@@ -834,6 +834,10 @@ packages:
     resolution: {integrity: sha512-2gYFcWsGcw3BytCzt6DzKNayOHhW1dhMAgttor94lXLYOYN82eLGomC+aZF/U6fqVGBjm5JIEJpWbNF+NawZ7w==}
     dev: true
 
+  /@angular-eslint/bundled-angular-compiler@17.5.2:
+    resolution: {integrity: sha512-K4hVnMyI98faMJmsA4EOBkD0tapDjWV5gy0j/wJ2uSL46d3JgZPZNJSO1zStf/b3kT4gLOlQ/ulWFiUf1DxgIw==}
+    dev: true
+
   /@angular-eslint/eslint-plugin-template@17.5.1(eslint@8.56.0)(typescript@5.4.5):
     resolution: {integrity: sha512-OgTN6ogZSA7Fi/9Zfk3EZumr06MZPXyI7Y9A09WzkjgUikCXDNoYwvkT4Bh0jOtwDDhtAAFC9/TehJQj7f4o5A==}
     peerDependencies:
@@ -867,13 +871,13 @@ packages:
       - supports-color
     dev: true
 
-  /@angular-eslint/template-parser@17.5.1(eslint@8.56.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-DJcYacYEb17uUlQFYIKSjmlzWJEfev5pOMddDewV3h6oVm4T77X1SH/u8n5Oz1Zy13TrLWponwFORCKhg7nOfg==}
+  /@angular-eslint/template-parser@17.5.2(eslint@8.56.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-46emLElmnIUzW0bpEpSf0u05ofRVUwlfttDOMLedhi700peUKbB9Y6iyz3GzAtQCMklBbJC9nR87LQRH9aSlog==}
     peerDependencies:
       eslint: ^7.20.0 || ^8.0.0
       typescript: '*'
     dependencies:
-      '@angular-eslint/bundled-angular-compiler': 17.5.1
+      '@angular-eslint/bundled-angular-compiler': 17.5.2
       eslint: 8.56.0
       eslint-scope: 8.0.1
       typescript: 5.4.5
@@ -7495,7 +7499,7 @@ packages:
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
-      vite: 5.2.11(@types/node@20.11.30)(less@4.2.0)(sass@1.77.2)(stylus@0.59.0)(terser@5.31.0)
+      vite: 5.2.11(@types/node@20.11.30)(less@4.1.3)(stylus@0.59.0)
 
   /@webassemblyjs/ast@1.12.1:
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
