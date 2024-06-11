@@ -11,15 +11,15 @@ import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
-import { SprintFolderDTO } from './sprint-folders-dto.interface';
 import { SocketGateway } from '../socket/socket.gateway';
+import { SprintFolderDTO } from './sprint-folders-dto.interface';
 
 @Controller('sprintFolders')
 export class SprintFoldersController {
   constructor(
     @Inject(prismaServiceToken) private prisma: PrismaClient,
-    private gateway: SocketGateway
-) { }
+    private gateway: SocketGateway,
+  ) {}
 
   @Post()
   async getByIds(@Body() ids: string[]): Promise<SprintFolderDTO[]> {
@@ -42,7 +42,13 @@ export class SprintFoldersController {
       }),
     ).pipe(
       switchMap(async () => this.getByIds([sprintFolder.id])),
-      tap(() => this.gateway.sendNotification({ ids: [sprintFolder.id], action: 'update', table: 'sprintFolders' })),
+      tap(() =>
+        this.gateway.sendNotification({
+          ids: [sprintFolder.id],
+          action: 'update',
+          table: 'sprintFolders',
+        }),
+      ),
     );
   }
 

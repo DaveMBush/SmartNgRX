@@ -11,15 +11,15 @@ import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
-import { ListDTO } from './lists-dto.interface';
 import { SocketGateway } from '../socket/socket.gateway';
+import { ListDTO } from './lists-dto.interface';
 
 @Controller('lists')
 export class ListsController {
   constructor(
     @Inject(prismaServiceToken) private prisma: PrismaClient,
-    private gateway: SocketGateway
-  ) { }
+    private gateway: SocketGateway,
+  ) {}
 
   @Post()
   async getByIds(@Body() ids: string[]): Promise<ListDTO[]> {
@@ -42,7 +42,13 @@ export class ListsController {
       }),
     ).pipe(
       switchMap(async () => this.getByIds([list.id])),
-      tap(() => this.gateway.sendNotification({ ids: [list.id], action: 'update', table: 'lists' })),
+      tap(() =>
+        this.gateway.sendNotification({
+          ids: [list.id],
+          action: 'update',
+          table: 'lists',
+        }),
+      ),
     );
   }
 

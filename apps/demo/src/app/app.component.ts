@@ -10,6 +10,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
+
 import { SocketService } from './shared/socket.service';
 
 @Component({

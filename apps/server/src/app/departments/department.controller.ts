@@ -12,16 +12,16 @@ import { from, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
+import { SocketGateway } from '../socket/socket.gateway';
 import { consolidateChildren } from './consolidate-children.function';
 import { DepartmentDTO } from './department-dto.interface';
-import { SocketGateway } from '../socket/socket.gateway';
 
 @Controller('departments')
 export class DepartmentsController {
   constructor(
     @Inject(prismaServiceToken) private prisma: PrismaClient,
-    private gateway: SocketGateway
-  ) { }
+    private gateway: SocketGateway,
+  ) {}
 
   @Put()
   update(@Body() department: DepartmentDTO): Observable<DepartmentDTO[]> {
@@ -31,9 +31,14 @@ export class DepartmentsController {
         data: { name: department.name },
       }),
     ).pipe(
-      switchMap(
-        () => this.getByIds([department.id])),
-      tap(() => this.gateway.sendNotification({ids: [department.id], action: 'update', table: 'departments'}))
+      switchMap(() => this.getByIds([department.id])),
+      tap(() =>
+        this.gateway.sendNotification({
+          ids: [department.id],
+          action: 'update',
+          table: 'departments',
+        }),
+      ),
     );
   }
 

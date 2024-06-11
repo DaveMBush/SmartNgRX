@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 
-import { handleSocketNotification } from '@smart/smart-ngrx/socket/handle-socket-notification.function'
+import { handleSocketNotification } from '@smart/smart-ngrx/socket/handle-socket-notification.function';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SocketService {
   url = 'ws://localhost:3000/data';
@@ -12,10 +12,10 @@ export class SocketService {
 
   constructor() {
     this.client = io(this.url);
-    this.client.on('message', this.message.bind(this))
+    this.client.on('message', this.message.bind(this));
   }
 
-  message(data: { ids: string[], table: string, action: string }): void {
+  message(data: { ids: string[]; table: string; action: string }): void {
     switch (data.table) {
       case 'docs':
         data.table = 'departmentChildren';
@@ -36,6 +36,6 @@ export class SocketService {
       default:
         break;
     }
-    handleSocketNotification(data.table, data.action, data.ids)
+    handleSocketNotification(data.table, data.action, data.ids);
   }
 }

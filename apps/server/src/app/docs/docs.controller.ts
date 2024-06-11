@@ -11,15 +11,15 @@ import { PrismaClient } from '@prisma/client';
 import { from, Observable, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
-import { DocInDTO, DocOutDTO } from './doc-dto.interface';
 import { SocketGateway } from '../socket/socket.gateway';
+import { DocInDTO, DocOutDTO } from './doc-dto.interface';
 
 @Controller('docs')
 export class DocsController {
   constructor(
     @Inject(prismaServiceToken) private prisma: PrismaClient,
-    private gateway: SocketGateway
-  ) { }
+    private gateway: SocketGateway,
+  ) {}
 
   @Put()
   update(@Body() doc: DocInDTO): Observable<DocOutDTO[]> {
@@ -30,7 +30,13 @@ export class DocsController {
       }),
     ).pipe(
       switchMap(async () => this.getByIds([doc.id!])),
-      tap(() => this.gateway.sendNotification({ ids: [doc.id!], action: 'update', table: 'docs' })),
+      tap(() =>
+        this.gateway.sendNotification({
+          ids: [doc.id!],
+          action: 'update',
+          table: 'docs',
+        }),
+      ),
     );
   }
 
