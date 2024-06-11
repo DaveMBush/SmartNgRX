@@ -24,10 +24,12 @@ import { LocationEffectsService } from './shared/locations/location-effects.serv
 import { locationEffectsServiceToken } from './shared/locations/location-effects.service-token';
 import { TopEffectsService } from './shared/top/top-effects.service';
 import { topEffectsServiceToken } from './shared/top/top-effects.service-token';
+import { SocketService } from './shared/socket.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
+    SocketService,
     {
       provide: topEffectsServiceToken,
       useClass: TopEffectsService,

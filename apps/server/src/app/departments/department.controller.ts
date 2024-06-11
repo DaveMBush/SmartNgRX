@@ -9,15 +9,19 @@ import {
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { from, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { consolidateChildren } from './consolidate-children.function';
 import { DepartmentDTO } from './department-dto.interface';
+import { SocketGateway } from '../socket/socket.gateway';
 
 @Controller('departments')
 export class DepartmentsController {
-  constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
+  constructor(
+    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    private gateway: SocketGateway
+  ) { }
 
   @Put()
   update(@Body() department: DepartmentDTO): Observable<DepartmentDTO[]> {
@@ -26,7 +30,11 @@ export class DepartmentsController {
         where: { id: department.id },
         data: { name: department.name },
       }),
-    ).pipe(switchMap(() => this.getByIds([department.id])));
+    ).pipe(
+      switchMap(
+        () => this.getByIds([department.id])),
+      tap(() => this.gateway.sendNotification({ids: [department.id], action: 'update', table: 'departments'}))
+    );
   }
 
   @Post()

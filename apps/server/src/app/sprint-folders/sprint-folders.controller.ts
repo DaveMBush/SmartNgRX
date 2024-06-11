@@ -8,14 +8,18 @@ import {
   Put,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { from, Observable, switchMap } from 'rxjs';
+import { from, Observable, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SprintFolderDTO } from './sprint-folders-dto.interface';
+import { SocketGateway } from '../socket/socket.gateway';
 
 @Controller('sprintFolders')
 export class SprintFoldersController {
-  constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
+  constructor(
+    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    private gateway: SocketGateway
+) { }
 
   @Post()
   async getByIds(@Body() ids: string[]): Promise<SprintFolderDTO[]> {
@@ -32,11 +36,14 @@ export class SprintFoldersController {
   @Put()
   update(@Body() sprintFolder: SprintFolderDTO): Observable<SprintFolderDTO[]> {
     return from(
-      this.prisma.docs.update({
-        where: { did: sprintFolder.id },
+      this.prisma.sprintFolders.update({
+        where: { id: sprintFolder.id },
         data: { name: sprintFolder.name },
       }),
-    ).pipe(switchMap(async () => this.getByIds([sprintFolder.id])));
+    ).pipe(
+      switchMap(async () => this.getByIds([sprintFolder.id])),
+      tap(() => this.gateway.sendNotification({ ids: [sprintFolder.id], action: 'update', table: 'sprintFolders' })),
+    );
   }
 
   @Delete('/:id')
