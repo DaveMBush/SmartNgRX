@@ -80,13 +80,29 @@ export class DepartmentsController {
           locationId: department.parentId!,
         },
       }),
-    ).pipe(switchMap((result) => this.getByIds([result.id])));
+    ).pipe(
+      switchMap((result) => this.getByIds([result.id])),
+      tap(() =>
+        this.gateway.sendNotification({
+          ids: [department.parentId!],
+          action: 'update',
+          table: 'locations',
+        }),
+      ),
+    );
   }
 
   @Delete('/:id')
   delete(@Param('id') id: string): Observable<void> {
     return from(this.prisma.departments.delete({ where: { id } })).pipe(
       map(() => undefined),
+      tap(() =>
+        this.gateway.sendNotification({
+          ids: [id],
+          action: 'delete',
+          table: 'departments',
+        }),
+      ),
     );
   }
 }

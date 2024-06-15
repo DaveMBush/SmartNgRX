@@ -19,9 +19,10 @@ export function setState<T>(feature: string, entity: string, state: T): void {
     .pipe(take(1))
     .subscribe((s) => {
       const sAsRecord = s as Record<string, Record<string, object>>;
+      const exitingFeature = sAsRecord[feature] ?? {};
       const newState = {
         ...s,
-        [feature]: { ...sAsRecord[feature], [entity]: state },
+        [feature]: { ...exitingFeature, [entity]: state },
       };
       castTo<MockStore>(store()).setState(newState);
     });

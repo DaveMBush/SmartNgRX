@@ -29,7 +29,14 @@ import { topEffectsServiceToken } from './shared/top/top-effects.service-token';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
-    SocketService,
+    {
+      provide: SocketService,
+      useFactory: (): SocketService => {
+        const s = new SocketService();
+        s.init();
+        return s;
+      },
+    },
     {
       provide: topEffectsServiceToken,
       useClass: TopEffectsService,

@@ -26,7 +26,6 @@ interface Row extends SmartNgRXRowBase {
 
 describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
-  let actionServiceMarkDirtySpy: jest.SpyInstance;
   let actionService: ActionService<Row>;
   beforeEach(() => {
     createStore();
@@ -40,7 +39,6 @@ describe('ensureDataLoaded()', () => {
       actionServiceRegistry(feature, entity),
     );
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
-    actionServiceMarkDirtySpy = jest.spyOn(actionService, 'markDirty');
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -82,26 +80,6 @@ describe('ensureDataLoaded()', () => {
       });
       it('should call the action service to load the id', () => {
         expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
-      });
-    });
-    describe('and isDirty is true and mark dirty does not fetch new', () => {
-      beforeEach(() => {
-        unregisterEntity(feature, entity);
-        registerEntity(feature, entity, {
-          markAndDeleteInit: { markDirtyFetchesNew: false },
-        } as EntityAttributes);
-        ensureDataLoaded<Row, 'feature', 'entity'>(
-          {
-            ids: [],
-            entities: { id: { id: 'id', name: 'foo', isDirty: true } },
-          },
-          'id',
-          'feature',
-          'entity',
-        );
-      });
-      it('should call the action service to mark the id dirty', () => {
-        expect(actionServiceMarkDirtySpy).toHaveBeenCalled();
       });
     });
   });

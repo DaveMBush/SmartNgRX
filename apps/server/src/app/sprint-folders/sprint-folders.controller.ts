@@ -1,3 +1,4 @@
+// jscpd:ignore-start
 import {
   Body,
   Controller,
@@ -13,6 +14,7 @@ import { from, Observable, switchMap, tap } from 'rxjs';
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
 import { SprintFolderDTO } from './sprint-folders-dto.interface';
+// jscpd:ignore-end
 
 @Controller('sprintFolders')
 export class SprintFoldersController {
@@ -55,6 +57,11 @@ export class SprintFoldersController {
   @Delete('/:id')
   async delete(@Param('id') id: string): Promise<void> {
     await this.prisma.sprintFolders.delete({ where: { id } });
+    this.gateway.sendNotification({
+      ids: [id],
+      action: 'delete',
+      table: 'sprintFolders',
+    });
   }
 
   @Post('add')
@@ -64,6 +71,11 @@ export class SprintFoldersController {
         name: sprintFolder.name,
         departmentId: sprintFolder.parentId!,
       },
+    });
+    this.gateway.sendNotification({
+      ids: [sprintFolder.parentId!],
+      action: 'update',
+      table: 'departments',
     });
     return this.getByIds([result.id]);
   }

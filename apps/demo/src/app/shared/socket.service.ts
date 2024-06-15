@@ -3,14 +3,14 @@ import { io, Socket } from 'socket.io-client';
 
 import { handleSocketNotification } from '@smart/smart-ngrx/socket/handle-socket-notification.function';
 
-@Injectable({
-  providedIn: 'root',
-})
+// We need to create this service using a factory so we can call init()
+// after the service is created so we don't provideIn: 'root'
+@Injectable()
 export class SocketService {
   url = 'ws://localhost:3000/data';
-  client: Socket;
+  client!: Socket;
 
-  constructor() {
+  init(): void {
     this.client = io(this.url);
     this.client.on('message', this.message.bind(this));
   }

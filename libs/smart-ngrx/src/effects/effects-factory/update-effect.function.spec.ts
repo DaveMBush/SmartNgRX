@@ -5,11 +5,12 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { actionFactory } from '../..';
+import { actionFactory, registerEntity, unregisterEntity } from '../..';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { store as storeFunction } from '../../selector/store.function';
+import { EntityAttributes } from '../../types/entity-attributes.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { updateEffect } from './update-effect.function';
@@ -59,6 +60,9 @@ describe('update-effect.function.ts', () => {
   const testService = new TestService();
   let serviceSpy: jest.SpyInstance;
   beforeEach(() => {
+    registerEntity(feature, entity, {
+      markAndDeleteInit: {},
+    } as EntityAttributes);
     TestBed.configureTestingModule({
       providers: [provideMockStore({ initialState: {} })],
     });
@@ -82,6 +86,7 @@ describe('update-effect.function.ts', () => {
     );
   });
   afterEach(() => {
+    unregisterEntity(feature, entity);
     jest.clearAllMocks();
   });
   describe('when updateEffect is called once', () => {

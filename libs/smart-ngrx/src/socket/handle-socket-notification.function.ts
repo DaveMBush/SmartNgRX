@@ -1,6 +1,7 @@
 import { forNext } from '../common/for-next.function';
 import { psi } from '../common/theta.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entity.map';
+import { deleteEntity } from './delete-entity.function';
 import { updateEntity } from './update-entity.function';
 
 /**
@@ -27,11 +28,8 @@ export function handleSocketNotification(
     const [feature] = key.split(psi) as [string, string];
 
     switch (action) {
-      case 'create':
-        // createEntity(feature, table, ids)
-        break;
       case 'delete':
-        // deleteEntity(feature, table, ids)
+        deleteEntity(feature, table, ids);
         break;
       case 'update':
         updateEntity(feature, table, ids);

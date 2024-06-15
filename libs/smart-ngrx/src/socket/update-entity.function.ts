@@ -1,5 +1,4 @@
 import { EntityState } from '@ngrx/entity';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { take } from 'rxjs';
 
 import { ActionService } from '../actions/action.service';
@@ -25,21 +24,20 @@ export function updateEntity<T extends SmartNgRXRowBase>(
     feature as StringLiteralSource<string>,
     entity as StringLiteralSource<string>,
   );
-  const selectFeature =
-    createFeatureSelector<Record<string, EntityState<T>>>(feature);
-  const selectEntities = createSelector(
-    selectFeature,
-    (state: Record<string, EntityState<T>>) => {
-      return state[entity]?.entities ?? {};
-    },
-  );
+  // check for feature/entities the long way to avoid triggering warnings
+  // there is also no good reason to memoize the result
+  const selectEntities = (state: unknown) => {
+    const featureState = ((state as Record<string, unknown>)[feature] ??
+      {}) as Record<string, EntityState<T>>;
+    return featureState[entity]?.entities ?? {};
+  };
   store()
     .select(selectEntities)
     .pipe(take(1))
     .subscribe((state) => {
       forNext(ids, (id) => {
         if (state[id] !== undefined) {
-          actionService.loadByIds([id]);
+          actionService.forceDirty([id]);
         }
       });
     });

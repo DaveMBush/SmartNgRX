@@ -1,3 +1,4 @@
+// jscpd:ignore-start
 import {
   Body,
   Controller,
@@ -13,6 +14,7 @@ import { from, Observable, switchMap, tap } from 'rxjs';
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
 import { DocInDTO, DocOutDTO } from './doc-dto.interface';
+// jscpd:ignore-end
 
 @Controller('docs')
 export class DocsController {
@@ -59,11 +61,22 @@ export class DocsController {
         departmentId: doc.parentId!,
       },
     });
+    this.gateway.sendNotification({
+      ids: [doc.parentId!],
+      action: 'update',
+      table: 'departments',
+    });
+
     return this.getByIds([result.did]);
   }
 
   @Delete('/:id')
   async delete(@Param('id') id: string): Promise<void> {
     await this.prisma.docs.delete({ where: { did: id } });
+    this.gateway.sendNotification({
+      ids: [id],
+      action: 'delete',
+      table: 'docs',
+    });
   }
 }

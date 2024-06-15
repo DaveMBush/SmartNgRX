@@ -5,8 +5,15 @@ import { Store } from '@ngrx/store';
 import { castTo } from '../common/cast-to.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import {
+  registerEntity,
+  unregisterEntity,
+} from '../registrations/register-entity.function';
 import { store as storeFunction } from '../selector/store.function';
 import { createStore } from '../tests/functions/create-store.function';
+import { setState } from '../tests/functions/set-state.function';
+import { EntityAttributes } from '../types/entity-attributes.interface';
+import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionService } from './action.service';
@@ -36,6 +43,9 @@ describe('ActionService', () => {
   beforeEach(() => {
     createStore();
     store = storeFunction();
+    registerEntity(feature, entity, {
+      markAndDeleteInit: {},
+    } as EntityAttributes);
     entityDefinitionCache(feature, entity, {
       entityName: entity,
       effectServiceToken: null, // serviceToken isn't needed for these tests
@@ -49,6 +59,10 @@ describe('ActionService', () => {
       ),
     );
   });
+  afterEach(() => {
+    jest.restoreAllMocks();
+    unregisterEntity(feature, entity);
+  });
   describe('markDirtyWithEntities()', () => {
     describe('when the id is not in the entities', () => {
       beforeEach(() => {
@@ -60,8 +74,12 @@ describe('ActionService', () => {
           ['1'],
         );
       });
-      it('should not dispatch an action', () => {
-        expect(storeDispatchSpy).not.toHaveBeenCalled();
+      it('should not dispatch any ids in the action', () => {
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            changes: [],
+          }),
+        );
       });
     });
     describe('when the id is in the entities', () => {
@@ -76,7 +94,18 @@ describe('ActionService', () => {
           );
         });
         it('should dispatch an action', () => {
-          expect(storeDispatchSpy).toHaveBeenCalled();
+          expect(storeDispatchSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              changes: [
+                {
+                  id: '2',
+                  changes: {
+                    isDirty: true,
+                  },
+                },
+              ],
+            }),
+          );
         });
       });
       describe('and it is being edited', () => {
@@ -90,7 +119,11 @@ describe('ActionService', () => {
           );
         });
         it('should not dispatch an action', () => {
-          expect(storeDispatchSpy).not.toHaveBeenCalled();
+          expect(storeDispatchSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              changes: [],
+            }),
+          );
         });
       });
     });
@@ -132,6 +165,85 @@ describe('ActionService', () => {
         it('should not dispatch an action', () => {
           expect(storeDispatchSpy).not.toHaveBeenCalled();
         });
+      });
+    });
+  });
+  describe('markDirty()', () => {
+    beforeEach(() => {
+      setState(feature, entity, {
+        ids: ['1'],
+        entities: { '1': { id: '1', name: 'name', isDirty: false } },
+      });
+    });
+    let markDirtyWithEntitiesSpy: jest.SpyInstance;
+    describe('when markDirtyFetchesNew is false', () => {
+      beforeEach(() => {
+        // we have to unregister the entity and re-register because
+        // we already registered it in the top level beforeEach()
+        unregisterEntity(feature, entity);
+        registerEntity(feature, entity, {
+          markAndDeleteInit: {
+            markDirtyFetchesNew: false,
+          } as MarkAndDeleteInit,
+        } as EntityAttributes);
+        service = castTo<PublicMarkDirtyWithEntities>(
+          new ActionService<Row>(
+            feature as StringLiteralSource<string>,
+            entity as StringLiteralSource<string>,
+          ),
+        );
+        markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
+        service.markDirty(['1']);
+      });
+
+      it('should not call markDirtyWithEntities', () => {
+        expect(markDirtyWithEntitiesSpy).not.toHaveBeenCalled();
+      });
+    });
+    describe('when markDirtyFetchesNew is true', () => {
+      beforeEach(() => {
+        // we have to unregister the entity and re-register because
+        // we already registered it in the top level beforeEach()
+        unregisterEntity(feature, entity);
+        registerEntity(feature, entity, {
+          markAndDeleteInit: {
+            markDirtyFetchesNew: true,
+          } as MarkAndDeleteInit,
+        } as EntityAttributes);
+        service = castTo<PublicMarkDirtyWithEntities>(
+          new ActionService<Row>(
+            feature as StringLiteralSource<string>,
+            entity as StringLiteralSource<string>,
+          ),
+        );
+        markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
+        service.markDirty(['1']);
+      });
+
+      it('should not call markDirtyWithEntities', () => {
+        expect(markDirtyWithEntitiesSpy).toHaveBeenCalled();
+      });
+    });
+    describe('when markDirtyFetchesNew is undefined', () => {
+      beforeEach(() => {
+        // we have to unregister the entity and re-register because
+        // we already registered it in the top level beforeEach()
+        unregisterEntity(feature, entity);
+        registerEntity(feature, entity, {
+          markAndDeleteInit: {},
+        } as EntityAttributes);
+        service = castTo<PublicMarkDirtyWithEntities>(
+          new ActionService<Row>(
+            feature as StringLiteralSource<string>,
+            entity as StringLiteralSource<string>,
+          ),
+        );
+        markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
+        service.markDirty(['1']);
+      });
+
+      it('should not call markDirtyWithEntities', () => {
+        expect(markDirtyWithEntitiesSpy).toHaveBeenCalled();
       });
     });
   });

@@ -1,3 +1,4 @@
+// jscpd:ignore-start
 import {
   Body,
   Controller,
@@ -13,6 +14,7 @@ import { from, Observable, switchMap, tap } from 'rxjs';
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
 import { FolderDTO } from './folders-dto.interface';
+// jscpd:ignore-start
 
 @Controller('folders')
 export class FoldersController {
@@ -60,11 +62,21 @@ export class FoldersController {
         departmentId: folder.parentId!,
       },
     });
+    this.gateway.sendNotification({
+      ids: [folder.parentId!],
+      action: 'update',
+      table: 'departments',
+    });
     return this.getByIds([folderRow.id]);
   }
 
   @Delete('/:id')
   async delete(@Param('id') id: string): Promise<void> {
     await this.prisma.folders.delete({ where: { id } });
+    this.gateway.sendNotification({
+      ids: [id],
+      action: 'delete',
+      table: 'folders',
+    });
   }
 }
