@@ -50,6 +50,8 @@
     "@nestjs/common": "^10.3.9",
     "@nestjs/core": "^10.3.9",
     "@nestjs/platform-express": "^10.3.9",
+    "@nestjs/platform-socket.io": "^10.3.9",
+    "@nestjs/websockets": "^10.3.9",
     "@ng-doc/app": "17.6.10",
     "@ng-doc/builder": "17.6.10",
     "@ng-doc/core": "17.6.10",
@@ -72,6 +74,8 @@
     "is-ci": "^3.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "~7.8.1",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "tslib": "^2.6.2",
     "tsx": "^4.7.1",
     "zone.js": "~0.14.7"
@@ -155,8 +159,8 @@
   },
   "packageManager": "pnpm@8.6.4",
   "engines": {
-    "node": "^18.16.0 || ^20.0.0",
-    "pnpm": "^8",
+    "node": "^20.0.0",
+    "pnpm": "^9",
     "npm": "Please use pnpm instead of npm to install dependencies",
     "yarn": "Please use pnpm instead of yarn to install dependencies"
   }

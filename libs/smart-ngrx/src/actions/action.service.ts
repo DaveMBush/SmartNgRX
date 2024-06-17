@@ -1,10 +1,11 @@
-import { Dictionary } from '@ngrx/entity';
-import { EntityAdapter, EntityState, UpdateStr } from '@ngrx/entity/src/models';
+import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
+import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
@@ -13,6 +14,7 @@ import { StringLiteralSource } from '../ngrx-internals/string-literal-source.typ
 import { defaultRows } from '../reducers/default-rows.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { getEntityRegistry } from '../registrations/register-entity.function';
 import { store as storeFunction } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
@@ -39,6 +41,7 @@ export class ActionService<
   entities: Observable<Dictionary<T>>;
   private actions: ActionGroup<T>;
   private store = storeFunction();
+  private markDirtyFetchesNew = true;
 
   /**
    * constructor for the ActionService
@@ -64,14 +67,41 @@ export class ActionService<
     this.entities = castTo<Observable<Dictionary<T>>>(
       this.store.select(selectFeatureEntities),
     );
+
+    const registry = getEntityRegistry(feature, entity);
+    this.markDirtyFetchesNew =
+      isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
+      registry.markAndDeleteInit.markDirtyFetchesNew;
   }
 
   /**
-   * marks the rows as dirty
+   * marks the rows as dirty and takes into account settings
+   * indicating if this should cause a refresh or not
    *
    * @param ids the ids to mark as dirty
    */
   markDirty(ids: string[]): void {
+    if (!this.markDirtyFetchesNew) {
+      this.entities.pipe(take(1)).subscribe((entities) => {
+        const entIds = entities as Record<string, T>;
+        const idsIds = [] as T[];
+        forNext(ids, (id) => {
+          idsIds.push(entIds[id]);
+        });
+        registerEntityRows(this.feature, this.entity, idsIds);
+      });
+      return;
+    }
+    this.forceDirty(ids);
+  }
+
+  /**
+   * this forces the row to be marked as dirty regardless
+   * of any other conditions. Primarily used for websockets
+   *
+   * @param ids the ids to mark as dirty
+   */
+  forceDirty(ids: string[]): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
       this.markDirtyWithEntities<T>(entities, ids);
     });
@@ -249,9 +279,6 @@ export class ActionService<
         return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
       .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
-    if (changes.length === 0) {
-      return;
-    }
     this.store.dispatch(this.actions.updateMany({ changes }));
   }
 

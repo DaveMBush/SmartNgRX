@@ -11,6 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
 
+import { SocketService } from './shared/socket.service';
+
 @Component({
   standalone: true,
   imports: [
@@ -27,6 +29,7 @@ import { filter, map, Observable, of } from 'rxjs';
 })
 export class AppComponent implements OnInit {
   private router = inject(Router);
+  private socketService = inject(SocketService);
   activeLink: Observable<string> = of('');
   static navigationEndRoute(event: NavigationEnd): string {
     return event.urlAfterRedirects.split('/')[1];

@@ -4,9 +4,14 @@ import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import {
+  registerEntity,
+  unregisterEntity,
+} from '../registrations/register-entity.function';
 import { CustomProxy } from '../row-proxy/custom-proxy.class';
 import { createStore } from '../tests/functions/create-store.function';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
@@ -25,6 +30,10 @@ describe('ArrayProxy', () => {
     assert(ap, 'arrayProxy is undefined');
   }
   beforeEach(() => {
+    registerEntity(childDefinition.childFeature, childDefinition.childEntity, {
+      markAndDeleteInit: {},
+    } as EntityAttributes);
+
     getArrayItemSpy = jest
       .spyOn(getArrayItem, 'getArrayItem')
       .mockImplementation(() => ({}));
@@ -38,6 +47,8 @@ describe('ArrayProxy', () => {
     );
   });
   afterEach(() => {
+    unregisterEntity(childDefinition.childFeature, childDefinition.childEntity);
+
     arrayProxy = undefined;
   });
   describe('init()', () => {

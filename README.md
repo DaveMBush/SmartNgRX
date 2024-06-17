@@ -42,7 +42,7 @@ Have a look at our "Ultimate Goals" to see where we are headed and how much we'v
   - [x] For small sets of nested data, provide the IDs of the child elements in an array of the parent.
   - [ ] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
 - [x] Allow this to work with code that has to account for write lag on the server (you can control this by using the Effects Service you have complete control over).
-- [ ] Allow the server to notify this code via websockets (or any future server side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered someplace.
+- [x] Allow the server to notify this code via websockets (or any future server-side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered someplace.
 - [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
 - [ ] Use Signals, as an alternative, under the hood instead of Observables to allow for better performance and less memory usage.
 

@@ -6,6 +6,7 @@ module.exports = {
     '<rootDir>/src/**/*.ts',
     '!<rootDir>/src/{main.ts,test-setup.ts}',
     '!<rootDir>/src/**/mocks/**/*.ts',
+    '!<rootDir>/src/**/tests/**/*.ts',
   ],
   coverageThreshold: {
     global: {

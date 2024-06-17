@@ -22,12 +22,21 @@ import { DepartmentChildEffectsService } from './shared/department-children/depa
 import { departmentChildEffectsServiceToken } from './shared/department-children/department-child-effects.service-token';
 import { LocationEffectsService } from './shared/locations/location-effects.service';
 import { locationEffectsServiceToken } from './shared/locations/location-effects.service-token';
+import { SocketService } from './shared/socket.service';
 import { TopEffectsService } from './shared/top/top-effects.service';
 import { topEffectsServiceToken } from './shared/top/top-effects.service-token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideExperimentalZonelessChangeDetection(),
+    {
+      provide: SocketService,
+      useFactory: (): SocketService => {
+        const s = new SocketService();
+        s.init();
+        return s;
+      },
+    },
     {
       provide: topEffectsServiceToken,
       useClass: TopEffectsService,

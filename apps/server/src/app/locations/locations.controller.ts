@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { from, map, Observable } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
+import { SocketGateway } from '../socket/socket.gateway';
 import { LocationDTO } from './location-dto.interface';
 
 function departmentToId(department: { id: string }): string {
@@ -11,7 +12,10 @@ function departmentToId(department: { id: string }): string {
 
 @Controller('locations')
 export class LocationsController {
-  constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
+  constructor(
+    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    private gateway: SocketGateway,
+  ) {}
 
   @Post()
   getByIds(@Body() ids: string[]): Observable<LocationDTO[]> {
@@ -47,5 +51,10 @@ export class LocationsController {
   @Delete('/:id')
   async delete(@Param('id') id: string): Promise<void> {
     await this.prisma.locations.delete({ where: { id } });
+    this.gateway.sendNotification({
+      ids: [id],
+      action: 'delete',
+      table: 'locations',
+    });
   }
 }
