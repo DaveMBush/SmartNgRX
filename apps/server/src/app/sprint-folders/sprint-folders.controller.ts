@@ -4,12 +4,13 @@ import {
   Controller,
   Delete,
   Inject,
+  Logger,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { from, Observable, switchMap, tap } from 'rxjs';
+import { catchError, from, Observable, of, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
@@ -51,6 +52,10 @@ export class SprintFoldersController {
           table: 'sprintFolders',
         }),
       ),
+      catchError((error: unknown) => {
+        Logger.error(error);
+        return of([]);
+      }),
     );
   }
 

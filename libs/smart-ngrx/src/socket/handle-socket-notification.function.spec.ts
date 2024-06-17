@@ -33,8 +33,6 @@ describe('handleSocketNotification', () => {
     expect(updateEntity).toHaveBeenCalledWith(feature, table, ids);
   });
   it('should not call any function when action is not delete or update', () => {
-    handleSocketNotification(table, 'create', ids);
-    expect(deleteEntity).not.toHaveBeenCalled();
-    expect(updateEntity).not.toHaveBeenCalled();
+    expect(() => handleSocketNotification(table, 'create', ids)).toThrow();
   });
 });

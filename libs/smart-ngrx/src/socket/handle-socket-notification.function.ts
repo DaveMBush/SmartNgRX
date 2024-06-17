@@ -35,7 +35,7 @@ export function handleSocketNotification(
         updateEntity(feature, table, ids);
         break;
       default:
-        break;
+        throw new Error(`Error: invalid action ${action}`);
     }
   });
 }
