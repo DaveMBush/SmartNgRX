@@ -1,0 +1,1 @@
+import"./chunk-JPKLQMV2.js";var t=[{path:"",redirectTo:"tbd",pathMatch:"full"},{path:"",title:"Demo Walkthrough",children:[{path:"tbd",loadChildren:()=>import("./chunk-EAKEYYOZ.js")}]}],e=t;export{e as default};
