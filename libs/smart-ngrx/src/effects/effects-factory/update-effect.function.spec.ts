@@ -26,17 +26,17 @@ interface Row extends SmartNgRXRowBase {
   isDirty: boolean;
 }
 class TestService extends EffectService<Row> {
-  override loadByIds: (ids: string[]) => Observable<Row[]> = (_: string[]) => {
+  override loadByIds(_: string[]): Observable<Row[]> {
     return new Observable<Row[]>();
-  };
+  }
 
-  override update: (newRow: Row) => Observable<Row[]> = (newRow: Row) => {
+  override update(newRow: Row): Observable<Row[]> {
     return of([newRow] as Row[]);
-  };
+  }
 
-  override add: (row: Row) => Observable<Row[]> = (_: Row) => {
+  override add(_: Row): Observable<Row[]> {
     return of([] as Row[]);
-  };
+  }
 
   override delete: (id: string) => Observable<void> = (_: string) => {
     return of();
