@@ -17,25 +17,19 @@ export class LocationEffectsService extends EffectService<Location> {
     super();
   }
 
-  override loadByIds: (ids: string[]) => Observable<Location[]> = (
-    ids: string[],
-  ) => {
+  override loadByIds(ids: string[]): Observable<Location[]> {
     return this.http.post<Location[]>(this.apiLocation, ids);
-  };
+  }
 
-  override update: (newRow: Location) => Observable<Location[]> = (
-    newRow: Location,
-  ) => {
+  override update(newRow: Location): Observable<Location[]> {
     return this.http.put<Location[]>(this.apiLocation, newRow);
-  };
+  }
 
-  override add: (row: Location) => Observable<Location[]> = (row: Location) => {
+  override add(row: Location): Observable<Location[]> {
     return this.http.post<Location[]>(this.apiLocation, row);
-  };
+  }
 
-  override delete: (id: string) => Observable<void> = (
-    id: string,
-  ): Observable<void> => {
+  override delete(id: string): Observable<void> {
     return this.http.delete<undefined>(`${this.apiLocation}/${id}`);
-  };
+  }
 }

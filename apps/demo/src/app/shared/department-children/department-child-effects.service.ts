@@ -30,9 +30,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
   private listPrefix = 'lists:';
   private lists = 'lists';
 
-  override loadByIds: (ids: string[]) => Observable<DepartmentChild[]> = (
-    ids: string[],
-  ) => {
+  override loadByIds(ids: string[]): Observable<DepartmentChild[]> {
     const docIds = filterIds(ids, this.docPrefix);
     const folderIds = filterIds(ids, this.folderPrefix);
     const listIds = filterIds(ids, this.listPrefix);
@@ -69,7 +67,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
         ...sprintFolders,
       ]),
     );
-  };
+  }
 
   bucketId(id: string): {
     docIds: string[];
@@ -85,49 +83,48 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     return { docIds, folderIds, listIds, sprintFolderIds };
   }
 
-  override update: (newRow: DepartmentChild) => Observable<DepartmentChild[]> =
-    (newRow: DepartmentChild) => {
-      const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
-        newRow.id,
-      );
+  override update(newRow: DepartmentChild): Observable<DepartmentChild[]> {
+    const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
+      newRow.id,
+    );
 
-      let updateStream: Observable<DepartmentChild[]> = of(
-        [] as DepartmentChild[],
+    let updateStream: Observable<DepartmentChild[]> = of(
+      [] as DepartmentChild[],
+    );
+    docIds.forEach((id) => {
+      updateStream = updateForType(
+        this.doc,
+        { ...newRow, id },
+        this.docs,
+        'did',
       );
-      docIds.forEach((id) => {
-        updateStream = updateForType(
-          this.doc,
-          { ...newRow, id },
-          this.docs,
-          'did',
-        );
-      });
-      folderIds.forEach((id) => {
-        updateStream = updateForType(
-          this.folder,
-          {
-            ...newRow,
-            id,
-          },
-          this.folders,
-        );
-      });
-      listIds.forEach((id) => {
-        updateStream = updateForType(this.list, { ...newRow, id }, this.lists);
-      });
-      sprintFolderIds.forEach((id) => {
-        updateStream = updateForType(
-          this.sprintFolder,
-          {
-            ...newRow,
-            id,
-          },
-          this.sprintFolders,
-        );
-      });
+    });
+    folderIds.forEach((id) => {
+      updateStream = updateForType(
+        this.folder,
+        {
+          ...newRow,
+          id,
+        },
+        this.folders,
+      );
+    });
+    listIds.forEach((id) => {
+      updateStream = updateForType(this.list, { ...newRow, id }, this.lists);
+    });
+    sprintFolderIds.forEach((id) => {
+      updateStream = updateForType(
+        this.sprintFolder,
+        {
+          ...newRow,
+          id,
+        },
+        this.sprintFolders,
+      );
+    });
 
-      return updateStream;
-    };
+    return updateStream;
+  }
 
   override add: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
     row: DepartmentChild,
@@ -162,7 +159,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     return addStream;
   };
 
-  override delete: (id: string) => Observable<void> = (id: string) => {
+  override delete(id: string): Observable<void> {
     const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(id);
 
     let deleteStream: Observable<void> = of(undefined);
@@ -180,5 +177,5 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return deleteStream;
-  };
+  }
 }

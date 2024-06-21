@@ -15,17 +15,13 @@ export class DepartmentEffectsService extends EffectService<Department> {
     super();
   }
 
-  override loadByIds: (ids: string[]) => Observable<Department[]> = (
-    ids: string[],
-  ) => {
+  override loadByIds(ids: string[]): Observable<Department[]> {
     return this.http
       .post<Department[]>(this.apiDepartments, ids)
       .pipe(map(childrenTransform));
-  };
+  }
 
-  override update: (newRow: Department) => Observable<Department[]> = (
-    newRow: Department,
-  ) => {
+  override update(newRow: Department): Observable<Department[]> {
     return this.http
       .put<Department[]>(this.apiDepartments, {
         id: newRow.id,
@@ -35,20 +31,16 @@ export class DepartmentEffectsService extends EffectService<Department> {
         map((departments) => addIsDirty(departments) as Department[]),
         map(childrenTransform),
       );
-  };
+  }
 
-  override add: (row: Department) => Observable<Department[]> = (
-    row: Department,
-  ) => {
+  override add(row: Department): Observable<Department[]> {
     return this.http.post<Department[]>(this.apiDepartments + '/add', row).pipe(
       map((departments) => addIsDirty(departments) as Department[]),
       map(childrenTransform),
     );
-  };
+  }
 
-  override delete: (id: string) => Observable<void> = (
-    id: string,
-  ): Observable<void> => {
+  override delete(id: string): Observable<void> {
     return this.http.delete<undefined>(`${this.apiDepartments}/${id}`);
-  };
+  }
 }

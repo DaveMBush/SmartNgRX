@@ -14,21 +14,19 @@ export class TopEffectsService extends EffectService<Top> {
     super();
   }
 
-  override loadByIds: (ids: string[]) => Observable<Top[]> = (
-    ids: string[],
-  ) => {
+  override loadByIds(ids: string[]): Observable<Top[]> {
     return this.http.post<Top[]>(this.apiTop, ids);
-  };
+  }
 
-  override update: (newRow: Top) => Observable<Top[]> = (_: Top) => {
+  override update(_: Top): Observable<Top[]> {
     return of([]);
-  };
+  }
 
-  override add: (row: Top) => Observable<Top[]> = (_: Top) => {
+  override add(_: Top): Observable<Top[]> {
     return of([]);
-  };
+  }
 
-  override delete: (id: string) => Observable<void> = (_: string) => {
+  override delete(_: string): Observable<void> {
     return of();
-  };
+  }
 }
