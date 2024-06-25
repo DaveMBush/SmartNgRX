@@ -6,7 +6,7 @@ We are using NestJS to create our server code in combination with Prisma to inte
 
 You can find the server code in [apps/server/src/app](https://github.com/DaveMBush/SmartNgRX/tree/main/apps/server/src/app) directory.
 
-We won't go into the details of how to setup a NestJS server or how to use Prisma in this walkthrough. Instead, we'll focus on how we retrieve data from the database.
+We won't go into the details of how to set up a NestJS server or how to use Prisma in this walkthrough. Instead, we'll focus on how we retrieve data from the database.
 
 ## Retrieving Top Level Data
 

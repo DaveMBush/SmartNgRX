@@ -4,7 +4,7 @@ From an NgRX perspective, once you've configured your global provider and your f
 
 We won't go into much detail here because this is standard NgRX code. But you can see the current location actions, effects, and reducers in any of the [current-location](https://github.com/DaveMBush/SmartNgRX/tree/main/apps/demo/src/app/routes/tree-standard/store/current-location) folders.
 
-One thing we will point out that might look strange to some of you is that we use an effect to listen for new data being set for the locations so we can determine a default action when new data comes in as a way to get around a problem we've had with the Angular Material mat-selector. It exist simply to delay setting the current location.
+One thing we will point out that might look strange to some of you is that we use an effect to listen for new data being set for the locations so we can determine a default action when new data comes in as a way to get around a problem we've had with the Angular Material mat-selector. It exists simply to delay setting the current location.
 
 Since all of our selectors look the same except for the feature store they are getting the data from, we'll focus our time on the selectors for the [Tree (Standard)](https://github.com/DaveMBush/SmartNgRX/tree/main/apps/demo/src/app/routes/tree-standard) page.
 

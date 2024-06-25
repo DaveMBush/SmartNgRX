@@ -16,7 +16,7 @@ The [locations-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/m
 
 ## Departments Effect Service
 
-The [departments-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo/src/app/shared/department/department-effects.service.ts) is a bit more complex because we have to synthesis the id of the children ids that come back from the server to create an id that is meaningful to the client. The main addition is that we call [childrenTransform](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo/src/app/shared/department/children-transform.function.ts) to do that.
+The [departments-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo/src/app/shared/department/department-effects.service.ts) is a bit more complex because we have to synthesize the id of the children ids that come back from the server to create an id that is meaningful to the client. The main addition is that we call [childrenTransform](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo/src/app/shared/department/children-transform.function.ts) to do that.
 
 ## DepartmentChildren Effect Service
 
