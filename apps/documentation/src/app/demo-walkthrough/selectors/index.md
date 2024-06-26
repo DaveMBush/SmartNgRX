@@ -30,7 +30,7 @@ The [location.selectors.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/app
 
 Once again, we see our `createSmartSelector()` being used to retrieve the locations and the children of the locations. In this case, the departments. It takes our `selectLocationEntities()` as the first parameter and the array of `ChildDefinion`s as the second parameter.
 
-The other select we need here is the one that provides the currently selected location. This is a standard NgRX selector that takes the `selectLocationDepartments()` and `selectCurrentLocationId()` we've already covered as parameter and then uses those to return the selected location, if it exists. Otherwise it returns a default location that has no departments.
+The other select we need here is the one that provides the currently selected location. This standard NgRX selector uses the `selectLocationDepartments()` and `selectCurrentLocationId()` we've already covered as parameter and then uses those to return the selected location, if it exists. Otherwise it returns a default location that has no departments.
 
 ## Department Selectors
 
