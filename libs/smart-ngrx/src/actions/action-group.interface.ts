@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
 /* jscpd:ignore-start */
-import { ActionCreator } from '@ngrx/store';
-import { TypedAction } from '@ngrx/store/src/models';
+import { Action, ActionCreator } from '@ngrx/store';
 
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdsProp } from '../types/ids-prop.interface';
@@ -16,30 +15,30 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
     `[${any}] Update Many`,
     (
       props: UpdateChanges<T>,
-    ) => TypedAction<`[${any}] Update Many`> & UpdateChanges<T>
+    ) => Action<`[${any}] Update Many`> & UpdateChanges<T>
   >;
   remove: ActionCreator<
     `[${any}] Remove`,
-    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Remove`>
+    (props: IdsProp) => Action<`[${any}] Remove`> & IdsProp
   >;
   loadByIds: ActionCreator<
     `[${any}] Load By Ids`,
-    (props: IdsProp) => IdsProp & TypedAction<`[${any}] Load By Ids`>
+    (props: IdsProp) => Action<`[${any}] Load By Ids`> & IdsProp
   >;
   storeRows: ActionCreator<
     `[${any}] Store Rows`,
-    (props: RowsProp<T>) => RowsProp<T> & TypedAction<`[${any}] Store Rows`>
+    (props: RowsProp<T>) => Action<`[${any}] Store Rows`> & RowsProp<T>
   >;
   update: ActionCreator<
     `[${any}] Update`,
     (props: {
       old: RowProp<T>;
       new: RowProp<T>;
-    }) => TypedAction<`[${any}] Update`> & { old: RowProp<T>; new: RowProp<T> }
+    }) => Action<`[${any}] Update`> & { old: RowProp<T>; new: RowProp<T> }
   >;
   addToStore: ActionCreator<
     `[${any}] Add To Store`,
-    (props: RowProp<T>) => RowProp<T> & TypedAction<`[${any}] Add To Store`>
+    (props: RowProp<T>) => Action<`[${any}] Add To Store`> & RowProp<T>
   >;
   add: ActionCreator<
     `[${any}] Add`,
@@ -48,7 +47,7 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
       parentId: string;
       parentFeature: StringLiteralSource<string>;
       parentEntityName: StringLiteralSource<string>;
-    }) => TypedAction<`[${any}] Add`> & {
+    }) => Action<`[${any}] Add`> & {
       row: T;
       parentId: string;
       parentFeature: StringLiteralSource<string>;
@@ -63,7 +62,7 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
       parentId: string;
       parentFeature: StringLiteralSource<string>;
       parentEntityName: StringLiteralSource<string>;
-    }) => TypedAction<`[${any}] Add Success`> & {
+    }) => Action<`[${any}] Add Success`> & {
       oldRow: T;
       newRow: T;
       parentId: string;
@@ -76,7 +75,7 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
     (props: {
       id: string;
       parentInfo: { feature: string; entity: string; ids: string[] }[];
-    }) => TypedAction<`[${any}] Delete`> & {
+    }) => Action<`[${any}] Delete`> & {
       id: string;
       parentInfo: { feature: string; entity: string; ids: string[] }[];
     }
