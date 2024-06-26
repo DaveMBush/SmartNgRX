@@ -66,19 +66,19 @@ importers:
         specifier: 17.6.14
         version: 17.6.14(wi3lfkpzpo6uaiooyh6m5kj6re)
       '@ngrx/component-store':
-        specifier: ~18.0.0
+        specifier: 18.0.0
         version: 18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@ngrx/effects':
-        specifier: ^18.0.0
+        specifier: 18.0.0
         version: 18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(@ngrx/store@18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)
       '@ngrx/entity':
-        specifier: ^18.0.0
+        specifier: 18.0.0
         version: 18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(@ngrx/store@18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)
       '@ngrx/store':
-        specifier: ^18.0.0
+        specifier: 18.0.0
         version: 18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@ngrx/store-devtools':
-        specifier: ^18.0.0
+        specifier: 18.0.0
         version: 18.0.0(@ngrx/store@18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)
       '@nx/angular':
         specifier: 19.3.1
@@ -175,8 +175,8 @@ importers:
         specifier: ^10.3.9
         version: 10.3.9(@nestjs/common@10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.3.9)(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.3.9(@nestjs/common@10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9))
       '@ngrx/schematics':
-        specifier: ~17.2.0
-        version: 17.2.0
+        specifier: 18.0.0
+        version: 18.0.0
       '@nx/cypress':
         specifier: 19.3.1
         version: 19.3.1(@babel/traverse@7.24.7)(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28)(@types/node@20.11.30)(@zkochan/js-yaml@0.0.7)(cypress@13.9.0)(eslint@8.56.0)(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))(typescript@5.4.5)
@@ -2721,8 +2721,8 @@ packages:
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@ngrx/schematics@17.2.0':
-    resolution: {integrity: sha512-7YQyPWaadxY2+Fe0oFIkClMpEKsC2HaxdjJY8SRTLnFOHj070r3Kp6mxGee46MVdfDNK47bUYnMPQi9A25EcVQ==}
+  '@ngrx/schematics@18.0.0':
+    resolution: {integrity: sha512-lYe/bePn6EH76wh0wPj4d3a8PCFKQaScuoQOjAy/nb1tF8lfSA+mLKhX6e8vmrdxdFaygwapx5JIfECdEmmPag==}
 
   '@ngrx/store-devtools@18.0.0':
     resolution: {integrity: sha512-0XbUnDjpaYq8trJs/RqfEfvFQRgQ0Hm648ImZHTfF1CwHwDe5qZAkLuOt0D/e4YO8itMc4MymZJzEkfJz4HVWw==}
@@ -13685,7 +13685,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.2
 
-  '@ngrx/schematics@17.2.0': {}
+  '@ngrx/schematics@18.0.0': {}
 
   '@ngrx/store-devtools@18.0.0(@ngrx/store@18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)':
     dependencies:
