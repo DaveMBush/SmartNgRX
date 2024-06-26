@@ -1,6 +1,6 @@
 # WebSockets
 
-To use SmartNgRX with WebSockets, you'll need to establish your own WebSocket connection. The only information the that you'll need to pass up to the client are which type of action needs to be performed, the table name that is impacted, and the ids of the records that are impacted.
+To use SmartNgRX with WebSockets, you'll need to establish your own WebSocket connection. The only information you'll need to pass up to the client are which type of action needs to be performed, the table name that is impacted, and the ids of the records that are impacted.
 
 ## Updates
 
@@ -72,7 +72,7 @@ And SmartNgRX will take care of the rest.
 
 ## Translations
 
-In the demo code, we have rows that we modify that aren't directly parented by tables represented in the UI. That is, on the server we have `Docs`, `Folders`, etc but they are represented in the UI as `departmentChildren`. Since good programming practice says that the server should not know how the client uses the data, what the server sends up is going to have a value for `table` that is the same as the table name on the server, and the client will have a map that maps the server table name to the client table name. In the demo code, we've mapped the table like this:
+In the demo code, we have rows that we modify that aren't directly parented by tables represented in the UI. That is, on the server, we have `Docs`, `Folders`, etc., but they are represented in the UI as `departmentChildren`. Since good programming practice says that the server should not know how the client uses the data, what the server sends up is going to have a value for `table` that is the same as the table name on the server, and the client will have a map that maps the server table name to the client table name. In the demo code, we've mapped the table like this:
 
 ```typescript
 switch (data.table) {

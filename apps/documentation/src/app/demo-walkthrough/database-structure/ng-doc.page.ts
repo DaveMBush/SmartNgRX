@@ -1,11 +1,11 @@
 import { NgDocPage } from '@ng-doc/core';
 import DemoWalkthroughNgRXCategory from '../ng-doc.category';
 
-const IntroPage: NgDocPage = {
-  title: `TBD`,
+const DatabaseStructurePage: NgDocPage = {
+  title: `Database Structure`,
   mdFile: './index.md',
-  order: 1,
+  order: 2,
   category: DemoWalkthroughNgRXCategory,
 };
 
-export default IntroPage;
+export default DatabaseStructurePage;
