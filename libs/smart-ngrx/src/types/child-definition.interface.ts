@@ -1,4 +1,5 @@
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
+import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 import { SmartNgRXRowBaseSelector } from './smart-ngrx-row-base-selector.type';
 
 /**
@@ -10,6 +11,7 @@ export interface ChildDefinition<
   CE extends string = string,
   PF extends string = string,
   PE extends string = string,
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
   /**
    * The name of the feature that contains the child data.
@@ -22,7 +24,7 @@ export interface ChildDefinition<
   /**
    *  The selector to retrieve the child data from the store.
    */
-  childSelector: SmartNgRXRowBaseSelector;
+  childSelector: SmartNgRXRowBaseSelector<T>;
 
   /**
    * The name of the field in the parent that contains the child IDs

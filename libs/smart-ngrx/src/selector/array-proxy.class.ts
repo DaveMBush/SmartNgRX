@@ -38,7 +38,14 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
   constructor(
     private childArray: ArrayProxy<P, C> | string[],
     private child: EntityState<C>,
-    private childDefinition: ChildDefinition<P>,
+    private childDefinition: ChildDefinition<
+      P,
+      string,
+      string,
+      string,
+      string,
+      C
+    >,
   ) {
     const { childFeature, childEntity } = this.childDefinition;
     this.childActionService = castTo<ActionService<C>>(

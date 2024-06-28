@@ -22,7 +22,7 @@ export function getArrayItem<
 >(
   entityState: EntityState<T>,
   id: string,
-  childDefinition: ChildDefinition<P>,
+  childDefinition: ChildDefinition<P, string, string, string, string, T>,
 ): T {
   const { childFeature, childEntity } = childDefinition;
 
@@ -31,7 +31,7 @@ export function getArrayItem<
   return realOrMocked(
     entityState,
     id,
-    registry.defaultRow(id),
+    registry.defaultRow(id) as T,
     childDefinition,
-  ) as T;
+  );
 }
