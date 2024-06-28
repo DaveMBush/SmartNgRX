@@ -14,6 +14,7 @@ export function loadByIdsForType(
   return service.loadByIds(ids).pipe(
     map((items) =>
       items.map((item) => {
+        // convert the item to a record so we can access the idField
         const itemRecord = castTo<Record<string, string>>(item);
         return {
           id: `${type}:${itemRecord[idField]}`,
