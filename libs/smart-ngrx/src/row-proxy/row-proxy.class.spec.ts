@@ -1,7 +1,7 @@
 import { ActionService } from '../actions/action.service';
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { CustomProxy } from './custom-proxy.class';
+import { RowProxy } from './row-proxy.class';
 
 interface CRow extends SmartNgRXRowBase {
   id: string;
@@ -14,8 +14,8 @@ interface TRow extends SmartNgRXRowBase {
   children: ArrayProxy<object, CRow>;
 }
 
-describe('CustomProxy', () => {
-  let customProxy: CustomProxy<TRow, CRow> | undefined;
+describe('RowProxy', () => {
+  let customProxy: RowProxy<TRow, CRow> | undefined;
   beforeEach(() => {
     const row = {
       id: '1',
@@ -23,7 +23,7 @@ describe('CustomProxy', () => {
       children: ['child1a', 'child2a'] as unknown as ArrayProxy<object, CRow>,
     };
     row.children.rawArray = ['child1', 'child2'];
-    customProxy = new CustomProxy<TRow, CRow>(
+    customProxy = new RowProxy<TRow, CRow>(
       row as unknown as TRow,
       {} as ActionService<TRow>,
       {} as ActionService<CRow>,

@@ -1,10 +1,10 @@
 import { ActionService } from '../actions/action.service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { CustomProxy } from './custom-proxy.class';
-import { customProxySet } from './custom-proxy-set.function';
+import { RowProxy } from './row-proxy.class';
+import { rowProxySet } from './row-proxy-set.function';
 
 describe('customProxySet', () => {
-  let target: CustomProxy | undefined;
+  let target: RowProxy | undefined;
   let services: {
     service: ActionService<SmartNgRXRowBase>;
     parentService: ActionService<SmartNgRXRowBase>;
@@ -19,7 +19,7 @@ describe('customProxySet', () => {
         b: 'c',
       },
       getRealRow: () => ({}) as SmartNgRXRowBase,
-    } as unknown as CustomProxy;
+    } as unknown as RowProxy;
     services = {
       service: {
         add: () => {
@@ -45,7 +45,7 @@ describe('customProxySet', () => {
   describe('when prop is not in target.record', () => {
     it('should return false', () => {
       expect(
-        customProxySet(target!, 'c', 'd', {
+        rowProxySet(target!, 'c', 'd', {
           service: {} as ActionService<SmartNgRXRowBase>,
           parentService: {} as ActionService<SmartNgRXRowBase>,
         }),
@@ -59,13 +59,13 @@ describe('customProxySet', () => {
           ({ parentId: 1 }) as unknown as SmartNgRXRowBase;
       });
       it('should add the new row', () => {
-        customProxySet(target!, 'a', 'd', services);
+        rowProxySet(target!, 'a', 'd', services);
         expect(serviceAddSpy).toHaveBeenCalled();
       });
     });
     describe('when target does not have a parentId', () => {
       it('should update the row', () => {
-        customProxySet(target!, 'a', 'd', services);
+        rowProxySet(target!, 'a', 'd', services);
         expect(serviceAddSpy).not.toHaveBeenCalled();
         expect(serviceUpdateSpy).toHaveBeenCalled();
       });

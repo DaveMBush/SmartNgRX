@@ -2,22 +2,22 @@ import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { customProxyGet } from './custom-proxy-get.function';
-import { customProxySet } from './custom-proxy-set.function';
+import { rowProxyGet } from './row-proxy-get.function';
+import { rowProxySet } from './row-proxy-set.function';
 
 /**
- * CustomProxy wraps the row so we can intercept changes to it
+ * RowProxy wraps the row so we can intercept changes to it
  * and fire off the appropriate actions to update the store and
  * the server.
  *
  * Since proxying the row directly will cause the setter to throw
  * an error when the NgRX rules are turned on that disallow mutating
  * the row directly, we need to wrap the row in our own class that
- * uses the Proxy class to handle the updates. By casting the CustomProxy
+ * uses the Proxy class to handle the updates. By casting the RowProxy
  * to type T (above) the rest of our code still believes it is working
  * with the original row.
  */
-export class CustomProxy<
+export class RowProxy<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
   P extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
@@ -25,7 +25,7 @@ export class CustomProxy<
   record: Record<string | symbol, unknown> = {};
 
   /**
-   * This is the constructor for the CustomProxy class.
+   * This is the constructor for the RowProxy class.
    *
    * @param row The row to create the custom proxy for
    * @param service The service that will handle updating the row
@@ -39,9 +39,9 @@ export class CustomProxy<
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
-      get: (target, prop) => customProxyGet(target, prop, service),
+      get: (target, prop) => rowProxyGet(target, prop, service),
       set: (target, prop, value) =>
-        customProxySet(target, prop, value, { service, parentService }),
+        rowProxySet(target, prop, value, { service, parentService }),
     });
   }
 

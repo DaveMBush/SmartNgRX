@@ -5,7 +5,7 @@ import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
-import { CustomProxy } from '../row-proxy/custom-proxy.class';
+import { RowProxy } from '../row-proxy/row-proxy.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
@@ -200,9 +200,9 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    */
   private createNewParentFromParent(parent: P, isEditing: boolean): P {
     let newParent: P = { ...parent, isEditing };
-    // we aren't using the 2nd generic parameter of CustomProxy, so we just
+    // we aren't using the 2nd generic parameter of RowProxy, so we just
     // use the base type of SmartNgRXRowBase here.
-    const customProxy = castTo<CustomProxy<P>>(parent);
+    const customProxy = castTo<RowProxy<P>>(parent);
     if (customProxy.getRealRow !== undefined) {
       newParent = {
         ...customProxy.getRealRow(),

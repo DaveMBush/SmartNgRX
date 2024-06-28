@@ -1,7 +1,7 @@
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { CustomProxy } from './custom-proxy.class';
+import { RowProxy } from './row-proxy.class';
 
 /**
  * Wraps a row in a proxy that will take care of editing the row
@@ -21,5 +21,5 @@ export function rowProxy<
   T extends SmartNgRXRowBase,
   P extends SmartNgRXRowBase,
 >(row: T, service: ActionService<T>, parentService: ActionService<P>): T {
-  return castTo<T>(new CustomProxy(row, service, parentService));
+  return castTo<T>(new RowProxy(row, service, parentService));
 }

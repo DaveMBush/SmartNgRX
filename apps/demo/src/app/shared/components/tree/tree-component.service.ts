@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { assert } from '@smart/smart-ngrx/common/assert.function';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
-import { CustomProxy } from '@smart/smart-ngrx/row-proxy/custom-proxy.class';
+import { RowProxy } from '@smart/smart-ngrx/row-proxy/row-proxy.class';
 import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 
 import { Department } from '../../department/department.interface';
@@ -97,7 +97,7 @@ export class TreeComponentService {
   }
 
   deleteNode(node: TreeNode): void {
-    castTo<CustomProxy>(node.node).delete();
+    castTo<RowProxy>(node.node).delete();
   }
 
   cancelEdit(node: TreeNode): void {

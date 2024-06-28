@@ -1,7 +1,7 @@
 import { ActionService } from '../actions/action.service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { CustomProxy } from './custom-proxy.class';
-import { customProxyGet } from './custom-proxy-get.function';
+import { RowProxy } from './row-proxy.class';
+import { rowProxyGet } from './row-proxy-get.function';
 
 describe('customProxyGet()', () => {
   const target = {
@@ -22,7 +22,7 @@ describe('customProxyGet()', () => {
       b: 'c',
     },
     row: {},
-  } as unknown as CustomProxy<object>;
+  } as unknown as RowProxy<object>;
   const service = {
     loadByIdsSuccess: () => {
       /*noop*/
@@ -46,7 +46,7 @@ describe('customProxyGet()', () => {
       // Arrange
       const prop = 'toJSON';
       // Act
-      const result = customProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(target, prop, service) as () => void;
       result();
       // Assert
       expect(getJsonSpy).toHaveBeenCalled();
@@ -58,7 +58,7 @@ describe('customProxyGet()', () => {
       // Arrange
       const prop = 'isEditing';
       // Act
-      customProxyGet(target, prop, service);
+      rowProxyGet(target, prop, service);
       // Assert
       expect(loadByIdsSuccessSpy).toHaveBeenCalled();
     });
@@ -66,7 +66,7 @@ describe('customProxyGet()', () => {
   describe('when prop is "getRealRow"', () => {
     it('should return a function that calls target.getRealRow()', () => {
       const prop = 'getRealRow';
-      const result = customProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(target, prop, service) as () => void;
       result();
       expect(getRealRowSpy).toHaveBeenCalled();
       expect(getJsonSpy).not.toHaveBeenCalled();
@@ -75,7 +75,7 @@ describe('customProxyGet()', () => {
   describe('when prop is "delete"', () => {
     it('should return a function that calls target.delete()', () => {
       const prop = 'delete';
-      const result = customProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(target, prop, service) as () => void;
       result();
       expect(deleteSpy).toHaveBeenCalled();
       expect(getJsonSpy).not.toHaveBeenCalled();
@@ -85,7 +85,7 @@ describe('customProxyGet()', () => {
     it('should return the value from changes', () => {
       const prop = 'a';
       // Act
-      const result = customProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(target, prop, service) as () => void;
       expect(result).toBe('a');
     });
   });
@@ -93,7 +93,7 @@ describe('customProxyGet()', () => {
     it('should return the value from record', () => {
       const prop = 'b';
       // Act
-      const result = customProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(target, prop, service) as () => void;
       expect(result).toBe('c');
     });
   });

@@ -1,20 +1,20 @@
 import { ActionService } from '../actions/action.service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { CustomProxy } from './custom-proxy.class';
+import { RowProxy } from './row-proxy.class';
 
 /**
- * This provides the get method of the Proxy in CustomProxy
+ * This provides the get method of the Proxy in RowProxy
  *
- * @param target the CustomProxy the Proxy targets
+ * @param target the RowProxy the Proxy targets
  * @param prop the property the proxy needs to retrieve
  * @param service the service that handles the actions for the row
  * @returns the value of the property
  */
-export function customProxyGet<
+export function rowProxyGet<
   T extends SmartNgRXRowBase,
   P extends SmartNgRXRowBase,
 >(
-  target: CustomProxy<T, P>,
+  target: RowProxy<T, P>,
   prop: string | symbol,
   service: ActionService<T>,
 ): unknown {

@@ -37,7 +37,14 @@ describe('realOrMocked', () => {
     childEntity: 'entity',
     parentFeature: 'parentFeature',
     parentEntity: 'parentEntity',
-  } as unknown as ChildDefinition<SmartNgRXRowBase>;
+  } as unknown as ChildDefinition<
+    SmartNgRXRowBase,
+    string,
+    string,
+    string,
+    string,
+    { id: string; name: string; isDirty: boolean }
+  >;
   entityDefinitionCache('feature', 'entity', {
     entityName: 'entity',
     entityAdapter: createEntityAdapter(),

@@ -8,7 +8,7 @@ import {
   registerEntity,
   unregisterEntity,
 } from '../registrations/register-entity.function';
-import { CustomProxy } from '../row-proxy/custom-proxy.class';
+import { RowProxy } from '../row-proxy/row-proxy.class';
 import { createStore } from '../tests/functions/create-store.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { EntityAttributes } from '../types/entity-attributes.interface';
@@ -179,7 +179,7 @@ describe('ArrayProxy', () => {
     });
   });
   describe('createNewParentFromParent()', () => {
-    describe('when parent is not a CustomProxy', () => {
+    describe('when parent is not a RowProxy', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
         arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
@@ -208,7 +208,7 @@ describe('ArrayProxy', () => {
         });
       });
     });
-    describe('when parent is a CustomProxy', () => {
+    describe('when parent is a RowProxy', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
         arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
@@ -226,7 +226,7 @@ describe('ArrayProxy', () => {
           isEditing: false,
           isDirty: false,
         };
-        const parentProxy = new CustomProxy(
+        const parentProxy = new RowProxy(
           parent,
           {} as unknown as ActionService<typeof parent>,
           {} as unknown as ActionService<SmartNgRXRowBase>,
