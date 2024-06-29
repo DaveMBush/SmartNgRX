@@ -9,7 +9,6 @@ import {
   Subscriber,
 } from 'rxjs';
 
-import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 
 function flatten<T>(array: T[][]): T[] {
@@ -23,14 +22,14 @@ function flatten<T>(array: T[][]): T[] {
 }
 
 function mainBuffer(
-  source: Observable<Action>,
+  source: Observable<Action & { ids: string[] }>,
   bufferTime: number,
   ngZone: NgZone,
   observer: Subscriber<string[]>,
 ) {
   source
     .pipe(
-      map((a) => castTo<{ ids: string[] }>(a).ids),
+      map((a) => a.ids),
       buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
       map((ids: string[][]) => {
         return flatten(ids);
@@ -82,8 +81,10 @@ export function bufferAction(
   ngZone: NgZone,
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
-): (source: Observable<Action>) => Observable<string[]> {
-  return (source: Observable<Action>): Observable<string[]> => {
+): (source: Observable<Action & { ids: string[] }>) => Observable<string[]> {
+  return (
+    source: Observable<Action & { ids: string[] }>,
+  ): Observable<string[]> => {
     return new Observable<string[]>((observer) => {
       ngZone.runOutsideAngular(() =>
         mainBuffer(source, bufferTime, ngZone, observer),
