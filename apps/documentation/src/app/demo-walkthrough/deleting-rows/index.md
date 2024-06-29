@@ -4,4 +4,4 @@ Last, of course, is the ability to delete rows. Delete is implemented for Depart
 
 That's all you have to do to delete a node. All the real work is handled by SmartNgRX.
 
-`RowProxy` is a class that is part of SmartNgRX. If you use SmartNgRX, the row you are working with is a `RowProxy` object. You may need to cast your row to a `RowProxy`, as we have, to access the `delete` method.
+`RowProxy` is a class that is part of SmartNgRX. If you use SmartNgRX, the row you are working with is a `RowProxy` object. You can directly access the `delete()` method on the `RowProxy` object without casting.
