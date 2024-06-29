@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { assert } from '@smart/smart-ngrx/common/assert.function';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
-import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
+import { SmartArray } from '@smart/smart-ngrx/selector/smart-array.interface';
 
 import { DepartmentChild } from '../../department-children/department-child.interface';
 import { CommonSourceNode } from './common-source-node.interface';
@@ -46,7 +46,7 @@ export class TreeComponentService {
   }
 
   transform(
-    children: (CommonSourceNode | string)[],
+    children: (CommonSourceNode | string)[] & SmartArray,
     level: number,
     startRange: number,
     endRange: number,
@@ -55,7 +55,7 @@ export class TreeComponentService {
     if (children.length === 0) {
       return [];
     }
-    forNext(castTo<{ rawArray: string[] }>(children).rawArray, (c, i) => {
+    forNext(children.rawArray!, (c, i) => {
       let node: CommonSourceNode | string = c;
       if (startRange <= result.length && result.length <= endRange) {
         node = children[i];
@@ -89,7 +89,7 @@ export class TreeComponentService {
       this.toggleExpand(parent);
     }
 
-    castTo<ArrayProxy>(parent.node.children).addToStore(row, parent.node);
+    parent.node.children.addToStore!(row, parent.node);
   }
 
   deleteNode(node: TreeNode): void {
@@ -112,10 +112,7 @@ export class TreeComponentService {
   }
 
   removeChild(row: TreeNode, parent: TreeNode): void {
-    castTo<ArrayProxy>(parent.node.children).removeFromStore(
-      row.node,
-      parent.node,
-    );
+    parent.node.children.removeFromStore!(row.node, parent.node);
   }
 
   private isExpanded(node: TreeNode): boolean {
