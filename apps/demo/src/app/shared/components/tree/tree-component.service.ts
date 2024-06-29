@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { assert } from '@smart/smart-ngrx/common/assert.function';
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
 import { SmartArray } from '@smart/smart-ngrx/selector/smart-array.interface';
 
@@ -73,7 +72,7 @@ export class TreeComponentService {
       result.push(r as TreeNode);
       if (this.isExpanded(r as TreeNode)) {
         const childNodes = this.transform(
-          castTo<CommonSourceNode>(children[i]).children,
+          (children[i] as CommonSourceNode).children,
           level + 1,
           startRange - result.length,
           endRange - result.length,
@@ -94,11 +93,9 @@ export class TreeComponentService {
 
   deleteNode(node: TreeNode): void {
     // because delete is an optional method,
-    // we need to check if it exists before calling it.
-    // if we don't make it optional, we will be
-    // forced to implement it everywhere we need
-    // a default row.
-    node.node.delete?.();
+    // but it actually exist by definition,
+    // we can safely assert that it exist.
+    node.node.delete!();
   }
 
   cancelEdit(node: TreeNode): void {
