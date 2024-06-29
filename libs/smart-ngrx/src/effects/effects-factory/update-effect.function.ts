@@ -12,7 +12,6 @@ import {
 } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
-import { castTo } from '../../common/cast-to.function';
 import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { RowProp } from '../../types/row-prop.interface';
@@ -62,7 +61,7 @@ export function updateEffect<T extends SmartNgRXRowBase>(
       scan(
         (acc, action) => ({
           ...acc,
-          [castTo<{ id: string }>(action.old.row).id]: action,
+          [action.old.row.id]: action,
         }),
         {} as Record<string, { old: RowProp<T>; new: RowProp<T> }>,
       ),
@@ -86,7 +85,7 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         // rows only has one row it it we just return an array
         // so we can reuse code.
         const now = Date.now();
-        const id = castTo<{ id: string }>(rows[0]).id;
+        const id = rows[0].id;
         // delete the timeout to keep things in order.
         lastRowTimeout.delete(id);
         lastRowTimeout.set(id, now);

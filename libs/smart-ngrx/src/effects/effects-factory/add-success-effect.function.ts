@@ -20,7 +20,7 @@ import { markParentsDirty } from './mark-parents-dirty.function';
  *
  * @returns The effect that will be called when the action is triggered
  */
-export function addSuccessEffect<T extends SmartNgRXRowBase>(
+export function addSuccessEffect<T extends SmartNgRXRowBase = SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
   adapter: EntityAdapter<T>,

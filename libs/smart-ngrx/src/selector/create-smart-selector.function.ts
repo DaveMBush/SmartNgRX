@@ -28,7 +28,7 @@ import { ParentSelector } from './parent-selector.type';
  * @see `ParentSelector`
  */
 export function createSmartSelector<
-  P extends object,
+  P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
 >(
   parentSelector: ParentSelector<P>,

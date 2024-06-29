@@ -36,7 +36,10 @@ describe('ArrayProxy', () => {
 
     getArrayItemSpy = jest
       .spyOn(getArrayItem, 'getArrayItem')
-      .mockImplementation(() => ({}));
+      .mockImplementation(() => ({
+        id: '1',
+        delete: jest.fn(),
+      }));
     createStore();
     entityDefinitionCache(
       childDefinition.childFeature,
@@ -56,7 +59,7 @@ describe('ArrayProxy', () => {
       describe('and it is not frozen', () => {
         beforeEach(() => {
           originalArray = ['1', '2', '3'];
-          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          arrayProxy = new ArrayProxy(
             originalArray,
             { ids: [], entities: {} },
             childDefinition,
@@ -77,7 +80,7 @@ describe('ArrayProxy', () => {
         beforeEach(() => {
           originalArray = ['1', '2', '3'];
           Object.freeze(originalArray);
-          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          arrayProxy = new ArrayProxy(
             originalArray,
             { ids: [], entities: {} },
             childDefinition,
@@ -99,13 +102,13 @@ describe('ArrayProxy', () => {
       describe('and it is not frozen', () => {
         beforeEach(() => {
           originalArray = ['1', '2', '3'];
-          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          arrayProxy = new ArrayProxy(
             originalArray,
             { ids: [], entities: {} },
             childDefinition,
           );
           arrayProxy.init();
-          arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+          arrayProxy = new ArrayProxy(
             arrayProxy,
             { ids: [], entities: {} },
             childDefinition,
@@ -128,7 +131,7 @@ describe('ArrayProxy', () => {
     describe('when the index is between 0 and the length of the array', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+        arrayProxy = new ArrayProxy(
           originalArray,
           { ids: [], entities: {} },
           childDefinition,
@@ -146,7 +149,7 @@ describe('ArrayProxy', () => {
     describe('when the index is negative', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+        arrayProxy = new ArrayProxy(
           originalArray,
           { ids: [], entities: {} },
           childDefinition,
@@ -163,7 +166,7 @@ describe('ArrayProxy', () => {
     describe('when the index is length or greater', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+        arrayProxy = new ArrayProxy(
           originalArray,
           { ids: [], entities: {} },
           childDefinition,
@@ -182,7 +185,7 @@ describe('ArrayProxy', () => {
     describe('when parent is not a RowProxy', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+        arrayProxy = new ArrayProxy(
           originalArray,
           { ids: [], entities: {} },
           childDefinition,
@@ -211,7 +214,7 @@ describe('ArrayProxy', () => {
     describe('when parent is a RowProxy', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy<object, SmartNgRXRowBase>(
+        arrayProxy = new ArrayProxy(
           originalArray,
           { ids: [], entities: {} },
           childDefinition,

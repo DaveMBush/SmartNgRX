@@ -38,7 +38,7 @@ export class ActionService<
    * entityAdapter is needed for delete
    */
   entityAdapter: EntityAdapter<SmartNgRXRowBase>;
-  entities: Observable<Dictionary<T>>;
+  entities: Observable<Dictionary<SmartNgRXRowBase>>;
   private actions: ActionGroup<T>;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
@@ -64,9 +64,7 @@ export class ActionService<
     const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
-    this.entities = castTo<Observable<Dictionary<T>>>(
-      this.store.select(selectFeatureEntities),
-    );
+    this.entities = this.store.select(selectFeatureEntities);
 
     const registry = getEntityRegistry(feature, entity);
     this.markDirtyFetchesNew =
@@ -103,7 +101,7 @@ export class ActionService<
    */
   forceDirty(ids: string[]): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
-      this.markDirtyWithEntities<T>(entities, ids);
+      this.markDirtyWithEntities(entities, ids);
     });
   }
 

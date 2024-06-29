@@ -1,10 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { createEffect, EffectConfig, FunctionalEffect } from '@ngrx/effects';
-import { EntityAdapter } from '@ngrx/entity';
 
 import { actionFactory } from '../actions/action.factory';
-import { assert } from '../common/assert.function';
-import { castTo } from '../common/cast-to.function';
 import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -55,12 +52,9 @@ export function effectsFactory<
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
   const actions = actionFactory<T, F, E>(feature, entityName);
-  const entityDefinition = entityDefinitionCache(feature, entityName);
-  const adapter = castTo<EntityAdapter<T> | undefined>(
-    entityDefinition.entityAdapter,
-  );
-  assert(!!adapter, `Missing adapter for ${feature}:${entityName}.`);
-  return castTo<Record<string, FunctionalEffect>>({
+  const entityDefinition = entityDefinitionCache<T>(feature, entityName);
+  const adapter = entityDefinition.entityAdapter;
+  return {
     delete: createEffect(
       deleteEffect(effectsServiceToken, actions),
       dispatchFalse,
@@ -89,8 +83,8 @@ export function effectsFactory<
     ),
     add: createEffect(addEffect(effectsServiceToken, actions), dispatchTrue),
     addSuccess: createEffect(
-      addSuccessEffect(effectsServiceToken, actions, adapter),
+      addSuccessEffect<T>(effectsServiceToken, actions, adapter),
       dispatchFalse,
     ),
-  });
+  };
 }

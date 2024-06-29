@@ -1,7 +1,13 @@
+import { SmartNgRXRowBase } from '../../../types/smart-ngrx-row-base.interface';
 import { manageMaps } from './manage-maps.function';
 
+interface Row extends SmartNgRXRowBase {
+  id: string;
+  name: string;
+}
+
 describe('manage-maps.function.ts', () => {
-  const lastRow = new Map<string, object>();
+  const lastRow = new Map<string, Row>();
   const lastRowTimeout = new Map<string, number>();
   let now = Date.now();
   describe('when I add a new row to the maps', () => {

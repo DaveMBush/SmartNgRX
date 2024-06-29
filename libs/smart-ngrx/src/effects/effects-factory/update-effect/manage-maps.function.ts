@@ -1,5 +1,5 @@
-import { castTo } from '../../../common/cast-to.function';
 import { RowProp } from '../../../types/row-prop.interface';
+import { SmartNgRXRowBase } from '../../../types/smart-ngrx-row-base.interface';
 
 /**
  * Helper function that updates the maps used in update-effect.function.ts
@@ -12,7 +12,7 @@ import { RowProp } from '../../../types/row-prop.interface';
  * @param action.old the row the new row is replacing
  * @param action.new the new row we are sending to the server
  */
-export function manageMaps<T>(
+export function manageMaps<T extends SmartNgRXRowBase>(
   lastRow: Map<string, T>,
   lastRowTimeout: Map<string, number>,
   action: {
@@ -34,7 +34,7 @@ export function manageMaps<T>(
     lastRow.delete(key);
   }
   // for now we assume everything has a primary key of id.
-  const id = castTo<{ id: string }>(action.old.row).id;
+  const id = action.old.row.id;
   if (!lastRowTimeout.has(id)) {
     lastRowTimeout.set(id, now);
     lastRow.set(id, action.old.row);

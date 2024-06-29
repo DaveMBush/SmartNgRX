@@ -22,7 +22,7 @@ describe('customProxyGet()', () => {
       b: 'c',
     },
     row: {},
-  } as unknown as RowProxy<object>;
+  } as unknown as RowProxy;
   const service = {
     loadByIdsSuccess: () => {
       /*noop*/
