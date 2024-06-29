@@ -21,7 +21,7 @@ import { isArrayProxy } from './is-array-proxy.function';
  * @see `createSmartSelector`
  */
 export class ArrayProxy<
-    P extends object = object,
+    P extends SmartNgRXRowBase = SmartNgRXRowBase,
     C extends SmartNgRXRowBase = SmartNgRXRowBase,
   >
   implements ArrayLike<C>, Iterable<C>

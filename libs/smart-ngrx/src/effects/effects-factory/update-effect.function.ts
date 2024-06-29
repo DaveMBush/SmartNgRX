@@ -62,7 +62,7 @@ export function updateEffect<T extends SmartNgRXRowBase>(
       scan(
         (acc, action) => ({
           ...acc,
-          [castTo<{ id: string }>(action.old.row).id]: action,
+          [action.old.row.id]: action,
         }),
         {} as Record<string, { old: RowProp<T>; new: RowProp<T> }>,
       ),

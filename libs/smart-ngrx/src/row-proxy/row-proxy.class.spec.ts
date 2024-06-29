@@ -11,7 +11,7 @@ interface CRow extends SmartNgRXRowBase {
 interface TRow extends SmartNgRXRowBase {
   id: string;
   name: string;
-  children: ArrayProxy<object, CRow>;
+  children: ArrayProxy<SmartNgRXRowBase, CRow>;
 }
 
 describe('RowProxy', () => {
@@ -20,7 +20,10 @@ describe('RowProxy', () => {
     const row = {
       id: '1',
       name: 'test',
-      children: ['child1a', 'child2a'] as unknown as ArrayProxy<object, CRow>,
+      children: ['child1a', 'child2a'] as unknown as ArrayProxy<
+        SmartNgRXRowBase,
+        CRow
+      >,
     };
     row.children.rawArray = ['child1', 'child2'];
     customProxy = new RowProxy<TRow, CRow>(

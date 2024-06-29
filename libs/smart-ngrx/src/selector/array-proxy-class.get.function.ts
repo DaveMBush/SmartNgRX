@@ -9,7 +9,7 @@ import { ArrayProxy } from './array-proxy.class';
  * @returns The value of the property.
  */
 export function arrayProxyClassGet<
-  P extends object,
+  P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
 >(target: ArrayProxy<P, C>, prop: string | symbol): unknown {
   if (typeof prop === 'string' && !Number.isNaN(+prop)) {

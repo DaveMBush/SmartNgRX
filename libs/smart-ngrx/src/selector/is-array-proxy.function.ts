@@ -9,8 +9,9 @@ import { ArrayProxy } from './array-proxy.class';
  *
  * @param arr the object to check
  */
-export function isArrayProxy<P extends object, C extends SmartNgRXRowBase>(
-  arr: unknown,
-): arr is ArrayProxy<P, C> {
+export function isArrayProxy<
+  P extends SmartNgRXRowBase,
+  C extends SmartNgRXRowBase,
+>(arr: unknown): arr is ArrayProxy<P, C> {
   return !!castTo<Record<string, boolean>>(arr)[isProxy];
 }

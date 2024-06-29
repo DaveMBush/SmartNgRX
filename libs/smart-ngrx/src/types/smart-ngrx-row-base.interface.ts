@@ -5,6 +5,10 @@
  */
 export interface SmartNgRXRowBase {
   /**
+   * All rows need an id field that is a string
+   */
+  id: string;
+  /**
    * Flag that indicates that the row is dirty. This is used
    * internally by the mark and delete functionality.
    */
