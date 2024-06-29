@@ -377,4 +377,28 @@ describe('TreeComponentService', () => {
       expect(removeChildSpy).not.toHaveBeenCalled();
     });
   });
+  describe('when deleteNode is called and the node has a delete method', () => {
+    it('should call the delete method', () => {
+      const deleteSpy = jest.fn();
+      service.deleteNode({
+        node: { delete: deleteSpy, id: '1', name: '', children: [] },
+        name: '',
+        level: 1,
+        hasChildren: true,
+      });
+      expect(deleteSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('when deleteNode is called and the node does not have a delete method', () => {
+    it('should call the delete method', () => {
+      const deleteSpy = jest.fn();
+      service.deleteNode({
+        node: { id: '1', name: '', children: [] },
+        name: '',
+        level: 1,
+        hasChildren: true,
+      });
+      expect(deleteSpy).not.toHaveBeenCalled();
+    });
+  });
 });

@@ -1,6 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
 import { getEntityRegistry } from '../registrations/register-entity.function';
+import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
@@ -23,7 +24,7 @@ export function getArrayItem<
   entityState: EntityState<T>,
   id: string,
   childDefinition: ChildDefinition<P, string, string, string, string, T>,
-): T {
+): RowProxyDelete & T {
   const { childFeature, childEntity } = childDefinition;
 
   const registry = getEntityRegistry(childFeature, childEntity);

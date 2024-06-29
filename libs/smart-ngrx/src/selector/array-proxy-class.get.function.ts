@@ -15,8 +15,5 @@ export function arrayProxyClassGet<
   if (typeof prop === 'string' && !isNaN(+prop)) {
     return target.getAtIndex(+prop);
   }
-  return Reflect.get(
-    target,
-    prop as keyof ArrayProxy<object, SmartNgRXRowBase>,
-  );
+  return Reflect.get(target, prop as keyof ArrayProxy);
 }

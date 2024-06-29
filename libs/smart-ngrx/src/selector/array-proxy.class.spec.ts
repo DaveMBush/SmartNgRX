@@ -23,7 +23,7 @@ const childDefinition = {
 } as unknown as ChildDefinition<SmartNgRXRowBase>;
 
 describe('ArrayProxy', () => {
-  let arrayProxy: ArrayProxy<object, SmartNgRXRowBase> | undefined;
+  let arrayProxy: ArrayProxy | undefined;
   let originalArray: string[] = [];
   let getArrayItemSpy: jest.SpyInstance;
   function assertArrayProxy(ap: boolean): asserts ap {

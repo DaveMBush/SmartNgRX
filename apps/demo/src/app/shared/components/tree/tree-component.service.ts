@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { assert } from '@smart/smart-ngrx/common/assert.function';
 import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
-import { RowProxy } from '@smart/smart-ngrx/row-proxy/row-proxy.class';
 import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
 
-import { Department } from '../../department/department.interface';
 import { DepartmentChild } from '../../department-children/department-child.interface';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
@@ -91,13 +89,16 @@ export class TreeComponentService {
       this.toggleExpand(parent);
     }
 
-    castTo<ArrayProxy<Department, DepartmentChild>>(
-      parent.node.children,
-    ).addToStore(row, parent.node);
+    castTo<ArrayProxy>(parent.node.children).addToStore(row, parent.node);
   }
 
   deleteNode(node: TreeNode): void {
-    castTo<RowProxy>(node.node).delete();
+    // because delete is an optional method,
+    // we need to check if it exists before calling it.
+    // if we don't make it optional, we will be
+    // forced to implement it everywhere we need
+    // a default row.
+    node.node.delete?.();
   }
 
   cancelEdit(node: TreeNode): void {
@@ -111,9 +112,10 @@ export class TreeComponentService {
   }
 
   removeChild(row: TreeNode, parent: TreeNode): void {
-    castTo<ArrayProxy<Department, DepartmentChild>>(
-      parent.node.children,
-    ).removeFromStore(row.node, parent.node);
+    castTo<ArrayProxy>(parent.node.children).removeFromStore(
+      row.node,
+      parent.node,
+    );
   }
 
   private isExpanded(node: TreeNode): boolean {

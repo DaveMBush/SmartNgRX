@@ -2,6 +2,7 @@ import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { RowProxyDelete } from './row-proxy-delete.interface';
 import { rowProxyGet } from './row-proxy-get.function';
 import { rowProxySet } from './row-proxy-set.function';
 
@@ -20,7 +21,8 @@ import { rowProxySet } from './row-proxy-set.function';
 export class RowProxy<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
   P extends SmartNgRXRowBase = SmartNgRXRowBase,
-> {
+> implements RowProxyDelete
+{
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
 

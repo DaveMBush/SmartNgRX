@@ -4,7 +4,6 @@ import { map, Observable } from 'rxjs';
 
 import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
 
-import { addIsDirty } from '../functions/add-is-dirty.function';
 import { childrenTransform } from './children-transform.function';
 import { Department } from './department.interface';
 
@@ -27,17 +26,13 @@ export class DepartmentEffectsService extends EffectService<Department> {
         id: newRow.id,
         name: newRow.name,
       })
-      .pipe(
-        map((departments) => addIsDirty(departments) as Department[]),
-        map(childrenTransform),
-      );
+      .pipe(map(childrenTransform));
   }
 
   override add(row: Department): Observable<Department[]> {
-    return this.http.post<Department[]>(this.apiDepartments + '/add', row).pipe(
-      map((departments) => addIsDirty(departments) as Department[]),
-      map(childrenTransform),
-    );
+    return this.http
+      .post<Department[]>(this.apiDepartments + '/add', row)
+      .pipe(map(childrenTransform));
   }
 
   override delete(id: string): Observable<void> {

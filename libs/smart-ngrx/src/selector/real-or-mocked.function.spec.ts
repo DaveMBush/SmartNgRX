@@ -87,7 +87,7 @@ describe('realOrMocked', () => {
   it('returns the mocked value if real one is not available', () => {
     const r = realOrMocked(real, 'department2', defaultObject, childDefinition);
 
-    expect(r).toEqual({
+    expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department2',
       name: 'to be fetched',
       isDirty: false,

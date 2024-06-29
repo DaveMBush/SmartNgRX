@@ -2,6 +2,7 @@ import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
+import { RowProxyDelete } from './row-proxy-delete.interface';
 
 /**
  * Wraps a row in a proxy that will take care of editing the row
@@ -20,6 +21,10 @@ import { RowProxy } from './row-proxy.class';
 export function rowProxy<
   T extends SmartNgRXRowBase,
   P extends SmartNgRXRowBase,
->(row: T, service: ActionService<T>, parentService: ActionService<P>): T {
-  return castTo<T>(new RowProxy(row, service, parentService));
+>(
+  row: T,
+  service: ActionService<T>,
+  parentService: ActionService<P>,
+): RowProxyDelete & T {
+  return castTo<RowProxyDelete & T>(new RowProxy(row, service, parentService));
 }

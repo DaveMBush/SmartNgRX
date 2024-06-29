@@ -6,6 +6,7 @@ import { isProxy } from '../common/is-proxy.const';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { RowProxy } from '../row-proxy/row-proxy.class';
+import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
@@ -19,7 +20,10 @@ import { isArrayProxy } from './is-array-proxy.function';
  *
  * @see `createSmartSelector`
  */
-export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
+export class ArrayProxy<
+    P extends object = object,
+    C extends SmartNgRXRowBase = SmartNgRXRowBase,
+  >
   implements ArrayLike<C>, Iterable<C>
 {
   entityAdapter: EntityAdapter<C>;
@@ -71,7 +75,7 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * @yields The next item in the iteration.
    * @returns The next item in the iteration.
    */
-  *[Symbol.iterator](): Iterator<C> {
+  *[Symbol.iterator](): Iterator<C & RowProxyDelete> {
     const len = this.rawArray.length;
     for (let i = 0; i < len; i++) {
       yield this.getAtIndex(i);
@@ -107,15 +111,15 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * @returns what this would return if it were a real array.  Mostly for
    * unit testing.
    */
-  toJSON(): C[] {
-    const array: C[] = [];
+  toJSON(): (C & RowProxyDelete)[] {
+    const array: (C & RowProxyDelete)[] = [];
     for (let i = 0; i < this.length; i++) {
       array.push(this.getAtIndex(i));
     }
     return array;
   }
 
-  [n: number]: C;
+  [n: number]: C & RowProxyDelete;
   length = 0;
 
   /**
@@ -127,7 +131,7 @@ export class ArrayProxy<P extends object, C extends SmartNgRXRowBase>
    * @returns the item from the store or the default row if it is not in the
    * store yet.
    */
-  getAtIndex(index: number): C {
+  getAtIndex(index: number): C & RowProxyDelete {
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
       return getArrayItem<C, P>(this.child, id, this.childDefinition);
