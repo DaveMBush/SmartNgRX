@@ -24,11 +24,13 @@ const entityDefinitionMap = new Map<
  *
  * @see `EntityDefinition`
  */
-export function entityDefinitionCache(
+export function entityDefinitionCache<
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+>(
   featureName: string,
   entityName: string,
   entityDefinition?: SmartEntityDefinition<SmartNgRXRowBase>,
-): SmartValidatedEntityDefinition<SmartNgRXRowBase> {
+): SmartValidatedEntityDefinition<T> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
     cached = entityDefinition;
@@ -50,5 +52,5 @@ export function entityDefinitionCache(
     `Entity adapter for ${featureName}${psi}${entityName} not found.`,
   );
   // we can cast this now because we've validated that it obeys the type rules
-  return castTo<SmartValidatedEntityDefinition<SmartNgRXRowBase>>(cached);
+  return castTo<SmartValidatedEntityDefinition<T>>(cached);
 }

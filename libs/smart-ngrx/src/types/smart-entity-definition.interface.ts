@@ -60,12 +60,12 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
   markAndDelete?: Partial<MarkAndDeleteInit>;
 }
 
-interface ValidOptionalEntityDefinition {
-  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
+interface ValidOptionalEntityDefinition<T extends SmartNgRXRowBase> {
+  entityAdapter: EntityAdapter<T>;
 }
 
 export type SmartValidatedEntityDefinition<Row extends SmartNgRXRowBase> = Omit<
   SmartEntityDefinition<Row>,
   'entityAdapter'
 > &
-  ValidOptionalEntityDefinition;
+  ValidOptionalEntityDefinition<Row>;
