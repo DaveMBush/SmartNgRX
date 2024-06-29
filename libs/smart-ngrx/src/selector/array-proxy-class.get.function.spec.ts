@@ -1,4 +1,3 @@
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
 
@@ -7,7 +6,7 @@ describe('arrayProxyClassGet()', () => {
     getAtIndex(_: number): unknown {
       return {};
     },
-  } as ArrayProxy<object, SmartNgRXRowBase>;
+  } as ArrayProxy;
   let getAtIndexSpy: jest.SpyInstance;
   let reflectGetSpy: jest.SpyInstance;
   beforeEach(() => {

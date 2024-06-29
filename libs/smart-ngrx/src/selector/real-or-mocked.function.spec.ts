@@ -37,7 +37,14 @@ describe('realOrMocked', () => {
     childEntity: 'entity',
     parentFeature: 'parentFeature',
     parentEntity: 'parentEntity',
-  } as unknown as ChildDefinition<SmartNgRXRowBase>;
+  } as unknown as ChildDefinition<
+    SmartNgRXRowBase,
+    string,
+    string,
+    string,
+    string,
+    { id: string; name: string; isDirty: boolean }
+  >;
   entityDefinitionCache('feature', 'entity', {
     entityName: 'entity',
     entityAdapter: createEntityAdapter(),
@@ -80,7 +87,7 @@ describe('realOrMocked', () => {
   it('returns the mocked value if real one is not available', () => {
     const r = realOrMocked(real, 'department2', defaultObject, childDefinition);
 
-    expect(r).toEqual({
+    expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department2',
       name: 'to be fetched',
       isDirty: false,

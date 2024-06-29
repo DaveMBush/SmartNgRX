@@ -12,11 +12,8 @@ export function arrayProxyClassGet<
   P extends object,
   C extends SmartNgRXRowBase,
 >(target: ArrayProxy<P, C>, prop: string | symbol): unknown {
-  if (typeof prop === 'string' && !isNaN(+prop)) {
+  if (typeof prop === 'string' && !Number.isNaN(+prop)) {
     return target.getAtIndex(+prop);
   }
-  return Reflect.get(
-    target,
-    prop as keyof ArrayProxy<object, SmartNgRXRowBase>,
-  );
+  return Reflect.get(target, prop as keyof ArrayProxy);
 }

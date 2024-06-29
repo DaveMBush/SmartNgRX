@@ -1,12 +1,12 @@
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { CustomProxy } from './custom-proxy.class';
+import { RowProxy } from './row-proxy.class';
 
 /**
- * This provides the set method of the Proxy in CustomProxy
+ * This provides the set method of the Proxy in RowProxy
  *
- * @param target the CustomProxy the Proxy targets
+ * @param target the RowProxy the Proxy targets
  * @param prop the property the proxy needs to set
  * @param value the value to set the property to
  * @param services the services associated with the row and parent entity
@@ -14,11 +14,11 @@ import { CustomProxy } from './custom-proxy.class';
  * @param services.parentService the service associated with the parent entity
  * @returns true if the property was set, false otherwise
  */
-export function customProxySet<
+export function rowProxySet<
   T extends SmartNgRXRowBase,
   P extends SmartNgRXRowBase,
 >(
-  target: CustomProxy<T, P>,
+  target: RowProxy<T, P>,
   prop: string | symbol,
   value: unknown,
   services: { service: ActionService<T>; parentService: ActionService<P> },

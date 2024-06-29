@@ -1,7 +1,5 @@
 import { catchError, map, Observable, of, timeout } from 'rxjs';
 
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
-
 import { CommonService } from './common-service.class';
 import { DepartmentChild } from './department-child.interface';
 
@@ -14,9 +12,9 @@ export function loadByIdsForType(
   return service.loadByIds(ids).pipe(
     map((items) =>
       items.map((item) => {
-        const itemRecord = castTo<Record<string, string>>(item);
+        const fieldValue = item[idField as keyof DepartmentChild] as string;
         return {
-          id: `${type}:${itemRecord[idField]}`,
+          id: `${type}:${fieldValue}`,
           name: item.name,
           children: [],
         } as DepartmentChild;

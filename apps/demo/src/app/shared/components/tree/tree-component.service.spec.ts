@@ -247,6 +247,8 @@ describe('TreeComponentService', () => {
       }) as unknown as typeof componentInstance.location;
       jest
         .spyOn(
+          // isExpanded is a private method, we cast it here to make it public
+          // so we can spy on it
           castTo<{
             isExpanded(node: { node: { id: string }; level: number }): boolean;
           }>(service),

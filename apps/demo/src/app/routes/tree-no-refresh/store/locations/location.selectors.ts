@@ -2,9 +2,7 @@
 // intentionally duplicated because it is for different state for demo purposes
 import { createSelector } from '@ngrx/store';
 
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { createSmartSelector } from '@smart/smart-ngrx/selector/create-smart-selector.function';
-import { SmartNgRXRowBaseSelector } from '@smart/smart-ngrx/types/smart-ngrx-row-base-selector.type';
 
 import { selectCurrentLocationId } from '../current-location/current-location.selector';
 import { selectDepartmentsChildren } from '../department/department.selector';
@@ -26,9 +24,7 @@ export const selectLocationsDepartments = createSmartSelector(
       parentFeature: 'tree-no-refresh',
       parentEntity: 'locations',
       parentField: 'departments',
-      childSelector: castTo<SmartNgRXRowBaseSelector>(
-        selectDepartmentsChildren,
-      ),
+      childSelector: selectDepartmentsChildren,
     },
   ],
 );

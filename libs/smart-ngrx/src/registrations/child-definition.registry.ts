@@ -2,6 +2,7 @@ import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { psi } from '../common/theta.const';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 interface ChildField {
   childField: string;
@@ -19,10 +20,10 @@ class ChildDefinitionRegistry {
    * @param entity the entity the definition is for
    * @param childDefinition the childDefinition to register
    */
-  registerChildDefinition<P>(
+  registerChildDefinition<P, T extends SmartNgRXRowBase>(
     feature: string,
     entity: string,
-    childDefinition: ChildDefinition<P>,
+    childDefinition: ChildDefinition<P, string, string, string, string, T>,
   ): void {
     const existingEntries =
       this.childDefinitionMap.get(`${feature}${psi}${entity}`) ?? [];

@@ -9,10 +9,11 @@ export function updateId(
   idName = 'id',
 ): DepartmentChild[] {
   return rows.map((row) => {
+    // convert the row to a record so we can access the idName
     const itemRecord = castTo<Record<string, string>>(row);
-    return castTo<DepartmentChild>({
+    return {
       ...row,
       id: `${type}:${itemRecord[idName]}`,
-    });
+    };
   });
 }

@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { assert } from '@smart/smart-ngrx/common/assert.function';
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { forNext } from '@smart/smart-ngrx/common/for-next.function';
-import { CustomProxy } from '@smart/smart-ngrx/row-proxy/custom-proxy.class';
-import { ArrayProxy } from '@smart/smart-ngrx/selector/array-proxy.class';
+import { SmartArray } from '@smart/smart-ngrx/selector/smart-array.interface';
 
-import { Department } from '../../department/department.interface';
 import { DepartmentChild } from '../../department-children/department-child.interface';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
@@ -48,7 +45,7 @@ export class TreeComponentService {
   }
 
   transform(
-    children: (CommonSourceNode | string)[],
+    children: (CommonSourceNode | string)[] & SmartArray,
     level: number,
     startRange: number,
     endRange: number,
@@ -57,7 +54,7 @@ export class TreeComponentService {
     if (children.length === 0) {
       return [];
     }
-    forNext(castTo<{ rawArray: string[] }>(children).rawArray, (c, i) => {
+    forNext(children.rawArray!, (c, i) => {
       let node: CommonSourceNode | string = c;
       if (startRange <= result.length && result.length <= endRange) {
         node = children[i];
@@ -75,7 +72,7 @@ export class TreeComponentService {
       result.push(r as TreeNode);
       if (this.isExpanded(r as TreeNode)) {
         const childNodes = this.transform(
-          castTo<CommonSourceNode>(children[i]).children,
+          (children[i] as CommonSourceNode).children,
           level + 1,
           startRange - result.length,
           endRange - result.length,
@@ -91,13 +88,14 @@ export class TreeComponentService {
       this.toggleExpand(parent);
     }
 
-    castTo<ArrayProxy<Department, DepartmentChild>>(
-      parent.node.children,
-    ).addToStore(row, parent.node);
+    parent.node.children.addToStore!(row, parent.node);
   }
 
   deleteNode(node: TreeNode): void {
-    castTo<CustomProxy>(node.node).delete();
+    // because delete is an optional method,
+    // but it actually exist by definition,
+    // we can safely assert that it exist.
+    node.node.delete!();
   }
 
   cancelEdit(node: TreeNode): void {
@@ -111,9 +109,7 @@ export class TreeComponentService {
   }
 
   removeChild(row: TreeNode, parent: TreeNode): void {
-    castTo<ArrayProxy<Department, DepartmentChild>>(
-      parent.node.children,
-    ).removeFromStore(row.node, parent.node);
+    parent.node.children.removeFromStore!(row.node, parent.node);
   }
 
   private isExpanded(node: TreeNode): boolean {

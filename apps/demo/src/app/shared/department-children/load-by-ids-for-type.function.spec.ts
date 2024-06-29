@@ -25,15 +25,11 @@ describe('loadByIdsForType', () => {
     testScheduler.run(({ expectObservable }) => {
       const mockService = {
         loadByIds,
-      };
+      } as CommonService;
       const ids = ['1'];
       const type = 'department';
 
-      const result = loadByIdsForType(
-        castTo<CommonService>(mockService),
-        ids,
-        type,
-      );
+      const result = loadByIdsForType(mockService, ids, type);
 
       const expectedOutput: DepartmentChild[] = [
         { id: 'department:1', name: 'Dept1', children: [] },
@@ -45,21 +41,17 @@ describe('loadByIdsForType', () => {
 
   it('should return an empty array on timeout', () => {
     testScheduler.run(({ expectObservable }) => {
-      const mockService = {
+      const mockService = castTo<CommonService>({
         loadByIds: (ids: string[]) =>
           timer(1500).pipe(
             map(() => ids),
             map((id) => ({ id, name: 'Dept' + id, children: [] })),
           ),
-      };
+      });
       const ids = ['1'];
       const type = 'department';
 
-      const result = loadByIdsForType(
-        castTo<CommonService>(mockService),
-        ids,
-        type,
-      );
+      const result = loadByIdsForType(mockService, ids, type);
 
       expectObservable(result).toBe('1000ms (a|)', { a: [] });
     });

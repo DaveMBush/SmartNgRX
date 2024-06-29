@@ -33,7 +33,7 @@ export function createInnerSmartSelector<
   C extends SmartNgRXRowBase,
 >(
   parentSelector: ParentSelector<P>,
-  childDefinition: ChildDefinition<P>,
+  childDefinition: ChildDefinition<P, string, string, string, string, C>,
 ): MemoizedSelector<object, EntityState<P>> {
   const {
     childFeature,
@@ -61,7 +61,7 @@ export function createInnerSmartSelector<
 
         const arrayProxy = new ArrayProxy<P, C>(
           childArray,
-          child as EntityState<C>,
+          child,
           childDefinition,
         );
         arrayProxy.init();

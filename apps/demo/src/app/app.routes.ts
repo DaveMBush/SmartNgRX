@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { provideSmartFeatureEntities } from '@smart/smart-ngrx/index';
 
 import { watchLocations as watchNoDirtyLocations } from './routes/tree-no-dirty/store/current-location/current-location.effects';
@@ -30,22 +29,22 @@ import { standardDepartmentsDefinition } from './routes/tree-standard/store/depa
 import { standardDepartmentChildrenDefinition } from './routes/tree-standard/store/department-children/standard-department-children-definition';
 import { standardLocationsDefinition } from './routes/tree-standard/store/locations/standard-locations-definition';
 import { standardTopDefinition } from './routes/tree-standard/store/top/standard-top-definition.const';
-import { TreeStandardState } from './routes/tree-standard/store/tree-standard-state.interface';
+import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state.interface';
 
 // This ensure we have one key per SharedState property
-const sharedReducersStandard = castTo<ActionReducerMap<TreeStandardState>>({
+const sharedReducersStandard: ActionReducerMap<TreeStandardState2> = {
   currentLocation: currentLocationStandardReducer,
-});
+};
 
-const sharedReducersNoRefresh = castTo<ActionReducerMap<TreeStandardState>>({
+const sharedReducersNoRefresh: ActionReducerMap<TreeStandardState2> = {
   currentLocation: currentLocationNoRefreshReducer,
-});
-const sharedReducersNoDirty = castTo<ActionReducerMap<TreeStandardState>>({
+};
+const sharedReducersNoDirty: ActionReducerMap<TreeStandardState2> = {
   currentLocation: currentLocationNoDirtyReducer,
-});
-const sharedReducersNoRemove = castTo<ActionReducerMap<TreeStandardState>>({
+};
+const sharedReducersNoRemove: ActionReducerMap<TreeStandardState2> = {
   currentLocation: currentLocationNoRemoveReducer,
-});
+};
 
 export const appRoutes: Routes = [
   {

@@ -1,8 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { createSmartSelector } from '@smart/smart-ngrx/selector/create-smart-selector.function';
-import { SmartNgRXRowBaseSelector } from '@smart/smart-ngrx/types/smart-ngrx-row-base-selector.type';
 
 import { Location } from '../../../../shared/locations/location.interface';
 import { selectLocationsDepartments } from '../locations/location.selectors';
@@ -22,7 +20,7 @@ export const selectTopLocations = createSmartSelector(selectTopEntities, [
     parentField: 'locations',
     parentFeature: 'tree-no-remove',
     parentEntity: 'top',
-    childSelector: castTo<SmartNgRXRowBaseSelector>(selectLocationsDepartments),
+    childSelector: selectLocationsDepartments,
   },
 ]);
 

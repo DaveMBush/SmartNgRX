@@ -1,14 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { forkJoin, map, Observable, of } from 'rxjs';
 
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
 import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
 
 import { DocsService } from '../docs/docs.service';
 import { FoldersService } from '../folders/folders.service';
 import { ListsService } from '../lists/lists.service';
 import { SprintFoldersService } from '../sprint-folders/sprint-folders.service';
-import { CommonService } from './common-service.class';
 import { DepartmentChild } from './department-child.interface';
 import { filterIds } from './filter-ids.function';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
@@ -38,18 +36,10 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
 
     const docStream = loadByIdsForType(this.doc, docIds, this.docs, 'did');
 
-    const folderStream = loadByIdsForType(
-      castTo<CommonService>(this.folder),
-      folderIds,
-      this.folders,
-    );
-    const listStream = loadByIdsForType(
-      castTo<CommonService>(this.list),
-      listIds,
-      this.lists,
-    );
+    const folderStream = loadByIdsForType(this.folder, folderIds, this.folders);
+    const listStream = loadByIdsForType(this.list, listIds, this.lists);
     const sprintFolderStream = loadByIdsForType(
-      castTo<CommonService>(this.sprintFolder),
+      this.sprintFolder,
       sprintFolderIds,
       this.sprintFolders,
     );
