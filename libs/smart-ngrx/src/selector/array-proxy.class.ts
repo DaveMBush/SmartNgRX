@@ -18,6 +18,10 @@ import { isArrayProxy } from './is-array-proxy.function';
  * that represents the child array with a class that manages all the
  * magic of loading the data from the server as it is accessed.
  *
+ * Note: The constructor of this class returns a Proxy to intercept
+ * property accesses. This is an intentional and necessary design
+ * choice to achieve the desired behavior of dynamically loading data.
+ *
  * @see `createSmartSelector`
  */
 export class ArrayProxy<
