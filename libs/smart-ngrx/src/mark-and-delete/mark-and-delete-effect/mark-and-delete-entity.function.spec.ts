@@ -34,7 +34,7 @@ describe('markAndDeleteEntity', () => {
           };
         },
       });
-      markAndDeleteEntity(['feature', 'entity']);
+      markAndDeleteEntity(['feature', 'entity'] as [string, string]);
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
         'entity',

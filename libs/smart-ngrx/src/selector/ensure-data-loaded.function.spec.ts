@@ -54,7 +54,7 @@ describe('ensureDataLoaded()', () => {
   describe('when the id is loaded', () => {
     describe('but isDirty has never been set', () => {
       beforeEach(() => {
-        ensureDataLoaded<Row>(
+        ensureDataLoaded(
           { ids: [], entities: { id: { id: 'id', name: 'foo' } } },
           'id',
           'feature',
