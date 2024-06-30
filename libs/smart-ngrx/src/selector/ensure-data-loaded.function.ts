@@ -1,7 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
 import { zoneless } from '../common/zoneless.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -17,20 +16,13 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  * @param feature The feature this row belongs to
  * @param entity The entity in the feature this row belongs to
  */
-export function ensureDataLoaded<
-  T extends SmartNgRXRowBase,
-  F extends string,
-  E extends string,
->(
+export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   entityState: EntityState<T>,
   id: string,
-  feature: StringLiteralSource<F>,
-  entity: StringLiteralSource<E>,
+  feature: string,
+  entity: string,
 ): void {
-  const actionService = actionServiceRegistry(
-    feature as StringLiteralSource<string>,
-    entity as StringLiteralSource<string>,
-  );
+  const actionService = actionServiceRegistry(feature, entity);
   const ids = entityState.entities as Record<string, T>;
 
   const idsId = ids[id];

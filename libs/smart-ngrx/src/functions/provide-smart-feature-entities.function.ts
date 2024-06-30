@@ -6,7 +6,6 @@ import { ActionReducer, StoreModule } from '@ngrx/store';
 import { forNext } from '../common/for-next.function';
 import { zoneless } from '../common/zoneless.function';
 import { effectsFactory } from '../effects/effects-factory.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
@@ -38,8 +37,8 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  *
  * @see `EntityDefinition`
  */
-export function provideSmartFeatureEntities<F extends string>(
-  featureName: StringLiteralSource<F>,
+export function provideSmartFeatureEntities(
+  featureName: string,
   entityDefinitions: SmartEntityDefinition<SmartNgRXRowBase>[],
 ): EnvironmentProviders {
   const allEffects: Record<string, FunctionalEffect>[] = [];
@@ -54,12 +53,8 @@ export function provideSmartFeatureEntities<F extends string>(
       entityDefinition,
     );
     const { entityName, effectServiceToken } = entityDefinition;
-    const effects = effectsFactory(
-      featureName,
-      entityName as StringLiteralSource<string>,
-      effectServiceToken,
-    );
-    provideWatchInitialRowEffect<F>(
+    const effects = effectsFactory(featureName, entityName, effectServiceToken);
+    provideWatchInitialRowEffect(
       entityDefinition,
       effects,
       featureName,
@@ -67,10 +62,7 @@ export function provideSmartFeatureEntities<F extends string>(
     );
 
     allEffects.push(effects);
-    const reducer = reducerFactory(
-      featureName,
-      entityName as StringLiteralSource<string>,
-    );
+    const reducer = reducerFactory(featureName, entityName);
     reducers[entityName] = reducer;
     void unpatchedPromise.resolve().then(() => {
       delayedRegisterEntity(featureName, entityName, entityDefinition);

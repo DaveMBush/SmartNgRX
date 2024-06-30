@@ -12,7 +12,6 @@ import {
 } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -39,8 +38,8 @@ import { manageMaps } from './update-effect/manage-maps.function';
 export function updateEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
-  feature: StringLiteralSource<string>,
-  entity: StringLiteralSource<string>,
+  feature: string,
+  entity: string,
 ) {
   const lastRow: Map<string, T> = new Map();
   const lastRowTimeout: Map<string, number> = new Map();
@@ -91,10 +90,7 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRowTimeout.set(id, now);
         lastRow.set(id, rows[0]);
         // have to call the service to pickup the registration
-        const service = actionServiceRegistry(
-          feature as StringLiteralSource<string>,
-          entity as StringLiteralSource<string>,
-        );
+        const service = actionServiceRegistry(feature, entity);
         service.loadByIdsSuccess(rows);
       }),
     );

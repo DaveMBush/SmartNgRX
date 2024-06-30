@@ -16,7 +16,7 @@ import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.fun
  * @param parentInfo holds the parent feature, entity, and ids that are affected by the delete
  */
 export function removeIdFromParents(
-  childDefinition: ChildDefinition<SmartNgRXRowBase>,
+  childDefinition: ChildDefinition,
   service: ActionService<SmartNgRXRowBase>,
   id: string,
   parentInfo: ParentInfo[],

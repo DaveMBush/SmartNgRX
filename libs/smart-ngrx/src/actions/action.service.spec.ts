@@ -3,7 +3,6 @@ import { createEntityAdapter, Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import {
   registerEntity,
@@ -53,10 +52,7 @@ describe('ActionService', () => {
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
     service = castTo<PublicMarkDirtyWithEntities>(
-      new ActionService<Row>(
-        feature as StringLiteralSource<string>,
-        entity as StringLiteralSource<string>,
-      ),
+      new ActionService<Row>(feature, entity),
     );
   });
   afterEach(() => {
@@ -187,10 +183,7 @@ describe('ActionService', () => {
           } as MarkAndDeleteInit,
         } as EntityAttributes);
         service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService<Row>(
-            feature as StringLiteralSource<string>,
-            entity as StringLiteralSource<string>,
-          ),
+          new ActionService<Row>(feature, entity),
         );
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
@@ -211,10 +204,7 @@ describe('ActionService', () => {
           } as MarkAndDeleteInit,
         } as EntityAttributes);
         service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService<Row>(
-            feature as StringLiteralSource<string>,
-            entity as StringLiteralSource<string>,
-          ),
+          new ActionService<Row>(feature, entity),
         );
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
@@ -233,10 +223,7 @@ describe('ActionService', () => {
           markAndDeleteInit: {},
         } as EntityAttributes);
         service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService<Row>(
-            feature as StringLiteralSource<string>,
-            entity as StringLiteralSource<string>,
-          ),
+          new ActionService<Row>(feature, entity),
         );
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);

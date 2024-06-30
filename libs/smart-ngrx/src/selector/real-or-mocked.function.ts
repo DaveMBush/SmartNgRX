@@ -27,7 +27,7 @@ export function realOrMocked<
   entityState: EntityState<T>,
   id: string,
   defaultObject: T,
-  childDefinition: ChildDefinition<P, string, string, string, string, T>,
+  childDefinition: ChildDefinition<P, T>,
 ): RowProxyDelete & T {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;

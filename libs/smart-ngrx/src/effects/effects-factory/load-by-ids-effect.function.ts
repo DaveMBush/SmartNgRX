@@ -3,7 +3,6 @@ import { Actions, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferAction } from '../buffer-action.function';
@@ -21,8 +20,8 @@ import { EffectService } from '../effect-service';
 export function loadByIdsEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
-  feature: StringLiteralSource<string>,
-  entity: StringLiteralSource<string>,
+  feature: string,
+  entity: string,
 ) {
   return (
     /* istanbul ignore next -- default value, not really a condition */

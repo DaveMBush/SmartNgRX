@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
 import { actionFactory, registerEntity, unregisterEntity } from '../..';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { store as storeFunction } from '../../selector/store.function';
@@ -44,7 +43,7 @@ class TestService extends EffectService<Row> {
 }
 
 const serviceToken = new InjectionToken<TestService>('TestService');
-const actions = actionFactory<Row, 'feature', 'entity'>('feature', 'entity');
+const actions = actionFactory<Row>('feature', 'entity');
 
 describe('update-effect.function.ts', () => {
   const feature = 'feature';
@@ -68,16 +67,8 @@ describe('update-effect.function.ts', () => {
     });
     const store = TestBed.inject(MockStore);
     storeFunction(store);
-    effect = updateEffect(
-      serviceToken,
-      actions,
-      feature as StringLiteralSource<string>,
-      entity as StringLiteralSource<string>,
-    );
-    const actionService = actionServiceRegistry(
-      'feature' as StringLiteralSource<string>,
-      'entity' as StringLiteralSource<string>,
-    );
+    effect = updateEffect(serviceToken, actions, feature, entity);
+    const actionService = actionServiceRegistry('feature', 'entity');
 
     serviceSpy = jest.spyOn(testService, 'update');
     actionServiceLoadByIdsSuccessSpy = jest.spyOn(

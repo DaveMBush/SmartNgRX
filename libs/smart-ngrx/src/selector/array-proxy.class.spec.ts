@@ -20,7 +20,7 @@ import * as getArrayItem from './get-array-item.function';
 const childDefinition = {
   childFeature: 'feature',
   childEntity: 'entity',
-} as unknown as ChildDefinition<SmartNgRXRowBase>;
+} as unknown as ChildDefinition;
 
 describe('ArrayProxy', () => {
   let arrayProxy: ArrayProxy | undefined;
