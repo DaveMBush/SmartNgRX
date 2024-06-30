@@ -30,7 +30,7 @@ describe('processMarkAndDelete', () => {
     jest
       .spyOn(actionServiceRegistry, 'actionServiceRegistry')
       .mockImplementation(
-        (_: StringLiteralSource<string>, __: StringLiteralSource<string>) =>
+        (_: string, __: string) =>
           mockActionService as unknown as ActionService<SmartNgRXRowBase>,
       );
     garbageCollectSpy = jest

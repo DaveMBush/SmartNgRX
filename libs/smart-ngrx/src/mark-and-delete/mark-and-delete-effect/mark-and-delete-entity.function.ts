@@ -1,5 +1,4 @@
 import { getEntityRegistry } from '../..';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 
@@ -10,10 +9,7 @@ import { processMarkAndDelete } from './process-mark-and-delete.function';
  * @param root0."0" the feature we are processing
  * @param root0."1" the entity we are processing
  */
-export function markAndDeleteEntity([feature, entity]: [
-  StringLiteralSource<string>,
-  StringLiteralSource<string>,
-]): void {
+export function markAndDeleteEntity([feature, entity]: [string, string]): void {
   const registry = getEntityRegistry(feature, entity);
   const entityMap = registry.markAndDeleteEntityMap;
   const featureInit = registry.markAndDeleteInit;

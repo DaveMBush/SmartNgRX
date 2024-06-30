@@ -10,7 +10,6 @@ import {
   registerEntityRows,
   unregisterEntityRows,
 } from '../mark-and-delete/register-entity-rows.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { defaultRows } from '../reducers/default-rows.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -29,11 +28,7 @@ import { removeIdFromParents } from './remove-id-from-parents.function';
  * to the store, and keeps logic out of the reducer and effects without
  * scattering the logic throughout the application.
  */
-export class ActionService<
-  T extends SmartNgRXRowBase,
-  Feature extends string = string,
-  Entity extends string = string,
-> {
+export class ActionService<T extends SmartNgRXRowBase> {
   /**
    * entityAdapter is needed for delete
    */
@@ -50,8 +45,8 @@ export class ActionService<
    * @param entity the name of the entity this class is for
    */
   constructor(
-    public feature: StringLiteralSource<Feature>,
-    public entity: StringLiteralSource<Entity>,
+    public feature: string,
+    public entity: string,
   ) {
     this.actions = actionFactory(feature, entity);
     const selectFeature = createFeatureSelector<Record<string, EntityState<T>>>(

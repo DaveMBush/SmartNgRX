@@ -55,7 +55,7 @@ describe('ensureDataLoaded()', () => {
   describe('when the id is loaded', () => {
     describe('but isDirty has never been set', () => {
       beforeEach(() => {
-        ensureDataLoaded<Row, 'feature', 'entity'>(
+        ensureDataLoaded<Row>(
           { ids: [], entities: { id: { id: 'id', name: 'foo' } } },
           'id',
           'feature',
@@ -68,7 +68,7 @@ describe('ensureDataLoaded()', () => {
     });
     describe('and isDirty is true and mark dirty fetches new', () => {
       beforeEach(() => {
-        ensureDataLoaded<Row, 'feature', 'entity'>(
+        ensureDataLoaded<Row>(
           {
             ids: [],
             entities: { id: { id: 'id', name: 'foo', isDirty: true } },

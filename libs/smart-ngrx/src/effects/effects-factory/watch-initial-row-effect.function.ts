@@ -2,7 +2,6 @@ import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { tap } from 'rxjs';
 
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { ensureDataLoaded } from '../../selector/ensure-data-loaded.function';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -15,8 +14,8 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
  * @returns the effects for this feature/effect
  */
 export function watchInitialRowEffect<T extends SmartNgRXRowBase>(
-  feature: StringLiteralSource<string>,
-  entity: StringLiteralSource<string>,
+  feature: string,
+  entity: string,
 ) {
   const selectFeature =
     createFeatureSelector<Record<string, EntityState<T>>>(feature);

@@ -1,6 +1,5 @@
 import { ActionService } from '../actions/action.service';
 import { psi } from '../common/theta.const';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const actionServiceMap = new Map<string, ActionService<SmartNgRXRowBase>>();
@@ -13,8 +12,8 @@ const actionServiceMap = new Map<string, ActionService<SmartNgRXRowBase>>();
  * @returns the ActionService object/class for the given feature and entity
  */
 export function actionServiceRegistry(
-  feature: StringLiteralSource<string>,
-  entity: StringLiteralSource<string>,
+  feature: string,
+  entity: string,
 ): ActionService<SmartNgRXRowBase> {
   const key = `${feature}${psi}${entity}`;
   let actionServiceCache = actionServiceMap.get(key);

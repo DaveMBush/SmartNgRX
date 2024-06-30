@@ -44,7 +44,7 @@ class TestService extends EffectService<Row> {
 }
 
 const serviceToken = new InjectionToken<TestService>('TestService');
-const actions = actionFactory<Row, 'feature', 'entity'>('feature', 'entity');
+const actions = actionFactory<Row>('feature', 'entity');
 
 describe('update-effect.function.ts', () => {
   const feature = 'feature';

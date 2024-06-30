@@ -3,7 +3,6 @@
 import { createActionGroup, props } from '@ngrx/store';
 
 import { psi } from '../common/theta.const';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
@@ -27,13 +26,9 @@ const actionGroupCache = new Map<string, unknown>();
  * @see `RowProp`
  * @see `RowsProp`
  */
-export function actionFactory<
-  T extends SmartNgRXRowBase,
-  Feature extends string = string,
-  Entity extends string = string,
->(
-  feature: StringLiteralSource<Feature>,
-  entity: StringLiteralSource<Entity>,
+export function actionFactory<T extends SmartNgRXRowBase>(
+  feature: string,
+  entity: string,
 ): ActionGroup<T> {
   const source = `${feature}${psi}${entity}`;
   const cached = actionGroupCache.get(source) as ActionGroup<T> | undefined;
@@ -54,15 +49,15 @@ export function actionFactory<
       Add: props<{
         row: T;
         parentId: string;
-        parentFeature: StringLiteralSource<string>;
-        parentEntityName: StringLiteralSource<string>;
+        parentFeature: string;
+        parentEntityName: string;
       }>(),
       'Add Success': props<{
         newRow: T;
         oldRow: T;
         parentId: string;
-        parentFeature: StringLiteralSource<string>;
-        parentEntityName: StringLiteralSource<string>;
+        parentFeature: string;
+        parentEntityName: string;
       }>(),
       Delete: props<{
         id: string;

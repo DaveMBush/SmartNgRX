@@ -33,7 +33,7 @@ export function createInnerSmartSelector<
   C extends SmartNgRXRowBase,
 >(
   parentSelector: ParentSelector<P>,
-  childDefinition: ChildDefinition<P, string, string, string, string, C>,
+  childDefinition: ChildDefinition<P, C>,
 ): MemoizedSelector<object, EntityState<P>> {
   const {
     childFeature,

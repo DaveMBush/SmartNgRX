@@ -2,7 +2,6 @@ import { interval, Observable, tap } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
 import { psi } from '../../common/theta.const';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { markAndDeleteEntities } from '../mark-and-delete-entity.map';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
@@ -20,12 +19,7 @@ export function markAndDeleteFeaturesInterval(): Observable<number> {
       const featureKeys = markAndDeleteEntities();
       // for/next is faster than forEach
       forNext(featureKeys, (item) =>
-        markAndDeleteEntity(
-          item.split(psi) as [
-            StringLiteralSource<string>,
-            StringLiteralSource<string>,
-          ],
-        ),
+        markAndDeleteEntity(item.split(psi) as [string, string]),
       );
     }),
   );

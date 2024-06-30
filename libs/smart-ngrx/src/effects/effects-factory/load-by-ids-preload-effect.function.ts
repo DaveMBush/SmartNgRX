@@ -4,7 +4,6 @@ import { EMPTY, mergeMap } from 'rxjs';
 
 import { ActionService } from '../../actions/action.service';
 import { ActionGroup } from '../../actions/action-group.interface';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferAction } from '../buffer-action.function';
 
@@ -17,13 +16,9 @@ import { bufferAction } from '../buffer-action.function';
  * @param actions the action group for the source provided
  * @returns the LoadByIdesPreload effect
  */
-export function loadByIdsPreloadEffect<
-  F extends string,
-  E extends string,
-  T extends SmartNgRXRowBase,
->(
-  feature: StringLiteralSource<F>,
-  entityName: StringLiteralSource<E>,
+export function loadByIdsPreloadEffect<T extends SmartNgRXRowBase>(
+  feature: string,
+  entityName: string,
   actions: ActionGroup<T>,
 ) {
   return (
@@ -36,10 +31,7 @@ export function loadByIdsPreloadEffect<
       ofType(actions.loadByIds),
       bufferAction(zone),
       mergeMap((ids) => {
-        new ActionService<T>(
-          feature as StringLiteralSource<string>,
-          entityName as StringLiteralSource<string>,
-        ).loadByIdsPreload(ids);
+        new ActionService<T>(feature, entityName).loadByIdsPreload(ids);
         return EMPTY;
       }),
     );

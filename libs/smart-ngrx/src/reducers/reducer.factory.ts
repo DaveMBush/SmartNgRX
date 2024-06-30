@@ -2,7 +2,6 @@ import { EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../actions/action.factory';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -15,17 +14,13 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  * @param entity The entity name (source) for this reducer
  * @returns a new reducer for the source provided
  */
-export function reducerFactory<
-  F extends string,
-  E extends string,
-  T extends SmartNgRXRowBase,
->(
-  feature: StringLiteralSource<F>,
-  entity: StringLiteralSource<E>,
+export function reducerFactory<T extends SmartNgRXRowBase>(
+  feature: string,
+  entity: string,
 ): ActionReducer<EntityState<T>> {
   const adapter = entityDefinitionCache<T>(feature, entity).entityAdapter;
   const initialState = adapter.getInitialState();
-  const actions = actionFactory<T, F, E>(feature, entity);
+  const actions = actionFactory<T>(feature, entity);
 
   return createReducer(
     initialState,

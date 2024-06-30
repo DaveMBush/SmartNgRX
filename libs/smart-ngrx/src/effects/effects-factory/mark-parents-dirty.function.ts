@@ -1,4 +1,3 @@
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 
 /**
@@ -9,8 +8,8 @@ import { actionServiceRegistry } from '../../registrations/action.service.regist
  * @param parentIds the ids of the parents to mark dirty
  */
 export function markParentsDirty(
-  parentFeature: StringLiteralSource<string>,
-  parentEntity: StringLiteralSource<string>,
+  parentFeature: string,
+  parentEntity: string,
   parentIds: string[],
 ): void {
   const parentService = actionServiceRegistry(parentFeature, parentEntity);

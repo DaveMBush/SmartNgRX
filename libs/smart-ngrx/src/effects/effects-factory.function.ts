@@ -2,7 +2,6 @@ import { InjectionToken } from '@angular/core';
 import { createEffect, EffectConfig, FunctionalEffect } from '@ngrx/effects';
 
 import { actionFactory } from '../actions/action.factory';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
@@ -42,16 +41,12 @@ const dispatchTrue = {
  * @see `EffectsFactory`
  * @see `EffectService`
  */
-export function effectsFactory<
-  F extends string,
-  E extends string,
-  T extends SmartNgRXRowBase,
->(
-  feature: StringLiteralSource<F>,
-  entityName: StringLiteralSource<E>,
+export function effectsFactory<T extends SmartNgRXRowBase>(
+  feature: string,
+  entityName: string,
   effectsServiceToken: InjectionToken<EffectService<T>>,
 ): Record<string, FunctionalEffect> {
-  const actions = actionFactory<T, F, E>(feature, entityName);
+  const actions = actionFactory<T>(feature, entityName);
   const entityDefinition = entityDefinitionCache<T>(feature, entityName);
   const adapter = entityDefinition.entityAdapter;
   return {
@@ -64,21 +59,11 @@ export function effectsFactory<
       dispatchFalse,
     ),
     loadByIds: createEffect(
-      loadByIdsEffect(
-        effectsServiceToken,
-        actions,
-        feature as StringLiteralSource<string>,
-        entityName as StringLiteralSource<string>,
-      ),
+      loadByIdsEffect(effectsServiceToken, actions, feature, entityName),
       dispatchFalse,
     ),
     update: createEffect(
-      updateEffect<T>(
-        effectsServiceToken,
-        actions,
-        feature as StringLiteralSource<string>,
-        entityName as StringLiteralSource<string>,
-      ),
+      updateEffect<T>(effectsServiceToken, actions, feature, entityName),
       dispatchFalse,
     ),
     add: createEffect(addEffect(effectsServiceToken, actions), dispatchTrue),

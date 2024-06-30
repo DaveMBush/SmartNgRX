@@ -3,7 +3,6 @@ import { take } from 'rxjs';
 
 import { ActionService } from '../actions/action.service';
 import { forNext } from '../common/for-next.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -20,10 +19,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = new ActionService<T>(
-    feature as StringLiteralSource<string>,
-    entity as StringLiteralSource<string>,
-  );
+  const actionService = new ActionService<T>(feature, entity);
   // check for feature/entities the long way to avoid triggering warnings
   // there is also no good reason to memoize the result
   const selectEntities = (state: unknown) => {

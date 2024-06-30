@@ -49,7 +49,7 @@ describe('removeIdFromParents()', () => {
       childFeature: 'feature' as StringLiteralSource<string>,
       parentEntity: 'parentEntity' as StringLiteralSource<string>,
       parentFeature: 'parentFeature' as StringLiteralSource<string>,
-    } as unknown as ChildDefinition<SmartNgRXRowBase>);
+    } as unknown as ChildDefinition);
     parentServiceUpdateManySpy = jest
       .spyOn(parentService, 'updateMany')
       .mockImplementation(() => {

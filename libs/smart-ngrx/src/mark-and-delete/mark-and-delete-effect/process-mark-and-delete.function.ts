@@ -1,4 +1,3 @@
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 
@@ -12,8 +11,8 @@ import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
  * @param markDirtyRowIds items that need to be marked dirty
  */
 export function processMarkAndDelete(
-  featureKey: StringLiteralSource<string>,
-  entity: StringLiteralSource<string>,
+  featureKey: string,
+  entity: string,
   garbageCollectRowIds: string[],
   markDirtyRowIds: string[],
 ) {

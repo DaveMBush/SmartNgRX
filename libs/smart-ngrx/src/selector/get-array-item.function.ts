@@ -23,7 +23,7 @@ export function getArrayItem<
 >(
   entityState: EntityState<T>,
   id: string,
-  childDefinition: ChildDefinition<P, string, string, string, string, T>,
+  childDefinition: ChildDefinition<P, T>,
 ): RowProxyDelete & T {
   const { childFeature, childEntity } = childDefinition;
 

@@ -2,7 +2,6 @@
 /* jscpd:ignore-start */
 import { Action, ActionCreator } from '@ngrx/store';
 
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
@@ -45,13 +44,13 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
     (props: {
       row: T;
       parentId: string;
-      parentFeature: StringLiteralSource<string>;
-      parentEntityName: StringLiteralSource<string>;
+      parentFeature: string;
+      parentEntityName: string;
     }) => Action<`[${any}] Add`> & {
       row: T;
       parentId: string;
-      parentFeature: StringLiteralSource<string>;
-      parentEntityName: StringLiteralSource<string>;
+      parentFeature: string;
+      parentEntityName: string;
     }
   >;
   addSuccess: ActionCreator<
@@ -60,14 +59,14 @@ export interface ActionGroup<T extends SmartNgRXRowBase> {
       oldRow: T;
       newRow: T;
       parentId: string;
-      parentFeature: StringLiteralSource<string>;
-      parentEntityName: StringLiteralSource<string>;
+      parentFeature: string;
+      parentEntityName: string;
     }) => Action<`[${any}] Add Success`> & {
       oldRow: T;
       newRow: T;
       parentId: string;
-      parentFeature: StringLiteralSource<string>;
-      parentEntityName: StringLiteralSource<string>;
+      parentFeature: string;
+      parentEntityName: string;
     }
   >;
   delete: ActionCreator<

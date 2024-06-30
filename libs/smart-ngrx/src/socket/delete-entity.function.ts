@@ -2,7 +2,6 @@ import { ActionService } from '../actions/action.service';
 import { ParentInfo } from '../actions/parent-info.interface';
 import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -14,10 +13,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  * @param ids The ids of the rows that need to be deleted.
  */
 export function deleteEntity(feature: string, entity: string, ids: string[]) {
-  const actionService = new ActionService<SmartNgRXRowBase>(
-    feature as StringLiteralSource<string>,
-    entity as StringLiteralSource<string>,
-  );
+  const actionService = new ActionService<SmartNgRXRowBase>(feature, entity);
   const childDefinitions = childDefinitionRegistry.getChildDefinition(
     feature,
     entity,
