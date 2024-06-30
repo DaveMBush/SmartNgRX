@@ -3,7 +3,6 @@ import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import {
@@ -16,8 +15,8 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 
-const feature = 'feature' as StringLiteralSource<string>;
-const entity = 'entity' as StringLiteralSource<string>;
+const feature = 'feature';
+const entity = 'entity';
 
 interface Row extends SmartNgRXRowBase {
   id: string;

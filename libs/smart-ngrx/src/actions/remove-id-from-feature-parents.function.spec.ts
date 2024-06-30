@@ -1,4 +1,3 @@
-import { StringLiteralSource } from '../ngrx-internals/string-literal-source.type';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -45,10 +44,10 @@ describe('removeIdFromParents()', () => {
     } as unknown as ActionService<SmartNgRXRowBase>;
     childDefinitionRegistry.registerChildDefinition('feature', 'entity', {
       parentField: 'children',
-      childEntity: 'entity' as StringLiteralSource<string>,
-      childFeature: 'feature' as StringLiteralSource<string>,
-      parentEntity: 'parentEntity' as StringLiteralSource<string>,
-      parentFeature: 'parentFeature' as StringLiteralSource<string>,
+      childEntity: 'entity',
+      childFeature: 'feature',
+      parentEntity: 'parentEntity',
+      parentFeature: 'parentFeature',
     } as unknown as ChildDefinition);
     parentServiceUpdateManySpy = jest
       .spyOn(parentService, 'updateMany')

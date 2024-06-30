@@ -1,5 +1,4 @@
 import { ActionService } from '../../actions/action.service';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import * as actionServiceRegistry from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
@@ -56,8 +55,8 @@ describe('processMarkAndDelete', () => {
 
     // Act
     processMarkAndDelete(
-      featureKey as StringLiteralSource<string>,
-      entity as StringLiteralSource<string>,
+      featureKey,
+      entity,
       garbageCollectRowIds,
       markDirtyRowIds,
     );
@@ -76,8 +75,8 @@ describe('processMarkAndDelete', () => {
 
     // Act
     processMarkAndDelete(
-      featureKey as StringLiteralSource<string>,
-      entity as StringLiteralSource<string>,
+      featureKey,
+      entity,
       garbageCollectRowIds,
       markDirtyRowIds,
     );
@@ -96,8 +95,8 @@ describe('processMarkAndDelete', () => {
 
       // Act
       processMarkAndDelete(
-        featureKey as StringLiteralSource<string>,
-        entity as StringLiteralSource<string>,
+        featureKey,
+        entity,
         garbageCollectRowIds,
         markDirtyRowIds,
       );
@@ -117,8 +116,8 @@ describe('processMarkAndDelete', () => {
 
       // Act
       processMarkAndDelete(
-        featureKey as StringLiteralSource<string>,
-        entity as StringLiteralSource<string>,
+        featureKey,
+        entity,
         garbageCollectRowIds,
         markDirtyRowIds,
       );

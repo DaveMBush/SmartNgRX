@@ -1,7 +1,5 @@
 import { registerEntity, unregisterEntity } from '../..';
-import { castTo } from '../../common/cast-to.function';
 import { psi } from '../../common/theta.const';
-import { StringLiteralSource } from '../../ngrx-internals/string-literal-source.type';
 import { MarkAndDeleteInit } from '../../types/mark-and-delete-init.interface';
 import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
@@ -36,12 +34,7 @@ describe('markAndDeleteEntity', () => {
           };
         },
       });
-      markAndDeleteEntity(
-        castTo<[StringLiteralSource<string>, StringLiteralSource<string>]>([
-          'feature',
-          'entity',
-        ]),
-      );
+      markAndDeleteEntity(['feature', 'entity']);
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
         'entity',
@@ -74,12 +67,7 @@ describe('markAndDeleteEntity', () => {
           };
         },
       });
-      markAndDeleteEntity(
-        castTo<[StringLiteralSource<string>, StringLiteralSource<string>]>([
-          'feature',
-          'entity',
-        ]),
-      );
+      markAndDeleteEntity(['feature', 'entity']);
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
         'entity',
@@ -106,12 +94,7 @@ describe('markAndDeleteEntity', () => {
           };
         },
       });
-      markAndDeleteEntity(
-        castTo<[StringLiteralSource<string>, StringLiteralSource<string>]>([
-          'feature',
-          'entity',
-        ]),
-      );
+      markAndDeleteEntity(['feature', 'entity']);
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
         'entity',
@@ -138,12 +121,7 @@ describe('markAndDeleteEntity', () => {
           };
         },
       });
-      markAndDeleteEntity(
-        castTo<[StringLiteralSource<string>, StringLiteralSource<string>]>([
-          'feature',
-          'entity',
-        ]),
-      );
+      markAndDeleteEntity(['feature', 'entity']);
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
         'entity',
@@ -170,12 +148,7 @@ describe('markAndDeleteEntity', () => {
           };
         },
       });
-      markAndDeleteEntity(
-        castTo<[StringLiteralSource<string>, StringLiteralSource<string>]>([
-          'feature',
-          'entity',
-        ]),
-      );
+      markAndDeleteEntity(['feature', 'entity']);
       expect(processMarkAndDeleteSpy).toHaveBeenCalledWith(
         'feature',
         'entity',
