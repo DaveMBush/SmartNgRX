@@ -19,7 +19,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = new ActionService<T>(feature, entity);
+  const actionService = new ActionService(feature, entity);
   // check for feature/entities the long way to avoid triggering warnings
   // there is also no good reason to memoize the result
   const selectEntities = (state: unknown) => {

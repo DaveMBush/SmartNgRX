@@ -33,7 +33,7 @@ export class ArrayProxy<
   entityAdapter: EntityAdapter<C>;
   [isProxy] = true;
   rawArray: string[] = [];
-  childActionService: ActionService<C>;
+  childActionService: ActionService;
 
   /**
    * The constructor for the ArrayProxy class.
@@ -49,9 +49,7 @@ export class ArrayProxy<
     private childDefinition: ChildDefinition<P, C>,
   ) {
     const { childFeature, childEntity } = this.childDefinition;
-    this.childActionService = castTo<ActionService<C>>(
-      actionServiceRegistry(childFeature, childEntity),
-    );
+    this.childActionService = actionServiceRegistry(childFeature, childEntity);
     // needed primarily for adding items to the array
     const entityAdapter = entityDefinitionCache(
       childFeature,
@@ -142,8 +140,8 @@ export class ArrayProxy<
    * @returns actions, parentActions, and store
    */
   getServices(): {
-    service: ActionService<SmartNgRXRowBase>;
-    parentService: ActionService<SmartNgRXRowBase>;
+    service: ActionService;
+    parentService: ActionService;
   } {
     const { childFeature, childEntity, parentFeature, parentEntity } =
       this.childDefinition;

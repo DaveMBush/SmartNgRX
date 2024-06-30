@@ -2,7 +2,6 @@ import { take } from 'rxjs';
 
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionService } from './action.service';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.function';
@@ -17,7 +16,7 @@ import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.fun
  */
 export function removeIdFromParents(
   childDefinition: ChildDefinition,
-  service: ActionService<SmartNgRXRowBase>,
+  service: ActionService,
   id: string,
   parentInfo: ParentInfo[],
 ) {

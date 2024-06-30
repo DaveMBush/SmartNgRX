@@ -1,5 +1,3 @@
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
-
 import { DepartmentChild } from './department-child.interface';
 
 export function updateId(
@@ -9,11 +7,10 @@ export function updateId(
   idName = 'id',
 ): DepartmentChild[] {
   return rows.map((row) => {
-    // convert the row to a record so we can access the idName
-    const itemRecord = castTo<Record<string, string>>(row);
+    const id = row[idName as keyof DepartmentChild] as string;
     return {
       ...row,
-      id: `${type}:${itemRecord[idName]}`,
+      id: `${type}:${id}`,
     };
   });
 }

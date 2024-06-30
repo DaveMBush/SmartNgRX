@@ -18,13 +18,10 @@ import { RowProxyDelete } from './row-proxy-delete.interface';
  * @param parentService the service that will handle updating the parent row
  * @returns a proxy that will handle updating the row
  */
-export function rowProxy<
-  T extends SmartNgRXRowBase,
-  P extends SmartNgRXRowBase,
->(
+export function rowProxy<T extends SmartNgRXRowBase>(
   row: T,
-  service: ActionService<T>,
-  parentService: ActionService<P>,
+  service: ActionService,
+  parentService: ActionService,
 ): RowProxyDelete & T {
   return castTo<RowProxyDelete & T>(new RowProxy(row, service, parentService));
 }

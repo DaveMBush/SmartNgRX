@@ -1,7 +1,6 @@
 import { ActionGroup } from '../../actions/action-group.interface';
 import { ParentInfo } from '../../actions/parent-info.interface';
 import { forNext } from '../../common/for-next.function';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { markParentsDirty } from './mark-parents-dirty.function';
 
 /**
@@ -10,7 +9,7 @@ import { markParentsDirty } from './mark-parents-dirty.function';
  * @param action the action that has the parentInfo in it
  */
 export function markFeatureParentsDirty(
-  action: ReturnType<ActionGroup<SmartNgRXRowBase>['delete']>,
+  action: ReturnType<ActionGroup['delete']>,
 ) {
   forNext(action.parentInfo, (parentInfo: ParentInfo) => {
     markParentsDirty(parentInfo.feature, parentInfo.entity, parentInfo.ids);

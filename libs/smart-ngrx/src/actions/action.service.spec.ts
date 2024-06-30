@@ -28,7 +28,7 @@ interface PrivatesArePublic {
 }
 
 type PublicMarkDirtyWithEntities = Omit<
-  Omit<ActionService<Row>, 'markDirtyWithEntities'>,
+  Omit<ActionService, 'markDirtyWithEntities'>,
   'garbageCollectWithEntities'
 > &
   PrivatesArePublic;
@@ -52,7 +52,7 @@ describe('ActionService', () => {
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
     service = castTo<PublicMarkDirtyWithEntities>(
-      new ActionService<Row>(feature, entity),
+      new ActionService(feature, entity),
     );
   });
   afterEach(() => {
@@ -183,7 +183,7 @@ describe('ActionService', () => {
           } as MarkAndDeleteInit,
         } as EntityAttributes);
         service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService<Row>(feature, entity),
+          new ActionService(feature, entity),
         );
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
@@ -204,7 +204,7 @@ describe('ActionService', () => {
           } as MarkAndDeleteInit,
         } as EntityAttributes);
         service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService<Row>(feature, entity),
+          new ActionService(feature, entity),
         );
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
@@ -222,8 +222,9 @@ describe('ActionService', () => {
         registerEntity(feature, entity, {
           markAndDeleteInit: {},
         } as EntityAttributes);
+        // castTo make markDirtyWithEntities public
         service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService<Row>(feature, entity),
+          new ActionService(feature, entity),
         );
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);

@@ -1,7 +1,5 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionService } from '../actions/action.service';
-import { castTo } from '../common/cast-to.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { rowProxy } from '../row-proxy/row-proxy.function';
 import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
@@ -31,17 +29,13 @@ export function realOrMocked<
 ): RowProxyDelete & T {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
-  const service = castTo<ActionService<T>>(
-    actionServiceRegistry(childFeature, childEntity),
-  );
-  const parentService = castTo<ActionService<P>>(
-    actionServiceRegistry(parentFeature, parentEntity),
-  );
+  const service = actionServiceRegistry(childFeature, childEntity);
+  const parentService = actionServiceRegistry(parentFeature, parentEntity);
 
   const record = entityState.entities;
   let row = record[id];
   if (row === undefined) {
     row = { ...defaultObject, id };
   }
-  return rowProxy<T, P>(row, service, parentService);
+  return rowProxy<T>(row, service, parentService);
 }

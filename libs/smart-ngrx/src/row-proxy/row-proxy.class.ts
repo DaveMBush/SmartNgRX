@@ -18,10 +18,8 @@ import { rowProxySet } from './row-proxy-set.function';
  * to type T (above) the rest of our code still believes it is working
  * with the original row.
  */
-export class RowProxy<
-  T extends SmartNgRXRowBase = SmartNgRXRowBase,
-  P extends SmartNgRXRowBase = SmartNgRXRowBase,
-> implements RowProxyDelete
+export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
+  implements RowProxyDelete
 {
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
@@ -36,8 +34,8 @@ export class RowProxy<
    */
   constructor(
     public row: T,
-    private service: ActionService<T>,
-    parentService: ActionService<P>,
+    private service: ActionService,
+    parentService: ActionService,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
     return new Proxy(this, {
