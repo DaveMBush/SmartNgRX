@@ -15,7 +15,7 @@ interface TRow extends SmartNgRXRowBase {
 }
 
 describe('RowProxy', () => {
-  let customProxy: RowProxy<TRow, CRow> | undefined;
+  let customProxy: RowProxy<TRow> | undefined;
   beforeEach(() => {
     const row = {
       id: '1',
@@ -26,10 +26,10 @@ describe('RowProxy', () => {
       >,
     };
     row.children.rawArray = ['child1', 'child2'];
-    customProxy = new RowProxy<TRow, CRow>(
+    customProxy = new RowProxy<TRow>(
       row as unknown as TRow,
-      {} as ActionService<TRow>,
-      {} as ActionService<CRow>,
+      {} as ActionService,
+      {} as ActionService,
     );
   });
   describe('getRealRow()', () => {

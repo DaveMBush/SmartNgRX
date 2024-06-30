@@ -2,7 +2,6 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
-import { castTo } from '../common/cast-to.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import {
@@ -25,7 +24,7 @@ interface Row extends SmartNgRXRowBase {
 
 describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
-  let actionService: ActionService<Row>;
+  let actionService: ActionService;
   beforeEach(() => {
     createStore();
     entityDefinitionCache(feature, entity, {
@@ -34,9 +33,7 @@ describe('ensureDataLoaded()', () => {
     registerEntity(feature, entity, {
       markAndDeleteInit: { markDirtyFetchesNew: true },
     } as EntityAttributes);
-    actionService = castTo<ActionService<Row>>(
-      actionServiceRegistry(feature, entity),
-    );
+    actionService = actionServiceRegistry(feature, entity);
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
   });
   afterEach(() => {

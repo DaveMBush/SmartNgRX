@@ -3,7 +3,6 @@ import { ParentInfo } from '../actions/parent-info.interface';
 import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Delete the feature/entity/ids from the store
@@ -13,7 +12,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  * @param ids The ids of the rows that need to be deleted.
  */
 export function deleteEntity(feature: string, entity: string, ids: string[]) {
-  const actionService = new ActionService<SmartNgRXRowBase>(feature, entity);
+  const actionService = new ActionService(feature, entity);
   const childDefinitions = childDefinitionRegistry.getChildDefinition(
     feature,
     entity,

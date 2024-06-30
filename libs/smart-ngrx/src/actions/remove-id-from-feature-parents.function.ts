@@ -17,8 +17,8 @@ import { ActionService } from './action.service';
  */
 export function removeIdFromFeatureParents(
   entities: Dictionary<SmartNgRXRowBase>,
-  service: ActionService<SmartNgRXRowBase>,
-  parentService: ActionService<SmartNgRXRowBase>,
+  service: ActionService,
+  parentService: ActionService,
   id: string,
 ): string[] {
   const mapChildIdToChildren = new Map<string, string[]>();

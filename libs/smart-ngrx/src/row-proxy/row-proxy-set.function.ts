@@ -1,5 +1,4 @@
 import { ActionService } from '../actions/action.service';
-import { castTo } from '../common/cast-to.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
 
@@ -14,14 +13,11 @@ import { RowProxy } from './row-proxy.class';
  * @param services.parentService the service associated with the parent entity
  * @returns true if the property was set, false otherwise
  */
-export function rowProxySet<
-  T extends SmartNgRXRowBase,
-  P extends SmartNgRXRowBase,
->(
-  target: RowProxy<T, P>,
+export function rowProxySet<T extends SmartNgRXRowBase>(
+  target: RowProxy<T>,
   prop: string | symbol,
   value: unknown,
-  services: { service: ActionService<T>; parentService: ActionService<P> },
+  services: { service: ActionService; parentService: ActionService },
 ): boolean {
   if (!(prop in target.record)) {
     return false;
@@ -34,7 +30,7 @@ export function rowProxySet<
     services.service.add(
       { ...realRow, [prop]: value } as T,
       realRow.parentId,
-      castTo<ActionService<SmartNgRXRowBase>>(services.parentService),
+      services.parentService,
     );
     return true;
   }

@@ -31,7 +31,7 @@ export function loadByIdsPreloadEffect<T extends SmartNgRXRowBase>(
       ofType(actions.loadByIds),
       bufferAction(zone),
       mergeMap((ids) => {
-        new ActionService<T>(feature, entityName).loadByIdsPreload(ids);
+        new ActionService(feature, entityName).loadByIdsPreload(ids);
         return EMPTY;
       }),
     );

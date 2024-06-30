@@ -3,7 +3,6 @@ import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
 
-import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import {
@@ -28,13 +27,13 @@ import { removeIdFromParents } from './remove-id-from-parents.function';
  * to the store, and keeps logic out of the reducer and effects without
  * scattering the logic throughout the application.
  */
-export class ActionService<T extends SmartNgRXRowBase> {
+export class ActionService {
   /**
    * entityAdapter is needed for delete
    */
   entityAdapter: EntityAdapter<SmartNgRXRowBase>;
   entities: Observable<Dictionary<SmartNgRXRowBase>>;
-  private actions: ActionGroup<T>;
+  private actions: ActionGroup;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
 
@@ -49,9 +48,9 @@ export class ActionService<T extends SmartNgRXRowBase> {
     public entity: string,
   ) {
     this.actions = actionFactory(feature, entity);
-    const selectFeature = createFeatureSelector<Record<string, EntityState<T>>>(
-      this.feature,
-    );
+    const selectFeature = createFeatureSelector<
+      Record<string, EntityState<SmartNgRXRowBase>>
+    >(this.feature);
     this.entityAdapter = entityDefinitionCache(
       this.feature,
       this.entity,
@@ -76,8 +75,8 @@ export class ActionService<T extends SmartNgRXRowBase> {
   markDirty(ids: string[]): void {
     if (!this.markDirtyFetchesNew) {
       this.entities.pipe(take(1)).subscribe((entities) => {
-        const entIds = entities as Record<string, T>;
-        const idsIds = [] as T[];
+        const entIds = entities as Record<string, SmartNgRXRowBase>;
+        const idsIds = [] as SmartNgRXRowBase[];
         forNext(ids, (id) => {
           idsIds.push(entIds[id]);
         });
@@ -109,7 +108,11 @@ export class ActionService<T extends SmartNgRXRowBase> {
     this.store.dispatch(
       this.actions.updateMany({
         changes: ids.map(
-          (id) => ({ id, changes: { isDirty: false } }) as UpdateStr<T>,
+          (id) =>
+            ({
+              id,
+              changes: { isDirty: false },
+            }) as UpdateStr<SmartNgRXRowBase>,
         ),
       }),
     );
@@ -146,7 +149,7 @@ export class ActionService<T extends SmartNgRXRowBase> {
    * @param oldRow the row before the changes
    * @param newRow the row after the changes
    */
-  update(oldRow: T, newRow: T): void {
+  update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
     this.store.dispatch(
       this.actions.update({
         old: { row: oldRow },
@@ -160,7 +163,7 @@ export class ActionService<T extends SmartNgRXRowBase> {
    *
    * @param changes the changes to make
    */
-  updateMany(changes: UpdateStr<T>[]): void {
+  updateMany(changes: UpdateStr<SmartNgRXRowBase>[]): void {
     this.store.dispatch(
       this.actions.updateMany({
         changes,
@@ -176,9 +179,9 @@ export class ActionService<T extends SmartNgRXRowBase> {
    * @param parentService the service for the parent row
    */
   add(
-    row: T,
+    row: SmartNgRXRowBase,
     parentId: string,
-    parentService: ActionService<SmartNgRXRowBase>,
+    parentService: ActionService,
   ): void {
     this.store.dispatch(
       this.actions.add({
@@ -196,14 +199,13 @@ export class ActionService<T extends SmartNgRXRowBase> {
    * @param id the id of the row to delete
    */
   delete(id: string): void {
-    const service = castTo<ActionService<SmartNgRXRowBase>>(this);
     const childDefinitions = childDefinitionRegistry.getChildDefinition(
       this.feature,
       this.entity,
     );
     let parentInfo: ParentInfo[] = [];
     forNext(childDefinitions, (childDefinition) => {
-      removeIdFromParents(childDefinition, service, id, parentInfo);
+      removeIdFromParents(childDefinition, this, id, parentInfo);
     });
 
     parentInfo = parentInfo.filter((info) => info.ids.length > 0);
@@ -240,7 +242,7 @@ export class ActionService<T extends SmartNgRXRowBase> {
       this.entity,
     ).defaultRow;
     this.entities.pipe(take(1)).subscribe((entities) => {
-      const rows = defaultRows(ids, entities, defaultRow) as T[];
+      const rows = defaultRows(ids, entities, defaultRow);
       this.store.dispatch(
         this.actions.storeRows({
           rows,
@@ -254,7 +256,7 @@ export class ActionService<T extends SmartNgRXRowBase> {
    *
    * @param rows the rows to put in the store
    */
-  loadByIdsSuccess(rows: T[]): void {
+  loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
     const registeredRows = registerEntityRows(this.feature, this.entity, rows);
     this.store.dispatch(
       this.actions.storeRows({
@@ -271,7 +273,10 @@ export class ActionService<T extends SmartNgRXRowBase> {
       .filter((id) => {
         return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
-      .map((id) => ({ id, changes: { isDirty: true } }) as UpdateStr<T>);
+      .map(
+        (id) =>
+          ({ id, changes: { isDirty: true } }) as UpdateStr<SmartNgRXRowBase>,
+      );
     this.store.dispatch(this.actions.updateMany({ changes }));
   }
 

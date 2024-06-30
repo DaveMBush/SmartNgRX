@@ -1,8 +1,7 @@
 import { ActionService } from '../actions/action.service';
 import { psi } from '../common/theta.const';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
-const actionServiceMap = new Map<string, ActionService<SmartNgRXRowBase>>();
+const actionServiceMap = new Map<string, ActionService>();
 
 /**
  * mechanism for getting the ActionService object/class for a given feature and entity
@@ -14,11 +13,11 @@ const actionServiceMap = new Map<string, ActionService<SmartNgRXRowBase>>();
 export function actionServiceRegistry(
   feature: string,
   entity: string,
-): ActionService<SmartNgRXRowBase> {
+): ActionService {
   const key = `${feature}${psi}${entity}`;
   let actionServiceCache = actionServiceMap.get(key);
   if (actionServiceCache === undefined) {
-    actionServiceCache = new ActionService<SmartNgRXRowBase>(feature, entity);
+    actionServiceCache = new ActionService(feature, entity);
     actionServiceMap.set(key, actionServiceCache);
   }
   return actionServiceCache;

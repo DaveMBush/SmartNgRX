@@ -1,6 +1,5 @@
 import { ActionService } from '../../actions/action.service';
 import * as actionServiceRegistry from '../../registrations/action.service.registry';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 // we have to supply requestIdleCallback for jest
 window.requestIdleCallback = (
@@ -30,7 +29,7 @@ describe('processMarkAndDelete', () => {
       .spyOn(actionServiceRegistry, 'actionServiceRegistry')
       .mockImplementation(
         (_: string, __: string) =>
-          mockActionService as unknown as ActionService<SmartNgRXRowBase>,
+          mockActionService as unknown as ActionService,
       );
     garbageCollectSpy = jest
       .spyOn(mockActionService, 'garbageCollect')

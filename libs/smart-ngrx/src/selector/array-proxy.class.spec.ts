@@ -231,8 +231,8 @@ describe('ArrayProxy', () => {
         };
         const parentProxy = new RowProxy(
           parent,
-          {} as unknown as ActionService<typeof parent>,
-          {} as unknown as ActionService<SmartNgRXRowBase>,
+          {} as unknown as ActionService,
+          {} as unknown as ActionService,
         );
         const newParent = castTo<{
           createNewParentFromParent(p: object, b: boolean): object;

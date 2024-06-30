@@ -10,13 +10,10 @@ import { RowProxy } from './row-proxy.class';
  * @param service the service that handles the actions for the row
  * @returns the value of the property
  */
-export function rowProxyGet<
-  T extends SmartNgRXRowBase,
-  P extends SmartNgRXRowBase,
->(
-  target: RowProxy<T, P>,
+export function rowProxyGet<T extends SmartNgRXRowBase>(
+  target: RowProxy<T>,
   prop: string | symbol,
-  service: ActionService<T>,
+  service: ActionService,
 ): unknown {
   if (prop === 'toJSON') {
     return () => target.toJSON();

@@ -14,8 +14,8 @@ describe('removeIdFromParents()', () => {
   let parentServiceUpdateManySpy: jest.SpyInstance;
   let returnValue: string[];
   let entities: Partial<Record<string, Row>>;
-  let service: ActionService<SmartNgRXRowBase>;
-  let parentService: ActionService<SmartNgRXRowBase>;
+  let service: ActionService;
+  let parentService: ActionService;
   beforeEach(() => {
     entities = {
       '1': {
@@ -36,12 +36,12 @@ describe('removeIdFromParents()', () => {
     service = {
       feature: 'feature',
       entity: 'entity',
-    } as unknown as ActionService<SmartNgRXRowBase>;
+    } as unknown as ActionService;
     parentService = {
       feature: 'parentFeature',
       entity: 'parentEntity',
       updateMany: jest.fn(),
-    } as unknown as ActionService<SmartNgRXRowBase>;
+    } as unknown as ActionService;
     childDefinitionRegistry.registerChildDefinition('feature', 'entity', {
       parentField: 'children',
       childEntity: 'entity',

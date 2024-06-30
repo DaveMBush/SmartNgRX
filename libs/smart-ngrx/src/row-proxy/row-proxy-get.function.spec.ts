@@ -1,5 +1,4 @@
 import { ActionService } from '../actions/action.service';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
 import { rowProxyGet } from './row-proxy-get.function';
 
@@ -27,7 +26,7 @@ describe('customProxyGet()', () => {
     loadByIdsSuccess: () => {
       /*noop*/
     },
-  } as unknown as ActionService<SmartNgRXRowBase>;
+  } as unknown as ActionService;
   let getRealRowSpy: jest.SpyInstance;
   let getJsonSpy: jest.SpyInstance;
   let loadByIdsSuccessSpy: jest.SpyInstance;

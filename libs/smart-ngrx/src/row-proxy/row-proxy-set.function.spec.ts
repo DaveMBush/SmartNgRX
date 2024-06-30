@@ -6,8 +6,8 @@ import { rowProxySet } from './row-proxy-set.function';
 describe('customProxySet', () => {
   let target: RowProxy | undefined;
   let services: {
-    service: ActionService<SmartNgRXRowBase>;
-    parentService: ActionService<SmartNgRXRowBase>;
+    service: ActionService;
+    parentService: ActionService;
   };
   let serviceAddSpy: jest.SpyInstance;
   let serviceUpdateSpy: jest.SpyInstance;
@@ -28,8 +28,8 @@ describe('customProxySet', () => {
         update: () => {
           /*noop*/
         },
-      } as unknown as ActionService<SmartNgRXRowBase>,
-      parentService: {} as ActionService<SmartNgRXRowBase>,
+      } as unknown as ActionService,
+      parentService: {} as ActionService,
     };
     serviceAddSpy = jest
       .spyOn(services.service, 'add')
@@ -46,8 +46,8 @@ describe('customProxySet', () => {
     it('should return false', () => {
       expect(
         rowProxySet(target!, 'c', 'd', {
-          service: {} as ActionService<SmartNgRXRowBase>,
-          parentService: {} as ActionService<SmartNgRXRowBase>,
+          service: {} as ActionService,
+          parentService: {} as ActionService,
         }),
       ).toBe(false);
     });
