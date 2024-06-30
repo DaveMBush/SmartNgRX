@@ -29,6 +29,8 @@ class ChildDefinitionRegistry {
       this.childDefinitionMap.get(`${feature}${psi}${entity}`) ?? [];
     this.childDefinitionMap.set(
       `${feature}${psi}${entity}`,
+      // Something in this registration code has
+      // to be castTo() it might as well be this
       castTo<GenericChildDefinition[]>([...existingEntries, childDefinition]),
     );
   }
