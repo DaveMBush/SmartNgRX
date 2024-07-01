@@ -133,7 +133,7 @@ describe('ActionService', () => {
           ['1'],
         );
       });
-      it('should not dispatch an action', () => {
+      it('should dispatch an action but there should not be any changes', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalled();
       });
     });
