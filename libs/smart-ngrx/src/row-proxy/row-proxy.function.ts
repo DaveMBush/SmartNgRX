@@ -23,5 +23,8 @@ export function rowProxy<T extends SmartNgRXRowBase>(
   service: ActionService,
   parentService: ActionService,
 ): RowProxyDelete & T {
+  // To the outside world, this has to look like the original row
+  // so we cast it to the original type. This is safe because the
+  // proxy is only used to intercept access to the origial row.
   return castTo<RowProxyDelete & T>(new RowProxy(row, service, parentService));
 }
