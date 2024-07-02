@@ -271,7 +271,7 @@ export class ActionService {
   ): void {
     const changes = ids
       .filter((id) => {
-        return entities[id] !== undefined && entities[id]?.isEditing !== true;
+        return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
       .map(
         (id) =>
@@ -285,7 +285,7 @@ export class ActionService {
     ids: string[],
   ): void {
     let idsToRemove = ids.filter(
-      (id) => entities[id] !== undefined && entities[id]?.isEditing !== true,
+      (id) => entities[id] !== undefined && entities[id]!.isEditing !== true,
     );
     if (idsToRemove.length === 0) {
       return;
