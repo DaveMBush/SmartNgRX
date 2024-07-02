@@ -105,8 +105,8 @@ importers:
         specifier: ^2.8.5
         version: 2.8.5
       dexie:
-        specifier: ^3.2.6
-        version: 3.2.6(karma@6.4.3)
+        specifier: ^4.0.7
+        version: 4.0.7
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -2186,6 +2186,7 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2193,6 +2194,7 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+    deprecated: Use @eslint/object-schema instead
 
   '@inquirer/figures@1.0.2':
     resolution: {integrity: sha512-4F1MBwVr3c/m4bAUef6LgkvBfSjzwH+OfldgHqcuacWwSUetFebM2wi58WfG9uk1rR98U6GwLed4asLJbwdV5w==}
@@ -4990,9 +4992,8 @@ packages:
   devtools-protocol@0.0.1232444:
     resolution: {integrity: sha512-pM27vqEfxSxRkTMnF+XCmxSEb6duO5R+t8A9DEEJgy4Wz2RVanje2mmj99B6A3zv2r/qGfYlOvYznUhuokizmg==}
 
-  dexie@3.2.6:
-    resolution: {integrity: sha512-R9VzQ27/cncQymoAeD1kfu66NUrdxcnMNXVfEoFLnQ+apVVbS4++veUcSGxft9V++zaeiLkMAREOMf8EwgR/Vw==}
-    engines: {node: '>=6.0'}
+  dexie@4.0.7:
+    resolution: {integrity: sha512-M+Lo6rk4pekIfrc2T0o2tvVJwL6EAAM/B78DNfb8aaxFVoI1f8/rz5KTxuAnApkwqTSuxx7T5t0RKH7qprapGg==}
 
   di-controls@2.1.0:
     resolution: {integrity: sha512-ChrxvFJHZ51z2vEx/xJUBIQWLkr2vvXIwH6YdiMDGxozLgVNQVuaGwETT/c/muweDnX6UFaLXnBRCrkCYDzkyg==}
@@ -6755,11 +6756,6 @@ packages:
   jstransformer@1.0.0:
     resolution: {integrity: sha512-C9YK3Rf8q6VAPDCCU9fnqo3mAfOH6vUGnMcP4AQAYIEpWtfGLpwOTmZ+igtdK5y+VvI2n3CyYSzy4Qh34eq24A==}
 
-  karma-safari-launcher@1.0.0:
-    resolution: {integrity: sha512-qmypLWd6F2qrDJfAETvXDfxHvKDk+nyIjpH9xIeI3/hENr0U3nuqkxaftq73PfXZ4aOuOChA6SnLW4m4AxfRjQ==}
-    peerDependencies:
-      karma: '>=0.9'
-
   karma-source-map-support@1.4.0:
     resolution: {integrity: sha512-RsBECncGO17KAoJCYXjv+ckIz+Ii9NCi+9enk+rq6XC81ezYkb4/RHE6CTXdA7IOJqoF3wcaLfVG0CPmE5ca6A==}
 
@@ -8348,7 +8344,7 @@ packages:
   puppeteer@21.11.0:
     resolution: {integrity: sha512-9jTHuYe22TD3sNxy0nEIzC7ZrlRnDgeX3xPkbS7PnbdwYjl2o/z/YuCrRBwezdKpbTDTJ4VqIggzNyeRcKq3cg==}
     engines: {node: '>=16.13.2'}
-    deprecated: < 22.5.0 is no longer supported
+    deprecated: < 22.6.4 is no longer supported
     hasBin: true
 
   pure-rand@6.1.0:
@@ -11876,7 +11872,8 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@colors/colors@1.5.0': {}
+  '@colors/colors@1.5.0':
+    optional: true
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -13844,12 +13841,6 @@ snapshots:
     transitivePeerDependencies:
       - nx
 
-  '@nrwl/devkit@19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))':
-    dependencies:
-      '@nx/devkit': 19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))
-    transitivePeerDependencies:
-      - nx
-
   '@nrwl/esbuild@19.3.1(@babel/traverse@7.24.7)(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28)(@types/node@20.11.30)(esbuild@0.19.12)(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))(typescript@5.4.5)':
     dependencies:
       '@nx/esbuild': 19.3.1(@babel/traverse@7.24.7)(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28)(@types/node@20.11.30)(esbuild@0.19.12)(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))(typescript@5.4.5)
@@ -14141,7 +14132,7 @@ snapshots:
 
   '@nx/devkit@19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))':
     dependencies:
-      '@nrwl/devkit': 19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))
+      '@nrwl/devkit': 19.3.1(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))
       ejs: 3.1.10
       enquirer: 2.3.6
       ignore: 5.3.1
@@ -16245,6 +16236,7 @@ snapshots:
       utils-merge: 1.0.1
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   consola@2.15.3: {}
 
@@ -16528,7 +16520,8 @@ snapshots:
 
   cuint@0.2.2: {}
 
-  custom-event@1.0.1: {}
+  custom-event@1.0.1:
+    optional: true
 
   cypress@13.9.0:
     dependencies:
@@ -16605,7 +16598,8 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.1
 
-  date-format@4.0.14: {}
+  date-format@4.0.14:
+    optional: true
 
   dayjs@1.11.10: {}
 
@@ -16711,11 +16705,7 @@ snapshots:
 
   devtools-protocol@0.0.1232444: {}
 
-  dexie@3.2.6(karma@6.4.3):
-    dependencies:
-      karma-safari-launcher: 1.0.0(karma@6.4.3)
-    transitivePeerDependencies:
-      - karma
+  dexie@4.0.7: {}
 
   di-controls@2.1.0(@angular/common@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(@angular/forms@18.0.4(@angular/common@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.0.4(@angular/animations@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1))(rxjs@7.8.1):
     dependencies:
@@ -16725,7 +16715,8 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.2
 
-  di@0.0.1: {}
+  di@0.0.1:
+    optional: true
 
   diff-sequences@29.6.3: {}
 
@@ -16759,6 +16750,7 @@ snapshots:
       ent: 2.2.0
       extend: 3.0.2
       void-elements: 2.0.1
+    optional: true
 
   dom-serializer@1.4.1:
     dependencies:
@@ -16887,7 +16879,8 @@ snapshots:
       ansi-colors: 4.1.3
       strip-ansi: 6.0.1
 
-  ent@2.2.0: {}
+  ent@2.2.0:
+    optional: true
 
   entities@2.2.0: {}
 
@@ -17594,6 +17587,7 @@ snapshots:
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   finalhandler@1.2.0:
     dependencies:
@@ -17724,6 +17718,7 @@ snapshots:
       graceful-fs: 4.2.11
       jsonfile: 4.0.0
       universalify: 0.1.2
+    optional: true
 
   fs-extra@9.1.0:
     dependencies:
@@ -18530,7 +18525,8 @@ snapshots:
 
   isarray@2.0.5: {}
 
-  isbinaryfile@4.0.10: {}
+  isbinaryfile@4.0.10:
+    optional: true
 
   isexe@2.0.0: {}
 
@@ -19094,10 +19090,6 @@ snapshots:
       is-promise: 2.2.2
       promise: 7.3.1
 
-  karma-safari-launcher@1.0.0(karma@6.4.3):
-    dependencies:
-      karma: 6.4.3
-
   karma-source-map-support@1.4.0:
     dependencies:
       source-map-support: 0.5.21
@@ -19133,6 +19125,7 @@ snapshots:
       - debug
       - supports-color
       - utf-8-validate
+    optional: true
 
   keyv@4.5.4:
     dependencies:
@@ -19333,6 +19326,7 @@ snapshots:
       streamroller: 3.1.5
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   lowlight@2.9.0:
     dependencies:
@@ -19645,7 +19639,8 @@ snapshots:
 
   mime@2.5.2: {}
 
-  mime@2.6.0: {}
+  mime@2.6.0:
+    optional: true
 
   mimic-fn@2.1.0: {}
 
@@ -20198,6 +20193,7 @@ snapshots:
   on-finished@2.3.0:
     dependencies:
       ee-first: 1.1.1
+    optional: true
 
   on-finished@2.4.1:
     dependencies:
@@ -21099,7 +21095,8 @@ snapshots:
 
   pure-rand@6.1.0: {}
 
-  qjobs@1.2.0: {}
+  qjobs@1.2.0:
+    optional: true
 
   qs@6.10.4:
     dependencies:
@@ -22028,6 +22025,7 @@ snapshots:
       fs-extra: 8.1.0
     transitivePeerDependencies:
       - supports-color
+    optional: true
 
   streamsearch@1.1.0: {}
 
@@ -22514,7 +22512,8 @@ snapshots:
 
   typescript@5.4.5: {}
 
-  ua-parser-js@0.7.37: {}
+  ua-parser-js@0.7.37:
+    optional: true
 
   uglify-js@3.17.4: {}
 
@@ -22727,7 +22726,8 @@ snapshots:
       stylus: 0.59.0
       terser: 5.31.0
 
-  void-elements@2.0.1: {}
+  void-elements@2.0.1:
+    optional: true
 
   void-elements@3.1.0: {}
 
