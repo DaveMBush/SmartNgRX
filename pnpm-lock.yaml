@@ -2183,6 +2183,7 @@ packages:
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
+    deprecated: Use @eslint/config-array instead
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -2190,6 +2191,7 @@ packages:
 
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
+    deprecated: Use @eslint/object-schema instead
 
   '@inquirer/figures@1.0.2':
     resolution: {integrity: sha512-4F1MBwVr3c/m4bAUef6LgkvBfSjzwH+OfldgHqcuacWwSUetFebM2wi58WfG9uk1rR98U6GwLed4asLJbwdV5w==}
@@ -8347,7 +8349,7 @@ packages:
   puppeteer@21.11.0:
     resolution: {integrity: sha512-9jTHuYe22TD3sNxy0nEIzC7ZrlRnDgeX3xPkbS7PnbdwYjl2o/z/YuCrRBwezdKpbTDTJ4VqIggzNyeRcKq3cg==}
     engines: {node: '>=16.13.2'}
-    deprecated: < 22.5.0 is no longer supported
+    deprecated: < 22.6.4 is no longer supported
     hasBin: true
 
   pure-rand@6.1.0:
@@ -13851,12 +13853,6 @@ snapshots:
     transitivePeerDependencies:
       - nx
 
-  '@nrwl/devkit@19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))':
-    dependencies:
-      '@nx/devkit': 19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))
-    transitivePeerDependencies:
-      - nx
-
   '@nrwl/esbuild@19.3.1(@babel/traverse@7.24.7)(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28)(@types/node@20.11.30)(esbuild@0.19.12)(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))(typescript@5.4.5)':
     dependencies:
       '@nx/esbuild': 19.3.1(@babel/traverse@7.24.7)(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28)(@types/node@20.11.30)(esbuild@0.19.12)(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))(typescript@5.4.5)
@@ -14148,7 +14144,7 @@ snapshots:
 
   '@nx/devkit@19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))':
     dependencies:
-      '@nrwl/devkit': 19.3.1(nx@19.3.1(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))
+      '@nrwl/devkit': 19.3.1(nx@19.1.2(@swc-node/register@1.9.2(@swc/core@1.5.28)(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28))
       ejs: 3.1.10
       enquirer: 2.3.6
       ignore: 5.3.1
