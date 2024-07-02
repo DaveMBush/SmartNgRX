@@ -29,7 +29,7 @@ export function entityDefinitionCache<
 >(
   featureName: string,
   entityName: string,
-  entityDefinition?: SmartEntityDefinition<SmartNgRXRowBase>,
+  entityDefinition?: SmartEntityDefinition<T>,
 ): SmartValidatedEntityDefinition<T> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
@@ -52,5 +52,7 @@ export function entityDefinitionCache<
     `Entity adapter for ${featureName}${psi}${entityName} not found.`,
   );
   // we can cast this now because we've validated that it obeys the type rules
+  // and we have to return the typed version instead of the common version
+  // we store it as
   return castTo<SmartValidatedEntityDefinition<T>>(cached);
 }

@@ -30,7 +30,7 @@ export class ArrayProxy<
   >
   implements ArrayLike<C>, Iterable<C>
 {
-  entityAdapter: EntityAdapter<C>;
+  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
   [isProxy] = true;
   rawArray: string[] = [];
   childActionService: ActionService;
@@ -55,7 +55,7 @@ export class ArrayProxy<
       childFeature,
       childEntity,
     ).entityAdapter;
-    this.entityAdapter = castTo<EntityAdapter<C>>(entityAdapter);
+    this.entityAdapter = entityAdapter;
     // proxying this so that we can intercept going after
     // an index and return the item from the store instead
     return new Proxy(this, {
@@ -85,7 +85,7 @@ export class ArrayProxy<
    */
   init(): void {
     if (isArrayProxy<P, C>(this.childArray)) {
-      this.childArray = castTo<ArrayProxy<P, C>>(this.childArray).rawArray;
+      this.childArray = this.childArray.rawArray;
     }
     // at this point, we can be sure that childArray is a string[]
     if (Object.isFrozen(this.childArray)) {
@@ -170,6 +170,8 @@ export class ArrayProxy<
     newRow.parentId = parentId;
     newRow.isEditing = true;
     service.loadByIdsSuccess([newRow]);
+    // cast is the only safe way to access the parentField that holds the
+    // list of child IDs.
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = [...this.rawArray, childId];
@@ -187,6 +189,8 @@ export class ArrayProxy<
     const childId = this.entityAdapter.selectId(row) as string;
     const { parentService } = this.getServices();
     const newParent = this.createNewParentFromParent(parent, false);
+    // cast is the only safe way to access the parentField that holds the
+    // list of child IDs.
     castTo<Record<keyof P, string[]>>(newParent)[
       this.childDefinition.parentField
     ] = this.rawArray.filter((cid) => cid !== childId);

@@ -285,7 +285,7 @@ export class ActionService {
     ids: string[],
   ): void {
     let idsToRemove = ids.filter(
-      (id) => entities[id] && entities[id]!.isEditing !== true,
+      (id) => entities[id] !== undefined && entities[id]!.isEditing !== true,
     );
     if (idsToRemove.length === 0) {
       return;

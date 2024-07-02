@@ -9,6 +9,9 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { UpdateChanges } from '../types/update-changes.interface';
 /* jscpd:ignore-start */
 
+/**
+ * Interface that describes a group of actions for a feature
+ */
 export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   updateMany: ActionCreator<
     `[${any}] Update Many`,

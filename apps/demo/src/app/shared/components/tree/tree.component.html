@@ -80,7 +80,7 @@
     @if (editingNode.length === 0 || addingNode.length === 0) {
       <button
         [ngClass]="{
-          show: this.addMenuOpenedNode === node.level + ':' + node.node.id
+          show: this.addMenuOpenedNode === node.level + ':' + node.node.id,
         }"
         class="edit-button"
         type="button"
@@ -93,7 +93,7 @@
       @if (node.level === 0) {
         <button
           [ngClass]="{
-            show: this.addMenuOpenedNode === node.level + ':' + node.node.id
+            show: this.addMenuOpenedNode === node.level + ':' + node.node.id,
           }"
           [matMenuTriggerFor]="addMenu"
           class="add-button"

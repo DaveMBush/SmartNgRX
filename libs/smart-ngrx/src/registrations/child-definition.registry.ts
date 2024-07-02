@@ -4,6 +4,9 @@ import { psi } from '../common/theta.const';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
+/**
+ * Registry for child definitions
+ */
 class ChildDefinitionRegistry {
   private childDefinitionMap = new Map<string, ChildDefinition[]>();
 

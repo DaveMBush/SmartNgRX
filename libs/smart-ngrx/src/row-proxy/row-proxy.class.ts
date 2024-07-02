@@ -1,6 +1,7 @@
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { SmartArray } from '../selector/smart-array.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxyDelete } from './row-proxy-delete.interface';
 import { rowProxyGet } from './row-proxy-get.function';
@@ -55,11 +56,10 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
     const realRow: Record<string | symbol, unknown> = {};
     // We have to create a row that uses the rawArray instead of the
     // one we are proxying so that the proxy doesn't get triggered
-    // and cause an infinite loop.
+    // and cause an infinite loop. Therefore, we need to cast the
+    // record to SmartArray to get at the rawArray if it exists.
     forNext(keys, (key) => {
-      const rawArray = castTo<{ rawArray: string[] }>(
-        this.record[key],
-      ).rawArray;
+      const rawArray = castTo<SmartArray>(this.record[key]).rawArray;
       if (rawArray !== undefined) {
         realRow[key] = rawArray;
       } else {
