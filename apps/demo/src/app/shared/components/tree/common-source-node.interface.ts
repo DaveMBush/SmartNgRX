@@ -1,6 +1,8 @@
-import { RowProxyDelete } from '@smart/smart-ngrx/row-proxy/row-proxy-delete.interface';
-import { SmartArray } from '@smart/smart-ngrx/selector/smart-array.interface';
-import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
+import {
+  RowProxyDelete,
+  SmartArray,
+  SmartNgRXRowBase,
+} from '@smart/smart-ngrx';
 export interface CommonSourceNode extends SmartNgRXRowBase, RowProxyDelete {
   id: string;
   type?: string;

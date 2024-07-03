@@ -1,4 +1,4 @@
-import { SmartEntityDefinition } from '@smart/smart-ngrx/types/smart-entity-definition.interface';
+import { SmartEntityDefinition } from '@smart/smart-ngrx';
 
 import { Department } from '../../../../shared/department/department.interface';
 import { departmentEffectsServiceToken } from '../../../../shared/department/department-effects.service-token';

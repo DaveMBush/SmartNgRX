@@ -1,5 +1,8 @@
-import { registerEntity, unregisterEntity } from '../..';
 import { psi } from '../../common/theta.const';
+import {
+  registerEntity,
+  unregisterEntity,
+} from '../../registrations/register-entity.function';
 import { MarkAndDeleteInit } from '../../types/mark-and-delete-init.interface';
 import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';

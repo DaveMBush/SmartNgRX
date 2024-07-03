@@ -1,4 +1,4 @@
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
+import { castTo } from '@smart/smart-ngrx';
 
 import { Department } from './department.interface';
 

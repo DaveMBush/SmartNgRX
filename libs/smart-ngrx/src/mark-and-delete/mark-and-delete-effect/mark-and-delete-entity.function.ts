@@ -1,4 +1,4 @@
-import { getEntityRegistry } from '../..';
+import { getEntityRegistry } from '../../registrations/register-entity.function';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 

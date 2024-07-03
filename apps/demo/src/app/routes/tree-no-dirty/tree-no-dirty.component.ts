@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
-import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smart/smart-ngrx';
 
 import { Location } from '../../shared/locations/location.interface';
 import { SharedModule } from '../../shared/shared.module';

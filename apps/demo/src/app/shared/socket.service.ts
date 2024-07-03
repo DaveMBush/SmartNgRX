@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 
-import { handleSocketNotification } from '@smart/smart-ngrx/socket/handle-socket-notification.function';
+import { handleSocketNotification } from '@smart/smart-ngrx';
 
 // We need to create this service using a factory so we can call init()
 // after the service is created so we don't provideIn: 'root'

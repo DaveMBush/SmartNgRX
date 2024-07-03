@@ -1,17 +1,16 @@
-import * as handleSocketNotificationFunction from '@smart/smart-ngrx/socket/handle-socket-notification.function';
+import { handleSocketNotification as handleSocketNotificationSpy } from '@smart/smart-ngrx';
 
 import { SocketService } from './socket.service';
 
+jest.mock('@smart/smart-ngrx', () => ({
+  handleSocketNotification: jest.fn(),
+}));
+
 describe('SocketService', () => {
   let service: SocketService;
-  let handleSocketNotificationSpy: jest.SpyInstance;
 
   beforeAll(() => {
     service = new SocketService();
-    handleSocketNotificationSpy = jest.spyOn(
-      handleSocketNotificationFunction,
-      'handleSocketNotification',
-    );
   });
 
   describe('when table is docs', () => {
