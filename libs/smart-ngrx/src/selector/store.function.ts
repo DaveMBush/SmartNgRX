@@ -8,7 +8,7 @@ import { assert } from '../common/assert.function';
  * This is set by the StoreEffects code where DI puts it in the constructor which then calls
  * this function.
  */
-export let globalStore: Store | undefined;
+let globalStore: Store | undefined;
 
 /**
  * Internal function used to provide and retrieve a global store

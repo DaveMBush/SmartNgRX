@@ -4,7 +4,16 @@
  * child field.
  */
 export interface ParentInfo {
+  /**
+   * The name of the feature this parent is in.
+   */
   feature: string;
+  /**
+   * The name of the entity for this parent.
+   */
   entity: string;
+  /**
+   * List of parent row IDs that have the child.
+   */
   ids: string[];
 }

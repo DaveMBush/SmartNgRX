@@ -38,9 +38,9 @@ export class ArrayProxy<
   /**
    * The constructor for the ArrayProxy class.
    *
-   * @param childArray The array of ids to wrap
-   * @param child The child entity we use to find the item in the store
-   * @param childDefinition The definition of the child that allows us
+   * @param childArray The ArrayProxy or string[] of ids to wrap
+   * @param child The child `EntityState` we use to find the item in the store
+   * @param childDefinition The `ChildDefinition` that allows us
    *     to get at features, entities and other things we need.
    */
   constructor(
@@ -137,7 +137,7 @@ export class ArrayProxy<
   /**
    * grabs common actions and store used by other methods
    *
-   * @returns actions, parentActions, and store
+   * @returns the `ActionService` for the child and the parent
    */
   getServices(): {
     service: ActionService;

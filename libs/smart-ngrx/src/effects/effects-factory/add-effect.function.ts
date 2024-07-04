@@ -49,6 +49,7 @@ export function addEffect<T extends SmartNgRXRowBase>(
               action.parentId,
             ]);
             // because NgRX requires an action to be returned
+            // from an effect that returns an action
             return of({ type: 'noop' });
           }),
         );

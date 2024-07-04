@@ -14,9 +14,9 @@ import { RowProxyDelete } from './row-proxy-delete.interface';
  * not mutated, you will need to find some other way to do that.
  *
  * @param row the row to wrap
- * @param service the service that will handle updating the row
- * @param parentService the service that will handle updating the parent row
- * @returns a proxy that will handle updating the row
+ * @param service the `ActionService` that will handle updating the row
+ * @param parentService the `ActionService` that will handle updating the parent row
+ * @returns a proxy that will handle updating the row but is typed as T and `RowProxyDelete`
  */
 export function rowProxy<T extends SmartNgRXRowBase>(
   row: T,

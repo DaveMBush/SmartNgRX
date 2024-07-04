@@ -39,7 +39,7 @@ export function registerEntity(
  * in the providers
  * @param entity the fieldName we used when we registered the
  * entity in the providers
- * @returns the attributes associated with the entity
+ * @returns the `EntityAttributes` associated with the entity
  */
 export function getEntityRegistry(
   feature: string,

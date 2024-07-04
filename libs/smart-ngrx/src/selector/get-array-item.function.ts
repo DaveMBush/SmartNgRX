@@ -12,9 +12,10 @@ import { realOrMocked } from './real-or-mocked.function';
  * it doesn't exist in the store and return a placeholder row if it doesn't
  * exist.
  *
- * @param entityState The entity to check for the id
+ * @param entityState The `EntityState` to check for the id
  * @param id The id to check
- * @param childDefinition The definition of the child object that lets us retrieve the feature and entity names
+ * @param childDefinition The `ChildDefinition` of the child object
+ * that lets us retrieve the feature and entity names
  * @returns real or placeholder row
  */
 export function getArrayItem<
