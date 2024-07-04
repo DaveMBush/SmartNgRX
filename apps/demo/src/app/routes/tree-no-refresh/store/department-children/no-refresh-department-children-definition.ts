@@ -13,6 +13,5 @@ export const noRefreshDepartmentChildrenDefinition: SmartEntityDefinition<Depart
       id,
       name: '',
       children: [],
-      isDirty: false,
     }),
   };

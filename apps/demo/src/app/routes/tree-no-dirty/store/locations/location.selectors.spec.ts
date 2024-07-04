@@ -20,7 +20,6 @@ describe('Location Selectors', () => {
         id: '1',
         name: location1string,
         departments: [],
-        isDirty: false,
       },
     },
     ids: ['1'],

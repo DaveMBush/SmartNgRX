@@ -14,6 +14,5 @@ export const noDirtyDepartmentChildrenDefinition: SmartEntityDefinition<Departme
       id,
       name: '',
       children: [],
-      isDirty: false,
     }),
   };

@@ -15,6 +15,5 @@ export const noRemoveDepartmentChildrenDefinition: SmartEntityDefinition<Departm
       id,
       name: '',
       children: [],
-      isDirty: false,
     }),
   };

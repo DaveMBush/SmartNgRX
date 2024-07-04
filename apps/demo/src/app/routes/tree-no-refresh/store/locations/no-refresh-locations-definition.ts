@@ -15,6 +15,5 @@ export const noRefreshLocationsDefinition: SmartEntityDefinition<Location> = {
     id,
     name: '',
     departments: [],
-    isDirty: false,
   }),
 };

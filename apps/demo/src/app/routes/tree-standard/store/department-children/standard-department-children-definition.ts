@@ -11,6 +11,5 @@ export const standardDepartmentChildrenDefinition: SmartEntityDefinition<Departm
       id,
       name: '',
       children: [],
-      isDirty: false,
     }),
   };

@@ -38,7 +38,6 @@ export const selectCurrentLocation = createSelector(
         id,
         name: '',
         departments: [],
-        isDirty: false,
       }
     );
   },

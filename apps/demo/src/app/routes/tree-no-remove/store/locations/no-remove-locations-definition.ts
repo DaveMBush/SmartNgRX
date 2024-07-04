@@ -14,6 +14,5 @@ export const noRemoveLocationsDefinition: SmartEntityDefinition<Location> = {
     id,
     name: '',
     departments: [],
-    isDirty: false,
   }),
 };
