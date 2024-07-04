@@ -20,7 +20,6 @@ const real = {
     department1: {
       id: 'department1',
       name: 'Department 1',
-      isDirty: false,
     },
   },
 };
@@ -28,7 +27,6 @@ const real = {
 const defaultObject = {
   id: 'department2',
   name: 'to be fetched',
-  isDirty: false,
 };
 
 describe('realOrMocked', () => {
@@ -39,18 +37,18 @@ describe('realOrMocked', () => {
     parentEntity: 'parentEntity',
   } as unknown as ChildDefinition<
     SmartNgRXRowBase,
-    { id: string; name: string; isDirty: boolean }
+    { id: string; name: string }
   >;
   entityDefinitionCache('feature', 'entity', {
     entityName: 'entity',
     entityAdapter: createEntityAdapter(),
-    defaultRow: (id: string) => ({ isDirty: false, name: '', id }),
+    defaultRow: (id: string) => ({ name: '', id }),
     effectServiceToken: null,
   } as unknown as SmartEntityDefinition<typeof defaultObject>);
   entityDefinitionCache('parentFeature', 'parentEntity', {
     entityName: 'parentEntity',
     entityAdapter: createEntityAdapter(),
-    defaultRow: (id: string) => ({ isDirty: false, name: '', id }),
+    defaultRow: (id: string) => ({ name: '', id }),
     effectServiceToken: null,
   } as unknown as SmartEntityDefinition<typeof defaultObject>);
   beforeEach(() => {
@@ -76,7 +74,6 @@ describe('realOrMocked', () => {
     expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department1',
       name: 'Department 1',
-      isDirty: false,
     });
   });
 
@@ -86,7 +83,6 @@ describe('realOrMocked', () => {
     expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department2',
       name: 'to be fetched',
-      isDirty: false,
     });
   });
 });

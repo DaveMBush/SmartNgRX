@@ -24,9 +24,6 @@ describe('provideSmartFeatureEntities', () => {
     effectServiceToken: null as unknown as EffectServiceToken<SmartNgRXRowBase>,
     defaultRow: () => ({
       id: '1',
-      isDirty: false,
-      isLoading: false,
-      isEditing: false,
     }),
   };
   beforeEach(() => {

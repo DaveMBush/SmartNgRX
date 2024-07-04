@@ -21,15 +21,11 @@ describe('removeIdFromParents()', () => {
       '1': {
         id: '1',
         name: 'name',
-        isDirty: false,
-        isEditing: false,
         children: ['a', 'b', 'c'],
       },
       '2': {
         id: '2',
         name: 'name',
-        isDirty: false,
-        isEditing: false,
         children: ['a', 'd', 'e'],
       },
     };

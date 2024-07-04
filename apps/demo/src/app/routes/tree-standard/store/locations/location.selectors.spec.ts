@@ -20,7 +20,6 @@ describe('Location Selectors', () => {
         id: '1',
         name: location1string,
         departments: [],
-        isDirty: false,
       },
     },
     ids: ['1'],
@@ -32,7 +31,7 @@ describe('Location Selectors', () => {
     setState('tree-standard2', 'currentLocation', '1');
     (store() as MockStore).overrideSelector(selectLocationsDepartments, {
       entities: {
-        1: { id: '1', name: location1string, departments: [], isDirty: false },
+        1: { id: '1', name: location1string, departments: [] },
       },
       ids: ['1'],
     });
@@ -44,7 +43,6 @@ describe('Location Selectors', () => {
       id: '1',
       name: location1string,
       departments: [],
-      isDirty: false,
     };
 
     const location = await firstValueFrom(
