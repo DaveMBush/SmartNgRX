@@ -26,4 +26,4 @@ Converting the nested data into a flat list is standard `mat-tree` code so, agai
 
 And this is the magic of SmartNgRX. Once you retrieve the data directly from the element, SmartNgRX ends up calling the Effects Service you registered and retrieves the data from the server.
 
-You'll also note that the `transform()` method is [recursive](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo/src/app/shared/components/tree/tree-component.service.ts#L71-L77) in order to access the child elements of a node.
+You'll also note that the `transform()` method is [recursive](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo/src/app/shared/components/tree/tree-component.service.ts#L71-L77) to access the child elements of a node.
