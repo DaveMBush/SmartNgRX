@@ -48,7 +48,7 @@ describe('ActionService', () => {
     entityDefinitionCache(feature, entity, {
       entityName: entity,
       effectServiceToken: null, // serviceToken isn't needed for these tests
-      defaultRow: (id: string) => ({ id, name: '', foo: '', isDirty: false }),
+      defaultRow: (id: string) => ({ id, name: '', foo: '' }),
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
     service = castTo<PublicMarkDirtyWithEntities>(
@@ -65,7 +65,7 @@ describe('ActionService', () => {
         storeDispatchSpy = jest.spyOn(store, 'dispatch');
         service.markDirtyWithEntities(
           {
-            '2': { id: '2', name: 'name', isDirty: false },
+            '2': { id: '2', name: 'name' },
           },
           ['1'],
         );
@@ -84,7 +84,7 @@ describe('ActionService', () => {
           storeDispatchSpy = jest.spyOn(store, 'dispatch');
           service.markDirtyWithEntities(
             {
-              '2': { id: '2', name: 'name', isDirty: false },
+              '2': { id: '2', name: 'name' },
             },
             ['2'],
           );
@@ -109,7 +109,7 @@ describe('ActionService', () => {
           storeDispatchSpy = jest.spyOn(store, 'dispatch');
           service.markDirtyWithEntities(
             {
-              '2': { id: '2', name: 'name', isDirty: false, isEditing: true },
+              '2': { id: '2', name: 'name', isEditing: true },
             },
             ['2'],
           );
@@ -128,10 +128,9 @@ describe('ActionService', () => {
     describe('when the id is not in the entities', () => {
       beforeEach(() => {
         storeDispatchSpy = jest.spyOn(store, 'dispatch');
-        service.garbageCollectWithEntities(
-          { '2': { id: '2', name: 'name', isDirty: false } },
-          ['1'],
-        );
+        service.garbageCollectWithEntities({ '2': { id: '2', name: 'name' } }, [
+          '1',
+        ]);
       });
       it('should dispatch an action but there should not be any changes', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalled();
@@ -142,7 +141,7 @@ describe('ActionService', () => {
         beforeEach(() => {
           storeDispatchSpy = jest.spyOn(store, 'dispatch');
           service.garbageCollectWithEntities(
-            { '2': { id: '2', name: 'name', isDirty: false } },
+            { '2': { id: '2', name: 'name' } },
             ['2'],
           );
         });
@@ -154,7 +153,7 @@ describe('ActionService', () => {
         beforeEach(() => {
           storeDispatchSpy = jest.spyOn(store, 'dispatch');
           service.garbageCollectWithEntities(
-            { '2': { id: '2', name: 'name', isDirty: false, isEditing: true } },
+            { '2': { id: '2', name: 'name', isEditing: true } },
             ['2'],
           );
         });
@@ -168,7 +167,7 @@ describe('ActionService', () => {
     beforeEach(() => {
       setState(feature, entity, {
         ids: ['1'],
-        entities: { '1': { id: '1', name: 'name', isDirty: false } },
+        entities: { '1': { id: '1', name: 'name' } },
       });
     });
     let markDirtyWithEntitiesSpy: jest.SpyInstance;

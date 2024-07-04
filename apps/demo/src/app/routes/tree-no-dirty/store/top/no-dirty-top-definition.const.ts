@@ -13,6 +13,5 @@ export const noDirtyTopDefinition: SmartEntityDefinition<Top> = {
   defaultRow: (id) => ({
     id,
     locations: [],
-    isDirty: false,
   }),
 };

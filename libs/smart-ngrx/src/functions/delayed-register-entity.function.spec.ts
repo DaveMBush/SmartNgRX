@@ -15,7 +15,7 @@ describe('delayedRegisterEntity', () => {
         entityName: 'entityName',
         effectServiceToken: new InjectionToken<string>('fooBar'),
         defaultRow(id: string) {
-          return { id, isDirty: false };
+          return { id };
         },
       });
       expect(returnValue).toBe(true);

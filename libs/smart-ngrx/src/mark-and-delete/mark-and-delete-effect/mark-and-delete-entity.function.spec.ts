@@ -33,7 +33,6 @@ describe('markAndDeleteEntity', () => {
         defaultRow: (id) => {
           return {
             id,
-            isDirty: false,
           };
         },
       });
@@ -66,7 +65,6 @@ describe('markAndDeleteEntity', () => {
         defaultRow: (id) => {
           return {
             id,
-            isDirty: false,
           };
         },
       });
@@ -93,7 +91,6 @@ describe('markAndDeleteEntity', () => {
         defaultRow: (id) => {
           return {
             id,
-            isDirty: false,
           };
         },
       });
@@ -120,7 +117,6 @@ describe('markAndDeleteEntity', () => {
         defaultRow: (id) => {
           return {
             id,
-            isDirty: false,
           };
         },
       });
@@ -147,7 +143,6 @@ describe('markAndDeleteEntity', () => {
         defaultRow: (id) => {
           return {
             id,
-            isDirty: false,
           };
         },
       });

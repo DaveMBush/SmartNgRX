@@ -26,7 +26,6 @@ interface Row extends SmartNgRXRowBase {
   id: string;
   name: string;
   foo: string;
-  isDirty: boolean;
 }
 class TestService extends EffectService<Row> {
   override loadByIds(_: string[]): Observable<Row[]> {
@@ -57,7 +56,7 @@ describe('update-effect.function.ts', () => {
   entityDefinitionCache(feature, entity, {
     entityName: entity,
     effectServiceToken: serviceToken,
-    defaultRow: (id: string) => ({ id, name: '', foo: '', isDirty: false }),
+    defaultRow: (id: string) => ({ id, name: '', foo: '' }),
     entityAdapter: createEntityAdapter(),
   });
   const testService = new TestService();
@@ -89,8 +88,8 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-a', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar', isDirty: false } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
+            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
           }),
         });
         const output = cold('--a', {
@@ -100,7 +99,7 @@ describe('update-effect.function.ts', () => {
         flush();
         expect(serviceSpy).toHaveBeenCalledTimes(1);
         expect(actionServiceLoadByIdsSuccessSpy).toHaveBeenCalledWith([
-          { id: '1', name: 'foo2', foo: 'bar', isDirty: false },
+          { id: '1', name: 'foo2', foo: 'bar' },
         ]);
       });
     });
@@ -110,13 +109,13 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-ab', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar', isDirty: false } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
+            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
           }),
           b: actions.update({
-            old: { row: { id: '1', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '1', name: 'foo2', foo: 'bar' } },
             new: {
-              row: { id: '1', name: 'foo2', foo: 'bar2', isDirty: false },
+              row: { id: '1', name: 'foo2', foo: 'bar2' },
             },
           }),
         });
@@ -127,7 +126,7 @@ describe('update-effect.function.ts', () => {
         flush();
         expect(serviceSpy).toHaveBeenCalledTimes(1);
         expect(actionServiceLoadByIdsSuccessSpy).toHaveBeenCalledWith([
-          { id: '1', name: 'foo2', foo: 'bar2', isDirty: false },
+          { id: '1', name: 'foo2', foo: 'bar2' },
         ]);
       });
     });
@@ -137,13 +136,13 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-ab', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar', isDirty: false } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
+            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
           }),
           b: actions.update({
-            old: { row: { id: '2', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '2', name: 'foo2', foo: 'bar' } },
             new: {
-              row: { id: '2', name: 'foo2', foo: 'bar2', isDirty: false },
+              row: { id: '2', name: 'foo2', foo: 'bar2' },
             },
           }),
         });
@@ -155,10 +154,10 @@ describe('update-effect.function.ts', () => {
         flush();
         expect(serviceSpy).toHaveBeenCalledTimes(2);
         expect(actionServiceLoadByIdsSuccessSpy).toHaveBeenCalledWith([
-          { id: '1', name: 'foo2', foo: 'bar', isDirty: false },
+          { id: '1', name: 'foo2', foo: 'bar' },
         ]);
         expect(actionServiceLoadByIdsSuccessSpy).toHaveBeenCalledWith([
-          { id: '2', name: 'foo2', foo: 'bar2', isDirty: false },
+          { id: '2', name: 'foo2', foo: 'bar2' },
         ]);
       });
     });
@@ -168,27 +167,27 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-abcd', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar', isDirty: false } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
+            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
           }),
           b: actions.update({
-            old: { row: { id: '2', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '2', name: 'foo2', foo: 'bar' } },
             new: {
-              row: { id: '2', name: 'foo2a', foo: 'bar2', isDirty: false },
+              row: { id: '2', name: 'foo2a', foo: 'bar2' },
             },
           }),
           c: actions.update({
-            old: { row: { id: '1', name: 'foo2', foo: 'bar', isDirty: false } },
+            old: { row: { id: '1', name: 'foo2', foo: 'bar' } },
             new: {
-              row: { id: '1', name: 'foo2', foo: 'bar2', isDirty: false },
+              row: { id: '1', name: 'foo2', foo: 'bar2' },
             },
           }),
           d: actions.update({
             old: {
-              row: { id: '2', name: 'foo2a', foo: 'bar2', isDirty: false },
+              row: { id: '2', name: 'foo2a', foo: 'bar2' },
             },
             new: {
-              row: { id: '2', name: 'foo2a', foo: 'bar2a', isDirty: false },
+              row: { id: '2', name: 'foo2a', foo: 'bar2a' },
             },
           }),
         });
@@ -200,10 +199,10 @@ describe('update-effect.function.ts', () => {
         flush();
         expect(serviceSpy).toHaveBeenCalledTimes(2);
         expect(actionServiceLoadByIdsSuccessSpy).toHaveBeenCalledWith([
-          { id: '1', name: 'foo2', foo: 'bar2', isDirty: false },
+          { id: '1', name: 'foo2', foo: 'bar2' },
         ]);
         expect(actionServiceLoadByIdsSuccessSpy).toHaveBeenCalledWith([
-          { id: '2', name: 'foo2a', foo: 'bar2a', isDirty: false },
+          { id: '2', name: 'foo2a', foo: 'bar2a' },
         ]);
       });
     });

@@ -13,6 +13,5 @@ export const noDirtyLocationsDefinition: SmartEntityDefinition<Location> = {
     id,
     name: '',
     departments: [],
-    isDirty: false,
   }),
 };

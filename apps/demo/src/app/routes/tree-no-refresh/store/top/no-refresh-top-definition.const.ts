@@ -15,6 +15,5 @@ export const noRefreshTopDefinition: SmartEntityDefinition<Top> = {
   defaultRow: (id) => ({
     id,
     locations: [],
-    isDirty: false,
   }),
 };

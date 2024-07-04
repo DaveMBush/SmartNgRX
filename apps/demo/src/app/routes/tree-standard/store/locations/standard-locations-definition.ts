@@ -10,6 +10,5 @@ export const standardLocationsDefinition: SmartEntityDefinition<Location> = {
     id,
     name: '',
     departments: [],
-    isDirty: false,
   }),
 };

@@ -198,7 +198,6 @@ describe('ArrayProxy', () => {
           id: '1',
           name: 'foo',
           isEditing: false,
-          isDirty: false,
         };
         const newParent = castTo<{
           createNewParentFromParent(p: object, b: boolean): object;
@@ -207,7 +206,6 @@ describe('ArrayProxy', () => {
           id: '1',
           name: 'foo',
           isEditing: true,
-          isDirty: false,
         });
       });
     });
@@ -227,7 +225,6 @@ describe('ArrayProxy', () => {
           id: '1',
           name: 'foo',
           isEditing: false,
-          isDirty: false,
         };
         const parentProxy = new RowProxy(
           parent,
@@ -241,7 +238,6 @@ describe('ArrayProxy', () => {
           id: '1',
           name: 'foo',
           isEditing: true,
-          isDirty: false,
         });
       });
     });
