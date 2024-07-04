@@ -8,6 +8,7 @@ import { getMarkAndDeleteEntityMap } from './mark-and-delete-entity.map';
  * @param feature the feature the rows belong to
  * @param entity the entity within the feature the rows belong to
  * @param rows the rows to register with the mark and delete functionality
+ *
  * @returns the rows that were passed in with the `isDirty` flag set to false
  */
 export function registerEntityRows<T extends SmartNgRXRowBase>(
@@ -32,6 +33,7 @@ export function registerEntityRows<T extends SmartNgRXRowBase>(
  * @param feature the feature the ids belong to
  * @param entity the entity the ids belong to
  * @param ids the ids to unregister with the mark and delete functionality
+ *
  * @returns the ids that were passed in
  */
 export function unregisterEntityRows(

@@ -20,7 +20,7 @@ const actionGroupCache = new Map<string, unknown>();
  *
  * @param feature the feature this action is for
  * @param entity the entity within the feature this action is for
- * @returns The action group for the source provided
+ * @returns The `ActionGroup` for the source provided
  * @see `IdProp`
  * @see `IdsProp`
  * @see `RowProp`

@@ -18,12 +18,11 @@ import { ParentSelector } from './parent-selector.type';
  *
  * @param parentSelector The selector to retrieve the parent data
  * from the store.
- * @param children The array of `ProxyChild` objects that define the
+ * @param children The array of `ChildDefinition` objects that define the
  * child data to retrieve.
- * @returns Memozied selector that returns the proxied arrays.  It is
- * typed as a regular Selector to keep the compiler happy.
+ * @returns Memozied selector that returns the selected data.
  *
- * @see `ProxyChild`
+ * @see `ChildDefinition`
  * @see `ParentSelector`
  */
 export function createSmartSelector<

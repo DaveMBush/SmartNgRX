@@ -5,9 +5,10 @@ import { castTo } from '../../common/cast-to.function';
 import { store } from '../../selector/store.function';
 
 /**
- * Sets the state of the store.  This grabs the current state and adds
- * the new state to it. If the feature and entity already exist, it will
- * overwrite that state while leaving the rest of the store alone.
+ * Sets the state of the store during unit testing.  This grabs
+ * the current state and adds the new state to it. If the
+ * feature and entity already exist, it will overwrite that
+ * state while leaving the rest of the store alone.
  *
  * @param feature the feature to set
  * @param entity the entity name to set

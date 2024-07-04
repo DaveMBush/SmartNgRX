@@ -11,7 +11,7 @@ class ChildDefinitionRegistry {
   private childDefinitionMap = new Map<string, ChildDefinition[]>();
 
   /**
-   * Register a child definition so we can get at it later
+   * Register a `ChildDefinition` so we can get at it later
    *
    * @param feature the feature the definition is for
    * @param entity the entity the definition is for

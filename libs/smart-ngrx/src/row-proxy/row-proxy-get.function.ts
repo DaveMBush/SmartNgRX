@@ -5,9 +5,9 @@ import { RowProxy } from './row-proxy.class';
 /**
  * This provides the get method of the Proxy in RowProxy
  *
- * @param target the RowProxy the Proxy targets
+ * @param target the `RowProxy` the Proxy targets
  * @param prop the property the proxy needs to retrieve
- * @param service the service that handles the actions for the row
+ * @param service the `ActionService` that handles the actions for the row
  * @returns the value of the property
  */
 export function rowProxyGet<T extends SmartNgRXRowBase>(

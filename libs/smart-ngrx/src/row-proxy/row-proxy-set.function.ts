@@ -5,12 +5,12 @@ import { RowProxy } from './row-proxy.class';
 /**
  * This provides the set method of the Proxy in RowProxy
  *
- * @param target the RowProxy the Proxy targets
+ * @param target the `RowProxy` the Proxy targets
  * @param prop the property the proxy needs to set
  * @param value the value to set the property to
  * @param services the services associated with the row and parent entity
- * @param services.service the service associated with the row entity
- * @param services.parentService the service associated with the parent entity
+ * @param services.service the `ActionService` associated with the row entity
+ * @param services.parentService the `ActionService` associated with the parent entity
  * @returns true if the property was set, false otherwise
  */
 export function rowProxySet<T extends SmartNgRXRowBase>(

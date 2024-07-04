@@ -1,4 +1,3 @@
-import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
@@ -15,5 +14,5 @@ export function isArrayProxy<
 >(arr: unknown): arr is ArrayProxy<P, C> {
   // we have to pass in type unknown so the arr is ArrayProxy<P, C>
   // return will work.
-  return !!castTo<Record<string, boolean>>(arr)[isProxy];
+  return (arr as Record<keyof ArrayProxy, boolean>)[isProxy];
 }

@@ -19,7 +19,7 @@ const entityDefinitionMap = new Map<
  *
  * @param featureName the feature the entity belongs to
  * @param entityName the entity name to register the adapter for
- * @param entityDefinition the entity definition to register the adapter for
+ * @param entityDefinition the `SmartEntityDefinition` to register the adapter for
  * @returns the entity definition
  *
  * @see `EntityDefinition`

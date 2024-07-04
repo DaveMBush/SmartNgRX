@@ -29,7 +29,7 @@ import { removeIdFromParents } from './remove-id-from-parents.function';
  */
 export class ActionService {
   /**
-   * entityAdapter is needed for delete
+   * entityAdapter is needed for delete so it is public
    */
   entityAdapter: EntityAdapter<SmartNgRXRowBase>;
   entities: Observable<Dictionary<SmartNgRXRowBase>>;

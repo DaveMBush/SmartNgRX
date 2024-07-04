@@ -19,13 +19,13 @@ import { ParentSelector } from './parent-selector.type';
  * that uses virtual data, the proxy adds support for a rawArray property that returns the
  * original array before it was proxied.
  *
- * @param parentSelector The selector to retrieve the parent data from the store.
- * @param childDefinition @ProxyChild that defines what the child should look like
+ * @param parentSelector The `ParentSelector` to retrieve the parent data from the store.
+ * @param childDefinition `ChildDefinition` that defines what the child should look like
  * @returns - an entity with the specified childArray proxies so that when an element is
  *         accessed, the childAction will be dispatched to request data from the server.
  *
  * @see `createSmartSelector`
- * @see `ProxyChild`
+ * @see `ChildDefinition`
  * @see `ParentSelector`
  */
 export function createInnerSmartSelector<
