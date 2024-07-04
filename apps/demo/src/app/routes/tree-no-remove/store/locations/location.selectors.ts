@@ -2,7 +2,7 @@
 // intentionally duplicated because it is for different state for demo purposes
 import { createSelector } from '@ngrx/store';
 
-import { createSmartSelector } from '@smart/smart-ngrx/selector/create-smart-selector.function';
+import { createSmartSelector } from '@smart/smart-ngrx';
 
 import { selectCurrentLocationId } from '../current-location/current-location.selector';
 import { selectDepartmentsChildren } from '../department/department.selector';

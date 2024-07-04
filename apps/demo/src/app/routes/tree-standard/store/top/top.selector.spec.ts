@@ -3,9 +3,7 @@
 import { MockStore } from '@ngrx/store/testing';
 import { firstValueFrom } from 'rxjs';
 
-import { store } from '@smart/smart-ngrx/selector/store.function';
-import { createStore } from '@smart/smart-ngrx/tests/functions/create-store.function';
-import { setState } from '@smart/smart-ngrx/tests/functions/set-state.function';
+import { createStore, setState, store } from '@smart/smart-ngrx';
 
 import { selectLocations, selectTopLocations } from './top.selector';
 

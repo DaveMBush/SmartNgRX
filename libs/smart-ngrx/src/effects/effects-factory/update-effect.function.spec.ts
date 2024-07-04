@@ -5,9 +5,13 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { actionFactory, registerEntity, unregisterEntity } from '../..';
+import { actionFactory } from '../..';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import {
+  registerEntity,
+  unregisterEntity,
+} from '../../registrations/register-entity.function';
 import { store as storeFunction } from '../../selector/store.function';
 import { EntityAttributes } from '../../types/entity-attributes.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';

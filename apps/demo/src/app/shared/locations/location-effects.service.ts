@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { EffectService } from '@smart/smart-ngrx/effects/effect-service';
+import { EffectService } from '@smart/smart-ngrx';
 
 import { Location } from './location.interface';
 

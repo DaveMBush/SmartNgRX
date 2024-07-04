@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { SmartNgRXRowBase } from '@smart/smart-ngrx/types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smart/smart-ngrx';
 
 import { Department } from './department/department.interface';
 import { DepartmentChild } from './department-children/department-child.interface';

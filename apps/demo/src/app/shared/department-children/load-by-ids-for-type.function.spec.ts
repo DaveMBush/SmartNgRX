@@ -1,7 +1,7 @@
 import { map, Observable, of, timer } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { castTo } from '@smart/smart-ngrx/common/cast-to.function';
+import { castTo } from '@smart/smart-ngrx';
 
 import { List } from '../lists/list.interface';
 import { CommonService } from './common-service.class';

@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 
-import { provideSmartFeatureEntities } from '@smart/smart-ngrx/index';
+import { provideSmartFeatureEntities } from '@smart/smart-ngrx';
 
 import { watchLocations as watchNoDirtyLocations } from './routes/tree-no-dirty/store/current-location/current-location.effects';
 import { currentLocationNoDirtyReducer } from './routes/tree-no-dirty/store/current-location/current-location-no-dirty.reducer';

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { EffectService } from '@smart/smart-ngrx/index';
+import { EffectService } from '@smart/smart-ngrx';
 
 import { Top } from './top.interface';
 
