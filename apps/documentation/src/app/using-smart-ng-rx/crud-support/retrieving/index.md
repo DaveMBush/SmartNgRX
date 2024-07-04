@@ -8,7 +8,7 @@ See the [Smart Selectors](/using-smart-ng-rx/smart-selectors) section for more i
 
 ## Effects Service
 
-What you will need to provide is the effects service that will retrieve the rows from the server. You will need to implement the `loadByIds` method. This method will be called with the list of IDs the code has determined it does not yet have or have been marked as dirty and it needs to render on the screen some place.
+What you will need to provide is the `EffectService` that will retrieve the rows from the server. You will need to implement the `loadByIds` method, which will be called with the list of IDs the code has determined it does not yet have or have been marked as dirty and it needs to render on the screen some place.
 
 Keep in mind that any time you access an array element directly, you will trigger the retrieval process for that row. This is by design. If you want to retrieve the ID and not the row, you can use the array's `rawArray` property. You might use this if you are iterating through the array for the purposes of virtual scrolling as we've done in the example code.
 
@@ -69,7 +69,7 @@ export const selectTopLocations = createSmartSelector(selectTopEntities, [
     parentField: 'locations',
     parentFeature: 'tree-standard',
     parentEntity: 'top',
-    childSelector: castTo<SmartNgRXRowBaseSelector>(selectLocationsDepartments),
+    childSelector: selectLocationsDepartments,
   },
 ]);
 

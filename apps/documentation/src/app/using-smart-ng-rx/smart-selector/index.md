@@ -14,9 +14,9 @@ export const selectUserChildren = createSmartSelector(selectUser, [
     parentField: 'roles',
     parentFeature: 'shared',
     parentEntity: 'users',
-    childSelector: castTo<SmartNgRXRowBaseSelector>(selectRoles),
+    childSelector: selectRoles,
   },
 ]);
 ```
 
-For now, the first parameter to `createSmartSelector` expects a selector that returns the parent entity. Eventually, we'd like for this parameter to accept any valid selector it can be used with existing code that does not use NgRX Entities.
+The first parameter to `createSmartSelector` expects a selector that returns the parent entity. If you want to use some other selector, you'll need to convert it to a selector that returns an Entity first. See [Using With Existing Selectors](../using-smart-ng-rx/using-with-existing-selectors) for more information.
