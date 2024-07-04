@@ -26,11 +26,11 @@ There are multiple ways data might become "dirty". The first is by setting an ex
 
 ## What this Means for Your Code
 
-Because of the way Smart NgRX works, you'll want to be sure to take advantage of Virtual Scrolling and, once Angular 17 is released, `@Defer()`, to ensure that you are only loading the data that you need. This will ensure that your application is as performant as possible. By doing this, you'll be able to get the benefits of Virtual Data as well as Virtual Scrolling.
+Because of the way Smart NgRX works, you'll want to be sure to take advantage of Virtual Scrolling and `@Defer()`, to ensure that you are only loading the data that you need. This will ensure that your application has the best performance as possible. By doing this, you'll be able to get the benefits of Virtual Data as well as Virtual Scrolling.
 
-It may also mean you'll want to re-think how you've structured your data. For example, imagine the situation where you've a set of fields in your row that you only display some of the time. In this case, you might want to consider moving those fields to a separate entity. This will ensure that you are only loading the data that you need.
+It may also mean you'll want to re-think how you've structured your data. For example, imagine the situation where you have a set of fields in your row that you only display some of the time. In this case, you might want to consider moving those fields to a separate entity. This will ensure that you are only loading the data that you need.
 
-But lets take this a bit further. Let's say each of those fields is conditionally displayed. In this case, it might make more sense to make the entity a list of fields that each relate back to the main entity. By doing this, you can retrieve and display only the rows that are being displayed.
+But lets take this a bit further. Let's say each of those fields is conditionally displayed. In this case, it might make more sense to make the entity a list of fields that each relate back to the main entity. By doing this, you can retrieve and display only the fields that are being displayed.
 
 ## Performance
 
