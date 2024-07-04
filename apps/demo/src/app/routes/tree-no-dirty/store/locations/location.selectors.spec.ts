@@ -57,7 +57,6 @@ describe('Location Selectors', () => {
       id: '2',
       name: '',
       departments: [],
-      isDirty: false,
     };
 
     (store() as MockStore).overrideSelector(selectCurrentLocationId, '2');
