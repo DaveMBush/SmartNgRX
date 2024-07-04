@@ -19,7 +19,7 @@ Normally, there will only be one element in the array, but we've created the API
 Then you would pass this information to SmartNgRX using this code:
 
 ```typescript
-import { handleSocketNotification } from '@smart/smart-ngrx/socket/handle-socket-notification.function';
+import { handleSocketNotification } from '@smart/smart-ngrx';
 
 handleSocketNotification(data.table, data.action, data.ids);
 ```
@@ -63,7 +63,7 @@ Given this, you might think that deleting a row would also use the update method
 And then we pass it to SmartNgRX using this code:
 
 ```typescript
-import { handleSocketNotification } from '@smart/smart-ngrx/socket/handle-socket-notification.function';
+import { handleSocketNotification } from '@smart/smart-ngrx';
 
 handleSocketNotification(data.table, data.action, data.ids);
 ```
