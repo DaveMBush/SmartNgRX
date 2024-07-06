@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from '@smart/smart-ngrx';
+import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
 
 import { DepartmentChild } from '../department-children/department-child.interface';
 

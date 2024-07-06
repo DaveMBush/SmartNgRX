@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from '@smart/smart-ngrx';
+import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
 
 export interface DepartmentChild extends SmartNgRXRowBase {
   id: string;

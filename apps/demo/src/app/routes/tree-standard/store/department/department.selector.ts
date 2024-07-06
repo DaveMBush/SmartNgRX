@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
-
-import { createSmartSelector } from '@smart/smart-ngrx';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
 import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { selectTreeStandardState } from '../tree-standard-state.selectors';

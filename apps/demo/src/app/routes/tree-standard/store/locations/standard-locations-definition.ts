@@ -1,4 +1,4 @@
-import { SmartEntityDefinition } from '@smart/smart-ngrx';
+import { SmartEntityDefinition } from '@smarttools/smart-ngrx';
 
 import { Location } from '../../../../shared/locations/location.interface';
 import { locationEffectsServiceToken } from '../../../../shared/locations/location-effects.service-token';

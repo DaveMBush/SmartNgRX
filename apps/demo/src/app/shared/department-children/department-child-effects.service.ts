@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
+import { EffectService } from '@smarttools/smart-ngrx';
 import { forkJoin, map, Observable, of } from 'rxjs';
-
-import { EffectService } from '@smart/smart-ngrx';
 
 import { DocsService } from '../docs/docs.service';
 import { FoldersService } from '../folders/folders.service';

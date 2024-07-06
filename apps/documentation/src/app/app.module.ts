@@ -18,25 +18,38 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(NG_DOC_ROUTING, {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-      scrollOffset: [0, 70],
-    }),
+    RouterModule.forRoot(
+      [
+        ...NG_DOC_ROUTING,
+        {
+          path: '',
+          redirectTo: 'home',
+          pathMatch: 'full',
+        },
+      ],
+      {
+        scrollPositionRestoration: 'enabled',
+        anchorScrolling: 'enabled',
+        scrollOffset: [0, 70],
+      },
+    ),
     NgDocRootComponent,
     NgDocSidebarComponent,
     NgDocNavbarComponent,
     NgDocThemeToggleComponent,
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     provideSearchEngine(NgDocDefaultSearchEngine),
     provideNgDocApp({
       themes: [

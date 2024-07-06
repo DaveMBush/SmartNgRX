@@ -1,9 +1,8 @@
 // jscpd:ignore-start
 // intentionally duplicated.
 import { MockStore } from '@ngrx/store/testing';
+import { createStore, setState, store } from '@smarttools/smart-ngrx';
 import { firstValueFrom } from 'rxjs';
-
-import { createStore, setState, store } from '@smart/smart-ngrx';
 
 import { selectCurrentLocationId } from '../current-location/current-location.selector';
 import {
