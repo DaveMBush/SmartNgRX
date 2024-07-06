@@ -1,5 +1,5 @@
-import { releaseChangelog, releaseVersion } from 'nx/release';
-import * as yargs from 'yargs';
+const { releaseChangelog, releaseVersion } = require('nx/release');
+const yargs = require('yargs');
 
 (async () => {
   const options = await yargs
