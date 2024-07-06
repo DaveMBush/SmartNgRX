@@ -7,6 +7,7 @@
     "start:prod": "nx serve demo --configuration=production",
     "start:server": "nx serve server",
     "start:documentation": "nx serve documentation --configuration=serve --port=4201",
+    "git-publish": "node tools/scripts/publish.js",
     "build": "nx affected:build --parallel=5",
     "lint": "nx affected:lint --parallel=5",
     "lint:fix": "nx affected:lint --parallel=5 --fix",
@@ -77,6 +78,7 @@
     "socket.io-client": "^4.7.5",
     "tslib": "^2.6.2",
     "tsx": "^4.7.1",
+    "yargs": "^17.7.2",
     "zone.js": "~0.14.7"
   },
   "devDependencies": {
