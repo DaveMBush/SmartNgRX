@@ -32,7 +32,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   locations = input.required<Location[] | null>();
   locationId = input<number | string | null>('');
   location = input<Location | null>(null);
-  locationChanged = output<string>();
+  readonly locationChanged = output<string>();
 
   @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
 
