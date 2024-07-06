@@ -24,6 +24,12 @@
         "{workspaceRoot}/.eslintignore"
       ]
     },
+    "nx-release-publish": {
+      "dependsOn": ["build"],
+      "options": {
+        "packageRoot": "{workspaceRoot}/dist/libs/{projectName}"
+      }
+    },
     "@nx/eslint:lint": {
       "inputs": [
         "default",
