@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { EffectService } from '@smarttools/smart-ngrx';
 import { Observable } from 'rxjs';
-
-import { EffectService } from '@smart/smart-ngrx';
 
 import { Location } from './location.interface';
 

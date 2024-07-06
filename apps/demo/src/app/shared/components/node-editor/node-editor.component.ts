@@ -47,7 +47,7 @@ export class NodeEditorComponent
 
   placeholder = input<string>('');
   readonly save = output<string>();
-  cancel = output();
+  readonly cancel = output();
   @ViewChild('input', { read: ElementRef })
   inputField!: ElementRef<HTMLInputElement>;
 

@@ -12,8 +12,7 @@ import {
   provideStoreDevtools,
   StoreDevtoolsModule,
 } from '@ngrx/store-devtools';
-
-import { provideSmartNgRX } from '@smart/smart-ngrx';
+import { provideSmartNgRX } from '@smarttools/smart-ngrx';
 
 import { appRoutes } from './app.routes';
 import { DepartmentEffectsService } from './shared/department/department-effects.service';

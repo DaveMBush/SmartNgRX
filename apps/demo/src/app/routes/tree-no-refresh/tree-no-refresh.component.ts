@@ -3,9 +3,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
 import { Observable, of } from 'rxjs';
-
-import { SmartNgRXRowBase } from '@smart/smart-ngrx';
 
 import { Location } from '../../shared/locations/location.interface';
 import { SharedModule } from '../../shared/shared.module';

@@ -24,6 +24,12 @@
         "{workspaceRoot}/.eslintignore"
       ]
     },
+    "nx-release-publish": {
+      "dependsOn": ["build"],
+      "options": {
+        "packageRoot": "{workspaceRoot}/dist/libs/{projectName}"
+      }
+    },
     "@nx/eslint:lint": {
       "inputs": [
         "default",
@@ -33,6 +39,11 @@
       "cache": true
     },
     "@nx/angular:ng-packagr-lite": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
+    },
+    "@nx/angular:package": {
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
@@ -62,6 +73,17 @@
     },
     "@nx/angular:component": {
       "style": "css"
+    }
+  },
+  "release": {
+    "projects": ["smart-ngrx"],
+    "version": {
+      "conventionalCommits": true
+    },
+    "changelog": {
+      "workspaceChangelog": {
+        "createRelease": "github"
+      }
     }
   }
 }

@@ -10,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
-import { EffectService } from '@smart/smart-ngrx';
+import { EffectService } from '@smarttools/smart-ngrx';
 
 import { User } from './user.interface';
 

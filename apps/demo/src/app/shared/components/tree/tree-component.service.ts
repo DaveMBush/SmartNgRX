@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-
-import { assert, forNext, SmartArray } from '@smart/smart-ngrx';
+import { assert, forNext, SmartArray } from '@smarttools/smart-ngrx';
 
 import { DepartmentChild } from '../../department-children/department-child.interface';
 import { CommonSourceNode } from './common-source-node.interface';

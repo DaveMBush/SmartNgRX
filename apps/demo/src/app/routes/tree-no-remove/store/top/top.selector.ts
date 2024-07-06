@@ -1,6 +1,5 @@
 import { createSelector } from '@ngrx/store';
-
-import { createSmartSelector } from '@smart/smart-ngrx';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
 import { Location } from '../../../../shared/locations/location.interface';
 import { selectLocationsDepartments } from '../locations/location.selectors';

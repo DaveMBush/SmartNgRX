@@ -1,4 +1,4 @@
-import { SmartEntityDefinition } from '@smart/smart-ngrx';
+import { SmartEntityDefinition } from '@smarttools/smart-ngrx';
 
 import { Top } from '../../../../shared/top/top.interface';
 import { topEffectsServiceToken } from '../../../../shared/top/top-effects.service-token';

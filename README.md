@@ -1,6 +1,35 @@
 # SmartNgRX
 
-## Introduction
+## What is SmartNgRX?
+
+SmartNgRX is a library that hides most of NgRX from the developer for CRUD operations while still using NgRX under the hood and allowing you to use it with existing NgRX code. It not only supports CRUD but also implements optimistic UI for updates and deletes. Below is a list of features we have implemented so far (checked) along with some of our dreams (unchecked):
+
+- [x] Eliminate NgRX boiler-plate code.
+- [x] Dynamically generate Actions, Reducers and Effects.
+- [x] Complete CRUD support.
+- [x] Provide optimistic UI natively
+- [x] Optionally remove unused entity rows from the store if they are no longer being used.
+- [x] Optionally allow data to refresh if it is currently being displayed.
+- [x] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
+- [ ] Provide multiple ways to retrieve child rows.
+  - [x] For small sets of nested data, provide the IDs of the child elements in an array of the parent.
+  - [ ] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
+- [x] Allow this to work with code that has to account for write lag on the server (you can control this by using the Effects Service you have complete control over).
+- [x] Allow the server to notify this code via websockets (or any future server-side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered someplace.
+- [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
+- [ ] Use Signals, as an alternative, under the hood instead of Observables to allow for better performance and less memory usage.
+
+More details are in our documentation.
+
+## Installation
+
+To install this library, run:
+
+```bash
+$ npm install @smarttools/smart-ngrx
+```
+
+## History
 
 This project merges two concepts I've been playing with for a while.
 
@@ -19,32 +48,6 @@ Now, I couldn't let it go. I kept thinking about it. And another thought came to
 At this point, I merged the two concepts. Using the main library of this project, you can register your NgRX entities in a providers section and then use "SmartSelectors" to join the data back together again. Only the join doesn't just join the data, it retrieves the data as it is accessed.
 
 Have a look at our "Ultimate Goals" to see where we are headed and how much we've completed so far.
-
-## Ultimate Goals
-
-- [x] Hide the NgRX boiler-plate code from the developer
-- [x] Dynamically generate Actions, Reducers and Effects.
-- [ ] Demonstrate server-side searching for rows
-- [x] Complete CRUD support.
-  - [x] Create
-  - [x] Read
-  - [x] Update
-  - [x] Delete
-- [x] Provide optimistic UI natively
-  - [x] Update
-  - [x] Delete
-  - [x] Create
-  - [x] Delete (only deletes from multiple parents of the same type)
-- [x] Optionally remove unused entity rows from the store.
-- [x] Optionally allow data to refresh using polling.
-- [x] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
-- [ ] Provide multiple ways to retrieve child rows.
-  - [x] For small sets of nested data, provide the IDs of the child elements in an array of the parent.
-  - [ ] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
-- [x] Allow this to work with code that has to account for write lag on the server (you can control this by using the Effects Service you have complete control over).
-- [x] Allow the server to notify this code via websockets (or any future server-side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered someplace.
-- [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
-- [ ] Use Signals, as an alternative, under the hood instead of Observables to allow for better performance and less memory usage.
 
 ## Documentation
 
