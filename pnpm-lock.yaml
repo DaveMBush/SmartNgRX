@@ -175,8 +175,8 @@ importers:
         specifier: ^10.3.9
         version: 10.3.9(@nestjs/common@10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9(@nestjs/common@10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.3.9)(@nestjs/websockets@10.3.9)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.3.9(@nestjs/common@10.3.9(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.3.9))
       '@ngrx/schematics':
-        specifier: 18.0.0
-        version: 18.0.0
+        specifier: 18.0.1
+        version: 18.0.1
       '@nx/cypress':
         specifier: 19.4.1
         version: 19.4.1(@babel/traverse@7.24.7)(@swc-node/register@1.9.2(@swc/core@1.5.28(@swc/helpers@0.5.11))(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28(@swc/helpers@0.5.11))(@types/node@20.11.30)(@zkochan/js-yaml@0.0.7)(cypress@13.9.0)(eslint@8.56.0)(nx@19.4.1(@swc-node/register@1.9.2(@swc/core@1.5.28(@swc/helpers@0.5.11))(@swc/types@0.1.8)(typescript@5.4.5))(@swc/core@1.5.28(@swc/helpers@0.5.11)))(typescript@5.4.5)
@@ -2728,8 +2728,8 @@ packages:
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@ngrx/schematics@18.0.0':
-    resolution: {integrity: sha512-lYe/bePn6EH76wh0wPj4d3a8PCFKQaScuoQOjAy/nb1tF8lfSA+mLKhX6e8vmrdxdFaygwapx5JIfECdEmmPag==}
+  '@ngrx/schematics@18.0.1':
+    resolution: {integrity: sha512-2nkyU3d5lU0AigOa4ZudjvUHoeEvy4rsl/q41QkfFQsXubSVipT88Bqzg1uiu6ek+0KLyZ/coscbeU4gtcxTuw==}
 
   '@ngrx/store-devtools@18.0.0':
     resolution: {integrity: sha512-0XbUnDjpaYq8trJs/RqfEfvFQRgQ0Hm648ImZHTfF1CwHwDe5qZAkLuOt0D/e4YO8itMc4MymZJzEkfJz4HVWw==}
@@ -13588,13 +13588,13 @@ snapshots:
       '@angular/common': 18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/core': 18.0.4(rxjs@7.8.1)(zone.js@0.14.7)
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@ngneat/until-destroy@10.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)':
     dependencies:
       '@angular/core': 18.0.4(rxjs@7.8.1)(zone.js@0.14.7)
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   '@ngrx/component-store@18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)':
     dependencies:
@@ -13623,7 +13623,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  '@ngrx/schematics@18.0.0': {}
+  '@ngrx/schematics@18.0.1': {}
 
   '@ngrx/store-devtools@18.0.0(@ngrx/store@18.0.0(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(rxjs@7.8.1)':
     dependencies:
@@ -16605,7 +16605,7 @@ snapshots:
       '@angular/core': 18.0.4(rxjs@7.8.1)(zone.js@0.14.7)
       '@angular/forms': 18.0.4(@angular/common@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.0.4(@angular/animations@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.0.4(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.0.4(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
       rxjs: 7.8.1
-      tslib: 2.6.2
+      tslib: 2.6.3
 
   di@0.0.1:
     optional: true
