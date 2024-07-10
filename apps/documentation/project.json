@@ -4,14 +4,14 @@
   "projectType": "application",
   "prefix": "SmartNgRX",
   "sourceRoot": "apps/documentation/src",
-  "implicitDependencies": ["smart-ngrx"],
   "tags": [],
+  "implicitDependencies": ["smart-ngrx"],
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "dependsOn": ["main-build"],
       "options": {
-        "outputPath": "documentation",
+        "outputPath": "documentation/browser",
         "commands": [
           {
             "command": "cp documentation/browser/index.html documentation/browser/404.html",
@@ -27,8 +27,13 @@
         "outputPath": "documentation",
         "index": "apps/documentation/src/index.html",
         "browser": "apps/documentation/src/main.ts",
+        "server": "apps/documentation/src/main.server.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/documentation/tsconfig.app.json",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/documentation/server.ts"
+        },
         "assets": [
           {
             "glob": "**/*",
@@ -129,6 +134,48 @@
         "buildTarget": "documentation:build:development",
         "staticFilePath": "./documentation/browser"
       }
+    },
+    "server": {
+      "dependsOn": ["build"],
+      "executor": "@nx/angular:webpack-server",
+      "options": {
+        "outputPath": "documentation/server",
+        "main": "apps/documentation/server.ts",
+        "tsConfig": "apps/documentation/tsconfig.server.json"
+      },
+      "configurations": {},
+      "defaultConfiguration": "production"
+    },
+    "serve-ssr": {
+      "executor": "@angular-devkit/build-angular:ssr-dev-server",
+      "configurations": {
+        "development": {
+          "browserTarget": "documentation:build:development",
+          "serverTarget": "documentation:server:development"
+        },
+        "production": {
+          "browserTarget": "documentation:build:production",
+          "serverTarget": "documentation:server:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "prerender": {
+      "executor": "@angular-devkit/build-angular:prerender",
+      "options": {
+        "routes": ["/"]
+      },
+      "configurations": {
+        "development": {
+          "browserTarget": "documentation:build:development",
+          "serverTarget": "documentation:server:development"
+        },
+        "production": {
+          "browserTarget": "documentation:build:production",
+          "serverTarget": "documentation:server:production"
+        }
+      },
+      "defaultConfiguration": "production"
     }
   }
 }
