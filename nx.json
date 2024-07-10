@@ -4,7 +4,7 @@
     "default": {
       "runner": "nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "cacheableOperations": ["build", "lint", "test", "e2e", "server"],
         "accessToken": "ZGM1NzAxODMtYzFkNS00ZjQxLTgwY2MtNDYwODdmMjkwNjJkfHJlYWQtd3JpdGU="
       }
     }
@@ -47,6 +47,9 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
+    },
+    "server": {
+      "cache": true
     }
   },
   "namedInputs": {

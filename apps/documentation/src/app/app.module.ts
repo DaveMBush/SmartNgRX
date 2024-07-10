@@ -16,7 +16,10 @@ import { NG_DOC_ROUTING, provideNgDocContext } from '@ng-doc/generated';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+} from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import {
   provideHttpClient,
@@ -62,6 +65,7 @@ import {
     provideNgDocContext(),
     providePageSkeleton(NG_DOC_DEFAULT_PAGE_SKELETON),
     provideMainPageProcessor(NG_DOC_DEFAULT_PAGE_PROCESSORS),
+    provideClientHydration(),
   ],
   bootstrap: [AppComponent],
 })
