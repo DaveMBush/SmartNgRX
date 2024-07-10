@@ -23,8 +23,10 @@ import {
 import { AppComponent } from './app.component';
 import {
   provideHttpClient,
+  withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { NgDocIconComponent, NgDocTooltipDirective } from '@ng-doc/ui-kit';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,11 +35,16 @@ import {
     BrowserAnimationsModule,
     RouterModule.forRoot(
       [
-        ...NG_DOC_ROUTING,
+        ...NG_DOC_ROUTING.map((route) => {
+          if (route.path === 'home') {
+            route.path = '';
+            route.pathMatch = 'full';
+          }
+          return route;
+        }),
         {
-          path: '',
-          redirectTo: 'home',
-          pathMatch: 'full',
+          path: '**',
+          redirectTo: '',
         },
       ],
       {
@@ -50,9 +57,11 @@ import {
     NgDocSidebarComponent,
     NgDocNavbarComponent,
     NgDocThemeToggleComponent,
+    NgDocIconComponent,
+    NgDocTooltipDirective,
   ],
   providers: [
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
     provideSearchEngine(NgDocDefaultSearchEngine),
     provideNgDocApp({
       themes: [

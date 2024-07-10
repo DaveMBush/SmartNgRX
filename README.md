@@ -19,7 +19,7 @@ SmartNgRX is a library that hides most of NgRX from the developer for CRUD opera
 - [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
 - [ ] Use Signals, as an alternative, under the hood instead of Observables to allow for better performance and less memory usage.
 
-More details are in our documentation.
+More details are in our [documentation](https://davembush.github.io/SmartNgRX/).
 
 ## Installation
 
