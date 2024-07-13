@@ -1,5 +1,6 @@
 import { EntityAdapter } from '@ngrx/entity';
 
+import { ChildType } from './child-type.type';
 import { EffectServiceToken } from './effect-service.token';
 import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
 import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
@@ -30,10 +31,24 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * yet exist in the store.
    *
    * @param id The unique identifier for the row. You should use this to set the
-   * id of the id row in the default row.
+   * id of the id row in the default row. If the default row is being generated
+   * because it needs to be filled in for a virtual row and only has an index, the
+   * id that is passed in will be in the form of `index${psi}${index}`. You can use
+   * this information to create whatever ID is appropriate for the row.
    */
   // eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- decorating with void because this should not use this.
   defaultRow(this: void, id: string): Row;
+
+  /**
+   * If a row has child fields, they should be defined here. The key is the
+   * name of the child field and the value is the type of child field.
+   *
+   * Types can be 'fixed' or 'virtual'. Fixed means that all the IDs for the
+   * child are returned with the row. Virtual means that only the number of
+   * items are returned and the IDs are fetched from the server when the row
+   * is accessed.
+   */
+  children?: Record<string, ChildType>;
 
   /**
    * If this is true, the assumption is that this is the top level row that has
