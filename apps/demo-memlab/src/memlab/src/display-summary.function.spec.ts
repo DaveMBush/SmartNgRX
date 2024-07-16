@@ -14,7 +14,9 @@ describe('displaySummary', () => {
       });
     exitSpy = jest
       .spyOn(process, 'exit')
-      .mockImplementation((_?: number): never => undefined as never);
+      .mockImplementation(
+        (_?: number | string | null): never => undefined as never,
+      );
   });
   afterEach(() => {
     jest.clearAllMocks();
