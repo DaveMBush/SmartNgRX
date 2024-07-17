@@ -3,4 +3,5 @@ export interface DepartmentDTO {
   parentId?: string;
   name: string;
   children: { type: string; id: string }[];
+  virtualChildren: number;
 }

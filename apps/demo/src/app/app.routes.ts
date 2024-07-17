@@ -23,11 +23,16 @@ import { noRemoveDepartmentChildrenDefinition } from './routes/tree-no-remove/st
 import { noRemoveLocationsDefinition } from './routes/tree-no-remove/store/locations/no-remove-locations-definition';
 import { noRemoveTopDefinition } from './routes/tree-no-remove/store/top/no-remove-top-definition.const';
 import { watchLocations as watchStandardLocations } from './routes/tree-standard/store/current-location/current-location.effects';
+import { watchLocations as watchStandardVirtualLocations } from './routes/tree-standard-virtual/store/current-location/current-location.effects';
 import { currentLocationStandardReducer } from './routes/tree-standard/store/current-location/current-location-standard.reducer';
 import { standardDepartmentsDefinition } from './routes/tree-standard/store/department/standard-departments-definition';
 import { standardDepartmentChildrenDefinition } from './routes/tree-standard/store/department-children/standard-department-children-definition';
 import { standardLocationsDefinition } from './routes/tree-standard/store/locations/standard-locations-definition';
 import { standardTopDefinition } from './routes/tree-standard/store/top/standard-top-definition.const';
+import { standardVirtualDepartmentsDefinition } from './routes/tree-standard-virtual/store/department/standard-virtual-departments-definition';
+import { standardVirtualDepartmentChildrenDefinition } from './routes/tree-standard-virtual/store/department-children/standard-virtual-department-children-definition';
+import { standardVirtualLocationsDefinition } from './routes/tree-standard-virtual/store/locations/standard-virtual-locations-definition';
+import { standardVirtualTopDefinition } from './routes/tree-standard-virtual/store/top/standard-virtual-top-definition.const';
 import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state.interface';
 
 // This ensure we have one key per SharedState property
@@ -124,6 +129,23 @@ export const appRoutes: Routes = [
         noRemoveLocationsDefinition,
         noRemoveDepartmentsDefinition,
         noRemoveDepartmentChildrenDefinition,
+      ]),
+    ],
+  },
+  {
+    path: 'tree-virtual',
+    loadComponent: async () =>
+      (await import('./routes/tree-standard-virtual/tree-virtual.component')).TreeVirtualComponent,
+    providers: [
+      importProvidersFrom([
+        StoreModule.forFeature('tree-standard-virtual2', sharedReducersStandard),
+        EffectsModule.forFeature([{ watchStandardVirtualLocations }]),
+      ]),
+      provideSmartFeatureEntities('tree-standard-virtual', [
+        standardVirtualTopDefinition,
+        standardVirtualLocationsDefinition,
+        standardVirtualDepartmentsDefinition,
+        standardVirtualDepartmentChildrenDefinition,
       ]),
     ],
   },

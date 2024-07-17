@@ -28,6 +28,7 @@ export function consolidateChildren(
   return departments.map((department) => ({
     id: department.id,
     name: department.name,
+    // Since Prisma doesn't support views, we artificially create one here.
     children: [
       ...department.docs.map(idToString('did')).map(toDepartmentChild('docs')),
       ...department.folders.map(idToString()).map(toDepartmentChild('folders')),
@@ -38,5 +39,12 @@ export function consolidateChildren(
     ]
       .sort(createdSort)
       .map(toIdType),
+    // since we aren't returning the IDs, we can just count them
+    virtualChildren: [
+      ...department.docs,
+      ...department.folders,
+      ...department.sprintFolders,
+      ...department.lists,
+    ].length
   }));
 }
