@@ -4,12 +4,16 @@ import { assert, forNext, SmartArray } from '@smarttools/smart-ngrx';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
+import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 
 @Injectable()
 export class TreeComponentService {
   private expandMap = new Map<string, boolean>();
   private component: TreeComponent | null = null;
   private isVirtual = false;
+
+  constructor(private virtualArrayFlagService: VirtualArrayFlagService) {
+  }
 
   set form(component: TreeComponent) {
     this.component = component;
@@ -73,7 +77,7 @@ export class TreeComponentService {
       if (this.isExpanded(r as TreeNode)) {
         const treeNode = children[i] as CommonSourceNode;
         const childNodes = this.transform(
-          level === 0 && this.isVirtual ? treeNode.virtualChildren : treeNode.children,
+          level === 0 && this.virtualArrayFlagService.virtualArrayFlag ? treeNode.virtualChildren : treeNode.children,
           level + 1,
           startRange - result.length,
           endRange - result.length,

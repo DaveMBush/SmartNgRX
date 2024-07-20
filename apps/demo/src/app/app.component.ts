@@ -12,15 +12,20 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
 
 import { SocketService } from './shared/socket.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { VirtualArrayFlagService } from './shared/virtual-array-flag.service';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MatToolbarModule,
     MatTabsModule,
     MatTooltipModule,
+    MatCheckboxModule
   ],
   selector: 'dmb-demo-root',
   templateUrl: './app.component.html',
@@ -31,12 +36,16 @@ export class AppComponent implements OnInit {
   private router = inject(Router);
   private socketService = inject(SocketService);
   activeLink: Observable<string> = of('');
+  useVirtualArrays = false;
   static navigationEndRoute(event: NavigationEnd): string {
     return event.urlAfterRedirects.split('/')[1];
   }
 
   static navigationEndGuard(event: unknown): event is NavigationEnd {
     return event instanceof NavigationEnd;
+  }
+
+  constructor(public virtualArrayFlagService: VirtualArrayFlagService) {
   }
 
   ngOnInit(): void {
