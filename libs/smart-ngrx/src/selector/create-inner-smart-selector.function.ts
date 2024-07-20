@@ -7,6 +7,9 @@ import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { ChildType } from '../types/child-type.type';
+import { VirtualArray } from './virtual-array.class';
 /**
  * This is an internal function used by `createSmartSelector`.
  * It is documented here for completeness.  Use `createSmartSelector` instead.
@@ -27,6 +30,7 @@ import { ParentSelector } from './parent-selector.type';
  * @see `createSmartSelector`
  * @see `ChildDefinition`
  * @see `ParentSelector`
+ * @access internal
  */
 export function createInnerSmartSelector<
   P extends SmartNgRXRowBase,
@@ -38,6 +42,8 @@ export function createInnerSmartSelector<
   const {
     childFeature,
     childEntity,
+    parentFeature,
+    parentEntity,
     childSelector,
     parentField: parentFieldName,
   } = childDefinition;
@@ -46,8 +52,32 @@ export function createInnerSmartSelector<
     childEntity,
     childDefinition,
   );
+
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
+      const children = entityDefinitionCache(
+        parentFeature,
+        parentEntity,
+      ).children as Partial<Record<keyof P, ChildType>> | undefined;
+      if (children?.[parentFieldName] === 'virtual') {
+        // Because NgRX freeze may be turned on
+        if (Object.isFrozen(parent)) {
+          parent = { ...parent };
+          parent.ids = [...parent.ids] as number[] | string[];
+          parent.entities = { ...parent.entities };
+        }
+        parent.ids.forEach((id) => {
+          let row = parent.entities[id]!;
+          // Because NgRX freeze may be turned on
+          if (Object.isFrozen(row[parentFieldName])) {
+            row = { ...row };
+          }
+          row[parentFieldName] = new VirtualArray<P,C>(row[parentFieldName] as number) as P[keyof P];
+          parent.entities[id] = row;
+        });
+        return parent;
+      }
+
       const newParentEntity: EntityState<P> = {
         ids: [...parent.ids] as number[] | string[],
         entities: { ...parent.entities },

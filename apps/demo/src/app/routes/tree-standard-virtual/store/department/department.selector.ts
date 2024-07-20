@@ -20,7 +20,7 @@ export const selectDepartmentsChildren = createSmartSelector(
       childEntity: 'departmentChildren',
       parentFeature: 'tree-standard-virtual',
       parentEntity: 'departments',
-      parentField: 'children',
+      parentField: 'virtualChildren',
       childSelector: selectDepartmentChildren,
     },
   ],

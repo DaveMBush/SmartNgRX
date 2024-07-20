@@ -48,7 +48,7 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * items are returned and the IDs are fetched from the server when the row
    * is accessed.
    */
-  children?: Record<string, ChildType>;
+  children?: Partial<Record<keyof Row, ChildType>>;
 
   /**
    * If this is true, the assumption is that this is the top level row that has
