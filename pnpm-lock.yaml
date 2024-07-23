@@ -66,8 +66,8 @@ importers:
         specifier: 17.6.14
         version: 17.6.14(xhr4etjneuyg56qt7yctwkvheu)
       '@ng-doc/core':
-        specifier: 17.6.14
-        version: 17.6.14
+        specifier: 17.6.16
+        version: 17.6.16
       '@ng-doc/ui-kit':
         specifier: 17.6.14
         version: 17.6.14(5g6c77fdsgs3cjrveji7tlu4ve)
@@ -2723,6 +2723,9 @@ packages:
 
   '@ng-doc/core@17.6.14':
     resolution: {integrity: sha512-taN2xCU4Vm2/iqaEPAed6plz9gYweKSSfPUEFjkLGCPimbtMPN7Y1f/WjiZiiIJfq+nTHPLpVh0wbZiR0TkZ4w==}
+
+  '@ng-doc/core@17.6.16':
+    resolution: {integrity: sha512-gTOG2VFkejNPaNznwn7n3GG+XZgLCsJqZIuVZHbhnP5uVlsVjiJQO4TjpZQgiOPXd9BnRaJq6pMop6gYt25kYQ==}
 
   '@ng-doc/ui-kit@17.6.14':
     resolution: {integrity: sha512-L2Qa841Vev1XpBFLFnp1dFeQU5QCc4busxdunQXqYXOgpJYI5SW9qoIB5g9a/ctf6D0+7XILIUhXYOVM6mgiiw==}
@@ -13826,6 +13829,13 @@ snapshots:
       - webpack-cli
 
   '@ng-doc/core@17.6.14':
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+
+  '@ng-doc/core@17.6.16':
     dependencies:
       css-what: 6.1.0
       esthetic: 0.5.6-beta.1
