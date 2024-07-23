@@ -9,6 +9,9 @@ export const noRefreshDepartmentsDefinition: SmartEntityDefinition<Department> =
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
     markAndDelete,
+    children: {
+      virtualChildren: 'virtual'
+    },
     defaultRow: (id) => ({
       id,
       name: '',

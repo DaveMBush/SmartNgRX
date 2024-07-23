@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { assert, forNext, SmartArray } from '@smarttools/smart-ngrx';
 
+import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
-import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 
 @Injectable()
 export class TreeComponentService {
@@ -62,10 +62,16 @@ export class TreeComponentService {
       let node: CommonSourceNode | string = c;
       if (startRange <= result.length && result.length <= endRange) {
         node = children[i];
+      } else {
+        // we don't need to do anything with this node
+        // but the tree needs to know it is longer so
+        // we increment the length.
+        result.length++;
+        return;
       }
       const r =
         typeof node === 'string'
-          ? { node: { id: node }, name: '', level, hasChildren: false }
+          ? { node: { id: node, isLoading: true }, name: '', level, hasChildren: false }
           : {
               name: node.name,
               node,

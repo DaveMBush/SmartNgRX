@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { createSmartSelector } from '@smarttools/smart-ngrx';
 
+import { featureName } from '../../feature.const';
 import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { selectTreeStandardState } from '../tree-standard-state.selectors';
 
@@ -16,11 +17,19 @@ export const selectDepartmentsChildren = createSmartSelector(
   selectDepartments,
   [
     {
-      childFeature: 'tree-standard',
+      childFeature: featureName,
       childEntity: 'departmentChildren',
-      parentFeature: 'tree-standard',
+      parentFeature: featureName,
       parentEntity: 'departments',
       parentField: 'children',
+      childSelector: selectDepartmentChildren,
+    },
+    {
+      childFeature: featureName,
+      childEntity: 'departmentChildren',
+      parentFeature: featureName,
+      parentEntity: 'departments',
+      parentField: 'virtualChildren',
       childSelector: selectDepartmentChildren,
     },
   ],

@@ -1,3 +1,5 @@
 import { actionFactory } from '@smarttools/smart-ngrx';
 
-export const locationActions = actionFactory('tree-standard', 'locations');
+import { featureName } from '../../feature.const';
+
+export const locationActions = actionFactory(featureName, 'locations');

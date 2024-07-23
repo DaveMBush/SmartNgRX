@@ -15,6 +15,14 @@ export class VirtualArray<P extends object, C extends SmartNgRXRowBase = SmartNg
    */
   constructor(public length: number) {
     this.rawArray.length = length;
+    return new Proxy(this, {
+      get: (target: VirtualArray<P,C>, prop: string | symbol): unknown => {
+        if (typeof prop === 'string' && !isNaN(+prop)) {
+          return this.rawArray[+prop] ?? `index-${prop}`;
+        }
+        return Reflect.get(target, prop);
+      },
+    });
   }
 
   [key: number]: C;

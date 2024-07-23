@@ -7,6 +7,9 @@ export const standardDepartmentsDefinition: SmartEntityDefinition<Department> =
   {
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
+    children: {
+      virtualChildren: 'virtual'
+    },
     defaultRow: (id) => ({
       id,
       name: '',

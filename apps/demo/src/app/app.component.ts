@@ -5,6 +5,8 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,8 +14,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
 
 import { SocketService } from './shared/socket.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
 import { VirtualArrayFlagService } from './shared/virtual-array-flag.service';
 
 @Component({

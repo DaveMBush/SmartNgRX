@@ -3,12 +3,12 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { ChildType } from '../types/child-type.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
-import { ChildType } from '../types/child-type.type';
 import { VirtualArray } from './virtual-array.class';
 /**
  * This is an internal function used by `createSmartSelector`.
