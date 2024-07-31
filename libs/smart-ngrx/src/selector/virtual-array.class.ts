@@ -1,5 +1,6 @@
 import { SmartNgRXRowBase } from "../types/smart-ngrx-row-base.interface";
 import { SmartArray } from "./smart-array.interface";
+import { store } from "./store.function";
 
 /**
  * Class that represents an array that is not fully loaded
@@ -18,7 +19,11 @@ export class VirtualArray<P extends object, C extends SmartNgRXRowBase = SmartNg
     return new Proxy(this, {
       get: (target: VirtualArray<P,C>, prop: string | symbol): unknown => {
         if (typeof prop === 'string' && !isNaN(+prop)) {
-          return this.rawArray[+prop] ?? `index-${prop}`;
+          if (this.rawArray[+prop]) {
+            return this.rawArray[+prop];
+          }
+          store().dispatch(this.childAction.loadByIndex(+prop));
+          return `index-${prop}`;
         }
         return Reflect.get(target, prop);
       },

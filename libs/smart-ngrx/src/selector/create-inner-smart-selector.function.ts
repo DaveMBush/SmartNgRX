@@ -59,29 +59,25 @@ export function createInnerSmartSelector<
         parentFeature,
         parentEntity,
       ).children as Partial<Record<keyof P, ChildType>> | undefined;
-      if (children?.[parentFieldName] === 'virtual') {
-        // Because NgRX freeze may be turned on
-        if (Object.isFrozen(parent)) {
-          parent = { ...parent };
-          parent.ids = [...parent.ids] as number[] | string[];
-          parent.entities = { ...parent.entities };
-        }
-        parent.ids.forEach((id) => {
-          let row = parent.entities[id]!;
-          // Because NgRX freeze may be turned on
-          if (Object.isFrozen(row[parentFieldName])) {
-            row = { ...row };
-          }
-          row[parentFieldName] = new VirtualArray<P,C>(row[parentFieldName] as number) as P[keyof P];
-          parent.entities[id] = row;
-        });
-        return parent;
-      }
-
       const newParentEntity: EntityState<P> = {
         ids: [...parent.ids] as number[] | string[],
         entities: { ...parent.entities },
       };
+
+      if (children?.[parentFieldName] === 'virtual') {
+        // Because NgRX freeze may be turned on
+        newParentEntity.ids.forEach((id) => {
+          let row = newParentEntity.entities[id]!;
+          // Because NgRX freeze may be turned on
+          if (Object.isFrozen(row[parentFieldName])) {
+            row = { ...row };
+          }
+          row[parentFieldName] = new VirtualArray<P, C>(row[parentFieldName] as number) as P[keyof P];
+          newParentEntity.entities[id] = row;
+        });
+        // now we can use the virtual array as though it were a real array
+      }
+
       (newParentEntity.ids as string[]).forEach((w) => {
         const entity: P = { ...newParentEntity.entities[w] } as P;
         newParentEntity.entities[w] = entity;
