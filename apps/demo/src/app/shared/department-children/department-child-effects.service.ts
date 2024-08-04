@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { EffectService } from '@smarttools/smart-ngrx';
+import { EffectService, PartialArrayDefinition } from '@smarttools/smart-ngrx';
 import { forkJoin, map, Observable, of } from 'rxjs';
 
 import { DocsService } from '../docs/docs.service';
@@ -166,5 +166,9 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return deleteStream;
+  }
+
+  override loadByIndexes(_: string, __: number, ___: number): Observable<PartialArrayDefinition> {
+    throw new Error('Method not implemented.');
   }
 }

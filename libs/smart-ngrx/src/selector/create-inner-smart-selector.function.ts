@@ -10,6 +10,8 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import { ParentSelector } from './parent-selector.type';
 import { VirtualArray } from './virtual-array.class';
+import { actionFactory } from '../actions/action.factory';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 /**
  * This is an internal function used by `createSmartSelector`.
  * It is documented here for completeness.  Use `createSmartSelector` instead.
@@ -52,7 +54,7 @@ export function createInnerSmartSelector<
     childEntity,
     childDefinition,
   );
-
+  const parentAction = actionFactory(parentFeature, parentEntity);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const children = entityDefinitionCache(
@@ -72,7 +74,8 @@ export function createInnerSmartSelector<
           if (Object.isFrozen(row[parentFieldName])) {
             row = { ...row };
           }
-          row[parentFieldName] = new VirtualArray<P, C>(row[parentFieldName] as number) as P[keyof P];
+          const arrayContent = row[parentFieldName] as VirtualArrayContents;
+          row[parentFieldName] = new VirtualArray<P, C>(arrayContent, parentAction, id as string, parentFieldName as string) as P[keyof P];
           newParentEntity.entities[id] = row;
         });
         // now we can use the virtual array as though it were a real array

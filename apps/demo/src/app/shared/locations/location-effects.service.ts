@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { EffectService } from '@smarttools/smart-ngrx';
+import { EffectService, PartialArrayDefinition } from '@smarttools/smart-ngrx';
 import { Observable } from 'rxjs';
 
 import { Location } from './location.interface';
@@ -31,4 +31,9 @@ export class LocationEffectsService extends EffectService<Location> {
   override delete(id: string): Observable<void> {
     return this.http.delete<undefined>(`${this.apiLocation}/${id}`);
   }
+
+  override loadByIndexes(_: string, __: number, ___: number): Observable<PartialArrayDefinition> {
+    throw new Error('Method not implemented.');
+  }
+
 }

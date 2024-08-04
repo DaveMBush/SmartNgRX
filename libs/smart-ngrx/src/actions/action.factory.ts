@@ -9,6 +9,7 @@ import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { UpdateChanges } from '../types/update-changes.interface';
 import { ActionGroup } from './action-group.interface';
+import { IndexesProp } from '../types/indexes-props.interface';
 /* jscpd:ignore-end */
 const actionGroupCache = new Map<string, unknown>();
 
@@ -43,6 +44,7 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       Remove: props<IdsProp>(),
       'Load By Ids': props<IdsProp>(),
       'Load By Ids Preload': props<IdsProp>(),
+      'Load By Indexes': props<IndexesProp>(),
       'Store Rows': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),

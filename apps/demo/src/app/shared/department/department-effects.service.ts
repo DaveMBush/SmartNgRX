@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EffectService } from '@smarttools/smart-ngrx';
+import { EffectService, PartialArrayDefinition } from '@smarttools/smart-ngrx';
 import { map, Observable } from 'rxjs';
 
 import { childrenTransform } from './children-transform.function';
@@ -36,5 +36,9 @@ export class DepartmentEffectsService extends EffectService<Department> {
 
   override delete(id: string): Observable<void> {
     return this.http.delete<undefined>(`${this.apiDepartments}/${id}`);
+  }
+
+  override loadByIndexes(_: string, __: number, ___: number): Observable<PartialArrayDefinition> {
+    throw new Error('Method not implemented.');
   }
 }

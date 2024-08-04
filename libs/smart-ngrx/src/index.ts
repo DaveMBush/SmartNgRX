@@ -19,5 +19,6 @@ export * from './tests/functions/create-store.function';
 export * from './tests/functions/set-state.function';
 
 // types
+export * from './types/partial-array-definition.interface';
 export * from './types/smart-entity-definition.interface';
 export * from './types/smart-ngrx-row-base.interface';

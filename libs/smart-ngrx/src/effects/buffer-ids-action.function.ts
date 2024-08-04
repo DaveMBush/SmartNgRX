@@ -21,7 +21,7 @@ function flatten<T>(array: T[][]): T[] {
   return returnArray;
 }
 
-function mainBuffer(
+function mainIdsBuffer(
   source: Observable<Action & { ids: string[] }>,
   bufferTime: number,
   ngZone: NgZone,
@@ -77,7 +77,7 @@ function mainBuffer(
  *     and is probably all we will ever need.
  * @returns The buffered ids.
  */
-export function bufferAction(
+export function bufferIdsAction(
   ngZone: NgZone,
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
@@ -87,7 +87,7 @@ export function bufferAction(
   ): Observable<string[]> => {
     return new Observable<string[]>((observer) => {
       ngZone.runOutsideAngular(() =>
-        mainBuffer(source, bufferTime, ngZone, observer),
+        mainIdsBuffer(source, bufferTime, ngZone, observer),
       );
     });
   };

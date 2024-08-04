@@ -11,6 +11,7 @@ import { deleteEffect } from './effects-factory/delete-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
 import { updateEffect } from './effects-factory/update-effect.function';
+import { loadByIndexesEffect } from './effects-factory/load-by-indexes-effect.function';
 
 const dispatchFalse = {
   dispatch: false,
@@ -33,6 +34,7 @@ type EffectsFactoryKeys =
   | 'delete'
   | 'loadByIds'
   | 'loadByIdsPreload'
+  | 'loadByIndexes'
   | 'update';
 
 /**
@@ -80,6 +82,14 @@ export function effectsFactory<T extends SmartNgRXRowBase>(
      */
     loadByIds: createEffect(
       loadByIdsEffect(effectsServiceToken, actions, feature, entityName),
+      dispatchFalse,
+    ),
+    /**
+     * Ends up calling the `EffectService` to load the rows specified
+     * from the server.
+     */
+    loadByIndexes: createEffect(
+      loadByIndexesEffect(actions, feature, entityName),
       dispatchFalse,
     ),
     /**

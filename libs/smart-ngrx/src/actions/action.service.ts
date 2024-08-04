@@ -19,6 +19,8 @@ import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -263,6 +265,27 @@ export class ActionService {
         rows: registeredRows,
       }),
     );
+  }
+
+  /**
+   * This updates the childField with the ids provided so we can
+   * use them in the VirtualArray. Make sure when you call this
+   * you are calling the service for the parent entity and not the
+   * child entity.
+   *
+   * @param parentId the id of the parent row so we can update the proper childField
+   * @param childField the child field to update
+   * @param array specifiers that define the new partial array
+   */
+  loadByIndexesSuccess(parentId: string, childField: string, array: PartialArrayDefinition): void {
+    this.entities.pipe(take(1)).subscribe((entities) => {
+      const row = entities[parentId] as Record<string, VirtualArrayContents> & SmartNgRXRowBase;
+      const field = row[childField];
+      for (let i = array.startIndex; i < array.startIndex + array.ids.length; i++) {
+        field.indexes[i] = array.ids[i - array.startIndex];
+      }
+      row[childField].length = array.total
+    })
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(

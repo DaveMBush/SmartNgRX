@@ -5,7 +5,7 @@ import { EMPTY, mergeMap } from 'rxjs';
 import { ActionService } from '../../actions/action.service';
 import { ActionGroup } from '../../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { bufferAction } from '../buffer-action.function';
+import { bufferIdsAction } from '../buffer-ids-action.function';
 
 /**
  * This is the effect that queues up the ids so the dummy records can be
@@ -29,7 +29,7 @@ export function loadByIdsPreloadEffect<T extends SmartNgRXRowBase>(
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIds),
-      bufferAction(zone),
+      bufferIdsAction(zone),
       mergeMap((ids) => {
         new ActionService(feature, entityName).loadByIdsPreload(ids);
         return EMPTY;
