@@ -18,6 +18,6 @@ export const noRemoveDepartmentsDefinition: SmartEntityDefinition<Department> =
       id,
       name: '',
       children: [],
-      virtualChildren: 0,
+      virtualChildren: {indexes: [], startIndex: 0, length: 0},
     }),
   };

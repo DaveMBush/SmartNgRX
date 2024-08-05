@@ -23,7 +23,8 @@ export class VirtualArray<P extends object, C extends SmartNgRXRowBase = SmartNg
    */
   constructor(public array: VirtualArrayContents, private parentAction: ActionGroup, parentId: string, childField: string) {
     this.rawArray = array.indexes
-    this.rawArray.length = array.length;
+    // length is readonly but maybe we don't need to set it.
+    // this.rawArray.length = array.length;
     this.length = array.length;
     return new Proxy(this, {
       get: (target: VirtualArray<P,C>, prop: string | symbol): unknown => {

@@ -15,8 +15,10 @@ import { forNext } from '../common/for-next.function';
 import { IndexesProp } from '../types/indexes-props.interface';
 
 function flatten(prop: IndexesProp[]): IndexesProp {
-  const returnProps = {} as IndexesProp;
+  const returnProps = {indexes: [], childField: '', parentId: '' } as IndexesProp;
   forNext(prop, (a) => {
+    returnProps.childField = a.childField;
+    returnProps.parentId = a.parentId;
     forNext(a.indexes, (b) => {
       returnProps.indexes.push(b);
     });

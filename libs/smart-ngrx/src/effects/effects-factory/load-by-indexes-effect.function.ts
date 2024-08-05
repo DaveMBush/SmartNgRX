@@ -22,7 +22,6 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ) {
-  const service = actionServiceRegistry(feature, entity);
   const effectServiceToken = entityDefinitionCache(feature, entity).effectServiceToken;;
   return (
     /* istanbul ignore next -- default value, not really a condition */
@@ -51,7 +50,7 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
         const max = Math.max(...numberIds);
         return effectService.loadByIndexes(actionProps.parentId, min, (max - min) + 1)
           // nested pipe to get access to actionProps
-          .pipe(map((indexes) => service.loadByIndexesSuccess(actionProps.parentId, actionProps.childField, indexes)))
+          .pipe(map((indexes) => actionServiceRegistry(feature, entity).loadByIndexesSuccess(actionProps.parentId, actionProps.childField, indexes)))
       }),
     );
   };

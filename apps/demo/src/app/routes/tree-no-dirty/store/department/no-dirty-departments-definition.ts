@@ -16,6 +16,6 @@ export const noDirtyDepartmentsDefinition: SmartEntityDefinition<Department> = {
     id,
     name: '',
     children: [],
-    virtualChildren: 0,
+    virtualChildren: {indexes: [], startIndex: 0, length: 0},
   }),
 };

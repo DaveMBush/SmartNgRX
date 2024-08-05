@@ -14,13 +14,13 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { getEntityRegistry } from '../registrations/register-entity.function';
 import { store as storeFunction } from '../selector/store.function';
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -281,8 +281,8 @@ export class ActionService {
     this.entities.pipe(take(1)).subscribe((entities) => {
       const row = entities[parentId] as Record<string, VirtualArrayContents> & SmartNgRXRowBase;
       const field = row[childField];
-      for (let i = array.startIndex; i < array.startIndex + array.ids.length; i++) {
-        field.indexes[i] = array.ids[i - array.startIndex];
+      for (let i = array.startIndex; i < array.startIndex + array.indexes.length; i++) {
+        field.indexes[i] = array.indexes[i - array.startIndex];
       }
       row[childField].length = array.total
     })
