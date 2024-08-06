@@ -38,7 +38,12 @@ export class DepartmentEffectsService extends EffectService<Department> {
     return this.http.delete<undefined>(`${this.apiDepartments}/${id}`);
   }
 
-  override loadByIndexes(_: string, __: number, ___: number): Observable<PartialArrayDefinition> {
-    throw new Error('Method not implemented.');
+  override loadByIndexes(parentId: string, childField: string, startIndex: number, length: number): Observable<PartialArrayDefinition> {
+    return this.http.post<PartialArrayDefinition>(this.apiDepartments, {
+      parentId,
+      childField,
+      startIndex,
+      length
+    });
   }
 }

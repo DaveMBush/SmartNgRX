@@ -48,7 +48,7 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
         const numberIds = actionProps.indexes.map((id) => +id);
         const min = Math.min(...numberIds);
         const max = Math.max(...numberIds);
-        return effectService.loadByIndexes(actionProps.parentId, min, (max - min) + 1)
+        return effectService.loadByIndexes(actionProps.parentId,actionProps.childField, min, (max - min) + 1)
           // nested pipe to get access to actionProps
           .pipe(map((indexes) => actionServiceRegistry(feature, entity).loadByIndexesSuccess(actionProps.parentId, actionProps.childField, indexes)))
       }),

@@ -168,7 +168,7 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     return deleteStream;
   }
 
-  override loadByIndexes(_: string, __: number, ___: number): Observable<PartialArrayDefinition> {
+  override loadByIndexes(_: string,__: string, ___: number, ____: number): Observable<PartialArrayDefinition> {
     throw new Error('Method not implemented.');
   }
 }

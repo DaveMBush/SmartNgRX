@@ -105,4 +105,33 @@ export class DepartmentsController {
       ),
     );
   }
+
+  @Post('indexes')
+  async getByIndexes(@Body() definition: { parentId: string, childField: string, startIndex: number, length: number }): Promise<{
+    /** starting index for the ids to be filled into the virtual array */
+    startIndex: number;
+    /** the ids to put into the virtual array */
+    indexes: string[];
+    /** the total number of ids in the virtual array */
+    total: number;
+}> {
+    // there is only one child field so we can ignore that.
+    const result = await this.prisma.$queryRaw`SELECT id from (SELECT folders.departmentId, folders.id, folders.name, folders.created FROM folders
+UNION ALL SELECT docs.departmentId, docs.did, docs.created FROM docs
+UNION ALL SELECT sprintFolders.departmentId, sprintFolders.id, sprintFolders.created FROM sprintFolders
+UNION ALL SELECT lists.departmentId, lists.id, lists.created from lists)
+WHERE departmentId = ${definition.parentId}
+ORDER BY created
+LIMIT ${definition.length} OFFSET ${definition.startIndex};`;
+    const total = await this.prisma.$queryRaw`SELECT count() from (SELECT folders.departmentId FROM folders
+UNION ALL SELECT docs.departmentId FROM docs
+UNION ALL SELECT sprintFolders.departmentId FROM sprintFolders
+UNION ALL SELECT lists.departmentId from lists)
+WHERE departmentId = ${definition.parentId};`
+    return {
+      indexes: result as string[],
+      startIndex: definition.startIndex,
+      total: total as number
+    }
+  }
 }

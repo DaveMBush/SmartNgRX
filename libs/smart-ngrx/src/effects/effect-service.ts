@@ -20,7 +20,7 @@ export abstract class EffectService<T> {
    * @param length the number of rows to load
    * @returns the virtual array contents
    */
-  abstract loadByIndexes(parentId: string, startIndex: number, length: number): Observable<PartialArrayDefinition>;
+  abstract loadByIndexes(parentId: string, childField: string, startIndex: number, length: number): Observable<PartialArrayDefinition>;
 
   /**
    * Sends the updated row in the store to the server.

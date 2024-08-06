@@ -7,9 +7,6 @@ import { Top } from './top.interface';
 
 @Injectable()
 export class TopEffectsService extends EffectService<Top> {
-  override loadByIndexes(_: string, __: number, ___: number): Observable<PartialArrayDefinition> {
-    throw new Error('Method not implemented.');
-  }
   private apiTop = './api/top';
 
   constructor(private http: HttpClient) {
@@ -18,6 +15,10 @@ export class TopEffectsService extends EffectService<Top> {
 
   override loadByIds(ids: string[]): Observable<Top[]> {
     return this.http.post<Top[]>(this.apiTop, ids);
+  }
+
+  override loadByIndexes(_: string, __: string, ___: number, ____: number): Observable<PartialArrayDefinition> {
+    throw new Error('Method not implemented.');
   }
 
   override update(_: Top): Observable<Top[]> {
