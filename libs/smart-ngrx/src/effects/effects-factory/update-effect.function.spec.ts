@@ -5,7 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { actionFactory } from '../..';
+import { actionFactory, PartialArrayDefinition } from '../..';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import {
@@ -40,9 +40,18 @@ class TestService extends EffectService<Row> {
     return of([] as Row[]);
   }
 
-  override delete: (id: string) => Observable<void> = (_: string) => {
+  override delete(_: string): Observable<void> {
     return of();
-  };
+  }
+
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
+    return of({} as PartialArrayDefinition);
+  }
 }
 
 const serviceToken = new InjectionToken<TestService>('TestService');

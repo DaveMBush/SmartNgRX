@@ -277,20 +277,29 @@ export class ActionService {
    * @param childField the child field to update
    * @param array specifiers that define the new partial array
    */
-  loadByIndexesSuccess(parentId: string, childField: string, array: PartialArrayDefinition): void {
+  loadByIndexesSuccess(
+    parentId: string,
+    childField: string,
+    array: PartialArrayDefinition,
+  ): void {
     this.entities.pipe(take(1)).subscribe((entities) => {
-      const row = entities[parentId] as Record<string, VirtualArrayContents> & SmartNgRXRowBase;
+      const row = entities[parentId] as Record<string, VirtualArrayContents> &
+        SmartNgRXRowBase;
       let field = row[childField];
-      if (Object.isFrozen(field)) {
-        field = { ...field };
-        field.indexes = [...field.indexes];
-      }
-      for (let i = array.startIndex; i < array.startIndex + array.indexes.length; i++) {
+      field = { ...field };
+      field.indexes = [...field.indexes];
+      for (
+        let i = array.startIndex;
+        i < array.startIndex + array.indexes.length;
+        i++
+      ) {
         field.indexes[i] = array.indexes[i - array.startIndex];
       }
       field.length = array.total;
-      this.store.dispatch(this.actions.storeRows({ rows: [{...row, [childField]: field}] }));
-    })
+      this.store.dispatch(
+        this.actions.storeRows({ rows: [{ ...row, [childField]: field }] }),
+      );
+    });
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(

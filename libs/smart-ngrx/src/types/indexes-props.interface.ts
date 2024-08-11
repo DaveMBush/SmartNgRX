@@ -9,4 +9,3 @@ export interface IndexesProp {
   parentId: string;
   childField: string;
 }
-

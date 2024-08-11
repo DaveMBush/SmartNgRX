@@ -7,7 +7,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 export interface SmartArray<
   P extends object = object,
   C extends SmartNgRXRowBase = SmartNgRXRowBase,
-  > {
+> {
   length: number;
   /**
    * The array of IDs proxied by the `ArrayProxy`

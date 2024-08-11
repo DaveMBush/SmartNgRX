@@ -12,8 +12,7 @@ export class TreeComponentService {
   private component: TreeComponent | null = null;
   private isVirtual = false;
 
-  constructor(private virtualArrayFlagService: VirtualArrayFlagService) {
-  }
+  constructor(private virtualArrayFlagService: VirtualArrayFlagService) {}
 
   set form(component: TreeComponent) {
     this.component = component;
@@ -37,7 +36,10 @@ export class TreeComponentService {
       return;
     }
     component.fullDataSource = this.transform(
-      component.location()!.departments as SmartArray<CommonSourceNode, CommonSourceNode>,
+      component.location()!.departments as SmartArray<
+        CommonSourceNode,
+        CommonSourceNode
+      >,
       0,
       component.range.start,
       component.range.end,
@@ -71,7 +73,12 @@ export class TreeComponentService {
       }
       const r =
         typeof node === 'string'
-          ? { node: { id: node, isLoading: true }, name: '', level, hasChildren: false }
+          ? {
+              node: { id: node, isLoading: true },
+              name: '',
+              level,
+              hasChildren: false,
+            }
           : {
               name: node.name,
               node,
@@ -83,7 +90,10 @@ export class TreeComponentService {
       if (this.isExpanded(r as TreeNode)) {
         const treeNode = children[i] as CommonSourceNode;
         const childNodes = this.transform(
-          level === 0 && this.virtualArrayFlagService.virtualArrayFlag ? treeNode.virtualChildren : treeNode.children,
+          /* istanbul ignore next -- temporary check, should be removed */
+          level === 0 && this.virtualArrayFlagService.virtualArrayFlag
+            ? treeNode.virtualChildren
+            : treeNode.children,
           level + 1,
           startRange - result.length,
           endRange - result.length,

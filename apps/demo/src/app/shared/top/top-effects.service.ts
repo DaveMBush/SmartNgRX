@@ -17,7 +17,12 @@ export class TopEffectsService extends EffectService<Top> {
     return this.http.post<Top[]>(this.apiTop, ids);
   }
 
-  override loadByIndexes(_: string, __: string, ___: number, ____: number): Observable<PartialArrayDefinition> {
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
     throw new Error('Method not implemented.');
   }
 

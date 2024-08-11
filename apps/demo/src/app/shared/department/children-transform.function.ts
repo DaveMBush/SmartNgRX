@@ -11,7 +11,11 @@ export function childrenTransform(departments: Department[]): Department[] {
     // virtualChildren comes back as a number from the server,
     // we convert it to a PartialArrayDefinition for the code
     const length = castTo<number>(department.virtualChildren);
-    department.virtualChildren = { length, indexes: [] as string[], startIndex: 0 };
+    department.virtualChildren = {
+      length,
+      indexes: [] as string[],
+      startIndex: 0,
+    };
     return department;
   });
 }

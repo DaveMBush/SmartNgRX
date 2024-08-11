@@ -11,7 +11,6 @@ import { bufferIndexesAction } from '../buffer-indexes-action.function';
 /**
  * This is the effect that loads the ids from the service.
  *
- * @param effectServiceToken the effect service token that knows how to load the ids
  * @param actions the action group for the source provided
  * @param feature the feature name this effect is being run for
  * @param entity the entity within the feature this effect is being run for
@@ -22,7 +21,10 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ) {
-  const effectServiceToken = entityDefinitionCache(feature, entity).effectServiceToken;;
+  const effectServiceToken = entityDefinitionCache(
+    feature,
+    entity,
+  ).effectServiceToken;
   return (
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
@@ -48,9 +50,25 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
         const numberIds = actionProps.indexes.map((id) => +id);
         const min = Math.min(...numberIds);
         const max = Math.max(...numberIds);
-        return effectService.loadByIndexes(actionProps.parentId,actionProps.childField, min, (max - min) + 1)
-          // nested pipe to get access to actionProps
-          .pipe(map((indexes) => actionServiceRegistry(feature, entity).loadByIndexesSuccess(actionProps.parentId, actionProps.childField, indexes)))
+        return (
+          effectService
+            .loadByIndexes(
+              actionProps.parentId,
+              actionProps.childField,
+              min,
+              max - min + 1,
+            )
+            // nested pipe to get access to actionProps
+            .pipe(
+              map((indexes) =>
+                actionServiceRegistry(feature, entity).loadByIndexesSuccess(
+                  actionProps.parentId,
+                  actionProps.childField,
+                  indexes,
+                ),
+              ),
+            )
+        );
       }),
     );
   };

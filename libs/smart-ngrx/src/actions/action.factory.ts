@@ -4,12 +4,12 @@ import { createActionGroup, props } from '@ngrx/store';
 
 import { psi } from '../common/theta.const';
 import { IdsProp } from '../types/ids-prop.interface';
+import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { UpdateChanges } from '../types/update-changes.interface';
 import { ActionGroup } from './action-group.interface';
-import { IndexesProp } from '../types/indexes-props.interface';
 /* jscpd:ignore-end */
 const actionGroupCache = new Map<string, unknown>();
 

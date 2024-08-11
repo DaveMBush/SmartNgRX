@@ -1,17 +1,16 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
+import { actionFactory } from '../actions/action.factory';
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ChildType } from '../types/child-type.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { ArrayProxy } from './array-proxy.class';
+import { convertChildrenToArrayProxy } from './convert-children-to-array-proxy.function';
+import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { ParentSelector } from './parent-selector.type';
-import { VirtualArray } from './virtual-array.class';
-import { actionFactory } from '../actions/action.factory';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 /**
  * This is an internal function used by `createSmartSelector`.
  * It is documented here for completeness.  Use `createSmartSelector` instead.
@@ -32,7 +31,6 @@ import { VirtualArrayContents } from '../types/virtual-array-contents.interface'
  * @see `createSmartSelector`
  * @see `ChildDefinition`
  * @see `ParentSelector`
- * @access internal
  */
 export function createInnerSmartSelector<
   P extends SmartNgRXRowBase,
@@ -57,46 +55,26 @@ export function createInnerSmartSelector<
   const parentAction = actionFactory(parentFeature, parentEntity);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
-      const children = entityDefinitionCache(
-        parentFeature,
-        parentEntity,
-      ).children as Partial<Record<keyof P, ChildType>> | undefined;
+      const children = entityDefinitionCache(parentFeature, parentEntity)
+        .children as Partial<Record<keyof P, ChildType>> | undefined;
       const newParentEntity: EntityState<P> = {
         ids: [...parent.ids] as number[] | string[],
         entities: { ...parent.entities },
       };
 
-      if (children?.[parentFieldName] === 'virtual') {
-        // Because NgRX freeze may be turned on
-        newParentEntity.ids.forEach((id) => {
-          let row = newParentEntity.entities[id]!;
-          // Because NgRX freeze may be turned on
-          if (Object.isFrozen(row[parentFieldName])) {
-            row = { ...row };
-          }
-          const arrayContent = row[parentFieldName] as VirtualArrayContents;
-          row[parentFieldName] = new VirtualArray<P, C>(arrayContent, parentAction, id as string, parentFieldName as string) as P[keyof P];
-          newParentEntity.entities[id] = row;
-        });
-        // now we can use the virtual array as though it were a real array
-      }
+      convertChildrenToVirtualArray(
+        children,
+        parentFieldName,
+        newParentEntity,
+        parentAction,
+      );
 
-      (newParentEntity.ids as string[]).forEach((w) => {
-        const entity: P = { ...newParentEntity.entities[w] } as P;
-        newParentEntity.entities[w] = entity;
-        const childArray = entity[parentFieldName] as
-          | ArrayProxy<P, C>
-          | string[];
-
-        const arrayProxy = new ArrayProxy<P, C>(
-          childArray,
-          child,
-          childDefinition,
-        );
-        arrayProxy.init();
-        castTo<Record<string, unknown>>(entity)[parentFieldName as string] =
-          arrayProxy;
-      });
+      convertChildrenToArrayProxy(
+        newParentEntity,
+        parentFieldName,
+        child,
+        childDefinition,
+      );
       return newParentEntity;
     }),
   );

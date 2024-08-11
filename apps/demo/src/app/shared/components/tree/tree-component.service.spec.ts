@@ -59,14 +59,27 @@ describe('TreeComponentService', () => {
     service.form = componentInstance;
     mockComponent.detectChanges();
   });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('When toggleExpand() is called', () => {
+    beforeEach(() => {
+      jest.spyOn(service, 'applyRange').mockImplementation(() => {
+        return;
+      });
+    });
     it('should toggle node expansion on and off', () => {
       const node: TreeNode = {
-        node: { id: '1', name: 'node1', children: [] },
+        node: {
+          id: '1',
+          name: 'node1',
+          children: [],
+          virtualChildren: { length: 0 },
+        },
         name: 'node1',
         level: 0,
         isExpanded: false,
-        hasChildren: false,
+        hasChildren: true,
       };
       service.toggleExpand(node);
       expect(node.isExpanded).toBe(true);
@@ -288,11 +301,64 @@ describe('TreeComponentService', () => {
       expect(componentInstance.dataSource[1].level).toBe(1);
     });
   });
+  describe('When applyRange() is called and there are no selected locations', () => {
+    beforeEach(() => {
+      componentInstance.location = signal(
+        undefined,
+      ) as unknown as typeof mockComponent.componentInstance.location;
+    });
+    it('should leave component.fullDataSource unchanged', () => {
+      service.applyRange();
+      expect(componentInstance.fullDataSource).toEqual([]);
+    });
+  });
+  describe('When applyRange() is called and range.start and range.end are both 0', () => {
+    beforeEach(() => {
+      componentInstance.location = signal({
+        id: '1',
+        name: 'location1',
+        departments: new Proxy([] as Department[], {
+          get(_, prop) {
+            if (prop === 'rawArray') {
+              return ['1'];
+            }
+            return {
+              id: '1',
+              name: 'department1',
+              children: new Proxy([] as Department[], {
+                get(__, prop2) {
+                  if (prop2 === 'rawArray') {
+                    return ['1'];
+                  }
+                  return {
+                    id: '1',
+                    name: department1a,
+                    hasChildren: false,
+                    children: [],
+                  };
+                },
+              }),
+              hasChildren: true,
+            };
+          },
+        }),
+      }) as unknown as typeof componentInstance.location;
+      componentInstance.range = { start: 0, end: -1 };
+    });
+    it('should leave component.fullDataSource unchanged', () => {
+      service.applyRange();
+      expect(componentInstance.fullDataSource).toEqual([]);
+    });
+  });
   describe('when addChild is called and the node is not expanded', () => {
     let toggleExpandSpy: jest.SpyInstance;
     beforeEach(() => {
       // setup a spy on toggleExpand
-      toggleExpandSpy = jest.spyOn(service, 'toggleExpand');
+      toggleExpandSpy = jest
+        .spyOn(service, 'toggleExpand')
+        .mockImplementation(() => {
+          return;
+        });
     });
     it('should expand the row', () => {
       // call addChild
@@ -305,13 +371,17 @@ describe('TreeComponentService', () => {
               /* noop */
             },
           } as unknown as CommonSourceNode[],
+          virtualChildren: { length: 0 },
         },
         name: 'node1',
         level: 0,
         isExpanded: false,
         hasChildren: false,
       };
-      service.addChild({ id: '1', name: 'new', children: [] }, node);
+      service.addChild(
+        { id: '1', name: 'new', children: [], virtualChildren: { length: 0 } },
+        node,
+      );
       expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
       // see if toggleExpand was called
     });
@@ -333,13 +403,17 @@ describe('TreeComponentService', () => {
               /* noop */
             },
           } as unknown as CommonSourceNode[],
+          virtualChildren: { length: 0 },
         },
         name: 'node1',
         level: 0,
         isExpanded: true,
         hasChildren: false,
       };
-      service.addChild({ id: '1', name: 'new', children: [] }, node);
+      service.addChild(
+        { id: '1', name: 'new', children: [], virtualChildren: { length: 0 } },
+        node,
+      );
       expect(toggleExpandSpy).not.toHaveBeenCalled();
       // see if toggleExpand was called
     });

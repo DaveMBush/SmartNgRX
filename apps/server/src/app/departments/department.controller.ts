@@ -107,14 +107,22 @@ export class DepartmentsController {
   }
 
   @Post('indexes')
-  async getByIndexes(@Body() definition: { parentId: string, childField: string, startIndex: number, length: number }): Promise<{
+  async getByIndexes(
+    @Body()
+    definition: {
+      parentId: string;
+      childField: string;
+      startIndex: number;
+      length: number;
+    },
+  ): Promise<{
     /** starting index for the ids to be filled into the virtual array */
     startIndex: number;
     /** the ids to put into the virtual array */
     indexes: string[];
     /** the total number of ids in the virtual array */
     total: number;
-}> {
+  }> {
     // there is only one child field so we can ignore that.
     const result = await this.prisma.$queryRaw`SELECT id from (
 SELECT folders.departmentId, ('folders:' || folders.id) as id, folders.created FROM folders
@@ -132,9 +140,9 @@ UNION ALL SELECT lists.departmentId from lists)
 WHERE departmentId = ${definition.parentId};`;
     // use Number to convert BigInt
     return {
-      indexes: (result as {id: string}[]).map((i) => i.id),
+      indexes: (result as { id: string }[]).map((i) => i.id),
       startIndex: Number(definition.startIndex),
-      total: Number(((total as {'total': unknown}[])[0].total))
-    }
+      total: Number((total as { total: unknown }[])[0].total),
+    };
   }
 }

@@ -38,12 +38,20 @@ export class DepartmentEffectsService extends EffectService<Department> {
     return this.http.delete<undefined>(`${this.apiDepartments}/${id}`);
   }
 
-  override loadByIndexes(parentId: string, childField: string, startIndex: number, length: number): Observable<PartialArrayDefinition> {
-    return this.http.post<PartialArrayDefinition>(`${this.apiDepartments}/indexes`, {
-      parentId,
-      childField,
-      startIndex,
-      length
-    });
+  override loadByIndexes(
+    parentId: string,
+    childField: string,
+    startIndex: number,
+    length: number,
+  ): Observable<PartialArrayDefinition> {
+    return this.http.post<PartialArrayDefinition>(
+      `${this.apiDepartments}/indexes`,
+      {
+        parentId,
+        childField,
+        startIndex,
+        length,
+      },
+    );
   }
 }

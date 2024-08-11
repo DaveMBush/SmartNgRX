@@ -10,8 +10,8 @@ import { addSuccessEffect } from './effects-factory/add-success-effect.function'
 import { deleteEffect } from './effects-factory/delete-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
 import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
-import { updateEffect } from './effects-factory/update-effect.function';
 import { loadByIndexesEffect } from './effects-factory/load-by-indexes-effect.function';
+import { updateEffect } from './effects-factory/update-effect.function';
 
 const dispatchFalse = {
   dispatch: false,

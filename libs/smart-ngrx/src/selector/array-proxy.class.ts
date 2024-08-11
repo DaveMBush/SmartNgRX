@@ -66,10 +66,7 @@ export class ArrayProxy<
     const { childFeature, childEntity } = this.childDefinition;
     this.childActionService = actionServiceRegistry(childFeature, childEntity);
     // needed primarily for adding items to the array
-    const { entityAdapter } = entityDefinitionCache(
-      childFeature,
-      childEntity,
-    );
+    const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
     this.entityAdapter = entityAdapter;
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
@@ -85,7 +82,6 @@ export class ArrayProxy<
     this.length = this.rawArray.length;
   }
 
-
   /**
    * Implements iterator so we can use methods that depend on
    * iterable.
@@ -100,7 +96,6 @@ export class ArrayProxy<
     }
     return undefined;
   }
-
 
   /**
    * This primarily exist for testing so you can stringify the array and then

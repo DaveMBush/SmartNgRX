@@ -32,8 +32,12 @@ export class LocationEffectsService extends EffectService<Location> {
     return this.http.delete<undefined>(`${this.apiLocation}/${id}`);
   }
 
-  override loadByIndexes(_: string, __: string, ___: number, ____: number): Observable<PartialArrayDefinition> {
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
     throw new Error('Method not implemented.');
   }
-
 }

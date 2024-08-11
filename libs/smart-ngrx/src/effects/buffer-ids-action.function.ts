@@ -35,12 +35,13 @@ function mainIdsBuffer(
         return flatten(ids);
       }),
       map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
-    )
+    ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
       next: (value) => ngZone.run(() => observer.next(value)),
       error: (err: unknown) => ngZone.run(() => observer.error(err)),
       complete: () => ngZone.run(() => observer.complete()),
     });
+  /* jscpd:ignore-end */
 }
 
 /**

@@ -15,7 +15,11 @@ import { forNext } from '../common/for-next.function';
 import { IndexesProp } from '../types/indexes-props.interface';
 
 function flatten(prop: IndexesProp[]): IndexesProp {
-  const returnProps = {indexes: [], childField: '', parentId: '' } as IndexesProp;
+  const returnProps = {
+    indexes: [],
+    childField: '',
+    parentId: '',
+  } as IndexesProp;
   forNext(prop, (a) => {
     returnProps.childField = a.childField;
     returnProps.parentId = a.parentId;
@@ -34,53 +38,35 @@ function mainIndexesBuffer(
 ) {
   source
     .pipe(
-      groupBy(action => `${action.parentId}-${action.childField}`),
-      mergeMap(grouped =>
+      groupBy((action) => `${action.parentId}-${action.childField}`),
+      mergeMap((grouped) =>
         grouped.pipe(
           buffer(grouped.pipe(debounceTime(bufferTime, asapScheduler))),
-          map((actions: IndexesProp[]) => flatten(actions))
-        )
-      )
-    )
+          map((actions: IndexesProp[]) => flatten(actions)),
+        ),
+      ),
+    ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
       next: (value) => ngZone.run(() => observer.next(value)),
       error: (err: unknown) => ngZone.run(() => observer.error(err)),
       complete: () => ngZone.run(() => observer.complete()),
     });
+  /* jscpd:ignore-end */
 }
 /**
  * This is an internal function that is used by the Effects to buffer
- * IDs of an action coming into an effect so that we can dispatch
- * them independently but send them to the server in a single request.
+ * the loadByIndexes actions coming into an effect so that we
+ * can dispatch indexes independently but send all the indexes
+ * to the server in a single request.
  *
- * NOTE: bufferAction assumes an array of ids is passed to the action
+ * NOTE: bufferAction assumes an array of indexes is passed to the action
  * it is buffering.
- *
- * ## Usage:
- *
- * ``` typescript
- * load$ = createEffect(
- * (
- * actions$ = inject(Actions),
- * actionService = inject(effectServiceToken),
- * zone: NgZone = inject(NgZone)
- * ) => {
- * return actions$.pipe(
- * ofType(actions.loadByIds),
- * bufferAction(zone), // <--- buffer the ids
- * mergeMap((ids) => actionService.loadByIds(ids)),
- * map((rows) => actions.loadByIdsSuccess({ rows }))
- * );
- * },
- * { functional: true }
- * );
- * ```
  *
  * @param ngZone The zone to use to run outside of Angular.
  * @param bufferTime The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
  *     and is probably all we will ever need.
- * @returns The buffered ids.
+ * @returns The buffered indexes.
  */
 export function bufferIndexesAction(
   ngZone: NgZone,

@@ -3,11 +3,11 @@
 import { Action, ActionCreator } from '@ngrx/store';
 
 import { IdsProp } from '../types/ids-prop.interface';
+import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { UpdateChanges } from '../types/update-changes.interface';
-import { IndexesProp } from '../types/indexes-props.interface';
 /* jscpd:ignore-start */
 
 /**

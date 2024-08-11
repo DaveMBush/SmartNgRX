@@ -45,6 +45,6 @@ export function consolidateChildren(
       ...department.folders,
       ...department.sprintFolders,
       ...department.lists,
-    ].length
+    ].length,
   }));
 }

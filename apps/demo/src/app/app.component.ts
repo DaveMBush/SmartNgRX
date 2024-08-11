@@ -25,7 +25,7 @@ import { VirtualArrayFlagService } from './shared/virtual-array-flag.service';
     MatToolbarModule,
     MatTabsModule,
     MatTooltipModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   selector: 'dmb-demo-root',
   templateUrl: './app.component.html',
@@ -45,8 +45,7 @@ export class AppComponent implements OnInit {
     return event instanceof NavigationEnd;
   }
 
-  constructor(public virtualArrayFlagService: VirtualArrayFlagService) {
-  }
+  constructor(public virtualArrayFlagService: VirtualArrayFlagService) {}
 
   ngOnInit(): void {
     this.activeLink = this.router.events.pipe(
