@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from '@smarttools/smart-ngrx/types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
 
 export interface Folder extends SmartNgRXRowBase {
   id: string;

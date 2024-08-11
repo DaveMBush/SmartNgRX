@@ -3,6 +3,7 @@
 import { Action, ActionCreator } from '@ngrx/store';
 
 import { IdsProp } from '../types/ids-prop.interface';
+import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -35,6 +36,14 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   loadByIds: ActionCreator<
     `[${any}] Load By Ids`,
     (props: IdsProp) => Action<`[${any}] Load By Ids`> & IdsProp
+  >;
+
+  /**
+   * Action to load rows by their index.
+   */
+  loadByIndexes: ActionCreator<
+    `[${any}] Load By Indexes`,
+    (props: IndexesProp) => Action<`[${any}] Load By Indexes`> & IndexesProp
   >;
   /**
    * Action to put rows into the store.

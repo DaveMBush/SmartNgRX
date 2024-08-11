@@ -155,11 +155,13 @@
             "max": 2
           }
         ],
-        //// Code that is longer than 200 executable lines is doing too much.
+        //// The statistical optimal number of lines of code per file is between
+        //// 200 and 400 (possibly 500) with 300 being the sweet spot. See link.
+        //// https://web.archive.org/web/20160725154648/http://www.mind2b.com/component/content/article/24-software-module-size-and-file-size
         "max-lines": [
           "error",
           {
-            "max": 200,
+            "max": 300,
             "skipBlankLines": true,
             "skipComments": true
           }

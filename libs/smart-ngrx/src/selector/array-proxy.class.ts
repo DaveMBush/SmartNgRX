@@ -30,10 +30,12 @@ export class ArrayProxy<
   >
   implements ArrayLike<C>, Iterable<C>
 {
-  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
+  // entityAdapter and childActionService are initialized in the init method
+  // so they are safe to use later on.
+  entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
+  childActionService!: ActionService;
   [isProxy] = true;
   rawArray: string[] = [];
-  childActionService: ActionService;
 
   /**
    * The constructor for the ArrayProxy class.
@@ -48,19 +50,36 @@ export class ArrayProxy<
     private child: EntityState<C>,
     private childDefinition: ChildDefinition<P, C>,
   ) {
-    const { childFeature, childEntity } = this.childDefinition;
-    this.childActionService = actionServiceRegistry(childFeature, childEntity);
-    // needed primarily for adding items to the array
-    const entityAdapter = entityDefinitionCache(
-      childFeature,
-      childEntity,
-    ).entityAdapter;
-    this.entityAdapter = entityAdapter;
     // proxying this so that we can intercept going after
     // an index and return the item from the store instead
     return new Proxy(this, {
       get: (target, prop) => arrayProxyClassGet(target, prop),
     });
+  }
+
+  /**
+   * This initialized the class once it has been created. We do this
+   * so that we can test the class without having to worry about
+   * executable code in the constructor.
+   */
+  init(): void {
+    const { childFeature, childEntity } = this.childDefinition;
+    this.childActionService = actionServiceRegistry(childFeature, childEntity);
+    // needed primarily for adding items to the array
+    const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
+    this.entityAdapter = entityAdapter;
+    if (isArrayProxy<P, C>(this.childArray)) {
+      this.childArray = this.childArray.rawArray;
+    }
+    // at this point, we can be sure that childArray is a string[]
+    if (Object.isFrozen(this.childArray)) {
+      // unfreeze the original array so we can proxy it.
+      this.childArray = [...this.childArray];
+    }
+
+    this.rawArray = this.childArray;
+    this.childArray = [];
+    this.length = this.rawArray.length;
   }
 
   /**
@@ -76,26 +95,6 @@ export class ArrayProxy<
       yield this.getAtIndex(i);
     }
     return undefined;
-  }
-
-  /**
-   * This initialized the class once it has been created. We do this
-   * so that we can test the class without having to worry about
-   * executable code in the constructor.
-   */
-  init(): void {
-    if (isArrayProxy<P, C>(this.childArray)) {
-      this.childArray = this.childArray.rawArray;
-    }
-    // at this point, we can be sure that childArray is a string[]
-    if (Object.isFrozen(this.childArray)) {
-      // unfreeze the original array so we can proxy it.
-      this.childArray = [...this.childArray];
-    }
-
-    this.rawArray = this.childArray;
-    this.childArray = [];
-    this.length = this.rawArray.length;
   }
 
   /**

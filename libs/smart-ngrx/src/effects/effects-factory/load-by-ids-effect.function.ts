@@ -5,7 +5,7 @@ import { map, mergeMap } from 'rxjs';
 import { ActionGroup } from '../../actions/action-group.interface';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { bufferAction } from '../buffer-action.function';
+import { bufferIdsAction } from '../buffer-ids-action.function';
 import { EffectService } from '../effect-service';
 
 /**
@@ -33,7 +33,7 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIds),
-      bufferAction(zone),
+      bufferIdsAction(zone),
       mergeMap((ids) => {
         return actionService.loadByIds(ids);
       }),

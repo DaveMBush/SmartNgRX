@@ -19,7 +19,7 @@ describe('Top Selectors', () => {
 
   beforeEach(() => {
     createStore();
-    setState('tree-no-dirty', 'top', initialTop);
+    setState('tree-standard', 'top', initialTop);
     (store() as MockStore).overrideSelector(selectTopLocations, initialTop);
   });
 

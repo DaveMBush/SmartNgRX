@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { assert, forNext, SmartArray } from '@smarttools/smart-ngrx';
 
-import { DepartmentChild } from '../../department-children/department-child.interface';
+import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 import { CommonSourceNode } from './common-source-node.interface';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
@@ -10,6 +10,9 @@ import { TreeNode } from './tree-node.interface';
 export class TreeComponentService {
   private expandMap = new Map<string, boolean>();
   private component: TreeComponent | null = null;
+  private isVirtual = false;
+
+  constructor(private virtualArrayFlagService: VirtualArrayFlagService) {}
 
   set form(component: TreeComponent) {
     this.component = component;
@@ -29,8 +32,14 @@ export class TreeComponentService {
   applyRange(): void {
     const component = this.component;
     assert(!!component, 'component is null');
+    if (component.location() === undefined) {
+      return;
+    }
     component.fullDataSource = this.transform(
-      component.location()?.departments ?? [],
+      component.location()!.departments as SmartArray<
+        CommonSourceNode,
+        CommonSourceNode
+      >,
       0,
       component.range.start,
       component.range.end,
@@ -42,7 +51,7 @@ export class TreeComponentService {
   }
 
   transform(
-    children: (CommonSourceNode | string)[] & SmartArray,
+    children: SmartArray<CommonSourceNode, CommonSourceNode>,
     level: number,
     startRange: number,
     endRange: number,
@@ -55,10 +64,21 @@ export class TreeComponentService {
       let node: CommonSourceNode | string = c;
       if (startRange <= result.length && result.length <= endRange) {
         node = children[i];
+      } else {
+        // we don't need to do anything with this node
+        // but the tree needs to know it is longer so
+        // we increment the length.
+        result.length++;
+        return;
       }
       const r =
         typeof node === 'string'
-          ? { node: { id: node }, name: '', level, hasChildren: false }
+          ? {
+              node: { id: node, isLoading: true },
+              name: '',
+              level,
+              hasChildren: false,
+            }
           : {
               name: node.name,
               node,
@@ -68,8 +88,12 @@ export class TreeComponentService {
             };
       result.push(r as TreeNode);
       if (this.isExpanded(r as TreeNode)) {
+        const treeNode = children[i] as CommonSourceNode;
         const childNodes = this.transform(
-          (children[i] as CommonSourceNode).children,
+          /* istanbul ignore next -- temporary check, should be removed */
+          level === 0 && this.virtualArrayFlagService.virtualArrayFlag
+            ? treeNode.virtualChildren
+            : treeNode.children,
           level + 1,
           startRange - result.length,
           endRange - result.length,
@@ -80,7 +104,7 @@ export class TreeComponentService {
     return result;
   }
 
-  addChild(row: DepartmentChild, parent: TreeNode): void {
+  addChild(row: CommonSourceNode, parent: TreeNode): void {
     if (parent.isExpanded === false) {
       this.toggleExpand(parent);
     }

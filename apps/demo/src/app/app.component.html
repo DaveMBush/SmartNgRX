@@ -26,6 +26,12 @@
       Tree (No Dirty)
     </a>
   </nav>
+  <span class="spacer"></span>
+  <mat-checkbox
+    [(ngModel)]="virtualArrayFlagService.virtualArrayFlag"
+    class="primary"
+    >Use Virtual For Department Children</mat-checkbox
+  >
 </mat-toolbar>
 <div class="container">
   <mat-tab-nav-panel #tabPanel>

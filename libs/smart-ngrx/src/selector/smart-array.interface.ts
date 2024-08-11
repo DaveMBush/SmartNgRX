@@ -8,6 +8,7 @@ export interface SmartArray<
   P extends object = object,
   C extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
+  length: number;
   /**
    * The array of IDs proxied by the `ArrayProxy`
    */
@@ -26,4 +27,6 @@ export interface SmartArray<
    * @param parent
    */
   removeFromStore?(row: C, parent: P): void;
+
+  [key: number]: C | string;
 }

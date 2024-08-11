@@ -1,3 +1,4 @@
+/* jscpd:ignore-start -- intentionally duplicated */
 import { SmartEntityDefinition } from '@smarttools/smart-ngrx';
 
 import { Department } from '../../../../shared/department/department.interface';
@@ -11,9 +12,14 @@ export const noRemoveDepartmentsDefinition: SmartEntityDefinition<Department> =
       markDirtyTime: 2 * 60 * 1000,
       removeTime: 0,
     },
+    children: {
+      virtualChildren: 'virtual',
+    },
     defaultRow: (id) => ({
       id,
       name: '',
       children: [],
+      virtualChildren: { indexes: [], startIndex: 0, length: 0 },
     }),
   };
+/* jscpd:ignore-end */

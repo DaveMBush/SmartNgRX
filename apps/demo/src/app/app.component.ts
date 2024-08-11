@@ -5,6 +5,8 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,15 +14,18 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
 
 import { SocketService } from './shared/socket.service';
+import { VirtualArrayFlagService } from './shared/virtual-array-flag.service';
 
 @Component({
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule,
     MatToolbarModule,
     MatTabsModule,
     MatTooltipModule,
+    MatCheckboxModule,
   ],
   selector: 'dmb-demo-root',
   templateUrl: './app.component.html',
@@ -31,6 +36,7 @@ export class AppComponent implements OnInit {
   private router = inject(Router);
   private socketService = inject(SocketService);
   activeLink: Observable<string> = of('');
+  useVirtualArrays = false;
   static navigationEndRoute(event: NavigationEnd): string {
     return event.urlAfterRedirects.split('/')[1];
   }
@@ -38,6 +44,8 @@ export class AppComponent implements OnInit {
   static navigationEndGuard(event: unknown): event is NavigationEnd {
     return event instanceof NavigationEnd;
   }
+
+  constructor(public virtualArrayFlagService: VirtualArrayFlagService) {}
 
   ngOnInit(): void {
     this.activeLink = this.router.events.pipe(

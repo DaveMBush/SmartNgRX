@@ -115,7 +115,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   addChild(parent: TreeNode, type: string): void {
     this.editingContent = `New ${type}`;
     this.treeComponentService.addChild(
-      { id: type + ':new', name: this.editingContent, children: [] },
+      {
+        id: type + ':new',
+        name: this.editingContent,
+        children: [],
+        virtualChildren: [],
+      },
       parent,
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;

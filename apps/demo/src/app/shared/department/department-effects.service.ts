@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EffectService } from '@smarttools/smart-ngrx';
+import { EffectService, PartialArrayDefinition } from '@smarttools/smart-ngrx';
 import { map, Observable } from 'rxjs';
 
 import { childrenTransform } from './children-transform.function';
@@ -36,5 +36,22 @@ export class DepartmentEffectsService extends EffectService<Department> {
 
   override delete(id: string): Observable<void> {
     return this.http.delete<undefined>(`${this.apiDepartments}/${id}`);
+  }
+
+  override loadByIndexes(
+    parentId: string,
+    childField: string,
+    startIndex: number,
+    length: number,
+  ): Observable<PartialArrayDefinition> {
+    return this.http.post<PartialArrayDefinition>(
+      `${this.apiDepartments}/indexes`,
+      {
+        parentId,
+        childField,
+        startIndex,
+        length,
+      },
+    );
   }
 }

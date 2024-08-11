@@ -4,6 +4,7 @@ import { createActionGroup, props } from '@ngrx/store';
 
 import { psi } from '../common/theta.const';
 import { IdsProp } from '../types/ids-prop.interface';
+import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -43,6 +44,7 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       Remove: props<IdsProp>(),
       'Load By Ids': props<IdsProp>(),
       'Load By Ids Preload': props<IdsProp>(),
+      'Load By Indexes': props<IndexesProp>(),
       'Store Rows': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
       'Add To Store': props<RowProp<T>>(),
