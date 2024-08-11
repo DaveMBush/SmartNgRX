@@ -50,6 +50,7 @@ class TestService extends EffectService<Row> {
     ___: number,
     ____: number,
   ): Observable<PartialArrayDefinition> {
+    // intentionally unimplemented
     return of({} as PartialArrayDefinition);
   }
 }

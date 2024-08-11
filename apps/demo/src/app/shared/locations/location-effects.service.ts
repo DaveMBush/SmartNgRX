@@ -38,6 +38,7 @@ export class LocationEffectsService extends EffectService<Location> {
     ___: number,
     ____: number,
   ): Observable<PartialArrayDefinition> {
+    // intentionally unimplemented
     throw new Error('Method not implemented.');
   }
 }

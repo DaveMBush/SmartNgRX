@@ -23,6 +23,7 @@ export class TopEffectsService extends EffectService<Top> {
     ___: number,
     ____: number,
   ): Observable<PartialArrayDefinition> {
+    // intentionally unimplemented
     throw new Error('Method not implemented.');
   }
 

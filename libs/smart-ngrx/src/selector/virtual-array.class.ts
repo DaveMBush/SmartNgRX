@@ -37,7 +37,7 @@ export class VirtualArray<
     this.length = array.length;
     return new Proxy(this, {
       get: (target: VirtualArray<P, C>, prop: string | symbol): unknown => {
-        if (typeof prop === 'string' && !isNaN(+prop)) {
+        if (typeof prop === 'string' && !Number.isNaN(+prop)) {
           if (this.rawArray[+prop]) {
             return this.rawArray[+prop];
           }
