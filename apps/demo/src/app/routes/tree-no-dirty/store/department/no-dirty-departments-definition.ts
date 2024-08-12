@@ -10,9 +10,6 @@ export const noDirtyDepartmentsDefinition: SmartEntityDefinition<Department> = {
   markAndDelete: {
     markDirtyTime: -1,
   },
-  children: {
-    virtualChildren: 'virtual',
-  },
   defaultRow: (id) => ({
     id,
     name: '',
