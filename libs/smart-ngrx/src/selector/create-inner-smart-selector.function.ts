@@ -4,9 +4,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { actionFactory } from '../actions/action.factory';
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { ChildType } from '../types/child-type.type';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { convertChildrenToArrayProxy } from './convert-children-to-array-proxy.function';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
@@ -55,15 +53,12 @@ export function createInnerSmartSelector<
   const parentAction = actionFactory(parentFeature, parentEntity);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
-      const children = entityDefinitionCache(parentFeature, parentEntity)
-        .children as Partial<Record<keyof P, ChildType>> | undefined;
       const newParentEntity: EntityState<P> = {
         ids: [...parent.ids] as number[] | string[],
         entities: { ...parent.entities },
       };
 
       convertChildrenToVirtualArray(
-        children,
         parentFieldName,
         newParentEntity,
         parentAction,

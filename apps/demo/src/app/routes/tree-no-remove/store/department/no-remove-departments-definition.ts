@@ -12,9 +12,6 @@ export const noRemoveDepartmentsDefinition: SmartEntityDefinition<Department> =
       markDirtyTime: 2 * 60 * 1000,
       removeTime: 0,
     },
-    children: {
-      virtualChildren: 'virtual',
-    },
     defaultRow: (id) => ({
       id,
       name: '',
