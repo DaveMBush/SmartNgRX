@@ -1,6 +1,6 @@
 import { inject, InjectionToken, NgZone } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { filter, map, mergeMap, Observable } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
@@ -34,7 +34,9 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
     return actions$.pipe(
       ofType(actions.loadByIds),
       bufferIdsAction(zone),
-      mergeMap((ids) => {
+      map((ids) => ids.filter((c) => !c.startsWith('index-'))),
+      filter((ids) => ids.length > 0),
+      mergeMap((ids): Observable<T[]> => {
         return actionService.loadByIds(ids);
       }),
       map((rows) => {
