@@ -42,8 +42,8 @@ importers:
         specifier: ~18.1.1
         version: 18.1.1(@angular/common@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(@angular/platform-browser@18.1.1(@angular/animations@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7)))(@angular/common@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7)))(rxjs@7.8.1)
       '@angular/ssr':
-        specifier: ~18.1.1
-        version: 18.1.1(@angular/common@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))
+        specifier: ~18.1.4
+        version: 18.1.4(@angular/common@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))
       '@nestjs/common':
         specifier: ^10.3.10
         version: 10.3.10(reflect-metadata@0.2.2)(rxjs@7.8.1)
@@ -697,8 +697,8 @@ packages:
       '@angular/platform-browser': 18.1.1
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@angular/ssr@18.1.1':
-    resolution: {integrity: sha512-2JVWjLPipiYGEs3DABq1qWKSgwAseJ9tWqLXOk4BcrBVUoE7wgJLtFWchJcMllBsUpNNEBQyRH3M6NBM1sgB2A==}
+  '@angular/ssr@18.1.4':
+    resolution: {integrity: sha512-STmxVDMUe5gA2ZrjDrEpJJIxVEI9NFH4USrqbM3JKTIQFIpdBKox3QWXBHqDL+lbjJoxGmgoexWgPrHhLxta3A==}
     peerDependencies:
       '@angular/common': ^18.0.0
       '@angular/core': ^18.0.0
@@ -11082,7 +11082,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.6.3
 
-  '@angular/ssr@18.1.1(@angular/common@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))':
+  '@angular/ssr@18.1.4(@angular/common@18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1))(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))':
     dependencies:
       '@angular/common': 18.1.1(@angular/core@18.1.1(rxjs@7.8.1)(zone.js@0.14.7))(rxjs@7.8.1)
       '@angular/core': 18.1.1(rxjs@7.8.1)(zone.js@0.14.7)
