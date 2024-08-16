@@ -15,7 +15,6 @@ export class VirtualArray<
 {
   rawArray: string[] = [];
   length = 0;
-
   /**
    * The constructor of the virtual array that takes the length of the array
    * as a parameter.
@@ -32,8 +31,6 @@ export class VirtualArray<
     childField: string,
   ) {
     this.rawArray = array.indexes;
-    // length is readonly but maybe we don't need to set it.
-    // this.rawArray.length = array.length;
     this.length = array.length;
     return new Proxy(this, {
       get: (target: VirtualArray<P, C>, prop: string | symbol): unknown => {

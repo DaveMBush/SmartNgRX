@@ -10,7 +10,6 @@ import { TreeNode } from './tree-node.interface';
 export class TreeComponentService {
   private expandMap = new Map<string, boolean>();
   private component: TreeComponent | null = null;
-  private isVirtual = false;
 
   constructor(private virtualArrayFlagService: VirtualArrayFlagService) {}
 
@@ -109,7 +108,11 @@ export class TreeComponentService {
       this.toggleExpand(parent);
     }
 
-    parent.node.children.addToStore!(row, parent.node);
+    if (this.virtualArrayFlagService.virtualArrayFlag && parent.node.virtualChildren !== undefined) {
+      parent.node.virtualChildren.addToStore!(row, parent.node);
+    } else {
+      parent.node.children.addToStore!(row, parent.node);
+    }
   }
 
   deleteNode(node: TreeNode): void {
