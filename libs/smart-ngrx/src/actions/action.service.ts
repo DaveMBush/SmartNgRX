@@ -21,6 +21,8 @@ import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
+import { mergeRowsWithEntities } from '../common/merge-rows-with-entities.function';
+import { castTo } from '../common/cast-to.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -244,7 +246,9 @@ export class ActionService {
       this.entity,
     ).defaultRow;
     this.entities.pipe(take(1)).subscribe((entities) => {
-      const rows = defaultRows(ids, entities, defaultRow);
+      let rows = defaultRows(ids, entities, defaultRow);
+      // don't let virtual arrays get overwritten by the default row
+      rows = mergeRowsWithEntities(rows, entities);
       this.store.dispatch(
         this.actions.storeRows({
           rows,
@@ -259,12 +263,16 @@ export class ActionService {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    const registeredRows = registerEntityRows(this.feature, this.entity, rows);
-    this.store.dispatch(
-      this.actions.storeRows({
-        rows: registeredRows,
-      }),
-    );
+    let registeredRows = registerEntityRows(this.feature, this.entity, rows);
+    this.entities.pipe(take(1)).subscribe((entities) => {
+      // don't let virtual arrays get overwritten by the default row
+      registeredRows = mergeRowsWithEntities(registeredRows, entities);
+      this.store.dispatch(
+        this.actions.storeRows({
+          rows: registeredRows,
+        }),
+      );
+    });
   }
 
   /**

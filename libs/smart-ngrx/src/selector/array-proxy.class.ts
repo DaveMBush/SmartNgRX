@@ -189,7 +189,6 @@ export class ArrayProxy<
         indexes,
         length: existingVirtualArray.length + 1
       }
-
     }
     parentService.loadByIdsSuccess([newParent]);
   }
