@@ -16,7 +16,6 @@ import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.fun
  */
 export function removeIdFromParents(
   childDefinition: ChildDefinition,
-  service: ActionService,
   id: string,
   parentInfo: ParentInfo[],
 ) {
@@ -28,7 +27,7 @@ export function removeIdFromParents(
     // optimistically remove the ids from the parent
     const parentIds = removeIdFromFeatureParents(
       entities,
-      service,
+      childDefinition,
       parentService,
       id,
     );

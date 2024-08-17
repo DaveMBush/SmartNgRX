@@ -15,6 +15,7 @@ export class VirtualArray<
 {
   rawArray: string[] = [];
   length = 0;
+
   /**
    * The constructor of the virtual array that takes the length of the array
    * as a parameter.

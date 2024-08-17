@@ -187,7 +187,7 @@ export class ArrayProxy<
         this.childDefinition.parentField
       ] = {
         indexes,
-        length: existingVirtualArray.length + 1
+        length: existingVirtualArray.length + 1,
       }
     }
     parentService.loadByIdsSuccess([newParent]);

@@ -5,6 +5,7 @@ import { Observable, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { mergeRowsWithEntities } from '../common/merge-rows-with-entities.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
@@ -21,8 +22,6 @@ import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
-import { mergeRowsWithEntities } from '../common/merge-rows-with-entities.function';
-import { castTo } from '../common/cast-to.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -190,6 +189,8 @@ export class ActionService {
     this.store.dispatch(
       this.actions.add({
         row,
+        feature: this.feature,
+        entity: this.entity,
         parentId,
         parentFeature: parentService.feature,
         parentEntityName: parentService.entity,
@@ -198,19 +199,31 @@ export class ActionService {
   }
 
   /**
+   * removes the id from the child arrays of the parent rows
+   *
+   * @param id the id to remove
+   * @returns the parent info for each parent
+   */
+  removeFromParents(id: string): ParentInfo[] {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    const parentInfo: ParentInfo[] = [];
+    forNext(childDefinitions, (childDefinition) => {
+      removeIdFromParents(childDefinition, id, parentInfo);
+    });
+    return parentInfo;
+
+  }
+
+  /**
    * Deletes the row represented by the Id from the store
    *
    * @param id the id of the row to delete
    */
   delete(id: string): void {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    let parentInfo: ParentInfo[] = [];
-    forNext(childDefinitions, (childDefinition) => {
-      removeIdFromParents(childDefinition, this, id, parentInfo);
-    });
+    let parentInfo = this.removeFromParents(id);
 
     parentInfo = parentInfo.filter((info) => info.ids.length > 0);
     // remove the row from the store
@@ -314,15 +327,33 @@ export class ActionService {
     entities: Dictionary<R>,
     ids: string[],
   ): void {
-    const changes = ids
+    const updates = ids
       .filter((id) => {
         return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
-      .map(
-        (id) =>
-          ({ id, changes: { isDirty: true } }) as UpdateStr<SmartNgRXRowBase>,
-      );
-    this.store.dispatch(this.actions.updateMany({ changes }));
+      .map((id) => {
+        const entity = entities[id]!;
+        const entityChanges: Partial<SmartNgRXRowBase> = { isDirty: true };
+
+        // Handle virtual arrays
+        Object.entries(entity).forEach(([key, value]) => {
+          if (
+            typeof value === 'object' &&
+            value !== null &&
+            'indexes' in value &&
+            'length' in value
+          ) {
+            entityChanges[key as keyof SmartNgRXRowBase] = {
+              ...value,
+              indexes: [],
+            };
+          }
+        });
+
+        return { id, changes: entityChanges } as UpdateStr<SmartNgRXRowBase>;
+      });
+
+    this.store.dispatch(this.actions.updateMany({ changes: updates }));
   }
 
   private garbageCollectWithEntities<R extends SmartNgRXRowBase>(

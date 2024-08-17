@@ -70,11 +70,15 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Add`,
     (props: {
       row: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
     }) => Action<`[${any}] Add`> & {
       row: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
@@ -88,12 +92,16 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     (props: {
       oldRow: T;
       newRow: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
     }) => Action<`[${any}] Add Success`> & {
       oldRow: T;
       newRow: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;

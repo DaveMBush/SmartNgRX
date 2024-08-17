@@ -50,6 +50,8 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       'Add To Store': props<RowProp<T>>(),
       Add: props<{
         row: T;
+        feature: string;
+        entity: string;
         parentId: string;
         parentFeature: string;
         parentEntityName: string;
@@ -57,6 +59,8 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       'Add Success': props<{
         newRow: T;
         oldRow: T;
+        feature: string;
+        entity: string;
         parentId: string;
         parentFeature: string;
         parentEntityName: string;
