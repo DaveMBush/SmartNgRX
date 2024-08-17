@@ -48,7 +48,7 @@ export function addSuccessEffect<T extends SmartNgRXRowBase = SmartNgRXRowBase>(
       map((action) => {
         const parentService = actionServiceRegistry(action.feature, action.entity);
         const oldId = adapter.selectId(action.oldRow) as string;
-        parentService.removeFromParents(oldId);
+        parentService.replaceIdInParents(oldId, action.newRow.id);
       }),
     );
   };

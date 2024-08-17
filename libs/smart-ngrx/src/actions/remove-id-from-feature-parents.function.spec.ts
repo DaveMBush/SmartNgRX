@@ -2,7 +2,7 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionService } from './action.service';
-import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.function';
+import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 interface Row extends SmartNgRXRowBase {
   id: string;
@@ -53,7 +53,7 @@ describe('removeIdFromParents()', () => {
   });
   describe('if the id is not in any of the entities', () => {
     beforeEach(() => {
-      returnValue = removeIdFromFeatureParents(
+      returnValue = replaceIdInFeatureParents(
         entities,
         service,
         parentService,
@@ -69,7 +69,7 @@ describe('removeIdFromParents()', () => {
   });
   describe('if the id is at least one of the entities', () => {
     beforeEach(() => {
-      returnValue = removeIdFromFeatureParents(
+      returnValue = replaceIdInFeatureParents(
         entities,
         service,
         parentService,

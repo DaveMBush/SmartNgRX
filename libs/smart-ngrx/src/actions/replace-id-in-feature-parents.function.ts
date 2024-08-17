@@ -1,29 +1,28 @@
 import { Dictionary } from '@ngrx/entity';
 
 import { assert } from '../common/assert.function';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { ActionService } from './action.service';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { castTo } from '../common/cast-to.function';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
+import { ActionService } from './action.service';
 
 /**
  * Used by delete to remove the id from the parent's child field and return the list of parentIds that were affected.
  *
  * @param entities the entities to look in
- * @param service the service for this row. We use this to grab the feature and entity
- *                names to lookup additional information that we need
+ * @param childDefinition the `ChildDefinition`
  * @param parentService the parent service that we will call to report items from parent
- * @param id the id of the row to delete
+ * @param ids the oldId and the newId to replace it with
  * @returns the parent ids that are affected by the delete
  */
-export function removeIdFromFeatureParents(
+export function replaceIdInFeatureParents(
   entities: Dictionary<SmartNgRXRowBase>,
   childDefinition: ChildDefinition,
   parentService: ActionService,
-  id: string,
+  ids: [string, string | null],
 ): string[] {
+  const [id, newId] = ids;
   const mapChildIdToChildren = new Map<string, string[] | VirtualArrayContents>();
   const childField = childDefinition.parentField as keyof SmartNgRXRowBase;
   const parentIds: string[] = Object.keys(entities).filter((key) => {
@@ -33,7 +32,11 @@ export function removeIdFromFeatureParents(
     assert(!!childArray, `Child array not found in parent entity`);
     let hasChild = false;
     if (Array.isArray(childArray)) {
-      hasChild = childArray.some((v) => id === v);
+      const index = childArray.findIndex((v) => id === v);
+      if (index !== -1 && newId !== null) {
+        childArray[index] = newId;
+      }
+      hasChild = index !== -1;
       if (hasChild) {
         mapChildIdToChildren.set(
           key,
@@ -41,13 +44,22 @@ export function removeIdFromFeatureParents(
         );
       }
     } else {
-      hasChild = castTo<VirtualArrayContents>(childArray).indexes.some((v) => id === v);
+      const index = castTo<VirtualArrayContents>(childArray).indexes.findIndex((v) => id === v);
+      let virtualArray = castTo<VirtualArrayContents>(childArray);
+      if (index !== -1 && newId !== null) {
+        virtualArray = {
+          indexes: [...virtualArray.indexes.slice(0, index), newId, ...virtualArray.indexes.slice(index + 1)],
+          length: virtualArray.length,
+        }
+      }
+      hasChild = index !== -1;
       if (hasChild) {
+        const newIndexes = virtualArray.indexes.filter((v) => id !== v)
         mapChildIdToChildren.set(
           key,
           {
-            indexes: castTo<VirtualArrayContents>(childArray).indexes.filter((v) => id !== v),
-            length: castTo<VirtualArrayContents>(childArray).length,
+            indexes: newIndexes,
+            length: castTo<VirtualArrayContents>(childArray).length - (newId === null ? 1 : 0),
           }
         );
       }

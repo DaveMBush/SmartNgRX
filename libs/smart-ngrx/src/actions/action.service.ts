@@ -22,6 +22,7 @@ import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
+import { replaceIdInParents } from './replace-id-in-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -214,7 +215,23 @@ export class ActionService {
       removeIdFromParents(childDefinition, id, parentInfo);
     });
     return parentInfo;
+  }
 
+  /**
+   * replaces the id in the parent rows with the new id
+   * this is used when we commit a new row to the server
+   *
+   * @param id the id to replace
+   * @param newId the new id to replace the old id with
+   */
+  replaceIdInParents(id: string, newId: string): void {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    forNext(childDefinitions, (childDefinition) => {
+      replaceIdInParents(childDefinition, id, newId);
+    });
   }
 
   /**
