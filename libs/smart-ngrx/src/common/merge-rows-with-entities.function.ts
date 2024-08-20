@@ -3,6 +3,7 @@ import { Dictionary } from '@ngrx/entity';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { forNext } from './for-next.function';
 import { mergeNewRowWithExisting } from './merge-new-row-with-existing.function';
+import { psi } from './psi.const';
 
 /**
  * Merges rows with existing entities to preserve virtual array data

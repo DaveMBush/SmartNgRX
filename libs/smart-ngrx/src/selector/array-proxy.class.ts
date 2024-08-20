@@ -14,6 +14,7 @@ import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { VirtualArray } from './virtual-array.class';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface'
+import { psi } from '../common/psi.const';
 
 /**
  * This is an internal class used by `createSmartSelector` to wrap the field
@@ -170,6 +171,7 @@ export class ArrayProxy<
     const newParent = this.createNewParentFromParent(thisRow, true);
     newRow.parentId = parentId;
     newRow.isEditing = true;
+    newRow.id = `${childId}${psi}new-row`;
     service.loadByIdsSuccess([newRow]);
     // cast is the only safe way to access the parentField that holds the
     // list of child IDs.

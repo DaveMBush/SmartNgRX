@@ -2,7 +2,7 @@
 /* jscpd:ignore-start */
 import { createActionGroup, props } from '@ngrx/store';
 
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 import { IdsProp } from '../types/ids-prop.interface';
 import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';

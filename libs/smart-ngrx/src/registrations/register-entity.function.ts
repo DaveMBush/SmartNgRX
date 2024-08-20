@@ -1,7 +1,7 @@
 // using a record here instead of a Map for performance reasons
 
 import { assert } from '../common/assert.function';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 import { EntityAttributes } from '../types/entity-attributes.interface';
 
 // We don't need any features that Map would provide
