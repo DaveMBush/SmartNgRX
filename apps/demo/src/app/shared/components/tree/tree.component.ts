@@ -1,5 +1,4 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -39,11 +38,6 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   // end = -1 to force first render to be everything that can be displayed
   range = { start: 0, end: -1 };
 
-  treeControl = new FlatTreeControl<TreeNode>(
-    (node) => node.level,
-    (node) => node.hasChildren,
-  );
-
   dataSource: TreeNode[] = [];
   fullDataSource: TreeNode[] = [];
   selectedNode = '';
@@ -59,6 +53,9 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   constructor() {
     this.treeComponentService.form = this;
   }
+
+  levelAccessor: (dataNode: TreeNode) => number = (node: TreeNode) =>
+    node.level;
 
   selectionChanged(event: string): void {
     this.locationChanged.emit(event);
