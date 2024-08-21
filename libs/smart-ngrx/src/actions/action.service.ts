@@ -23,6 +23,7 @@ import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
+import { newRowRegistry } from '../selector/new-row-registry.class';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -278,7 +279,7 @@ export class ActionService {
     this.entities.pipe(take(1)).subscribe((entities) => {
       let rows = defaultRows(ids, entities, defaultRow);
       // don't let virtual arrays get overwritten by the default row
-      rows = mergeRowsWithEntities(rows, entities);
+      rows = mergeRowsWithEntities(this.feature, this.entity, rows, entities);
       this.store.dispatch(
         this.actions.storeRows({
           rows,
@@ -296,7 +297,7 @@ export class ActionService {
     let registeredRows = registerEntityRows(this.feature, this.entity, rows);
     this.entities.pipe(take(1)).subscribe((entities) => {
       // don't let virtual arrays get overwritten by the default row
-      registeredRows = mergeRowsWithEntities(registeredRows, entities);
+      registeredRows = mergeRowsWithEntities(this.feature, this.entity, registeredRows, entities);
       this.store.dispatch(
         this.actions.storeRows({
           rows: registeredRows,
@@ -334,6 +335,10 @@ export class ActionService {
         field.indexes[i] = array.indexes[i - array.startIndex];
       }
       field.length = array.total;
+      if (field.indexes.length > 0 && newRowRegistry.isNewRow(this.feature, this.entity, field.indexes[field.indexes.length - 1])) {
+        field.length = array.total + 1;
+        field.indexes[field.length - 1] = field.indexes[field.indexes.length - 1];
+      }
       this.store.dispatch(
         this.actions.storeRows({ rows: [{ ...row, [childField]: field }] }),
       );

@@ -15,6 +15,7 @@ import { isArrayProxy } from './is-array-proxy.function';
 import { VirtualArray } from './virtual-array.class';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface'
 import { psi } from '../common/psi.const';
+import { newRowRegistry } from './new-row-registry.class';
 
 /**
  * This is an internal class used by `createSmartSelector` to wrap the field
@@ -171,7 +172,8 @@ export class ArrayProxy<
     const newParent = this.createNewParentFromParent(thisRow, true);
     newRow.parentId = parentId;
     newRow.isEditing = true;
-    newRow.id = `${childId}${psi}new-row`;
+    newRow.id = childId;
+    newRowRegistry.registerNewRow(parentFeature, parentEntity, childId);
     service.loadByIdsSuccess([newRow]);
     // cast is the only safe way to access the parentField that holds the
     // list of child IDs.
@@ -203,6 +205,9 @@ export class ArrayProxy<
    * @param parent the parent entity that contains the array
    */
   removeFromStore(row: C, parent: P): void {
+    const { childFeature, childEntity } = this.childDefinition;
+    newRowRegistry.remove(childFeature, childEntity, row.id);
+
     const childId = this.entityAdapter.selectId(row) as string;
     const { parentService } = this.getServices();
     const newParent = this.createNewParentFromParent(parent, false);

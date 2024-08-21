@@ -12,6 +12,8 @@ import { mergeVirtualArrays } from './merge-virtual-arrays.function';
  * @returns merged row
  */
 export function mergeNewRowWithExisting<T extends SmartNgRXRowBase>(
+  feature: string,
+  entity: string,
   newRow: Record<keyof T, unknown> & T,
   existingRow: Record<keyof T, unknown> & SmartNgRXRowBase
 ): T {
@@ -25,7 +27,11 @@ export function mergeNewRowWithExisting<T extends SmartNgRXRowBase>(
     const existingArray = existingRow[key] as VirtualArrayContents;
     // Preserve virtual array data
     mergedRow[key] = mergeVirtualArrays(
-      value, existingArray);
+      feature,
+      entity,
+      value,
+      existingArray
+    );
   });
 
   return mergedRow as T;

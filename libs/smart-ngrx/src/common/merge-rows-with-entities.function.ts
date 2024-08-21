@@ -13,13 +13,15 @@ import { psi } from './psi.const';
  * @returns merged rows
  */
 export function mergeRowsWithEntities<T extends SmartNgRXRowBase>(
+  feature: string,
+  entity: string,
   rows: T[],
   entities: Dictionary<SmartNgRXRowBase>
 ): T[] {
   forNext(rows, (row) => {
     const existingRow = entities[row.id];
     if (existingRow !== undefined) {
-      row = mergeNewRowWithExisting(row, existingRow as Record<keyof T, unknown> & T);
+      row = mergeNewRowWithExisting(feature, entity,row, existingRow as Record<keyof T, unknown> & T);
     }
   });
   return rows;

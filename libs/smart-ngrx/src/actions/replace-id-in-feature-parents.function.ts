@@ -28,12 +28,13 @@ export function replaceIdInFeatureParents(
   const parentIds: string[] = Object.keys(entities).filter((key) => {
     const entity = entities[key];
     assert(!!entity, `Entity with key ${key} not found in parent service`);
-    const childArray = entity[childField] as string[] | undefined;
+    let childArray = entity[childField] as string[] | undefined;
     assert(!!childArray, `Child array not found in parent entity`);
     let hasChild = false;
     if (Array.isArray(childArray)) {
       const index = childArray.findIndex((v) => id === v);
       if (index !== -1 && newId !== null) {
+        childArray = [...childArray];
         childArray[index] = newId;
       }
       hasChild = index !== -1;
