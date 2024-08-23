@@ -23,59 +23,110 @@ export function replaceIdInFeatureParents(
   ids: [string, string | null],
 ): string[] {
   const [id, newId] = ids;
-  const mapChildIdToChildren = new Map<string, string[] | VirtualArrayContents>();
+  const mapChildIdToChildren = new Map<
+    string,
+    string[] | VirtualArrayContents
+  >();
   const childField = childDefinition.parentField as keyof SmartNgRXRowBase;
+
   const parentIds: string[] = Object.keys(entities).filter((key) => {
     const entity = entities[key];
     assert(!!entity, `Entity with key ${key} not found in parent service`);
-    let childArray = entity[childField] as string[] | undefined;
-    assert(!!childArray, `Child array not found in parent entity`);
-    let hasChild = false;
-    if (Array.isArray(childArray)) {
-      const index = childArray.findIndex((v) => id === v);
-      if (index !== -1 && newId !== null) {
-        childArray = [...childArray];
-        childArray[index] = newId;
-      }
-      hasChild = index !== -1;
-      if (hasChild) {
-        mapChildIdToChildren.set(
-          key,
-          childArray.filter((v) => id !== v),
-        );
-      }
-    } else {
-      const index = castTo<VirtualArrayContents>(childArray).indexes.findIndex((v) => id === v);
-      let virtualArray = castTo<VirtualArrayContents>(childArray);
-      if (index !== -1 && newId !== null) {
-        virtualArray = {
-          indexes: [...virtualArray.indexes.slice(0, index), newId, ...virtualArray.indexes.slice(index + 1)],
-          length: virtualArray.length,
-        }
-      }
-      hasChild = index !== -1;
-      if (hasChild) {
-        const newIndexes = virtualArray.indexes.filter((v) => id !== v)
-        mapChildIdToChildren.set(
-          key,
-          {
-            indexes: newIndexes,
-            length: castTo<VirtualArrayContents>(childArray).length - (newId === null ? 1 : 0),
-          }
-        );
-      }
+
+    const { hasChild, updatedChildField } = processEntity(
+      entity,
+      childField,
+      id,
+      newId,
+    );
+    if (hasChild) {
+      mapChildIdToChildren.set(key, updatedChildField);
     }
     return hasChild;
   });
+
   if (parentIds.length === 0) {
     return [];
   }
+
   parentService.updateMany(
-    // remove the child id from the parent's child field
     parentIds.map((v) => ({
       id: v,
-      changes: { [childField]: mapChildIdToChildren.get(v) },
+      changes: {
+        [childField]: mapChildIdToChildren.get(v),
+      },
     })),
   );
+
   return parentIds;
+}
+
+interface ProcessResult {
+  hasChild: boolean;
+  updatedChildField: string[] | VirtualArrayContents;
+}
+
+function processEntity(
+  entity: SmartNgRXRowBase,
+  childField: keyof SmartNgRXRowBase,
+  id: string,
+  newId: string | null,
+): ProcessResult {
+  const childArray = entity[childField] as unknown as
+    | string[]
+    | VirtualArrayContents
+    | undefined;
+  assert(!!childArray, `Child array not found in parent entity`);
+
+  if (Array.isArray(childArray)) {
+    return processArrayChildField(childArray, id, newId);
+  }
+  return processVirtualArrayChildField(
+    castTo<VirtualArrayContents>(childArray),
+    id,
+    newId,
+  );
+}
+
+function processArrayChildField(
+  childArray: string[],
+  id: string,
+  newId: string | null,
+): ProcessResult {
+  const index = childArray.findIndex((v) => id === v);
+  let updatedArray = childArray;
+  if (index !== -1 && newId !== null) {
+    updatedArray = [...childArray];
+    updatedArray[index] = newId;
+  }
+  return {
+    hasChild: index !== -1,
+    updatedChildField: updatedArray.filter((v) => id !== v),
+  };
+}
+
+function processVirtualArrayChildField(
+  virtualArray: VirtualArrayContents,
+  id: string,
+  newId: string | null,
+): ProcessResult {
+  const index = virtualArray.indexes.findIndex((v) => id === v);
+  let updatedArray = virtualArray;
+  if (index !== -1 && newId !== null) {
+    updatedArray = {
+      indexes: [
+        ...virtualArray.indexes.slice(0, index),
+        newId,
+        ...virtualArray.indexes.slice(index + 1),
+      ],
+      length: virtualArray.length,
+    };
+  }
+  return {
+    hasChild: index !== -1,
+    updatedChildField: {
+      indexes: updatedArray.indexes.filter((v) => id !== v),
+      length: virtualArray.length - (newId === null ? 1 : 0),
+    },
+  };
 }

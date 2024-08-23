@@ -24,7 +24,9 @@
     <mat-tree-node
       *matTreeNodeDef="let node"
       matTreeNodePadding
-      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
     >
       <button
         type="button"
@@ -42,7 +44,9 @@
     <mat-tree-node
       *matTreeNodeDef="let node; when: hasChild"
       matTreeNodePadding
-      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
     >
       <button
         type="button"

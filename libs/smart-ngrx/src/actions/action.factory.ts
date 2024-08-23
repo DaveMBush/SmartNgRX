@@ -67,7 +67,11 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       }>(),
       Delete: props<{
         id: string;
-        parentInfo: { feature: string; entity: string; ids: string[] }[];
+        parentInfo: {
+          feature: string;
+          entity: string;
+          ids: string[];
+        }[];
       }>(),
     },
   });

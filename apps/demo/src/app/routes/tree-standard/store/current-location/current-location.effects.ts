@@ -24,7 +24,10 @@ export const watchLocations = createEffect(
       switchMap(() => store.select(selectLocationEntities)),
       withLatestFrom(store.select(selectCurrentLocationId)),
       map(([locations, locationId]) => {
-        return { ids: locations.ids as string[], locationId };
+        return {
+          ids: locations.ids as string[],
+          locationId,
+        };
       }),
       filter(
         ({ ids, locationId }) =>

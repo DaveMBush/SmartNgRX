@@ -52,6 +52,9 @@ export function provideSmartNgRX(
   }
   registerGlobalMarkAndDeleteInit(localConfig as MarkAndDeleteInit);
   return makeEnvironmentProviders([
-    provideEffects({ store: storeEffect, markAndDelete: markAndDeleteEffect }),
+    provideEffects({
+      store: storeEffect,
+      markAndDelete: markAndDeleteEffect,
+    }),
   ]);
 }

@@ -12,7 +12,11 @@ export const standardDepartmentsDefinition: SmartEntityDefinition<Department> =
       id,
       name: '',
       children: [],
-      virtualChildren: { indexes: [], startIndex: 0, length: 0 },
+      virtualChildren: {
+        indexes: [],
+        startIndex: 0,
+        length: 0,
+      },
     }),
   };
 /* jscpd:ignore-end */

@@ -14,6 +14,9 @@ export function markParentsDirty(
 ): void {
   const parentService = actionServiceRegistry(parentFeature, parentEntity);
   parentService.updateMany(
-    parentIds.map((id) => ({ id, changes: { isDirty: true } })),
+    parentIds.map((id) => ({
+      id,
+      changes: { isDirty: true },
+    })),
   );
 }

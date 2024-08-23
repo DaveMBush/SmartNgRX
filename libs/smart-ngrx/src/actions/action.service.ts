@@ -14,6 +14,7 @@ import { defaultRows } from '../reducers/default-rows.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { getEntityRegistry } from '../registrations/register-entity.function';
+import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -23,7 +24,6 @@ import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
-import { newRowRegistry } from '../selector/new-row-registry.class';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -60,7 +60,9 @@ export class ActionService {
       this.feature,
       this.entity,
     ).entityAdapter;
-    const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
+    const selectEntity = createSelector(selectFeature,
+      (f) =>
+        f[this.entity]);
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
@@ -297,7 +299,12 @@ export class ActionService {
     let registeredRows = registerEntityRows(this.feature, this.entity, rows);
     this.entities.pipe(take(1)).subscribe((entities) => {
       // don't let virtual arrays get overwritten by the default row
-      registeredRows = mergeRowsWithEntities(this.feature, this.entity, registeredRows, entities);
+      registeredRows = mergeRowsWithEntities(
+        this.feature,
+        this.entity,
+        registeredRows,
+        entities,
+      );
       this.store.dispatch(
         this.actions.storeRows({
           rows: registeredRows,
@@ -335,12 +342,22 @@ export class ActionService {
         field.indexes[i] = array.indexes[i - array.startIndex];
       }
       field.length = array.total;
-      if (field.indexes.length > 0 && newRowRegistry.isNewRow(this.feature, this.entity, field.indexes[field.indexes.length - 1])) {
+      if (
+        field.indexes.length > 0 &&
+        newRowRegistry.isNewRow(
+          this.feature,
+          this.entity,
+          field.indexes[field.indexes.length - 1],
+        )
+      ) {
         field.length = array.total + 1;
-        field.indexes[field.length - 1] = field.indexes[field.indexes.length - 1];
+        field.indexes[field.length - 1] =
+          field.indexes[field.indexes.length - 1];
       }
       this.store.dispatch(
-        this.actions.storeRows({ rows: [{ ...row, [childField]: field }] }),
+        this.actions.storeRows({
+          rows: [{ ...row, [childField]: field }],
+        }),
       );
     });
   }
@@ -355,7 +372,9 @@ export class ActionService {
       })
       .map((id) => {
         const entity = entities[id]!;
-        const entityChanges: Partial<SmartNgRXRowBase> = { isDirty: true };
+        const entityChanges: Partial<SmartNgRXRowBase> = {
+          isDirty: true,
+        };
 
         // Handle virtual arrays
         Object.entries(entity).forEach(([key, value]) => {
@@ -372,7 +391,10 @@ export class ActionService {
           }
         });
 
-        return { id, changes: entityChanges } as UpdateStr<SmartNgRXRowBase>;
+        return {
+          id,
+          changes: entityChanges,
+        } as UpdateStr<SmartNgRXRowBase>;
       });
 
     this.store.dispatch(this.actions.updateMany({ changes: updates }));

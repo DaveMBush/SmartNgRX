@@ -19,7 +19,8 @@ import { DocInDTO, DocOutDTO } from './doc-dto.interface';
 @Controller('docs')
 export class DocsController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 

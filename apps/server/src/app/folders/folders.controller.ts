@@ -20,7 +20,8 @@ import { FolderDTO } from './folders-dto.interface';
 @Controller('folders')
 export class FoldersController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 

@@ -19,7 +19,8 @@ import { DepartmentDTO } from './department-dto.interface';
 @Controller('departments')
 export class DepartmentsController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 

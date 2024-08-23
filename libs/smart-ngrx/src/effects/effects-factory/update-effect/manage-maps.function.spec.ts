@@ -19,7 +19,10 @@ describe('manage-maps.function.ts', () => {
     });
     it('adds the row to the maps', () => {
       expect(lastRow.size).toBe(1);
-      expect(lastRow.get('1')).toEqual({ id: '1', name: 'foo' });
+      expect(lastRow.get('1')).toEqual({
+        id: '1',
+        name: 'foo',
+      });
       expect(lastRowTimeout.size).toBe(1);
     });
   });
@@ -35,7 +38,10 @@ describe('manage-maps.function.ts', () => {
     });
     it('updates the row in the maps', () => {
       expect(lastRow.size).toBe(1);
-      expect(lastRow.get('1')).toEqual({ id: '1', name: 'foo' });
+      expect(lastRow.get('1')).toEqual({
+        id: '1',
+        name: 'foo',
+      });
       expect(lastRowTimeout.size).toBe(1);
       expect(lastRowTimeout.get('1')).toBe(now);
     });
@@ -51,7 +57,10 @@ describe('manage-maps.function.ts', () => {
     });
     it('updates the row in the maps', () => {
       expect(lastRow.size).toBe(1);
-      expect(lastRow.get('1')).toEqual({ id: '1', name: 'bar' });
+      expect(lastRow.get('1')).toEqual({
+        id: '1',
+        name: 'bar',
+      });
       expect(lastRowTimeout.size).toBe(1);
       expect(lastRowTimeout.get('1')).not.toBe(1);
     });

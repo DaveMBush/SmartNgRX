@@ -9,13 +9,12 @@ import { RowProxy } from '../row-proxy/row-proxy.class';
 import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
 import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
-import { VirtualArray } from './virtual-array.class';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface'
-import { psi } from '../common/psi.const';
 import { newRowRegistry } from './new-row-registry.class';
+import { VirtualArray } from './virtual-array.class';
 
 /**
  * This is an internal class used by `createSmartSelector` to wrap the field
@@ -192,7 +191,7 @@ export class ArrayProxy<
       ] = {
         indexes,
         length: existingVirtualArray.length + 1,
-      }
+      };
     }
     parentService.loadByIdsSuccess([newParent]);
   }

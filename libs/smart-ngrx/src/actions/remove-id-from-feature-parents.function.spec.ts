@@ -14,8 +14,14 @@ describe('removeIdFromParents()', () => {
   let parentServiceUpdateManySpy: jest.SpyInstance;
   let returnValue: string[];
   let entities: Partial<Record<string, Row>>;
-  let service: ActionService;
   let parentService: ActionService;
+  const childDefinition = {
+      parentField: 'children',
+      childEntity: 'entity',
+      childFeature: 'feature',
+      parentEntity: 'parentEntity',
+    parentFeature: 'parentFeature',
+  } as unknown as ChildDefinition;
   beforeEach(() => {
     entities = {
       '1': {
@@ -29,22 +35,12 @@ describe('removeIdFromParents()', () => {
         children: ['a', 'd', 'e'],
       },
     };
-    service = {
-      feature: 'feature',
-      entity: 'entity',
-    } as unknown as ActionService;
     parentService = {
       feature: 'parentFeature',
       entity: 'parentEntity',
       updateMany: jest.fn(),
     } as unknown as ActionService;
-    childDefinitionRegistry.registerChildDefinition('feature', 'entity', {
-      parentField: 'children',
-      childEntity: 'entity',
-      childFeature: 'feature',
-      parentEntity: 'parentEntity',
-      parentFeature: 'parentFeature',
-    } as unknown as ChildDefinition);
+    childDefinitionRegistry.registerChildDefinition('feature', 'entity', childDefinition);
     parentServiceUpdateManySpy = jest
       .spyOn(parentService, 'updateMany')
       .mockImplementation(() => {
@@ -55,9 +51,9 @@ describe('removeIdFromParents()', () => {
     beforeEach(() => {
       returnValue = replaceIdInFeatureParents(
         entities,
-        service,
+        childDefinition,
         parentService,
-        'f',
+        ['f', null],
       );
     });
     it('should return an empty array', () => {
@@ -71,9 +67,9 @@ describe('removeIdFromParents()', () => {
     beforeEach(() => {
       returnValue = replaceIdInFeatureParents(
         entities,
-        service,
+        childDefinition,
         parentService,
-        'a',
+        ['a', null],
       );
     });
 

@@ -1,4 +1,4 @@
-import { psi } from "../common/psi.const";
+import { psi } from '../common/psi.const';
 
 class NewRowRegistry {
   private newRows: Set<string> = new Set();
@@ -9,7 +9,7 @@ class NewRowRegistry {
   isNewRow(feature: string, entity: string, id: string): boolean {
     return this.newRows.has(`${feature}${psi}${entity}${psi}${id}`);
   }
-  
+
   remove(feature: string, entity: string, id: string): void {
     this.newRows.delete(`${feature}${psi}${entity}${psi}${id}`);
   }

@@ -48,7 +48,11 @@ describe('ActionService', () => {
     entityDefinitionCache(feature, entity, {
       entityName: entity,
       effectServiceToken: null, // serviceToken isn't needed for these tests
-      defaultRow: (id: string) => ({ id, name: '', foo: '' }),
+      defaultRow: (id: string) => ({
+        id,
+        name: '',
+        foo: '',
+      }),
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
     service = castTo<PublicMarkDirtyWithEntities>(
@@ -109,7 +113,11 @@ describe('ActionService', () => {
           storeDispatchSpy = jest.spyOn(store, 'dispatch');
           service.markDirtyWithEntities(
             {
-              '2': { id: '2', name: 'name', isEditing: true },
+              '2': {
+                id: '2',
+                name: 'name',
+                isEditing: true,
+              },
             },
             ['2'],
           );
@@ -153,7 +161,13 @@ describe('ActionService', () => {
         beforeEach(() => {
           storeDispatchSpy = jest.spyOn(store, 'dispatch');
           service.garbageCollectWithEntities(
-            { '2': { id: '2', name: 'name', isEditing: true } },
+            {
+              '2': {
+                id: '2',
+                name: 'name',
+                isEditing: true,
+              },
+            },
             ['2'],
           );
         });

@@ -23,7 +23,9 @@ describe('refineLeaks()', () => {
   let refineLeakReturnValue: LeakItem | null = null;
   beforeEach(() => {
     jest.spyOn(run, 'run').mockImplementation(async (_?: run.RunOptions) => {
-      return Promise.resolve({ runResult: {} } as run.RunResult);
+      return Promise.resolve({
+        runResult: {},
+      } as run.RunResult);
     });
     // mock abortIfLeakCountsAreNotEqual
     jest

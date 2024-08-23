@@ -1,20 +1,16 @@
-import { inject, InjectionToken } from '@angular/core';
+import { inject } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { EntityAdapter } from '@ngrx/entity';
 import { map, tap, timer } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
+import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { EffectService } from '../effect-service';
-import { markParentsDirty } from './mark-parents-dirty.function';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
-import { actionFactory } from '../../actions/action.factory';
 
 /**
  * This is the effect that handles adding a new row to the store.
  *
- * @param effectServiceToken the effect token for the service that will be called
  * @param actions The action that will have the type of action that was triggered
  *   so we know if we should handle it
  * @param adapter the adapter for the entity so we can grab the id for the row
@@ -46,7 +42,10 @@ export function addSuccessEffect<T extends SmartNgRXRowBase = SmartNgRXRowBase>(
         }),
       ),
       map((action) => {
-        const parentService = actionServiceRegistry(action.feature, action.entity);
+        const parentService = actionServiceRegistry(
+          action.feature,
+          action.entity,
+        );
         const oldId = adapter.selectId(action.oldRow) as string;
         parentService.replaceIdInParents(oldId, action.newRow.id);
       }),

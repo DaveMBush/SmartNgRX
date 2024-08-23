@@ -22,11 +22,9 @@ export function replaceIdInParents(
   );
   parentService.entities.pipe(take(1)).subscribe((entities) => {
     // optimistically remove the ids from the parent
-    replaceIdInFeatureParents(
-      entities,
-      childDefinition,
-      parentService,
-      [id, newId],
-    );
+    replaceIdInFeatureParents(entities, childDefinition, parentService, [
+      id,
+      newId,
+    ]);
   });
 }

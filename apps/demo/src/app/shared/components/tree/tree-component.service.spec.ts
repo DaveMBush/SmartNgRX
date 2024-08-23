@@ -45,7 +45,10 @@ describe('TreeComponentService', () => {
 
     // Mock TreeComponent
     mockComponent = fixture.createComponent(TreeComponent);
-    mockComponent.componentInstance.range = { start: 0, end: 6 };
+    mockComponent.componentInstance.range = {
+      start: 0,
+      end: 6,
+    };
     mockComponent.componentInstance.locationId = signal(
       '1',
     ) as unknown as typeof mockComponent.componentInstance.locationId;
@@ -379,7 +382,12 @@ describe('TreeComponentService', () => {
         hasChildren: false,
       };
       service.addChild(
-        { id: '1', name: 'new', children: [], virtualChildren: { length: 0 } },
+        {
+          id: '1',
+          name: 'new',
+          children: [],
+          virtualChildren: { length: 0 },
+        },
         node,
       );
       expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
@@ -411,7 +419,12 @@ describe('TreeComponentService', () => {
         hasChildren: false,
       };
       service.addChild(
-        { id: '1', name: 'new', children: [], virtualChildren: { length: 0 } },
+        {
+          id: '1',
+          name: 'new',
+          children: [],
+          virtualChildren: { length: 0 },
+        },
         node,
       );
       expect(toggleExpandSpy).not.toHaveBeenCalled();
@@ -431,7 +444,10 @@ describe('TreeComponentService', () => {
       service.form = {
         addingParent: { name: 't' } as TreeNode,
       } as TreeComponent;
-      service.cancelEdit({ name: 'new', node: { name: 'boo' } } as TreeNode);
+      service.cancelEdit({
+        name: 'new',
+        node: { name: 'boo' },
+      } as TreeNode);
       expect(removeChildSpy).toHaveBeenCalledTimes(1);
     });
   });
@@ -445,8 +461,13 @@ describe('TreeComponentService', () => {
         });
     });
     it('should remove the node from the child array', () => {
-      service.form = { addingParent: null } as TreeComponent;
-      service.cancelEdit({ name: 'new', node: { name: 'boo' } } as TreeNode);
+      service.form = {
+        addingParent: null,
+      } as TreeComponent;
+      service.cancelEdit({
+        name: 'new',
+        node: { name: 'boo' },
+      } as TreeNode);
       expect(removeChildSpy).not.toHaveBeenCalled();
     });
   });

@@ -8,7 +8,10 @@ describe('default-rows.function.ts', () => {
   describe('when I pass an ID that is not in state', () => {
     it('should return a row with the id', () => {
       const ids = ['1'];
-      const state: EntityState<{ id: string; isDirty: boolean }> = {
+      const state: EntityState<{
+        id: string;
+        isDirty: boolean;
+      }> = {
         ids: [],
         entities: {},
       };

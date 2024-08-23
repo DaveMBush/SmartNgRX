@@ -17,10 +17,22 @@ describe('DepartmentChildEffectsService', () => {
     TestBed.configureTestingModule({
       providers: [
         DepartmentChildEffectsService,
-        { provide: DocsService, useValue: { loadByIds: jest.fn() } },
-        { provide: FoldersService, useValue: { loadByIds: jest.fn() } },
-        { provide: ListsService, useValue: { loadByIds: jest.fn() } },
-        { provide: SprintFoldersService, useValue: { loadByIds: jest.fn() } },
+        {
+          provide: DocsService,
+          useValue: { loadByIds: jest.fn() },
+        },
+        {
+          provide: FoldersService,
+          useValue: { loadByIds: jest.fn() },
+        },
+        {
+          provide: ListsService,
+          useValue: { loadByIds: jest.fn() },
+        },
+        {
+          provide: SprintFoldersService,
+          useValue: { loadByIds: jest.fn() },
+        },
       ],
     });
 
