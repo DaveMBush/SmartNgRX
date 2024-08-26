@@ -19,7 +19,7 @@
   [maxBufferPx]="4800"
 >
   <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <mat-tree [dataSource]="dataSource" [levelAccessor]="levelAccessor">
     <!-- This is the tree node template for leaf nodes -->
     <mat-tree-node
       *matTreeNodeDef="let node"
