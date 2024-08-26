@@ -1,4 +1,4 @@
-import { psi } from '../../common/theta.const';
+import { psi } from '../../common/psi.const';
 import {
   registerEntity,
   unregisterEntity,

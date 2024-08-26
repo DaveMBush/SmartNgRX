@@ -30,7 +30,11 @@ describe('Location Selectors', () => {
     setState('tree-standard2', 'currentLocation', '1');
     (store() as MockStore).overrideSelector(selectLocationsDepartments, {
       entities: {
-        1: { id: '1', name: location1string, departments: [] },
+        1: {
+          id: '1',
+          name: location1string,
+          departments: [],
+        },
       },
       ids: ['1'],
     });

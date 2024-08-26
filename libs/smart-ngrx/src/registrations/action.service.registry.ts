@@ -1,5 +1,5 @@
 import { ActionService } from '../actions/action.service';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 
 const actionServiceMap = new Map<string, ActionService>();
 

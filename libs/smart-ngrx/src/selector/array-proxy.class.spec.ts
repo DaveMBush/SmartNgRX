@@ -1,8 +1,11 @@
-import { createEntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 
+import { actionFactory } from '../actions/action.factory';
 import { ActionService } from '../actions/action.service';
+import { ActionGroup } from '../actions/action-group.interface';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
+import * as actionServiceRegistry from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import {
   registerEntity,
@@ -16,10 +19,14 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import * as getArrayItem from './get-array-item.function';
+import { VirtualArray } from './virtual-array.class';
 
 const childDefinition = {
   childFeature: 'feature',
   childEntity: 'entity',
+  parentField: 'children',
+  parentFeature: 'parentFeature',
+  parentEntity: 'parentEntity',
 } as unknown as ChildDefinition;
 
 describe('ArrayProxy', () => {
@@ -44,6 +51,13 @@ describe('ArrayProxy', () => {
     entityDefinitionCache(
       childDefinition.childFeature,
       childDefinition.childEntity,
+      {
+        entityAdapter: createEntityAdapter<SmartNgRXRowBase>(),
+      } as SmartEntityDefinition<SmartNgRXRowBase>,
+    );
+    entityDefinitionCache(
+      childDefinition.parentFeature,
+      childDefinition.parentEntity,
       {
         entityAdapter: createEntityAdapter<SmartNgRXRowBase>(),
       } as SmartEntityDefinition<SmartNgRXRowBase>,
@@ -239,6 +253,125 @@ describe('ArrayProxy', () => {
           name: 'foo',
           isEditing: true,
         });
+      });
+    });
+  });
+  describe('addToStore()', () => {
+    let mockParentService: ActionService;
+    let mockChildService: ActionService;
+    let mockEntityAdapter: EntityAdapter<SmartNgRXRowBase>;
+    let loadByIdsSuccessSpy: jest.SpyInstance;
+    describe('with standard array', () => {
+      beforeEach(() => {
+        mockParentService = {
+          loadByIdsSuccess: jest.fn(),
+        } as unknown as ActionService;
+        mockChildService = {
+          loadByIdsSuccess: jest.fn(),
+        } as unknown as ActionService;
+        mockEntityAdapter = {
+          selectId: jest.fn().mockReturnValue('newId'),
+        } as unknown as EntityAdapter<SmartNgRXRowBase>;
+
+        arrayProxy = new ArrayProxy(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+        arrayProxy.entityAdapter = mockEntityAdapter;
+        arrayProxy.childActionService = mockChildService;
+
+        loadByIdsSuccessSpy = jest.spyOn(mockChildService, 'loadByIdsSuccess');
+        jest
+          .spyOn(actionServiceRegistry, 'actionServiceRegistry')
+          .mockReturnValueOnce(mockParentService)
+          .mockReturnValueOnce(mockChildService);
+      });
+
+      it('should add a new row to the store when rawArray is an array', () => {
+        const newRow = { id: 'newId', name: 'New Row' } as SmartNgRXRowBase;
+        const parentRow = {
+          id: 'parentId',
+          children: originalArray,
+        } as SmartNgRXRowBase;
+
+        arrayProxy!.addToStore(newRow, parentRow);
+
+        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
+          {
+            ...parentRow,
+            children: [...originalArray, 'newId'],
+            isEditing: true,
+          },
+        ]);
+      });
+    });
+    describe('with virtual array', () => {
+      beforeEach(() => {
+        mockParentService = {
+          loadByIdsSuccess: jest.fn(),
+        } as unknown as ActionService;
+        mockChildService = {
+          loadByIdsSuccess: jest.fn(),
+        } as unknown as ActionService;
+        mockEntityAdapter = {
+          selectId: jest.fn().mockReturnValue('newId'),
+        } as unknown as EntityAdapter<SmartNgRXRowBase>;
+
+        const parentAction = actionFactory('parentFeature', 'parentEntity');
+
+        const virtualArray = new VirtualArray(
+          {
+            indexes: originalArray,
+            length: originalArray.length,
+          },
+          parentAction,
+          'parentId',
+          'children',
+        );
+
+        arrayProxy = new ArrayProxy(
+          virtualArray as unknown as string[],
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+        arrayProxy.entityAdapter = mockEntityAdapter;
+        arrayProxy.childActionService = mockChildService;
+
+        loadByIdsSuccessSpy = jest.spyOn(mockChildService, 'loadByIdsSuccess');
+        jest
+          .spyOn(actionServiceRegistry, 'actionServiceRegistry')
+          .mockReturnValueOnce(mockParentService)
+          .mockReturnValueOnce(mockChildService);
+      });
+      it('should add a new row to the store when rawArray is a VirtualArray', () => {
+        const virtualArray = new VirtualArray(
+          { indexes: originalArray, length: originalArray.length },
+          {} as ActionGroup,
+          'parentId',
+          'children',
+        );
+
+        const newRow = { id: 'newId', name: 'New Row' } as SmartNgRXRowBase;
+        const parentRow = {
+          id: 'parentId',
+          children: virtualArray,
+        } as SmartNgRXRowBase;
+
+        arrayProxy!.addToStore(newRow, parentRow);
+
+        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
+          {
+            ...parentRow,
+            children: {
+              indexes: [...originalArray, 'newId'],
+              length: originalArray.length + 1,
+            },
+            isEditing: true,
+          },
+        ]);
       });
     });
   });

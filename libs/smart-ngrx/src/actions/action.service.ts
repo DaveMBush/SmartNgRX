@@ -5,6 +5,7 @@ import { Observable, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { mergeRowsWithEntities } from '../common/merge-rows-with-entities.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
@@ -13,6 +14,7 @@ import { defaultRows } from '../reducers/default-rows.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { getEntityRegistry } from '../registrations/register-entity.function';
+import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -21,6 +23,7 @@ import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
+import { replaceIdInParents } from './replace-id-in-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -188,6 +191,8 @@ export class ActionService {
     this.store.dispatch(
       this.actions.add({
         row,
+        feature: this.feature,
+        entity: this.entity,
         parentId,
         parentFeature: parentService.feature,
         parentEntityName: parentService.entity,
@@ -196,19 +201,47 @@ export class ActionService {
   }
 
   /**
+   * removes the id from the child arrays of the parent rows
+   *
+   * @param id the id to remove
+   * @returns the parent info for each parent
+   */
+  removeFromParents(id: string): ParentInfo[] {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    const parentInfo: ParentInfo[] = [];
+    forNext(childDefinitions, (childDefinition) => {
+      removeIdFromParents(childDefinition, id, parentInfo);
+    });
+    return parentInfo;
+  }
+
+  /**
+   * replaces the id in the parent rows with the new id
+   * this is used when we commit a new row to the server
+   *
+   * @param id the id to replace
+   * @param newId the new id to replace the old id with
+   */
+  replaceIdInParents(id: string, newId: string): void {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    forNext(childDefinitions, (childDefinition) => {
+      replaceIdInParents(childDefinition, id, newId);
+    });
+  }
+
+  /**
    * Deletes the row represented by the Id from the store
    *
    * @param id the id of the row to delete
    */
   delete(id: string): void {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    let parentInfo: ParentInfo[] = [];
-    forNext(childDefinitions, (childDefinition) => {
-      removeIdFromParents(childDefinition, this, id, parentInfo);
-    });
+    let parentInfo = this.removeFromParents(id);
 
     parentInfo = parentInfo.filter((info) => info.ids.length > 0);
     // remove the row from the store
@@ -244,7 +277,9 @@ export class ActionService {
       this.entity,
     ).defaultRow;
     this.entities.pipe(take(1)).subscribe((entities) => {
-      const rows = defaultRows(ids, entities, defaultRow);
+      let rows = defaultRows(ids, entities, defaultRow);
+      // don't let virtual arrays get overwritten by the default row
+      rows = mergeRowsWithEntities(this.feature, this.entity, rows, entities);
       this.store.dispatch(
         this.actions.storeRows({
           rows,
@@ -259,12 +294,21 @@ export class ActionService {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    const registeredRows = registerEntityRows(this.feature, this.entity, rows);
-    this.store.dispatch(
-      this.actions.storeRows({
-        rows: registeredRows,
-      }),
-    );
+    let registeredRows = registerEntityRows(this.feature, this.entity, rows);
+    this.entities.pipe(take(1)).subscribe((entities) => {
+      // don't let virtual arrays get overwritten by the default row
+      registeredRows = mergeRowsWithEntities(
+        this.feature,
+        this.entity,
+        registeredRows,
+        entities,
+      );
+      this.store.dispatch(
+        this.actions.storeRows({
+          rows: registeredRows,
+        }),
+      );
+    });
   }
 
   /**
@@ -285,36 +329,63 @@ export class ActionService {
     this.entities.pipe(take(1)).subscribe((entities) => {
       const row = entities[parentId] as Record<string, VirtualArrayContents> &
         SmartNgRXRowBase;
-      let field = row[childField];
-      field = { ...field };
-      field.indexes = [...field.indexes];
-      for (
-        let i = array.startIndex;
-        i < array.startIndex + array.indexes.length;
-        i++
-      ) {
-        field.indexes[i] = array.indexes[i - array.startIndex];
-      }
-      field.length = array.total;
+      const updatedField = this.processLoadByIndexesSuccess(
+        row[childField],
+        array,
+      );
       this.store.dispatch(
-        this.actions.storeRows({ rows: [{ ...row, [childField]: field }] }),
+        this.actions.storeRows({
+          rows: [{ ...row, [childField]: updatedField }],
+        }),
       );
     });
+  }
+
+  private processLoadByIndexesSuccess(
+    field: VirtualArrayContents,
+    array: PartialArrayDefinition,
+  ): VirtualArrayContents {
+    const updatedField = { ...field };
+    updatedField.indexes = [...field.indexes];
+    forNext(array.indexes, (item, index) => {
+      updatedField.indexes[index + array.startIndex] = item;
+    });
+    updatedField.length = array.total;
+    if (
+      updatedField.indexes.length > 0 &&
+      newRowRegistry.isNewRow(
+        this.feature,
+        this.entity,
+        updatedField.indexes[updatedField.indexes.length - 1],
+      )
+    ) {
+      updatedField.length = array.total + 1;
+      updatedField.indexes[updatedField.length - 1] =
+        updatedField.indexes[updatedField.indexes.length - 1];
+    }
+    return updatedField;
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(
     entities: Dictionary<R>,
     ids: string[],
   ): void {
-    const changes = ids
+    const updates = ids
       .filter((id) => {
         return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
-      .map(
-        (id) =>
-          ({ id, changes: { isDirty: true } }) as UpdateStr<SmartNgRXRowBase>,
-      );
-    this.store.dispatch(this.actions.updateMany({ changes }));
+      .map((id) => {
+        const entityChanges: Partial<SmartNgRXRowBase> = {
+          isDirty: true,
+        };
+
+        return {
+          id,
+          changes: entityChanges,
+        } as UpdateStr<SmartNgRXRowBase>;
+      });
+
+    this.store.dispatch(this.actions.updateMany({ changes: updates }));
   }
 
   private garbageCollectWithEntities<R extends SmartNgRXRowBase>(

@@ -110,7 +110,7 @@ export function effectsFactory<T extends SmartNgRXRowBase>(
      * that was added so we could edit it.
      */
     addSuccess: createEffect(
-      addSuccessEffect<T>(effectsServiceToken, actions, adapter),
+      addSuccessEffect<T>(actions, adapter),
       dispatchFalse,
     ),
   };

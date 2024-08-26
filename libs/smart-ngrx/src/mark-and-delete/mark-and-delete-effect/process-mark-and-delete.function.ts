@@ -26,6 +26,8 @@ export function processMarkAndDelete(
         actionService.markDirty(markDirtyRowIds);
       }
     },
-    { timeout: getGlobalMarkAndDeleteInit().runInterval! - 100 },
+    {
+      timeout: getGlobalMarkAndDeleteInit().runInterval! - 100,
+    },
   );
 }

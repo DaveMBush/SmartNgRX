@@ -10,7 +10,6 @@ import { TreeNode } from './tree-node.interface';
 export class TreeComponentService {
   private expandMap = new Map<string, boolean>();
   private component: TreeComponent | null = null;
-  private isVirtual = false;
 
   constructor(private virtualArrayFlagService: VirtualArrayFlagService) {}
 
@@ -61,45 +60,15 @@ export class TreeComponentService {
       return [];
     }
     forNext(children.rawArray!, (c, i) => {
-      let node: CommonSourceNode | string = c;
-      if (startRange <= result.length && result.length <= endRange) {
-        node = children[i];
-      } else {
-        // we don't need to do anything with this node
-        // but the tree needs to know it is longer so
-        // we increment the length.
-        result.length++;
-        return;
-      }
-      const r =
-        typeof node === 'string'
-          ? {
-              node: { id: node, isLoading: true },
-              name: '',
-              level,
-              hasChildren: false,
-            }
-          : {
-              name: node.name,
-              node,
-              level,
-              hasChildren: Boolean(node.children?.length),
-              isExpanded: this.isExpanded({ node, level } as TreeNode),
-            };
-      result.push(r as TreeNode);
-      if (this.isExpanded(r as TreeNode)) {
-        const treeNode = children[i] as CommonSourceNode;
-        const childNodes = this.transform(
-          /* istanbul ignore next -- temporary check, should be removed */
-          level === 0 && this.virtualArrayFlagService.virtualArrayFlag
-            ? treeNode.virtualChildren
-            : treeNode.children,
-          level + 1,
-          startRange - result.length,
-          endRange - result.length,
-        );
-        result.push(...childNodes);
-      }
+      this.transformTreeNode({
+        children,
+        result,
+        node: c,
+        index: i,
+        level,
+        startRange,
+        endRange,
+      });
     });
     return result;
   }
@@ -109,7 +78,14 @@ export class TreeComponentService {
       this.toggleExpand(parent);
     }
 
-    parent.node.children.addToStore!(row, parent.node);
+    if (
+      this.virtualArrayFlagService.virtualArrayFlag &&
+      parent.node.virtualChildren !== undefined
+    ) {
+      parent.node.virtualChildren.addToStore!(row, parent.node);
+    } else {
+      parent.node.children.addToStore!(row, parent.node);
+    }
   }
 
   deleteNode(node: TreeNode): void {
@@ -135,5 +111,56 @@ export class TreeComponentService {
 
   private isExpanded(node: TreeNode): boolean {
     return this.expandMap.get(node.level + ':' + node.node.id) ?? false;
+  }
+
+  private transformTreeNode(params: {
+    children: SmartArray<CommonSourceNode, CommonSourceNode>;
+    result: TreeNode[];
+    node: CommonSourceNode | string;
+    index: number;
+    level: number;
+    startRange: number;
+    endRange: number;
+  }): void {
+    const { children, result, node, index, level, startRange, endRange } =
+      params;
+    let currentNode: CommonSourceNode | string = node;
+    if (startRange <= result.length && result.length <= endRange) {
+      currentNode = children[index];
+    } else {
+      result.length++;
+      return;
+    }
+    const treeNode =
+      typeof currentNode === 'string'
+        ? {
+            node: { id: currentNode, isLoading: true },
+            name: '',
+            level,
+            hasChildren: false,
+          }
+        : {
+            name: currentNode.name,
+            node: currentNode,
+            level,
+            hasChildren: Boolean(currentNode.children?.length),
+            isExpanded: this.isExpanded({
+              node: currentNode,
+              level,
+            } as TreeNode),
+          };
+    result.push(treeNode as TreeNode);
+    if (this.isExpanded(treeNode as TreeNode)) {
+      const childNodes = this.transform(
+        /* istanbul ignore next -- trivial */
+        level === 0 && this.virtualArrayFlagService.virtualArrayFlag
+          ? (currentNode as CommonSourceNode).virtualChildren
+          : (currentNode as CommonSourceNode).children,
+        level + 1,
+        startRange - result.length,
+        endRange - result.length,
+      );
+      result.push(...childNodes);
+    }
   }
 }

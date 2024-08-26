@@ -52,7 +52,10 @@ describe('ensureDataLoaded()', () => {
     describe('but isDirty has never been set', () => {
       beforeEach(() => {
         ensureDataLoaded(
-          { ids: [], entities: { id: { id: 'id', name: 'foo' } } },
+          {
+            ids: [],
+            entities: { id: { id: 'id', name: 'foo' } },
+          },
           'id',
           'feature',
           'entity',
@@ -67,7 +70,9 @@ describe('ensureDataLoaded()', () => {
         ensureDataLoaded<Row>(
           {
             ids: [],
-            entities: { id: { id: 'id', name: 'foo', isDirty: true } },
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
           },
           'id',
           'feature',

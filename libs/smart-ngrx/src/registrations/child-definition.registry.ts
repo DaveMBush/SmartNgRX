@@ -1,6 +1,6 @@
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 

@@ -24,7 +24,9 @@
     <mat-tree-node
       *matTreeNodeDef="let node"
       matTreeNodePadding
-      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
     >
       <button
         type="button"
@@ -42,7 +44,9 @@
     <mat-tree-node
       *matTreeNodeDef="let node; when: hasChild"
       matTreeNodePadding
-      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
     >
       <button
         type="button"
@@ -112,7 +116,7 @@
           <button mat-menu-item (click)="addChild(node, 'folders')">
             Folder
           </button>
-          <button mat-menu-item (click)="addChild(node, 'sprintFolders')">
+          <button mat-menu-item (click)="addChild(node, 'sprint-folders')">
             Sprint Folder
           </button>
           <button mat-menu-item (click)="addChild(node, 'lists')">List</button>

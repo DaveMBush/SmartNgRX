@@ -2,7 +2,7 @@
 /* jscpd:ignore-start */
 import { createActionGroup, props } from '@ngrx/store';
 
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 import { IdsProp } from '../types/ids-prop.interface';
 import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
@@ -50,6 +50,8 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       'Add To Store': props<RowProp<T>>(),
       Add: props<{
         row: T;
+        feature: string;
+        entity: string;
         parentId: string;
         parentFeature: string;
         parentEntityName: string;
@@ -57,13 +59,19 @@ export function actionFactory<T extends SmartNgRXRowBase>(
       'Add Success': props<{
         newRow: T;
         oldRow: T;
+        feature: string;
+        entity: string;
         parentId: string;
         parentFeature: string;
         parentEntityName: string;
       }>(),
       Delete: props<{
         id: string;
-        parentInfo: { feature: string; entity: string; ids: string[] }[];
+        parentInfo: {
+          feature: string;
+          entity: string;
+          ids: string[];
+        }[];
       }>(),
     },
   });

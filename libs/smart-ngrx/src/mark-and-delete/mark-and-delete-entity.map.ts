@@ -1,5 +1,5 @@
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 
 const markAndDelete: Record<string, Map<string, number>> = {};
 
