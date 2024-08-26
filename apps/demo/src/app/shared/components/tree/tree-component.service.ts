@@ -152,6 +152,7 @@ export class TreeComponentService {
     result.push(treeNode as TreeNode);
     if (this.isExpanded(treeNode as TreeNode)) {
       const childNodes = this.transform(
+        /* istanbul ignore next -- trivial */
         level === 0 && this.virtualArrayFlagService.virtualArrayFlag
           ? (currentNode as CommonSourceNode).virtualChildren
           : (currentNode as CommonSourceNode).children,

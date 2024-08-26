@@ -60,9 +60,7 @@ export class ActionService {
       this.feature,
       this.entity,
     ).entityAdapter;
-    const selectEntity = createSelector(selectFeature,
-      (f) =>
-        f[this.entity]);
+    const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
@@ -331,35 +329,41 @@ export class ActionService {
     this.entities.pipe(take(1)).subscribe((entities) => {
       const row = entities[parentId] as Record<string, VirtualArrayContents> &
         SmartNgRXRowBase;
-      let field = row[childField];
-      field = { ...field };
-      field.indexes = [...field.indexes];
-      for (
-        let i = array.startIndex;
-        i < array.startIndex + array.indexes.length;
-        i++
-      ) {
-        field.indexes[i] = array.indexes[i - array.startIndex];
-      }
-      field.length = array.total;
-      if (
-        field.indexes.length > 0 &&
-        newRowRegistry.isNewRow(
-          this.feature,
-          this.entity,
-          field.indexes[field.indexes.length - 1],
-        )
-      ) {
-        field.length = array.total + 1;
-        field.indexes[field.length - 1] =
-          field.indexes[field.indexes.length - 1];
-      }
+      const updatedField = this.processLoadByIndexesSuccess(
+        row[childField],
+        array,
+      );
       this.store.dispatch(
         this.actions.storeRows({
-          rows: [{ ...row, [childField]: field }],
+          rows: [{ ...row, [childField]: updatedField }],
         }),
       );
     });
+  }
+
+  private processLoadByIndexesSuccess(
+    field: VirtualArrayContents,
+    array: PartialArrayDefinition,
+  ): VirtualArrayContents {
+    const updatedField = { ...field };
+    updatedField.indexes = [...field.indexes];
+    forNext(array.indexes, (item, index) => {
+      updatedField.indexes[index + array.startIndex] = item;
+    });
+    updatedField.length = array.total;
+    if (
+      updatedField.indexes.length > 0 &&
+      newRowRegistry.isNewRow(
+        this.feature,
+        this.entity,
+        updatedField.indexes[updatedField.indexes.length - 1],
+      )
+    ) {
+      updatedField.length = array.total + 1;
+      updatedField.indexes[updatedField.length - 1] =
+        updatedField.indexes[updatedField.indexes.length - 1];
+    }
+    return updatedField;
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(
@@ -371,25 +375,9 @@ export class ActionService {
         return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
       .map((id) => {
-        const entity = entities[id]!;
         const entityChanges: Partial<SmartNgRXRowBase> = {
           isDirty: true,
         };
-
-        // Handle virtual arrays
-        Object.entries(entity).forEach(([key, value]) => {
-          if (
-            typeof value === 'object' &&
-            value !== null &&
-            'indexes' in value &&
-            'length' in value
-          ) {
-            entityChanges[key as keyof SmartNgRXRowBase] = {
-              ...value,
-              indexes: [],
-            };
-          }
-        });
 
         return {
           id,

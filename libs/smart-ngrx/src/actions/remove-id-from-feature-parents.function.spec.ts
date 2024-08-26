@@ -16,10 +16,10 @@ describe('removeIdFromParents()', () => {
   let entities: Partial<Record<string, Row>>;
   let parentService: ActionService;
   const childDefinition = {
-      parentField: 'children',
-      childEntity: 'entity',
-      childFeature: 'feature',
-      parentEntity: 'parentEntity',
+    parentField: 'children',
+    childEntity: 'entity',
+    childFeature: 'feature',
+    parentEntity: 'parentEntity',
     parentFeature: 'parentFeature',
   } as unknown as ChildDefinition;
   beforeEach(() => {
@@ -40,7 +40,11 @@ describe('removeIdFromParents()', () => {
       entity: 'parentEntity',
       updateMany: jest.fn(),
     } as unknown as ActionService;
-    childDefinitionRegistry.registerChildDefinition('feature', 'entity', childDefinition);
+    childDefinitionRegistry.registerChildDefinition(
+      'feature',
+      'entity',
+      childDefinition,
+    );
     parentServiceUpdateManySpy = jest
       .spyOn(parentService, 'updateMany')
       .mockImplementation(() => {

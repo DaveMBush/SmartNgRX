@@ -3,7 +3,12 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { actionFactory, createStore, PartialArrayDefinition, setState } from '../..';
+import {
+  actionFactory,
+  createStore,
+  PartialArrayDefinition,
+  setState,
+} from '../..';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import {

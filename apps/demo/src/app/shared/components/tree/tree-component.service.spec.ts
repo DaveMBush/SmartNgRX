@@ -20,7 +20,10 @@ import { TreeNode } from './tree-node.interface';
 const department1a = 'department1-a';
 
 describe('TreeComponentService', () => {
-  let service: TreeComponentService;
+  // redefine service because virtualArrayFlagService is private
+  let service: Omit<TreeComponentService, 'virtualArrayFlagService'> & {
+    virtualArrayFlagService: { virtualArrayFlag: boolean };
+  };
   let mockComponent: ComponentFixture<TreeComponent>;
   let componentInstance: TreeComponent;
   let fixture: TestBed;
@@ -41,7 +44,7 @@ describe('TreeComponentService', () => {
       ],
       providers: [TreeComponentService],
     });
-    service = TestBed.inject(TreeComponentService);
+    service = TestBed.inject(TreeComponentService) as unknown as typeof service;
 
     // Mock TreeComponent
     mockComponent = fixture.createComponent(TreeComponent);
@@ -363,35 +366,89 @@ describe('TreeComponentService', () => {
           return;
         });
     });
-    it('should expand the row', () => {
-      // call addChild
-      const node: TreeNode = {
-        node: {
-          id: '1',
+    describe('and we are not using the virtual children', () => {
+      it('should expand the child row and call addToStore', () => {
+        let childAddStoreCalled = false;
+        let virtualChildAddStoreCalled = false;
+
+        // call addChild
+        const node: TreeNode = {
+          node: {
+            id: '1',
+            name: 'node1',
+            children: {
+              addToStore: () => {
+                childAddStoreCalled = true;
+              },
+            } as unknown as CommonSourceNode[],
+            virtualChildren: { length: 0 },
+          },
           name: 'node1',
-          children: {
-            addToStore: () => {
-              /* noop */
+          level: 0,
+          isExpanded: false,
+          hasChildren: false,
+        };
+        service.addChild(
+          {
+            id: '1',
+            name: 'new',
+            children: [],
+            virtualChildren: {
+              length: 0,
+              addToStore: () => {
+                virtualChildAddStoreCalled = true;
+              },
             },
-          } as unknown as CommonSourceNode[],
-          virtualChildren: { length: 0 },
-        },
-        name: 'node1',
-        level: 0,
-        isExpanded: false,
-        hasChildren: false,
-      };
-      service.addChild(
-        {
-          id: '1',
-          name: 'new',
-          children: [],
-          virtualChildren: { length: 0 },
-        },
-        node,
-      );
-      expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
-      // see if toggleExpand was called
+          },
+          node,
+        );
+        expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
+        expect(childAddStoreCalled).toBe(true);
+        expect(virtualChildAddStoreCalled).toBe(false);
+      });
+    });
+    describe('and we are using the virtual children', () => {
+      it('should expand the row and call addToStore on virtualChildren', () => {
+        let virtualChildAddStoreCalled = false;
+        service.virtualArrayFlagService.virtualArrayFlag = true;
+        let childAddStoreCalled = false;
+
+        // call addChild
+        const node: TreeNode = {
+          node: {
+            id: '1',
+            name: 'node1',
+            children: {
+              addToStore: () => {
+                childAddStoreCalled = true;
+              },
+            } as unknown as CommonSourceNode[],
+            virtualChildren: {
+              length: 0,
+              addToStore: () => {
+                virtualChildAddStoreCalled = true;
+              },
+            },
+          },
+          name: 'node1',
+          level: 0,
+          isExpanded: false,
+          hasChildren: false,
+        };
+        service.addChild(
+          {
+            id: '1',
+            name: 'new',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+          node,
+        );
+        expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
+        expect(virtualChildAddStoreCalled).toBe(true);
+        expect(childAddStoreCalled).toBe(false);
+        // see if toggleExpand was called
+      });
     });
   });
   describe('when addChild is called and the node is expanded', () => {

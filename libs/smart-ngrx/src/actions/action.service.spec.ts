@@ -8,13 +8,16 @@ import {
   registerEntity,
   unregisterEntity,
 } from '../registrations/register-entity.function';
+import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { EntityAttributes } from '../types/entity-attributes.interface';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { ActionService } from './action.service';
 
 interface Row extends SmartNgRXRowBase {
@@ -25,11 +28,18 @@ interface Row extends SmartNgRXRowBase {
 interface PrivatesArePublic {
   markDirtyWithEntities(entities: Dictionary<Row>, ids: string[]): void;
   garbageCollectWithEntities(entities: Dictionary<Row>, ids: string[]): void;
+  processLoadByIndexesSuccess(
+    field: VirtualArrayContents,
+    array: PartialArrayDefinition,
+  ): VirtualArrayContents;
 }
 
 type PublicMarkDirtyWithEntities = Omit<
-  Omit<ActionService, 'markDirtyWithEntities'>,
-  'garbageCollectWithEntities'
+  Omit<
+    Omit<ActionService, 'markDirtyWithEntities'>,
+    'garbageCollectWithEntities'
+  >,
+  'processLoadByIndexesSuccess'
 > &
   PrivatesArePublic;
 
@@ -246,6 +256,106 @@ describe('ActionService', () => {
       it('should not call markDirtyWithEntities', () => {
         expect(markDirtyWithEntitiesSpy).toHaveBeenCalled();
       });
+    });
+  });
+  describe('processLoadByIndexesSuccess', () => {
+    let field: VirtualArrayContents;
+
+    beforeEach(() => {
+      field = {
+        indexes: ['1', '2', '3'],
+        length: 3,
+      };
+    });
+
+    it('should update indexes with new values', () => {
+      const array: PartialArrayDefinition = {
+        indexes: ['4', '5'],
+        startIndex: 1,
+        total: 5,
+      };
+
+      const result = service.processLoadByIndexesSuccess(field, array);
+
+      expect(result.indexes).toEqual(['1', '4', '5']);
+      expect(result.length).toBe(5);
+    });
+
+    it('should handle empty input array', () => {
+      const array: PartialArrayDefinition = {
+        indexes: [],
+        startIndex: 0,
+        total: 3,
+      };
+
+      const result = service.processLoadByIndexesSuccess(field, array);
+
+      expect(result.indexes).toEqual(['1', '2', '3']);
+      expect(result.length).toBe(3);
+    });
+
+    it('should update length when total is greater', () => {
+      const array: PartialArrayDefinition = {
+        indexes: ['4'],
+        startIndex: 3,
+        total: 10,
+      };
+
+      const result = service.processLoadByIndexesSuccess(field, array);
+
+      expect(result.indexes).toEqual(['1', '2', '3', '4']);
+      expect(result.length).toBe(10);
+    });
+
+    it('should handle startIndex greater than current length', () => {
+      const array: PartialArrayDefinition = {
+        indexes: ['4', '5'],
+        startIndex: 5,
+        total: 7,
+      };
+
+      const result = service.processLoadByIndexesSuccess(field, array);
+
+      expect(result.indexes).toEqual([
+        '1',
+        '2',
+        '3',
+        undefined,
+        undefined,
+        '4',
+        '5',
+      ]);
+      expect(result.length).toBe(7);
+    });
+
+    it('should not change length when total is less than current length', () => {
+      const array: PartialArrayDefinition = {
+        indexes: ['4'],
+        startIndex: 1,
+        total: 2,
+      };
+
+      const result = service.processLoadByIndexesSuccess(field, array);
+
+      expect(result.indexes).toEqual(['1', '4', '3']);
+      expect(result.length).toBe(2);
+    });
+
+    it('should handle new row case', () => {
+      jest.spyOn(newRowRegistry, 'isNewRow').mockReturnValue(true);
+
+      const array: PartialArrayDefinition = {
+        indexes: ['4', '5', 'new'],
+        startIndex: 2,
+        total: 5,
+      };
+
+      const result = service.processLoadByIndexesSuccess(field, array);
+
+      expect(result.indexes).toEqual(['1', '2', '4', '5', 'new', 'new']);
+      expect(result.length).toBe(6);
+
+      jest.restoreAllMocks();
     });
   });
 });

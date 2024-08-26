@@ -1,6 +1,7 @@
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { forNext } from './for-next.function';
+import { isVirtualArray } from './is-virtual-array.function';
 import { mergeVirtualArrays } from './merge-virtual-arrays.function';
 
 /**
@@ -31,19 +32,4 @@ export function mergeNewRowWithExisting<T extends SmartNgRXRowBase>(
   });
 
   return mergedRow as T;
-}
-
-/**
- * Type guard to check if an item is a VirtualArrayContents
- *
- * @param item The item to check
- * @returns True if the item is a VirtualArrayContents, false otherwise
- */
-export function isVirtualArray(item: unknown): item is VirtualArrayContents {
-  return (
-    typeof item === 'object' &&
-    item !== null &&
-    'indexes' in item &&
-    Array.isArray((item as VirtualArrayContents).indexes)
-  );
 }
