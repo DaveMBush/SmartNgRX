@@ -8,7 +8,7 @@
     "start:server": "nx serve server",
     "start:documentation": "nx serve documentation --configuration=serve --port=4201",
     "git-publish": "node tools/scripts/publish.js",
-    "build": "nx affected:build --parallel=5 --skip-nx-cache",
+    "build": "nx affected:build --parallel=5",
     "lint": "nx affected:lint --parallel=5",
     "lint:fix": "nx affected:lint --parallel=5 --fix",
     "format": "nx format:write",
