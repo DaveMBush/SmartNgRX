@@ -1,7 +1,6 @@
 import { Dictionary } from '@ngrx/entity';
 
 import { assert } from '../common/assert.function';
-import { castTo } from '../common/cast-to.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
@@ -81,11 +80,7 @@ function processEntity(
   if (Array.isArray(childArray)) {
     return processArrayChildField(childArray, id, newId);
   }
-  return processVirtualArrayChildField(
-    castTo<VirtualArrayContents>(childArray),
-    id,
-    newId,
-  );
+  return processVirtualArrayChildField(childArray, id, newId);
 }
 
 function processArrayChildField(
