@@ -6,6 +6,10 @@ const NgDocConfig: NgDocConfiguration = {
     mainBranch: 'main',
     releaseBranch: 'release',
   },
+  guide: {
+    headerTemplate: './apps/documentation/src/app/header-template.html',
+  },
+
 };
 
 export default NgDocConfig;

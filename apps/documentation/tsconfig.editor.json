@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/**/*.ts", "ng-doc.config.ts"],
+  "include": ["src/**/*.ts", "src/app/ng-doc.config.ts"],
   "compilerOptions": {
     "types": ["jest", "node"]
   }

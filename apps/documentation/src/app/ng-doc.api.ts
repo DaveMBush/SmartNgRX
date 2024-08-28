@@ -1,6 +1,6 @@
 import { NgDocApi } from '@ng-doc/core';
 
-const Api: NgDocApi = {
+const api: NgDocApi = {
   title: 'API',
   scopes: [
     {
@@ -15,4 +15,4 @@ const Api: NgDocApi = {
   ],
 };
 
-export default Api;
+export default api;
