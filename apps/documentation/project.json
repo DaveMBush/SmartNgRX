@@ -47,7 +47,7 @@
           },
           {
             "glob": "**/*",
-            "input": ".ng-doc/documentation/assets",
+            "input": "ng-doc/documentation/assets",
             "output": "assets/ng-doc"
           },
           "apps/documentation/src/favicon.ico",
@@ -55,10 +55,19 @@
         ],
         "styles": [
           "node_modules/@ng-doc/app/styles/global.css",
-          "apps/documentation/src/styles.css"
+          "apps/documentation/src/styles.scss"
         ],
         "scripts": [],
-        "allowedCommonJsDependencies": ["@ng-doc/core"]
+        "allowedCommonJsDependencies": [
+          "@braintree/sanitize-url",
+          "@ng-doc/core",
+          "cytoscape-cose-bilkent",
+          "dayjs",
+          "dayjs/plugin/advancedFormat.js",
+          "dayjs/plugin/customParseFormat.js",
+          "dayjs/plugin/isoWeek.js",
+          "elkjs/lib/elk.bundled.js"
+        ]
       },
       "configurations": {
         "production": {
@@ -66,8 +75,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "3mb",
+              "maximumError": "3mb"
             },
             {
               "type": "anyComponentStyle",
