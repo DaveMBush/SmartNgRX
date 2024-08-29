@@ -13,8 +13,17 @@ import {
   provideMermaid,
 } from '@ng-doc/app';
 import { NG_DOC_ROUTING, provideNgDocContext } from '@ng-doc/generated';
-import { RouterLink, RouterModule, RouterOutlet, provideRouter, withInMemoryScrolling } from '@angular/router';
-import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
+import {
+  RouterLink,
+  RouterModule,
+  RouterOutlet,
+  provideRouter,
+  withInMemoryScrolling,
+} from '@angular/router';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
@@ -26,7 +35,11 @@ import {
   withFetch,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { NgDocButtonIconComponent, NgDocIconComponent, NgDocTooltipDirective } from '@ng-doc/ui-kit';
+import {
+  NgDocButtonIconComponent,
+  NgDocIconComponent,
+  NgDocTooltipDirective,
+} from '@ng-doc/ui-kit';
 
 @NgModule({
   declarations: [AppComponent],
@@ -52,7 +65,8 @@ import { NgDocButtonIconComponent, NgDocIconComponent, NgDocTooltipDirective } f
     provideMermaid(),
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
-    provideRouter([
+    provideRouter(
+      [
         ...NG_DOC_ROUTING.map((route) => {
           if (route.path === 'home') {
             route.path = '';
@@ -64,9 +78,9 @@ import { NgDocButtonIconComponent, NgDocIconComponent, NgDocTooltipDirective } f
           path: '**',
           redirectTo: '',
         },
-    ],
-      withInMemoryScrolling()
-    )
+      ],
+      withInMemoryScrolling(),
+    ),
   ],
   bootstrap: [AppComponent],
 })

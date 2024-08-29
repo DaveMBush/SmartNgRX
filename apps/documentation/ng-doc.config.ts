@@ -9,7 +9,6 @@ const NgDocConfig: NgDocConfiguration = {
   guide: {
     headerTemplate: './apps/documentation/src/app/header-template.html',
   },
-
 };
 
 export default NgDocConfig;
