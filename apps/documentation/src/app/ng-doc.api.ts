@@ -4,7 +4,7 @@ const api: NgDocApi = {
   title: 'API',
   scopes: [
     {
-      name: 'smart-ngrx',
+      name: '@smarttools/smart-ngrx',
       route: 'smart-ngrx',
       include: ['libs/smart-ngrx/src/**/*.ts'],
       exclude: [
