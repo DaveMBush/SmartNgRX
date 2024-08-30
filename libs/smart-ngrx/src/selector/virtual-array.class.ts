@@ -46,6 +46,10 @@ export class VirtualArray<
               childField,
             }),
           );
+          if (Object.isFrozen(this.rawArray)) {
+            this.rawArray = [...this.rawArray];
+          }
+          this.rawArray[+prop] = `indexNoOp-${prop}`;
           return `index-${prop}`;
         }
         return Reflect.get(target, prop);

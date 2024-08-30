@@ -2,6 +2,7 @@ import { inject, InjectionToken, NgZone } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, map, mergeMap, Observable } from 'rxjs';
 
+import { ActionService } from '../../actions/action.service';
 import { ActionGroup } from '../../actions/action-group.interface';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -27,17 +28,22 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
-    actionService = inject(effectServiceToken),
+    effectService = inject(effectServiceToken),
     /* istanbul ignore next -- default value, not really a condition */
     zone: NgZone = inject(NgZone),
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIds),
       bufferIdsAction(zone),
-      map((ids) => ids.filter((c) => !c.startsWith('index-'))),
+      map((ids) =>
+        ids.filter(
+          (c) => !c.startsWith('index-') && !c.startsWith('indexNoOp-'),
+        ),
+      ),
       filter((ids) => ids.length > 0),
       mergeMap((ids): Observable<T[]> => {
-        return actionService.loadByIds(ids);
+        new ActionService(feature, entity).loadByIdsPreload(ids);
+        return effectService.loadByIds(ids);
       }),
       map((rows) => {
         const service = actionServiceRegistry(feature, entity);
