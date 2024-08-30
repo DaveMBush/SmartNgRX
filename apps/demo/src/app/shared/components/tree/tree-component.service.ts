@@ -31,7 +31,12 @@ export class TreeComponentService {
   applyRange(): void {
     const component = this.component;
     assert(!!component, 'component is null');
-    if (component.location() === undefined) {
+    // no use in painting if there is nothing to paint
+    if (
+      component.location() === undefined ||
+      component.location() === null ||
+      component.location()!.departments.length === 0
+    ) {
       return;
     }
     component.fullDataSource = this.transform(

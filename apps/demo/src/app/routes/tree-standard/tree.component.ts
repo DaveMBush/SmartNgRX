@@ -3,7 +3,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
+import { debounceTime, Observable, of } from 'rxjs';
 
 import { Location } from '../../shared/locations/location.interface';
 import { SharedModule } from '../../shared/shared.module';
@@ -33,7 +33,10 @@ export class TreeComponent implements OnInit {
   ngOnInit(): void {
     this.locations = this.store.select(selectLocations);
     this.locationId = this.store.select(selectCurrentLocationId);
-    this.location = this.store.select(selectCurrentLocation);
+    this.location = this.store.select(selectCurrentLocation).pipe(
+      // this prevents the tree from painting too often
+      debounceTime(100),
+    );
   }
 }
 // jscpd:ignore-end
