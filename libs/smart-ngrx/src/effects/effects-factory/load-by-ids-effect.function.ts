@@ -9,6 +9,10 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIdsAction } from '../buffer-ids-action.function';
 import { EffectService } from '../effect-service';
 
+function notAPreloadId(c: string): boolean {
+  return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
+}
+
 /**
  * This is the effect that loads the ids from the service.
  *
@@ -35,11 +39,7 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
     return actions$.pipe(
       ofType(actions.loadByIds),
       bufferIdsAction(zone),
-      map((ids) =>
-        ids.filter(
-          (c) => !c.startsWith('index-') && !c.startsWith('indexNoOp-'),
-        ),
-      ),
+      map((ids) => ids.filter(notAPreloadId)),
       filter((ids) => ids.length > 0),
       mergeMap((ids): Observable<T[]> => {
         new ActionService(feature, entity).loadByIdsPreload(ids);

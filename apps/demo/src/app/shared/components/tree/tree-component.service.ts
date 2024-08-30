@@ -32,11 +32,7 @@ export class TreeComponentService {
     const component = this.component;
     assert(!!component, 'component is null');
     // no use in painting if there is nothing to paint
-    if (
-      component.location() === undefined ||
-      component.location() === null ||
-      component.location()!.departments.length === 0
-    ) {
+    if (component.location() === undefined || component.location() === null) {
       return;
     }
     component.fullDataSource = this.transform(
