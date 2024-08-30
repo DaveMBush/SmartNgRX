@@ -259,11 +259,19 @@ export class ActionService {
    * @param ids the ids to load
    */
   loadByIds(ids: string[]): void {
-    this.store.dispatch(
-      this.actions.loadByIds({
-        ids,
-      }),
-    );
+    this.entities.pipe(take(1)).subscribe((entity) => {
+      ids = ids.filter(
+        (id) => entity[id] === undefined || entity[id]!.isLoading !== true,
+      );
+      if (ids.length === 0) {
+        return;
+      }
+      this.store.dispatch(
+        this.actions.loadByIds({
+          ids,
+        }),
+      );
+    });
   }
 
   /**
@@ -276,10 +284,10 @@ export class ActionService {
       this.feature,
       this.entity,
     ).defaultRow;
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      let rows = defaultRows(ids, entities, defaultRow);
+    this.entities.pipe(take(1)).subscribe((entity) => {
+      let rows = defaultRows(ids, entity, defaultRow);
       // don't let virtual arrays get overwritten by the default row
-      rows = mergeRowsWithEntities(this.feature, this.entity, rows, entities);
+      rows = mergeRowsWithEntities(this.feature, this.entity, rows, entity);
       this.store.dispatch(
         this.actions.storeRows({
           rows,

@@ -16,12 +16,11 @@ describe('VirtualArray', () => {
     loadByIndexes: jest.fn(),
   });
 
-  const mockArrayContents: VirtualArrayContents = {
-    indexes: ['1', '2', '3'],
-    length: 3,
-  };
-
   beforeEach(() => {
+    const mockArrayContents: VirtualArrayContents = {
+      indexes: ['1', '2', '3'],
+      length: 3,
+    };
     createStore();
     mockStore = store() as MockStore;
     mockDispatch = jest.fn();
@@ -44,6 +43,24 @@ describe('VirtualArray', () => {
     expect(virtualArray[1]).toBe('2');
     expect(virtualArray[2]).toBe('3');
     expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  describe('and when the virtual array is frozen', () => {
+    beforeEach(() => {
+      Object.freeze(virtualArray.rawArray);
+    });
+
+    it('should dispatch loadByIndexes action if the prop is a string that is a number and the index does not exist in rawArray', () => {
+      expect(virtualArray[3]).toBe('index-3');
+      expect(virtualArray.rawArray[3]).toBe('indexNoOp-3');
+      expect(mockDispatch).toHaveBeenCalledWith(
+        mockActionGroup.loadByIndexes({
+          indexes: [3],
+          parentId: 'parentId',
+          childField: 'childField',
+        }),
+      );
+    });
   });
 
   it('should dispatch loadByIndexes action if the prop is a string that is a number and the index does not exist in rawArray', () => {

@@ -35,18 +35,8 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIndexes),
-      // we need to pass down the parentId and childField as
-      // part of the action props so we will need a new
-      // buffer action to handle this. This also means we
-      // will need to group the buffer by parentId and childField
-      // (I've already changed the action to include these)
       bufferIndexesAction(zone),
       mergeMap((actionProps) => {
-        // we need to strip out the index- prefix on the ids,
-        // convert them to numbers and then get the min/max values
-        // instead of assuming the first will be the min and the first
-        // plus the length will be the max
-        // (I've already change the action so that ids is an array of numbers)
         const numberIds = actionProps.indexes.map((id) => +id);
         const min = Math.min(...numberIds);
         const max = Math.max(...numberIds);

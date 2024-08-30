@@ -1,8 +1,10 @@
 /* eslint-disable sonarjs/no-duplicate-string -- conflicting rules */
+import { fakeAsync, tick } from '@angular/core/testing';
 import { createEntityAdapter, Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
+import { psi } from '../common/psi.const';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import {
   registerEntity,
@@ -356,6 +358,57 @@ describe('ActionService', () => {
       expect(result.length).toBe(6);
 
       jest.restoreAllMocks();
+    });
+  });
+  describe('loadByIds()', () => {
+    beforeEach(() => {
+      storeDispatchSpy = jest.spyOn(store, 'dispatch');
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+    describe('when the ids are not yet in the store', () => {
+      beforeEach(() => {
+        setState(feature, entity, {
+          ids: [],
+          entities: {},
+        });
+      });
+      it('should dispatch an action with the ids', fakeAsync(() => {
+        const ids = ['1', '2', '3'];
+        service.loadByIds(ids);
+
+        tick(); // Wait for the observable to emit
+
+        expect(storeDispatchSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: `[${feature}${psi}${entity}] Load By Ids`,
+            ids,
+          }),
+        );
+      }));
+    });
+    describe('when the ids are already in the store and currently being loaded', () => {
+      beforeEach(() => {
+        setState(feature, entity, {
+          ids: [],
+          entities: {
+            '1': { id: '1', name: 'name', isLoading: true },
+            '2': { id: '2', name: 'name', isLoading: true },
+            '3': { id: '3', name: 'name', isLoading: true },
+          },
+        });
+      });
+      it('should not dispatch the loadByIds action', fakeAsync(() => {
+        const ids = ['1', '2', '3'];
+
+        service.loadByIds(ids);
+
+        tick(); // Wait for the observable to emit
+
+        expect(storeDispatchSpy).not.toHaveBeenCalled();
+      }));
     });
   });
 });
