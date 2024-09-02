@@ -18,6 +18,9 @@ export function mergeVirtualArrays(
   existingArray: VirtualArrayContents,
 ): VirtualArrayContents {
   let addRow: string | undefined;
+  if (existingArray.indexes === undefined) {
+    return newArray;
+  }
   if (
     existingArray.length > 0 &&
     newRowRegistry.isNewRow(
