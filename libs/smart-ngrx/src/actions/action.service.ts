@@ -392,7 +392,6 @@ export class ActionService {
           changes: entityChanges,
         } as UpdateStr<SmartNgRXRowBase>;
       });
-
     this.store.dispatch(this.actions.updateMany({ changes: updates }));
   }
 

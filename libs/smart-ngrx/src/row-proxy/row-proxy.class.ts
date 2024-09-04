@@ -39,6 +39,7 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
     parentService: ActionService,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
+
     return new Proxy(this, {
       get: (target, prop) => rowProxyGet(target, prop, service),
       set: (target, prop, value) =>
