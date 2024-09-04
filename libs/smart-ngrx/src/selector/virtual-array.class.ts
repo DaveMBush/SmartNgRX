@@ -63,6 +63,7 @@ export class VirtualArray<
   private dispatchLoadByIndexes(parentAction: ActionGroup, parentId: string, childField: string, index: number) {
     // I need to preserve fetchedIndexes when I recreate the VirtualArray class
     // like I do for the rawArray.
+    // Can I retrieve it from the store as I'm replacing it?
     if (this.fetchedIndexes[index]) {
       return;
     }
