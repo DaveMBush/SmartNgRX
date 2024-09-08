@@ -1,7 +1,7 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
+import { Observable, asapScheduler, take, timeout } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
@@ -24,6 +24,7 @@ import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
+import { virtualArrayMap } from '../selector/virtual-array-map.const';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -411,5 +412,12 @@ export class ActionService {
         ids: idsToRemove,
       }),
     );
+    // make sure we remove the virtualArray from the map AFTER
+    // we remove the row from the store
+    asapScheduler.schedule(() => {
+      idsToRemove.forEach((id) => {
+        virtualArrayMap.remove(this.feature, this.entity, id);
+      });
+    });
   }
 }

@@ -50,7 +50,6 @@ export function createInnerSmartSelector<
     childEntity,
     childDefinition,
   );
-  const parentAction = actionFactory(parentFeature, parentEntity);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {
@@ -61,7 +60,8 @@ export function createInnerSmartSelector<
       convertChildrenToVirtualArray(
         parentFieldName,
         newParentEntity,
-        parentAction,
+        parentFeature,
+        parentEntity,
       );
 
       convertChildrenToArrayProxy(
