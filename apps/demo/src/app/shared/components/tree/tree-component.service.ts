@@ -44,10 +44,14 @@ export class TreeComponentService {
       component.range.start,
       component.range.end,
     );
-    component.dataSource = component.fullDataSource.slice(
-      component.range.start,
-      component.range.end,
-    );
+    if (component.fullDataSource[component.range.start] === undefined) {
+      component.dataSource = [];
+    } else {
+      component.dataSource = component.fullDataSource.slice(
+        component.range.start,
+        component.range.end,
+      );
+    }
   }
 
   transform(
@@ -128,6 +132,10 @@ export class TreeComponentService {
     let currentNode: CommonSourceNode | string = node;
     if (startRange <= result.length && result.length <= endRange) {
       currentNode = children[index];
+      console.log('startRange', startRange);
+      console.log('endRange', endRange);
+      console.log('result.length', result.length);
+      console.log('currentNode', currentNode);
     } else {
       result.length++;
       return;
@@ -149,7 +157,8 @@ export class TreeComponentService {
               node: currentNode,
               level,
             } as TreeNode),
-          };
+        };
+    console.log('treeNode', treeNode);
     result.push(treeNode as TreeNode);
     if (this.isExpanded(treeNode as TreeNode)) {
       const childNodes = this.transform(

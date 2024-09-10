@@ -72,6 +72,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['location'] !== undefined) {
+      console.log('ngOnChangeslocation changed', this.location());
       this.treeComponentService.applyRange();
     }
   }
@@ -129,6 +130,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.virtualScroll.renderedRangeStream
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((range) => {
+        console.log('ngAfterViewInit changed', this.location());
         this.range = range;
         this.treeComponentService.applyRange();
       });
