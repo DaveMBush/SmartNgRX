@@ -69,8 +69,8 @@ importers:
         specifier: 18.0.2
         version: 18.0.2
       '@ng-doc/ui-kit':
-        specifier: 18.0.2
-        version: 18.0.2(ingw4octk2zogkjq7fc3qh3iwy)
+        specifier: 18.0.3
+        version: 18.0.3(ingw4octk2zogkjq7fc3qh3iwy)
       '@ngrx/component-store':
         specifier: 18.0.2
         version: 18.0.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
@@ -2523,8 +2523,22 @@ packages:
   '@ng-doc/core@18.0.2':
     resolution: {integrity: sha512-HZf5V6Sw1B48xtn+MoaL7P/zU5W87BmhH6qoKxgujY6GoW5hJdkIY7dkAqOqdmpvcGk2OXZ2Sez+4EIpP4txiQ==}
 
+  '@ng-doc/core@18.0.3':
+    resolution: {integrity: sha512-sPhSrHby2aggve3ugo5Ur9FS63fNHnSAG5Frd/pmZmjJudu1+5HCF64hNXCPwS9vowxzkM0uZTx/LMbF+EwiNg==}
+
   '@ng-doc/ui-kit@18.0.2':
     resolution: {integrity: sha512-QP2BWe+vqnpr2NAVLypXn859LzqsvRmVMe42flAMhuQIaqntxXlVdstmbPcaJ3T3BkOOIY14hSRBrougXTbizQ==}
+    peerDependencies:
+      '@angular/cdk': '>=18.1.0'
+      '@angular/common': '>=18.1.0'
+      '@angular/core': '>=18.1.0'
+      '@ngneat/until-destroy': ^10.0.0
+      '@tinkoff/ng-polymorpheus': 4.3.0
+      di-controls: 2.1.0
+      rxjs: ^7.0.0
+
+  '@ng-doc/ui-kit@18.0.3':
+    resolution: {integrity: sha512-XeAn+a4w5KukIdP2C0C2GQcTeiN2DrykPXXwVaglZ7gQXHlZbUBYds8zr3WcsnYVPFF8ark2tD4ana8pmOeQLA==}
     peerDependencies:
       '@angular/cdk': '>=18.1.0'
       '@angular/common': '>=18.1.0'
@@ -13428,12 +13442,31 @@ snapshots:
       posthtml-parser: 0.11.0
       posthtml-render: 3.0.0
 
+  '@ng-doc/core@18.0.3':
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+
   '@ng-doc/ui-kit@18.0.2(ingw4octk2zogkjq7fc3qh3iwy)':
     dependencies:
       '@angular/cdk': 18.2.2(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@angular/common': 18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@angular/core': 18.2.2(rxjs@7.8.1)(zone.js@0.14.10)
       '@ng-doc/core': 18.0.2
+      '@ngneat/until-destroy': 10.0.0(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@18.2.2(@angular/animations@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))
+      di-controls: 2.1.0(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(@angular/forms@18.2.2(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@18.2.2(@angular/animations@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1))(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@ng-doc/ui-kit@18.0.3(ingw4octk2zogkjq7fc3qh3iwy)':
+    dependencies:
+      '@angular/cdk': 18.2.2(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/common': 18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
+      '@angular/core': 18.2.2(rxjs@7.8.1)(zone.js@0.14.10)
+      '@ng-doc/core': 18.0.3
       '@ngneat/until-destroy': 10.0.0(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@18.2.2(@angular/animations@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))
       di-controls: 2.1.0(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(@angular/forms@18.2.2(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(@angular/platform-browser@18.2.2(@angular/animations@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))(@angular/common@18.2.2(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.2(rxjs@7.8.1)(zone.js@0.14.10)))(rxjs@7.8.1))(rxjs@7.8.1)
