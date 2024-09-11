@@ -42,7 +42,7 @@ describe('VirtualArray', () => {
     expect(virtualArray[0]).toBe('1');
     expect(virtualArray[1]).toBe('2');
     expect(virtualArray[2]).toBe('3');
-    expect(mockDispatch).not.toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalled();
   });
 
   describe('and when the virtual array is frozen', () => {

@@ -1,6 +1,5 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionGroup } from '../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
@@ -13,9 +12,12 @@ describe('convertChildrenToVirtualArray', () => {
 
   let parentFieldName: keyof Parent;
   let parentEntity: EntityState<Parent>;
-  let parentAction: ActionGroup;
+  let parentFeature: string;
+  let parentEntityName: string;
 
   beforeEach(() => {
+    parentFeature = 'parent';
+    parentEntityName = 'parentEntity';
     parentFieldName = 'field';
     parentEntity = {
       ids: ['1'],
@@ -23,11 +25,10 @@ describe('convertChildrenToVirtualArray', () => {
         '1': { id: '1', field: {} as VirtualArrayContents },
       },
     };
-    parentAction = {} as ActionGroup;
   });
 
   it('should convert field to VirtualArray when children[parentFieldName] is "virtual"', () => {
-    convertChildrenToVirtualArray(parentFieldName, parentEntity, parentAction);
+    convertChildrenToVirtualArray(parentFieldName, parentEntity, parentFeature, parentEntityName);
 
     const row = parentEntity.entities['1'];
     expect(row?.field).toBeInstanceOf(VirtualArray);
@@ -38,7 +39,7 @@ describe('convertChildrenToVirtualArray', () => {
     if (field) {
       field.field = [] as unknown as VirtualArrayContents;
     }
-    convertChildrenToVirtualArray(parentFieldName, parentEntity, parentAction);
+    convertChildrenToVirtualArray(parentFieldName, parentEntity, parentFeature, parentEntityName);
 
     const row = parentEntity.entities['1'];
     expect(row?.field).not.toBeInstanceOf(VirtualArray);

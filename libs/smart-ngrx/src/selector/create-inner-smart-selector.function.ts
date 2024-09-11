@@ -1,7 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { actionFactory } from '../actions/action.factory';
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';

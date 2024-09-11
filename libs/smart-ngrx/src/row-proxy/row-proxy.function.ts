@@ -1,12 +1,9 @@
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 import { RowProxy } from './row-proxy.class';
 import { RowProxyDelete } from './row-proxy-delete.interface';
-import { forNext } from '../common/for-next.function';
-import { ArrayProxy } from '../selector/array-proxy.class';
-import { VirtualArray } from '../selector/virtual-array.class';
-import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 
 /**
  * Wraps a row in a proxy that will take care of editing the row

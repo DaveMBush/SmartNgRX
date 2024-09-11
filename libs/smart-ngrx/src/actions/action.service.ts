@@ -1,7 +1,7 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Observable, asapScheduler, take, timeout } from 'rxjs';
+import { asapScheduler, Observable, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
@@ -16,6 +16,7 @@ import { entityDefinitionCache } from '../registrations/entity-definition-cache.
 import { getEntityRegistry } from '../registrations/register-entity.function';
 import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
+import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
@@ -24,7 +25,6 @@ import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
-import { virtualArrayMap } from '../selector/virtual-array-map.const';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
