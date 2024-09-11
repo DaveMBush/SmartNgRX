@@ -27,7 +27,6 @@ import { workDirectory } from './src/work-directory.function';
     editRowOnStandard,
   ];
   for (const scenario of scenarios) {
-    console.log(`Running scenario: ${scenario.name}.`);
     let r: memlab.RunResult;
     try {
       r = await run({
@@ -41,8 +40,6 @@ import { workDirectory } from './src/work-directory.function';
         workDir: workDirectory(),
       });
     } catch (e) {
-      console.log(`Error occurred running scenario: ${scenario.name}.`);
-      console.log(e);
       continue;
     }
     let runResult = r.runResult;

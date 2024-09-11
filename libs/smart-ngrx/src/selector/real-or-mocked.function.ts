@@ -34,10 +34,8 @@ export function realOrMocked<
   const parentService = actionServiceRegistry(parentFeature, parentEntity);
 
   const record = entityState.entities;
-  console.log(`retrieving row from entityState.entities ${parentEntity} ${childEntity}`);
   let row = record[id];
   if (row === undefined) {
-    console.log('>>> row is undefined');
     row = { ...defaultObject, id };
   }
   return rowProxy<T>(row, service, parentService);

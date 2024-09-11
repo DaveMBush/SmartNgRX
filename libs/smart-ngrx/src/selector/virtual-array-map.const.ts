@@ -47,7 +47,6 @@ class VirtualArrayMap {
   }
 
   remove(feature: string, entity: string, id: string): void {
-    console.log('remove', `${feature}-${entity}-${id}`);
     const key = `${feature}-${entity}`;
     const featureMap = this.entityMap.get(key);
     if (!featureMap) {

@@ -44,7 +44,9 @@ export class TreeComponentService {
       component.range.start,
       component.range.end,
     );
-    if (component.fullDataSource[component.range.start] === undefined) {
+    // if the end range is -1, there is nothing to paint
+    // so we just set dataSource to an empty array
+    if (component.range.end === -1) {
       component.dataSource = [];
     } else {
       component.dataSource = component.fullDataSource.slice(
@@ -132,10 +134,6 @@ export class TreeComponentService {
     let currentNode: CommonSourceNode | string = node;
     if (startRange <= result.length && result.length <= endRange) {
       currentNode = children[index];
-      console.log('startRange', startRange);
-      console.log('endRange', endRange);
-      console.log('result.length', result.length);
-      console.log('currentNode', currentNode);
     } else {
       result.length++;
       return;
@@ -158,7 +156,6 @@ export class TreeComponentService {
               level,
             } as TreeNode),
         };
-    console.log('treeNode', treeNode);
     result.push(treeNode as TreeNode);
     if (this.isExpanded(treeNode as TreeNode)) {
       const childNodes = this.transform(
