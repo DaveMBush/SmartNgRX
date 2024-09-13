@@ -1,7 +1,7 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
+import { asapScheduler, Observable, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
@@ -16,6 +16,7 @@ import { entityDefinitionCache } from '../registrations/entity-definition-cache.
 import { getEntityRegistry } from '../registrations/register-entity.function';
 import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
+import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
@@ -392,7 +393,6 @@ export class ActionService {
           changes: entityChanges,
         } as UpdateStr<SmartNgRXRowBase>;
       });
-
     this.store.dispatch(this.actions.updateMany({ changes: updates }));
   }
 
@@ -412,5 +412,12 @@ export class ActionService {
         ids: idsToRemove,
       }),
     );
+    // make sure we remove the virtualArray from the map AFTER
+    // we remove the row from the store
+    asapScheduler.schedule(() => {
+      idsToRemove.forEach((id) => {
+        virtualArrayMap.remove(this.feature, this.entity, id);
+      });
+    });
   }
 }

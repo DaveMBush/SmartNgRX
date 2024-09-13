@@ -177,7 +177,6 @@ export class ArrayProxy<
     // cast is the only safe way to access the parentField that holds the
     // list of child IDs.
 
-    // What if rawArray is a virtual array?
     if (Array.isArray(this.rawArray)) {
       castTo<Record<keyof P, string[]>>(newParent)[
         this.childDefinition.parentField

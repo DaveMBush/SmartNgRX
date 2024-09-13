@@ -1,6 +1,7 @@
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 import { RowProxy } from './row-proxy.class';
 import { RowProxyDelete } from './row-proxy-delete.interface';
 
@@ -23,8 +24,9 @@ export function rowProxy<T extends SmartNgRXRowBase>(
   service: ActionService,
   parentService: ActionService,
 ): RowProxyDelete & T {
+  forceRefetchOfVirtualIndexes<T>(row);
   // To the outside world, this has to look like the original row
   // so we cast it to the original type. This is safe because the
-  // proxy is only used to intercept access to the origial row.
+  // proxy is only used to intercept access to the original row.
   return castTo<RowProxyDelete & T>(new RowProxy(row, service, parentService));
 }

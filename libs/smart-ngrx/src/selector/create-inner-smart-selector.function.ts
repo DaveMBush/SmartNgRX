@@ -1,7 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { actionFactory } from '../actions/action.factory';
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
@@ -50,7 +49,6 @@ export function createInnerSmartSelector<
     childEntity,
     childDefinition,
   );
-  const parentAction = actionFactory(parentFeature, parentEntity);
   return castTo<MemoizedSelector<object, EntityState<P>>>(
     createSelector(parentSelector, childSelector, (parent, child) => {
       const newParentEntity: EntityState<P> = {
@@ -61,7 +59,8 @@ export function createInnerSmartSelector<
       convertChildrenToVirtualArray(
         parentFieldName,
         newParentEntity,
-        parentAction,
+        parentFeature,
+        parentEntity,
       );
 
       convertChildrenToArrayProxy(

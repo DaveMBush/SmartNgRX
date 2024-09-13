@@ -14,6 +14,7 @@ export class VirtualArray<
 > implements SmartArray<P, C>
 {
   rawArray: string[] = [];
+  fetchedIndexes: boolean[] = [];
   length = 0;
 
   /**
@@ -36,16 +37,15 @@ export class VirtualArray<
     return new Proxy(this, {
       get: (target: VirtualArray<P, C>, prop: string | symbol): unknown => {
         if (typeof prop === 'string' && !Number.isNaN(+prop)) {
+          this.dispatchLoadByIndexes(
+            this.parentAction,
+            parentId,
+            childField,
+            +prop,
+          );
           if (this.rawArray[+prop]) {
             return this.rawArray[+prop];
           }
-          store().dispatch(
-            this.parentAction.loadByIndexes({
-              indexes: [+prop],
-              parentId,
-              childField,
-            }),
-          );
           if (Object.isFrozen(this.rawArray)) {
             this.rawArray = [...this.rawArray];
           }
@@ -55,6 +55,36 @@ export class VirtualArray<
         return Reflect.get(target, prop);
       },
     });
+  }
+
+  /**
+   * Tells the virtual array to refetch the indexes the next
+   * time an element is requested.
+   */
+  refetchIndexes(): void {
+    this.fetchedIndexes = [];
+  }
+
+  private dispatchLoadByIndexes(
+    parentAction: ActionGroup,
+    parentId: string,
+    childField: string,
+    index: number,
+  ) {
+    if (this.fetchedIndexes[index]) {
+      return;
+    }
+    store().dispatch(
+      parentAction.loadByIndexes({
+        indexes: [index],
+        parentId,
+        childField,
+      }),
+    );
+    if (Object.isFrozen(this.fetchedIndexes)) {
+      this.fetchedIndexes = [...this.fetchedIndexes];
+    }
+    this.fetchedIndexes[index] = true;
   }
 
   [key: number]: C;

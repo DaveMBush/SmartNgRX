@@ -1,16 +1,18 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionGroup } from '../actions/action-group.interface';
+import { actionFactory } from '../actions/action.factory';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
+import { virtualArrayMap } from './virtual-array-map.const';
 
 /**
  * Converts the child field to a virtual array
  *
  * @param parentFieldName the name of the field in the row to convert
  * @param parentEntity the entity data we are dealing with
- * @param parentAction the action group for the row
+ * @param parentFeature the feature this entity belongs to
+ * @param parentEntityName the name of the entity
  */
 export function convertChildrenToVirtualArray<
   P extends SmartNgRXRowBase,
@@ -18,8 +20,11 @@ export function convertChildrenToVirtualArray<
 >(
   parentFieldName: keyof P,
   parentEntity: EntityState<P>,
-  parentAction: ActionGroup,
+  parentFeature: string,
+  parentEntityName: string,
 ): void {
+  const parentAction = actionFactory(parentFeature, parentEntityName);
+
   const length = parentEntity.ids.length;
   for (let i = 0; i < length; i++) {
     const id = parentEntity.ids[i] as string;
@@ -30,12 +35,27 @@ export function convertChildrenToVirtualArray<
     if (Array.isArray(arrayContent)) {
       return;
     }
-    row[parentFieldName] = new VirtualArray<P, C>(
+    const existingVirtualArray = virtualArrayMap.get(
+      parentFeature,
+      parentEntityName,
+      id,
+      parentFieldName as string,
+    );
+    const virtualArray = new VirtualArray<P, C>(
       arrayContent,
       parentAction,
       id,
       parentFieldName as string,
-    ) as P[keyof P];
+    );
+    virtualArray.fetchedIndexes = existingVirtualArray?.fetchedIndexes || [];
+    row[parentFieldName] = virtualArray as P[keyof P];
+    virtualArrayMap.set(
+      parentFeature,
+      parentEntityName,
+      id,
+      parentFieldName as string,
+      row[parentFieldName] as VirtualArray<SmartNgRXRowBase>,
+    );
     parentEntity.entities[id] = row;
   }
 }

@@ -44,10 +44,16 @@ export class TreeComponentService {
       component.range.start,
       component.range.end,
     );
-    component.dataSource = component.fullDataSource.slice(
-      component.range.start,
-      component.range.end,
-    );
+    // if the end range is -1, there is nothing to paint
+    // so we just set dataSource to an empty array
+    if (component.range.end === -1) {
+      component.dataSource = [];
+    } else {
+      component.dataSource = component.fullDataSource.slice(
+        component.range.start,
+        component.range.end,
+      );
+    }
   }
 
   transform(

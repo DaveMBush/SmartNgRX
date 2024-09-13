@@ -71,4 +71,8 @@ export class NodeEditorComponent
   ngAfterViewInit(): void {
     this.inputField.nativeElement.focus();
   }
+
+  keydownHandler(e: KeyboardEvent): void {
+    e.stopPropagation();
+  }
 }
