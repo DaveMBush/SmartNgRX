@@ -8,13 +8,6 @@ export const standardDepartmentsDefinition: SmartEntityDefinition<Department> =
   {
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
-    // TODO: Remove markAndDelete before commit
-    // it is here just for testing
-    markAndDelete: {
-      markDirtyFetchesNew: true,
-      markDirtyTime: 2 * 60 * 1000,
-      removeTime: 4 * 60 * 1000,
-    },
     defaultRow: (id) => ({
       id,
       name: '',
