@@ -1,16 +1,16 @@
-import { MockStore } from '@ngrx/store/testing';
-
 import { ActionGroup } from '../actions/action-group.interface';
 import { castTo } from '../common/cast-to.function';
-import { createStore } from '../tests/functions/create-store.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
 
+jest.mock('./store.function');
+
 describe('VirtualArray', () => {
-  let virtualArray: VirtualArray<object>;
+  let virtualArray: VirtualArray<SmartNgRXRowBase>;
   let mockDispatch: jest.Mock;
-  let mockStore: MockStore;
+  let mockStore: { dispatch: jest.Mock };
 
   const mockActionGroup = castTo<ActionGroup>({
     loadByIndexes: jest.fn(),
@@ -21,10 +21,9 @@ describe('VirtualArray', () => {
       indexes: ['1', '2', '3'],
       length: 3,
     };
-    createStore();
-    mockStore = store() as MockStore;
     mockDispatch = jest.fn();
-    jest.spyOn(mockStore, 'dispatch').mockImplementation(mockDispatch);
+    mockStore = { dispatch: mockDispatch };
+    (store as jest.Mock).mockReturnValue(mockStore);
 
     virtualArray = new VirtualArray(
       mockArrayContents,
@@ -42,7 +41,7 @@ describe('VirtualArray', () => {
     expect(virtualArray[0]).toBe('1');
     expect(virtualArray[1]).toBe('2');
     expect(virtualArray[2]).toBe('3');
-    expect(mockDispatch).toHaveBeenCalled();
+    expect(mockDispatch).toHaveBeenCalledTimes(3);
   });
 
   describe('and when the virtual array is frozen', () => {
@@ -77,5 +76,95 @@ describe('VirtualArray', () => {
   it('should return the value of the property if the prop is anything other than a string that is a number', () => {
     expect(virtualArray.length).toBe(3);
     expect(mockDispatch).not.toHaveBeenCalled();
+  });
+
+  describe('dispatchLoadByIndexes', () => {
+    it('should not dispatch action if the index has already been fetched', () => {
+      let index0 = virtualArray[0]; // Access index 0 to mark it as fetched
+      index0 = virtualArray[0]; // Access index 0 again
+
+      expect(index0).toBe('1');
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+    });
+
+    it('should dispatch action if the index has not been fetched', () => {
+      const index0 = virtualArray[0]; // Access index 0
+      const index1 = virtualArray[1]; // Access index 1
+
+      expect(index0).toBe('1');
+      expect(index1).toBe('2');
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+    });
+
+    it('should create a new fetchedIndexes array if it is frozen', () => {
+      const index0 = virtualArray[0]; // Access index 0
+      Object.freeze(virtualArray.fetchedIndexes);
+      const index1 = virtualArray[1]; // Access index 1
+
+      expect(index0).toBe('1');
+      expect(index1).toBe('2');
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(Object.isFrozen(virtualArray.fetchedIndexes)).toBe(false);
+    });
+
+    it('should dispatch loadByIndexes action with correct parameters', () => {
+      const index1 = virtualArray[1]; // Access index 1
+
+      expect(index1).toBe('2');
+      expect(mockDispatch).toHaveBeenCalledWith(
+        mockActionGroup.loadByIndexes({
+          indexes: [1],
+          parentId: 'parentId',
+          childField: 'childField',
+        }),
+      );
+    });
+  });
+
+  describe('array access behavior', () => {
+    it('should return existing value for indexes in rawArray', () => {
+      expect(virtualArray[0]).toBe('1');
+      expect(virtualArray[1]).toBe('2');
+      expect(virtualArray[2]).toBe('3');
+    });
+
+    it('should return placeholder value for non-existing indexes', () => {
+      expect(virtualArray[3]).toBe('index-3');
+      expect(virtualArray[4]).toBe('index-4');
+    });
+
+    it('should create a new rawArray if it is frozen', () => {
+      Object.freeze(virtualArray.rawArray);
+      const index3 = virtualArray[3]; // Access non-existing index
+      expect(index3).toBe('index-3');
+      expect(Object.isFrozen(virtualArray.rawArray)).toBe(false);
+      expect(virtualArray.rawArray[3]).toBe('indexNoOp-3');
+    });
+  });
+
+  describe('refetchIndexes', () => {
+    it('should reset fetchedIndexes to an empty array', () => {
+      const index0 = virtualArray[0]; // Access index 0 to mark it as fetched
+      const index1 = virtualArray[1]; // Access index 1 to mark it as fetched
+      expect(index0).toBe('1');
+      expect(index1).toBe('2');
+      expect(virtualArray.fetchedIndexes).toEqual([true, true]);
+
+      virtualArray.refetchIndexes();
+
+      expect(virtualArray.fetchedIndexes).toEqual([]);
+    });
+
+    it('should cause indexes to be refetched after calling refetchIndexes', () => {
+      const index0 = virtualArray[0]; // Access index 0 to mark it as fetched
+      expect(index0).toBe('1');
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+      virtualArray.refetchIndexes();
+      const index0Again = virtualArray[0]; // Access index 0 again
+
+      expect(index0Again).toBe('1');
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+    });
   });
 });

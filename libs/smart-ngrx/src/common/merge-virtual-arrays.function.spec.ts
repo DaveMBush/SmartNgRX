@@ -38,6 +38,25 @@ describe('mergeVirtualArrays', () => {
     );
   });
 
+  it('should merge arrays when existing array has no indexes', () => {
+    const newArray: VirtualArrayContents = {
+      indexes: ['1', '2', '3'],
+      length: 3,
+    };
+    const existingArray = {
+      indexes: undefined,
+      length: 0,
+    } as unknown as VirtualArrayContents;
+
+    const result = mergeVirtualArrays(feature, entity, newArray, existingArray);
+
+    expect(result).toEqual({
+      indexes: ['1', '2', '3'],
+      length: 3,
+    });
+    expect(forNextSpy).not.toHaveBeenCalledWith();
+  });
+
   it('should merge arrays when new array is empty', () => {
     const newArray: VirtualArrayContents = {
       indexes: [],

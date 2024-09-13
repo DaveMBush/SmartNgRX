@@ -1,5 +1,5 @@
-import { SmartNgRXRowBase } from "../types/smart-ngrx-row-base.interface";
-import { VirtualArray } from "./virtual-array.class";
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArray } from './virtual-array.class';
 
 type FieldMap = Map<string, VirtualArray<SmartNgRXRowBase>>;
 type IdMap = Map<string, FieldMap>;
@@ -8,7 +8,12 @@ type FeatureMap = Map<string, IdMap>;
 class VirtualArrayMap {
   private entityMap = new Map<string, FeatureMap>();
 
-  get(feature: string, entity: string, id: string, field: string): VirtualArray<SmartNgRXRowBase> | undefined {
+  get(
+    feature: string,
+    entity: string,
+    id: string,
+    field: string,
+  ): VirtualArray<SmartNgRXRowBase> | undefined {
     const key = `${feature}-${entity}`;
     const featureMap = this.entityMap.get(key);
     if (!featureMap) {
@@ -26,7 +31,13 @@ class VirtualArrayMap {
   }
 
   // eslint-disable-next-line max-params-no-constructor/max-params-no-constructor -- needed for clarity
-  set(feature: string, entity: string, id: string, field: string, value: VirtualArray<SmartNgRXRowBase>): void {
+  set(
+    feature: string,
+    entity: string,
+    id: string,
+    field: string,
+    value: VirtualArray<SmartNgRXRowBase>,
+  ): void {
     const key = `${feature}-${entity}`;
     let featureMap = this.entityMap.get(key);
     if (!featureMap) {
@@ -52,16 +63,8 @@ class VirtualArrayMap {
     if (!featureMap) {
       return;
     }
-    const idMap = featureMap.get(id);
-    if (!idMap) {
-      return;
-    }
     // delete the id
-    idMap.delete(id);
-    // if there is nothing left in idMap remove it from the featureMap
-    if (idMap.size === 0) {
-      featureMap.delete(id);
-    }
+    featureMap.delete(id);
     // if there is nothing left in featureMap remove it from the entityMap
     if (featureMap.size === 0) {
       this.entityMap.delete(key);

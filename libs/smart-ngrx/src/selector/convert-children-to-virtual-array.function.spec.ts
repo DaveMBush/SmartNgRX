@@ -4,6 +4,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { VirtualArray } from './virtual-array.class';
+import * as virtualArrayMapModule from './virtual-array-map.const';
 
 describe('convertChildrenToVirtualArray', () => {
   interface Parent extends SmartNgRXRowBase {
@@ -28,7 +29,12 @@ describe('convertChildrenToVirtualArray', () => {
   });
 
   it('should convert field to VirtualArray when children[parentFieldName] is "virtual"', () => {
-    convertChildrenToVirtualArray(parentFieldName, parentEntity, parentFeature, parentEntityName);
+    convertChildrenToVirtualArray(
+      parentFieldName,
+      parentEntity,
+      parentFeature,
+      parentEntityName,
+    );
 
     const row = parentEntity.entities['1'];
     expect(row?.field).toBeInstanceOf(VirtualArray);
@@ -39,9 +45,36 @@ describe('convertChildrenToVirtualArray', () => {
     if (field) {
       field.field = [] as unknown as VirtualArrayContents;
     }
-    convertChildrenToVirtualArray(parentFieldName, parentEntity, parentFeature, parentEntityName);
+    convertChildrenToVirtualArray(
+      parentFieldName,
+      parentEntity,
+      parentFeature,
+      parentEntityName,
+    );
 
     const row = parentEntity.entities['1'];
     expect(row?.field).not.toBeInstanceOf(VirtualArray);
+  });
+  it('should use existing fetchedIndexes when available', () => {
+    const existingFetchedIndexes = [true, false, true];
+    const mockVirtualArray = {
+      fetchedIndexes: existingFetchedIndexes,
+    };
+
+    jest
+      .spyOn(virtualArrayMapModule.virtualArrayMap, 'get')
+      .mockReturnValue(mockVirtualArray as VirtualArray<SmartNgRXRowBase>);
+
+    convertChildrenToVirtualArray(
+      parentFieldName,
+      parentEntity,
+      parentFeature,
+      parentEntityName,
+    );
+
+    const row = parentEntity.entities['1'];
+    expect((row?.field as VirtualArray<Parent>).fetchedIndexes).toEqual(
+      existingFetchedIndexes,
+    );
   });
 });
