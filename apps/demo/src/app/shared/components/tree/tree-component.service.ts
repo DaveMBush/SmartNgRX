@@ -155,7 +155,7 @@ export class TreeComponentService {
               node: currentNode,
               level,
             } as TreeNode),
-        };
+          };
     result.push(treeNode as TreeNode);
     if (this.isExpanded(treeNode as TreeNode)) {
       const childNodes = this.transform(

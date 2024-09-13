@@ -6,7 +6,6 @@ import { VirtualArrayContents } from '../types/virtual-array-contents.interface'
 import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
 
-
 /**
  * Converts the child field to a virtual array
  *
@@ -36,7 +35,12 @@ export function convertChildrenToVirtualArray<
     if (Array.isArray(arrayContent)) {
       return;
     }
-    const existingVirtualArray = virtualArrayMap.get(parentFeature, parentEntityName, id, parentFieldName as string);
+    const existingVirtualArray = virtualArrayMap.get(
+      parentFeature,
+      parentEntityName,
+      id,
+      parentFieldName as string,
+    );
     const virtualArray = new VirtualArray<P, C>(
       arrayContent,
       parentAction,
@@ -45,7 +49,13 @@ export function convertChildrenToVirtualArray<
     );
     virtualArray.fetchedIndexes = existingVirtualArray?.fetchedIndexes || [];
     row[parentFieldName] = virtualArray as P[keyof P];
-    virtualArrayMap.set(parentFeature, parentEntityName, id, parentFieldName as string, row[parentFieldName] as VirtualArray<SmartNgRXRowBase>);
+    virtualArrayMap.set(
+      parentFeature,
+      parentEntityName,
+      id,
+      parentFieldName as string,
+      row[parentFieldName] as VirtualArray<SmartNgRXRowBase>,
+    );
     parentEntity.entities[id] = row;
   }
 }

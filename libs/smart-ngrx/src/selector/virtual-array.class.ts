@@ -37,7 +37,12 @@ export class VirtualArray<
     return new Proxy(this, {
       get: (target: VirtualArray<P, C>, prop: string | symbol): unknown => {
         if (typeof prop === 'string' && !Number.isNaN(+prop)) {
-          this.dispatchLoadByIndexes(this.parentAction, parentId, childField, +prop);
+          this.dispatchLoadByIndexes(
+            this.parentAction,
+            parentId,
+            childField,
+            +prop,
+          );
           if (this.rawArray[+prop]) {
             return this.rawArray[+prop];
           }
@@ -60,7 +65,12 @@ export class VirtualArray<
     this.fetchedIndexes = [];
   }
 
-  private dispatchLoadByIndexes(parentAction: ActionGroup, parentId: string, childField: string, index: number) {
+  private dispatchLoadByIndexes(
+    parentAction: ActionGroup,
+    parentId: string,
+    childField: string,
+    index: number,
+  ) {
     // I need to preserve fetchedIndexes when I recreate the VirtualArray class
     // like I do for the rawArray.
     // Can I retrieve it from the store as I'm replacing it?
