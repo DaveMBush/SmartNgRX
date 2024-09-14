@@ -15,8 +15,8 @@
 </mat-form-field>
 <cdk-virtual-scroll-viewport
   itemSize="48"
-  [minBufferPx]="48 * 50"
-  [maxBufferPx]="4800"
+  [minBufferPx]="48 * 2"
+  [maxBufferPx]="48 * 2"
 >
   <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
   <mat-tree [dataSource]="dataSource" [levelAccessor]="levelAccessor">

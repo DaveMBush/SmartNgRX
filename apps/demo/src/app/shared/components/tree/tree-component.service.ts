@@ -66,17 +66,21 @@ export class TreeComponentService {
     if (children.length === 0) {
       return [];
     }
-    forNext(children.rawArray!, (c, i) => {
+    for (let i = 0; i < children.rawArray!.length; i++) {
+      if (endRange === -1 || i > endRange) {
+        result.length += children.rawArray!.length - i;
+        return result;
+      }
       this.transformTreeNode({
+        parentId: children.rawArray![i],
         children,
         result,
-        node: c,
         index: i,
         level,
         startRange,
         endRange,
       });
-    });
+    };
     return result;
   }
 
@@ -120,19 +124,23 @@ export class TreeComponentService {
     return this.expandMap.get(node.level + ':' + node.node.id) ?? false;
   }
 
+  expandedMap = new Map<string, boolean>();
   private transformTreeNode(params: {
+    parentId: string;
     children: SmartArray<CommonSourceNode, CommonSourceNode>;
     result: TreeNode[];
-    node: CommonSourceNode | string;
     index: number;
     level: number;
     startRange: number;
     endRange: number;
   }): void {
-    const { children, result, node, index, level, startRange, endRange } =
+    const { parentId, children, result, index, level, startRange, endRange } =
       params;
-    let currentNode: CommonSourceNode | string = node;
-    if (startRange <= result.length && result.length <= endRange) {
+    const isExpanded = Boolean(this.expandedMap.get(
+      parentId + ':' + level + ':' + index
+    ));
+    let currentNode: CommonSourceNode | string | null = null;
+    if ((startRange <= result.length && result.length <= endRange) || isExpanded) {
       currentNode = children[index];
     } else {
       result.length++;
@@ -145,6 +153,7 @@ export class TreeComponentService {
             name: '',
             level,
             hasChildren: false,
+            isExpanded: false,
           }
         : {
             name: currentNode.name,
@@ -155,9 +164,16 @@ export class TreeComponentService {
               node: currentNode,
               level,
             } as TreeNode),
-          };
+        };
+    if (treeNode.isExpanded) {
+      this.expandedMap.set(
+        parentId + ':' + level + ':' + index,
+        treeNode.isExpanded,
+      );
+    }
+
     result.push(treeNode as TreeNode);
-    if (this.isExpanded(treeNode as TreeNode)) {
+    if (treeNode.isExpanded) {
       const childNodes = this.transform(
         /* istanbul ignore next -- trivial */
         level === 0 && this.virtualArrayFlagService.virtualArrayFlag
