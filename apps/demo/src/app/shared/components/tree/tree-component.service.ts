@@ -18,10 +18,10 @@ export class TreeComponentService {
 
   toggleExpand(node: TreeNode): void {
     if (this.isExpanded(node)) {
-      expandedMap.delete(node.parentId + ':' + node.node.id + ':' + node.level);
+      expandedMap.delete(node.parentId, node.level, node.node.id);
       node.isExpanded = false;
     } else {
-      expandedMap.set(node.parentId + ':' + node.node.id + ':' + node.level, true);
+      expandedMap.set(node.parentId, node.level, node.node.id, true);
       node.isExpanded = true;
     }
     this.applyRange();
@@ -122,7 +122,7 @@ export class TreeComponentService {
   }
 
   private isExpanded(node: TreeNode): boolean {
-    return expandedMap.get(node.parentId + ':' + node.node.id + ':' + node.level) ?? false;
+    return expandedMap.get(node.parentId, node.level, node.node.id);
   }
 
   private transformTreeNode(params: {
@@ -137,7 +137,7 @@ export class TreeComponentService {
     const { parentId,children, result, index, level, startRange, endRange } =
       params;
     const isExpanded = Boolean(expandedMap.get(
-      parentId + ':' + children.getIdAtIndex!(index) + ':' + level
+      parentId, level, children.getIdAtIndex!(index)
     ));
     let currentNode: CommonSourceNode | string | null = null;
     if ((startRange <= result.length && result.length <= endRange) || isExpanded) {

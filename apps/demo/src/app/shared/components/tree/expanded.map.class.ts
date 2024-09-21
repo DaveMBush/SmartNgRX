@@ -20,6 +20,15 @@ class ExpandedMap {
     return Boolean(map.get(id));
   }
 
+  hasExpandedChild(parentId: string, level: number): boolean {
+    const key = `${parentId}:${level}`;
+    const map = this.parentLevelMap.get(key);
+    if (!map) {
+      return false;
+    }
+    return map.size > 0;
+  }
+
   delete(parentId: string, level: number, id: string): void {
     const key = `${parentId}:${level}`;
     const map = this.parentLevelMap.get(key);

@@ -13,7 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -54,6 +54,10 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   constructor() {
     this.treeComponentService.form = this;
+  }
+
+  trackBy(index: number, item: TreeNode): string {
+    return index.toString();
   }
 
   levelAccessor: (dataNode: TreeNode) => number = (node: TreeNode) =>
@@ -127,9 +131,20 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
       .pipe(
-        debounceTime(10),
+        debounceTime(1),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((range) => {
+        this.range = range;
+        this.treeComponentService.applyRange();
+      });
+    // this stream watching for scroll height changes
+    this.virtualScroll.renderedRangeStream
+      .pipe(
+        distinctUntilChanged((a, b) => a.end - a.start === b.end - b.start),
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((range) => {
