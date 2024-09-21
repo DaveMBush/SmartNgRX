@@ -18,7 +18,9 @@
   [minBufferPx]="48 * 2"
   [maxBufferPx]="48 * 2"
 >
-  <ng-container *cdkVirtualFor="let item of fullDataSource; trackBy: trackBy"></ng-container>
+  <ng-container
+    *cdkVirtualFor="let item of fullDataSource; trackBy: trackBy"
+  ></ng-container>
   <mat-tree [dataSource]="dataSource" [levelAccessor]="levelAccessor">
     <!-- This is the tree node template for leaf nodes -->
     <mat-tree-node

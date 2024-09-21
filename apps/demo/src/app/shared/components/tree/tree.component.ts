@@ -56,7 +56,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.treeComponentService.form = this;
   }
 
-  trackBy(index: number, item: TreeNode): string {
+  trackBy(index: number, _: TreeNode): string {
     return index.toString();
   }
 
@@ -133,10 +133,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
-      .pipe(
-        debounceTime(1),
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(debounceTime(1), takeUntilDestroyed(this.destroyRef))
       .subscribe((range) => {
         this.range = range;
         this.treeComponentService.applyRange();
@@ -145,7 +142,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.virtualScroll.renderedRangeStream
       .pipe(
         distinctUntilChanged((a, b) => a.end - a.start === b.end - b.start),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((range) => {
         this.range = range;

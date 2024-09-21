@@ -18,8 +18,7 @@ import { SmartArray } from './smart-array.interface';
 import { VirtualArray } from './virtual-array.class';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
-  return typeof item === 'object' &&
-    item !== null && 'rawArray' in item;
+  return typeof item === 'object' && item !== null && 'rawArray' in item;
 }
 
 /**

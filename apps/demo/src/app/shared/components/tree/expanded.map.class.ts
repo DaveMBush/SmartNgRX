@@ -1,8 +1,5 @@
-
-
 class ExpandedMap {
   private parentLevelMap = new Map<string, Map<string, boolean>>();
-
 
   set(parentId: string, level: number, id: string, value: boolean): void {
     const key = `${parentId}:${level}`;
@@ -11,7 +8,7 @@ class ExpandedMap {
     this.parentLevelMap.set(key, map);
   }
 
-  get(parentId: string, level: number, id: string): boolean  {
+  get(parentId: string, level: number, id: string): boolean {
     const key = `${parentId}:${level}`;
     const map = this.parentLevelMap.get(key);
     if (!map) {

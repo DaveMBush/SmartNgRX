@@ -30,7 +30,12 @@ const prisma = new PrismaClient({
   );
   if (!sprintFolderIds.length)
     throw new Error(`No sprint folders found after seeding`);
-  const listIds = await seedTable('lists', 'departmentId', departmentIds, 10000);
+  const listIds = await seedTable(
+    'lists',
+    'departmentId',
+    departmentIds,
+    10000,
+  );
   if (!listIds.length) throw new Error(`No lists found after seeding`);
   const docIds = await seedTable(
     'docs',
