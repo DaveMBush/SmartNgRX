@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { assert, forNext, SmartArray } from '@smarttools/smart-ngrx';
+import { assert, SmartArray } from '@smarttools/smart-ngrx';
 
 import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 import { CommonSourceNode } from './common-source-node.interface';
