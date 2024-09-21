@@ -8,5 +8,5 @@ export interface PartialArrayDefinition {
   /** the ids to put into the virtual array */
   indexes: string[];
   /** the total number of ids in the virtual array */
-  total: number;
+  length: number;
 }

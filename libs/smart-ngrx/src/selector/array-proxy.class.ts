@@ -14,7 +14,13 @@ import { arrayProxyClassGet } from './array-proxy-class.get.function';
 import { getArrayItem } from './get-array-item.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
+import { SmartArray } from './smart-array.interface';
 import { VirtualArray } from './virtual-array.class';
+
+function isVirtualArray(item: unknown): item is VirtualArray<object> {
+  return typeof item === 'object' &&
+    item !== null && 'rawArray' in item;
+}
 
 /**
  * This is an internal class used by `createSmartSelector` to wrap the field
@@ -31,7 +37,7 @@ export class ArrayProxy<
     P extends SmartNgRXRowBase = SmartNgRXRowBase,
     C extends SmartNgRXRowBase = SmartNgRXRowBase,
   >
-  implements ArrayLike<C>, Iterable<C>
+  implements SmartArray<P, C>, ArrayLike<C>, Iterable<C>
 {
   // entityAdapter and childActionService are initialized in the init method
   // so they are safe to use later on.
@@ -134,6 +140,22 @@ export class ArrayProxy<
       return getArrayItem<C, P>(this.child, id, this.childDefinition);
     }
     throw new Error('Index out of bounds');
+  }
+
+  /**
+   * returns the id at the given index, if the array
+   * is a virtual array, the id is returned without
+   * fetching from the server.
+   *
+   * @param index the index to get the id at
+   * @returns the id at the given index
+   */
+  getIdAtIndex(index: number): string {
+    if (!isVirtualArray(this.rawArray)) {
+      return this.rawArray[index];
+    }
+    const virtualArray = castTo<VirtualArray<P>>(this.rawArray);
+    return virtualArray.getIdAtIndex(index);
   }
 
   /**

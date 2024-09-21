@@ -1,42 +1,42 @@
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { isVirtualArray } from './is-virtual-array.function';
+import { isVirtualArrayContents } from './is-virtual-array-contents.function';
 
-describe('isVirtualArray', () => {
+describe('isVirtualArrayContents', () => {
   it('should return true for a valid VirtualArrayContents object', () => {
     const validVirtualArray: VirtualArrayContents = {
       indexes: ['1', '2', '3'],
       length: 3,
     };
-    expect(isVirtualArray(validVirtualArray)).toBe(true);
+    expect(isVirtualArrayContents(validVirtualArray)).toBe(true);
   });
 
   it('should return false for null', () => {
-    expect(isVirtualArray(null)).toBe(false);
+    expect(isVirtualArrayContents(null)).toBe(false);
   });
 
   it('should return false for undefined', () => {
-    expect(isVirtualArray(undefined)).toBe(false);
+    expect(isVirtualArrayContents(undefined)).toBe(false);
   });
 
   it('should return false for a non-object value', () => {
-    expect(isVirtualArray('not an object')).toBe(false);
-    expect(isVirtualArray(42)).toBe(false);
-    expect(isVirtualArray(true)).toBe(false);
+    expect(isVirtualArrayContents('not an object')).toBe(false);
+    expect(isVirtualArrayContents(42)).toBe(false);
+    expect(isVirtualArrayContents(true)).toBe(false);
   });
 
   it('should return false for an object without the "indexes" property', () => {
     const invalidObject = { length: 3 };
-    expect(isVirtualArray(invalidObject)).toBe(false);
+    expect(isVirtualArrayContents(invalidObject)).toBe(false);
   });
 
   it('should return false for an object with "indexes" that is not an array', () => {
     const invalidObject = { indexes: 'not an array', length: 3 };
-    expect(isVirtualArray(invalidObject)).toBe(false);
+    expect(isVirtualArrayContents(invalidObject)).toBe(false);
   });
 
   it('should return true for an object with "indexes" array, even if length is missing', () => {
     const validObject = { indexes: [] };
-    expect(isVirtualArray(validObject)).toBe(true);
+    expect(isVirtualArrayContents(validObject)).toBe(true);
   });
 
   it('should return true for an object with additional properties', () => {
@@ -45,6 +45,6 @@ describe('isVirtualArray', () => {
       length: 2,
       extraProp: 'extra',
     };
-    expect(isVirtualArray(validObjectWithExtra)).toBe(true);
+    expect(isVirtualArrayContents(validObjectWithExtra)).toBe(true);
   });
 });

@@ -359,7 +359,7 @@ export class ActionService {
     forNext(array.indexes, (item, index) => {
       updatedField.indexes[index + array.startIndex] = item;
     });
-    updatedField.length = array.total;
+    updatedField.length = array.length;
     if (
       updatedField.indexes.length > 0 &&
       newRowRegistry.isNewRow(
@@ -368,7 +368,7 @@ export class ActionService {
         updatedField.indexes[updatedField.indexes.length - 1],
       )
     ) {
-      updatedField.length = array.total + 1;
+      updatedField.length = array.length + 1;
       updatedField.indexes[updatedField.length - 1] =
         updatedField.indexes[updatedField.indexes.length - 1];
     }

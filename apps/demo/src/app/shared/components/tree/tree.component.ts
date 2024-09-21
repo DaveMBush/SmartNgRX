@@ -13,6 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -127,7 +128,10 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.virtualScroll.renderedRangeStream
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        debounceTime(10),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((range) => {
         this.range = range;
         this.treeComponentService.applyRange();

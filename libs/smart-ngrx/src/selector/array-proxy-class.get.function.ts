@@ -1,5 +1,10 @@
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
+import { VirtualArray } from './virtual-array.class';
+
+function isVirtualArray(item: unknown): item is VirtualArray<SmartNgRXRowBase> {
+  return typeof item === 'object' && item !== null && 'rawArray' in item;
+}
 
 /**
  * Implementation of the get method for the ArrayProxy class.
@@ -14,6 +19,9 @@ export function arrayProxyClassGet<
 >(target: ArrayProxy<P, C>, prop: string | symbol): unknown {
   if (typeof prop === 'string' && !Number.isNaN(+prop)) {
     return target.getAtIndex(+prop);
+  }
+  if (prop === 'length' && isVirtualArray(target.rawArray)) {
+    return (target.rawArray as unknown as VirtualArray<P, C>).length;
   }
   return Reflect.get(target, prop as keyof ArrayProxy);
 }

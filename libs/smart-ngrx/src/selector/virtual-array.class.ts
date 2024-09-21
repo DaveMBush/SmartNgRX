@@ -1,7 +1,6 @@
 import { ActionGroup } from '../actions/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { SmartArray } from './smart-array.interface';
 import { store } from './store.function';
 
 /**
@@ -11,8 +10,7 @@ import { store } from './store.function';
 export class VirtualArray<
   P extends object,
   C extends SmartNgRXRowBase = SmartNgRXRowBase,
-> implements SmartArray<P, C>
-{
+> {
   rawArray: string[] = [];
   fetchedIndexes: boolean[] = [];
   length = 0;
@@ -63,6 +61,21 @@ export class VirtualArray<
    */
   refetchIndexes(): void {
     this.fetchedIndexes = [];
+  }
+
+  /**
+   * returns the id at the given index without fetching
+   * the id from the server. if the id does not exist,
+   * an ID based on the index is returned.
+   *
+   * @param index the index to get the id at
+   * @returns the id at the given index
+   */
+  getIdAtIndex(index: number): string {
+    if (this.rawArray[index] !== undefined) {
+      return this.rawArray[index];
+    }
+    return `index-${index}`;
   }
 
   private dispatchLoadByIndexes(

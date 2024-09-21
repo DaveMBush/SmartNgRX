@@ -122,7 +122,7 @@ export class DepartmentsController {
     /** the ids to put into the virtual array */
     indexes: string[];
     /** the total number of ids in the virtual array */
-    total: number;
+    length: number;
   }> {
     // there is only one child field so we can ignore that.
     const result = await this.prisma.$queryRaw`SELECT id from (
@@ -143,7 +143,7 @@ WHERE departmentId = ${definition.parentId};`;
     return {
       indexes: (result as { id: string }[]).map((i) => i.id),
       startIndex: Number(definition.startIndex),
-      total: Number((total as { total: unknown }[])[0].total),
+      length: Number((total as { total: unknown }[])[0].total),
     };
   }
 }

@@ -6,7 +6,7 @@ import { VirtualArrayContents } from '../types/virtual-array-contents.interface'
  * @param item The item to check
  * @returns True if the item is a VirtualArrayContents, false otherwise
  */
-export function isVirtualArray(item: unknown): item is VirtualArrayContents {
+export function isVirtualArrayContents(item: unknown): item is VirtualArrayContents {
   return (
     typeof item === 'object' &&
     item !== null &&

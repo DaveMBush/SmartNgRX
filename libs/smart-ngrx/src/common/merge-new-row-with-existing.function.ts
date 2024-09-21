@@ -1,7 +1,7 @@
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { forNext } from './for-next.function';
-import { isVirtualArray } from './is-virtual-array.function';
+import { isVirtualArrayContents } from './is-virtual-array-contents.function';
 import { mergeVirtualArrays } from './merge-virtual-arrays.function';
 
 /**
@@ -23,7 +23,7 @@ export function mergeNewRowWithExisting<T extends SmartNgRXRowBase>(
   const mergedRow = newRow as Record<keyof T, VirtualArrayContents>;
   forNext(Object.keys(newRow) as (keyof T)[], (key) => {
     const value = newRow[key] as VirtualArrayContents;
-    if (!isVirtualArray(value)) {
+    if (!isVirtualArrayContents(value)) {
       return;
     }
     const existingArray = existingRow[key] as VirtualArrayContents;

@@ -1,5 +1,5 @@
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import * as isVirtualArrayModule from './is-virtual-array.function';
+import * as isVirtualArrayModule from './is-virtual-array-contents.function';
 import { mergeNewRowWithExisting } from './merge-new-row-with-existing.function';
 import * as mergeVirtualArraysModule from './merge-virtual-arrays.function';
 
