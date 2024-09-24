@@ -3,7 +3,7 @@ import { assert, SmartArray } from '@smarttools/smart-ngrx';
 
 import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 import { CommonSourceNode } from './common-source-node.interface';
-import { expandedMap } from './expanded.map.class';
+import { expandedMap } from './expanded-map.class';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
 @Injectable()

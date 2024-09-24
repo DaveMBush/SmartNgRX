@@ -13,6 +13,7 @@ import { castTo } from '@smarttools/smart-ngrx';
 
 import { Department } from '../../department/department.interface';
 import { CommonSourceNode } from './common-source-node.interface';
+import { expandedMap } from './expanded-map.class';
 import { TreeComponent } from './tree.component';
 import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
@@ -76,6 +77,7 @@ describe('TreeComponentService', () => {
     });
     it('should toggle node expansion on and off', () => {
       const node: TreeNode = {
+        parentId: '1',
         node: {
           id: '1',
           name: 'node1',
@@ -110,9 +112,9 @@ describe('TreeComponentService', () => {
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
-          get(target, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+          get(_, prop) {
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
             }
             return '1';
           },
@@ -151,9 +153,12 @@ describe('TreeComponentService', () => {
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
-          get(target, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+          get(_, prop) {
+            if (prop === 'length') {
+              return 1;
+            }
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
             }
             return {
               id: '1',
@@ -196,9 +201,12 @@ describe('TreeComponentService', () => {
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
-          get(target, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+          get(_, prop) {
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
+            }
+            if (prop === 'length') {
+              return 1;
             }
             return {
               id: '1',
@@ -234,21 +242,28 @@ describe('TreeComponentService', () => {
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved and node is expanded', () => {
     beforeEach(() => {
+      expandedMap.set('1', 0, '1', true);
       componentInstance.location = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
           get(_, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
+            }
+            if (prop === 'length') {
+              return 1;
             }
             return {
               id: '1',
               name: 'department1',
               children: new Proxy([] as Department[], {
                 get(__, prop2) {
-                  if (prop2 === 'rawArray') {
-                    return ['1'];
+                  if (prop2 === 'getIdAtIndex') {
+                    return (___: number) => '1';
+                  }
+                  if (prop2 === 'length') {
+                    return 1;
                   }
                   return {
                     id: '1',
@@ -277,6 +292,9 @@ describe('TreeComponentService', () => {
         });
       mockComponent.detectChanges();
       service.applyRange();
+    });
+    afterEach(() => {
+      expandedMap.delete('1', 0, '1');
     });
     it('should return fullDataSource and dataSource length of 2', () => {
       expect(componentInstance.fullDataSource.length).toBe(2);
@@ -373,6 +391,7 @@ describe('TreeComponentService', () => {
 
         // call addChild
         const node: TreeNode = {
+          parentId: '1',
           node: {
             id: '1',
             name: 'node1',
@@ -415,6 +434,7 @@ describe('TreeComponentService', () => {
 
         // call addChild
         const node: TreeNode = {
+          parentId: '1',
           node: {
             id: '1',
             name: 'node1',
@@ -460,6 +480,7 @@ describe('TreeComponentService', () => {
     it('should expand the row', () => {
       // call addChild
       const node: TreeNode = {
+        parentId: '1',
         node: {
           id: '1',
           name: 'node1',

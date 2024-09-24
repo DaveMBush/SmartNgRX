@@ -83,6 +83,7 @@ describe('realOrMocked', () => {
     expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department2',
       name: 'to be fetched',
+      isLoading: true,
     });
   });
 });

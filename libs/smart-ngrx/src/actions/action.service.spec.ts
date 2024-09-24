@@ -274,7 +274,7 @@ describe('ActionService', () => {
       const array: PartialArrayDefinition = {
         indexes: ['4', '5'],
         startIndex: 1,
-        total: 5,
+        length: 5,
       };
 
       const result = service.processLoadByIndexesSuccess(field, array);
@@ -287,7 +287,7 @@ describe('ActionService', () => {
       const array: PartialArrayDefinition = {
         indexes: [],
         startIndex: 0,
-        total: 3,
+        length: 3,
       };
 
       const result = service.processLoadByIndexesSuccess(field, array);
@@ -300,7 +300,7 @@ describe('ActionService', () => {
       const array: PartialArrayDefinition = {
         indexes: ['4'],
         startIndex: 3,
-        total: 10,
+        length: 10,
       };
 
       const result = service.processLoadByIndexesSuccess(field, array);
@@ -313,7 +313,7 @@ describe('ActionService', () => {
       const array: PartialArrayDefinition = {
         indexes: ['4', '5'],
         startIndex: 5,
-        total: 7,
+        length: 7,
       };
 
       const result = service.processLoadByIndexesSuccess(field, array);
@@ -334,7 +334,7 @@ describe('ActionService', () => {
       const array: PartialArrayDefinition = {
         indexes: ['4'],
         startIndex: 1,
-        total: 2,
+        length: 2,
       };
 
       const result = service.processLoadByIndexesSuccess(field, array);
@@ -349,7 +349,7 @@ describe('ActionService', () => {
       const array: PartialArrayDefinition = {
         indexes: ['4', '5', 'new'],
         startIndex: 2,
-        total: 5,
+        length: 5,
       };
 
       const result = service.processLoadByIndexesSuccess(field, array);
