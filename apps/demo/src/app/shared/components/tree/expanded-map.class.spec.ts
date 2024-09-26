@@ -3,7 +3,11 @@ import { expandedMap } from './expanded-map.class';
 describe('ExpandedMap', () => {
   beforeEach(() => {
     // Clear the expandedMap before each test
-    (expandedMap as unknown as { parentLevelMap: Map<string, Map<string, boolean>> }).parentLevelMap.clear();
+    (
+      expandedMap as unknown as {
+        parentLevelMap: Map<string, Map<string, boolean>>;
+      }
+    ).parentLevelMap.clear();
   });
 
   describe('hasExpandedChild', () => {

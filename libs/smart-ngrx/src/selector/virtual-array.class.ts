@@ -71,11 +71,14 @@ export class VirtualArray<
    * @param index the index to get the id at
    * @returns the id at the given index
    */
-  getIdAtIndex(index: number): string {
-    if (this.rawArray[index] !== undefined) {
-      return this.rawArray[index];
+  getIdAtIndex(index: number): string | undefined {
+    if (index >= 0 && index < this.length) {
+      if (this.rawArray[index] !== undefined) {
+        return this.rawArray[index];
+      }
+      return `index-${index}`;
     }
-    return `index-${index}`;
+    return undefined;
   }
 
   private dispatchLoadByIndexes(

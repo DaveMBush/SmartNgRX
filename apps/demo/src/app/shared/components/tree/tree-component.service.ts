@@ -168,7 +168,7 @@ export class TreeComponentService {
     const { parentId, children, result, index, level, startRange, endRange } =
       params;
     const isExpanded = Boolean(
-      expandedMap.get(parentId, level, children.getIdAtIndex!(index)),
+      expandedMap.get(parentId, level, children.getIdAtIndex!(index)!),
     );
     let currentNode: CommonSourceNode | string | null = null;
     if (

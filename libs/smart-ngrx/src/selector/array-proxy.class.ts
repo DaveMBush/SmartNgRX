@@ -149,9 +149,12 @@ export class ArrayProxy<
    * @param index the index to get the id at
    * @returns the id at the given index
    */
-  getIdAtIndex(index: number): string {
+  getIdAtIndex(index: number): string | undefined {
     if (!isVirtualArray(this.rawArray)) {
-      return this.rawArray[index];
+      if (index >= 0 && index < this.rawArray.length) {
+        return this.rawArray[index];
+      }
+      return undefined;
     }
     const virtualArray = castTo<VirtualArray<P>>(this.rawArray);
     return virtualArray.getIdAtIndex(index);

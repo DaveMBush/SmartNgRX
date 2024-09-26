@@ -35,4 +35,20 @@ describe('arrayProxyClassGet()', () => {
       expect(reflectGetSpy).toHaveBeenCalled();
     });
   });
+  describe('if the prop is "length" and rawArray is a VirtualArray', () => {
+    beforeEach(() => {
+      const virtualArray = {
+        rawArray: {
+          rawArray: ['a', 'b', 'c', 'd', 'e'],
+          length: 5,
+        },
+      };
+      target.rawArray = virtualArray.rawArray as unknown as string[];
+    });
+
+    it('should return the length of the VirtualArray', () => {
+      const result = arrayProxyClassGet(target, 'length');
+      expect(result).toBe(5);
+    });
+  });
 });

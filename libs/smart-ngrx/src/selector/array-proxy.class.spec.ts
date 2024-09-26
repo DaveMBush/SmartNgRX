@@ -142,6 +142,63 @@ describe('ArrayProxy', () => {
     });
   });
   describe('getAtIndex()', () => {
+    describe('when rawArray is a regular array', () => {
+      beforeEach(() => {
+        originalArray = ['id1', 'id2', 'id3'];
+        arrayProxy = new ArrayProxy(
+          originalArray,
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+      });
+
+      it('should return the correct id at the given index', () => {
+        assertArrayProxy(!!arrayProxy);
+        expect(arrayProxy.getIdAtIndex(0)).toBe('id1');
+        expect(arrayProxy.getIdAtIndex(1)).toBe('id2');
+        expect(arrayProxy.getIdAtIndex(2)).toBe('id3');
+      });
+
+      it('should return undefined for an out-of-bounds index', () => {
+        assertArrayProxy(!!arrayProxy);
+        expect(arrayProxy.getIdAtIndex(3)).toBeUndefined();
+        expect(arrayProxy.getIdAtIndex(-1)).toBeUndefined();
+      });
+    });
+
+    describe('when rawArray is a VirtualArray', () => {
+      let mockVirtualArray: VirtualArray<SmartNgRXRowBase>;
+
+      beforeEach(() => {
+        mockVirtualArray = new VirtualArray(
+          { indexes: ['vid1', 'vid2', 'vid3'], length: 3 },
+          {} as ActionGroup,
+          'parentId',
+          'children',
+        );
+        arrayProxy = new ArrayProxy(
+          mockVirtualArray as unknown as string[],
+          { ids: [], entities: {} },
+          childDefinition,
+        );
+        arrayProxy.init();
+      });
+
+      it('should return the correct id at the given index', () => {
+        assertArrayProxy(!!arrayProxy);
+        expect(arrayProxy.getIdAtIndex(0)).toBe('vid1');
+        expect(arrayProxy.getIdAtIndex(1)).toBe('vid2');
+        expect(arrayProxy.getIdAtIndex(2)).toBe('vid3');
+      });
+
+      it('should return fake id for an out-of-bounds index', () => {
+        assertArrayProxy(!!arrayProxy);
+        expect(arrayProxy.getIdAtIndex(3)).toBeUndefined();
+        expect(arrayProxy.getIdAtIndex(-1)).toBeUndefined();
+      });
+    });
+
     describe('when the index is between 0 and the length of the array', () => {
       beforeEach(() => {
         originalArray = ['1', '2', '3'];
