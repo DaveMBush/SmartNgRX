@@ -1,6 +1,6 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, InputSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +19,8 @@ interface TestableTreeComponent
   // because it is private and we need it available as public
   extends Omit<TreeComponent, 'treeComponentService'> {
   treeComponentService: TreeComponentService;
+  locationId: InputSignal<number | string | null>;
+  locations: InputSignal<Location[] | null>;
 }
 
 // Create a test host component
@@ -88,5 +90,36 @@ describe('TreeComponent', () => {
 
     // Verify that applyRange has been called
     expect(applyRangeSpy).toHaveBeenCalled();
+  });
+  it('should call applyRange only when location input changes', () => {
+    const treeComponent = testHostFixture.debugElement.children[0]
+      .componentInstance as TestableTreeComponent;
+    const applyRangeSpy = jest.spyOn(
+      treeComponent.treeComponentService,
+      'applyRange',
+    );
+
+    // Change the location input and trigger change detection
+    testHostComponent.testLocation = {
+      id: '2',
+      name: 'New Location',
+      departments: [],
+    };
+    testHostFixture.detectChanges();
+
+    // Verify that applyRange has been called
+    expect(applyRangeSpy).toHaveBeenCalledTimes(1);
+
+    // Reset the spy
+    applyRangeSpy.mockClear();
+
+    // Change other inputs through the host component
+    testHostComponent.locations = [
+      { id: '3', name: 'Another Location', departments: [] },
+    ];
+    testHostFixture.detectChanges();
+
+    // Verify that applyRange has not been called
+    expect(applyRangeSpy).not.toHaveBeenCalled();
   });
 });

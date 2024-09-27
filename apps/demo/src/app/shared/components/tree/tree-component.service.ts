@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { assert, forNext, SmartArray } from '@smarttools/smart-ngrx';
+import { assert, SmartArray } from '@smarttools/smart-ngrx';
 
 import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 import { CommonSourceNode } from './common-source-node.interface';
+import { expandedMap } from './expanded-map.class';
 import type { TreeComponent } from './tree.component';
 import { TreeNode } from './tree-node.interface';
-
 @Injectable()
 export class TreeComponentService {
-  private expandMap = new Map<string, boolean>();
   private component: TreeComponent | null = null;
 
   constructor(private virtualArrayFlagService: VirtualArrayFlagService) {}
@@ -19,10 +18,10 @@ export class TreeComponentService {
 
   toggleExpand(node: TreeNode): void {
     if (this.isExpanded(node)) {
-      this.expandMap.delete(node.level + ':' + node.node.id);
+      expandedMap.delete(node.parentId, node.level, node.node.id);
       node.isExpanded = false;
     } else {
-      this.expandMap.set(node.level + ':' + node.node.id, true);
+      expandedMap.set(node.parentId, node.level, node.node.id, true);
       node.isExpanded = true;
     }
     this.applyRange();
@@ -35,15 +34,16 @@ export class TreeComponentService {
     if (component.location() === undefined || component.location() === null) {
       return;
     }
-    component.fullDataSource = this.transform(
-      component.location()!.departments as SmartArray<
+    component.fullDataSource = this.transform({
+      parentId: component.locationId() as string,
+      children: component.location()!.departments as SmartArray<
         CommonSourceNode,
         CommonSourceNode
       >,
-      0,
-      component.range.start,
-      component.range.end,
-    );
+      level: 0,
+      startRange: component.range.start,
+      endRange: component.range.end,
+    });
     // if the end range is -1, there is nothing to paint
     // so we just set dataSource to an empty array
     if (component.range.end === -1) {
@@ -56,27 +56,38 @@ export class TreeComponentService {
     }
   }
 
-  transform(
-    children: SmartArray<CommonSourceNode, CommonSourceNode>,
-    level: number,
-    startRange: number,
-    endRange: number,
-  ): TreeNode[] {
+  transform({
+    parentId,
+    children,
+    level,
+    startRange,
+    endRange,
+  }: {
+    parentId: string;
+    children: SmartArray<CommonSourceNode, CommonSourceNode>;
+    level: number;
+    startRange: number;
+    endRange: number;
+  }): TreeNode[] {
     const result: TreeNode[] = [];
     if (children.length === 0) {
       return [];
     }
-    forNext(children.rawArray!, (c, i) => {
+    for (let i = 0; i < children.length; i++) {
+      if (endRange === -1 || i > endRange) {
+        result.length += children.length - i;
+        return result;
+      }
       this.transformTreeNode({
+        parentId,
         children,
         result,
-        node: c,
         index: i,
         level,
         startRange,
         endRange,
       });
-    });
+    }
     return result;
   }
 
@@ -117,56 +128,72 @@ export class TreeComponentService {
   }
 
   private isExpanded(node: TreeNode): boolean {
-    return this.expandMap.get(node.level + ':' + node.node.id) ?? false;
+    return expandedMap.get(node.parentId, node.level, node.node.id);
+  }
+
+  private getTreeNode(
+    currentNode: CommonSourceNode | string,
+    parentId: string,
+    level: number,
+    isExpanded: boolean,
+  ): TreeNode {
+    return typeof currentNode === 'string'
+      ? ({
+          parentId,
+          node: { id: currentNode, isLoading: true },
+          name: '',
+          level,
+          hasChildren: false,
+          isExpanded: false,
+        } as TreeNode)
+      : ({
+          parentId,
+          name: currentNode.name,
+          node: currentNode,
+          level,
+          hasChildren: Boolean(currentNode.children?.length),
+          isExpanded,
+        } as TreeNode);
   }
 
   private transformTreeNode(params: {
+    parentId: string;
     children: SmartArray<CommonSourceNode, CommonSourceNode>;
     result: TreeNode[];
-    node: CommonSourceNode | string;
     index: number;
     level: number;
     startRange: number;
     endRange: number;
   }): void {
-    const { children, result, node, index, level, startRange, endRange } =
+    const { parentId, children, result, index, level, startRange, endRange } =
       params;
-    let currentNode: CommonSourceNode | string = node;
-    if (startRange <= result.length && result.length <= endRange) {
+    const isExpanded = Boolean(
+      expandedMap.get(parentId, level, children.getIdAtIndex!(index)!),
+    );
+    let currentNode: CommonSourceNode | string | null = null;
+    if (
+      (startRange <= result.length && result.length <= endRange) ||
+      isExpanded
+    ) {
       currentNode = children[index];
     } else {
       result.length++;
       return;
     }
-    const treeNode =
-      typeof currentNode === 'string'
-        ? {
-            node: { id: currentNode, isLoading: true },
-            name: '',
-            level,
-            hasChildren: false,
-          }
-        : {
-            name: currentNode.name,
-            node: currentNode,
-            level,
-            hasChildren: Boolean(currentNode.children?.length),
-            isExpanded: this.isExpanded({
-              node: currentNode,
-              level,
-            } as TreeNode),
-          };
-    result.push(treeNode as TreeNode);
-    if (this.isExpanded(treeNode as TreeNode)) {
-      const childNodes = this.transform(
-        /* istanbul ignore next -- trivial */
-        level === 0 && this.virtualArrayFlagService.virtualArrayFlag
-          ? (currentNode as CommonSourceNode).virtualChildren
-          : (currentNode as CommonSourceNode).children,
-        level + 1,
-        startRange - result.length,
-        endRange - result.length,
-      );
+    const treeNode = this.getTreeNode(currentNode, parentId, level, isExpanded);
+    result.push(treeNode);
+    if (isExpanded) {
+      const childNodes = this.transform({
+        parentId: treeNode.node.id,
+        children:
+          /* istanbul ignore next -- trivial */
+          level === 0 && this.virtualArrayFlagService.virtualArrayFlag
+            ? (currentNode as CommonSourceNode).virtualChildren
+            : (currentNode as CommonSourceNode).children,
+        level: level + 1,
+        startRange: startRange - result.length,
+        endRange: endRange - result.length,
+      });
       result.push(...childNodes);
     }
   }

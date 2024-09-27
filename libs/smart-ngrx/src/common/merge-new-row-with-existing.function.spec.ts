@@ -1,5 +1,5 @@
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import * as isVirtualArrayModule from './is-virtual-array.function';
+import * as isVirtualArrayModule from './is-virtual-array-contents.function';
 import { mergeNewRowWithExisting } from './merge-new-row-with-existing.function';
 import * as mergeVirtualArraysModule from './merge-virtual-arrays.function';
 
@@ -9,7 +9,7 @@ describe('mergeNewRowWithExisting', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(isVirtualArrayModule, 'isVirtualArray');
+    jest.spyOn(isVirtualArrayModule, 'isVirtualArrayContents');
     jest.spyOn(mergeVirtualArraysModule, 'mergeVirtualArrays');
   });
 
@@ -25,7 +25,9 @@ describe('mergeNewRowWithExisting', () => {
     );
 
     expect(result).toEqual(newRow);
-    expect(isVirtualArrayModule.isVirtualArray).toHaveBeenCalledTimes(2);
+    expect(isVirtualArrayModule.isVirtualArrayContents).toHaveBeenCalledTimes(
+      2,
+    );
     expect(mergeVirtualArraysModule.mergeVirtualArrays).not.toHaveBeenCalled();
   });
 
@@ -42,7 +44,7 @@ describe('mergeNewRowWithExisting', () => {
     };
 
     jest
-      .spyOn(isVirtualArrayModule, 'isVirtualArray')
+      .spyOn(isVirtualArrayModule, 'isVirtualArrayContents')
       .mockImplementation((value) => value === virtualArray);
     jest
       .spyOn(mergeVirtualArraysModule, 'mergeVirtualArrays')
@@ -60,7 +62,9 @@ describe('mergeNewRowWithExisting', () => {
       name: 'Test',
       data: { indexes: ['1', '2', '3', '4', '5', '6'], length: 6 },
     });
-    expect(isVirtualArrayModule.isVirtualArray).toHaveBeenCalledTimes(3);
+    expect(isVirtualArrayModule.isVirtualArrayContents).toHaveBeenCalledTimes(
+      3,
+    );
     expect(mergeVirtualArraysModule.mergeVirtualArrays).toHaveBeenCalledTimes(
       1,
     );

@@ -12,7 +12,7 @@ export interface SmartArray<
   /**
    * The array of IDs proxied by the `ArrayProxy`
    */
-  rawArray?: string[];
+  getIdAtIndex?(index: number): string | undefined;
   /**
    * Adds a new row to the store
    *

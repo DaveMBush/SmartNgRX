@@ -9,21 +9,39 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { castTo } from '@smarttools/smart-ngrx';
+import { castTo, SmartArray } from '@smarttools/smart-ngrx';
 
 import { Department } from '../../department/department.interface';
 import { CommonSourceNode } from './common-source-node.interface';
+import { expandedMap } from './expanded-map.class';
 import { TreeComponent } from './tree.component';
 import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
+
+interface MockComponentService {
+  virtualArrayFlagService: { virtualArrayFlag: boolean };
+  transformTreeNode(node: {
+    parentId: string;
+    children: SmartArray<CommonSourceNode, CommonSourceNode>;
+    result: TreeNode[];
+    index: number;
+    level: number;
+    startRange: number;
+    endRange: number;
+  }): TreeNode;
+}
+
+type PublicTreeComponentService = MockComponentService &
+  Omit<
+    Omit<TreeComponentService, 'virtualArrayFlagService'>,
+    'transformTreeNode'
+  >;
 
 const department1a = 'department1-a';
 
 describe('TreeComponentService', () => {
   // redefine service because virtualArrayFlagService is private
-  let service: Omit<TreeComponentService, 'virtualArrayFlagService'> & {
-    virtualArrayFlagService: { virtualArrayFlag: boolean };
-  };
+  let service: PublicTreeComponentService;
   let mockComponent: ComponentFixture<TreeComponent>;
   let componentInstance: TreeComponent;
   let fixture: TestBed;
@@ -76,6 +94,7 @@ describe('TreeComponentService', () => {
     });
     it('should toggle node expansion on and off', () => {
       const node: TreeNode = {
+        parentId: '1',
         node: {
           id: '1',
           name: 'node1',
@@ -110,9 +129,9 @@ describe('TreeComponentService', () => {
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
-          get(target, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+          get(_, prop) {
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
             }
             return '1';
           },
@@ -151,9 +170,12 @@ describe('TreeComponentService', () => {
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
-          get(target, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+          get(_, prop) {
+            if (prop === 'length') {
+              return 1;
+            }
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
             }
             return {
               id: '1',
@@ -196,9 +218,12 @@ describe('TreeComponentService', () => {
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
-          get(target, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+          get(_, prop) {
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
+            }
+            if (prop === 'length') {
+              return 1;
             }
             return {
               id: '1',
@@ -234,21 +259,28 @@ describe('TreeComponentService', () => {
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved and node is expanded', () => {
     beforeEach(() => {
+      expandedMap.set('1', 0, '1', true);
       componentInstance.location = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
           get(_, prop) {
-            if (prop === 'rawArray') {
-              return ['1'];
+            if (prop === 'getIdAtIndex') {
+              return (__: number) => '1';
+            }
+            if (prop === 'length') {
+              return 1;
             }
             return {
               id: '1',
               name: 'department1',
               children: new Proxy([] as Department[], {
                 get(__, prop2) {
-                  if (prop2 === 'rawArray') {
-                    return ['1'];
+                  if (prop2 === 'getIdAtIndex') {
+                    return (___: number) => '1';
+                  }
+                  if (prop2 === 'length') {
+                    return 1;
                   }
                   return {
                     id: '1',
@@ -277,6 +309,9 @@ describe('TreeComponentService', () => {
         });
       mockComponent.detectChanges();
       service.applyRange();
+    });
+    afterEach(() => {
+      expandedMap.delete('1', 0, '1');
     });
     it('should return fullDataSource and dataSource length of 2', () => {
       expect(componentInstance.fullDataSource.length).toBe(2);
@@ -373,6 +408,7 @@ describe('TreeComponentService', () => {
 
         // call addChild
         const node: TreeNode = {
+          parentId: '1',
           node: {
             id: '1',
             name: 'node1',
@@ -415,6 +451,7 @@ describe('TreeComponentService', () => {
 
         // call addChild
         const node: TreeNode = {
+          parentId: '1',
           node: {
             id: '1',
             name: 'node1',
@@ -460,6 +497,7 @@ describe('TreeComponentService', () => {
     it('should expand the row', () => {
       // call addChild
       const node: TreeNode = {
+        parentId: '1',
         node: {
           id: '1',
           name: 'node1',
@@ -526,6 +564,261 @@ describe('TreeComponentService', () => {
         node: { name: 'boo' },
       } as TreeNode);
       expect(removeChildSpy).not.toHaveBeenCalled();
+    });
+  });
+  describe('transform method', () => {
+    it('should return an empty array if children array is empty', () => {
+      const result = service.transform({
+        parentId: '1',
+        children: new Proxy([] as CommonSourceNode[], {
+          get(_, prop) {
+            if (prop === 'length') {
+              return 0;
+            }
+            return undefined;
+          },
+        }) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>,
+        level: 0,
+        startRange: 0,
+        endRange: 10,
+      });
+      expect(result).toEqual([]);
+    });
+    it('should return the correct result when endRange is -1', () => {
+      const children = new Proxy(
+        [
+          {
+            id: '1',
+            name: 'node1',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+          {
+            id: '2',
+            name: 'node2',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+        ] as CommonSourceNode[],
+        {
+          get(target, prop) {
+            if (prop === 'length') {
+              return target.length;
+            }
+            return target[prop as keyof CommonSourceNode[]];
+          },
+        },
+      ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>;
+
+      const result = service.transform({
+        parentId: '1',
+        children,
+        level: 0,
+        startRange: 0,
+        endRange: -1,
+      });
+
+      expect(result.length).toBe(2);
+      expect(result[0]).toBeUndefined();
+      expect(result[1]).toBeUndefined();
+    });
+
+    it('should return the correct result when index exceeds endRange', () => {
+      const children = new Proxy(
+        [
+          {
+            id: '1',
+            name: 'node1',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+          {
+            id: '2',
+            name: 'node2',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+        ] as CommonSourceNode[],
+        {
+          get(target, prop) {
+            if (prop === 'length') {
+              return target.length;
+            }
+            if (prop === 'getIdAtIndex') {
+              return (index: number) => '' + (index + 1);
+            }
+            return target[prop as keyof CommonSourceNode[]];
+          },
+        },
+      ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>;
+
+      const result = service.transform({
+        parentId: '1',
+        children,
+        level: 0,
+        startRange: 0,
+        endRange: 0,
+      });
+
+      expect(result.length).toBe(2);
+      expect(result[0].node.id).toBe('1');
+      expect(result[1]).toBeUndefined();
+    });
+  });
+  describe('transformTreeNode method', () => {
+    let mockChildren: SmartArray<CommonSourceNode, CommonSourceNode>;
+    let mockResult: TreeNode[];
+
+    beforeEach(() => {
+      mockChildren = new Proxy(
+        {
+          '1': {
+            id: '1',
+            name: 'Node 1',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+          '2': {
+            id: '2',
+            name: 'Node 2',
+            children: [],
+            virtualChildren: { length: 0 },
+          },
+        },
+        {
+          get(target, prop) {
+            if (prop === 'length') {
+              return Object.keys(target).length;
+            }
+            if (prop === 'getIdAtIndex') {
+              return (index: number) => Object.keys(target)[index];
+            }
+            const index = parseInt(prop as string, 10);
+            if (!isNaN(index)) {
+              return target[Object.keys(target)[index] as keyof typeof target];
+            }
+            return target[prop as keyof typeof target];
+          },
+        },
+      ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>;
+      mockResult = [];
+      jest.spyOn(expandedMap, 'get').mockReturnValue(false);
+    });
+
+    it('should add node when startRange <= result.length <= endRange', () => {
+      service.transformTreeNode({
+        parentId: '0',
+        children: mockChildren,
+        result: mockResult,
+        index: 0,
+        level: 0,
+        startRange: 0,
+        endRange: 1,
+      });
+
+      expect(mockResult.length).toBe(1);
+      expect(mockResult[0].node.id).toBe('1');
+    });
+
+    it('should add node when isExpanded is true', () => {
+      jest.spyOn(expandedMap, 'get').mockReturnValue(true);
+
+      service.transformTreeNode({
+        parentId: '0',
+        children: mockChildren,
+        result: mockResult,
+        index: 0,
+        level: 0,
+        startRange: 2,
+        endRange: 3,
+      });
+
+      expect(mockResult.length).toBe(1);
+      expect(mockResult[0].node.id).toBe('1');
+    });
+
+    it('should only increment result length when condition is not met', () => {
+      service.transformTreeNode({
+        parentId: '0',
+        children: mockChildren,
+        result: mockResult,
+        index: 0,
+        level: 0,
+        startRange: 2,
+        endRange: 3,
+      });
+
+      expect(mockResult.length).toBe(1);
+      expect(mockResult[0]).toBeUndefined();
+    });
+
+    it('should recursively transform child nodes when node is expanded', () => {
+      jest.spyOn(expandedMap, 'get').mockReturnValue(true);
+      const mockChildrenWithNestedChildren = new Proxy(
+        {
+          '1': {
+            id: '1',
+            name: 'Node 1',
+            children: new Proxy(
+              {
+                '1-1': {
+                  id: '1-1',
+                  name: 'Child 1',
+                  children: [],
+                  virtualChildren: { length: 0 },
+                },
+              },
+              {
+                get(target, prop) {
+                  if (prop === 'length') {
+                    return Object.keys(target).length;
+                  }
+                  if (prop === 'getIdAtIndex') {
+                    return (index: number) => Object.keys(target)[index];
+                  }
+                  const index = parseInt(prop as string, 10);
+                  if (!isNaN(index)) {
+                    return target[
+                      Object.keys(target)[index] as keyof typeof target
+                    ];
+                  }
+                  return target[prop as keyof typeof target];
+                },
+              },
+            ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>,
+            virtualChildren: { length: 1 },
+          },
+        },
+        {
+          get(target, prop) {
+            if (prop === 'length') {
+              return Object.keys(target).length;
+            }
+            if (prop === 'getIdAtIndex') {
+              return (index: number) => Object.keys(target)[index];
+            }
+            const index = parseInt(prop as string, 10);
+            if (!isNaN(index)) {
+              return target[Object.keys(target)[index] as keyof typeof target];
+            }
+            return target[prop as keyof typeof target];
+          },
+        },
+      ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>;
+
+      service.transformTreeNode({
+        parentId: '0',
+        children: mockChildrenWithNestedChildren,
+        result: mockResult,
+        index: 0,
+        level: 0,
+        startRange: 0,
+        endRange: 2,
+      });
+
+      expect(mockResult.length).toBe(2);
+      expect(mockResult[0].node.id).toBe('1');
+      expect(mockResult[1].node.id).toBe('1-1');
     });
   });
 });

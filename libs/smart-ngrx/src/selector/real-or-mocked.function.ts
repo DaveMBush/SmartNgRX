@@ -36,7 +36,7 @@ export function realOrMocked<
   const record = entityState.entities;
   let row = record[id];
   if (row === undefined) {
-    row = { ...defaultObject, id };
+    row = { ...defaultObject, id, isLoading: true };
   }
   return rowProxy<T>(row, service, parentService);
 }
