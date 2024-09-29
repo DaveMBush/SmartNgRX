@@ -17,6 +17,7 @@ import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { manageMaps } from './update-effect/manage-maps.function';
+import { assert } from '../../common/assert.function';
 
 /**
  * this handles the update by calling the effectService.update()
@@ -91,6 +92,7 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRow.set(id, rows[0]);
         // have to call the service to pickup the registration
         const service = actionServiceRegistry(feature, entity);
+        assert(!!service, `the service for ${feature}:${entity} is not available`);
         service.loadByIdsSuccess(rows);
       }),
     );

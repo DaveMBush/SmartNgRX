@@ -31,6 +31,7 @@ export function deleteEffect<T extends SmartNgRXRowBase>(
       concatMap((action) => {
         return effectService.delete(action.id).pipe(
           catchError((_: unknown, __) => {
+            console.log('markFeatureParentsDirty');
             markFeatureParentsDirty(action);
             return of();
           }),

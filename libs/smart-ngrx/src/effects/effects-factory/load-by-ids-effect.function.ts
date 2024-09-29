@@ -8,6 +8,7 @@ import { actionServiceRegistry } from '../../registrations/action.service.regist
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIdsAction } from '../buffer-ids-action.function';
 import { EffectService } from '../effect-service';
+import { assert } from '../../common/assert.function';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
@@ -42,11 +43,14 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
       map((ids) => ids.filter(notAPreloadId)),
       filter((ids) => ids.length > 0),
       mergeMap((ids): Observable<T[]> => {
-        new ActionService(feature, entity).loadByIdsPreload(ids);
+        const actionService = actionServiceRegistry(feature, entity);
+        assert(!!actionService, `the service for ${feature}:${entity} is not available`);
+        actionService.loadByIdsPreload(ids);
         return effectService.loadByIds(ids);
       }),
       map((rows) => {
         const service = actionServiceRegistry(feature, entity);
+        assert(!!service, `the service for ${feature}:${entity} is not available`);
         service.loadByIdsSuccess(rows);
       }),
     );

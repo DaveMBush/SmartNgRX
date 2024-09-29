@@ -1,3 +1,4 @@
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 
@@ -19,6 +20,9 @@ export function processMarkAndDelete(
   requestIdleCallback(
     () => {
       const actionService = actionServiceRegistry(featureKey, entity);
+      if (!actionService) {
+        return;
+      }
       if (garbageCollectRowIds.length > 0) {
         actionService.garbageCollect(garbageCollectRowIds);
       }

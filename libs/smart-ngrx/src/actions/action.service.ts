@@ -25,6 +25,7 @@ import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
+import { castTo } from '../common/cast-to.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -37,9 +38,9 @@ export class ActionService {
   /**
    * entityAdapter is needed for delete so it is public
    */
-  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
-  entities: Observable<Dictionary<SmartNgRXRowBase>>;
-  private actions: ActionGroup;
+  entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
+  entities!: Observable<Dictionary<SmartNgRXRowBase>>;
+  private actions!: ActionGroup;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
 
@@ -53,23 +54,51 @@ export class ActionService {
     public feature: string,
     public entity: string,
   ) {
-    this.actions = actionFactory(feature, entity);
+  }
+
+  /**
+   * Tries to initialize the ActionService.
+   *
+   * @returns true if successful, false if not
+   */
+  init(): boolean {
+    let isFeatureAvailable = false;
+    this.actions = actionFactory(this.feature, this.entity);
     const selectFeature = createFeatureSelector<
       Record<string, EntityState<SmartNgRXRowBase>>
-    >(this.feature);
+      >(this.feature);
+    this.store.select((state) => state)
+      .pipe(take(1))
+      .subscribe((rootState) => {
+        if(castTo<Record<string, unknown>>(rootState)[this.feature] !== undefined) {
+          isFeatureAvailable = true;
+        }
+      });
+
+    if (!isFeatureAvailable) {
+      return false;
+    }
+
     this.entityAdapter = entityDefinitionCache(
       this.feature,
       this.entity,
     ).entityAdapter;
-    const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
+    const selectEntity = createSelector(selectFeature, (f) => {
+      try {
+        return f[this.entity];
+      } catch (e) {
+        return { ids: [], entities: {} };
+      }
+    });
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
 
-    const registry = getEntityRegistry(feature, entity);
+    const registry = getEntityRegistry(this.feature, this.entity);
     this.markDirtyFetchesNew =
       isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
       registry.markAndDeleteInit.markDirtyFetchesNew;
+    return true;
   }
 
   /**

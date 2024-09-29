@@ -5,6 +5,8 @@ import { ActionService } from '../actions/action.service';
 import { forNext } from '../common/for-next.function';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { assert } from '../common/assert.function';
 
 /**
  * Use this function to update the rows represented by the ids for an entity in a feature in response
@@ -19,7 +21,8 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = new ActionService(feature, entity);
+  const actionService = actionServiceRegistry(feature, entity);
+  assert(!!actionService, `the service for ${feature}:${entity} is not available`);
   // check for feature/entities the long way to avoid triggering warnings
   // there is also no good reason to memoize the result
   const selectEntities = (state: unknown) => {

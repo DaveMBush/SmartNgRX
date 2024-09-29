@@ -4,6 +4,7 @@ import { EntityAdapter } from '@ngrx/entity';
 import { map, tap, timer } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -46,6 +47,7 @@ export function addSuccessEffect<T extends SmartNgRXRowBase = SmartNgRXRowBase>(
           action.feature,
           action.entity,
         );
+        assert(!!parentService, `the service for ${action.feature}:${action.entity} is not available`);
         const oldId = adapter.selectId(action.oldRow) as string;
         parentService.replaceIdInParents(oldId, action.newRow.id);
       }),

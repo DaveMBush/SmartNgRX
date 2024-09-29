@@ -20,6 +20,9 @@ export function replaceIdInParents(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
   );
+  if (parentService === null) {
+    return;
+  }
   parentService.entities.pipe(take(1)).subscribe((entities) => {
     // optimistically remove the ids from the parent
     replaceIdInFeatureParents(entities, childDefinition, parentService, [

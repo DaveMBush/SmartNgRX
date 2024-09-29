@@ -21,6 +21,9 @@ export function removeIdFromParents(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
   );
+  if (parentService === null) {
+    return;
+  }
   parentService.entities.pipe(take(1)).subscribe((entities) => {
     // optimistically remove the ids from the parent
     const parentIds = replaceIdInFeatureParents(
@@ -29,6 +32,15 @@ export function removeIdFromParents(
       parentService,
       [id, null],
     );
+    if (
+      parentInfo.some(
+        (p) =>
+          p.feature === childDefinition.parentFeature &&
+          p.entity === childDefinition.parentEntity,
+      )
+    ) {
+      return;
+    }
     parentInfo.push({
       feature: childDefinition.parentFeature,
       entity: childDefinition.parentEntity,

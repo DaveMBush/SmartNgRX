@@ -13,11 +13,14 @@ const actionServiceMap = new Map<string, ActionService>();
 export function actionServiceRegistry(
   feature: string,
   entity: string,
-): ActionService {
+): ActionService | null {
   const key = `${feature}${psi}${entity}`;
   let actionServiceCache = actionServiceMap.get(key);
   if (actionServiceCache === undefined) {
     actionServiceCache = new ActionService(feature, entity);
+    if (!actionServiceCache.init()) {
+      return null;
+    }
     actionServiceMap.set(key, actionServiceCache);
   }
   return actionServiceCache;

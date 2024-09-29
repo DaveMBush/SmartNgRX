@@ -7,6 +7,7 @@ import { actionServiceRegistry } from '../../registrations/action.service.regist
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIndexesAction } from '../buffer-indexes-action.function';
+import { assert } from '../../common/assert.function';
 
 /**
  * This is the effect that loads the ids from the service.
@@ -50,13 +51,15 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
             )
             // nested pipe to get access to actionProps
             .pipe(
-              map((indexes) =>
-                actionServiceRegistry(feature, entity).loadByIndexesSuccess(
+              map((indexes) => {
+                const actionService = actionServiceRegistry(feature, entity);
+                assert(!!actionService, `the service for ${feature}:${entity} is not available`);
+                actionService.loadByIndexesSuccess(
                   actionProps.parentId,
                   actionProps.childField,
                   indexes,
-                ),
-              ),
+                );
+              }),
             )
         );
       }),

@@ -16,6 +16,7 @@ import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { SmartArray } from './smart-array.interface';
 import { VirtualArray } from './virtual-array.class';
+import { assert } from '../common/assert.function';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
   return typeof item === 'object' && item !== null && 'rawArray' in item;
@@ -72,7 +73,9 @@ export class ArrayProxy<
    */
   init(): void {
     const { childFeature, childEntity } = this.childDefinition;
-    this.childActionService = actionServiceRegistry(childFeature, childEntity);
+    const childActionService = actionServiceRegistry(childFeature, childEntity);
+    assert(!!childActionService, `the service for ${childFeature}:${childEntity} is not available`);
+    this.childActionService = childActionService;
     // needed primarily for adding items to the array
     const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
     this.entityAdapter = entityAdapter;
@@ -172,7 +175,9 @@ export class ArrayProxy<
     const { childFeature, childEntity, parentFeature, parentEntity } =
       this.childDefinition;
     const service = actionServiceRegistry(childFeature, childEntity);
+    assert(!!service, `the service for ${childFeature}:${childEntity} is not available`);
     const parentService = actionServiceRegistry(parentFeature, parentEntity);
+    assert(!!parentService, `the service for ${parentFeature}:${parentEntity} is not available`);
     return { service, parentService };
   }
 
