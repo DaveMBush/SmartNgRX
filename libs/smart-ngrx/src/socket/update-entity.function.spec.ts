@@ -1,20 +1,48 @@
+import { InjectionToken } from '@angular/core';
+
 import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import {
+  registerEntity,
+  unregisterEntity,
+} from '../registrations/register-entity.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
+import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { updateEntity } from './update-entity.function';
-
-jest.mock('../actions/action.service');
 
 const feature = 'testFeature';
 const entity = 'testEntity';
 
 describe('updateEntity', () => {
-  let mockActionService: { forceDirty: jest.Mock };
-
+  let actionService: ActionService | null = null;
+  let actionServiceForceDirtySpy: jest.SpyInstance;
   beforeEach(() => {
     createStore();
-    mockActionService = { forceDirty: jest.fn() };
-    (ActionService as jest.Mock).mockReturnValue(mockActionService);
+    setState(feature, entity, {
+      ids: [],
+      entities: {},
+    });
+    entityDefinitionCache(feature, entity, {
+      entityName: entity,
+      effectServiceToken: new InjectionToken(entity + 'Service'),
+      defaultRow: () => ({ id: '1' }),
+    });
+    registerEntity(feature, entity, {
+      defaultRow: () => ({ id: '1' }),
+      markAndDeleteInit: {} as MarkAndDeleteInit,
+      markAndDeleteEntityMap: new Map(),
+    });
+    actionService = actionServiceRegistry(feature, entity);
+    assert(!!actionService, 'actionService is not available');
+    actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
+  });
+
+  afterEach(() => {
+    actionServiceForceDirtySpy.mockRestore();
+    unregisterEntity(feature, entity);
   });
 
   it('should update entities', () => {
@@ -31,9 +59,9 @@ describe('updateEntity', () => {
 
     updateEntity(feature, entity, ids);
 
-    expect(mockActionService.forceDirty).toHaveBeenCalledTimes(2);
-    expect(mockActionService.forceDirty).toHaveBeenCalledWith(['1']);
-    expect(mockActionService.forceDirty).toHaveBeenCalledWith(['2']);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledTimes(2);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['1']);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['2']);
   });
 
   it('should not update entities if id does not exist in state', () => {
@@ -50,7 +78,7 @@ describe('updateEntity', () => {
 
     updateEntity(feature, entity, ids);
 
-    expect(mockActionService.forceDirty).not.toHaveBeenCalled();
+    expect(actionServiceForceDirtySpy).not.toHaveBeenCalled();
   });
   it('should call forceDirty for ids that exist in the state', () => {
     const state = {
@@ -64,9 +92,9 @@ describe('updateEntity', () => {
 
     updateEntity(feature, entity, ['1', '2']);
 
-    expect(mockActionService.forceDirty).toHaveBeenCalledTimes(2);
-    expect(mockActionService.forceDirty).toHaveBeenCalledWith(['1']);
-    expect(mockActionService.forceDirty).toHaveBeenCalledWith(['2']);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledTimes(2);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['1']);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['2']);
   });
 
   it('should not call forceDirty for ids that do not exist in the state', () => {
@@ -82,15 +110,13 @@ describe('updateEntity', () => {
 
     updateEntity(feature, entity, ['3']);
 
-    expect(mockActionService.forceDirty).not.toHaveBeenCalled();
+    expect(actionServiceForceDirtySpy).not.toHaveBeenCalled();
   });
 
   it('should not call forceDirty if the feature and/or entity do not exist in the state', () => {
     const state = {};
     setState(feature, entity, state);
 
-    updateEntity('other', entity, ['1', '2']);
-
-    expect(mockActionService.forceDirty).not.toHaveBeenCalled();
+    expect(() => updateEntity('other', entity, ['1', '2'])).toThrow();
   });
 });

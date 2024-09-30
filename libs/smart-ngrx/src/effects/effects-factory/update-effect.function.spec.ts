@@ -5,6 +5,7 @@ import { TestScheduler } from 'rxjs/testing';
 
 import {
   actionFactory,
+  assert,
   createStore,
   PartialArrayDefinition,
   setState,
@@ -84,6 +85,7 @@ describe('update-effect.function.ts', () => {
     });
     effect = updateEffect(serviceToken, actions, feature, entity);
     const actionService = actionServiceRegistry('feature', 'entity');
+    assert(!!actionService, 'actionService is not defined');
 
     serviceSpy = jest.spyOn(testService, 'update');
     actionServiceLoadByIdsSuccessSpy = jest.spyOn(

@@ -54,6 +54,10 @@ describe('ActionService', () => {
   beforeEach(() => {
     createStore();
     store = storeFunction();
+    setState(feature, entity, {
+      ids: [],
+      entities: {},
+    });
     registerEntity(feature, entity, {
       markAndDeleteInit: {},
     } as EntityAttributes);
@@ -67,9 +71,11 @@ describe('ActionService', () => {
       }),
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
+
     service = castTo<PublicMarkDirtyWithEntities>(
       new ActionService(feature, entity),
     );
+    service.init();
   });
   afterEach(() => {
     jest.restoreAllMocks();
@@ -210,6 +216,7 @@ describe('ActionService', () => {
         service = castTo<PublicMarkDirtyWithEntities>(
           new ActionService(feature, entity),
         );
+        service.init();
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
       });
@@ -231,6 +238,7 @@ describe('ActionService', () => {
         service = castTo<PublicMarkDirtyWithEntities>(
           new ActionService(feature, entity),
         );
+        service.init();
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
       });
@@ -251,6 +259,7 @@ describe('ActionService', () => {
         service = castTo<PublicMarkDirtyWithEntities>(
           new ActionService(feature, entity),
         );
+        service.init();
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
       });

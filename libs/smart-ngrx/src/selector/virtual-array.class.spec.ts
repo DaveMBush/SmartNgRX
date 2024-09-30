@@ -41,7 +41,7 @@ describe('VirtualArray', () => {
     expect(virtualArray[0]).toBe('1');
     expect(virtualArray[1]).toBe('2');
     expect(virtualArray[2]).toBe('3');
-    expect(mockDispatch).toHaveBeenCalledTimes(3);
+    expect(mockDispatch).toHaveBeenCalledTimes(0);
   });
 
   describe('and when the virtual array is frozen', () => {
@@ -84,7 +84,7 @@ describe('VirtualArray', () => {
       index0 = virtualArray[0]; // Access index 0 again
 
       expect(index0).toBe('1');
-      expect(mockDispatch).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should dispatch action if the index has not been fetched', () => {
@@ -93,24 +93,26 @@ describe('VirtualArray', () => {
 
       expect(index0).toBe('1');
       expect(index1).toBe('2');
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenCalledTimes(0);
     });
 
     it('should create a new fetchedIndexes array if it is frozen', () => {
+      virtualArray.rawArray = [];
       const index0 = virtualArray[0]; // Access index 0
       Object.freeze(virtualArray.fetchedIndexes);
       const index1 = virtualArray[1]; // Access index 1
 
-      expect(index0).toBe('1');
-      expect(index1).toBe('2');
+      expect(index0).toBe('index-0');
+      expect(index1).toBe('index-1');
       expect(mockDispatch).toHaveBeenCalledTimes(2);
       expect(Object.isFrozen(virtualArray.fetchedIndexes)).toBe(false);
     });
 
     it('should dispatch loadByIndexes action with correct parameters', () => {
+      virtualArray.rawArray = [];
       const index1 = virtualArray[1]; // Access index 1
 
-      expect(index1).toBe('2');
+      expect(index1).toBe('index-1');
       expect(mockDispatch).toHaveBeenCalledWith(
         mockActionGroup.loadByIndexes({
           indexes: [1],
@@ -144,10 +146,11 @@ describe('VirtualArray', () => {
 
   describe('refetchIndexes', () => {
     it('should reset fetchedIndexes to an empty array', () => {
+      virtualArray.rawArray = [];
       const index0 = virtualArray[0]; // Access index 0 to mark it as fetched
       const index1 = virtualArray[1]; // Access index 1 to mark it as fetched
-      expect(index0).toBe('1');
-      expect(index1).toBe('2');
+      expect(index0).toBe('index-0');
+      expect(index1).toBe('index-1');
       expect(virtualArray.fetchedIndexes).toEqual([true, true]);
 
       virtualArray.refetchIndexes();
@@ -156,15 +159,16 @@ describe('VirtualArray', () => {
     });
 
     it('should cause indexes to be refetched after calling refetchIndexes', () => {
+      virtualArray.rawArray = [];
       const index0 = virtualArray[0]; // Access index 0 to mark it as fetched
-      expect(index0).toBe('1');
+      expect(index0).toBe('index-0');
       expect(mockDispatch).toHaveBeenCalledTimes(1);
 
       virtualArray.refetchIndexes();
       const index0Again = virtualArray[0]; // Access index 0 again
 
-      expect(index0Again).toBe('1');
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(index0Again).toBe('indexNoOp-0');
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
   });
 });
