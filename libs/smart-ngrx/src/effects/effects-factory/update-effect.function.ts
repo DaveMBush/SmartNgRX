@@ -92,7 +92,10 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRow.set(id, rows[0]);
         // have to call the service to pickup the registration
         const service = actionServiceRegistry(feature, entity);
-        assert(!!service, `the service for ${feature}:${entity} is not available`);
+        assert(
+          !!service,
+          `the service for ${feature}:${entity} is not available`,
+        );
         service.loadByIdsSuccess(rows);
       }),
     );

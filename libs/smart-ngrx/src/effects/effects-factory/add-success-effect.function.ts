@@ -47,7 +47,10 @@ export function addSuccessEffect<T extends SmartNgRXRowBase = SmartNgRXRowBase>(
           action.feature,
           action.entity,
         );
-        assert(!!parentService, `the service for ${action.feature}:${action.entity} is not available`);
+        assert(
+          !!parentService,
+          `the service for ${action.feature}:${action.entity} is not available`,
+        );
         const oldId = adapter.selectId(action.oldRow) as string;
         parentService.replaceIdInParents(oldId, action.newRow.id);
       }),

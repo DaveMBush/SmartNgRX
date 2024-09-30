@@ -133,7 +133,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   ngAfterViewInit(): void {
     // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
-      .pipe(debounceTime(1), takeUntilDestroyed(this.destroyRef))
+      .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
       .subscribe((range) => {
         this.range = range;
         this.treeComponentService.applyRange();

@@ -38,6 +38,7 @@ export function mergeVirtualArrays(
     }
   });
   if (addRow !== undefined) {
+    console.log('[dmb] when you commit this, you should not need the null check anymore!', addRow);
     mergedArray[newArray.length] = addRow;
   }
 

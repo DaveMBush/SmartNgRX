@@ -53,7 +53,10 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
             .pipe(
               map((indexes) => {
                 const actionService = actionServiceRegistry(feature, entity);
-                assert(!!actionService, `the service for ${feature}:${entity} is not available`);
+                assert(
+                  !!actionService,
+                  `the service for ${feature}:${entity} is not available`,
+                );
                 actionService.loadByIndexesSuccess(
                   actionProps.parentId,
                   actionProps.childField,

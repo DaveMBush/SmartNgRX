@@ -53,8 +53,7 @@ export class ActionService {
   constructor(
     public feature: string,
     public entity: string,
-  ) {
-  }
+  ) {}
 
   /**
    * Tries to initialize the ActionService.
@@ -66,11 +65,14 @@ export class ActionService {
     this.actions = actionFactory(this.feature, this.entity);
     const selectFeature = createFeatureSelector<
       Record<string, EntityState<SmartNgRXRowBase>>
-      >(this.feature);
-    this.store.select((state) => state)
+    >(this.feature);
+    this.store
+      .select((state) => state)
       .pipe(take(1))
       .subscribe((rootState) => {
-        if(castTo<Record<string, unknown>>(rootState)[this.feature] !== undefined) {
+        if (
+          castTo<Record<string, unknown>>(rootState)[this.feature] !== undefined
+        ) {
           isFeatureAvailable = true;
         }
       });

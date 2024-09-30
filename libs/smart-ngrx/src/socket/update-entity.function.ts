@@ -22,7 +22,10 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   ids: string[],
 ): void {
   const actionService = actionServiceRegistry(feature, entity);
-  assert(!!actionService, `the service for ${feature}:${entity} is not available`);
+  assert(
+    !!actionService,
+    `the service for ${feature}:${entity} is not available`,
+  );
   // check for feature/entities the long way to avoid triggering warnings
   // there is also no good reason to memoize the result
   const selectEntities = (state: unknown) => {

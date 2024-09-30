@@ -32,9 +32,15 @@ export function realOrMocked<
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
   const service = actionServiceRegistry(childFeature, childEntity);
-  assert(!!service, `the service for ${childFeature}:${childEntity} is not available`);
+  assert(
+    !!service,
+    `the service for ${childFeature}:${childEntity} is not available`,
+  );
   const parentService = actionServiceRegistry(parentFeature, parentEntity);
-  assert(!!parentService, `the service for ${parentFeature}:${parentEntity} is not available`);
+  assert(
+    !!parentService,
+    `the service for ${parentFeature}:${parentEntity} is not available`,
+  );
 
   const record = entityState.entities;
   let row = record[id];

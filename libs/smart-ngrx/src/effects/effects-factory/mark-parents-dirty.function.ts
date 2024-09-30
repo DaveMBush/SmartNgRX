@@ -14,7 +14,10 @@ export function markParentsDirty(
   parentIds: string[],
 ): void {
   const parentService = actionServiceRegistry(parentFeature, parentEntity);
-  assert(!!parentService, `the service for ${parentFeature}:${parentEntity} is not available`);
+  assert(
+    !!parentService,
+    `the service for ${parentFeature}:${parentEntity} is not available`,
+  );
   parentService.updateMany(
     parentIds.map((id) => ({
       id,

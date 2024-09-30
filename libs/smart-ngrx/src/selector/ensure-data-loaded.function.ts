@@ -24,7 +24,10 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   entity: string,
 ): void {
   const actionService = actionServiceRegistry(feature, entity);
-  assert(!!actionService, `the service for ${feature}:${entity} is not available`);
+  assert(
+    !!actionService,
+    `the service for ${feature}:${entity} is not available`,
+  );
   const ids = entityState.entities as Record<string, T>;
 
   const idsId = ids[id];

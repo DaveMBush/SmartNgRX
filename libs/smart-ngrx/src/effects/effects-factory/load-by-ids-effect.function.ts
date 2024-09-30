@@ -44,13 +44,19 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
       filter((ids) => ids.length > 0),
       mergeMap((ids): Observable<T[]> => {
         const actionService = actionServiceRegistry(feature, entity);
-        assert(!!actionService, `the service for ${feature}:${entity} is not available`);
+        assert(
+          !!actionService,
+          `the service for ${feature}:${entity} is not available`,
+        );
         actionService.loadByIdsPreload(ids);
         return effectService.loadByIds(ids);
       }),
       map((rows) => {
         const service = actionServiceRegistry(feature, entity);
-        assert(!!service, `the service for ${feature}:${entity} is not available`);
+        assert(
+          !!service,
+          `the service for ${feature}:${entity} is not available`,
+        );
         service.loadByIdsSuccess(rows);
       }),
     );
