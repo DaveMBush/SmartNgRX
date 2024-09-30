@@ -2,13 +2,12 @@ import { inject, InjectionToken, NgZone } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, map, mergeMap, Observable } from 'rxjs';
 
-import { ActionService } from '../../actions/action.service';
 import { ActionGroup } from '../../actions/action-group.interface';
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIdsAction } from '../buffer-ids-action.function';
 import { EffectService } from '../effect-service';
-import { assert } from '../../common/assert.function';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));

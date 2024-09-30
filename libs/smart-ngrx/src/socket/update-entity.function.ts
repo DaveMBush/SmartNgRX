@@ -1,12 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
-import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
-import { assert } from '../common/assert.function';
 
 /**
  * Use this function to update the rows represented by the ids for an entity in a feature in response

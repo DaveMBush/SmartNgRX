@@ -1,6 +1,7 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
@@ -16,7 +17,6 @@ import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { SmartArray } from './smart-array.interface';
 import { VirtualArray } from './virtual-array.class';
-import { assert } from '../common/assert.function';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
   return typeof item === 'object' && item !== null && 'rawArray' in item;

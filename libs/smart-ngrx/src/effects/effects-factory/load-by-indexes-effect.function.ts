@@ -3,11 +3,11 @@ import { Actions, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIndexesAction } from '../buffer-indexes-action.function';
-import { assert } from '../../common/assert.function';
 
 /**
  * This is the effect that loads the ids from the service.

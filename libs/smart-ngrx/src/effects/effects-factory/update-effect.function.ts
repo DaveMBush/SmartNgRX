@@ -12,12 +12,12 @@ import {
 } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { manageMaps } from './update-effect/manage-maps.function';
-import { assert } from '../../common/assert.function';
 
 /**
  * this handles the update by calling the effectService.update()
@@ -53,9 +53,7 @@ export function updateEffect<T extends SmartNgRXRowBase>(
   ) => {
     return actions$.pipe(
       ofType(actions.update),
-      tap((action) => {
-        manageMaps<T>(lastRow, lastRowTimeout, action);
-      }),
+      tap((action) => manageMaps<T>(lastRow, lastRowTimeout, action)),
       // scan allows us to change fields in multiple rows
       // within the same event loop
       scan(

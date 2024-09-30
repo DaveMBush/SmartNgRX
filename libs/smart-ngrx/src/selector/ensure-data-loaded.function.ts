@@ -1,9 +1,9 @@
 import { EntityState } from '@ngrx/entity';
 
+import { assert } from '../common/assert.function';
 import { zoneless } from '../common/zoneless.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { assert } from '../common/assert.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 

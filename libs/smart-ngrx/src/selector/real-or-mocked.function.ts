@@ -1,11 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 
+import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { rowProxy } from '../row-proxy/row-proxy.function';
 import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { assert } from '../common/assert.function';
 
 /**
  * Internal function used by `createInnerSmartSelector` use to load the data if

@@ -1,4 +1,3 @@
-import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 
