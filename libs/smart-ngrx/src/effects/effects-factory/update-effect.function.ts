@@ -71,13 +71,13 @@ export function updateEffect<T extends SmartNgRXRowBase>(
       mergeMap((accActions) => {
         return Object.values(accActions);
       }),
-      concatMap((action) => {
-        return effectService.update(action.new.row).pipe(
+      concatMap((action) =>
+        effectService.update(action.new.row).pipe(
           catchError(() => {
             return of([action.old.row]);
           }),
-        );
-      }),
+        ),
+      ),
       map((rows) => {
         // set the last row to the row we got back here.
         // rows only has one row it it we just return an array
@@ -88,14 +88,19 @@ export function updateEffect<T extends SmartNgRXRowBase>(
         lastRowTimeout.delete(id);
         lastRowTimeout.set(id, now);
         lastRow.set(id, rows[0]);
-        // have to call the service to pickup the registration
-        const service = actionServiceRegistry(feature, entity);
-        assert(
-          !!service,
-          `the service for ${feature}:${entity} is not available`,
-        );
-        service.loadByIdsSuccess(rows);
+        updateRow(rows, feature, entity);
       }),
     );
   };
+}
+
+function updateRow<T extends SmartNgRXRowBase>(
+  rows: T[],
+  feature: string,
+  entity: string,
+) {
+  // have to call the service to pickup the registration
+  const service = actionServiceRegistry(feature, entity);
+  assert(!!service, `the service for ${feature}:${entity} is not available`);
+  service.loadByIdsSuccess(rows);
 }

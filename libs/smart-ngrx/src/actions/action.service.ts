@@ -3,7 +3,6 @@ import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { asapScheduler, Observable, take } from 'rxjs';
 
-import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { mergeRowsWithEntities } from '../common/merge-rows-with-entities.function';
@@ -19,10 +18,12 @@ import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+import { SmartValidatedEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
+import { hasFeature } from './has-feature.function';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
@@ -43,6 +44,7 @@ export class ActionService {
   private actions!: ActionGroup;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
+  private entityDefinition!: SmartValidatedEntityDefinition<SmartNgRXRowBase>;
 
   /**
    * constructor for the ActionService
@@ -61,30 +63,15 @@ export class ActionService {
    * @returns true if successful, false if not
    */
   init(): boolean {
-    let isFeatureAvailable = false;
+    if (!hasFeature(this.feature)) {
+      return false;
+    }
     this.actions = actionFactory(this.feature, this.entity);
     const selectFeature = createFeatureSelector<
       Record<string, EntityState<SmartNgRXRowBase>>
     >(this.feature);
-    this.store
-      .select((state) => state)
-      .pipe(take(1))
-      .subscribe((rootState) => {
-        if (
-          castTo<Record<string, unknown>>(rootState)[this.feature] !== undefined
-        ) {
-          isFeatureAvailable = true;
-        }
-      });
 
-    if (!isFeatureAvailable) {
-      return false;
-    }
-
-    this.entityAdapter = entityDefinitionCache(
-      this.feature,
-      this.entity,
-    ).entityAdapter;
+    this.entityDefinition = entityDefinitionCache(this.feature, this.entity);
     const selectEntity = createSelector(selectFeature, (f) => {
       try {
         return f[this.entity];
@@ -92,7 +79,8 @@ export class ActionService {
         return { ids: [], entities: {} };
       }
     });
-    const selectEntities = this.entityAdapter.getSelectors().selectEntities;
+    const selectEntities =
+      this.entityDefinition.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
 
@@ -312,12 +300,8 @@ export class ActionService {
    * @param ids the ids we are retrieving
    */
   loadByIdsPreload(ids: string[]): void {
-    const defaultRow = entityDefinitionCache(
-      this.feature,
-      this.entity,
-    ).defaultRow;
     this.entities.pipe(take(1)).subscribe((entity) => {
-      let rows = defaultRows(ids, entity, defaultRow);
+      let rows = defaultRows(ids, entity, this.entityDefinition.defaultRow);
       // don't let virtual arrays get overwritten by the default row
       rows = mergeRowsWithEntities(this.feature, this.entity, rows, entity);
       this.store.dispatch(
