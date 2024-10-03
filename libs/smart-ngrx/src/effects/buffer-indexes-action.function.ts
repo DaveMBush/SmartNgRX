@@ -8,6 +8,7 @@ import {
   map,
   mergeMap,
   Observable,
+  Subject,
   Subscriber,
 } from 'rxjs';
 
@@ -35,6 +36,7 @@ function mainIndexesBuffer(
   bufferTime: number,
   ngZone: NgZone,
   observer: Subscriber<IndexesProp>,
+  subject: Subject<IndexesProp>,
 ) {
   source
     .pipe(
@@ -47,7 +49,10 @@ function mainIndexesBuffer(
       ),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => ngZone.run(() => observer.next(value)),
+      next: (value) => {
+        subject.next(value);
+        ngZone.run(() => observer.next(value));
+      },
       error: (err: unknown) => ngZone.run(() => observer.error(err)),
       complete: () => ngZone.run(() => observer.complete()),
     });
@@ -73,12 +78,13 @@ export function bufferIndexesAction(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
 ): (source: Observable<Action & IndexesProp>) => Observable<IndexesProp> {
+  const subject = new Subject<IndexesProp>();
   return (
     source: Observable<Action & IndexesProp>,
   ): Observable<IndexesProp> => {
     return new Observable<IndexesProp>((observer) => {
       ngZone.runOutsideAngular(() =>
-        mainIndexesBuffer(source, bufferTime, ngZone, observer),
+        mainIndexesBuffer(source, bufferTime, ngZone, observer, subject),
       );
     });
   };

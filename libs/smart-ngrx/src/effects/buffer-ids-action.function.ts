@@ -6,6 +6,7 @@ import {
   debounceTime,
   map,
   Observable,
+  Subject,
   Subscriber,
 } from 'rxjs';
 
@@ -26,6 +27,7 @@ function mainIdsBuffer(
   bufferTime: number,
   ngZone: NgZone,
   observer: Subscriber<string[]>,
+  subject: Subject<string[]>,
 ) {
   source
     .pipe(
@@ -37,7 +39,10 @@ function mainIdsBuffer(
       map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => ngZone.run(() => observer.next(value)),
+      next: (value) => {
+        subject.next(value);
+        ngZone.run(() => observer.next(value));
+      },
       error: (err: unknown) => ngZone.run(() => observer.error(err)),
       complete: () => ngZone.run(() => observer.complete()),
     });
@@ -83,12 +88,13 @@ export function bufferIdsAction(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
 ): (source: Observable<Action & { ids: string[] }>) => Observable<string[]> {
+  const subject = new Subject<string[]>();
   return (
     source: Observable<Action & { ids: string[] }>,
   ): Observable<string[]> => {
     return new Observable<string[]>((observer) => {
       ngZone.runOutsideAngular(() =>
-        mainIdsBuffer(source, bufferTime, ngZone, observer),
+        mainIdsBuffer(source, bufferTime, ngZone, observer, subject),
       );
     });
   };
