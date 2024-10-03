@@ -252,6 +252,14 @@ export class ActionService {
         parentInfo,
       }),
     );
+
+    // Update the virtual array without refreshing the screen
+    this.entities.pipe(take(1)).subscribe((entities) => {
+      const entity = entities[id];
+      if (entity && entity.virtualChildren) {
+        entity.virtualChildren.removeFromStore!(entity, entity);
+      }
+    });
   }
 
   /**

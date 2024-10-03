@@ -90,5 +90,12 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
   delete(): void {
     const id = this.service.entityAdapter.selectId(this.row) as string;
     this.service.delete(id);
+    // Update the virtual array without refreshing the screen
+    this.service.entities.pipe(take(1)).subscribe((entities) => {
+      const entity = entities[id];
+      if (entity && entity.virtualChildren) {
+        entity.virtualChildren.removeFromStore!(this.row, entity);
+      }
+    });
   }
 }

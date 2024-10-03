@@ -111,6 +111,10 @@ export class TreeComponentService {
     // but it actually exist by definition,
     // we can safely assert that it exist.
     node.node.delete!();
+    // Update the virtual array without refreshing the screen
+    if (this.virtualArrayFlagService.virtualArrayFlag) {
+      this.applyRange();
+    }
   }
 
   cancelEdit(node: TreeNode): void {
