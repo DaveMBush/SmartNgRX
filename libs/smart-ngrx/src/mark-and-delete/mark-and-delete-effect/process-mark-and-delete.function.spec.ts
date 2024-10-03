@@ -84,6 +84,30 @@ describe('processMarkAndDelete', () => {
     expect(garbageCollectSpy).not.toHaveBeenCalled();
     expect(markDirtySpy).not.toHaveBeenCalled();
   });
+  it('should not call garbageCollect or markDirty when actionService is not found', () => {
+    // Arrange
+    const featureKey = 'nonExistentFeature';
+    const entity = 'nonExistentEntity';
+    const garbageCollectRowIds = ['row1', 'row2'];
+    const markDirtyRowIds = ['row3', 'row4'];
+
+    // Mock actionServiceRegistry to return undefined
+    jest
+      .spyOn(actionServiceRegistry, 'actionServiceRegistry')
+      .mockReturnValue(null);
+
+    // Act
+    processMarkAndDelete(
+      featureKey,
+      entity,
+      garbageCollectRowIds,
+      markDirtyRowIds,
+    );
+
+    // Assert
+    expect(garbageCollectSpy).not.toHaveBeenCalled();
+    expect(markDirtySpy).not.toHaveBeenCalled();
+  });
   describe('when garbageCollectRowIds is empty but markDirtyRowIds is not', () => {
     it('should only garbage collect rows', () => {
       // Arrange

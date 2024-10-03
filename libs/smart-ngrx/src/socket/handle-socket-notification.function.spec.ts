@@ -1,5 +1,4 @@
 // unit tests for handleSocketNotification function
-
 import { psi } from '../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entity.map';
 import { deleteEntity } from './delete-entity.function';

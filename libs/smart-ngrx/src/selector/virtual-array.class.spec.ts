@@ -121,6 +121,47 @@ describe('VirtualArray', () => {
         }),
       );
     });
+    it('should not dispatch action if the index has been fetched and rawArray has a value', () => {
+      virtualArray.rawArray = ['1', '2', '3'];
+      virtualArray.fetchedIndexes = [true, true, true];
+
+      const index0 = virtualArray[0];
+      const index1 = virtualArray[1];
+      const index2 = virtualArray[2];
+
+      expect(index0).toBe('1');
+      expect(index1).toBe('2');
+      expect(index2).toBe('3');
+      expect(mockDispatch).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch action if the index has been fetched but rawArray is empty', () => {
+      virtualArray.rawArray = [];
+      virtualArray.fetchedIndexes = [true, true, true];
+
+      const index0 = virtualArray[0];
+
+      expect(index0).toBe('index-0');
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+      expect(mockDispatch).toHaveBeenCalledWith(
+        mockActionGroup.loadByIndexes({
+          indexes: [0],
+          parentId: 'parentId',
+          childField: 'childField',
+        }),
+      );
+    });
+
+    it('should update fetchedIndexes after dispatching action', () => {
+      virtualArray.rawArray = [];
+      virtualArray.fetchedIndexes = [];
+
+      const index0 = virtualArray[0];
+
+      expect(index0).toBe('index-0');
+      expect(virtualArray.fetchedIndexes[0]).toBe(true);
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('array access behavior', () => {

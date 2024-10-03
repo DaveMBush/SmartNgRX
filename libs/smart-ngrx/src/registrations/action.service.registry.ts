@@ -21,7 +21,16 @@ export function actionServiceRegistry(
     if (!actionServiceCache.init()) {
       return null;
     }
+
     actionServiceMap.set(key, actionServiceCache);
   }
   return actionServiceCache;
+}
+
+/**
+ * Only used for testing so we can clear the registry
+ * between unit tests
+ */
+export function clearActionServiceRegistry(): void {
+  actionServiceMap.clear();
 }

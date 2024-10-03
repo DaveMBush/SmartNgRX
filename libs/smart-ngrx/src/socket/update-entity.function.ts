@@ -1,6 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
+import { hasFeature } from '../actions/has-feature.function';
 import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
@@ -25,12 +26,14 @@ export function updateEntity<T extends SmartNgRXRowBase>(
     !!actionService,
     `the service for ${feature}:${entity} is not available`,
   );
-  // check for feature/entities the long way to avoid triggering warnings
-  // there is also no good reason to memoize the result
+  if (!hasFeature(feature)) {
+    return;
+  }
   const selectEntities = (state: unknown) => {
-    const featureState = ((state as Record<string, unknown>)[feature] ??
-      {}) as Record<string, EntityState<T>>;
-    return featureState[entity]?.entities ?? {};
+    const featureState = (
+      state as Record<string, Record<string, EntityState<T>>>
+    )[feature];
+    return featureState[entity].entities;
   };
   store()
     .select(selectEntities)

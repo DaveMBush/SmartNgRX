@@ -79,8 +79,8 @@ export class ActionService {
         return { ids: [], entities: {} };
       }
     });
-    const selectEntities =
-      this.entityDefinition.entityAdapter.getSelectors().selectEntities;
+    this.entityAdapter = this.entityDefinition.entityAdapter;
+    const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
 

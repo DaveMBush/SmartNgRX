@@ -88,9 +88,6 @@ export class VirtualArray<
     childField: string,
     index: number,
   ) {
-    if (this.fetchedIndexes[index] && this.rawArray[index]) {
-      return;
-    }
     store().dispatch(
       parentAction.loadByIndexes({
         indexes: [index],

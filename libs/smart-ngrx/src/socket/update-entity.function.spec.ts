@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 import { ActionService } from '../actions/action.service';
+import * as hasFeatureModule from '../actions/has-feature.function';
 import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -118,5 +119,26 @@ describe('updateEntity', () => {
     setState(feature, entity, state);
 
     expect(() => updateEntity('other', entity, ['1', '2'])).toThrow();
+  });
+  it('should not update entities if the feature is not available', () => {
+    const hasFeatureSpy = jest
+      .spyOn(hasFeatureModule, 'hasFeature')
+      .mockReturnValue(false);
+    const ids = ['1', '2'];
+    const state = {
+      ids: ['1', '2'],
+      entities: {
+        '1': { id: '1', name: 'Entity 1' },
+        '2': { id: '2', name: 'Entity 2' },
+      },
+    };
+    setState(feature, entity, state);
+
+    updateEntity(feature, entity, ids);
+
+    expect(hasFeatureSpy).toHaveBeenCalledWith(feature);
+    expect(actionServiceForceDirtySpy).not.toHaveBeenCalled();
+
+    hasFeatureSpy.mockRestore();
   });
 });

@@ -13,6 +13,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
 import { getArrayItem } from './get-array-item.function';
+import { getServices } from './get-services.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { SmartArray } from './smart-array.interface';
@@ -175,19 +176,7 @@ export class ArrayProxy<
     service: ActionService;
     parentService: ActionService;
   } {
-    const { childFeature, childEntity, parentFeature, parentEntity } =
-      this.childDefinition;
-    const service = actionServiceRegistry(childFeature, childEntity);
-    assert(
-      !!service,
-      `the service for ${childFeature}:${childEntity} is not available`,
-    );
-    const parentService = actionServiceRegistry(parentFeature, parentEntity);
-    assert(
-      !!parentService,
-      `the service for ${parentFeature}:${parentEntity} is not available`,
-    );
-    return { service, parentService };
+    return getServices<P, C>(this.childDefinition);
   }
 
   /**
