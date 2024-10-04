@@ -12,10 +12,12 @@ import { store } from '../selector/store.function';
 export function hasFeature(feature: string) {
   let isFeatureAvailable = false;
   store()
-    .select((state) => state)
+    .select(
+      (state) => castTo<Record<string, object | undefined>>(state)[feature],
+    )
     .pipe(take(1))
-    .subscribe((rootState) => {
-      if (castTo<Record<string, unknown>>(rootState)[feature] !== undefined) {
+    .subscribe((featureState) => {
+      if (featureState !== undefined) {
         isFeatureAvailable = true;
       }
     });
