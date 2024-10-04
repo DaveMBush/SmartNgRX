@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string -- conflicting rules */
 import { fakeAsync, tick } from '@angular/core/testing';
-import { createEntityAdapter, Dictionary } from '@ngrx/entity';
+import { createEntityAdapter, Dictionary, EntityAdapter } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 
 import { castTo } from '../common/cast-to.function';
@@ -21,6 +21,7 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { ActionService } from './action.service';
+import * as hasFeatureModule from './has-feature.function';
 
 interface Row extends SmartNgRXRowBase {
   id: string;
@@ -34,6 +35,11 @@ interface PrivatesArePublic {
     field: VirtualArrayContents,
     array: PartialArrayDefinition,
   ): VirtualArrayContents;
+  init(): boolean;
+  actions: Record<string, unknown>;
+  entityDefinition: SmartEntityDefinition<Row>;
+  entityAdapter: EntityAdapter<Row>;
+  entities: Dictionary<Row>;
 }
 
 type PublicMarkDirtyWithEntities = Omit<
@@ -54,6 +60,10 @@ describe('ActionService', () => {
   beforeEach(() => {
     createStore();
     store = storeFunction();
+    setState(feature, entity, {
+      ids: [],
+      entities: {},
+    });
     registerEntity(feature, entity, {
       markAndDeleteInit: {},
     } as EntityAttributes);
@@ -67,9 +77,11 @@ describe('ActionService', () => {
       }),
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
+
     service = castTo<PublicMarkDirtyWithEntities>(
       new ActionService(feature, entity),
     );
+    service.init();
   });
   afterEach(() => {
     jest.restoreAllMocks();
@@ -210,6 +222,7 @@ describe('ActionService', () => {
         service = castTo<PublicMarkDirtyWithEntities>(
           new ActionService(feature, entity),
         );
+        service.init();
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
       });
@@ -231,6 +244,7 @@ describe('ActionService', () => {
         service = castTo<PublicMarkDirtyWithEntities>(
           new ActionService(feature, entity),
         );
+        service.init();
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
       });
@@ -251,6 +265,7 @@ describe('ActionService', () => {
         service = castTo<PublicMarkDirtyWithEntities>(
           new ActionService(feature, entity),
         );
+        service.init();
         markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
         service.markDirty(['1']);
       });
@@ -409,6 +424,51 @@ describe('ActionService', () => {
 
         expect(storeDispatchSpy).not.toHaveBeenCalled();
       }));
+    });
+  });
+  describe('init()', () => {
+    beforeEach(() => {
+      service = new ActionService(
+        feature,
+        entity,
+      ) as unknown as PublicMarkDirtyWithEntities;
+    });
+    describe('when the feature is not registered', () => {
+      beforeEach(() => {
+        jest.spyOn(hasFeatureModule, 'hasFeature').mockReturnValue(false);
+      });
+
+      it('should return false', () => {
+        const result = service.init();
+        expect(result).toBe(false);
+      });
+
+      it('should not set up the service properties', () => {
+        service.init();
+        expect(service.actions).toBeUndefined();
+        expect(service.entityDefinition).toBeUndefined();
+        expect(service.entityAdapter).toBeUndefined();
+        expect(service.entities).toBeUndefined();
+      });
+    });
+
+    describe('when the feature is registered', () => {
+      beforeEach(() => {
+        jest.spyOn(hasFeatureModule, 'hasFeature').mockReturnValue(true);
+      });
+
+      it('should return true', () => {
+        const result = service.init();
+        expect(result).toBe(true);
+      });
+
+      it('should set up the service properties', () => {
+        service.init();
+        expect(service.actions).toBeDefined();
+        expect(service.entityDefinition).toBeDefined();
+        expect(service.entityAdapter).toBeDefined();
+        expect(service.entities).toBeDefined();
+      });
     });
   });
 });

@@ -35,15 +35,16 @@ export class VirtualArray<
     return new Proxy(this, {
       get: (target: VirtualArray<P, C>, prop: string | symbol): unknown => {
         if (typeof prop === 'string' && !Number.isNaN(+prop)) {
+          if (this.rawArray[+prop]) {
+            return this.rawArray[+prop];
+          }
+          // don't modify rawArray until after we've dispatched the action.
           this.dispatchLoadByIndexes(
             this.parentAction,
             parentId,
             childField,
             +prop,
           );
-          if (this.rawArray[+prop]) {
-            return this.rawArray[+prop];
-          }
           if (Object.isFrozen(this.rawArray)) {
             this.rawArray = [...this.rawArray];
           }
@@ -87,9 +88,6 @@ export class VirtualArray<
     childField: string,
     index: number,
   ) {
-    if (this.fetchedIndexes[index]) {
-      return;
-    }
     store().dispatch(
       parentAction.loadByIndexes({
         indexes: [index],

@@ -1,6 +1,7 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
@@ -12,6 +13,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
 import { getArrayItem } from './get-array-item.function';
+import { getServices } from './get-services.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { SmartArray } from './smart-array.interface';
@@ -72,7 +74,12 @@ export class ArrayProxy<
    */
   init(): void {
     const { childFeature, childEntity } = this.childDefinition;
-    this.childActionService = actionServiceRegistry(childFeature, childEntity);
+    const childActionService = actionServiceRegistry(childFeature, childEntity);
+    assert(
+      !!childActionService,
+      `the service for ${childFeature}:${childEntity} is not available`,
+    );
+    this.childActionService = childActionService;
     // needed primarily for adding items to the array
     const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
     this.entityAdapter = entityAdapter;
@@ -169,11 +176,7 @@ export class ArrayProxy<
     service: ActionService;
     parentService: ActionService;
   } {
-    const { childFeature, childEntity, parentFeature, parentEntity } =
-      this.childDefinition;
-    const service = actionServiceRegistry(childFeature, childEntity);
-    const parentService = actionServiceRegistry(parentFeature, parentEntity);
-    return { service, parentService };
+    return getServices<P, C>(this.childDefinition);
   }
 
   /**

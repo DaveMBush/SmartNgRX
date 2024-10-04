@@ -3,6 +3,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -50,13 +51,18 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
             )
             // nested pipe to get access to actionProps
             .pipe(
-              map((indexes) =>
-                actionServiceRegistry(feature, entity).loadByIndexesSuccess(
+              map((indexes) => {
+                const actionService = actionServiceRegistry(feature, entity);
+                assert(
+                  !!actionService,
+                  `the service for ${feature}:${entity} is not available`,
+                );
+                actionService.loadByIndexesSuccess(
                   actionProps.parentId,
                   actionProps.childField,
                   indexes,
-                ),
-              ),
+                );
+              }),
             )
         );
       }),

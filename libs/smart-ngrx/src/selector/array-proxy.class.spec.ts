@@ -13,6 +13,7 @@ import {
 } from '../registrations/register-entity.function';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { createStore } from '../tests/functions/create-store.function';
+import { setState } from '../tests/functions/set-state.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
@@ -48,6 +49,11 @@ describe('ArrayProxy', () => {
         delete: jest.fn(),
       }));
     createStore();
+    // make sure the feature exists
+    setState(childDefinition.childFeature, childDefinition.childEntity, {
+      ids: [],
+      entities: {},
+    });
     entityDefinitionCache(
       childDefinition.childFeature,
       childDefinition.childEntity,
