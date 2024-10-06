@@ -11,8 +11,7 @@ export const standardDepartmentsDefinition: SmartEntityDefinition<Department> =
     defaultRow: (id) => ({
       id,
       name: '',
-      children: [],
-      virtualChildren: {
+      children: {
         indexes: [],
         startIndex: 0,
         length: 0,

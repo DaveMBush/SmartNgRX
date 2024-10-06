@@ -15,8 +15,8 @@
 </mat-form-field>
 <cdk-virtual-scroll-viewport
   itemSize="48"
-  [minBufferPx]="48 * 2"
-  [maxBufferPx]="48 * 2"
+  [minBufferPx]="48 * 10"
+  [maxBufferPx]="48 * 30"
 >
   <ng-container
     *cdkVirtualFor="let item of fullDataSource; trackBy: trackBy"

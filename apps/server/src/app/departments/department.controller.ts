@@ -8,12 +8,11 @@ import {
   Put,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { from, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { forkJoin, from, Observable } from 'rxjs';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
-import { consolidateChildren } from './consolidate-children.function';
 import { DepartmentDTO } from './department-dto.interface';
 
 @Controller('departments')
@@ -51,25 +50,23 @@ export class DepartmentsController {
         select: {
           id: true,
           name: true,
-          docs: {
-            select: { did: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          folders: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          sprintFolders: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          lists: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
         },
       }),
-    ).pipe(map(consolidateChildren));
+    ).pipe(
+      mergeMap((departments) => {
+        return forkJoin(departments.map((department) => {
+          return from(this.getByIndexes({
+            parentId: department.id,
+            childField: 'children',
+            startIndex: 0,
+            length: 500,
+          })).pipe(map((children) => ({
+            ...department,
+            children,
+          })));
+        }));
+      }),
+    );
   }
 
   @Post('add')

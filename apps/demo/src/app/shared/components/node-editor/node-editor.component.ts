@@ -73,6 +73,9 @@ export class NodeEditorComponent
   }
 
   keydownHandler(e: KeyboardEvent): void {
+    if (e.key === 'Escape') {
+      this.cancel.emit();
+    }
     e.stopPropagation();
   }
 }

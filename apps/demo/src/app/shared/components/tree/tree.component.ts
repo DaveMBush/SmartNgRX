@@ -13,7 +13,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, timer } from 'rxjs';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -96,10 +96,13 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   cancelEdit(node: TreeNode): void {
     this.treeComponentService.cancelEdit(node);
-    this.editingContent = '';
   }
 
   saveNode(node: TreeNode): void {
+    console.log('[dmb] saveNode');
+    if (this.waitForScroll) {
+      return;
+    }
     this.addingParent = null;
     this.editingNode = '';
     this.addingNode = '';
@@ -115,19 +118,25 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.addMenuOpenedNode = '';
   }
 
+  waitForScroll = true;
   addChild(parent: TreeNode, type: string): void {
     this.editingContent = `New ${type}`;
-    this.treeComponentService.addChild(
+    const position = this.treeComponentService.addChild(
       {
         id: type + ':new',
         name: this.editingContent,
         children: [],
-        virtualChildren: [],
       },
       parent,
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;
     this.addingParent = parent;
+    if (position > -1) {
+      timer(500).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+        this.virtualScroll.scrollToIndex(position);
+        this.waitForScroll = false;
+      });
+    }
   }
 
   ngAfterViewInit(): void {

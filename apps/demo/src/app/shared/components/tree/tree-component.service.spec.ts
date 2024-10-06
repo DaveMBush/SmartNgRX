@@ -99,7 +99,6 @@ describe('TreeComponentService', () => {
           id: '1',
           name: 'node1',
           children: [],
-          virtualChildren: { length: 0 },
         },
         name: 'node1',
         level: 0,
@@ -417,7 +416,6 @@ describe('TreeComponentService', () => {
                 childAddStoreCalled = true;
               },
             } as unknown as CommonSourceNode[],
-            virtualChildren: { length: 0 },
           },
           name: 'node1',
           level: 0,
@@ -429,12 +427,6 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'new',
             children: [],
-            virtualChildren: {
-              length: 0,
-              addToStore: () => {
-                virtualChildAddStoreCalled = true;
-              },
-            },
           },
           node,
         );
@@ -460,12 +452,6 @@ describe('TreeComponentService', () => {
                 childAddStoreCalled = true;
               },
             } as unknown as CommonSourceNode[],
-            virtualChildren: {
-              length: 0,
-              addToStore: () => {
-                virtualChildAddStoreCalled = true;
-              },
-            },
           },
           name: 'node1',
           level: 0,
@@ -477,7 +463,6 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'new',
             children: [],
-            virtualChildren: { length: 0 },
           },
           node,
         );
@@ -506,7 +491,6 @@ describe('TreeComponentService', () => {
               /* noop */
             },
           } as unknown as CommonSourceNode[],
-          virtualChildren: { length: 0 },
         },
         name: 'node1',
         level: 0,
@@ -518,7 +502,6 @@ describe('TreeComponentService', () => {
           id: '1',
           name: 'new',
           children: [],
-          virtualChildren: { length: 0 },
         },
         node,
       );
@@ -591,13 +574,11 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'node1',
             children: [],
-            virtualChildren: { length: 0 },
           },
           {
             id: '2',
             name: 'node2',
             children: [],
-            virtualChildren: { length: 0 },
           },
         ] as CommonSourceNode[],
         {
@@ -630,13 +611,11 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'node1',
             children: [],
-            virtualChildren: { length: 0 },
           },
           {
             id: '2',
             name: 'node2',
             children: [],
-            virtualChildren: { length: 0 },
           },
         ] as CommonSourceNode[],
         {
@@ -676,13 +655,11 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'Node 1',
             children: [],
-            virtualChildren: { length: 0 },
           },
           '2': {
             id: '2',
             name: 'Node 2',
             children: [],
-            virtualChildren: { length: 0 },
           },
         },
         {
@@ -765,7 +742,6 @@ describe('TreeComponentService', () => {
                   id: '1-1',
                   name: 'Child 1',
                   children: [],
-                  virtualChildren: { length: 0 },
                 },
               },
               {
@@ -786,7 +762,6 @@ describe('TreeComponentService', () => {
                 },
               },
             ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>,
-            virtualChildren: { length: 1 },
           },
         },
         {

@@ -27,7 +27,8 @@ export function mergeVirtualArrays(
       feature,
       entity,
       existingArray.indexes[existingArray.length - 1],
-    )
+    ) &&
+    newArray.indexes[existingArray.length - 1] !== 'delete'
   ) {
     addRow = existingArray.indexes[existingArray.length - 1];
   }
@@ -40,9 +41,18 @@ export function mergeVirtualArrays(
   if (addRow !== undefined) {
     mergedArray[newArray.length] = addRow;
   }
-
+  const hasDeleted = mergedArray.some((item) => item === 'delete');
+  if (hasDeleted) {
+    console.log('[dmb] hasDeleted');
+  }
+  console.log('[dmb] newArray.length', newArray.length);
+  const length =
+    newArray.length + (addRow !== undefined ? 1 : 0) - (hasDeleted ? 1 : 0);
+  console.log('[dmb] length', length);
   return {
-    indexes: mergedArray,
-    length: newArray.length + (addRow !== undefined ? 1 : 0),
+    indexes: hasDeleted
+      ? mergedArray.filter((item) => item !== 'delete')
+      : mergedArray,
+    length,
   };
 }

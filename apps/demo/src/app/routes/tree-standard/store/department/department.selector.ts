@@ -24,13 +24,5 @@ export const selectDepartmentsChildren = createSmartSelector(
       parentField: 'children',
       childSelector: selectDepartmentChildren,
     },
-    {
-      childFeature: featureName,
-      childEntity: 'departmentChildren',
-      parentFeature: featureName,
-      parentEntity: 'departments',
-      parentField: 'virtualChildren',
-      childSelector: selectDepartmentChildren,
-    },
   ],
 );
