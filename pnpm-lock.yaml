@@ -90,8 +90,8 @@ importers:
         specifier: 19.8.2
         version: 19.8.2(@angular-devkit/build-angular@18.2.5(5tgkozbakn3prbwqzr4ddnlghu))(@angular-devkit/core@18.2.5(chokidar@3.5.3))(@angular-devkit/schematics@18.2.5(chokidar@3.5.3))(@babel/traverse@7.25.3)(@schematics/angular@18.2.6(chokidar@3.5.3))(@swc-node/register@1.10.9(@swc/core@1.7.21(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.4.5))(@swc/core@1.7.21(@swc/helpers@0.5.12))(@types/node@22.6.1)(@zkochan/js-yaml@0.0.7)(esbuild@0.19.12)(eslint@8.57.0)(nx@19.8.2(@swc-node/register@1.10.9(@swc/core@1.7.21(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.4.5))(@swc/core@1.7.21(@swc/helpers@0.5.12)))(rxjs@7.8.1)(typescript@5.4.5)
       '@prisma/client':
-        specifier: ^5.18.0
-        version: 5.18.0(prisma@5.18.0)
+        specifier: ^5.20.0
+        version: 5.20.0(prisma@5.18.0)
       '@types/better-sqlite3':
         specifier: ^7.6.11
         version: 7.6.11
@@ -3003,8 +3003,8 @@ packages:
     peerDependencies:
       prettier: '*'
 
-  '@prisma/client@5.18.0':
-    resolution: {integrity: sha512-BWivkLh+af1kqC89zCJYkHsRcyWsM8/JHpsDMM76DjP3ZdEquJhXa4IeX+HkWPnwJ5FanxEJFZZDTWiDs/Kvyw==}
+  '@prisma/client@5.20.0':
+    resolution: {integrity: sha512-CLv55ZuMuUawMsxoqxGtLT3bEZoa2W8L3Qnp6rDIFWy+ZBrUcOFKdoeGPSnbBqxc3SkdxJrF+D1veN/WNynZYA==}
     engines: {node: '>=16.13'}
     peerDependencies:
       prisma: '*'
@@ -14475,7 +14475,7 @@ snapshots:
       make-synchronized: 0.2.9
       prettier: 3.3.3
 
-  '@prisma/client@5.18.0(prisma@5.18.0)':
+  '@prisma/client@5.20.0(prisma@5.18.0)':
     optionalDependencies:
       prisma: 5.18.0
 
