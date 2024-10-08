@@ -172,8 +172,8 @@ importers:
         specifier: ^1.0.36
         version: 1.0.36(typescript@5.4.5)
       '@memlab/core':
-        specifier: ^1.1.37
-        version: 1.1.37(typescript@5.4.5)
+        specifier: ^1.1.38
+        version: 1.1.38(typescript@5.4.5)
       '@nestjs/schematics':
         specifier: ^10.1.4
         version: 10.1.4(chokidar@3.5.3)(typescript@5.4.5)
@@ -2335,8 +2335,8 @@ packages:
     resolution: {integrity: sha512-f4VkE+OB/JFw9hWsc0KhrEVOhU1u+8zW6T7XfDfPP6sKv1li9C2A9ABI1AQ+ScRkeiMDHXNI+D2P/10JrpSOvQ==}
     hasBin: true
 
-  '@memlab/core@1.1.37':
-    resolution: {integrity: sha512-oQGzDP4TzxvhT7RLv5xZh5Yd20oqp2wALzTXJKtI1TzeAiHFU/WlWuR0KVZasSfiRxPJc7lmDLnpvlEsEigZag==}
+  '@memlab/core@1.1.38':
+    resolution: {integrity: sha512-1jBq6VtW851WFUtL7qlR7P5LLd8VzFbWPv4hM6dWF9tNM/wnGGPHIYcOM6PS/9UTQJ9qnWA3yk+IxGLZWwLj5w==}
     engines: {node: '>= 12.6.0'}
 
   '@memlab/e2e@1.0.37':
@@ -13059,7 +13059,7 @@ snapshots:
 
   '@memlab/api@1.0.36(typescript@5.4.5)':
     dependencies:
-      '@memlab/core': 1.1.37(typescript@5.4.5)
+      '@memlab/core': 1.1.38(typescript@5.4.5)
       '@memlab/e2e': 1.0.37(typescript@5.4.5)
       '@memlab/heap-analysis': 1.0.34(typescript@5.4.5)
       ansi: 0.3.1
@@ -13081,7 +13081,7 @@ snapshots:
   '@memlab/cli@1.0.39(typescript@5.4.5)':
     dependencies:
       '@memlab/api': 1.0.36(typescript@5.4.5)
-      '@memlab/core': 1.1.37(typescript@5.4.5)
+      '@memlab/core': 1.1.38(typescript@5.4.5)
       '@memlab/e2e': 1.0.37(typescript@5.4.5)
       '@memlab/heap-analysis': 1.0.34(typescript@5.4.5)
       ansi: 0.3.1
@@ -13101,7 +13101,7 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@memlab/core@1.1.37(typescript@5.4.5)':
+  '@memlab/core@1.1.38(typescript@5.4.5)':
     dependencies:
       ansi: 0.3.1
       babar: 0.2.3
@@ -13125,7 +13125,7 @@ snapshots:
       '@babel/parser': 7.25.3
       '@babel/template': 7.25.0
       '@babel/traverse': 7.25.3
-      '@memlab/core': 1.1.37(typescript@5.4.5)
+      '@memlab/core': 1.1.38(typescript@5.4.5)
       ansi: 0.3.1
       babar: 0.2.3
       chalk: 4.1.2
@@ -13144,7 +13144,7 @@ snapshots:
 
   '@memlab/heap-analysis@1.0.34(typescript@5.4.5)':
     dependencies:
-      '@memlab/core': 1.1.37(typescript@5.4.5)
+      '@memlab/core': 1.1.38(typescript@5.4.5)
       '@memlab/e2e': 1.0.37(typescript@5.4.5)
       ansi: 0.3.1
       babar: 0.2.3
@@ -20156,7 +20156,7 @@ snapshots:
     dependencies:
       '@memlab/api': 1.0.36(typescript@5.4.5)
       '@memlab/cli': 1.0.39(typescript@5.4.5)
-      '@memlab/core': 1.1.37(typescript@5.4.5)
+      '@memlab/core': 1.1.38(typescript@5.4.5)
       '@memlab/e2e': 1.0.37(typescript@5.4.5)
       '@memlab/heap-analysis': 1.0.34(typescript@5.4.5)
       ansi: 0.3.1
