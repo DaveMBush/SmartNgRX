@@ -15,6 +15,21 @@ import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
 import { DepartmentDTO } from './department-dto.interface';
 
+interface DepartmentNameAndId {
+  name: string;
+  id: string;
+}
+
+interface DepartmentNameIdAndChildren {
+  name: string;
+  id: string;
+  children: {
+    startIndex: number;
+    indexes: string[];
+    length: number;
+  };
+}
+
 @Controller('departments')
 export class DepartmentsController {
   constructor(
@@ -54,17 +69,7 @@ export class DepartmentsController {
       }),
     ).pipe(
       mergeMap((departments) => {
-        return forkJoin(departments.map((department) => {
-          return from(this.getByIndexes({
-            parentId: department.id,
-            childField: 'children',
-            startIndex: 0,
-            length: 500,
-          })).pipe(map((children) => ({
-            ...department,
-            children,
-          })));
-        }));
+        return this.getDepartmentChildrenIndexes(departments);
       }),
     );
   }
@@ -142,5 +147,27 @@ WHERE departmentId = ${definition.parentId};`;
       startIndex: Number(definition.startIndex),
       length: Number((total as { total: unknown }[])[0].total),
     };
+  }
+
+  private getDepartmentChildrenIndexes(
+    departments: DepartmentNameAndId[],
+  ): Observable<DepartmentNameIdAndChildren[]> {
+    return forkJoin(
+      departments.map((department) => {
+        return from(
+          this.getByIndexes({
+            parentId: department.id,
+            childField: 'children',
+            startIndex: 0,
+            length: 500,
+          }),
+        ).pipe(
+          map((children) => ({
+            ...department,
+            children,
+          })),
+        );
+      }),
+    );
   }
 }

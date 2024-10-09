@@ -13,21 +13,18 @@ export class DepartmentEffectsService extends EffectService<Department> {
   }
 
   override loadByIds(ids: string[]): Observable<Department[]> {
-    return this.http
-      .post<Department[]>(this.apiDepartments, ids);
+    return this.http.post<Department[]>(this.apiDepartments, ids);
   }
 
   override update(newRow: Department): Observable<Department[]> {
-    return this.http
-      .put<Department[]>(this.apiDepartments, {
-        id: newRow.id,
-        name: newRow.name,
-      });
+    return this.http.put<Department[]>(this.apiDepartments, {
+      id: newRow.id,
+      name: newRow.name,
+    });
   }
 
   override add(row: Department): Observable<Department[]> {
-    return this.http
-      .post<Department[]>(this.apiDepartments + '/add', row);
+    return this.http.post<Department[]>(this.apiDepartments + '/add', row);
   }
 
   override delete(id: string): Observable<void> {

@@ -100,7 +100,6 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   saveNode(node: TreeNode): void {
-    console.log('[dmb] saveNode');
     if (this.waitForScroll) {
       return;
     }
@@ -132,24 +131,22 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;
     this.addingParent = parent;
-    if (position > -1) {
-      // give the tree time to update
-      // there is probably a better way to do this
-      // but this is just a demo
-      timer(1000)
-        .pipe(
-          takeUntilDestroyed(this.destroyRef),
-          switchMap(() => {
-            this.virtualScroll.scrollToIndex(position-1);
-            return timer(500);
-          }),
-        )
-        .subscribe(() => {
-          this.treeComponentService.applyRange();
-          this.cd.markForCheck();
-          this.waitForScroll = false;
-        });
-    }
+    // give the tree time to update
+    // there is probably a better way to do this
+    // but this is just a demo
+    timer(1000)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(() => {
+          this.virtualScroll.scrollToIndex(position - 1);
+          return timer(500);
+        }),
+      )
+      .subscribe(() => {
+        this.treeComponentService.applyRange();
+        this.cd.markForCheck();
+        this.waitForScroll = false;
+      });
   }
 
   ngAfterViewInit(): void {

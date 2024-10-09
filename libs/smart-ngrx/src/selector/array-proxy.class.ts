@@ -1,4 +1,6 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { take } from 'rxjs';
 
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
@@ -17,10 +19,8 @@ import { getServices } from './get-services.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { SmartArray } from './smart-array.interface';
-import { VirtualArray } from './virtual-array.class';
 import { store } from './store.function';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { take } from 'rxjs';
+import { VirtualArray } from './virtual-array.class';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
   return typeof item === 'object' && item !== null && 'rawArray' in item;
@@ -247,7 +247,6 @@ export class ArrayProxy<
     const childId = this.entityAdapter.selectId(row) as string;
     const parentId = this.parentEntityAdapter.selectId(parent) as string;
     newRowRegistry.remove(childFeature, childEntity, row.id);
-    const { parentService } = this.getServices();
     const selectFeature =
       createFeatureSelector<Record<string, EntityState<P>>>(parentFeature);
     const selectEntity = createSelector(
@@ -260,54 +259,45 @@ export class ArrayProxy<
       .select(selectEntity)
       .pipe(take(1))
       .subscribe((entity) => {
-        const parentRow = entity.entities[parentId];
-        assert(!!parentRow, 'parentRow is undefined');
-        const parentArray = parentRow[parentField];
-        if (Array.isArray(parentArray)) {
-          const newParent = {
-            ...parentRow,
-            isEditing: false,
-            [parentField]: parentArray.filter((cid) => cid !== childId),
-          };
-          parentService.loadByIdsSuccess([newParent]);
-        } else {
-          const virtualArrayContents = parentRow[
-            parentField
-          ] as VirtualArrayContents;
-          const newParent = {
-            ...parentRow,
-            isEditing: false,
-            [parentField]: {
-              ...virtualArrayContents,
-              indexes: virtualArrayContents.indexes.map((cid) =>
-                cid !== childId ? cid : 'delete',
-              ),
-              length: virtualArrayContents.length - 1,
-            },
-          };
-          console.log('[dmb] newParent', newParent);
-          parentService.loadByIdsSuccess([newParent]);
-        }
+        this.removeChildIdFromChildArray(entity, parentId, parentField, childId);
       });
-    // const { parentService } = this.getServices();
-    // const newParent = this.createNewParentFromParent(parent, false);
-    // // cast is the only safe way to access the parentField that holds the
-    // // list of child IDs.
-    // let c = [] as string[];
-    // if (this.rawArray.filter !== undefined) {
-    //   c = this.rawArray.filter((cid) => cid !== childId);
-    //   castTo<Record<keyof P, string[]>>(newParent)[
-    //     this.childDefinition.parentField
-    //   ] = c;
-    // } else {
-    //   c = castTo<VirtualArray<P>>(this.rawArray).rawArray.filter(
-    //     (cid) => cid !== childId,
-    //   );
-    //   castTo<Record<keyof P, string[]>>(newParent)[
-    //     this.childDefinition.parentField
-    //   ] = c;
-    // }
-    // parentService.loadByIdsSuccess([newParent]);
+  }
+
+  /**
+   * Removes a child id from the child array of the parent.
+   * This is called from removeFromStore.
+   * 
+   * @param entity The parent entity.
+   * @param parentId The id of the parent.
+   * @param parentField The field of the parent that holds the child ids.
+   * @param childId The id of the child to remove.
+   */
+  private removeChildIdFromChildArray(entity: EntityState<P>, parentId: string, parentField: keyof P, childId: string) {
+    const parentRow = entity.entities[parentId];
+    assert(!!parentRow, 'parentRow is undefined');
+    const parentArray = parentRow[parentField];
+    const { parentService } = this.getServices();
+    if (Array.isArray(parentArray)) {
+      const newParent = {
+        ...parentRow,
+        isEditing: false,
+        [parentField]: parentArray.filter((cid) => cid !== childId),
+      };
+      parentService.loadByIdsSuccess([newParent]);
+    } else {
+      const virtualArrayContents = parentRow[parentField] as VirtualArrayContents;
+      const newParent = {
+        ...parentRow,
+        isEditing: false,
+        [parentField]: {
+          ...virtualArrayContents,
+          indexes: virtualArrayContents.indexes.map((cid) => cid !== childId ? cid : 'delete'
+          ),
+          length: virtualArrayContents.length - 1,
+        },
+      };
+      parentService.loadByIdsSuccess([newParent]);
+    }
   }
 
   /**

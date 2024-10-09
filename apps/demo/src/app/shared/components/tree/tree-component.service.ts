@@ -95,7 +95,10 @@ export class TreeComponentService {
 
     parent.node.children.addToStore!(row, parent.node);
     const index = this.component!.fullDataSource.findIndex(
-      (node) => node !== undefined &&node.node.id === parent.node.id && node.level === parent.level + 1,
+      (node) =>
+        node !== undefined &&
+        node.node.id === parent.node.id &&
+        node.level === parent.level + 1,
     );
     return parent.node.children.length + index;
   }
@@ -108,9 +111,7 @@ export class TreeComponentService {
   }
 
   cancelEdit(node: TreeNode): void {
-    console.log('[dmb] treeComponentService.cancelEdit');
     if (this.component!.addingParent) {
-      console.log('[dmb] treeComponentService.cancelEdit - removing child');
       this.removeChild(node, this.component!.addingParent);
     }
     this.component!.addingParent = null;

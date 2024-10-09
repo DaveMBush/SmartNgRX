@@ -19,7 +19,6 @@ import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
 
 interface MockComponentService {
-  virtualArrayFlagService: { virtualArrayFlag: boolean };
   transformTreeNode(node: {
     parentId: string;
     children: SmartArray<CommonSourceNode, CommonSourceNode>;
@@ -32,10 +31,7 @@ interface MockComponentService {
 }
 
 type PublicTreeComponentService = MockComponentService &
-  Omit<
-    Omit<TreeComponentService, 'virtualArrayFlagService'>,
-    'transformTreeNode'
-  >;
+  Omit<TreeComponentService, 'transformTreeNode'>;
 
 const department1a = 'department1-a';
 
@@ -403,7 +399,7 @@ describe('TreeComponentService', () => {
     describe('and we are not using the virtual children', () => {
       it('should expand the child row and call addToStore', () => {
         let childAddStoreCalled = false;
-        let virtualChildAddStoreCalled = false;
+        const virtualChildAddStoreCalled = false;
 
         // call addChild
         const node: TreeNode = {
@@ -438,10 +434,8 @@ describe('TreeComponentService', () => {
     describe('and we are using the virtual children', () => {
       it('should expand the row and call addToStore on virtualChildren', () => {
         let virtualChildAddStoreCalled = false;
-        service.virtualArrayFlagService.virtualArrayFlag = true;
-        let childAddStoreCalled = false;
 
-        // call addChild
+        // Create a mock node with virtual children
         const node: TreeNode = {
           parentId: '1',
           node: {
@@ -449,7 +443,7 @@ describe('TreeComponentService', () => {
             name: 'node1',
             children: {
               addToStore: () => {
-                childAddStoreCalled = true;
+                virtualChildAddStoreCalled = true;
               },
             } as unknown as CommonSourceNode[],
           },
@@ -458,18 +452,22 @@ describe('TreeComponentService', () => {
           isExpanded: false,
           hasChildren: false,
         };
+
+        // Call addChild
         service.addChild(
           {
-            id: '1',
+            id: '2',
             name: 'new',
             children: [],
           },
           node,
         );
+
+        // Check if toggleExpand was called
         expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
+
+        // Check if addToStore was called on virtualChildren
         expect(virtualChildAddStoreCalled).toBe(true);
-        expect(childAddStoreCalled).toBe(false);
-        // see if toggleExpand was called
       });
     });
   });
@@ -521,6 +519,9 @@ describe('TreeComponentService', () => {
     it('should remove the node from the child array', () => {
       service.form = {
         addingParent: { name: 't' } as TreeNode,
+        editingNode: '',
+        addingNode: 't',
+        editingContent: 't',
       } as TreeComponent;
       service.cancelEdit({
         name: 'new',
@@ -541,6 +542,9 @@ describe('TreeComponentService', () => {
     it('should remove the node from the child array', () => {
       service.form = {
         addingParent: null,
+        editingNode: 't',
+        addingNode: '',
+        editingContent: 't',
       } as TreeComponent;
       service.cancelEdit({
         name: 'new',

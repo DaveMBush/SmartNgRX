@@ -14,6 +14,7 @@ import { Department } from '../../department/department.interface';
 import { Location } from '../../locations/location.interface';
 import { TreeComponent } from './tree.component';
 import { TreeComponentService } from './tree-component.service';
+import { TreeNode } from './tree-node.interface';
 interface TestableTreeComponent
   // we omit treeComponentService from the original component
   // because it is private and we need it available as public
@@ -121,5 +122,33 @@ describe('TreeComponent', () => {
 
     // Verify that applyRange has not been called
     expect(applyRangeSpy).not.toHaveBeenCalled();
+  });
+  it('should not save node when waitForScroll is true', () => {
+    const treeComponent = testHostFixture.debugElement.children[0]
+      .componentInstance as TestableTreeComponent;
+
+    // Set up the component state
+    treeComponent.waitForScroll = true;
+    treeComponent.editingNode = '1:123';
+    treeComponent.editingContent = 'Edited Content';
+    treeComponent.addingParent = {} as TreeNode;
+
+    // Create a mock node
+    const mockNode = {
+      level: 1,
+      parentId: '1',
+      node: { id: '123', name: 'Original Name3', children: [] },
+      name: 'Original Name',
+      hasChildren: false,
+    } as TreeNode;
+
+    // Call saveNode
+    treeComponent.saveNode(mockNode);
+
+    // Assert that the state hasn't changed
+    expect(treeComponent.editingNode).toBe('1:123');
+    expect(treeComponent.editingContent).toBe('Edited Content');
+    expect(treeComponent.addingParent).not.toBeNull();
+    expect(mockNode.node.name).toBe('Original Name3');
   });
 });
