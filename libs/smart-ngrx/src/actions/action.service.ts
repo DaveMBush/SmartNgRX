@@ -23,7 +23,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { actionFactory } from './action.factory';
 import { ActionGroup } from './action-group.interface';
-import { hasFeature } from './has-feature.function';
+import { featureRegistry } from './has-feature.function';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
@@ -63,7 +63,7 @@ export class ActionService {
    * @returns true if successful, false if not
    */
   init(): boolean {
-    if (!hasFeature(this.feature)) {
+    if (!featureRegistry.hasFeature(this.feature)) {
       return false;
     }
     this.actions = actionFactory(this.feature, this.entity);
