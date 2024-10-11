@@ -30,8 +30,35 @@ const childDefinition = {
   parentEntity: 'parentEntity',
 } as unknown as ChildDefinition;
 
+interface Row {
+  id: string;
+  children: string[];
+  isEditing: boolean;
+}
+
+interface RowWithVirtualChildren {
+  id: string;
+  children: {
+    indexes: string[];
+    length: number;
+  };
+  isEditing: boolean;
+}
+
+interface PublicRemoveChildIdFromChildArray {
+  removeChildIdFromChildArray(
+    entity: EntityState<Row> | EntityState<RowWithVirtualChildren>,
+    parentId: string,
+    parentField: keyof Row | keyof RowWithVirtualChildren,
+    childId: string,
+  ): void;
+}
+
+type PublicArrayProxy = Omit<ArrayProxy, 'removeChildIdFromChildArray'> &
+  PublicRemoveChildIdFromChildArray;
+
 describe('ArrayProxy', () => {
-  let arrayProxy: ArrayProxy | undefined;
+  let arrayProxy: ArrayProxy | PublicArrayProxy | undefined;
   let originalArray: string[] = [];
   let getArrayItemSpy: jest.SpyInstance;
   function assertArrayProxy(ap: boolean): asserts ap {
@@ -471,11 +498,6 @@ describe('ArrayProxy', () => {
 
     describe('with regular array', () => {
       it('should remove the child id from the parent array', () => {
-        interface Row {
-          id: string;
-          children: string[];
-          isEditing: boolean;
-        }
         const entity = {
           ids: ['parent1'],
           entities: {
@@ -491,16 +513,12 @@ describe('ArrayProxy', () => {
         const parentField = 'children';
         const childId = 'child2';
 
-        (
-          arrayProxy as unknown as {
-            removeChildIdFromChildArray(
-              entity: EntityState<Row>,
-              parentId: string,
-              parentField: keyof Row,
-              childId: string,
-            ): void;
-          }
-        ).removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
 
         expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
           {
@@ -512,12 +530,6 @@ describe('ArrayProxy', () => {
       });
 
       it('should not modify the array if the child id is not present', () => {
-        interface Row {
-          id: string;
-          children: string[];
-          isEditing: boolean;
-        }
-
         const entity = {
           ids: ['parent1'],
           entities: {
@@ -532,37 +544,19 @@ describe('ArrayProxy', () => {
         const parentField = 'children';
         const childId = 'child2';
 
-        (
-          arrayProxy as unknown as {
-            removeChildIdFromChildArray(
-              entity: EntityState<Row>,
-              parentId: string,
-              parentField: keyof Row,
-              childId: string,
-            ): void;
-          }
-        ).removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
 
-        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
-          {
-            id: 'parent1',
-            children: ['child1', 'child3'],
-            isEditing: false,
-          },
-        ]);
+        expect(loadByIdsSuccessSpy).not.toHaveBeenCalled();
       });
     });
 
     describe('with virtual array', () => {
       it('should mark the child id as "delete" in the virtual array', () => {
-        interface Row {
-          id: string;
-          children: {
-            indexes: string[];
-            length: number;
-          };
-          isEditing: boolean;
-        }
         const entity = {
           ids: ['parent1'],
           entities: {
@@ -575,21 +569,17 @@ describe('ArrayProxy', () => {
               isEditing: true,
             },
           },
-        } as EntityState<Row>;
+        } as EntityState<RowWithVirtualChildren>;
         const parentId = 'parent1';
         const parentField = 'children';
         const childId = 'child2';
 
-        (
-          arrayProxy as unknown as {
-            removeChildIdFromChildArray(
-              entity: EntityState<Row>,
-              parentId: string,
-              parentField: keyof Row,
-              childId: string,
-            ): void;
-          }
-        ).removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
 
         expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
           {
@@ -604,14 +594,6 @@ describe('ArrayProxy', () => {
       });
 
       it('should not modify the virtual array if the child id is not present', () => {
-        interface Row {
-          id: string;
-          children: {
-            indexes: string[];
-            length: number;
-          };
-          isEditing: boolean;
-        }
         const entity = {
           ids: ['parent1'],
           entities: {
@@ -624,52 +606,35 @@ describe('ArrayProxy', () => {
               isEditing: true,
             },
           },
-        } as EntityState<Row>;
+        } as EntityState<RowWithVirtualChildren>;
         const parentId = 'parent1';
         const parentField = 'children';
         const childId = 'child2';
 
-        (
-          arrayProxy as unknown as {
-            removeChildIdFromChildArray(
-              entity: EntityState<Row>,
-              parentId: string,
-              parentField: keyof Row,
-              childId: string,
-            ): void;
-          }
-        ).removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
 
         expect(loadByIdsSuccessSpy).not.toHaveBeenCalled();
       });
     });
 
     it('should throw an error if the parent row is undefined', () => {
-      interface Row {
-        id: string;
-        children: {
-          indexes: string[];
-          length: number;
-        };
-        isEditing: boolean;
-      }
-
       const entity = { ids: [], entities: {} };
       const parentId = 'nonexistent';
       const parentField = 'children';
       const childId = 'child1';
 
       expect(() => {
-        (
-          arrayProxy as unknown as {
-            removeChildIdFromChildArray(
-              entity: EntityState<Row>,
-              parentId: string,
-              parentField: keyof Row,
-              childId: string,
-            ): void;
-          }
-        ).removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
       }).toThrow('parentRow is undefined');
     });
   });

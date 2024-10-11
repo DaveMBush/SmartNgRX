@@ -4,8 +4,8 @@
  * Used by mergeVirtualArrays
  *
  * @param item the item to check
- * @returns true if the item is not deleted, false otherwise
+ * @returns true if the item is deleted, false otherwise
  */
-export function itemIsDeleted(item: string | undefined): boolean {
+export function itemIsMarkedForDeletion(item: string | undefined): boolean {
   return item === 'delete';
 }

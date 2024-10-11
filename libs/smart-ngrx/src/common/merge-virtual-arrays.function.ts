@@ -1,7 +1,7 @@
 import { newRowRegistry } from '../selector/new-row-registry.class';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { forNext } from './for-next.function';
-import { itemIsDeleted } from './item-is-not-deleted.function';
+import { itemIsMarkedForDeletion } from './item-is-marked-for-deletion.function';
 
 /**
  * Merges the new array into the existing array
@@ -29,6 +29,7 @@ export function mergeVirtualArrays(
       entity,
       existingArray.indexes[existingArray.length - 1],
     ) &&
+    newArray.indexes.length > existingArray.length - 1 &&
     newArray.indexes[existingArray.length - 1] !== 'delete'
   ) {
     addRow = existingArray.indexes[existingArray.length - 1];
@@ -42,12 +43,12 @@ export function mergeVirtualArrays(
   if (addRow !== undefined) {
     mergedArray[newArray.length] = addRow;
   }
-  const hasDeleted = mergedArray.some(itemIsDeleted);
+  const hasDeleted = mergedArray.some(itemIsMarkedForDeletion);
   const length =
     newArray.length + (addRow !== undefined ? 1 : 0) - (hasDeleted ? 1 : 0);
   return {
     indexes: hasDeleted
-      ? mergedArray.filter((item) => !itemIsDeleted(item))
+      ? mergedArray.filter((item) => !itemIsMarkedForDeletion(item))
       : mergedArray,
     length,
   };

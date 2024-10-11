@@ -282,12 +282,16 @@ export class ArrayProxy<
     parentId: string,
     parentField: keyof P,
     childId: string,
-  ) {
+  ): void {
     const parentRow = entity.entities[parentId];
     assert(!!parentRow, 'parentRow is undefined');
     const parentArray = parentRow[parentField];
     const { parentService } = this.getServices();
     if (Array.isArray(parentArray)) {
+      const hasChildId = parentArray.includes(childId);
+      if (!hasChildId) {
+        return;
+      }
       const newParent = {
         ...parentRow,
         isEditing: false,

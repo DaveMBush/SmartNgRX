@@ -805,7 +805,7 @@ describe('TreeComponentService', () => {
   describe('isNodeAtPosition', () => {
     it('should return true when node is at the correct position', () => {
       const node: TreeNode = {
-        node: { id: '2', name: '', children: [] },
+        node: { id: '1', name: '', children: [] },
         level: 2,
         parentId: '1',
         name: childNodeName,
@@ -815,14 +815,14 @@ describe('TreeComponentService', () => {
       const parent: TreeNode = {
         node: { id: '1', name: '', children: [] },
         level: 1,
-        parentId: '0',
+        parentId: '1',
         name: parentNodeName,
         hasChildren: true,
         isExpanded: true,
       };
 
       const result = TreeComponentService.isNodeAtPosition(node, parent);
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
 
     it('should return false when node id does not match parent id', () => {
