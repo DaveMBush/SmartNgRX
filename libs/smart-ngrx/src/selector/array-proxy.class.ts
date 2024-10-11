@@ -259,20 +259,30 @@ export class ArrayProxy<
       .select(selectEntity)
       .pipe(take(1))
       .subscribe((entity) => {
-        this.removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        this.removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
       });
   }
 
   /**
    * Removes a child id from the child array of the parent.
    * This is called from removeFromStore.
-   * 
+   *
    * @param entity The parent entity.
    * @param parentId The id of the parent.
    * @param parentField The field of the parent that holds the child ids.
    * @param childId The id of the child to remove.
    */
-  private removeChildIdFromChildArray(entity: EntityState<P>, parentId: string, parentField: keyof P, childId: string) {
+  private removeChildIdFromChildArray(
+    entity: EntityState<P>,
+    parentId: string,
+    parentField: keyof P,
+    childId: string,
+  ) {
     const parentRow = entity.entities[parentId];
     assert(!!parentRow, 'parentRow is undefined');
     const parentArray = parentRow[parentField];
@@ -285,13 +295,20 @@ export class ArrayProxy<
       };
       parentService.loadByIdsSuccess([newParent]);
     } else {
-      const virtualArrayContents = parentRow[parentField] as VirtualArrayContents;
+      const virtualArrayContents = parentRow[
+        parentField
+      ] as VirtualArrayContents;
+      const hasChildId = virtualArrayContents.indexes.includes(childId);
+      if (!hasChildId) {
+        return;
+      }
       const newParent = {
         ...parentRow,
         isEditing: false,
         [parentField]: {
           ...virtualArrayContents,
-          indexes: virtualArrayContents.indexes.map((cid) => cid !== childId ? cid : 'delete'
+          indexes: virtualArrayContents.indexes.map((cid) =>
+            cid !== childId ? cid : 'delete',
           ),
           length: virtualArrayContents.length - 1,
         },

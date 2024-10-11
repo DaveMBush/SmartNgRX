@@ -34,6 +34,8 @@ type PublicTreeComponentService = MockComponentService &
   Omit<TreeComponentService, 'transformTreeNode'>;
 
 const department1a = 'department1-a';
+const childNodeName = 'Child Node';
+const parentNodeName = 'Parent Node';
 
 describe('TreeComponentService', () => {
   // redefine service because virtualArrayFlagService is private
@@ -798,6 +800,88 @@ describe('TreeComponentService', () => {
       expect(mockResult.length).toBe(2);
       expect(mockResult[0].node.id).toBe('1');
       expect(mockResult[1].node.id).toBe('1-1');
+    });
+  });
+  describe('isNodeAtPosition', () => {
+    it('should return true when node is at the correct position', () => {
+      const node: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 2,
+        parentId: '1',
+        name: childNodeName,
+        hasChildren: false,
+        isExpanded: false,
+      };
+      const parent: TreeNode = {
+        node: { id: '1', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when node id does not match parent id', () => {
+      const node: TreeNode = {
+        node: { id: '3', name: '', children: [] },
+        level: 2,
+        parentId: '1',
+        name: childNodeName,
+        hasChildren: false,
+        isExpanded: false,
+      };
+      const parent: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when node level is not one more than parent level', () => {
+      const node: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 3,
+        parentId: '1',
+        name: childNodeName,
+        hasChildren: false,
+        isExpanded: false,
+      };
+      const parent: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when node is undefined', () => {
+      const node: TreeNode | undefined = undefined;
+      const parent: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
     });
   });
 });

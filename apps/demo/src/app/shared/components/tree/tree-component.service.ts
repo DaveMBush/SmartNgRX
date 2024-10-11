@@ -13,6 +13,17 @@ export class TreeComponentService {
     this.component = component;
   }
 
+  static isNodeAtPosition(
+    node: TreeNode | undefined,
+    parent: TreeNode,
+  ): boolean {
+    return (
+      node !== undefined &&
+      node.node.id === parent.node.id &&
+      node.level === parent.level + 1
+    );
+  }
+
   toggleExpand(node: TreeNode): void {
     if (this.isExpanded(node)) {
       expandedMap.delete(node.parentId, node.level, node.node.id);
@@ -94,11 +105,8 @@ export class TreeComponentService {
     }
 
     parent.node.children.addToStore!(row, parent.node);
-    const index = this.component!.fullDataSource.findIndex(
-      (node) =>
-        node !== undefined &&
-        node.node.id === parent.node.id &&
-        node.level === parent.level + 1,
+    const index = this.component!.fullDataSource.findIndex((node) =>
+      TreeComponentService.isNodeAtPosition(node, parent),
     );
     return parent.node.children.length + index;
   }

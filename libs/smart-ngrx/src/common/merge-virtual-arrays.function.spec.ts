@@ -150,4 +150,50 @@ describe('mergeVirtualArrays', () => {
       expect.any(Function),
     );
   });
+  it('should handle arrays with deleted items', () => {
+    const newArray: VirtualArrayContents = {
+      indexes: ['1', 'delete', '3'],
+      length: 3,
+    };
+    const existingArray: VirtualArrayContents = {
+      indexes: ['a', 'b', 'c'],
+      length: 3,
+    };
+
+    const result = mergeVirtualArrays(feature, entity, newArray, existingArray);
+
+    expect(result).toEqual({
+      indexes: ['1', '3'],
+      length: 2,
+    });
+    expect(forNextSpy).toHaveBeenCalledWith(
+      newArray.indexes,
+      expect.any(Function),
+    );
+  });
+
+  it('should handle arrays with deleted items and new row', () => {
+    isNewRowSpy.mockReturnValue(true);
+
+    const newArray: VirtualArrayContents = {
+      indexes: ['1', 'delete', '3'],
+      length: 3,
+    };
+    const existingArray: VirtualArrayContents = {
+      indexes: ['a', 'b', 'newRow'],
+      length: 3,
+    };
+
+    const result = mergeVirtualArrays(feature, entity, newArray, existingArray);
+
+    expect(result).toEqual({
+      indexes: ['1', '3', 'newRow'],
+      length: 3,
+    });
+    expect(isNewRowSpy).toHaveBeenCalledWith(feature, entity, 'newRow');
+    expect(forNextSpy).toHaveBeenCalledWith(
+      newArray.indexes,
+      expect.any(Function),
+    );
+  });
 });
