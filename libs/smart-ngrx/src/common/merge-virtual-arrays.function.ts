@@ -29,7 +29,7 @@ export function mergeVirtualArrays(
       entity,
       existingArray.indexes[existingArray.length - 1],
     ) &&
-    newArray.indexes.length > existingArray.length - 1 &&
+    newArray.indexes.length >= existingArray.length - 1 &&
     newArray.indexes[existingArray.length - 1] !== 'delete'
   ) {
     addRow = existingArray.indexes[existingArray.length - 1];
