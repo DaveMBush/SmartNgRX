@@ -19,7 +19,6 @@ import { TreeComponentService } from './tree-component.service';
 import { TreeNode } from './tree-node.interface';
 
 interface MockComponentService {
-  virtualArrayFlagService: { virtualArrayFlag: boolean };
   transformTreeNode(node: {
     parentId: string;
     children: SmartArray<CommonSourceNode, CommonSourceNode>;
@@ -32,12 +31,11 @@ interface MockComponentService {
 }
 
 type PublicTreeComponentService = MockComponentService &
-  Omit<
-    Omit<TreeComponentService, 'virtualArrayFlagService'>,
-    'transformTreeNode'
-  >;
+  Omit<TreeComponentService, 'transformTreeNode'>;
 
 const department1a = 'department1-a';
+const childNodeName = 'Child Node';
+const parentNodeName = 'Parent Node';
 
 describe('TreeComponentService', () => {
   // redefine service because virtualArrayFlagService is private
@@ -99,7 +97,6 @@ describe('TreeComponentService', () => {
           id: '1',
           name: 'node1',
           children: [],
-          virtualChildren: { length: 0 },
         },
         name: 'node1',
         level: 0,
@@ -404,7 +401,7 @@ describe('TreeComponentService', () => {
     describe('and we are not using the virtual children', () => {
       it('should expand the child row and call addToStore', () => {
         let childAddStoreCalled = false;
-        let virtualChildAddStoreCalled = false;
+        const virtualChildAddStoreCalled = false;
 
         // call addChild
         const node: TreeNode = {
@@ -417,7 +414,6 @@ describe('TreeComponentService', () => {
                 childAddStoreCalled = true;
               },
             } as unknown as CommonSourceNode[],
-            virtualChildren: { length: 0 },
           },
           name: 'node1',
           level: 0,
@@ -429,12 +425,6 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'new',
             children: [],
-            virtualChildren: {
-              length: 0,
-              addToStore: () => {
-                virtualChildAddStoreCalled = true;
-              },
-            },
           },
           node,
         );
@@ -446,10 +436,8 @@ describe('TreeComponentService', () => {
     describe('and we are using the virtual children', () => {
       it('should expand the row and call addToStore on virtualChildren', () => {
         let virtualChildAddStoreCalled = false;
-        service.virtualArrayFlagService.virtualArrayFlag = true;
-        let childAddStoreCalled = false;
 
-        // call addChild
+        // Create a mock node with virtual children
         const node: TreeNode = {
           parentId: '1',
           node: {
@@ -457,34 +445,31 @@ describe('TreeComponentService', () => {
             name: 'node1',
             children: {
               addToStore: () => {
-                childAddStoreCalled = true;
-              },
-            } as unknown as CommonSourceNode[],
-            virtualChildren: {
-              length: 0,
-              addToStore: () => {
                 virtualChildAddStoreCalled = true;
               },
-            },
+            } as unknown as CommonSourceNode[],
           },
           name: 'node1',
           level: 0,
           isExpanded: false,
           hasChildren: false,
         };
+
+        // Call addChild
         service.addChild(
           {
-            id: '1',
+            id: '2',
             name: 'new',
             children: [],
-            virtualChildren: { length: 0 },
           },
           node,
         );
+
+        // Check if toggleExpand was called
         expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
+
+        // Check if addToStore was called on virtualChildren
         expect(virtualChildAddStoreCalled).toBe(true);
-        expect(childAddStoreCalled).toBe(false);
-        // see if toggleExpand was called
       });
     });
   });
@@ -506,7 +491,6 @@ describe('TreeComponentService', () => {
               /* noop */
             },
           } as unknown as CommonSourceNode[],
-          virtualChildren: { length: 0 },
         },
         name: 'node1',
         level: 0,
@@ -518,7 +502,6 @@ describe('TreeComponentService', () => {
           id: '1',
           name: 'new',
           children: [],
-          virtualChildren: { length: 0 },
         },
         node,
       );
@@ -538,6 +521,9 @@ describe('TreeComponentService', () => {
     it('should remove the node from the child array', () => {
       service.form = {
         addingParent: { name: 't' } as TreeNode,
+        editingNode: '',
+        addingNode: 't',
+        editingContent: 't',
       } as TreeComponent;
       service.cancelEdit({
         name: 'new',
@@ -558,6 +544,9 @@ describe('TreeComponentService', () => {
     it('should remove the node from the child array', () => {
       service.form = {
         addingParent: null,
+        editingNode: 't',
+        addingNode: '',
+        editingContent: 't',
       } as TreeComponent;
       service.cancelEdit({
         name: 'new',
@@ -591,13 +580,11 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'node1',
             children: [],
-            virtualChildren: { length: 0 },
           },
           {
             id: '2',
             name: 'node2',
             children: [],
-            virtualChildren: { length: 0 },
           },
         ] as CommonSourceNode[],
         {
@@ -630,13 +617,11 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'node1',
             children: [],
-            virtualChildren: { length: 0 },
           },
           {
             id: '2',
             name: 'node2',
             children: [],
-            virtualChildren: { length: 0 },
           },
         ] as CommonSourceNode[],
         {
@@ -676,13 +661,11 @@ describe('TreeComponentService', () => {
             id: '1',
             name: 'Node 1',
             children: [],
-            virtualChildren: { length: 0 },
           },
           '2': {
             id: '2',
             name: 'Node 2',
             children: [],
-            virtualChildren: { length: 0 },
           },
         },
         {
@@ -765,7 +748,6 @@ describe('TreeComponentService', () => {
                   id: '1-1',
                   name: 'Child 1',
                   children: [],
-                  virtualChildren: { length: 0 },
                 },
               },
               {
@@ -786,7 +768,6 @@ describe('TreeComponentService', () => {
                 },
               },
             ) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>,
-            virtualChildren: { length: 1 },
           },
         },
         {
@@ -819,6 +800,88 @@ describe('TreeComponentService', () => {
       expect(mockResult.length).toBe(2);
       expect(mockResult[0].node.id).toBe('1');
       expect(mockResult[1].node.id).toBe('1-1');
+    });
+  });
+  describe('isNodeAtPosition', () => {
+    it('should return true when node is at the correct position', () => {
+      const node: TreeNode = {
+        node: { id: '1', name: '', children: [] },
+        level: 2,
+        parentId: '1',
+        name: childNodeName,
+        hasChildren: false,
+        isExpanded: false,
+      };
+      const parent: TreeNode = {
+        node: { id: '1', name: '', children: [] },
+        level: 1,
+        parentId: '1',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(true);
+    });
+
+    it('should return false when node id does not match parent id', () => {
+      const node: TreeNode = {
+        node: { id: '3', name: '', children: [] },
+        level: 2,
+        parentId: '1',
+        name: childNodeName,
+        hasChildren: false,
+        isExpanded: false,
+      };
+      const parent: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when node level is not one more than parent level', () => {
+      const node: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 3,
+        parentId: '1',
+        name: childNodeName,
+        hasChildren: false,
+        isExpanded: false,
+      };
+      const parent: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when node is undefined', () => {
+      const node: TreeNode | undefined = undefined;
+      const parent: TreeNode = {
+        node: { id: '2', name: '', children: [] },
+        level: 1,
+        parentId: '0',
+        name: parentNodeName,
+        hasChildren: true,
+        isExpanded: true,
+      };
+
+      const result = TreeComponentService.isNodeAtPosition(node, parent);
+      expect(result).toBe(false);
     });
   });
 });

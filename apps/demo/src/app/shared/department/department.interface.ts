@@ -9,8 +9,5 @@ import { DepartmentChild } from '../department-children/department-child.interfa
 export interface Department extends SmartNgRXRowBase {
   id: string;
   name: string;
-  children: DepartmentChild[] | string[];
-  virtualChildren:
-    | PartialArrayDefinition
-    | SmartArray<Department, DepartmentChild>;
+  children: PartialArrayDefinition | SmartArray<Department, DepartmentChild>;
 }

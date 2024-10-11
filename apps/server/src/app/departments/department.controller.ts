@@ -8,13 +8,27 @@ import {
   Put,
 } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { from, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { forkJoin, from, Observable } from 'rxjs';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
-import { consolidateChildren } from './consolidate-children.function';
 import { DepartmentDTO } from './department-dto.interface';
+
+interface DepartmentNameAndId {
+  name: string;
+  id: string;
+}
+
+interface DepartmentNameIdAndChildren {
+  name: string;
+  id: string;
+  children: {
+    startIndex: number;
+    indexes: string[];
+    length: number;
+  };
+}
 
 @Controller('departments')
 export class DepartmentsController {
@@ -51,25 +65,13 @@ export class DepartmentsController {
         select: {
           id: true,
           name: true,
-          docs: {
-            select: { did: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          folders: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          sprintFolders: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          lists: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
         },
       }),
-    ).pipe(map(consolidateChildren));
+    ).pipe(
+      mergeMap((departments) => {
+        return this.getDepartmentChildrenIndexes(departments);
+      }),
+    );
   }
 
   @Post('add')
@@ -145,5 +147,27 @@ WHERE departmentId = ${definition.parentId};`;
       startIndex: Number(definition.startIndex),
       length: Number((total as { total: unknown }[])[0].total),
     };
+  }
+
+  private getDepartmentChildrenIndexes(
+    departments: DepartmentNameAndId[],
+  ): Observable<DepartmentNameIdAndChildren[]> {
+    return forkJoin(
+      departments.map((department) => {
+        return from(
+          this.getByIndexes({
+            parentId: department.id,
+            childField: 'children',
+            startIndex: 0,
+            length: 500,
+          }),
+        ).pipe(
+          map((children) => ({
+            ...department,
+            children,
+          })),
+        );
+      }),
+    );
   }
 }

@@ -14,7 +14,6 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, map, Observable, of } from 'rxjs';
 
 import { SocketService } from './shared/socket.service';
-import { VirtualArrayFlagService } from './shared/virtual-array-flag.service';
 
 @Component({
   standalone: true,
@@ -44,8 +43,6 @@ export class AppComponent implements OnInit {
   static navigationEndGuard(event: unknown): event is NavigationEnd {
     return event instanceof NavigationEnd;
   }
-
-  constructor(public virtualArrayFlagService: VirtualArrayFlagService) {}
 
   ngOnInit(): void {
     this.activeLink = this.router.events.pipe(

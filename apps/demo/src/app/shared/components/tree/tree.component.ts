@@ -2,6 +2,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -13,7 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, timer } from 'rxjs';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -52,7 +53,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   addMenuOpenedNode = '';
   destroyRef = inject(DestroyRef);
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
     this.treeComponentService.form = this;
   }
 
@@ -96,10 +97,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   cancelEdit(node: TreeNode): void {
     this.treeComponentService.cancelEdit(node);
-    this.editingContent = '';
   }
 
   saveNode(node: TreeNode): void {
+    if (this.waitForScroll) {
+      return;
+    }
     this.addingParent = null;
     this.editingNode = '';
     this.addingNode = '';
@@ -115,19 +118,35 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.addMenuOpenedNode = '';
   }
 
+  waitForScroll = true;
   addChild(parent: TreeNode, type: string): void {
     this.editingContent = `New ${type}`;
-    this.treeComponentService.addChild(
+    const position = this.treeComponentService.addChild(
       {
         id: type + ':new',
         name: this.editingContent,
         children: [],
-        virtualChildren: [],
       },
       parent,
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;
     this.addingParent = parent;
+    // give the tree time to update
+    // there is probably a better way to do this
+    // but this is just a demo
+    timer(1000)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(() => {
+          this.virtualScroll.scrollToIndex(position - 1);
+          return timer(500);
+        }),
+      )
+      .subscribe(() => {
+        this.treeComponentService.applyRange();
+        this.cd.markForCheck();
+        this.waitForScroll = false;
+      });
   }
 
   ngAfterViewInit(): void {

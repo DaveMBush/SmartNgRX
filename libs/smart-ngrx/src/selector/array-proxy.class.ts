@@ -1,4 +1,6 @@
 import { EntityAdapter, EntityState } from '@ngrx/entity';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { take } from 'rxjs';
 
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
@@ -17,6 +19,7 @@ import { getServices } from './get-services.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { SmartArray } from './smart-array.interface';
+import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
@@ -43,6 +46,7 @@ export class ArrayProxy<
   // entityAdapter and childActionService are initialized in the init method
   // so they are safe to use later on.
   entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
+  parentEntityAdapter!: EntityAdapter<SmartNgRXRowBase>;
   childActionService!: ActionService;
   [isProxy] = true;
   rawArray: string[] = [];
@@ -83,6 +87,12 @@ export class ArrayProxy<
     // needed primarily for adding items to the array
     const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
     this.entityAdapter = entityAdapter;
+    const { parentFeature, parentEntity } = this.childDefinition;
+    const { entityAdapter: parentEntityAdapter } = entityDefinitionCache(
+      parentFeature,
+      parentEntity,
+    );
+    this.parentEntityAdapter = parentEntityAdapter;
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
     }
@@ -189,11 +199,7 @@ export class ArrayProxy<
   addToStore(newRow: C, thisRow: P): void {
     const { parentFeature, parentEntity } = this.childDefinition;
     const childId = this.entityAdapter.selectId(newRow) as string;
-    const adapter = entityDefinitionCache(
-      parentFeature,
-      parentEntity,
-    ).entityAdapter;
-    const parentId = adapter.selectId(thisRow) as string;
+    const parentId = this.parentEntityAdapter.selectId(thisRow) as string;
     const { service, parentService } = this.getServices();
     const newParent = this.createNewParentFromParent(thisRow, true);
     newRow.parentId = parentId;
@@ -230,19 +236,89 @@ export class ArrayProxy<
    * @param parent the parent entity that contains the array
    */
   removeFromStore(row: C, parent: P): void {
-    const { childFeature, childEntity } = this.childDefinition;
-    newRowRegistry.remove(childFeature, childEntity, row.id);
-
+    // we have to grab the raw data, not the proxied data.
+    const {
+      childFeature,
+      childEntity,
+      parentFeature,
+      parentEntity,
+      parentField,
+    } = this.childDefinition;
     const childId = this.entityAdapter.selectId(row) as string;
-    const { parentService } = this.getServices();
-    const newParent = this.createNewParentFromParent(parent, false);
-    // cast is the only safe way to access the parentField that holds the
-    // list of child IDs.
-    castTo<Record<keyof P, string[]>>(newParent)[
-      this.childDefinition.parentField
-    ] = this.rawArray.filter((cid) => cid !== childId);
+    const parentId = this.parentEntityAdapter.selectId(parent) as string;
+    newRowRegistry.remove(childFeature, childEntity, row.id);
+    const selectFeature =
+      createFeatureSelector<Record<string, EntityState<P>>>(parentFeature);
+    const selectEntity = createSelector(
+      selectFeature,
+      (state: Record<string, EntityState<P>>) => state[parentEntity],
+    );
     this.childActionService.remove([childId]);
-    parentService.loadByIdsSuccess([newParent]);
+
+    store()
+      .select(selectEntity)
+      .pipe(take(1))
+      .subscribe((entity) => {
+        this.removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
+      });
+  }
+
+  /**
+   * Removes a child id from the child array of the parent.
+   * This is called from removeFromStore.
+   *
+   * @param entity The parent entity.
+   * @param parentId The id of the parent.
+   * @param parentField The field of the parent that holds the child ids.
+   * @param childId The id of the child to remove.
+   */
+  private removeChildIdFromChildArray(
+    entity: EntityState<P>,
+    parentId: string,
+    parentField: keyof P,
+    childId: string,
+  ): void {
+    const parentRow = entity.entities[parentId];
+    assert(!!parentRow, 'parentRow is undefined');
+    const parentArray = parentRow[parentField];
+    const { parentService } = this.getServices();
+    if (Array.isArray(parentArray)) {
+      const hasChildId = parentArray.includes(childId);
+      if (!hasChildId) {
+        return;
+      }
+      const newParent = {
+        ...parentRow,
+        isEditing: false,
+        [parentField]: parentArray.filter((cid) => cid !== childId),
+      };
+      parentService.loadByIdsSuccess([newParent]);
+    } else {
+      const virtualArrayContents = parentRow[
+        parentField
+      ] as VirtualArrayContents;
+      const hasChildId = virtualArrayContents.indexes.includes(childId);
+      if (!hasChildId) {
+        return;
+      }
+      const newParent = {
+        ...parentRow,
+        isEditing: false,
+        [parentField]: {
+          ...virtualArrayContents,
+          indexes: virtualArrayContents.indexes.map((cid) =>
+            cid !== childId ? cid : 'delete',
+          ),
+          length: virtualArrayContents.length - 1,
+        },
+      };
+      parentService.loadByIdsSuccess([newParent]);
+    }
   }
 
   /**

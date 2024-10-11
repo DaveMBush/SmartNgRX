@@ -1,4 +1,4 @@
-import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
 
 import { actionFactory } from '../actions/action.factory';
 import { ActionService } from '../actions/action.service';
@@ -30,8 +30,35 @@ const childDefinition = {
   parentEntity: 'parentEntity',
 } as unknown as ChildDefinition;
 
+interface Row {
+  id: string;
+  children: string[];
+  isEditing: boolean;
+}
+
+interface RowWithVirtualChildren {
+  id: string;
+  children: {
+    indexes: string[];
+    length: number;
+  };
+  isEditing: boolean;
+}
+
+interface PublicRemoveChildIdFromChildArray {
+  removeChildIdFromChildArray(
+    entity: EntityState<Row> | EntityState<RowWithVirtualChildren>,
+    parentId: string,
+    parentField: keyof Row | keyof RowWithVirtualChildren,
+    childId: string,
+  ): void;
+}
+
+type PublicArrayProxy = Omit<ArrayProxy, 'removeChildIdFromChildArray'> &
+  PublicRemoveChildIdFromChildArray;
+
 describe('ArrayProxy', () => {
-  let arrayProxy: ArrayProxy | undefined;
+  let arrayProxy: ArrayProxy | PublicArrayProxy | undefined;
   let originalArray: string[] = [];
   let getArrayItemSpy: jest.SpyInstance;
   function assertArrayProxy(ap: boolean): asserts ap {
@@ -436,6 +463,179 @@ describe('ArrayProxy', () => {
           },
         ]);
       });
+    });
+  });
+  describe('removeChildIdFromChildArray', () => {
+    let mockParentService: ActionService;
+    let loadByIdsSuccessSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      mockParentService = {
+        loadByIdsSuccess: jest.fn(),
+      } as unknown as ActionService;
+
+      arrayProxy = new ArrayProxy(
+        [],
+        { ids: [], entities: {} },
+        childDefinition,
+      );
+      arrayProxy.init();
+
+      // Mock the getServices method to return our mock parent service
+      jest
+        .spyOn(
+          arrayProxy as unknown as {
+            getServices(): { parentService: ActionService };
+          },
+          'getServices',
+        )
+        .mockReturnValue({
+          parentService: mockParentService,
+        });
+
+      loadByIdsSuccessSpy = jest.spyOn(mockParentService, 'loadByIdsSuccess');
+    });
+
+    describe('with regular array', () => {
+      it('should remove the child id from the parent array', () => {
+        const entity = {
+          ids: ['parent1'],
+          entities: {
+            parent1: {
+              id: 'parent1',
+              children: ['child1', 'child2', 'child3'],
+              isEditing: true,
+            },
+          },
+        } as EntityState<Row>;
+
+        const parentId = 'parent1';
+        const parentField = 'children';
+        const childId = 'child2';
+
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
+
+        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
+          {
+            id: 'parent1',
+            children: ['child1', 'child3'],
+            isEditing: false,
+          },
+        ]);
+      });
+
+      it('should not modify the array if the child id is not present', () => {
+        const entity = {
+          ids: ['parent1'],
+          entities: {
+            parent1: {
+              id: 'parent1',
+              children: ['child1', 'child3'],
+              isEditing: true,
+            },
+          },
+        } as EntityState<Row>;
+        const parentId = 'parent1';
+        const parentField = 'children';
+        const childId = 'child2';
+
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
+
+        expect(loadByIdsSuccessSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('with virtual array', () => {
+      it('should mark the child id as "delete" in the virtual array', () => {
+        const entity = {
+          ids: ['parent1'],
+          entities: {
+            parent1: {
+              id: 'parent1',
+              children: {
+                indexes: ['child1', 'child2', 'child3'],
+                length: 3,
+              },
+              isEditing: true,
+            },
+          },
+        } as EntityState<RowWithVirtualChildren>;
+        const parentId = 'parent1';
+        const parentField = 'children';
+        const childId = 'child2';
+
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
+
+        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
+          {
+            id: 'parent1',
+            children: {
+              indexes: ['child1', 'delete', 'child3'],
+              length: 2,
+            },
+            isEditing: false,
+          },
+        ]);
+      });
+
+      it('should not modify the virtual array if the child id is not present', () => {
+        const entity = {
+          ids: ['parent1'],
+          entities: {
+            parent1: {
+              id: 'parent1',
+              children: {
+                indexes: ['child1', 'child3', 'child4'],
+                length: 3,
+              },
+              isEditing: true,
+            },
+          },
+        } as EntityState<RowWithVirtualChildren>;
+        const parentId = 'parent1';
+        const parentField = 'children';
+        const childId = 'child2';
+
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
+
+        expect(loadByIdsSuccessSpy).not.toHaveBeenCalled();
+      });
+    });
+
+    it('should throw an error if the parent row is undefined', () => {
+      const entity = { ids: [], entities: {} };
+      const parentId = 'nonexistent';
+      const parentField = 'children';
+      const childId = 'child1';
+
+      expect(() => {
+        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
+          entity,
+          parentId,
+          parentField,
+          childId,
+        );
+      }).toThrow('parentRow is undefined');
     });
   });
 });

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { assert, SmartArray } from '@smarttools/smart-ngrx';
 
-import { VirtualArrayFlagService } from '../../virtual-array-flag.service';
 import { CommonSourceNode } from './common-source-node.interface';
 import { expandedMap } from './expanded-map.class';
 import type { TreeComponent } from './tree.component';
@@ -10,10 +9,19 @@ import { TreeNode } from './tree-node.interface';
 export class TreeComponentService {
   private component: TreeComponent | null = null;
 
-  constructor(private virtualArrayFlagService: VirtualArrayFlagService) {}
-
   set form(component: TreeComponent) {
     this.component = component;
+  }
+
+  static isNodeAtPosition(
+    node: TreeNode | undefined,
+    parent: TreeNode,
+  ): boolean {
+    return (
+      node !== undefined &&
+      node.node.id === parent.node.id &&
+      node.level === parent.level + 1
+    );
   }
 
   toggleExpand(node: TreeNode): void {
@@ -91,19 +99,16 @@ export class TreeComponentService {
     return result;
   }
 
-  addChild(row: CommonSourceNode, parent: TreeNode): void {
+  addChild(row: CommonSourceNode, parent: TreeNode): number {
     if (parent.isExpanded === false) {
       this.toggleExpand(parent);
     }
 
-    if (
-      this.virtualArrayFlagService.virtualArrayFlag &&
-      parent.node.virtualChildren !== undefined
-    ) {
-      parent.node.virtualChildren.addToStore!(row, parent.node);
-    } else {
-      parent.node.children.addToStore!(row, parent.node);
-    }
+    parent.node.children.addToStore!(row, parent.node);
+    const index = this.component!.fullDataSource.findIndex((node) =>
+      TreeComponentService.isNodeAtPosition(node, parent),
+    );
+    return parent.node.children.length + index;
   }
 
   deleteNode(node: TreeNode): void {
@@ -119,8 +124,11 @@ export class TreeComponentService {
     }
     this.component!.addingParent = null;
     this.component!.editingNode = '';
+    this.component!.editingContent = '';
+    if (this.component!.addingNode.length === 0) {
+      node.name = node.node.name;
+    }
     this.component!.addingNode = '';
-    node.name = node.node.name;
   }
 
   removeChild(row: TreeNode, parent: TreeNode): void {
@@ -185,11 +193,7 @@ export class TreeComponentService {
     if (isExpanded) {
       const childNodes = this.transform({
         parentId: treeNode.node.id,
-        children:
-          /* istanbul ignore next -- trivial */
-          level === 0 && this.virtualArrayFlagService.virtualArrayFlag
-            ? (currentNode as CommonSourceNode).virtualChildren
-            : (currentNode as CommonSourceNode).children,
+        children: (currentNode as CommonSourceNode).children,
         level: level + 1,
         startRange: startRange - result.length,
         endRange: endRange - result.length,
