@@ -7,6 +7,7 @@ import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import * as actionServiceRegistry from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -21,7 +22,6 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import * as getArrayItem from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
 
 const childDefinition = {
   childFeature: 'feature',

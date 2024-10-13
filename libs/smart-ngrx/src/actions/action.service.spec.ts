@@ -2,9 +2,11 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { createEntityAdapter, Dictionary, EntityAdapter } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import { MockStore } from '@ngrx/store/testing';
 import { Observable } from 'rxjs';
 
 import { assert } from '../common/assert.function';
+import { castTo } from '../common/cast-to.function';
 import { psi } from '../common/psi.const';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -24,8 +26,6 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { ActionService } from './action.service';
-import { castTo } from '../common/cast-to.function';
-import { MockStore } from '@ngrx/store/testing';
 
 interface Row extends SmartNgRXRowBase {
   id: string;
@@ -49,12 +49,18 @@ interface PrivatesArePublic {
 }
 
 type PublicMarkDirtyWithEntities = Omit<
-  Omit<Omit<Omit<
-    Omit<ActionService, 'markDirtyWithEntities'>,
-    'garbageCollectWithEntities'
+  Omit<
+    Omit<
+      Omit<
+        Omit<ActionService, 'markDirtyWithEntities'>,
+        'garbageCollectWithEntities'
+      >,
+      'processLoadByIndexesSuccess'
+    >,
+    'markDirtyFetchesNew'
   >,
-  'processLoadByIndexesSuccess'
->, 'markDirtyFetchesNew'>, 'store'> &
+  'store'
+> &
   PrivatesArePublic;
 
 describe('ActionService', () => {
@@ -84,7 +90,10 @@ describe('ActionService', () => {
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
 
-    service = actionServiceRegistry(feature, entity) as unknown as PublicMarkDirtyWithEntities | null;
+    service = actionServiceRegistry(
+      feature,
+      entity,
+    ) as unknown as PublicMarkDirtyWithEntities | null;
     assert(!!service, 'service should be defined');
     storeDispatchSpy = jest.spyOn(service.store, 'dispatch');
   });
@@ -163,9 +172,10 @@ describe('ActionService', () => {
   describe('garbageCollectWithEntities()', () => {
     describe('when the id is not in the entities', () => {
       beforeEach(() => {
-        service!.garbageCollectWithEntities({ '2': { id: '2', name: 'name' } }, [
-          '1',
-        ]);
+        service!.garbageCollectWithEntities(
+          { '2': { id: '2', name: 'name' } },
+          ['1'],
+        );
       });
       it('should dispatch an action but there should not be any changes', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalled();
@@ -220,7 +230,10 @@ describe('ActionService', () => {
             markDirtyFetchesNew: false,
           } as MarkAndDeleteInit,
         } as EntityAttributes);
-        markDirtyWithEntitiesSpy = jest.spyOn(service!, 'markDirtyWithEntities');
+        markDirtyWithEntitiesSpy = jest.spyOn(
+          service!,
+          'markDirtyWithEntities',
+        );
         service!.markDirtyFetchesNew = false;
         service!.markDirty(['1']);
       });
@@ -239,7 +252,10 @@ describe('ActionService', () => {
             markDirtyFetchesNew: true,
           } as MarkAndDeleteInit,
         } as EntityAttributes);
-        markDirtyWithEntitiesSpy = jest.spyOn(service!, 'markDirtyWithEntities');
+        markDirtyWithEntitiesSpy = jest.spyOn(
+          service!,
+          'markDirtyWithEntities',
+        );
         service!.markDirtyFetchesNew = true;
         service!.markDirty(['1']);
       });
@@ -256,7 +272,10 @@ describe('ActionService', () => {
         registerEntity(feature, entity, {
           markAndDeleteInit: {},
         } as EntityAttributes);
-        markDirtyWithEntitiesSpy = jest.spyOn(service!, 'markDirtyWithEntities');
+        markDirtyWithEntitiesSpy = jest.spyOn(
+          service!,
+          'markDirtyWithEntities',
+        );
         service!.markDirty(['1']);
       });
 
@@ -420,11 +439,12 @@ describe('ActionService', () => {
       beforeEach(() => {
         jest.spyOn(featureRegistry, 'hasFeature').mockReturnValue(false);
         service!.actions = undefined as unknown as Record<string, unknown>;
-        service!.entityDefinition = undefined as unknown as SmartEntityDefinition<Row>;
-        service!.entityAdapter = undefined as unknown as EntityAdapter<Row> & EntityAdapter<SmartNgRXRowBase>;
-        service!.entities = undefined as unknown as Dictionary<Row> & Observable<
-          Dictionary<SmartNgRXRowBase>
-        >;
+        service!.entityDefinition =
+          undefined as unknown as SmartEntityDefinition<Row>;
+        service!.entityAdapter = undefined as unknown as EntityAdapter<Row> &
+          EntityAdapter<SmartNgRXRowBase>;
+        service!.entities = undefined as unknown as Dictionary<Row> &
+          Observable<Dictionary<SmartNgRXRowBase>>;
       });
 
       it('should return false', () => {

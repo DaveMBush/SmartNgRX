@@ -12,6 +12,7 @@ import {
 } from '../..';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -20,7 +21,6 @@ import { EntityAttributes } from '../../types/entity-attributes.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { updateEffect } from './update-effect.function';
-import { featureRegistry } from '../../registrations/feature-registry.class';
 
 const testScheduler = new TestScheduler((actual, expected) => {
   expect(actual).toEqual(expected);

@@ -3,6 +3,7 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -14,7 +15,6 @@ import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { realOrMocked } from './real-or-mocked.function';
-import { featureRegistry } from '../registrations/feature-registry.class';
 
 const real = {
   ids: ['department1'],

@@ -5,6 +5,7 @@ import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -15,7 +16,6 @@ import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
-import { featureRegistry } from '../registrations/feature-registry.class';
 
 const feature = 'feature';
 const entity = 'entity';
