@@ -21,6 +21,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 import * as getArrayItem from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
+import { featureRegistry } from '../registrations/feature-registry.class';
 
 const childDefinition = {
   childFeature: 'feature',
@@ -65,6 +66,7 @@ describe('ArrayProxy', () => {
     assert(ap, 'arrayProxy is undefined');
   }
   beforeEach(() => {
+    featureRegistry.registerFeature(childDefinition.childFeature);
     registerEntity(childDefinition.childFeature, childDefinition.childEntity, {
       markAndDeleteInit: {},
     } as EntityAttributes);

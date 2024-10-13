@@ -14,6 +14,7 @@ import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { realOrMocked } from './real-or-mocked.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 
 const real = {
   ids: ['department1'],
@@ -53,6 +54,8 @@ describe('realOrMocked', () => {
     effectServiceToken: null,
   } as unknown as SmartEntityDefinition<typeof defaultObject>);
   beforeEach(() => {
+    featureRegistry.registerFeature('feature');
+    featureRegistry.registerFeature('parentFeature');
     registerEntity('feature', 'entity', {
       markAndDeleteInit: {},
     } as EntityAttributes);

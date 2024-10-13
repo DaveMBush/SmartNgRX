@@ -15,6 +15,7 @@ import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 
 const feature = 'feature';
 const entity = 'entity';
@@ -29,6 +30,7 @@ describe('ensureDataLoaded()', () => {
   let actionService: ActionService | null;
   beforeEach(() => {
     createStore();
+    featureRegistry.registerFeature(feature);
     entityDefinitionCache(feature, entity, {
       entityAdapter: createEntityAdapter(),
     } as SmartEntityDefinition<SmartNgRXRowBase>);

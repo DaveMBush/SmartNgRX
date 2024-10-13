@@ -1,6 +1,7 @@
 // unit tests for handleSocketNotification function
 import { psi } from '../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entity.map';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { handleSocketNotification } from './handle-socket-notification.function';
 import { updateEntity } from './update-entity.function';
@@ -16,6 +17,7 @@ describe('handleSocketNotification', () => {
   const featureEntityKeys = [feature + psi + table];
 
   beforeEach(() => {
+    featureRegistry.registerFeature(feature);
     (markAndDeleteEntities as jest.Mock).mockReturnValue(featureEntityKeys);
   });
   afterEach(() => {

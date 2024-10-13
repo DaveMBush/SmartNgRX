@@ -20,6 +20,7 @@ import { EntityAttributes } from '../../types/entity-attributes.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 import { updateEffect } from './update-effect.function';
+import { featureRegistry } from '../../registrations/feature-registry.class';
 
 const testScheduler = new TestScheduler((actual, expected) => {
   expect(actual).toEqual(expected);
@@ -75,6 +76,7 @@ describe('update-effect.function.ts', () => {
   const testService = new TestService();
   let serviceSpy: jest.SpyInstance;
   beforeEach(() => {
+    featureRegistry.registerFeature('feature');
     registerEntity(feature, entity, {
       markAndDeleteInit: {},
     } as EntityAttributes);
