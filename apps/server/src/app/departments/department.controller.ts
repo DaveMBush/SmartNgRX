@@ -149,7 +149,7 @@ WHERE departmentId = ${definition.parentId};`;
     };
   }
 
-  async getBatchIndexes(
+  private async getBatchIndexes(
     @Body()
     definitions: {
       parentId: string;
@@ -167,8 +167,28 @@ WHERE departmentId = ${definition.parentId};`;
       }
     >
   > {
+    if (definitions.length === 0) {
+      return {};
+    }
     const parentIds = definitions.map((def) => def.parentId);
-    const result = await this.prisma.$queryRaw`WITH all_items AS (
+    const result = await this.getBatchIndexesSQL(parentIds);
+
+    return result.reduce<
+      Record<string, { startIndex: number; indexes: string[]; length: number }>
+    >((acc, { departmentId, indexes, total }) => {
+      acc[departmentId] = {
+        startIndex: 0,
+        indexes: indexes.split(','),
+        length: Number(total),
+      };
+      return acc;
+    }, {});
+  }
+
+  private async getBatchIndexesSQL(
+    parentIds: string[],
+  ): Promise<{ departmentId: string; indexes: string; total: number }[]> {
+    return this.prisma.$queryRaw`WITH all_items AS (
       SELECT folders.departmentId, ('folders:' || folders.id) as id, folders.created FROM folders
       UNION ALL SELECT docs.departmentId, ('docs:' || docs.did) as id, docs.created FROM docs
       UNION ALL SELECT sprintFolders.departmentId, ('sprint-folders:' || sprintFolders.id) as id, sprintFolders.created FROM sprintFolders
@@ -184,21 +204,7 @@ WHERE departmentId = ${definition.parentId};`;
     SELECT departmentId, GROUP_CONCAT(id) as indexes, MAX(total) as total
     FROM numbered_items
     WHERE row_num < 500
-    GROUP BY departmentId;
-  `;
-
-    return (
-      result as { departmentId: string; indexes: string; total: number }[]
-    ).reduce<
-      Record<string, { startIndex: number; indexes: string[]; length: number }>
-    >((acc, { departmentId, indexes, total }) => {
-      acc[departmentId] = {
-        startIndex: 0,
-        indexes: indexes.split(','),
-        length: Number(total),
-      };
-      return acc;
-    }, {});
+    GROUP BY departmentId;`;
   }
 
   private getDepartmentChildrenIndexes(
