@@ -7,8 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-import { forkJoin, from, Observable } from 'rxjs';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { from, Observable } from 'rxjs';
 import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
@@ -149,25 +149,81 @@ WHERE departmentId = ${definition.parentId};`;
     };
   }
 
+  async getBatchIndexes(
+    @Body()
+    definitions: {
+      parentId: string;
+      childField: string;
+      startIndex: number;
+      length: number;
+    }[],
+  ): Promise<
+    Record<
+      string,
+      {
+        startIndex: number;
+        indexes: string[];
+        length: number;
+      }
+    >
+  > {
+    const parentIds = definitions.map((def) => def.parentId);
+    const result = await this.prisma.$queryRaw`WITH all_items AS (
+      SELECT folders.departmentId, ('folders:' || folders.id) as id, folders.created FROM folders
+      UNION ALL SELECT docs.departmentId, ('docs:' || docs.did) as id, docs.created FROM docs
+      UNION ALL SELECT sprintFolders.departmentId, ('sprint-folders:' || sprintFolders.id) as id, sprintFolders.created FROM sprintFolders
+      UNION ALL SELECT lists.departmentId, ('lists:' || lists.id) as id, lists.created from lists
+    ),
+    numbered_items AS (
+      SELECT departmentId, id,
+        ROW_NUMBER() OVER (PARTITION BY departmentId ORDER BY created) - 1 as row_num,
+        COUNT(*) OVER (PARTITION BY departmentId) as total
+      FROM all_items
+      WHERE departmentId IN (${Prisma.join(parentIds)})
+    )
+    SELECT departmentId, GROUP_CONCAT(id) as indexes, MAX(total) as total
+    FROM numbered_items
+    WHERE row_num < 500
+    GROUP BY departmentId;
+  `;
+
+    return (
+      result as { departmentId: string; indexes: string; total: number }[]
+    ).reduce<
+      Record<string, { startIndex: number; indexes: string[]; length: number }>
+    >((acc, { departmentId, indexes, total }) => {
+      acc[departmentId] = {
+        startIndex: 0,
+        indexes: indexes.split(','),
+        length: Number(total),
+      };
+      return acc;
+    }, {});
+  }
+
   private getDepartmentChildrenIndexes(
     departments: DepartmentNameAndId[],
   ): Observable<DepartmentNameIdAndChildren[]> {
-    return forkJoin(
-      departments.map((department) => {
-        return from(
-          this.getByIndexes({
-            parentId: department.id,
-            childField: 'children',
+    return from(
+      this.getBatchIndexes(
+        departments.map((dept) => ({
+          parentId: dept.id,
+          childField: 'children',
+          startIndex: 0,
+          length: 500,
+        })),
+      ),
+    ).pipe(
+      map((batchResults) =>
+        departments.map((dept) => ({
+          ...dept,
+          children: batchResults[dept.id] ?? {
             startIndex: 0,
-            length: 500,
-          }),
-        ).pipe(
-          map((children) => ({
-            ...department,
-            children,
-          })),
-        );
-      }),
+            indexes: [],
+            length: 0,
+          },
+        })),
+      ),
     );
   }
 }
