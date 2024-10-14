@@ -1,10 +1,10 @@
 import { EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
-import { hasFeature } from '../actions/has-feature.function';
 import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -26,7 +26,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
     !!actionService,
     `the service for ${feature}:${entity} is not available`,
   );
-  if (!hasFeature(feature)) {
+  if (!featureRegistry.hasFeature(feature)) {
     return;
   }
   const selectEntities = (state: unknown) => {

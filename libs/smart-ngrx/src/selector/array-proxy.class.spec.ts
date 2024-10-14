@@ -7,6 +7,7 @@ import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import * as actionServiceRegistry from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -65,6 +66,7 @@ describe('ArrayProxy', () => {
     assert(ap, 'arrayProxy is undefined');
   }
   beforeEach(() => {
+    featureRegistry.registerFeature(childDefinition.childFeature);
     registerEntity(childDefinition.childFeature, childDefinition.childEntity, {
       markAndDeleteInit: {},
     } as EntityAttributes);

@@ -2,16 +2,21 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { createEntityAdapter, Dictionary, EntityAdapter } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import { MockStore } from '@ngrx/store/testing';
+import { Observable } from 'rxjs';
 
+import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { psi } from '../common/psi.const';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
 } from '../registrations/register-entity.function';
 import { newRowRegistry } from '../selector/new-row-registry.class';
-import { store as storeFunction } from '../selector/store.function';
+import { clearState } from '../tests/functions/clear-state.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { EntityAttributes } from '../types/entity-attributes.interface';
@@ -21,7 +26,6 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { ActionService } from './action.service';
-import * as hasFeatureModule from './has-feature.function';
 
 interface Row extends SmartNgRXRowBase {
   id: string;
@@ -40,26 +44,34 @@ interface PrivatesArePublic {
   entityDefinition: SmartEntityDefinition<Row>;
   entityAdapter: EntityAdapter<Row>;
   entities: Dictionary<Row>;
+  markDirtyFetchesNew: boolean;
+  store: Store;
 }
 
 type PublicMarkDirtyWithEntities = Omit<
   Omit<
-    Omit<ActionService, 'markDirtyWithEntities'>,
-    'garbageCollectWithEntities'
+    Omit<
+      Omit<
+        Omit<ActionService, 'markDirtyWithEntities'>,
+        'garbageCollectWithEntities'
+      >,
+      'processLoadByIndexesSuccess'
+    >,
+    'markDirtyFetchesNew'
   >,
-  'processLoadByIndexesSuccess'
+  'store'
 > &
   PrivatesArePublic;
 
 describe('ActionService', () => {
   const feature = 'feature';
   const entity = 'entity';
-  let store: Store;
   let storeDispatchSpy: jest.SpyInstance;
-  let service: PublicMarkDirtyWithEntities;
+  let service: PublicMarkDirtyWithEntities | null;
   beforeEach(() => {
     createStore();
-    store = storeFunction();
+    featureRegistry.registerFeature(feature);
+    clearState();
     setState(feature, entity, {
       ids: [],
       entities: {},
@@ -78,20 +90,22 @@ describe('ActionService', () => {
       entityAdapter: createEntityAdapter(),
     } as unknown as SmartEntityDefinition<Row>);
 
-    service = castTo<PublicMarkDirtyWithEntities>(
-      new ActionService(feature, entity),
-    );
-    service.init();
+    service = actionServiceRegistry(
+      feature,
+      entity,
+    ) as unknown as PublicMarkDirtyWithEntities | null;
+    assert(!!service, 'service should be defined');
+    storeDispatchSpy = jest.spyOn(service.store, 'dispatch');
   });
   afterEach(() => {
     jest.restoreAllMocks();
+    jest.clearAllMocks();
     unregisterEntity(feature, entity);
   });
   describe('markDirtyWithEntities()', () => {
     describe('when the id is not in the entities', () => {
       beforeEach(() => {
-        storeDispatchSpy = jest.spyOn(store, 'dispatch');
-        service.markDirtyWithEntities(
+        service!.markDirtyWithEntities(
           {
             '2': { id: '2', name: 'name' },
           },
@@ -109,15 +123,15 @@ describe('ActionService', () => {
     describe('when the id is in the entities', () => {
       describe('and it is not being edited', () => {
         beforeEach(() => {
-          storeDispatchSpy = jest.spyOn(store, 'dispatch');
-          service.markDirtyWithEntities(
-            {
-              '2': { id: '2', name: 'name' },
-            },
-            ['2'],
-          );
+          const entities = {
+            '2': { id: '2', name: 'name', isDirty: true },
+          };
+          const ids = ['2'];
+
+          service!.markDirtyWithEntities(entities, ids);
         });
         it('should dispatch an action', () => {
+          expect(storeDispatchSpy).toHaveBeenCalled();
           expect(storeDispatchSpy).toHaveBeenCalledWith(
             expect.objectContaining({
               changes: [
@@ -134,8 +148,7 @@ describe('ActionService', () => {
       });
       describe('and it is being edited', () => {
         beforeEach(() => {
-          storeDispatchSpy = jest.spyOn(store, 'dispatch');
-          service.markDirtyWithEntities(
+          service!.markDirtyWithEntities(
             {
               '2': {
                 id: '2',
@@ -159,10 +172,10 @@ describe('ActionService', () => {
   describe('garbageCollectWithEntities()', () => {
     describe('when the id is not in the entities', () => {
       beforeEach(() => {
-        storeDispatchSpy = jest.spyOn(store, 'dispatch');
-        service.garbageCollectWithEntities({ '2': { id: '2', name: 'name' } }, [
-          '1',
-        ]);
+        service!.garbageCollectWithEntities(
+          { '2': { id: '2', name: 'name' } },
+          ['1'],
+        );
       });
       it('should dispatch an action but there should not be any changes', () => {
         expect(storeDispatchSpy).not.toHaveBeenCalled();
@@ -171,8 +184,7 @@ describe('ActionService', () => {
     describe('when the id is in the entities', () => {
       describe('and it is not being edited', () => {
         beforeEach(() => {
-          storeDispatchSpy = jest.spyOn(store, 'dispatch');
-          service.garbageCollectWithEntities(
+          service!.garbageCollectWithEntities(
             { '2': { id: '2', name: 'name' } },
             ['2'],
           );
@@ -183,8 +195,7 @@ describe('ActionService', () => {
       });
       describe('and it is being edited', () => {
         beforeEach(() => {
-          storeDispatchSpy = jest.spyOn(store, 'dispatch');
-          service.garbageCollectWithEntities(
+          service!.garbageCollectWithEntities(
             {
               '2': {
                 id: '2',
@@ -219,12 +230,12 @@ describe('ActionService', () => {
             markDirtyFetchesNew: false,
           } as MarkAndDeleteInit,
         } as EntityAttributes);
-        service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService(feature, entity),
+        markDirtyWithEntitiesSpy = jest.spyOn(
+          service!,
+          'markDirtyWithEntities',
         );
-        service.init();
-        markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
-        service.markDirty(['1']);
+        service!.markDirtyFetchesNew = false;
+        service!.markDirty(['1']);
       });
 
       it('should not call markDirtyWithEntities', () => {
@@ -241,12 +252,12 @@ describe('ActionService', () => {
             markDirtyFetchesNew: true,
           } as MarkAndDeleteInit,
         } as EntityAttributes);
-        service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService(feature, entity),
+        markDirtyWithEntitiesSpy = jest.spyOn(
+          service!,
+          'markDirtyWithEntities',
         );
-        service.init();
-        markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
-        service.markDirty(['1']);
+        service!.markDirtyFetchesNew = true;
+        service!.markDirty(['1']);
       });
 
       it('should not call markDirtyWithEntities', () => {
@@ -256,18 +267,16 @@ describe('ActionService', () => {
     describe('when markDirtyFetchesNew is undefined', () => {
       beforeEach(() => {
         // we have to unregister the entity and re-register because
-        // we already registered it in the top level beforeEach()
+        // we already registered it in the top level   beforeEach()
         unregisterEntity(feature, entity);
         registerEntity(feature, entity, {
           markAndDeleteInit: {},
         } as EntityAttributes);
-        // castTo make markDirtyWithEntities public
-        service = castTo<PublicMarkDirtyWithEntities>(
-          new ActionService(feature, entity),
+        markDirtyWithEntitiesSpy = jest.spyOn(
+          service!,
+          'markDirtyWithEntities',
         );
-        service.init();
-        markDirtyWithEntitiesSpy = jest.spyOn(service, 'markDirtyWithEntities');
-        service.markDirty(['1']);
+        service!.markDirty(['1']);
       });
 
       it('should not call markDirtyWithEntities', () => {
@@ -292,7 +301,7 @@ describe('ActionService', () => {
         length: 5,
       };
 
-      const result = service.processLoadByIndexesSuccess(field, array);
+      const result = service!.processLoadByIndexesSuccess(field, array);
 
       expect(result.indexes).toEqual(['1', '4', '5']);
       expect(result.length).toBe(5);
@@ -305,7 +314,7 @@ describe('ActionService', () => {
         length: 3,
       };
 
-      const result = service.processLoadByIndexesSuccess(field, array);
+      const result = service!.processLoadByIndexesSuccess(field, array);
 
       expect(result.indexes).toEqual(['1', '2', '3']);
       expect(result.length).toBe(3);
@@ -318,7 +327,7 @@ describe('ActionService', () => {
         length: 10,
       };
 
-      const result = service.processLoadByIndexesSuccess(field, array);
+      const result = service!.processLoadByIndexesSuccess(field, array);
 
       expect(result.indexes).toEqual(['1', '2', '3', '4']);
       expect(result.length).toBe(10);
@@ -331,7 +340,7 @@ describe('ActionService', () => {
         length: 7,
       };
 
-      const result = service.processLoadByIndexesSuccess(field, array);
+      const result = service!.processLoadByIndexesSuccess(field, array);
 
       expect(result.indexes).toEqual([
         '1',
@@ -352,7 +361,7 @@ describe('ActionService', () => {
         length: 2,
       };
 
-      const result = service.processLoadByIndexesSuccess(field, array);
+      const result = service!.processLoadByIndexesSuccess(field, array);
 
       expect(result.indexes).toEqual(['1', '4', '3']);
       expect(result.length).toBe(2);
@@ -367,7 +376,7 @@ describe('ActionService', () => {
         length: 5,
       };
 
-      const result = service.processLoadByIndexesSuccess(field, array);
+      const result = service!.processLoadByIndexesSuccess(field, array);
 
       expect(result.indexes).toEqual(['1', '2', '4', '5', 'new', 'new']);
       expect(result.length).toBe(6);
@@ -376,13 +385,6 @@ describe('ActionService', () => {
     });
   });
   describe('loadByIds()', () => {
-    beforeEach(() => {
-      storeDispatchSpy = jest.spyOn(store, 'dispatch');
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
     describe('when the ids are not yet in the store', () => {
       beforeEach(() => {
         setState(feature, entity, {
@@ -392,7 +394,7 @@ describe('ActionService', () => {
       });
       it('should dispatch an action with the ids', fakeAsync(() => {
         const ids = ['1', '2', '3'];
-        service.loadByIds(ids);
+        service!.loadByIds(ids);
 
         tick(); // Wait for the observable to emit
 
@@ -406,19 +408,25 @@ describe('ActionService', () => {
     });
     describe('when the ids are already in the store and currently being loaded', () => {
       beforeEach(() => {
-        setState(feature, entity, {
-          ids: [],
-          entities: {
-            '1': { id: '1', name: 'name', isLoading: true },
-            '2': { id: '2', name: 'name', isLoading: true },
-            '3': { id: '3', name: 'name', isLoading: true },
+        // we can't use setState here because we mocked the store in the service
+        // and that is what everything is looking at
+        castTo<MockStore>(service!.store).setState({
+          [feature]: {
+            [entity]: {
+              ids: ['1', '2', '3'],
+              entities: {
+                '1': { id: '1', name: 'name', isLoading: true },
+                '2': { id: '2', name: 'name', isLoading: true },
+                '3': { id: '3', name: 'name', isLoading: true },
+              },
+            },
           },
         });
       });
       it('should not dispatch the loadByIds action', fakeAsync(() => {
         const ids = ['1', '2', '3'];
 
-        service.loadByIds(ids);
+        service!.loadByIds(ids);
 
         tick(); // Wait for the observable to emit
 
@@ -427,47 +435,48 @@ describe('ActionService', () => {
     });
   });
   describe('init()', () => {
-    beforeEach(() => {
-      service = new ActionService(
-        feature,
-        entity,
-      ) as unknown as PublicMarkDirtyWithEntities;
-    });
     describe('when the feature is not registered', () => {
       beforeEach(() => {
-        jest.spyOn(hasFeatureModule, 'hasFeature').mockReturnValue(false);
+        jest.spyOn(featureRegistry, 'hasFeature').mockReturnValue(false);
+        service!.actions = undefined as unknown as Record<string, unknown>;
+        service!.entityDefinition =
+          undefined as unknown as SmartEntityDefinition<Row>;
+        service!.entityAdapter = undefined as unknown as EntityAdapter<Row> &
+          EntityAdapter<SmartNgRXRowBase>;
+        service!.entities = undefined as unknown as Dictionary<Row> &
+          Observable<Dictionary<SmartNgRXRowBase>>;
       });
 
       it('should return false', () => {
-        const result = service.init();
+        const result = service!.init();
         expect(result).toBe(false);
       });
 
       it('should not set up the service properties', () => {
-        service.init();
-        expect(service.actions).toBeUndefined();
-        expect(service.entityDefinition).toBeUndefined();
-        expect(service.entityAdapter).toBeUndefined();
-        expect(service.entities).toBeUndefined();
+        service!.init();
+        expect(service!.actions).toBeUndefined();
+        expect(service!.entityDefinition).toBeUndefined();
+        expect(service!.entityAdapter).toBeUndefined();
+        expect(service!.entities).toBeUndefined();
       });
     });
 
     describe('when the feature is registered', () => {
       beforeEach(() => {
-        jest.spyOn(hasFeatureModule, 'hasFeature').mockReturnValue(true);
+        jest.spyOn(featureRegistry, 'hasFeature').mockReturnValue(true);
       });
 
       it('should return true', () => {
-        const result = service.init();
+        const result = service!.init();
         expect(result).toBe(true);
       });
 
       it('should set up the service properties', () => {
-        service.init();
-        expect(service.actions).toBeDefined();
-        expect(service.entityDefinition).toBeDefined();
-        expect(service.entityAdapter).toBeDefined();
-        expect(service.entities).toBeDefined();
+        service!.init();
+        expect(service!.actions).toBeDefined();
+        expect(service!.entityDefinition).toBeDefined();
+        expect(service!.entityAdapter).toBeDefined();
+        expect(service!.entities).toBeDefined();
       });
     });
   });

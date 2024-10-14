@@ -3,6 +3,7 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -53,6 +54,8 @@ describe('realOrMocked', () => {
     effectServiceToken: null,
   } as unknown as SmartEntityDefinition<typeof defaultObject>);
   beforeEach(() => {
+    featureRegistry.registerFeature('feature');
+    featureRegistry.registerFeature('parentFeature');
     registerEntity('feature', 'entity', {
       markAndDeleteInit: {},
     } as EntityAttributes);

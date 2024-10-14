@@ -5,6 +5,7 @@ import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -29,6 +30,7 @@ describe('ensureDataLoaded()', () => {
   let actionService: ActionService | null;
   beforeEach(() => {
     createStore();
+    featureRegistry.registerFeature(feature);
     entityDefinitionCache(feature, entity, {
       entityAdapter: createEntityAdapter(),
     } as SmartEntityDefinition<SmartNgRXRowBase>);

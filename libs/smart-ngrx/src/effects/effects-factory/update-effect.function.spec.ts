@@ -12,6 +12,7 @@ import {
 } from '../..';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -75,6 +76,7 @@ describe('update-effect.function.ts', () => {
   const testService = new TestService();
   let serviceSpy: jest.SpyInstance;
   beforeEach(() => {
+    featureRegistry.registerFeature('feature');
     registerEntity(feature, entity, {
       markAndDeleteInit: {},
     } as EntityAttributes);

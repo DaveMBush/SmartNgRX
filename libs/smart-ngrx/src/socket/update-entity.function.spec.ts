@@ -1,10 +1,10 @@
 import { InjectionToken } from '@angular/core';
 
 import { ActionService } from '../actions/action.service';
-import * as hasFeatureModule from '../actions/has-feature.function';
 import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
@@ -36,6 +36,7 @@ describe('updateEntity', () => {
       markAndDeleteInit: {} as MarkAndDeleteInit,
       markAndDeleteEntityMap: new Map(),
     });
+    featureRegistry.registerFeature(feature);
     actionService = actionServiceRegistry(feature, entity);
     assert(!!actionService, 'actionService is not available');
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
@@ -122,7 +123,7 @@ describe('updateEntity', () => {
   });
   it('should not update entities if the feature is not available', () => {
     const hasFeatureSpy = jest
-      .spyOn(hasFeatureModule, 'hasFeature')
+      .spyOn(featureRegistry, 'hasFeature')
       .mockReturnValue(false);
     const ids = ['1', '2'];
     const state = {
