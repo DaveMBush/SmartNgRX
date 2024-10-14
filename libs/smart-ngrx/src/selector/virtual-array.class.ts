@@ -1,4 +1,5 @@
 import { ActionGroup } from '../actions/action-group.interface';
+import { ActionService } from '../actions/action.service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { store } from './store.function';
@@ -26,7 +27,7 @@ export class VirtualArray<
    */
   constructor(
     public array: VirtualArrayContents,
-    private parentAction: ActionGroup,
+    private parentActionService: ActionService,
     parentId: string,
     childField: string,
   ) {
@@ -40,7 +41,6 @@ export class VirtualArray<
           }
           // don't modify rawArray until after we've dispatched the action.
           this.dispatchLoadByIndexes(
-            this.parentAction,
             parentId,
             childField,
             +prop,
@@ -83,17 +83,14 @@ export class VirtualArray<
   }
 
   private dispatchLoadByIndexes(
-    parentAction: ActionGroup,
     parentId: string,
     childField: string,
     index: number,
   ) {
-    store().dispatch(
-      parentAction.loadByIndexes({
-        indexes: [index],
-        parentId,
-        childField,
-      }),
+    this.parentActionService.loadByIndexes(
+      parentId,
+      childField,
+      [index]
     );
     if (Object.isFrozen(this.fetchedIndexes)) {
       this.fetchedIndexes = [...this.fetchedIndexes];

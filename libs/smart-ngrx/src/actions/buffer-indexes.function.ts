@@ -1,5 +1,3 @@
-import { NgZone } from '@angular/core';
-import { Action } from '@ngrx/store';
 import {
   asapScheduler,
   buffer,
@@ -31,9 +29,8 @@ function flatten(prop: IndexesProp[]): IndexesProp {
 }
 
 function mainIndexesBuffer(
-  source: Observable<Action & IndexesProp>,
+  source: Observable<IndexesProp>,
   bufferTime: number,
-  ngZone: NgZone,
   observer: Subscriber<IndexesProp>,
 ) {
   source
@@ -47,9 +44,9 @@ function mainIndexesBuffer(
       ),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => ngZone.run(() => observer.next(value)),
-      error: (err: unknown) => ngZone.run(() => observer.error(err)),
-      complete: () => ngZone.run(() => observer.complete()),
+      next: (value) => observer.next(value),
+      error: (err: unknown) => observer.error(err),
+      complete: () => observer.complete(),
     });
   /* jscpd:ignore-end */
 }
@@ -68,18 +65,15 @@ function mainIndexesBuffer(
  *     and is probably all we will ever need.
  * @returns The buffered indexes.
  */
-export function bufferIndexesAction(
-  ngZone: NgZone,
+export function bufferIndexes(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
-): (source: Observable<Action & IndexesProp>) => Observable<IndexesProp> {
+): (source: Observable<IndexesProp>) => Observable<IndexesProp> {
   return (
-    source: Observable<Action & IndexesProp>,
+    source: Observable<IndexesProp>,
   ): Observable<IndexesProp> => {
     return new Observable<IndexesProp>((observer) => {
-      ngZone.runOutsideAngular(() =>
-        mainIndexesBuffer(source, bufferTime, ngZone, observer),
-      );
+      mainIndexesBuffer(source, bufferTime, observer);
     });
   };
 }

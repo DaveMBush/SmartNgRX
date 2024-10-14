@@ -1,7 +1,7 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { asapScheduler, Observable, take } from 'rxjs';
+import { asapScheduler, map, Observable, Subject, take, withLatestFrom } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
@@ -27,6 +27,13 @@ import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
+import { bufferIdsAction } from './buffer-ids-action.function';
+import { bufferIndexes } from './buffer-indexes.function';
+
+function notAPreloadId(c: string): boolean {
+  return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
+}
+
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -45,6 +52,12 @@ export class ActionService {
   private store = storeFunction();
   private markDirtyFetchesNew = true;
   private entityDefinition!: SmartValidatedEntityDefinition<SmartNgRXRowBase>;
+  private loadByIdsSubject = new Subject<string[]>();
+  private loadByIndexesSubject = new Subject<{
+    parentId: string;
+    childField: string;
+    indexes: number[];
+  }>();
 
   /**
    * constructor for the ActionService
@@ -88,7 +101,68 @@ export class ActionService {
     this.markDirtyFetchesNew =
       isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
       registry.markAndDeleteInit.markDirtyFetchesNew;
+    this.loadByIdsDispatcher();
+    this.loadByIndexesDispatcher();
     return true;
+  }
+
+  /**
+   * que up loading the ids for the indexes
+   *
+   * @param parentId the id of the parent row
+   * @param childField the child field to load
+   * @param indexes the indexes to load
+   */
+  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
+    this.loadByIndexesSubject.next({
+      parentId,
+      childField,
+      indexes,
+    });
+  }
+
+  /**
+   * Dispatches the loadByIndexes action after buffering the indexes.
+   */
+  loadByIndexesDispatcher(): void {
+    this.loadByIndexesSubject
+      .pipe(
+        bufferIndexes(),
+      )
+      .subscribe(({ parentId, childField, indexes }) => {
+        this.store.dispatch(
+          this.actions.loadByIndexes({
+            parentId,
+            childField,
+            indexes,
+          }),
+        );
+      });
+  }
+
+  /**
+   * Dispatches the loadByIds action after buffering the ids.
+   */
+  loadByIdsDispatcher(): void {
+    this.loadByIdsSubject
+      .pipe(
+        bufferIdsAction(),
+        map((ids) => ids.filter(notAPreloadId)),
+        withLatestFrom(this.entities),
+      )
+      .subscribe(([ids, entity]) => {
+        ids = ids.filter(
+          (id) => entity[id] === undefined || entity[id]!.isLoading !== true,
+        );
+        if (ids.length === 0) {
+          return;
+        }
+        this.store.dispatch(
+          this.actions.loadByIds({
+            ids,
+          }),
+        );
+      });
   }
 
   /**
@@ -279,19 +353,7 @@ export class ActionService {
    * @param ids the ids to load
    */
   loadByIds(ids: string[]): void {
-    this.entities.pipe(take(1)).subscribe((entity) => {
-      ids = ids.filter(
-        (id) => entity[id] === undefined || entity[id]!.isLoading !== true,
-      );
-      if (ids.length === 0) {
-        return;
-      }
-      this.store.dispatch(
-        this.actions.loadByIds({
-          ids,
-        }),
-      );
-    });
+    this.loadByIdsSubject.next(ids);
   }
 
   /**

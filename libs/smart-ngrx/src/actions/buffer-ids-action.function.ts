@@ -1,5 +1,3 @@
-import { NgZone } from '@angular/core';
-import { Action } from '@ngrx/store';
 import {
   asapScheduler,
   buffer,
@@ -22,14 +20,12 @@ function flatten<T>(array: T[][]): T[] {
 }
 
 function mainIdsBuffer(
-  source: Observable<Action & { ids: string[] }>,
+  source: Observable<string[]>,
   bufferTime: number,
-  ngZone: NgZone,
   observer: Subscriber<string[]>,
 ) {
   source
     .pipe(
-      map((a) => a.ids),
       buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
       map((ids: string[][]) => {
         return flatten(ids);
@@ -37,9 +33,9 @@ function mainIdsBuffer(
       map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => ngZone.run(() => observer.next(value)),
-      error: (err: unknown) => ngZone.run(() => observer.error(err)),
-      complete: () => ngZone.run(() => observer.complete()),
+      next: (value) => observer.next(value),
+      error: (err: unknown) => observer.error(err),
+      complete: () => observer.complete(),
     });
   /* jscpd:ignore-end */
 }
@@ -79,17 +75,14 @@ function mainIdsBuffer(
  * @returns The buffered ids.
  */
 export function bufferIdsAction(
-  ngZone: NgZone,
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
-): (source: Observable<Action & { ids: string[] }>) => Observable<string[]> {
+): ( ids: Observable<string[]>) => Observable<string[]> {
   return (
-    source: Observable<Action & { ids: string[] }>,
+    source: Observable<string[]>,
   ): Observable<string[]> => {
     return new Observable<string[]>((observer) => {
-      ngZone.runOutsideAngular(() =>
-        mainIdsBuffer(source, bufferTime, ngZone, observer),
-      );
+      mainIdsBuffer(source, bufferTime, observer);
     });
   };
 }

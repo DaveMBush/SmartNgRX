@@ -6,12 +6,8 @@ import { ActionGroup } from '../../actions/action-group.interface';
 import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { bufferIdsAction } from '../buffer-ids-action.function';
 import { EffectService } from '../effect-service';
 
-function notAPreloadId(c: string): boolean {
-  return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
-}
 
 /**
  * This is the effect that loads the ids from the service.
@@ -33,13 +29,10 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-    /* istanbul ignore next -- default value, not really a condition */
-    zone: NgZone = inject(NgZone),
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIds),
-      bufferIdsAction(zone),
-      map((ids) => ids.filter(notAPreloadId)),
+      map((action) => action.ids),
       filter((ids) => ids.length > 0),
       mergeMap((ids): Observable<T[]> => {
         const actionService = actionServiceRegistry(feature, entity);

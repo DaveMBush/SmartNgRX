@@ -5,6 +5,8 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { assert } from '../common/assert.function';
 
 /**
  * Converts the child field to a virtual array
@@ -23,7 +25,11 @@ export function convertChildrenToVirtualArray<
   parentFeature: string,
   parentEntityName: string,
 ): void {
-  const parentAction = actionFactory(parentFeature, parentEntityName);
+  const parentActionService = actionServiceRegistry(
+    parentFeature,
+    parentEntityName,
+  );
+  assert(!!parentActionService, 'parentActionService is undefined');
 
   const length = parentEntity.ids.length;
   for (let i = 0; i < length; i++) {
@@ -43,7 +49,7 @@ export function convertChildrenToVirtualArray<
     );
     const virtualArray = new VirtualArray<P, C>(
       arrayContent,
-      parentAction,
+      parentActionService,
       id,
       parentFieldName as string,
     );
