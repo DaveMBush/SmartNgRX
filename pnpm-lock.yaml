@@ -63,8 +63,8 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(wfjitvo4dbkofhdsdkathywcum)
       '@ng-doc/builder':
-        specifier: 18.2.0
-        version: 18.2.0(qsmmepy3d3fwfxszrgb2obi4ku)
+        specifier: 18.3.0
+        version: 18.3.0(qsmmepy3d3fwfxszrgb2obi4ku)
       '@ng-doc/core':
         specifier: 18.2.0
         version: 18.2.0
@@ -2512,11 +2512,14 @@ packages:
       di-controls: 2.1.0
       rxjs: ^7.0.0
 
-  '@ng-doc/builder@18.2.0':
-    resolution: {integrity: sha512-Bwvtv41odss38LCE9jqFpZeahartHu3XhbYZvnlW0V829LnqcAvpRSh7XRpFhluS3/9f5+ywbJKEvQqxEph0Mg==}
+  '@ng-doc/builder@18.3.0':
+    resolution: {integrity: sha512-ZlPmQKFPbMHh3w6F667Y4StMeFaXPIw6NrmQc4HB3xYqJV16yvloYxYRP5XPi9IxMDh9XiPgiIEwDBg1T1ib5A==}
 
   '@ng-doc/core@18.2.0':
     resolution: {integrity: sha512-aDrBkLbyM4k7MRDifkxcCaVuC9IuDoqZhOL0BTZvUdjAKpK2fFJoEfPP/MopIwXH9XseXwINi//sbg91ym+BDw==}
+
+  '@ng-doc/core@18.3.0':
+    resolution: {integrity: sha512-nAtolUOzM59Wdep0d0qJVpYAdVCQNVeH4Im3NWuAi5Gd2ijITdSXgTu/yiODlnXQSI0byk/dE/5ikNrOIsgVtA==}
 
   '@ng-doc/ui-kit@18.2.0':
     resolution: {integrity: sha512-Hw3f6I6cx9U1CQ5437ADq//tZ8d7S8/F4jQwfbr3ZKX0CkpyP1zk4yvapSSJAELDBa7OTiMTyKq972ZeSxe4mw==}
@@ -2529,8 +2532,8 @@ packages:
       di-controls: 2.1.0
       rxjs: ^7.0.0
 
-  '@ng-doc/utils@18.2.0':
-    resolution: {integrity: sha512-mRYUYihAsY2ozfDhhXNGsw8iLuNjpAqtli0JfsvUVQgHqm3Td+wNamfufZtnm9SH2RQ18hJV0BwFHwawaYOrng==}
+  '@ng-doc/utils@18.3.0':
+    resolution: {integrity: sha512-cKiMnLYc/cykX80Owsa/rmeKHsG0b9YDn5UkfNG9JugagN2Kj1i4KzpfX5mSw9DCTZwqYtZZYz8GfIDtB2y7TA==}
 
   '@ng-web-apis/common@2.0.1':
     resolution: {integrity: sha512-DqnH+zZFFKeINpbFIzCrBTYksP+7FqrHxWo2+jIXfMLjSngwZ6WYz3F4N9s+tFc8mKe8I1/P7pZtxD7fqSPtlA==}
@@ -13346,12 +13349,12 @@ snapshots:
       - '@tinkoff/ng-polymorpheus'
       - supports-color
 
-  '@ng-doc/builder@18.2.0(qsmmepy3d3fwfxszrgb2obi4ku)':
+  '@ng-doc/builder@18.3.0(qsmmepy3d3fwfxszrgb2obi4ku)':
     dependencies:
       '@angular-devkit/architect': 0.1802.6(chokidar@3.5.3)
       '@angular-devkit/build-angular': 18.2.5(5tgkozbakn3prbwqzr4ddnlghu)
-      '@ng-doc/core': 18.2.0
-      '@ng-doc/utils': 18.2.0
+      '@ng-doc/core': 18.3.0
+      '@ng-doc/utils': 18.3.0
       '@orama/orama': 2.0.17
       '@orama/plugin-parsedoc': 2.0.17
       '@parcel/watcher': 2.4.1
@@ -13412,6 +13415,13 @@ snapshots:
       posthtml-parser: 0.11.0
       posthtml-render: 3.0.0
 
+  '@ng-doc/core@18.3.0':
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+
   '@ng-doc/ui-kit@18.2.0(u5lr4jw4fiwr2g7wjnsr77dgim)':
     dependencies:
       '@angular/cdk': 18.2.6(@angular/common@18.2.6(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.6(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
@@ -13424,7 +13434,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.7.0
 
-  '@ng-doc/utils@18.2.0':
+  '@ng-doc/utils@18.3.0':
     dependencies:
       '@shikijs/rehype': 1.10.3
       chalk: 5.2.0
@@ -20999,7 +21009,7 @@ snapshots:
 
   parse-json@5.2.0:
     dependencies:
-      '@babel/code-frame': 7.24.6
+      '@babel/code-frame': 7.24.7
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
