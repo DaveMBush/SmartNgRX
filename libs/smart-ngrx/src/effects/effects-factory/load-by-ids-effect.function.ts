@@ -1,4 +1,4 @@
-import { inject, InjectionToken, NgZone } from '@angular/core';
+import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { filter, map, mergeMap, Observable } from 'rxjs';
 
@@ -7,7 +7,6 @@ import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
-
 
 /**
  * This is the effect that loads the ids from the service.

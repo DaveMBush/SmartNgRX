@@ -7,7 +7,7 @@ import {
   Subscriber,
 } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
+import { forNext } from '../../common/for-next.function';
 
 function flatten<T>(array: T[][]): T[] {
   const returnArray = [] as T[];
@@ -68,7 +68,6 @@ function mainIdsBuffer(
  * );
  * ```
  *
- * @param ngZone The zone to use to run outside of Angular.
  * @param bufferTime The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
  *     and is probably all we will ever need.
@@ -77,10 +76,8 @@ function mainIdsBuffer(
 export function bufferIdsAction(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
-): ( ids: Observable<string[]>) => Observable<string[]> {
-  return (
-    source: Observable<string[]>,
-  ): Observable<string[]> => {
+): (ids: Observable<string[]>) => Observable<string[]> {
+  return (source: Observable<string[]>): Observable<string[]> => {
     return new Observable<string[]>((observer) => {
       mainIdsBuffer(source, bufferTime, observer);
     });

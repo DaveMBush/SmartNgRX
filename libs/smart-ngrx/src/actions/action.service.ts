@@ -1,39 +1,35 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { asapScheduler, map, Observable, Subject, take, withLatestFrom } from 'rxjs';
+import {
+  asapScheduler,
+  Observable,
+  Subject,
+  take,
+} from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { mergeRowsWithEntities } from '../common/merge-rows-with-entities.function';
 import {
   registerEntityRows,
   unregisterEntityRows,
 } from '../mark-and-delete/register-entity-rows.function';
-import { defaultRows } from '../reducers/default-rows.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { getEntityRegistry } from '../registrations/register-entity.function';
-import { newRowRegistry } from '../selector/new-row-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { actionFactory } from './action.factory';
+import { LoadByIds } from './action.service/load-by-ids.class';
+import { LoadByIndexes } from './action.service/load-by-indexes.class';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
-import { bufferIdsAction } from './buffer-ids-action.function';
-import { bufferIndexes } from './buffer-indexes.function';
-
-function notAPreloadId(c: string): boolean {
-  return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
-}
-
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -53,11 +49,8 @@ export class ActionService {
   private markDirtyFetchesNew = true;
   private entityDefinition!: SmartValidatedEntityDefinition<SmartNgRXRowBase>;
   private loadByIdsSubject = new Subject<string[]>();
-  private loadByIndexesSubject = new Subject<{
-    parentId: string;
-    childField: string;
-    indexes: number[];
-  }>();
+  private loadByIndexesService!: LoadByIndexes;
+  private loadByIdsService!: LoadByIds;
 
   /**
    * constructor for the ActionService
@@ -68,7 +61,10 @@ export class ActionService {
   constructor(
     public feature: string,
     public entity: string,
-  ) {}
+  ) {
+    this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
+    this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+  }
 
   /**
    * Tries to initialize the ActionService.
@@ -101,68 +97,13 @@ export class ActionService {
     this.markDirtyFetchesNew =
       isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
       registry.markAndDeleteInit.markDirtyFetchesNew;
-    this.loadByIdsDispatcher();
-    this.loadByIndexesDispatcher();
+    this.loadByIdsService.init(
+      this.actions,
+      this.entities,
+      this.entityDefinition.defaultRow,
+    );
+    this.loadByIndexesService.init(this.actions, this.entities);
     return true;
-  }
-
-  /**
-   * que up loading the ids for the indexes
-   *
-   * @param parentId the id of the parent row
-   * @param childField the child field to load
-   * @param indexes the indexes to load
-   */
-  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
-    this.loadByIndexesSubject.next({
-      parentId,
-      childField,
-      indexes,
-    });
-  }
-
-  /**
-   * Dispatches the loadByIndexes action after buffering the indexes.
-   */
-  loadByIndexesDispatcher(): void {
-    this.loadByIndexesSubject
-      .pipe(
-        bufferIndexes(),
-      )
-      .subscribe(({ parentId, childField, indexes }) => {
-        this.store.dispatch(
-          this.actions.loadByIndexes({
-            parentId,
-            childField,
-            indexes,
-          }),
-        );
-      });
-  }
-
-  /**
-   * Dispatches the loadByIds action after buffering the ids.
-   */
-  loadByIdsDispatcher(): void {
-    this.loadByIdsSubject
-      .pipe(
-        bufferIdsAction(),
-        map((ids) => ids.filter(notAPreloadId)),
-        withLatestFrom(this.entities),
-      )
-      .subscribe(([ids, entity]) => {
-        ids = ids.filter(
-          (id) => entity[id] === undefined || entity[id]!.isLoading !== true,
-        );
-        if (ids.length === 0) {
-          return;
-        }
-        this.store.dispatch(
-          this.actions.loadByIds({
-            ids,
-          }),
-        );
-      });
   }
 
   /**
@@ -353,7 +294,7 @@ export class ActionService {
    * @param ids the ids to load
    */
   loadByIds(ids: string[]): void {
-    this.loadByIdsSubject.next(ids);
+    this.loadByIdsService.loadByIds(ids);
   }
 
   /**
@@ -362,16 +303,7 @@ export class ActionService {
    * @param ids the ids we are retrieving
    */
   loadByIdsPreload(ids: string[]): void {
-    this.entities.pipe(take(1)).subscribe((entity) => {
-      let rows = defaultRows(ids, entity, this.entityDefinition.defaultRow);
-      // don't let virtual arrays get overwritten by the default row
-      rows = mergeRowsWithEntities(this.feature, this.entity, rows, entity);
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows,
-        }),
-      );
-    });
+    this.loadByIdsService.loadByIdsPreload(ids);
   }
 
   /**
@@ -380,21 +312,18 @@ export class ActionService {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    let registeredRows = registerEntityRows(this.feature, this.entity, rows);
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      // don't let virtual arrays get overwritten by the default row
-      registeredRows = mergeRowsWithEntities(
-        this.feature,
-        this.entity,
-        registeredRows,
-        entities,
-      );
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows: registeredRows,
-        }),
-      );
-    });
+    this.loadByIdsService.loadByIdsSuccess(rows);
+  }
+
+  /**
+   * que up loading the ids for the indexes
+   *
+   * @param parentId the id of the parent row
+   * @param childField the child field to load
+   * @param indexes the indexes to load
+   */
+  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
+    this.loadByIndexesService.loadByIndexes(parentId, childField, indexes);
   }
 
   /**
@@ -412,44 +341,7 @@ export class ActionService {
     childField: string,
     array: PartialArrayDefinition,
   ): void {
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      const row = entities[parentId] as Record<string, VirtualArrayContents> &
-        SmartNgRXRowBase;
-      const updatedField = this.processLoadByIndexesSuccess(
-        row[childField],
-        array,
-      );
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows: [{ ...row, [childField]: updatedField }],
-        }),
-      );
-    });
-  }
-
-  private processLoadByIndexesSuccess(
-    field: VirtualArrayContents,
-    array: PartialArrayDefinition,
-  ): VirtualArrayContents {
-    const updatedField = { ...field };
-    updatedField.indexes = [...field.indexes];
-    forNext(array.indexes, (item, index) => {
-      updatedField.indexes[index + array.startIndex] = item;
-    });
-    updatedField.length = array.length;
-    if (
-      updatedField.indexes.length > 0 &&
-      newRowRegistry.isNewRow(
-        this.feature,
-        this.entity,
-        updatedField.indexes[updatedField.indexes.length - 1],
-      )
-    ) {
-      updatedField.length = array.length + 1;
-      updatedField.indexes[updatedField.length - 1] =
-        updatedField.indexes[updatedField.indexes.length - 1];
-    }
-    return updatedField;
+    this.loadByIndexesService.loadByIndexesSuccess(parentId, childField, array);
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(

@@ -1,12 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 
-import { actionFactory } from '../actions/action.factory';
+import { assert } from '../common/assert.function';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
-import { assert } from '../common/assert.function';
 
 /**
  * Converts the child field to a virtual array

@@ -6,11 +6,13 @@ import {
   map,
   mergeMap,
   Observable,
+  share,
   Subscriber,
+  tap,
 } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
-import { IndexesProp } from '../types/indexes-props.interface';
+import { forNext } from '../../common/for-next.function';
+import { IndexesProp } from '../../types/indexes-props.interface';
 
 function flatten(prop: IndexesProp[]): IndexesProp {
   const returnProps = {
@@ -38,15 +40,22 @@ function mainIndexesBuffer(
       groupBy((action) => `${action.parentId}-${action.childField}`),
       mergeMap((grouped) =>
         grouped.pipe(
-          buffer(grouped.pipe(debounceTime(bufferTime, asapScheduler))),
+          buffer(source.pipe(
+            debounceTime(bufferTime, asapScheduler))),
           map((actions: IndexesProp[]) => flatten(actions)),
         ),
       ),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => observer.next(value),
-      error: (err: unknown) => observer.error(err),
-      complete: () => observer.complete(),
+      next: (value) => {
+        observer.next(value);
+      },
+      error: (err: unknown) => {
+        observer.error(err);
+      },
+      complete: () => {
+        observer.complete();
+      },
     });
   /* jscpd:ignore-end */
 }
@@ -59,7 +68,6 @@ function mainIndexesBuffer(
  * NOTE: bufferAction assumes an array of indexes is passed to the action
  * it is buffering.
  *
- * @param ngZone The zone to use to run outside of Angular.
  * @param bufferTime The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
  *     and is probably all we will ever need.
@@ -69,9 +77,7 @@ export function bufferIndexes(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
 ): (source: Observable<IndexesProp>) => Observable<IndexesProp> {
-  return (
-    source: Observable<IndexesProp>,
-  ): Observable<IndexesProp> => {
+  return (source: Observable<IndexesProp>): Observable<IndexesProp> => {
     return new Observable<IndexesProp>((observer) => {
       mainIndexesBuffer(source, bufferTime, observer);
     });
