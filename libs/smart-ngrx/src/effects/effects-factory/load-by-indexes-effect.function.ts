@@ -1,4 +1,4 @@
-import { inject, NgZone } from '@angular/core';
+import { inject } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs';
 
@@ -7,7 +7,6 @@ import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { bufferIndexesAction } from '../buffer-indexes-action.function';
 
 /**
  * This is the effect that loads the ids from the service.
@@ -31,12 +30,9 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-    /* istanbul ignore next -- default value, not really a condition */
-    zone: NgZone = inject(NgZone),
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIndexes),
-      bufferIndexesAction(zone),
       mergeMap((actionProps) => {
         const numberIds = actionProps.indexes.map((id) => +id);
         const min = Math.min(...numberIds);
