@@ -41,12 +41,6 @@ describe('LoadByIndexes', () => {
         loadByIndexes as unknown as { loadByIndexesDispatcher(): void },
         'loadByIndexesDispatcher',
       );
-      jest.spyOn(bufferIndexesModule, 'bufferIndexes')
-        .mockImplementation(() => {
-          return (source) => {
-            return source;
-          };
-        });
 
       loadByIndexes.init(actions, mockEntities);
       flush();
