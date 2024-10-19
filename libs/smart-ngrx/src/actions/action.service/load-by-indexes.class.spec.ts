@@ -1,3 +1,4 @@
+import { fakeAsync, flush } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
@@ -8,12 +9,13 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
 import { ActionGroup } from '../action-group.interface';
 import { LoadByIndexes } from './load-by-indexes.class';
-import { assert } from 'console';
-import { fakeAsync, flush } from '@angular/core/testing';
-import * as bufferIndexesModule from './buffer-indexes.function';
 
-jest.mock('@ngrx/store');
-jest.mock('rxjs');
+jest.mock('./buffer-indexes.function', () => ({
+  ...(jest.requireActual('./buffer-indexes.function')),
+  bufferIndexes() {
+    return (s: Observable<unknown>) => s;
+  },
+}));
 
 describe('LoadByIndexes', () => {
   let loadByIndexes: LoadByIndexes;
@@ -36,19 +38,18 @@ describe('LoadByIndexes', () => {
   });
 
   describe('init', () => {
-    it('should initialize the service and start the dispatcher', fakeAsync(() => {
+    it('should initialize the service and start the dispatcher', () => {
       const spyDispatcher = jest.spyOn(
         loadByIndexes as unknown as { loadByIndexesDispatcher(): void },
         'loadByIndexesDispatcher',
       );
 
       loadByIndexes.init(actions, mockEntities);
-      flush();
 
       expect(loadByIndexes.actions).toBe(actions);
       expect(loadByIndexes.entities).toBe(mockEntities);
       expect(spyDispatcher).toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('loadByIndexes', () => {
