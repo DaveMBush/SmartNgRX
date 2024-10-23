@@ -2837,6 +2837,7 @@ packages:
 
   '@orama/plugin-match-highlight@2.0.17':
     resolution: {integrity: sha512-lmH2m/Ypl7Mil+5rwu/yE/AyZgiQf6AV8TaoIG5E/L/7SKidgGdjozVwrSJna/jI52eVVpoBoghvNQ0oF/g6kQ==}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   '@orama/plugin-parsedoc@2.0.17':
     resolution: {integrity: sha512-vothzYIAjoCkHASgLFQhRzF+Kjh4/IurMg3W3aXZjpHSjXB5a9oEwAGLd2mJGZ52yIDYm0vaXGKjd7y+bNdYzQ==}
@@ -6489,8 +6490,8 @@ packages:
     resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
     engines: {node: '>= 14'}
 
-  http-proxy-middleware@2.0.6:
-    resolution: {integrity: sha512-ya/UeJ6HVBYxrgYotAZo1KvPWlgB48kUJLDePFeneHsVujFaW5WNj2NgWCAE//B1Dl02BIfYlpNgBy8Kf8Rjmw==}
+  http-proxy-middleware@2.0.7:
+    resolution: {integrity: sha512-fgVY8AV7qU7z/MmXJ/rxwbrtQH4jBQ9m7kp3llF0liB7glmFeVZFBepQb32T3y8n8k2+AEYuMPCpinYW+/CuRA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -18492,7 +18493,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  http-proxy-middleware@2.0.6(@types/express@4.17.21):
+  http-proxy-middleware@2.0.7(@types/express@4.17.21):
     dependencies:
       '@types/http-proxy': 1.17.14
       http-proxy: 1.18.1(debug@4.3.5)
@@ -23519,7 +23520,7 @@ snapshots:
       express: 4.21.0
       graceful-fs: 4.2.11
       html-entities: 2.5.2
-      http-proxy-middleware: 2.0.6(@types/express@4.17.21)
+      http-proxy-middleware: 2.0.7(@types/express@4.17.21)
       ipaddr.js: 2.2.0
       launch-editor: 2.6.1
       open: 10.1.0
