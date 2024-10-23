@@ -131,7 +131,7 @@ describe('LoadByIds', () => {
 
       mockEntities.next(existingEntities);
 
-      loadByIds.loadByIdsSuccess(rows as SmartNgRXRowBase[]);
+      loadByIds.loadByIdsSuccess(rows);
 
       tick();
 

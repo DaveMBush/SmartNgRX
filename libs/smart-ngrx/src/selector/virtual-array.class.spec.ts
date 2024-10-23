@@ -17,7 +17,6 @@ describe('VirtualArray', () => {
   let mockVirtualArrayContents: VirtualArrayContents;
   const parentId = 'parent123';
   const childField = 'children';
-
   beforeEach(() => {
     mockActionService = {
       loadByIndexes: jest.fn(),

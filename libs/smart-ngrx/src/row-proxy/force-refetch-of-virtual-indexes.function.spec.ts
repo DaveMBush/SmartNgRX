@@ -30,14 +30,19 @@ class MockArrayProxy<T extends SmartNgRXRowBase> extends ArrayProxy<T, T> {
   override rawArray: MockVirtualArray<T> & string[];
 
   constructor(rawArray: MockVirtualArray<T>) {
-    super([], {} as EntityState<T>, {} as ChildDefinition<T, T>);
+    super([] as string[], {} as EntityState<T>, {} as ChildDefinition<T, T>);
     this.rawArray = rawArray as MockVirtualArray<T> & string[];
   }
 }
 
 describe('forceRefetchOfVirtualIndexes', () => {
+  let mockVirtualArray: MockVirtualArray<SmartNgRXRowBase>;
+
+  beforeEach(() => {
+    mockVirtualArray = new MockVirtualArray<SmartNgRXRowBase>();
+  });
+
   it('should refetch indexes if the row is dirty and contains a VirtualArray', () => {
-    const mockVirtualArray = new MockVirtualArray<SmartNgRXRowBase>();
     const mockArrayProxy = new MockArrayProxy<SmartNgRXRowBase>(
       mockVirtualArray,
     );
@@ -54,7 +59,6 @@ describe('forceRefetchOfVirtualIndexes', () => {
   });
 
   it('should not refetch indexes if the row is not dirty', () => {
-    const mockVirtualArray = new MockVirtualArray<SmartNgRXRowBase>();
     const mockArrayProxy = new MockArrayProxy<SmartNgRXRowBase>(
       mockVirtualArray,
     );
@@ -71,8 +75,6 @@ describe('forceRefetchOfVirtualIndexes', () => {
   });
 
   it('should not refetch indexes if the field is not a VirtualArray', () => {
-    const mockVirtualArray = new MockVirtualArray<SmartNgRXRowBase>();
-
     const row: TestRow = {
       id: '1',
       isDirty: true,
@@ -85,8 +87,6 @@ describe('forceRefetchOfVirtualIndexes', () => {
   });
 
   it('should not refetch indexes if the arrayProxy is undefined', () => {
-    const mockVirtualArray = new MockVirtualArray<SmartNgRXRowBase>();
-
     const row: TestRow = {
       id: '1',
       isDirty: true,
