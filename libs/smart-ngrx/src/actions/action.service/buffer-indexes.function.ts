@@ -6,9 +6,7 @@ import {
   map,
   mergeMap,
   Observable,
-  share,
   Subscriber,
-  tap,
 } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
@@ -40,8 +38,7 @@ function mainIndexesBuffer(
       groupBy((action) => `${action.parentId}-${action.childField}`),
       mergeMap((grouped) =>
         grouped.pipe(
-          buffer(source.pipe(
-            debounceTime(bufferTime, asapScheduler))),
+          buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
           map((actions: IndexesProp[]) => flatten(actions)),
         ),
       ),

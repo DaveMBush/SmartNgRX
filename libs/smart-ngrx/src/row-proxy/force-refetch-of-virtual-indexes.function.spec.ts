@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file -- unit test classes and they aren't exported */
 import { EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';

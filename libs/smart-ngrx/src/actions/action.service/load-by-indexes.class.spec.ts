@@ -1,4 +1,3 @@
-import { fakeAsync, flush } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
@@ -10,12 +9,14 @@ import { actionFactory } from '../action.factory';
 import { ActionGroup } from '../action-group.interface';
 import { LoadByIndexes } from './load-by-indexes.class';
 
-jest.mock('./buffer-indexes.function', () => ({
-  ...(jest.requireActual('./buffer-indexes.function')),
-  bufferIndexes() {
-    return (s: Observable<unknown>) => s;
-  },
-}));
+jest.mock(
+  './buffer-indexes.function',
+  () =>
+    ({
+      ...jest.requireActual('./buffer-indexes.function'),
+      bufferIndexes: () => (s: Observable<unknown>) => s,
+    }) as typeof jest,
+);
 
 describe('LoadByIndexes', () => {
   let loadByIndexes: LoadByIndexes;
@@ -34,7 +35,11 @@ describe('LoadByIndexes', () => {
     mockEntitiesSubject.next({} as Dictionary<SmartNgRXRowBase>);
     mockEntities = mockEntitiesSubject.asObservable();
 
-    loadByIndexes = new LoadByIndexes('testFeature', 'testEntity', mockStore as Store);
+    loadByIndexes = new LoadByIndexes(
+      'testFeature',
+      'testEntity',
+      mockStore as Store,
+    );
   });
 
   describe('init', () => {
@@ -61,11 +66,13 @@ describe('LoadByIndexes', () => {
       }>();
       const mockSubjectNextSpy = jest.spyOn(mockSubject, 'next');
       (
-        loadByIndexes as unknown as { loadByIndexesSubject: Subject<{
-          parentId: string;
-          childField: string;
-          indexes: number[];
-        }> }
+        loadByIndexes as unknown as {
+          loadByIndexesSubject: Subject<{
+            parentId: string;
+            childField: string;
+            indexes: number[];
+          }>;
+        }
       ).loadByIndexesSubject = mockSubject;
 
       loadByIndexes.loadByIndexes('parentId', 'childField', [1, 2, 3]);
@@ -86,11 +93,13 @@ describe('LoadByIndexes', () => {
         indexes: number[];
       }>();
       (
-        loadByIndexes as unknown as { loadByIndexesSubject: Subject<{
-          parentId: string;
-          childField: string;
-          indexes: number[];
-        }> }
+        loadByIndexes as unknown as {
+          loadByIndexesSubject: Subject<{
+            parentId: string;
+            childField: string;
+            indexes: number[];
+          }>;
+        }
       ).loadByIndexesSubject = mockSubject;
       loadByIndexes.actions = actions;
 

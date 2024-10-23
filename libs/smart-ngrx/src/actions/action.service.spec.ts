@@ -23,7 +23,10 @@ interface MockEntity {
 }
 
 interface TestableActionService
-  extends Omit<ActionService, 'actions' | 'forceDirty' | 'markDirtyFetchesNew'> {
+  extends Omit<
+    ActionService,
+    'actions' | 'forceDirty' | 'markDirtyFetchesNew'
+  > {
   markDirtyFetchesNew: boolean;
   forceDirty(ids: string[]): void;
   actions: ActionGroup;
@@ -170,7 +173,9 @@ describe('ActionService', () => {
 
   describe('removeFromParents', () => {
     it('should return empty array if no child definitions', () => {
-      jest.spyOn(childDefinitionRegistry, 'getChildDefinition').mockReturnValue([]);
+      jest
+        .spyOn(childDefinitionRegistry, 'getChildDefinition')
+        .mockReturnValue([]);
 
       const result = service.removeFromParents('1');
 

@@ -1,12 +1,12 @@
-import { fakeAsync, flush, tick } from '@angular/core/testing';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
+import * as registerEntityRowsModule from '../../mark-and-delete/register-entity-rows.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { actionFactory } from '../action.factory';
 import { ActionGroup } from '../action-group.interface';
 import { LoadByIds } from './load-by-ids.class';
-import { actionFactory } from '../action.factory';
-import * as registerEntityRowsModule  from '../../mark-and-delete/register-entity-rows.function';
 
 interface SomeDataRow extends SmartNgRXRowBase {
   someData: string;
@@ -25,8 +25,9 @@ describe('LoadByIds', () => {
     mockStore = {
       dispatch: jest.fn(),
     };
-    jest.spyOn(registerEntityRowsModule, 'registerEntityRows')
-      .mockImplementation((_,__,rows) => rows);
+    jest
+      .spyOn(registerEntityRowsModule, 'registerEntityRows')
+      .mockImplementation((_, __, rows) => rows);
     jest.spyOn(mockStore, 'dispatch');
     actions = actionFactory<SomeDataRow>('testFeature', 'testEntity');
     mockEntities = new BehaviorSubject<Record<string, SomeDataRow>>({});
@@ -95,21 +96,22 @@ describe('LoadByIds', () => {
 
       jest.spyOn(mockStore, 'dispatch');
 
-      mockEntities = new BehaviorSubject<Record<string, SomeDataRow>>(existingEntities);
+      mockEntities = new BehaviorSubject<Record<string, SomeDataRow>>(
+        existingEntities,
+      );
 
       loadByIds.init(
         actions as unknown as ActionGroup,
         mockEntities.asObservable(),
-        (id: string) => ({ id, someData: 'test', isLoading: false }) as SomeDataRow,
+        (id: string) =>
+          ({ id, someData: 'test', isLoading: false }) as SomeDataRow,
       );
       loadByIds.loadByIdsPreload(ids);
       tick();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         actions.storeRows({
-          rows: [
-            { id: '2', someData: 'test', isLoading: true },
-          ],
+          rows: [{ id: '2', someData: 'test', isLoading: true }],
         }),
       );
     }));

@@ -1,15 +1,14 @@
-import { Dictionary } from "@ngrx/entity";
-import { Store } from "@ngrx/store";
-import { Observable, Subject, take, tap } from "rxjs";
+import { Dictionary } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, take } from 'rxjs';
 
-import { forNext } from "../../common/for-next.function";
-import { newRowRegistry } from "../../selector/new-row-registry.class";
-import { PartialArrayDefinition } from "../../types/partial-array-definition.interface";
-import { SmartNgRXRowBase } from "../../types/smart-ngrx-row-base.interface";
-import { VirtualArrayContents } from "../../types/virtual-array-contents.interface";
-import { ActionGroup } from "../action-group.interface";
-import { bufferIndexes } from "./buffer-indexes.function";
-import { assert } from "../../common/assert.function";
+import { forNext } from '../../common/for-next.function';
+import { newRowRegistry } from '../../selector/new-row-registry.class';
+import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
+import { ActionGroup } from '../action-group.interface';
+import { bufferIndexes } from './buffer-indexes.function';
 
 /**
  * This class is used to manage loading the child ids by
@@ -45,7 +44,7 @@ export class LoadByIndexes {
    */
   init(
     actions: ActionGroup,
-    entities: Observable<Dictionary<SmartNgRXRowBase>>
+    entities: Observable<Dictionary<SmartNgRXRowBase>>,
   ): void {
     this.actions = actions;
     this.entities = entities;
@@ -72,12 +71,7 @@ export class LoadByIndexes {
    */
   loadByIndexesDispatcher(): void {
     this.loadByIndexesSubject
-      .pipe(
-        bufferIndexes(),
-        tap((value) => {
-          console.log('bufferIndexes value', value);
-        }),
-      )
+      .pipe(bufferIndexes())
       .subscribe(({ parentId, childField, indexes }) => {
         this.store.dispatch(
           this.actions.loadByIndexes({

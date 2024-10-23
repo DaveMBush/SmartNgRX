@@ -1,18 +1,17 @@
-import { Dictionary } from "@ngrx/entity";
-import { Store } from "@ngrx/store";
-import { map, Observable, Subject, take, withLatestFrom } from "rxjs";
+import { Dictionary } from '@ngrx/entity';
+import { Store } from '@ngrx/store';
+import { map, Observable, Subject, take, withLatestFrom } from 'rxjs';
 
-import { mergeRowsWithEntities } from "../../common/merge-rows-with-entities.function";
-import { registerEntityRows } from "../../mark-and-delete/register-entity-rows.function";
-import { defaultRows } from "../../reducers/default-rows.function";
-import { SmartNgRXRowBase } from "../../types/smart-ngrx-row-base.interface";
-import { ActionGroup } from "../action-group.interface";
-import { bufferIdsAction } from "./buffer-ids-action.function";
+import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
+import { registerEntityRows } from '../../mark-and-delete/register-entity-rows.function';
+import { defaultRows } from '../../reducers/default-rows.function';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { ActionGroup } from '../action-group.interface';
+import { bufferIdsAction } from './buffer-ids-action.function';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
 }
-
 
 /**
  * Manages the loading of rows by their Ids
@@ -128,4 +127,3 @@ export class LoadByIds {
     });
   }
 }
-
