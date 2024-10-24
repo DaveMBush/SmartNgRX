@@ -1,7 +1,6 @@
-import { ActionGroup } from '../actions/action-group.interface';
+import { ActionService } from '../actions/action.service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { store } from './store.function';
 
 /**
  * Class that represents an array that is not fully loaded
@@ -20,13 +19,13 @@ export class VirtualArray<
    * as a parameter.
    *
    * @param array array that contains the available IDs
-   * @param parentAction the parent's action group
+   * @param parentActionService the action service of the parent row
    * @param parentId the id of the parent row
    * @param childField the fieldName in the parent row that holds the children for this array
    */
   constructor(
     public array: VirtualArrayContents,
-    private parentAction: ActionGroup,
+    private parentActionService: ActionService,
     parentId: string,
     childField: string,
   ) {
@@ -39,12 +38,7 @@ export class VirtualArray<
             return this.rawArray[+prop];
           }
           // don't modify rawArray until after we've dispatched the action.
-          this.dispatchLoadByIndexes(
-            this.parentAction,
-            parentId,
-            childField,
-            +prop,
-          );
+          this.dispatchLoadByIndexes(parentId, childField, +prop);
           if (Object.isFrozen(this.rawArray)) {
             this.rawArray = [...this.rawArray];
           }
@@ -83,18 +77,11 @@ export class VirtualArray<
   }
 
   private dispatchLoadByIndexes(
-    parentAction: ActionGroup,
     parentId: string,
     childField: string,
     index: number,
   ) {
-    store().dispatch(
-      parentAction.loadByIndexes({
-        indexes: [index],
-        parentId,
-        childField,
-      }),
-    );
+    this.parentActionService.loadByIndexes(parentId, childField, [index]);
     if (Object.isFrozen(this.fetchedIndexes)) {
       this.fetchedIndexes = [...this.fetchedIndexes];
     }

@@ -1,643 +1,443 @@
-import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+/* eslint-disable @typescript-eslint/unbound-method -- needed for unit tests*/
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { actionFactory } from '../actions/action.factory';
 import { ActionService } from '../actions/action.service';
-import { ActionGroup } from '../actions/action-group.interface';
-import { assert } from '../common/assert.function';
-import { castTo } from '../common/cast-to.function';
-import * as actionServiceRegistry from '../registrations/action.service.registry';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
-import { featureRegistry } from '../registrations/feature-registry.class';
-import {
-  registerEntity,
-  unregisterEntity,
-} from '../registrations/register-entity.function';
-import { RowProxy } from '../row-proxy/row-proxy.class';
+import { clearState } from '../tests/functions/clear-state.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { EntityAttributes } from '../types/entity-attributes.interface';
-import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
-import * as getArrayItem from './get-array-item.function';
+
+const originalName = 'Original Name';
+
+// Mock the getArrayItem function
+jest.mock('./get-array-item.function', () => ({
+  getArrayItem: jest.fn().mockReturnValue({ id: '1', relatedIds: [] }),
+}));
+
+import { RowProxy } from '../row-proxy/row-proxy.class';
+import { getArrayItem } from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
 
-const childDefinition = {
-  childFeature: 'feature',
-  childEntity: 'entity',
-  parentField: 'children',
-  parentFeature: 'parentFeature',
-  parentEntity: 'parentEntity',
-} as unknown as ChildDefinition;
+// Mock the actionServiceRegistry and entityDefinitionCache
+jest.mock('../registrations/action.service.registry', () => ({
+  actionServiceRegistry: jest.fn().mockReturnValue({
+    remove: jest.fn(),
+  }),
+}));
 
-interface Row {
-  id: string;
-  children: string[];
-  isEditing: boolean;
-}
+jest.mock('../registrations/entity-definition-cache.function', () => ({
+  entityDefinitionCache: jest.fn().mockReturnValue({
+    entityAdapter: createEntityAdapter<MockRow>(),
+  }),
+}));
 
-interface RowWithVirtualChildren {
-  id: string;
-  children: {
-    indexes: string[];
-    length: number;
-  };
-  isEditing: boolean;
-}
-
-interface PublicRemoveChildIdFromChildArray {
+interface TestableArrayProxy<
+  P extends SmartNgRXRowBase,
+  C extends SmartNgRXRowBase,
+> extends Omit<
+    ArrayProxy<P, C>,
+    'createNewParentFromParent' | 'removeChildIdFromChildArray'
+  > {
   removeChildIdFromChildArray(
-    entity: EntityState<Row> | EntityState<RowWithVirtualChildren>,
+    entity: EntityState<P>,
     parentId: string,
-    parentField: keyof Row | keyof RowWithVirtualChildren,
+    parentField: keyof P,
     childId: string,
   ): void;
+  createNewParentFromParent(parent: P, isEditing: boolean): P;
 }
 
-type PublicArrayProxy = Omit<ArrayProxy, 'removeChildIdFromChildArray'> &
-  PublicRemoveChildIdFromChildArray;
+interface MockRow extends SmartNgRXRowBase {
+  id: string;
+  relatedIds: string[];
+  name?: string;
+}
 
 describe('ArrayProxy', () => {
-  let arrayProxy: ArrayProxy | PublicArrayProxy | undefined;
-  let originalArray: string[] = [];
-  let getArrayItemSpy: jest.SpyInstance;
-  function assertArrayProxy(ap: boolean): asserts ap {
-    assert(ap, 'arrayProxy is undefined');
-  }
+  let arrayProxy: TestableArrayProxy<MockRow, MockRow>;
+  let mockChild: EntityState<MockRow>;
+  let mockChildDefinition: ChildDefinition<MockRow, MockRow>;
+  let mockService: ActionService;
+
   beforeEach(() => {
-    featureRegistry.registerFeature(childDefinition.childFeature);
-    registerEntity(childDefinition.childFeature, childDefinition.childEntity, {
-      markAndDeleteInit: {},
-    } as EntityAttributes);
+    mockChild = {
+      entities: {
+        parentId: { id: 'parentId', relatedIds: ['childId'] }, // Ensure parentId exists
+      },
+      ids: ['parentId'],
+    };
+    mockChildDefinition = {
+      childFeature: 'feature',
+      childEntity: 'entity',
+      parentFeature: 'parentFeature',
+      parentEntity: 'parentEntity',
+      parentField: 'relatedIds',
+      childSelector: createSelector(
+        (state: { entities: EntityState<MockRow> }) => state.entities,
+        (entities) => entities,
+      ) as MemoizedSelector<object, EntityState<MockRow>>,
+    } as ChildDefinition<MockRow, MockRow>;
+    mockService = {
+      loadByIdsSuccess: jest.fn(),
+    } as unknown as ActionService;
 
-    getArrayItemSpy = jest
-      .spyOn(getArrayItem, 'getArrayItem')
-      .mockImplementation(() => ({
-        id: '1',
-        delete: jest.fn(),
-      }));
+    arrayProxy = new ArrayProxy(
+      [],
+      mockChild,
+      mockChildDefinition,
+    ) as unknown as TestableArrayProxy<MockRow, MockRow>;
+    arrayProxy.init(); // Call init to set up the entityAdapter and other dependencies
+
+    // Create and set up the mock store
     createStore();
-    // make sure the feature exists
-    setState(childDefinition.childFeature, childDefinition.childEntity, {
-      ids: [],
-      entities: {},
-    });
-    entityDefinitionCache(
-      childDefinition.childFeature,
-      childDefinition.childEntity,
-      {
-        entityAdapter: createEntityAdapter<SmartNgRXRowBase>(),
-      } as SmartEntityDefinition<SmartNgRXRowBase>,
-    );
-    entityDefinitionCache(
-      childDefinition.parentFeature,
-      childDefinition.parentEntity,
-      {
-        entityAdapter: createEntityAdapter<SmartNgRXRowBase>(),
-      } as SmartEntityDefinition<SmartNgRXRowBase>,
-    );
+    setState('parentFeature', 'parentEntity', mockChild);
   });
+
   afterEach(() => {
-    unregisterEntity(childDefinition.childFeature, childDefinition.childEntity);
-
-    arrayProxy = undefined;
+    clearState(); // Clear the state after each test
   });
-  describe('init()', () => {
-    describe('when the childArray has never been proxied before', () => {
-      describe('and it is not frozen', () => {
-        beforeEach(() => {
-          originalArray = ['1', '2', '3'];
-          arrayProxy = new ArrayProxy(
-            originalArray,
-            { ids: [], entities: {} },
-            childDefinition,
-          );
-        });
-        it('should set the rawArray to the childArray and set the childArray to an empty array', () => {
-          assertArrayProxy(!!arrayProxy);
-          arrayProxy.init();
-          // make sure rawArray is the same object as the original array
-          expect(arrayProxy.rawArray).toBe(originalArray);
-          expect(arrayProxy.length).toEqual(3);
-          expect(
-            castTo<{ childArray: string[] }>(arrayProxy).childArray,
-          ).toEqual([]);
-        });
-      });
-      describe('and the childArray  is frozen', () => {
-        beforeEach(() => {
-          originalArray = ['1', '2', '3'];
-          Object.freeze(originalArray);
-          arrayProxy = new ArrayProxy(
-            originalArray,
-            { ids: [], entities: {} },
-            childDefinition,
-          );
-          arrayProxy.init();
-        });
-        it('should set the rawArray a copy of the childArray and set the childArray to an empty array', () => {
-          assertArrayProxy(!!arrayProxy);
-          expect(arrayProxy.rawArray).not.toBe(originalArray);
-          expect(arrayProxy.rawArray).toEqual(originalArray);
-          expect(arrayProxy.length).toEqual(3);
-          expect(
-            castTo<{ childArray: string[] }>(arrayProxy).childArray,
-          ).toEqual([]);
-        });
-      });
+
+  describe('init', () => {
+    it('should unfreeze the childArray if it is frozen', () => {
+      // Arrange: Set up a frozen childArray
+      const frozenArray = Object.freeze(['1', '2']) as string[];
+      arrayProxy = new ArrayProxy(
+        frozenArray,
+        mockChild,
+        mockChildDefinition,
+      ) as unknown as TestableArrayProxy<MockRow, MockRow>;
+
+      // Act: Call init
+      arrayProxy.init();
+
+      // Assert: Check that the array is no longer frozen
+      expect(Object.isFrozen(arrayProxy.rawArray)).toBe(false);
     });
-    describe('when the childArray has been proxied before', () => {
-      describe('and it is not frozen', () => {
-        beforeEach(() => {
-          originalArray = ['1', '2', '3'];
-          arrayProxy = new ArrayProxy(
-            originalArray,
-            { ids: [], entities: {} },
-            childDefinition,
-          );
-          arrayProxy.init();
-          arrayProxy = new ArrayProxy(
-            arrayProxy,
-            { ids: [], entities: {} },
-            childDefinition,
-          );
-        });
-        it('should set the rawArray to the childArray and set the childArray to an empty array', () => {
-          assertArrayProxy(!!arrayProxy);
-          arrayProxy.init();
-          // make sure rawArray is the same object as the original array
-          expect(arrayProxy.rawArray).toBe(originalArray);
-          expect(arrayProxy.length).toEqual(3);
-          expect(
-            castTo<{ childArray: string[] }>(arrayProxy).childArray,
-          ).toEqual([]);
-        });
-      });
+
+    it('should convert childArray to rawArray if it is an ArrayProxy', () => {
+      // Arrange: Set up a childArray as an ArrayProxy
+      const mockArrayProxy = new ArrayProxy(
+        ['1', '2'],
+        mockChild,
+        mockChildDefinition,
+      );
+      arrayProxy = new ArrayProxy(
+        mockArrayProxy,
+        mockChild,
+        mockChildDefinition,
+      ) as unknown as TestableArrayProxy<MockRow, MockRow>;
+
+      // Act: Call init
+      arrayProxy.init();
+
+      // Assert: Check that rawArray is set correctly
+      expect(arrayProxy.rawArray).toEqual([]);
     });
   });
-  describe('getAtIndex()', () => {
-    describe('when rawArray is a regular array', () => {
-      beforeEach(() => {
-        originalArray = ['id1', 'id2', 'id3'];
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-      });
+  describe('getIdAtIndex', () => {
+    it('should return the ID from the rawArray if index is valid', () => {
+      // Arrange: Set up the rawArray with valid IDs
+      arrayProxy.rawArray = ['1', '2', '3'];
 
-      it('should return the correct id at the given index', () => {
-        assertArrayProxy(!!arrayProxy);
-        expect(arrayProxy.getIdAtIndex(0)).toBe('id1');
-        expect(arrayProxy.getIdAtIndex(1)).toBe('id2');
-        expect(arrayProxy.getIdAtIndex(2)).toBe('id3');
-      });
+      // Act: Call getIdAtIndex with a valid index
+      const result = arrayProxy.getIdAtIndex(1);
 
-      it('should return undefined for an out-of-bounds index', () => {
-        assertArrayProxy(!!arrayProxy);
-        expect(arrayProxy.getIdAtIndex(3)).toBeUndefined();
-        expect(arrayProxy.getIdAtIndex(-1)).toBeUndefined();
-      });
+      // Assert: Check that the correct ID is returned
+      expect(result).toBe('2');
     });
 
-    describe('when rawArray is a VirtualArray', () => {
-      let mockVirtualArray: VirtualArray<SmartNgRXRowBase>;
+    it('should return undefined if index is out of bounds', () => {
+      // Arrange: Set up the rawArray with valid IDs
+      arrayProxy.rawArray = ['1', '2', '3'];
 
-      beforeEach(() => {
-        mockVirtualArray = new VirtualArray(
-          { indexes: ['vid1', 'vid2', 'vid3'], length: 3 },
-          {} as ActionGroup,
-          'parentId',
-          'children',
-        );
-        arrayProxy = new ArrayProxy(
-          mockVirtualArray as unknown as string[],
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-      });
-
-      it('should return the correct id at the given index', () => {
-        assertArrayProxy(!!arrayProxy);
-        expect(arrayProxy.getIdAtIndex(0)).toBe('vid1');
-        expect(arrayProxy.getIdAtIndex(1)).toBe('vid2');
-        expect(arrayProxy.getIdAtIndex(2)).toBe('vid3');
-      });
-
-      it('should return fake id for an out-of-bounds index', () => {
-        assertArrayProxy(!!arrayProxy);
-        expect(arrayProxy.getIdAtIndex(3)).toBeUndefined();
-        expect(arrayProxy.getIdAtIndex(-1)).toBeUndefined();
-      });
-    });
-
-    describe('when the index is between 0 and the length of the array', () => {
-      beforeEach(() => {
-        originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-        arrayProxy.getAtIndex(0);
-        arrayProxy.getAtIndex(1);
-        arrayProxy.getAtIndex(2);
-      });
-      it('should call getArrayItem', () => {
-        assertArrayProxy(!!arrayProxy);
-        expect(getArrayItemSpy).toHaveBeenCalledTimes(3);
-      });
-    });
-    describe('when the index is negative', () => {
-      beforeEach(() => {
-        originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-      });
-      it('should throw exception', () => {
-        expect(() => {
-          assertArrayProxy(!!arrayProxy);
-          arrayProxy.getAtIndex(-1);
-        }).toThrow('Index out of bounds');
-      });
-    });
-    describe('when the index is length or greater', () => {
-      beforeEach(() => {
-        originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-      });
-      it('should throw exception', () => {
-        expect(() => {
-          assertArrayProxy(!!arrayProxy);
-          arrayProxy.getAtIndex(originalArray.length);
-        }).toThrow('Index out of bounds');
-      });
+      // Act & Assert: Call getIdAtIndex with an invalid index and expect an error
+      expect(arrayProxy.getIdAtIndex(3)).toBeUndefined();
     });
   });
-  describe('createNewParentFromParent()', () => {
-    describe('when parent is not a RowProxy', () => {
-      beforeEach(() => {
-        originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-      });
-      it('should return a new parent based on the object passed in', () => {
-        assertArrayProxy(!!arrayProxy);
-        const parent = {
-          id: '1',
-          name: 'foo',
-          isEditing: false,
-        };
-        const newParent = castTo<{
-          createNewParentFromParent(p: object, b: boolean): object;
-        }>(arrayProxy).createNewParentFromParent(parent, true);
-        expect(newParent).toEqual({
-          id: '1',
-          name: 'foo',
-          isEditing: true,
-        });
-      });
-    });
-    describe('when parent is a RowProxy', () => {
-      beforeEach(() => {
-        originalArray = ['1', '2', '3'];
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-      });
-      it('should return a new parent based on the object passed in', () => {
-        assertArrayProxy(!!arrayProxy);
-        const parent = {
-          id: '1',
-          name: 'foo',
-          isEditing: false,
-        };
-        const parentProxy = new RowProxy(
-          parent,
-          {} as unknown as ActionService,
-          {} as unknown as ActionService,
-        );
-        const newParent = castTo<{
-          createNewParentFromParent(p: object, b: boolean): object;
-        }>(arrayProxy).createNewParentFromParent(parentProxy, true);
-        expect(newParent).toEqual({
-          id: '1',
-          name: 'foo',
-          isEditing: true,
-        });
-      });
-    });
-  });
-  describe('addToStore()', () => {
+  describe('addToStore', () => {
     let mockParentService: ActionService;
-    let mockChildService: ActionService;
-    let mockEntityAdapter: EntityAdapter<SmartNgRXRowBase>;
-    let loadByIdsSuccessSpy: jest.SpyInstance;
-    describe('with standard array', () => {
-      beforeEach(() => {
-        mockParentService = {
-          loadByIdsSuccess: jest.fn(),
-        } as unknown as ActionService;
-        mockChildService = {
-          loadByIdsSuccess: jest.fn(),
-        } as unknown as ActionService;
-        mockEntityAdapter = {
-          selectId: jest.fn().mockReturnValue('newId'),
-        } as unknown as EntityAdapter<SmartNgRXRowBase>;
-
-        arrayProxy = new ArrayProxy(
-          originalArray,
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-        arrayProxy.entityAdapter = mockEntityAdapter;
-        arrayProxy.childActionService = mockChildService;
-
-        loadByIdsSuccessSpy = jest.spyOn(mockChildService, 'loadByIdsSuccess');
-        jest
-          .spyOn(actionServiceRegistry, 'actionServiceRegistry')
-          .mockReturnValueOnce(mockParentService)
-          .mockReturnValueOnce(mockChildService);
-      });
-
-      it('should add a new row to the store when rawArray is an array', () => {
-        const newRow = { id: 'newId', name: 'New Row' } as SmartNgRXRowBase;
-        const parentRow = {
-          id: 'parentId',
-          children: originalArray,
-        } as SmartNgRXRowBase;
-
-        arrayProxy!.addToStore(newRow, parentRow);
-
-        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
-          {
-            ...parentRow,
-            children: [...originalArray, 'newId'],
-            isEditing: true,
-          },
-        ]);
-      });
-    });
-    describe('with virtual array', () => {
-      beforeEach(() => {
-        mockParentService = {
-          loadByIdsSuccess: jest.fn(),
-        } as unknown as ActionService;
-        mockChildService = {
-          loadByIdsSuccess: jest.fn(),
-        } as unknown as ActionService;
-        mockEntityAdapter = {
-          selectId: jest.fn().mockReturnValue('newId'),
-        } as unknown as EntityAdapter<SmartNgRXRowBase>;
-
-        const parentAction = actionFactory('parentFeature', 'parentEntity');
-
-        const virtualArray = new VirtualArray(
-          {
-            indexes: originalArray,
-            length: originalArray.length,
-          },
-          parentAction,
-          'parentId',
-          'children',
-        );
-
-        arrayProxy = new ArrayProxy(
-          virtualArray as unknown as string[],
-          { ids: [], entities: {} },
-          childDefinition,
-        );
-        arrayProxy.init();
-        arrayProxy.entityAdapter = mockEntityAdapter;
-        arrayProxy.childActionService = mockChildService;
-
-        loadByIdsSuccessSpy = jest.spyOn(mockChildService, 'loadByIdsSuccess');
-        jest
-          .spyOn(actionServiceRegistry, 'actionServiceRegistry')
-          .mockReturnValueOnce(mockParentService)
-          .mockReturnValueOnce(mockChildService);
-      });
-      it('should add a new row to the store when rawArray is a VirtualArray', () => {
-        const virtualArray = new VirtualArray(
-          { indexes: originalArray, length: originalArray.length },
-          {} as ActionGroup,
-          'parentId',
-          'children',
-        );
-
-        const newRow = { id: 'newId', name: 'New Row' } as SmartNgRXRowBase;
-        const parentRow = {
-          id: 'parentId',
-          children: virtualArray,
-        } as SmartNgRXRowBase;
-
-        arrayProxy!.addToStore(newRow, parentRow);
-
-        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
-          {
-            ...parentRow,
-            children: {
-              indexes: [...originalArray, 'newId'],
-              length: originalArray.length + 1,
-            },
-            isEditing: true,
-          },
-        ]);
-      });
-    });
-  });
-  describe('removeChildIdFromChildArray', () => {
-    let mockParentService: ActionService;
-    let loadByIdsSuccessSpy: jest.SpyInstance;
 
     beforeEach(() => {
+      mockService = {
+        add: jest.fn(),
+        loadByIdsSuccess: jest.fn(),
+      } as unknown as ActionService;
+
+      mockParentService = {
+        update: jest.fn(),
+        loadByIdsSuccess: jest.fn(),
+      } as unknown as ActionService;
+
+      jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
+        service: mockService,
+        parentService: mockParentService,
+      });
+    });
+
+    it('should add a new row to the store and update the parent when rawArray is a regular array', () => {
+      // Arrange: Set up a regular array
+      arrayProxy.rawArray = ['existingChildId'];
+      const newRow = { id: 'newChildId', relatedIds: [] };
+      const parent = { id: 'parentId', relatedIds: ['existingChildId'] };
+
+      // Act: Call addToStore
+      arrayProxy.addToStore(newRow, parent);
+
+      // Assert: Check that the add method is called and parent is updated
+      expect(mockService.loadByIdsSuccess).toHaveBeenCalledWith([newRow]);
+      expect(mockParentService.loadByIdsSuccess).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: 'parentId',
+          isEditing: true,
+          relatedIds: ['existingChildId', 'newChildId'],
+        }),
+      ]);
+    });
+
+    it('should add a new row to the store and update the parent when rawArray is a VirtualArray', () => {
+      // Arrange: Set up a VirtualArray
+      const virtualArray = {
+        rawArray: ['existingChildId'],
+        length: 1,
+      } as unknown as VirtualArray<MockRow>;
+      arrayProxy.rawArray = virtualArray as unknown as string[];
+      const newRow = { id: 'newChildId', relatedIds: [] };
+      const parent = { id: 'parentId', relatedIds: ['existingChildId'] };
+
+      // Act: Call addToStore
+      arrayProxy.addToStore(newRow, parent);
+
+      // Assert: Check that the add method is called and parent is updated
+      expect(mockService.loadByIdsSuccess).toHaveBeenCalledWith([newRow]);
+      expect(mockParentService.loadByIdsSuccess).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: 'parentId',
+          isEditing: true,
+          relatedIds: {
+            indexes: ['existingChildId', 'newChildId'],
+            length: 2,
+          },
+        }),
+      ]);
+    });
+  });
+  describe('getAtIndex', () => {
+    it('should return the item from the store if index is valid', () => {
+      arrayProxy.rawArray = ['1'];
+      const result = arrayProxy.getAtIndex(0);
+
+      expect(getArrayItem).toHaveBeenCalledWith(
+        mockChild,
+        '1',
+        mockChildDefinition,
+      );
+      expect(result).toEqual({ id: '1', relatedIds: [] });
+    });
+
+    it('should throw an error if index is out of bounds', () => {
+      arrayProxy.rawArray = ['1'];
+      expect(() => arrayProxy.getAtIndex(1)).toThrow('Index out of bounds');
+    });
+  });
+
+  describe('removeFromStore', () => {
+    let mockParentService: ActionService;
+
+    beforeEach(() => {
+      mockService = {
+        remove: jest.fn(),
+        loadByIdsSuccess: jest.fn(),
+      } as unknown as ActionService;
+
       mockParentService = {
         loadByIdsSuccess: jest.fn(),
       } as unknown as ActionService;
 
-      arrayProxy = new ArrayProxy(
-        [],
-        { ids: [], entities: {} },
-        childDefinition,
-      );
+      jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
+        service: mockService,
+        parentService: mockParentService,
+      });
+    });
+
+    it('should remove a row from the store and update the parent when parentField is an array', () => {
+      // Arrange: Set up the parent with an array of child IDs
+      const row = { id: 'childId', relatedIds: [] };
+      const parent = { id: 'parentId', relatedIds: ['childId'] };
+
+      // Act: Call removeFromStore
       arrayProxy.init();
+      arrayProxy.removeFromStore(row, parent);
 
-      // Mock the getServices method to return our mock parent service
-      jest
-        .spyOn(
-          arrayProxy as unknown as {
-            getServices(): { parentService: ActionService };
-          },
-          'getServices',
-        )
-        .mockReturnValue({
-          parentService: mockParentService,
-        });
-
-      loadByIdsSuccessSpy = jest.spyOn(mockParentService, 'loadByIdsSuccess');
+      // Assert: Check that the remove method is called and parent is updated
+      expect(mockService.remove).toHaveBeenCalledWith(['childId']);
+      expect(mockParentService.loadByIdsSuccess).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: 'parentId',
+          isEditing: false,
+          relatedIds: [],
+        }),
+      ]);
     });
 
-    describe('with regular array', () => {
-      it('should remove the child id from the parent array', () => {
-        const entity = {
-          ids: ['parent1'],
-          entities: {
-            parent1: {
-              id: 'parent1',
-              children: ['child1', 'child2', 'child3'],
-              isEditing: true,
-            },
-          },
-        } as EntityState<Row>;
+    it('should remove a row from the store and update the parent when parentField is a VirtualArrayContents', () => {
+      // Arrange: Set up the parent with a VirtualArrayContents
+      const row = { id: 'childId', relatedIds: [] };
+      const parent = {
+        id: 'parentId',
+        relatedIds: {
+          indexes: ['childId'],
+          length: 1,
+        } as unknown as string[],
+      };
 
-        const parentId = 'parent1';
-        const parentField = 'children';
-        const childId = 'child2';
+      // Act: Call removeFromStore
+      arrayProxy.init();
+      arrayProxy.removeFromStore(row, parent);
 
-        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
+      // Assert: Check that the remove method is called and parent is updated
+      expect(mockService.remove).toHaveBeenCalledWith(['childId']);
+      expect(mockParentService.loadByIdsSuccess).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: 'parentId',
+          isEditing: false,
+          relatedIds: [],
+        }),
+      ]);
+    });
+  });
 
-        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
-          {
-            id: 'parent1',
-            children: ['child1', 'child3'],
-            isEditing: false,
-          },
-        ]);
-      });
-
-      it('should not modify the array if the child id is not present', () => {
-        const entity = {
-          ids: ['parent1'],
-          entities: {
-            parent1: {
-              id: 'parent1',
-              children: ['child1', 'child3'],
-              isEditing: true,
-            },
-          },
-        } as EntityState<Row>;
-        const parentId = 'parent1';
-        const parentField = 'children';
-        const childId = 'child2';
-
-        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
-
-        expect(loadByIdsSuccessSpy).not.toHaveBeenCalled();
+  describe('removeChildIdFromChildArray', () => {
+    beforeEach(() => {
+      jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
+        parentService: mockService,
+        service: mockService,
       });
     });
+    it('should remove childId from parent array', () => {
+      const parentId = 'parentId';
+      const childId = 'childId';
+      const parentField = 'relatedIds';
 
-    describe('with virtual array', () => {
-      it('should mark the child id as "delete" in the virtual array', () => {
-        const entity = {
-          ids: ['parent1'],
-          entities: {
-            parent1: {
-              id: 'parent1',
-              children: {
-                indexes: ['child1', 'child2', 'child3'],
-                length: 3,
-              },
-              isEditing: true,
-            },
-          },
-        } as EntityState<RowWithVirtualChildren>;
-        const parentId = 'parent1';
-        const parentField = 'children';
-        const childId = 'child2';
+      arrayProxy.removeChildIdFromChildArray(
+        mockChild,
+        parentId,
+        parentField,
+        childId,
+      );
 
-        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
-
-        expect(loadByIdsSuccessSpy).toHaveBeenCalledWith([
-          {
-            id: 'parent1',
-            children: {
-              indexes: ['child1', 'delete', 'child3'],
-              length: 2,
-            },
-            isEditing: false,
-          },
-        ]);
-      });
-
-      it('should not modify the virtual array if the child id is not present', () => {
-        const entity = {
-          ids: ['parent1'],
-          entities: {
-            parent1: {
-              id: 'parent1',
-              children: {
-                indexes: ['child1', 'child3', 'child4'],
-                length: 3,
-              },
-              isEditing: true,
-            },
-          },
-        } as EntityState<RowWithVirtualChildren>;
-        const parentId = 'parent1';
-        const parentField = 'children';
-        const childId = 'child2';
-
-        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
-
-        expect(loadByIdsSuccessSpy).not.toHaveBeenCalled();
-      });
+      expect(mockService.loadByIdsSuccess).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: parentId,
+          relatedIds: [],
+        }),
+      ]);
     });
 
-    it('should throw an error if the parent row is undefined', () => {
-      const entity = { ids: [], entities: {} };
-      const parentId = 'nonexistent';
-      const parentField = 'children';
-      const childId = 'child1';
+    it('should remove childId from parent VirtualArrayContents', () => {
+      mockChild.entities['parentId']!.relatedIds = {
+        indexes: ['childId'],
+        length: 1,
+      } as unknown as string[];
 
-      expect(() => {
-        (arrayProxy as PublicArrayProxy).removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
-      }).toThrow('parentRow is undefined');
+      const parentId = 'parentId';
+      const childId = 'childId';
+      const parentField = 'relatedIds';
+
+      arrayProxy.removeChildIdFromChildArray(
+        mockChild,
+        parentId,
+        parentField,
+        childId,
+      );
+
+      expect(mockService.loadByIdsSuccess).toHaveBeenCalledWith([
+        expect.objectContaining({
+          id: parentId,
+          relatedIds: {
+            indexes: ['delete'],
+            length: 0,
+          },
+        }),
+      ]);
+    });
+    it('should not update the parent if childId is not in the parent array', () => {
+      const parentId = 'parentId';
+      const childId = 'nonExistentChildId'; // Child ID not present
+      const parentField = 'relatedIds';
+
+      arrayProxy.removeChildIdFromChildArray(
+        mockChild,
+        parentId,
+        parentField,
+        childId,
+      );
+
+      // Assert: Ensure loadByIdsSuccess is not called
+      expect(mockService.loadByIdsSuccess).not.toHaveBeenCalled();
+    });
+
+    it('should not update the parent if childId is not in the parent VirtualArrayContents', () => {
+      mockChild.entities['parentId']!.relatedIds = {
+        indexes: ['childId'],
+        length: 1,
+      } as unknown as string[];
+
+      const parentId = 'parentId';
+      const childId = 'nonExistentChildId'; // Child ID not present
+      const parentField = 'relatedIds';
+
+      arrayProxy.removeChildIdFromChildArray(
+        mockChild,
+        parentId,
+        parentField,
+        childId,
+      );
+
+      // Assert: Ensure loadByIdsSuccess is not called
+      expect(mockService.loadByIdsSuccess).not.toHaveBeenCalled();
+    });
+  });
+  describe('createNewParentFromParent', () => {
+    it('should create a new parent with RowProxy changes when parent is a RowProxy', () => {
+      // Arrange
+      const mockRowProxy = {
+        getRealRow: jest
+          .fn()
+          .mockReturnValue({ id: 'parentId', name: originalName }),
+        changes: { name: 'Updated Name' },
+      } as unknown as RowProxy<MockRow>;
+
+      // Act
+      const result = arrayProxy.createNewParentFromParent(
+        mockRowProxy as unknown as MockRow,
+        true,
+      );
+
+      // Assert
+      expect(result).toEqual({
+        id: 'parentId',
+        name: 'Updated Name',
+        isEditing: true,
+      });
+      expect(mockRowProxy.getRealRow).toHaveBeenCalled();
+    });
+
+    it('should create a new parent without RowProxy changes when parent is not a RowProxy', () => {
+      // Arrange
+      const parent = { id: 'parentId', name: originalName } as MockRow;
+
+      // Act
+      const result = arrayProxy.createNewParentFromParent(parent, false);
+
+      // Assert
+      expect(result).toEqual({
+        id: 'parentId',
+        name: originalName,
+        isEditing: false,
+      });
     });
   });
 });

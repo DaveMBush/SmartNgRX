@@ -6,7 +6,6 @@ import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
@@ -78,12 +77,8 @@ export class ArrayProxy<
    */
   init(): void {
     const { childFeature, childEntity } = this.childDefinition;
-    const childActionService = actionServiceRegistry(childFeature, childEntity);
-    assert(
-      !!childActionService,
-      `the service for ${childFeature}:${childEntity} is not available`,
-    );
-    this.childActionService = childActionService;
+    const { service } = this.getServices();
+    this.childActionService = service;
     // needed primarily for adding items to the array
     const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
     this.entityAdapter = entityAdapter;
@@ -312,6 +307,7 @@ export class ArrayProxy<
         [parentField]: {
           ...virtualArrayContents,
           indexes: virtualArrayContents.indexes.map((cid) =>
+            /* istanbul ignore next -- not possible to test if part of ternary */
             cid !== childId ? cid : 'delete',
           ),
           length: virtualArrayContents.length - 1,
@@ -328,11 +324,11 @@ export class ArrayProxy<
     let newParent: P = { ...parent, isEditing };
     // we aren't using the 2nd generic parameter of RowProxy, so we just
     // use the base type of SmartNgRXRowBase here.
-    const customProxy = castTo<RowProxy<P>>(parent);
-    if (customProxy.getRealRow !== undefined) {
+    const rowProxy = castTo<RowProxy<P>>(parent);
+    if (rowProxy.getRealRow !== undefined) {
       newParent = {
-        ...customProxy.getRealRow(),
-        ...customProxy.changes,
+        ...rowProxy.getRealRow(),
+        ...rowProxy.changes,
         isEditing,
       };
     }

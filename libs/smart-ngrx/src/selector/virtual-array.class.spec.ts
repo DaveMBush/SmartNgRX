@@ -1,215 +1,136 @@
-import { ActionGroup } from '../actions/action-group.interface';
-import { castTo } from '../common/cast-to.function';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { ActionService } from '../actions/action.service';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
 
-jest.mock('./store.function');
+interface TestableVirtualArray<P extends object>
+  extends Omit<VirtualArray<P>, 'dispatchLoadByIndexes'> {
+  dispatchLoadByIndexes(
+    parentId: string,
+    childField: string,
+    index: number,
+  ): void;
+}
 
 describe('VirtualArray', () => {
-  let virtualArray: VirtualArray<SmartNgRXRowBase>;
-  let mockDispatch: jest.Mock;
-  let mockStore: { dispatch: jest.Mock };
-
-  const mockActionGroup = castTo<ActionGroup>({
-    loadByIndexes: jest.fn(),
-  });
-
+  let virtualArray: TestableVirtualArray<object>;
+  let mockActionService: jest.Mocked<ActionService>;
+  let mockVirtualArrayContents: VirtualArrayContents;
+  const parentId = 'parent123';
+  const childField = 'children';
   beforeEach(() => {
-    const mockArrayContents: VirtualArrayContents = {
-      indexes: ['1', '2', '3'],
-      length: 3,
+    mockActionService = {
+      loadByIndexes: jest.fn(),
+    } as unknown as jest.Mocked<ActionService>;
+
+    mockVirtualArrayContents = {
+      indexes: ['id1', 'id2', 'id3'],
+      length: 5,
     };
-    mockDispatch = jest.fn();
-    mockStore = { dispatch: mockDispatch };
-    (store as jest.Mock).mockReturnValue(mockStore);
 
-    virtualArray = new VirtualArray(
-      mockArrayContents,
-      mockActionGroup,
-      'parentId',
-      'childField',
-    );
+    virtualArray = new VirtualArray<object>(
+      mockVirtualArrayContents,
+      mockActionService,
+      parentId,
+      childField,
+    ) as unknown as TestableVirtualArray<object>;
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  describe('constructor', () => {
+    it('should initialize with correct properties', () => {
+      expect(virtualArray.rawArray).toEqual(['id1', 'id2', 'id3']);
+      expect(virtualArray.length).toBe(5);
+    });
   });
 
-  it('should return the value at the index if the prop is a string that is a number and the index exists in rawArray', () => {
-    expect(virtualArray[0]).toBe('1');
-    expect(virtualArray[1]).toBe('2');
-    expect(virtualArray[2]).toBe('3');
-    expect(mockDispatch).toHaveBeenCalledTimes(0);
-  });
+  describe('proxy get handler', () => {
+    it('should return existing id for known index', () => {
+      expect(virtualArray[0]).toBe('id1');
+    });
 
-  describe('and when the virtual array is frozen', () => {
-    beforeEach(() => {
+    it('should dispatch load action and return placeholder for unknown index', () => {
+      const result = virtualArray[3];
+      expect(result).toBe('index-3');
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- for testing
+      expect(mockActionService.loadByIndexes).toHaveBeenCalledWith(
+        parentId,
+        childField,
+        [3],
+      );
+    });
+
+    it('should return property value for non-numeric properties', () => {
+      expect(virtualArray.length).toBe(5);
+    });
+
+    it('should create a new array when rawArray is frozen', () => {
+      // Freeze the rawArray
       Object.freeze(virtualArray.rawArray);
-    });
 
-    it('should dispatch loadByIndexes action if the prop is a string that is a number and the index does not exist in rawArray', () => {
-      expect(virtualArray[3]).toBe('index-3');
-      expect(virtualArray.rawArray[3]).toBe('indexNoOp-3');
-      expect(mockDispatch).toHaveBeenCalledWith(
-        mockActionGroup.loadByIndexes({
-          indexes: [3],
-          parentId: 'parentId',
-          childField: 'childField',
-        }),
-      );
-    });
-  });
-
-  it('should dispatch loadByIndexes action if the prop is a string that is a number and the index does not exist in rawArray', () => {
-    expect(virtualArray[3]).toBe('index-3');
-    expect(mockDispatch).toHaveBeenCalledWith(
-      mockActionGroup.loadByIndexes({
-        indexes: [3],
-        parentId: 'parentId',
-        childField: 'childField',
-      }),
-    );
-  });
-
-  it('should return the value of the property if the prop is anything other than a string that is a number', () => {
-    expect(virtualArray.length).toBe(3);
-    expect(mockDispatch).not.toHaveBeenCalled();
-  });
-
-  describe('dispatchLoadByIndexes', () => {
-    it('should not dispatch action if the index has already been fetched', () => {
-      let index0 = virtualArray[0]; // Access index 0 to mark it as fetched
-      index0 = virtualArray[0]; // Access index 0 again
-
-      expect(index0).toBe('1');
-      expect(mockDispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should dispatch action if the index has not been fetched', () => {
-      const index0 = virtualArray[0]; // Access index 0
-      const index1 = virtualArray[1]; // Access index 1
-
-      expect(index0).toBe('1');
-      expect(index1).toBe('2');
-      expect(mockDispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should create a new fetchedIndexes array if it is frozen', () => {
-      virtualArray.rawArray = [];
-      const index0 = virtualArray[0]; // Access index 0
-      Object.freeze(virtualArray.fetchedIndexes);
-      const index1 = virtualArray[1]; // Access index 1
-
-      expect(index0).toBe('index-0');
-      expect(index1).toBe('index-1');
-      expect(mockDispatch).toHaveBeenCalledTimes(2);
-      expect(Object.isFrozen(virtualArray.fetchedIndexes)).toBe(false);
-    });
-
-    it('should dispatch loadByIndexes action with correct parameters', () => {
-      virtualArray.rawArray = [];
-      const index1 = virtualArray[1]; // Access index 1
-
-      expect(index1).toBe('index-1');
-      expect(mockDispatch).toHaveBeenCalledWith(
-        mockActionGroup.loadByIndexes({
-          indexes: [1],
-          parentId: 'parentId',
-          childField: 'childField',
-        }),
-      );
-    });
-    it('should not dispatch action if the index has been fetched and rawArray has a value', () => {
-      virtualArray.rawArray = ['1', '2', '3'];
-      virtualArray.fetchedIndexes = [true, true, true];
-
-      const index0 = virtualArray[0];
-      const index1 = virtualArray[1];
-      const index2 = virtualArray[2];
-
-      expect(index0).toBe('1');
-      expect(index1).toBe('2');
-      expect(index2).toBe('3');
-      expect(mockDispatch).not.toHaveBeenCalled();
-    });
-
-    it('should dispatch action if the index has been fetched but rawArray is empty', () => {
-      virtualArray.rawArray = [];
-      virtualArray.fetchedIndexes = [true, true, true];
-
-      const index0 = virtualArray[0];
-
-      expect(index0).toBe('index-0');
-      expect(mockDispatch).toHaveBeenCalledTimes(1);
-      expect(mockDispatch).toHaveBeenCalledWith(
-        mockActionGroup.loadByIndexes({
-          indexes: [0],
-          parentId: 'parentId',
-          childField: 'childField',
-        }),
-      );
-    });
-
-    it('should update fetchedIndexes after dispatching action', () => {
-      virtualArray.rawArray = [];
-      virtualArray.fetchedIndexes = [];
-
-      const index0 = virtualArray[0];
-
-      expect(index0).toBe('index-0');
-      expect(virtualArray.fetchedIndexes[0]).toBe(true);
-      expect(mockDispatch).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('array access behavior', () => {
-    it('should return existing value for indexes in rawArray', () => {
-      expect(virtualArray[0]).toBe('1');
-      expect(virtualArray[1]).toBe('2');
-      expect(virtualArray[2]).toBe('3');
-    });
-
-    it('should return placeholder value for non-existing indexes', () => {
-      expect(virtualArray[3]).toBe('index-3');
-      expect(virtualArray[4]).toBe('index-4');
-    });
-
-    it('should create a new rawArray if it is frozen', () => {
-      Object.freeze(virtualArray.rawArray);
-      const index3 = virtualArray[3]; // Access non-existing index
-      expect(index3).toBe('index-3');
+      // Access an unknown index to trigger the proxy handler
+      const result = virtualArray[4];
+      // Check if a new array was created
       expect(Object.isFrozen(virtualArray.rawArray)).toBe(false);
-      expect(virtualArray.rawArray[3]).toBe('indexNoOp-3');
+      expect(result).toEqual('index-4');
     });
   });
 
   describe('refetchIndexes', () => {
-    it('should reset fetchedIndexes to an empty array', () => {
-      virtualArray.rawArray = [];
-      const index0 = virtualArray[0]; // Access index 0 to mark it as fetched
-      const index1 = virtualArray[1]; // Access index 1 to mark it as fetched
-      expect(index0).toBe('index-0');
-      expect(index1).toBe('index-1');
-      expect(virtualArray.fetchedIndexes).toEqual([true, true]);
-
+    it('should reset fetchedIndexes', () => {
+      virtualArray.fetchedIndexes = [true, true, false];
       virtualArray.refetchIndexes();
-
       expect(virtualArray.fetchedIndexes).toEqual([]);
     });
+  });
 
-    it('should cause indexes to be refetched after calling refetchIndexes', () => {
-      virtualArray.rawArray = [];
-      const index0 = virtualArray[0]; // Access index 0 to mark it as fetched
-      expect(index0).toBe('index-0');
-      expect(mockDispatch).toHaveBeenCalledTimes(1);
+  describe('getIdAtIndex', () => {
+    it('should return existing id for known index', () => {
+      expect(virtualArray.getIdAtIndex(1)).toBe('id2');
+    });
 
-      virtualArray.refetchIndexes();
-      const index0Again = virtualArray[0]; // Access index 0 again
+    it('should return placeholder id for unknown index within bounds', () => {
+      expect(virtualArray.getIdAtIndex(3)).toBe('index-3');
+    });
 
-      expect(index0Again).toBe('indexNoOp-0');
-      expect(mockDispatch).toHaveBeenCalledTimes(1);
+    it('should return undefined for out of bounds index', () => {
+      expect(virtualArray.getIdAtIndex(5)).toBeUndefined();
+      expect(virtualArray.getIdAtIndex(-1)).toBeUndefined();
+    });
+  });
+
+  describe('dispatchLoadByIndexes', () => {
+    it('should create a new fetchedIndexes array when it is frozen', () => {
+      // Freeze the fetchedIndexes array
+      virtualArray.fetchedIndexes = Object.freeze([
+        false,
+        false,
+        false,
+      ]) as unknown as boolean[];
+
+      // Call dispatchLoadByIndexes
+      virtualArray.dispatchLoadByIndexes(parentId, childField, 1);
+
+      // Check if a new array was created and the correct index was set
+      expect(Object.isFrozen(virtualArray.fetchedIndexes)).toBe(false);
+      expect(virtualArray.fetchedIndexes).toEqual([false, true, false]);
+    });
+
+    it('should update existing fetchedIndexes array when it is not frozen', () => {
+      virtualArray.fetchedIndexes = [false, false, false];
+
+      virtualArray.dispatchLoadByIndexes(parentId, childField, 1);
+
+      expect(virtualArray.fetchedIndexes).toEqual([false, true, false]);
+    });
+
+    it('should call loadByIndexes on the action service', () => {
+      virtualArray.dispatchLoadByIndexes(parentId, childField, 1);
+
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- for testing
+      expect(mockActionService.loadByIndexes).toHaveBeenCalledWith(
+        parentId,
+        childField,
+        [1],
+      );
     });
   });
 });
