@@ -778,7 +778,13 @@
         "sonarjs/no-redundant-jump": "error",
         "sonarjs/no-small-switch": "off",
         "sonarjs/no-use-of-empty-return-value": "error",
-        "sonarjs/prefer-single-boolean-return": "error"
+        "sonarjs/prefer-single-boolean-return": "error",
+        // These next rules are not accurate enough to be useful
+        "sonarjs/different-types-comparison": "off",
+        "sonarjs/no-dead-store": "off",
+        // For/Next is generally faster than forEach or forOf
+        // because it doesn't have to use the iterator
+        "sonarjs/prefer-for-of": "off"
       }
     },
     {
@@ -878,6 +884,8 @@
         "max-lines": "off",
         "max-lines-per-function": "off",
         "max-nested-callbacks": "off",
+        "sonarjs/no-nested-functions": "off",
+        "sonarjs/function-return-type": "off",
         "max-classes-per-file": "off",
         "jest/expect-expect": [
           "error",
