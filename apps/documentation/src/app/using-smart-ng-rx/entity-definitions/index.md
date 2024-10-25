@@ -28,9 +28,9 @@ As outlined in the `SmartEntityDefinition` interface, we need to provide the fol
 
 ## entityName
 
-The field name that you'd usually use in the reducer object you'd use in StoreModule.forFeature(featureName, reducer) OR the name you'd use in provideState(featureName, reducer)
+The field name that you'd usually use in the reducer object you'd use in `StoreModule.forFeature(featureName, reducer)` OR the name you'd use in `provideState(featureName, reducer)`.
 
-We also use this name along with the feature as the Source field in actions but this should not matter to you because you'll either be using actions we've created or using your own actions for your specific purposes.
+We also use this name along with the feature as the `Source` field in actions but this should not matter to you because you'll either be using actions we've created or using your own actions for your specific purposes.
 
 If you think of this as the name of the NgRX entity, you'll be fine.
 
@@ -48,7 +48,7 @@ You can also provide the following optional fields as your needs dictate:
 
 ### entityAdapter
 
-This field will let you supply your own EntityAdapter for the entity. This would be useful if your code uses a field other than `id` as the primary key for the entity. Nothing in SmartNgRX makes use of the sortComparer function so you can ignore that.
+This field will let you supply your own [EntityAdapter](https://ngrx.io/api/entity/EntityAdapter) for the entity. This would be useful if your code uses a field other than `id` as the primary key for the entity. Nothing in SmartNgRX makes use of the sortComparer function so you can ignore that.
 
 ### markAndDelete
 

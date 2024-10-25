@@ -11,9 +11,9 @@ SmartNgRX is a library that hides most of NgRX from the developer for CRUD opera
 - [x] Optionally remove unused entity rows from the store if they are no longer being used.
 - [x] Optionally allow data to refresh if it is currently being displayed.
 - [x] Allow this to work with other NgRX implementations or use only this implementation as desired or needed.
-- [ ] Provide multiple ways to retrieve child rows.
+- [x] Provide multiple ways to retrieve child rows.
   - [x] For small sets of nested data, provide the IDs of the child elements in an array of the parent.
-  - [ ] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
+  - [x] For larger sets of nested data, provide another mechanism that will allow for "paging" the rows.
 - [x] Allow this to work with code that has to account for write lag on the server (you can control this by using the Effects Service you have complete control over).
 - [x] Allow the server to notify this code via websockets (or any future server-side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered someplace.
 - [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
@@ -37,7 +37,7 @@ At one of my previous jobs, I needed to work with data that could be essentially
 
 Fast forward to a similar situation and a lot more experience. One of the issues with the previous implementation was that I had to retrieve the data every time it scrolled into view. As you can imagine, even with the fastest retrieval times, this didn't paint nearly as fast as anyone would have liked. This time, we had more control over the data. It was still a large data set. But it was not infinite.
 
-As we were in a meeting one day with everyone discussing various ways would could make the application perform better, I said, "Let me tell you what I've been thinking about." I proceeded to lay out a concept based on my earlier work where we'd only load the rows as we needed them AND remove them once we had some assurance they were no longer being used.
+As we were in a meeting one day with everyone discussing various ways we could make the application perform better, I said, "Let me tell you what I've been thinking about." I proceeded to lay out a concept based on my earlier work where we'd only load the rows as we needed them AND remove them once we had some assurance they were no longer being used.
 
 I was then told to go work on a POC for that concept and got far enough to know I was on to something but not far enough to solve all the issues we were going to run into.
 
@@ -64,6 +64,7 @@ All the documentation can be found at [SmartNgRX Documentation](https://davembus
 
 - Checkout the project
 - Run `pnpm i`
+  - The first time you run `pnpm i`, it will take a while to complete. This is because, as part of the installation process, we also seed the database with enough data to demonstrate virtual arrays.
 - start the server with `pnpm run start:server`
 - start the client with `pnpm run start`
 - open a browser to `http://localhost:4200`
