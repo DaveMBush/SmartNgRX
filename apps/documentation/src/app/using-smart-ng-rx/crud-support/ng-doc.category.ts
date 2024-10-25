@@ -4,7 +4,7 @@ import UsingSmartNgRXCategory from '../ng-doc.category';
 const CrudSupportCategory: NgDocCategory = {
   title: 'CRUD Support',
   expandable: true,
-  order: 10,
+  order: 11,
   category: UsingSmartNgRXCategory,
 };
 

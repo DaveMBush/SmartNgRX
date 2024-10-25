@@ -79,7 +79,7 @@ export class ActionService {
     const selectEntity = createSelector(selectFeature, (f) => {
       try {
         return f[this.entity];
-        // eslint-disable-next-line sonarjs/no-ignored-exceptions -- we ARE handling the exception by returning the empty state
+        // eslint-disable-next-line sonarjs/no-ignored-exceptions -- we ARE handling the error
       } catch (_) {
         return { ids: [], entities: {} };
       }
