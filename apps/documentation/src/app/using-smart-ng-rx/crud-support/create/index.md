@@ -22,7 +22,7 @@ To remove a row that has not been saved to the server yet, you would call the `A
 
 ## Storing to the Server
 
-Once again, SmartNgRX ends up call your `EffectService` class to store the data to the server.
+Once again, SmartNgRX ends up calling your `EffectService` class to store the data to the server.
 
 ```typescript
 override add(row: DepartmentChild): Observable<DepartmentChild[]> {

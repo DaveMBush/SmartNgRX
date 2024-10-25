@@ -14,7 +14,7 @@ If `markAndDelete` is not set, it will default to 15 minutes.
 
 ## markDirtyFetchesNew
 
-As mentioned above, if this is set to true, than any time a row is marked as dirty the system will retrieve a new value from the server. Otherwise, it will just reset the dirty timeout internally.
+As mentioned above, if this is set to true, than any time a row is marked as dirty, the system will retrieve a new value from the server. Otherwise, it will just reset the dirty timeout internally.
 
 If `markDirtyFetchesNew` is not set, it will default to `true`.
 
