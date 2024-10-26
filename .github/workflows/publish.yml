@@ -47,5 +47,6 @@ jobs:
           npx nx release version --specifier $VERSION --verbose --skip-nx-cache
           npx nx release publish --verbose --skip-nx-cache
         env:
+          NX_NO_CLOUD: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
