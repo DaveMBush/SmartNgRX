@@ -19,7 +19,8 @@ import { ListDTO } from './lists-dto.interface';
 @Controller('lists')
 export class ListsController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 

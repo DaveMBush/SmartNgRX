@@ -1,4 +1,3 @@
-import { ActionService } from '../actions/action.service';
 import { ParentInfo } from '../actions/parent-info.interface';
 import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
@@ -12,7 +11,6 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
  * @param ids The ids of the rows that need to be deleted.
  */
 export function deleteEntity(feature: string, entity: string, ids: string[]) {
-  const actionService = new ActionService(feature, entity);
   const childDefinitions = childDefinitionRegistry.getChildDefinition(
     feature,
     entity,
@@ -21,7 +19,7 @@ export function deleteEntity(feature: string, entity: string, ids: string[]) {
   forNext(childDefinitions, (childDefinition) => {
     forNext(ids, (id) => {
       // This doesn't make a database call, it just updates the store.
-      removeIdFromParents(childDefinition, actionService, id, parentInfo);
+      removeIdFromParents(childDefinition, id, parentInfo);
     });
   });
 }

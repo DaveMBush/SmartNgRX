@@ -4,7 +4,7 @@ import UsingSmartNgRXCategory from '../ng-doc.category';
 const UpdatesPage: NgDocPage = {
   title: `Updates`,
   mdFile: './index.md',
-  order: 2,
+  order: 3,
   category: UsingSmartNgRXCategory,
 };
 

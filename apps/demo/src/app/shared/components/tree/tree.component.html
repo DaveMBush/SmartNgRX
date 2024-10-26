@@ -15,16 +15,20 @@
 </mat-form-field>
 <cdk-virtual-scroll-viewport
   itemSize="48"
-  [minBufferPx]="48 * 50"
-  [maxBufferPx]="4800"
+  [minBufferPx]="48 * 10"
+  [maxBufferPx]="48 * 30"
 >
-  <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
-  <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <ng-container
+    *cdkVirtualFor="let item of fullDataSource; trackBy: trackBy"
+  ></ng-container>
+  <mat-tree [dataSource]="dataSource" [levelAccessor]="levelAccessor">
     <!-- This is the tree node template for leaf nodes -->
     <mat-tree-node
       *matTreeNodeDef="let node"
       matTreeNodePadding
-      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
     >
       <button
         type="button"
@@ -42,7 +46,9 @@
     <mat-tree-node
       *matTreeNodeDef="let node; when: hasChild"
       matTreeNodePadding
-      [ngClass]="{ selected: node.level + ':' + node.node.id === selectedNode }"
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
     >
       <button
         type="button"
@@ -70,7 +76,7 @@
     @if (node.node.isLoading) {
       <ngx-skeleton-loader
         [theme]="{ width: '200px', margin: '8px' }"
-        animation="pulse"
+        animation="progress-dark"
       />
     } @else {
       <button type="button" (click)="selectNode(node)" mat-button>
@@ -112,7 +118,7 @@
           <button mat-menu-item (click)="addChild(node, 'folders')">
             Folder
           </button>
-          <button mat-menu-item (click)="addChild(node, 'sprintFolders')">
+          <button mat-menu-item (click)="addChild(node, 'sprint-folders')">
             Sprint Folder
           </button>
           <button mat-menu-item (click)="addChild(node, 'lists')">List</button>

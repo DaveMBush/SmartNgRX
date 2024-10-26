@@ -1,18 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { createEntityAdapter } from '@ngrx/entity';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
 } from '../registrations/register-entity.function';
+import { createStore } from '../tests/functions/create-store.function';
+import { setState } from '../tests/functions/set-state.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { realOrMocked } from './real-or-mocked.function';
-import { store as storeFunction } from './store.function';
 
 const real = {
   ids: ['department1'],
@@ -52,6 +54,8 @@ describe('realOrMocked', () => {
     effectServiceToken: null,
   } as unknown as SmartEntityDefinition<typeof defaultObject>);
   beforeEach(() => {
+    featureRegistry.registerFeature('feature');
+    featureRegistry.registerFeature('parentFeature');
     registerEntity('feature', 'entity', {
       markAndDeleteInit: {},
     } as EntityAttributes);
@@ -61,8 +65,15 @@ describe('realOrMocked', () => {
     TestBed.configureTestingModule({
       providers: [provideMockStore({ initialState: {} })],
     });
-    const store = TestBed.inject(MockStore);
-    storeFunction(store);
+    createStore();
+    setState('feature', 'entity', {
+      ids: [],
+      entities: {},
+    });
+    setState('parentFeature', 'parentEntity', {
+      ids: [],
+      entities: {},
+    });
   });
   afterEach(() => {
     unregisterEntity('feature', 'entity');
@@ -83,6 +94,7 @@ describe('realOrMocked', () => {
     expect(JSON.parse(JSON.stringify(r))).toEqual({
       id: 'department2',
       name: 'to be fetched',
+      isLoading: true,
     });
   });
 });

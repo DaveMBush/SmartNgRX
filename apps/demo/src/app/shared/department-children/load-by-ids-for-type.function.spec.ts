@@ -8,7 +8,13 @@ import { DepartmentChild } from './department-child.interface';
 import { loadByIdsForType } from './load-by-ids-for-type.function';
 
 function loadByIds(ids: string[]): Observable<List[]> {
-  return of(ids.map((id) => ({ id, name: 'Dept' + id, children: [] })));
+  return of(
+    ids.map((id) => ({
+      id,
+      name: 'Dept' + id,
+      children: [],
+    })),
+  );
 }
 
 describe('loadByIdsForType', () => {
@@ -34,7 +40,9 @@ describe('loadByIdsForType', () => {
         { id: 'department:1', name: 'Dept1', children: [] },
       ];
 
-      expectObservable(result).toBe('(a|)', { a: expectedOutput });
+      expectObservable(result).toBe('(a|)', {
+        a: expectedOutput,
+      });
     });
   });
 
@@ -44,7 +52,11 @@ describe('loadByIdsForType', () => {
         loadByIds: (ids: string[]) =>
           timer(1500).pipe(
             map(() => ids),
-            map((id) => ({ id, name: 'Dept' + id, children: [] })),
+            map((id) => ({
+              id,
+              name: 'Dept' + id,
+              children: [],
+            })),
           ),
       });
       const ids = ['1'];
@@ -52,7 +64,9 @@ describe('loadByIdsForType', () => {
 
       const result = loadByIdsForType(mockService, ids, type);
 
-      expectObservable(result).toBe('1000ms (a|)', { a: [] });
+      expectObservable(result).toBe('1000ms (a|)', {
+        a: [],
+      });
     });
   });
 });

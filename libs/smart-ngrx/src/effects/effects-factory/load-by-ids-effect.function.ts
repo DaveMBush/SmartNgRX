@@ -1,11 +1,11 @@
-import { inject, InjectionToken, NgZone } from '@angular/core';
+import { inject, InjectionToken } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { filter, map, mergeMap, Observable } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { bufferAction } from '../buffer-action.function';
 import { EffectService } from '../effect-service';
 
 /**
@@ -27,18 +27,27 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
-    actionService = inject(effectServiceToken),
-    /* istanbul ignore next -- default value, not really a condition */
-    zone: NgZone = inject(NgZone),
+    effectService = inject(effectServiceToken),
   ) => {
     return actions$.pipe(
       ofType(actions.loadByIds),
-      bufferAction(zone),
-      mergeMap((ids) => {
-        return actionService.loadByIds(ids);
+      map((action) => action.ids),
+      filter((ids) => ids.length > 0),
+      mergeMap((ids): Observable<T[]> => {
+        const actionService = actionServiceRegistry(feature, entity);
+        assert(
+          !!actionService,
+          `the service for ${feature}:${entity} is not available`,
+        );
+        actionService.loadByIdsPreload(ids);
+        return effectService.loadByIds(ids);
       }),
       map((rows) => {
         const service = actionServiceRegistry(feature, entity);
+        assert(
+          !!service,
+          `the service for ${feature}:${entity} is not available`,
+        );
         service.loadByIdsSuccess(rows);
       }),
     );

@@ -5,7 +5,8 @@ import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { ArrayProxy } from './array-proxy.class';
+import { convertChildrenToArrayProxy } from './convert-children-to-array-proxy.function';
+import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { ParentSelector } from './parent-selector.type';
 /**
  * This is an internal function used by `createSmartSelector`.
@@ -38,6 +39,8 @@ export function createInnerSmartSelector<
   const {
     childFeature,
     childEntity,
+    parentFeature,
+    parentEntity,
     childSelector,
     parentField: parentFieldName,
   } = childDefinition;
@@ -52,22 +55,20 @@ export function createInnerSmartSelector<
         ids: [...parent.ids] as number[] | string[],
         entities: { ...parent.entities },
       };
-      (newParentEntity.ids as string[]).forEach((w) => {
-        const entity: P = { ...newParentEntity.entities[w] } as P;
-        newParentEntity.entities[w] = entity;
-        const childArray = entity[parentFieldName] as
-          | ArrayProxy<P, C>
-          | string[];
 
-        const arrayProxy = new ArrayProxy<P, C>(
-          childArray,
-          child,
-          childDefinition,
-        );
-        arrayProxy.init();
-        castTo<Record<string, unknown>>(entity)[parentFieldName as string] =
-          arrayProxy;
-      });
+      convertChildrenToVirtualArray(
+        parentFieldName,
+        newParentEntity,
+        parentFeature,
+        parentEntity,
+      );
+
+      convertChildrenToArrayProxy(
+        newParentEntity,
+        parentFieldName,
+        child,
+        childDefinition,
+      );
       return newParentEntity;
     }),
   );

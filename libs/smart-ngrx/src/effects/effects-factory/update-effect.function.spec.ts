@@ -1,18 +1,22 @@
 import { InjectionToken } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { createEntityAdapter } from '@ngrx/entity';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { actionFactory } from '../..';
+import {
+  actionFactory,
+  assert,
+  createStore,
+  PartialArrayDefinition,
+  setState,
+} from '../..';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
 } from '../../registrations/register-entity.function';
-import { store as storeFunction } from '../../selector/store.function';
 import { EntityAttributes } from '../../types/entity-attributes.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
@@ -40,9 +44,19 @@ class TestService extends EffectService<Row> {
     return of([] as Row[]);
   }
 
-  override delete: (id: string) => Observable<void> = (_: string) => {
+  override delete(_: string): Observable<void> {
     return of();
-  };
+  }
+
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
+    // intentionally unimplemented
+    return of({} as PartialArrayDefinition);
+  }
 }
 
 const serviceToken = new InjectionToken<TestService>('TestService');
@@ -62,16 +76,18 @@ describe('update-effect.function.ts', () => {
   const testService = new TestService();
   let serviceSpy: jest.SpyInstance;
   beforeEach(() => {
+    featureRegistry.registerFeature('feature');
     registerEntity(feature, entity, {
       markAndDeleteInit: {},
     } as EntityAttributes);
-    TestBed.configureTestingModule({
-      providers: [provideMockStore({ initialState: {} })],
+    createStore();
+    setState(feature, entity, {
+      ids: [],
+      entities: {},
     });
-    const store = TestBed.inject(MockStore);
-    storeFunction(store);
     effect = updateEffect(serviceToken, actions, feature, entity);
     const actionService = actionServiceRegistry('feature', 'entity');
+    assert(!!actionService, 'actionService is not defined');
 
     serviceSpy = jest.spyOn(testService, 'update');
     actionServiceLoadByIdsSuccessSpy = jest.spyOn(
@@ -88,8 +104,12 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-a', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '1', name: 'foo', foo: 'bar' },
+            },
+            new: {
+              row: { id: '1', name: 'foo2', foo: 'bar' },
+            },
           }),
         });
         const output = cold('--a', {
@@ -109,11 +129,17 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-ab', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '1', name: 'foo', foo: 'bar' },
+            },
+            new: {
+              row: { id: '1', name: 'foo2', foo: 'bar' },
+            },
           }),
           b: actions.update({
-            old: { row: { id: '1', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '1', name: 'foo2', foo: 'bar' },
+            },
             new: {
               row: { id: '1', name: 'foo2', foo: 'bar2' },
             },
@@ -136,11 +162,17 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-ab', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '1', name: 'foo', foo: 'bar' },
+            },
+            new: {
+              row: { id: '1', name: 'foo2', foo: 'bar' },
+            },
           }),
           b: actions.update({
-            old: { row: { id: '2', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '2', name: 'foo2', foo: 'bar' },
+            },
             new: {
               row: { id: '2', name: 'foo2', foo: 'bar2' },
             },
@@ -167,27 +199,47 @@ describe('update-effect.function.ts', () => {
       testScheduler.run(({ cold, expectObservable, flush }) => {
         const input = cold('-abcd', {
           a: actions.update({
-            old: { row: { id: '1', name: 'foo', foo: 'bar' } },
-            new: { row: { id: '1', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '1', name: 'foo', foo: 'bar' },
+            },
+            new: {
+              row: { id: '1', name: 'foo2', foo: 'bar' },
+            },
           }),
           b: actions.update({
-            old: { row: { id: '2', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '2', name: 'foo2', foo: 'bar' },
+            },
             new: {
-              row: { id: '2', name: 'foo2a', foo: 'bar2' },
+              row: {
+                id: '2',
+                name: 'foo2a',
+                foo: 'bar2',
+              },
             },
           }),
           c: actions.update({
-            old: { row: { id: '1', name: 'foo2', foo: 'bar' } },
+            old: {
+              row: { id: '1', name: 'foo2', foo: 'bar' },
+            },
             new: {
               row: { id: '1', name: 'foo2', foo: 'bar2' },
             },
           }),
           d: actions.update({
             old: {
-              row: { id: '2', name: 'foo2a', foo: 'bar2' },
+              row: {
+                id: '2',
+                name: 'foo2a',
+                foo: 'bar2',
+              },
             },
             new: {
-              row: { id: '2', name: 'foo2a', foo: 'bar2a' },
+              row: {
+                id: '2',
+                name: 'foo2a',
+                foo: 'bar2a',
+              },
             },
           }),
         });

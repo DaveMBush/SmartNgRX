@@ -3,6 +3,7 @@
   [placeholder]="placeholder()"
   (keyup.enter)="save.emit(value)"
   (keyup.escape)="cancel.emit()"
+  (keydown)="keydownHandler($event)"
   (blur)="save.emit(value)"
   [ngModel]="value"
   (ngModelChange)="writeValue($event)"

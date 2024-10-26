@@ -4,6 +4,7 @@ import { createSelector } from '@ngrx/store';
 import { createSmartSelector } from '@smarttools/smart-ngrx';
 
 import { Location } from '../../../../shared/locations/location.interface';
+import { featureName } from '../../feature.const';
 import { selectLocationsDepartments } from '../locations/location.selectors';
 import { selectTreeStandardState } from '../tree-standard-state.selectors';
 
@@ -16,10 +17,10 @@ export const selectTopEntities = createSelector(
 
 export const selectTopLocations = createSmartSelector(selectTopEntities, [
   {
-    childFeature: 'tree-standard',
+    childFeature: featureName,
     childEntity: 'locations',
     parentField: 'locations',
-    parentFeature: 'tree-standard',
+    parentFeature: featureName,
     parentEntity: 'top',
     childSelector: selectLocationsDepartments,
   },

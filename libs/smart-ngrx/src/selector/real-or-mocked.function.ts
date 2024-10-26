@@ -1,10 +1,10 @@
 import { EntityState } from '@ngrx/entity';
 
-import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { rowProxy } from '../row-proxy/row-proxy.function';
 import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { getServices } from './get-services.function';
 
 /**
  * Internal function used by `createInnerSmartSelector` use to load the data if
@@ -28,15 +28,12 @@ export function realOrMocked<
   defaultObject: T,
   childDefinition: ChildDefinition<P, T>,
 ): RowProxyDelete & T {
-  const { childFeature, childEntity, parentFeature, parentEntity } =
-    childDefinition;
-  const service = actionServiceRegistry(childFeature, childEntity);
-  const parentService = actionServiceRegistry(parentFeature, parentEntity);
+  const { service, parentService } = getServices<P, T>(childDefinition);
 
   const record = entityState.entities;
   let row = record[id];
   if (row === undefined) {
-    row = { ...defaultObject, id };
+    row = { ...defaultObject, id, isLoading: true };
   }
   return rowProxy<T>(row, service, parentService);
 }

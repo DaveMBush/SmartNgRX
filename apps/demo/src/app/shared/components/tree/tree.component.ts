@@ -1,8 +1,8 @@
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
-import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   DestroyRef,
   inject,
@@ -14,6 +14,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { debounceTime, distinctUntilChanged, switchMap, timer } from 'rxjs';
 
 import { Location } from '../../locations/location.interface';
 import { TreeComponentService } from './tree-component.service';
@@ -34,15 +35,11 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   location = input<Location | null>(null);
   readonly locationChanged = output<string>();
 
-  @ViewChild(CdkVirtualScrollViewport) virtualScroll!: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport)
+  virtualScroll!: CdkVirtualScrollViewport;
 
   // end = -1 to force first render to be everything that can be displayed
   range = { start: 0, end: -1 };
-
-  treeControl = new FlatTreeControl<TreeNode>(
-    (node) => node.level,
-    (node) => node.hasChildren,
-  );
 
   dataSource: TreeNode[] = [];
   fullDataSource: TreeNode[] = [];
@@ -56,9 +53,16 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   addMenuOpenedNode = '';
   destroyRef = inject(DestroyRef);
 
-  constructor() {
+  constructor(private cd: ChangeDetectorRef) {
     this.treeComponentService.form = this;
   }
+
+  trackBy(index: number, _: TreeNode): string {
+    return index.toString();
+  }
+
+  levelAccessor: (dataNode: TreeNode) => number = (node: TreeNode) =>
+    node.level;
 
   selectionChanged(event: string): void {
     this.locationChanged.emit(event);
@@ -93,10 +97,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   cancelEdit(node: TreeNode): void {
     this.treeComponentService.cancelEdit(node);
-    this.editingContent = '';
   }
 
   saveNode(node: TreeNode): void {
+    if (this.waitForScroll) {
+      return;
+    }
     this.addingParent = null;
     this.editingNode = '';
     this.addingNode = '';
@@ -112,19 +118,51 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.addMenuOpenedNode = '';
   }
 
+  waitForScroll = true;
   addChild(parent: TreeNode, type: string): void {
     this.editingContent = `New ${type}`;
-    this.treeComponentService.addChild(
-      { id: type + ':new', name: this.editingContent, children: [] },
+    const position = this.treeComponentService.addChild(
+      {
+        id: type + ':new',
+        name: this.editingContent,
+        children: [],
+      },
       parent,
     );
     this.addingNode = `${parent.level + 1}:${type}:new`;
     this.addingParent = parent;
+    // give the tree time to update
+    // there is probably a better way to do this
+    // but this is just a demo
+    timer(1000)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(() => {
+          this.virtualScroll.scrollToIndex(position - 1);
+          return timer(500);
+        }),
+      )
+      .subscribe(() => {
+        this.treeComponentService.applyRange();
+        this.cd.markForCheck();
+        this.waitForScroll = false;
+      });
   }
 
   ngAfterViewInit(): void {
+    // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
+      .subscribe((range) => {
+        this.range = range;
+        this.treeComponentService.applyRange();
+      });
+    // this stream watching for scroll height changes
+    this.virtualScroll.renderedRangeStream
+      .pipe(
+        distinctUntilChanged((a, b) => a.end - a.start === b.end - b.start),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe((range) => {
         this.range = range;
         this.treeComponentService.applyRange();

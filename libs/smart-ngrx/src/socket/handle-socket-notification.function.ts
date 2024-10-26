@@ -1,6 +1,7 @@
 import { forNext } from '../common/for-next.function';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entity.map';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { updateEntity } from './update-entity.function';
 
@@ -20,13 +21,14 @@ export function handleSocketNotification(
   let featureEntityKeys = markAndDeleteEntities();
 
   // filter by features that have the table/entity
-  featureEntityKeys = featureEntityKeys.filter((key) =>
-    key.endsWith(psi + table),
-  );
+  featureEntityKeys = featureEntityKeys
+    .filter((key) => key.endsWith(psi + table))
+    .map((key) => key.split(psi)[0])
+    .filter((feature) => {
+      return Boolean(featureRegistry.hasFeature(feature));
+    });
   // for each feature
-  forNext(featureEntityKeys, (key) => {
-    const [feature] = key.split(psi) as [string, string];
-
+  forNext(featureEntityKeys, (feature) => {
     switch (action) {
       case 'delete':
         deleteEntity(feature, table, ids);

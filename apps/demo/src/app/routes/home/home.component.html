@@ -37,7 +37,9 @@
   marked dirty, actions are dispatched that ask for data from the server. You
   can also watch the network tab to see the network requests.
 </p>
-<h1><a [routerLink]="'/treeNoRefresh'">Tree (No Refresh)</a></h1>
+<h1>
+  <a [routerLink]="'/treeNoRefresh'">Tree (No Refresh)</a>
+</h1>
 <p>
   Unlike the first demo, this demo does not ask for new data from the server
   when it is marked dirty.
@@ -59,7 +61,9 @@
   have been marked dirty, no actions are dispatched asking for new data. But
   actions are dispatched to mark the rows clean that are still in use.
 </p>
-<h1><a [routerLink]="'/treeNoRemove'">Tree (No Remove)</a></h1>
+<h1>
+  <a [routerLink]="'/treeNoRemove'">Tree (No Remove)</a>
+</h1>
 <p>
   This demo does not remove items from memory but it does mark them dirty. You
   might use this feature if your application does not display a lot of data and
@@ -74,7 +78,9 @@
   </li>
 </ul>
 
-<h1><a [routerLink]="'/treeNoDirty'">Tree (No Dirty)</a></h1>
+<h1>
+  <a [routerLink]="'/treeNoDirty'">Tree (No Dirty)</a>
+</h1>
 <p>
   This demo sets the markDirtyTime to -1 so that nothing ever gets marked as
   dirty. This means that data will never be refreshed and it will never be

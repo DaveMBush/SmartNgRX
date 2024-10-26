@@ -2,13 +2,16 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import {
   registerEntity,
   unregisterEntity,
 } from '../registrations/register-entity.function';
 import { createStore } from '../tests/functions/create-store.function';
+import { setState } from '../tests/functions/set-state.function';
 import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -24,16 +27,24 @@ interface Row extends SmartNgRXRowBase {
 
 describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
-  let actionService: ActionService;
+  let actionService: ActionService | null;
   beforeEach(() => {
     createStore();
+    featureRegistry.registerFeature(feature);
     entityDefinitionCache(feature, entity, {
       entityAdapter: createEntityAdapter(),
     } as SmartEntityDefinition<SmartNgRXRowBase>);
     registerEntity(feature, entity, {
       markAndDeleteInit: { markDirtyFetchesNew: true },
     } as EntityAttributes);
+    // setup the store so the feature exist and we can retrieve the action service
+    createStore();
+    setState(feature, entity, {
+      ids: [],
+      entities: {},
+    });
     actionService = actionServiceRegistry(feature, entity);
+    assert(!!actionService, 'actionService is not defined');
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
   });
   afterEach(() => {
@@ -52,7 +63,10 @@ describe('ensureDataLoaded()', () => {
     describe('but isDirty has never been set', () => {
       beforeEach(() => {
         ensureDataLoaded(
-          { ids: [], entities: { id: { id: 'id', name: 'foo' } } },
+          {
+            ids: [],
+            entities: { id: { id: 'id', name: 'foo' } },
+          },
           'id',
           'feature',
           'entity',
@@ -67,7 +81,9 @@ describe('ensureDataLoaded()', () => {
         ensureDataLoaded<Row>(
           {
             ids: [],
-            entities: { id: { id: 'id', name: 'foo', isDirty: true } },
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
           },
           'id',
           'feature',

@@ -1,7 +1,7 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Observable, take } from 'rxjs';
+import { asapScheduler, Observable, Subject, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
@@ -9,16 +9,22 @@ import {
   registerEntityRows,
   unregisterEntityRows,
 } from '../mark-and-delete/register-entity-rows.function';
-import { defaultRows } from '../reducers/default-rows.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { getEntityRegistry } from '../registrations/register-entity.function';
 import { store as storeFunction } from '../selector/store.function';
+import { virtualArrayMap } from '../selector/virtual-array-map.const';
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+import { SmartValidatedEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
+import { LoadByIds } from './action.service/load-by-ids.class';
+import { LoadByIndexes } from './action.service/load-by-indexes.class';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
+import { replaceIdInParents } from './replace-id-in-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -31,11 +37,15 @@ export class ActionService {
   /**
    * entityAdapter is needed for delete so it is public
    */
-  entityAdapter: EntityAdapter<SmartNgRXRowBase>;
-  entities: Observable<Dictionary<SmartNgRXRowBase>>;
-  private actions: ActionGroup;
+  entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
+  entities!: Observable<Dictionary<SmartNgRXRowBase>>;
+  private actions!: ActionGroup;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
+  private entityDefinition!: SmartValidatedEntityDefinition<SmartNgRXRowBase>;
+  private loadByIdsSubject = new Subject<string[]>();
+  private loadByIndexesService!: LoadByIndexes;
+  private loadByIdsService!: LoadByIds;
 
   /**
    * constructor for the ActionService
@@ -47,23 +57,49 @@ export class ActionService {
     public feature: string,
     public entity: string,
   ) {
-    this.actions = actionFactory(feature, entity);
+    this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
+    this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+  }
+
+  /**
+   * Tries to initialize the ActionService.
+   *
+   * @returns true if successful, false if not
+   */
+  init(): boolean {
+    if (!featureRegistry.hasFeature(this.feature)) {
+      return false;
+    }
+    this.actions = actionFactory(this.feature, this.entity);
     const selectFeature = createFeatureSelector<
       Record<string, EntityState<SmartNgRXRowBase>>
     >(this.feature);
-    this.entityAdapter = entityDefinitionCache(
-      this.feature,
-      this.entity,
-    ).entityAdapter;
-    const selectEntity = createSelector(selectFeature, (f) => f[this.entity]);
+
+    this.entityDefinition = entityDefinitionCache(this.feature, this.entity);
+    const selectEntity = createSelector(selectFeature, (f) => {
+      try {
+        return f[this.entity];
+        // eslint-disable-next-line sonarjs/no-ignored-exceptions -- we ARE handling the error
+      } catch (_) {
+        return { ids: [], entities: {} };
+      }
+    });
+    this.entityAdapter = this.entityDefinition.entityAdapter;
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
 
-    const registry = getEntityRegistry(feature, entity);
+    const registry = getEntityRegistry(this.feature, this.entity);
     this.markDirtyFetchesNew =
       isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
       registry.markAndDeleteInit.markDirtyFetchesNew;
+    this.loadByIdsService.init(
+      this.actions,
+      this.entities,
+      this.entityDefinition.defaultRow,
+    );
+    this.loadByIndexesService.init(this.actions, this.entities);
+    return true;
   }
 
   /**
@@ -186,6 +222,8 @@ export class ActionService {
     this.store.dispatch(
       this.actions.add({
         row,
+        feature: this.feature,
+        entity: this.entity,
         parentId,
         parentFeature: parentService.feature,
         parentEntityName: parentService.entity,
@@ -194,19 +232,47 @@ export class ActionService {
   }
 
   /**
+   * removes the id from the child arrays of the parent rows
+   *
+   * @param id the id to remove
+   * @returns the parent info for each parent
+   */
+  removeFromParents(id: string): ParentInfo[] {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    const parentInfo: ParentInfo[] = [];
+    forNext(childDefinitions, (childDefinition) => {
+      removeIdFromParents(childDefinition, id, parentInfo);
+    });
+    return parentInfo;
+  }
+
+  /**
+   * replaces the id in the parent rows with the new id
+   * this is used when we commit a new row to the server
+   *
+   * @param id the id to replace
+   * @param newId the new id to replace the old id with
+   */
+  replaceIdInParents(id: string, newId: string): void {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    forNext(childDefinitions, (childDefinition) => {
+      replaceIdInParents(childDefinition, id, newId);
+    });
+  }
+
+  /**
    * Deletes the row represented by the Id from the store
    *
    * @param id the id of the row to delete
    */
   delete(id: string): void {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    let parentInfo: ParentInfo[] = [];
-    forNext(childDefinitions, (childDefinition) => {
-      removeIdFromParents(childDefinition, this, id, parentInfo);
-    });
+    let parentInfo = this.removeFromParents(id);
 
     parentInfo = parentInfo.filter((info) => info.ids.length > 0);
     // remove the row from the store
@@ -224,11 +290,7 @@ export class ActionService {
    * @param ids the ids to load
    */
   loadByIds(ids: string[]): void {
-    this.store.dispatch(
-      this.actions.loadByIds({
-        ids,
-      }),
-    );
+    this.loadByIdsService.loadByIds(ids);
   }
 
   /**
@@ -237,18 +299,7 @@ export class ActionService {
    * @param ids the ids we are retrieving
    */
   loadByIdsPreload(ids: string[]): void {
-    const defaultRow = entityDefinitionCache(
-      this.feature,
-      this.entity,
-    ).defaultRow;
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      const rows = defaultRows(ids, entities, defaultRow);
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows,
-        }),
-      );
-    });
+    this.loadByIdsService.loadByIdsPreload(ids);
   }
 
   /**
@@ -257,27 +308,57 @@ export class ActionService {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    const registeredRows = registerEntityRows(this.feature, this.entity, rows);
-    this.store.dispatch(
-      this.actions.storeRows({
-        rows: registeredRows,
-      }),
-    );
+    this.loadByIdsService.loadByIdsSuccess(rows);
+  }
+
+  /**
+   * que up loading the ids for the indexes
+   *
+   * @param parentId the id of the parent row
+   * @param childField the child field to load
+   * @param indexes the indexes to load
+   */
+  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
+    this.loadByIndexesService.loadByIndexes(parentId, childField, indexes);
+  }
+
+  /**
+   * This updates the childField with the ids provided so we can
+   * use them in the VirtualArray. Make sure when you call this
+   * you are calling the service for the parent entity and not the
+   * child entity.
+   *
+   * @param parentId the id of the parent row so we can update the proper childField
+   * @param childField the child field to update
+   * @param array specifiers that define the new partial array
+   */
+  loadByIndexesSuccess(
+    parentId: string,
+    childField: string,
+    array: PartialArrayDefinition,
+  ): void {
+    this.loadByIndexesService.loadByIndexesSuccess(parentId, childField, array);
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(
     entities: Dictionary<R>,
     ids: string[],
   ): void {
-    const changes = ids
+    const updates = ids
       .filter((id) => {
         return entities[id] !== undefined && entities[id]!.isEditing !== true;
       })
-      .map(
-        (id) =>
-          ({ id, changes: { isDirty: true } }) as UpdateStr<SmartNgRXRowBase>,
-      );
-    this.store.dispatch(this.actions.updateMany({ changes }));
+      .map((id) => {
+        const entityChanges: Partial<SmartNgRXRowBase> = {
+          isDirty: true,
+        };
+
+        return {
+          id,
+          changes: entityChanges,
+        } as UpdateStr<SmartNgRXRowBase>;
+      });
+    this.store.dispatch(this.actions.updateMany({ changes: updates }));
   }
 
   private garbageCollectWithEntities<R extends SmartNgRXRowBase>(
@@ -296,5 +377,12 @@ export class ActionService {
         ids: idsToRemove,
       }),
     );
+    // make sure we remove the virtualArray from the map AFTER
+    // we remove the row from the store
+    asapScheduler.schedule(() => {
+      idsToRemove.forEach((id) => {
+        virtualArrayMap.remove(this.feature, this.entity, id);
+      });
+    });
   }
 }

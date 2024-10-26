@@ -7,7 +7,10 @@ import { TopDTO } from './top-dto.interface';
 
 @Controller('top')
 export class TopController {
-  constructor(@Inject(prismaServiceToken) private prisma: PrismaClient) {}
+  constructor(
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
+  ) {}
 
   @Post()
   getByIds(@Body() ids: string[]): Observable<TopDTO[]> {

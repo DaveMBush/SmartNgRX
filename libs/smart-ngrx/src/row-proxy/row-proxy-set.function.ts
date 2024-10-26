@@ -17,7 +17,10 @@ export function rowProxySet<T extends SmartNgRXRowBase>(
   target: RowProxy<T>,
   prop: string | symbol,
   value: unknown,
-  services: { service: ActionService; parentService: ActionService },
+  services: {
+    service: ActionService;
+    parentService: ActionService;
+  },
 ): boolean {
   if (!(prop in target.record)) {
     return false;
@@ -36,6 +39,9 @@ export function rowProxySet<T extends SmartNgRXRowBase>(
   }
   // if there is not parentId then we are simply saving the
   // row to the server
-  services.service.update(realRow, { ...realRow, [prop]: value } as T);
+  services.service.update(realRow, {
+    ...realRow,
+    [prop]: value,
+  } as T);
   return true;
 }

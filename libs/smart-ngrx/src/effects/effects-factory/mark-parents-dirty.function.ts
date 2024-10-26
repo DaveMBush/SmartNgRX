@@ -1,3 +1,4 @@
+import { assert } from '../../common/assert.function';
 import { actionServiceRegistry } from '../../registrations/action.service.registry';
 
 /**
@@ -13,7 +14,14 @@ export function markParentsDirty(
   parentIds: string[],
 ): void {
   const parentService = actionServiceRegistry(parentFeature, parentEntity);
+  assert(
+    !!parentService,
+    `the service for ${parentFeature}:${parentEntity} is not available`,
+  );
   parentService.updateMany(
-    parentIds.map((id) => ({ id, changes: { isDirty: true } })),
+    parentIds.map((id) => ({
+      id,
+      changes: { isDirty: true },
+    })),
   );
 }

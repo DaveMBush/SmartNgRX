@@ -47,7 +47,7 @@ export function provideSmartFeatureEntities(
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
   forNext(entityDefinitions, (entityDefinition) => {
-    entityDefinition = entityDefinitionCache(
+    entityDefinitionCache(
       featureName,
       entityDefinition.entityName,
       entityDefinition,

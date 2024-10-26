@@ -13,7 +13,8 @@ function departmentToId(department: { id: string }): string {
 @Controller('locations')
 export class LocationsController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 

@@ -2,7 +2,7 @@ import { createEntityAdapter } from '@ngrx/entity';
 
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 import {
   SmartEntityDefinition,
   SmartValidatedEntityDefinition,

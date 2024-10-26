@@ -7,19 +7,34 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { from, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
-import { consolidateChildren } from './consolidate-children.function';
 import { DepartmentDTO } from './department-dto.interface';
+
+interface DepartmentNameAndId {
+  name: string;
+  id: string;
+}
+
+interface DepartmentNameIdAndChildren {
+  name: string;
+  id: string;
+  children: {
+    startIndex: number;
+    indexes: string[];
+    length: number;
+  };
+}
 
 @Controller('departments')
 export class DepartmentsController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 
@@ -50,25 +65,13 @@ export class DepartmentsController {
         select: {
           id: true,
           name: true,
-          docs: {
-            select: { did: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          folders: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          sprintFolders: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
-          lists: {
-            select: { id: true, created: true },
-            orderBy: { created: 'asc' },
-          },
         },
       }),
-    ).pipe(map(consolidateChildren));
+    ).pipe(
+      mergeMap((departments) => {
+        return this.getDepartmentChildrenIndexes(departments);
+      }),
+    );
   }
 
   @Post('add')
@@ -102,6 +105,130 @@ export class DepartmentsController {
           action: 'delete',
           table: 'departments',
         }),
+      ),
+    );
+  }
+
+  @Post('indexes')
+  async getByIndexes(
+    @Body()
+    definition: {
+      parentId: string;
+      childField: string;
+      startIndex: number;
+      length: number;
+    },
+  ): Promise<{
+    /** starting index for the ids to be filled into the virtual array */
+    startIndex: number;
+    /** the ids to put into the virtual array */
+    indexes: string[];
+    /** the total number of ids in the virtual array */
+    length: number;
+  }> {
+    // there is only one child field so we can ignore that.
+    const result = await this.prisma.$queryRaw`SELECT id from (
+SELECT folders.departmentId, ('folders:' || folders.id) as id, folders.created FROM folders
+UNION ALL SELECT docs.departmentId, ('docs:' || docs.did) as id, docs.created FROM docs
+UNION ALL SELECT sprintFolders.departmentId, ('sprint-folders:' || sprintFolders.id) as id, sprintFolders.created FROM sprintFolders
+UNION ALL SELECT lists.departmentId, ('lists:' || lists.id) as id, lists.created from lists)
+WHERE departmentId = ${definition.parentId}
+ORDER BY created
+LIMIT ${definition.length} OFFSET ${definition.startIndex};`;
+    const total = await this.prisma.$queryRaw`SELECT count(*) as total from (
+SELECT folders.departmentId FROM folders
+UNION ALL SELECT docs.departmentId FROM docs
+UNION ALL SELECT sprintFolders.departmentId FROM sprintFolders
+UNION ALL SELECT lists.departmentId from lists)
+WHERE departmentId = ${definition.parentId};`;
+    // use Number to convert BigInt
+    return {
+      indexes: (result as { id: string }[]).map((i) => i.id),
+      startIndex: Number(definition.startIndex),
+      length: Number((total as { total: unknown }[])[0].total),
+    };
+  }
+
+  private async getBatchIndexes(
+    @Body()
+    definitions: {
+      parentId: string;
+      childField: string;
+      startIndex: number;
+      length: number;
+    }[],
+  ): Promise<
+    Record<
+      string,
+      {
+        startIndex: number;
+        indexes: string[];
+        length: number;
+      }
+    >
+  > {
+    if (definitions.length === 0) {
+      return {};
+    }
+    const parentIds = definitions.map((def) => def.parentId);
+    const result = await this.getBatchIndexesSQL(parentIds);
+
+    return result.reduce<
+      Record<string, { startIndex: number; indexes: string[]; length: number }>
+    >((acc, { departmentId, indexes, total }) => {
+      acc[departmentId] = {
+        startIndex: 0,
+        indexes: indexes.split(','),
+        length: Number(total),
+      };
+      return acc;
+    }, {});
+  }
+
+  private async getBatchIndexesSQL(
+    parentIds: string[],
+  ): Promise<{ departmentId: string; indexes: string; total: number }[]> {
+    return this.prisma.$queryRaw`WITH all_items AS (
+      SELECT folders.departmentId, ('folders:' || folders.id) as id, folders.created FROM folders
+      UNION ALL SELECT docs.departmentId, ('docs:' || docs.did) as id, docs.created FROM docs
+      UNION ALL SELECT sprintFolders.departmentId, ('sprint-folders:' || sprintFolders.id) as id, sprintFolders.created FROM sprintFolders
+      UNION ALL SELECT lists.departmentId, ('lists:' || lists.id) as id, lists.created from lists
+    ),
+    numbered_items AS (
+      SELECT departmentId, id,
+        ROW_NUMBER() OVER (PARTITION BY departmentId ORDER BY created) - 1 as row_num,
+        COUNT(*) OVER (PARTITION BY departmentId) as total
+      FROM all_items
+      WHERE departmentId IN (${Prisma.join(parentIds)})
+    )
+    SELECT departmentId, GROUP_CONCAT(id) as indexes, MAX(total) as total
+    FROM numbered_items
+    WHERE row_num < 500
+    GROUP BY departmentId;`;
+  }
+
+  private getDepartmentChildrenIndexes(
+    departments: DepartmentNameAndId[],
+  ): Observable<DepartmentNameIdAndChildren[]> {
+    return from(
+      this.getBatchIndexes(
+        departments.map((dept) => ({
+          parentId: dept.id,
+          childField: 'children',
+          startIndex: 0,
+          length: 500,
+        })),
+      ),
+    ).pipe(
+      map((batchResults) =>
+        departments.map((dept) => ({
+          ...dept,
+          children: batchResults[dept.id] ?? {
+            startIndex: 0,
+            indexes: [],
+            length: 0,
+          },
+        })),
       ),
     );
   }

@@ -2,7 +2,7 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ActionService } from './action.service';
-import { removeIdFromFeatureParents } from './remove-id-from-feature-parents.function';
+import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 interface Row extends SmartNgRXRowBase {
   id: string;
@@ -14,8 +14,14 @@ describe('removeIdFromParents()', () => {
   let parentServiceUpdateManySpy: jest.SpyInstance;
   let returnValue: string[];
   let entities: Partial<Record<string, Row>>;
-  let service: ActionService;
   let parentService: ActionService;
+  const childDefinition = {
+    parentField: 'children',
+    childEntity: 'entity',
+    childFeature: 'feature',
+    parentEntity: 'parentEntity',
+    parentFeature: 'parentFeature',
+  } as unknown as ChildDefinition;
   beforeEach(() => {
     entities = {
       '1': {
@@ -29,22 +35,16 @@ describe('removeIdFromParents()', () => {
         children: ['a', 'd', 'e'],
       },
     };
-    service = {
-      feature: 'feature',
-      entity: 'entity',
-    } as unknown as ActionService;
     parentService = {
       feature: 'parentFeature',
       entity: 'parentEntity',
       updateMany: jest.fn(),
     } as unknown as ActionService;
-    childDefinitionRegistry.registerChildDefinition('feature', 'entity', {
-      parentField: 'children',
-      childEntity: 'entity',
-      childFeature: 'feature',
-      parentEntity: 'parentEntity',
-      parentFeature: 'parentFeature',
-    } as unknown as ChildDefinition);
+    childDefinitionRegistry.registerChildDefinition(
+      'feature',
+      'entity',
+      childDefinition,
+    );
     parentServiceUpdateManySpy = jest
       .spyOn(parentService, 'updateMany')
       .mockImplementation(() => {
@@ -53,11 +53,11 @@ describe('removeIdFromParents()', () => {
   });
   describe('if the id is not in any of the entities', () => {
     beforeEach(() => {
-      returnValue = removeIdFromFeatureParents(
+      returnValue = replaceIdInFeatureParents(
         entities,
-        service,
+        childDefinition,
         parentService,
-        'f',
+        ['f', null],
       );
     });
     it('should return an empty array', () => {
@@ -69,11 +69,11 @@ describe('removeIdFromParents()', () => {
   });
   describe('if the id is at least one of the entities', () => {
     beforeEach(() => {
-      returnValue = removeIdFromFeatureParents(
+      returnValue = replaceIdInFeatureParents(
         entities,
-        service,
+        childDefinition,
         parentService,
-        'a',
+        ['a', null],
       );
     });
 

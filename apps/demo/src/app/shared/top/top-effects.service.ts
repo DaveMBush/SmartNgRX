@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EffectService } from '@smarttools/smart-ngrx';
+import { EffectService, PartialArrayDefinition } from '@smarttools/smart-ngrx';
 import { Observable, of } from 'rxjs';
 
 import { Top } from './top.interface';
@@ -15,6 +15,16 @@ export class TopEffectsService extends EffectService<Top> {
 
   override loadByIds(ids: string[]): Observable<Top[]> {
     return this.http.post<Top[]>(this.apiTop, ids);
+  }
+
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
+    // intentionally unimplemented
+    throw new Error('Method not implemented.');
   }
 
   override update(_: Top): Observable<Top[]> {

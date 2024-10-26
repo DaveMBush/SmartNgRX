@@ -20,3 +20,22 @@ span a {
   color: #fff;
   text-decoration: none;
 }
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.white {
+  color: white;
+}
+
+.primary {
+  --mat-checkbox-label-text-color: white;
+  --mdc-checkbox-selected-checkmark-color: blue;
+  --mdc-checkbox-unselected-icon-color: white;
+  --mdc-checkbox-unselected-focus-icon-color: white;
+  --mdc-checkbox-unselected-hover-icon-color: white;
+  --mdc-checkbox-unselected-focus-state-layer-color: white;
+  --mdc-checkbox-unselected-hover-state-layer-color: white;
+  --mdc-checkbox-unselected-pressed-state-layer-color: white;
+}

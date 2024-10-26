@@ -1,5 +1,5 @@
 import { ActionService } from '../actions/action.service';
-import { psi } from '../common/theta.const';
+import { psi } from '../common/psi.const';
 
 const actionServiceMap = new Map<string, ActionService>();
 
@@ -13,12 +13,24 @@ const actionServiceMap = new Map<string, ActionService>();
 export function actionServiceRegistry(
   feature: string,
   entity: string,
-): ActionService {
+): ActionService | null {
   const key = `${feature}${psi}${entity}`;
   let actionServiceCache = actionServiceMap.get(key);
   if (actionServiceCache === undefined) {
     actionServiceCache = new ActionService(feature, entity);
+    if (!actionServiceCache.init()) {
+      return null;
+    }
+
     actionServiceMap.set(key, actionServiceCache);
   }
   return actionServiceCache;
+}
+
+/**
+ * Only used for testing so we can clear the registry
+ * between unit tests
+ */
+export function clearActionServiceRegistry(): void {
+  actionServiceMap.clear();
 }

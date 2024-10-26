@@ -9,7 +9,8 @@ import { addEffect } from './effects-factory/add-effect.function';
 import { addSuccessEffect } from './effects-factory/add-success-effect.function';
 import { deleteEffect } from './effects-factory/delete-effect.function';
 import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
-import { loadByIdsPreloadEffect } from './effects-factory/load-by-ids-preload-effect.function';
+import { loadByIndexesEffect } from './effects-factory/load-by-indexes-effect.function';
+import { registerFeatureEffect } from './effects-factory/register-feature-effect.function';
 import { updateEffect } from './effects-factory/update-effect.function';
 
 const dispatchFalse = {
@@ -32,7 +33,8 @@ type EffectsFactoryKeys =
   | 'addSuccess'
   | 'delete'
   | 'loadByIds'
-  | 'loadByIdsPreload'
+  | 'loadByIndexes'
+  | 'registerFeature'
   | 'update';
 
 /**
@@ -67,19 +69,19 @@ export function effectsFactory<T extends SmartNgRXRowBase>(
       dispatchFalse,
     ),
     /**
-     * Ends up calling the `EffectService` to determine what rows
-     * need to be loaded yet and returns dummy rows for those rows.
+     * Ends up calling the `EffectService` to load the rows specified
+     * from the server.
      */
-    loadByIdsPreload: createEffect(
-      loadByIdsPreloadEffect(feature, entityName, actions),
+    loadByIds: createEffect(
+      loadByIdsEffect(effectsServiceToken, actions, feature, entityName),
       dispatchFalse,
     ),
     /**
      * Ends up calling the `EffectService` to load the rows specified
      * from the server.
      */
-    loadByIds: createEffect(
-      loadByIdsEffect(effectsServiceToken, actions, feature, entityName),
+    loadByIndexes: createEffect(
+      loadByIndexesEffect(actions, feature, entityName),
       dispatchFalse,
     ),
     /**
@@ -100,7 +102,11 @@ export function effectsFactory<T extends SmartNgRXRowBase>(
      * that was added so we could edit it.
      */
     addSuccess: createEffect(
-      addSuccessEffect<T>(effectsServiceToken, actions, adapter),
+      addSuccessEffect<T>(actions, adapter),
+      dispatchFalse,
+    ),
+    registerFeature: createEffect(
+      registerFeatureEffect(feature),
       dispatchFalse,
     ),
   };

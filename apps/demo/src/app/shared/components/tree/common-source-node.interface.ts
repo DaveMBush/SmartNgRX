@@ -7,5 +7,5 @@ export interface CommonSourceNode extends SmartNgRXRowBase, RowProxyDelete {
   id: string;
   type?: string;
   name: string;
-  children: (CommonSourceNode | string)[] & SmartArray;
+  children: SmartArray<CommonSourceNode, CommonSourceNode>;
 }

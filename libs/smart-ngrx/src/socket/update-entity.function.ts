@@ -1,8 +1,10 @@
 import { EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
-import { ActionService } from '../actions/action.service';
+import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
+import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -19,13 +21,19 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = new ActionService(feature, entity);
-  // check for feature/entities the long way to avoid triggering warnings
-  // there is also no good reason to memoize the result
+  const actionService = actionServiceRegistry(feature, entity);
+  assert(
+    !!actionService,
+    `the service for ${feature}:${entity} is not available`,
+  );
+  if (!featureRegistry.hasFeature(feature)) {
+    return;
+  }
   const selectEntities = (state: unknown) => {
-    const featureState = ((state as Record<string, unknown>)[feature] ??
-      {}) as Record<string, EntityState<T>>;
-    return featureState[entity]?.entities ?? {};
+    const featureState = (
+      state as Record<string, Record<string, EntityState<T>>>
+    )[feature];
+    return featureState[entity].entities;
   };
   store()
     .select(selectEntities)

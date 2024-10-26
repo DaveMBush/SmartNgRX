@@ -1,6 +1,6 @@
 # Database Structure
 
-The backend database uses SqlLite3, a lightweight database that is easy to use and set up. The database is stored in a file called `database.d` in the root of the project and is created and populated with data when you pnpm the project for the first time.
+The backend database uses SqlLite3, a lightweight database that is easy to use and set up. The database is stored in a file called `database.db` in the root of the project and is created and populated with data when you `pnpm install` the project for the first time.
 
 We use Prisma to interact with the database, including creating tables, inserting data, and querying data. Prisma is a modern database toolkit that makes it easy to interact with databases in a type-safe way. It is used to generate the database schema and typescript types from the database schema.
 
@@ -10,7 +10,7 @@ You can find the Prisma schema in the [prisma/schema.prisma](https://github.com/
 
 ## Tables
 
-Currently all of our tables are structured the same with the expection of a field that points to the parent table's id. This is used to create a tree structure in the database.
+Currently all of our tables are structured the same with the exception of a field that points to the parent table's id. This is used to create a tree structure in the database.
 
 The fields all tables have are:
 

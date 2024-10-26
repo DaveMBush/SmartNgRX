@@ -1,5 +1,3 @@
-import { NgZone } from '@angular/core';
-import { Action } from '@ngrx/store';
 import {
   asapScheduler,
   buffer,
@@ -9,7 +7,7 @@ import {
   Subscriber,
 } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
+import { forNext } from '../../common/for-next.function';
 
 function flatten<T>(array: T[][]): T[] {
   const returnArray = [] as T[];
@@ -21,26 +19,25 @@ function flatten<T>(array: T[][]): T[] {
   return returnArray;
 }
 
-function mainBuffer(
-  source: Observable<Action & { ids: string[] }>,
+function mainIdsBuffer(
+  source: Observable<string[]>,
   bufferTime: number,
-  ngZone: NgZone,
   observer: Subscriber<string[]>,
 ) {
   source
     .pipe(
-      map((a) => a.ids),
       buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
       map((ids: string[][]) => {
         return flatten(ids);
       }),
       map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
-    )
+    ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => ngZone.run(() => observer.next(value)),
-      error: (err: unknown) => ngZone.run(() => observer.error(err)),
-      complete: () => ngZone.run(() => observer.complete()),
+      next: (value) => observer.next(value),
+      error: (err: unknown) => observer.error(err),
+      complete: () => observer.complete(),
     });
+  /* jscpd:ignore-end */
 }
 
 /**
@@ -71,24 +68,18 @@ function mainBuffer(
  * );
  * ```
  *
- * @param ngZone The zone to use to run outside of Angular.
  * @param bufferTime The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
  *     and is probably all we will ever need.
  * @returns The buffered ids.
  */
-export function bufferAction(
-  ngZone: NgZone,
+export function bufferIdsAction(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
-): (source: Observable<Action & { ids: string[] }>) => Observable<string[]> {
-  return (
-    source: Observable<Action & { ids: string[] }>,
-  ): Observable<string[]> => {
+): (ids: Observable<string[]>) => Observable<string[]> {
+  return (source: Observable<string[]>): Observable<string[]> => {
     return new Observable<string[]>((observer) => {
-      ngZone.runOutsideAngular(() =>
-        mainBuffer(source, bufferTime, ngZone, observer),
-      );
+      mainIdsBuffer(source, bufferTime, observer);
     });
   };
 }

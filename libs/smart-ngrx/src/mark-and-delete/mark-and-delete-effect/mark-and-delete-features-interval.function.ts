@@ -1,7 +1,7 @@
 import { interval, Observable, tap } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
-import { psi } from '../../common/theta.const';
+import { psi } from '../../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete-entity.map';
 import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';

@@ -3,6 +3,7 @@
 import { Action, ActionCreator } from '@ngrx/store';
 
 import { IdsProp } from '../types/ids-prop.interface';
+import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -36,6 +37,14 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Load By Ids`,
     (props: IdsProp) => Action<`[${any}] Load By Ids`> & IdsProp
   >;
+
+  /**
+   * Action to load rows by their index.
+   */
+  loadByIndexes: ActionCreator<
+    `[${any}] Load By Indexes`,
+    (props: IndexesProp) => Action<`[${any}] Load By Indexes`> & IndexesProp
+  >;
   /**
    * Action to put rows into the store.
    */
@@ -52,7 +61,10 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     (props: {
       old: RowProp<T>;
       new: RowProp<T>;
-    }) => Action<`[${any}] Update`> & { old: RowProp<T>; new: RowProp<T> }
+    }) => Action<`[${any}] Update`> & {
+      old: RowProp<T>;
+      new: RowProp<T>;
+    }
   >;
   /**
    * Action to trigger adding a new row
@@ -61,11 +73,15 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Add`,
     (props: {
       row: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
     }) => Action<`[${any}] Add`> & {
       row: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
@@ -79,12 +95,16 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     (props: {
       oldRow: T;
       newRow: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
     }) => Action<`[${any}] Add Success`> & {
       oldRow: T;
       newRow: T;
+      feature: string;
+      entity: string;
       parentId: string;
       parentFeature: string;
       parentEntityName: string;
@@ -98,10 +118,18 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Delete`,
     (props: {
       id: string;
-      parentInfo: { feature: string; entity: string; ids: string[] }[];
+      parentInfo: {
+        feature: string;
+        entity: string;
+        ids: string[];
+      }[];
     }) => Action<`[${any}] Delete`> & {
       id: string;
-      parentInfo: { feature: string; entity: string; ids: string[] }[];
+      parentInfo: {
+        feature: string;
+        entity: string;
+        ids: string[];
+      }[];
     }
   >;
 }

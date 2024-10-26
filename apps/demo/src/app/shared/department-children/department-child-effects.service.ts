@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { EffectService } from '@smarttools/smart-ngrx';
+import { EffectService, PartialArrayDefinition } from '@smarttools/smart-ngrx';
 import { forkJoin, map, Observable, of } from 'rxjs';
 
 import { DocsService } from '../docs/docs.service';
@@ -33,15 +33,27 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     const listIds = filterIds(ids, this.listPrefix);
     const sprintFolderIds = filterIds(ids, this.sprintFolderPrefix);
 
-    const docStream = loadByIdsForType(this.doc, docIds, this.docs, 'did');
+    const docStream =
+      docIds.length > 0
+        ? loadByIdsForType(this.doc, docIds, this.docs, 'did')
+        : of([]);
 
-    const folderStream = loadByIdsForType(this.folder, folderIds, this.folders);
-    const listStream = loadByIdsForType(this.list, listIds, this.lists);
-    const sprintFolderStream = loadByIdsForType(
-      this.sprintFolder,
-      sprintFolderIds,
-      this.sprintFolders,
-    );
+    const folderStream =
+      folderIds.length > 0
+        ? loadByIdsForType(this.folder, folderIds, this.folders)
+        : of([]);
+    const listStream =
+      listIds.length > 0
+        ? loadByIdsForType(this.list, listIds, this.lists)
+        : of([]);
+    const sprintFolderStream =
+      sprintFolderIds.length > 0
+        ? loadByIdsForType(
+            this.sprintFolder,
+            sprintFolderIds,
+            this.sprintFolders,
+          )
+        : of([]);
 
     return forkJoin({
       docs: docStream,
@@ -166,5 +178,15 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     });
 
     return deleteStream;
+  }
+
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
+    // intentionally unimplemented
+    throw new Error('Method not implemented.');
   }
 }

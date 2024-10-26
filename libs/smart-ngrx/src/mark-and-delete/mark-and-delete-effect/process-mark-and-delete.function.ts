@@ -19,6 +19,9 @@ export function processMarkAndDelete(
   requestIdleCallback(
     () => {
       const actionService = actionServiceRegistry(featureKey, entity);
+      if (!actionService) {
+        return;
+      }
       if (garbageCollectRowIds.length > 0) {
         actionService.garbageCollect(garbageCollectRowIds);
       }
@@ -26,6 +29,8 @@ export function processMarkAndDelete(
         actionService.markDirty(markDirtyRowIds);
       }
     },
-    { timeout: getGlobalMarkAndDeleteInit().runInterval! - 100 },
+    {
+      timeout: getGlobalMarkAndDeleteInit().runInterval! - 100,
+    },
   );
 }

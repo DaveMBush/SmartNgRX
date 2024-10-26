@@ -20,7 +20,8 @@ import { SprintFolderDTO } from './sprint-folders-dto.interface';
 @Controller('sprintFolders')
 export class SprintFoldersController {
   constructor(
-    @Inject(prismaServiceToken) private prisma: PrismaClient,
+    @Inject(prismaServiceToken)
+    private prisma: PrismaClient,
     private gateway: SocketGateway,
   ) {}
 
@@ -61,7 +62,9 @@ export class SprintFoldersController {
 
   @Delete('/:id')
   async delete(@Param('id') id: string): Promise<void> {
-    await this.prisma.sprintFolders.delete({ where: { id } });
+    await this.prisma.sprintFolders.delete({
+      where: { id },
+    });
     this.gateway.sendNotification({
       ids: [id],
       action: 'delete',

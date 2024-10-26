@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs';
 
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+
 /**
  * This is the abstract class that all services the Effects
  * use must implement.
@@ -9,6 +11,21 @@ export abstract class EffectService<T> {
    * Loads the rows represented by the array of ids passed in from the server
    */
   abstract loadByIds(ids: string[]): Observable<T[]>;
+
+  /**
+   * Loads the rows represented by the array of ids passed in from the server
+   *
+   * @param parentId the id of the parent row
+   * @param startIndex the index to start loading from
+   * @param length the number of rows to load
+   * @returns the virtual array contents
+   */
+  abstract loadByIndexes(
+    parentId: string,
+    childField: string,
+    startIndex: number,
+    length: number,
+  ): Observable<PartialArrayDefinition>;
 
   /**
    * Sends the updated row in the store to the server.

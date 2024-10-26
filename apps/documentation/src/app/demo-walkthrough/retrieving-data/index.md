@@ -22,9 +22,11 @@ Locations represents a straight forward way of retrieving child data. Look at th
 
 ### Departments
 
-Retrieving the departments data is similar except that we need to retrieve the IDs for multiple child tables that need to appear as though they are all part of the same table. In most databases, you could use a UNION to do this. SqlLite3 doesn't support UNIONS so we've done it using TypeScript. You can view the code for this here: [apps/server/src/app/departments/departments.controller.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L46-L72).
+Retrieving the departments data is similar except that this uses the `VirtualArrayContent` structure we mention in the main documentation. So, when we retrieve a row, we also need to retrieve the virtual array content. You can view the code for this here: [apps/server/src/app/departments/departments.controller.ts](https://github.com/DaveMBush/SmartNgRX/blob/v-next/apps/server/src/app/departments/department.controller.ts#L61-L75).
 
-Note, the consolidateChildren method that is used in the map() at the end of the function is used to adjust the IDs so the client knows what table they belong to and to order the resulting IDs in the order they were created.
+You'll notice that `getByIds` ends up calling [getDepartmentChildrenIndexes(...)](https://github.com/DaveMBush/SmartNgRX/blob/v-next/apps/server/src/app/departments/department.controller.ts#L210-L233) which then calls [getBatchIndexes(...)](https://github.com/DaveMBush/SmartNgRX/blob/v-next/apps/server/src/app/departments/department.controller.ts#L188-L208). This is where we retrieve the IDs for the first 500 rows of the child tables.
+
+In this way, we allow the server to provide the first 500 rows of the child tables and then we can later [retrieve the remaining rows as we ask for them.](https://github.com/DaveMBush/SmartNgRX/blob/v-next/apps/server/src/app/departments/department.controller.ts#L113-L150)
 
 ### An Alternate Way to Retrieve Departments
 
