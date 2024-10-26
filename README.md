@@ -1,5 +1,8 @@
 # SmartNgRX
 
+![NPM Version](https://img.shields.io/npm/v/%40smarttools%2Fsmart-ngrx)
+![example workflow](https://github.com/DaveMBush/SmartNgRX/actions/workflows/build.yml/badge.svg)
+
 ## What is SmartNgRX?
 
 SmartNgRX is a library that hides most of NgRX from the developer for CRUD operations while still using NgRX under the hood and allowing you to use it with existing NgRX code. It not only supports CRUD but also implements optimistic UI for updates and deletes. Below is a list of features we have implemented so far (checked) along with some of our dreams (unchecked):
