@@ -65,6 +65,7 @@ importers:
       '@ng-doc/builder':
         specifier: 18.3.0
         version: 18.3.0(msgwnw6xoh4kup2pxyujmnmpga)
+
       '@ng-doc/core':
         specifier: 18.3.0
         version: 18.3.0
@@ -479,6 +480,15 @@ packages:
 
   '@angular-devkit/core@18.2.6':
     resolution: {integrity: sha512-la4CFvs5PcRWSkQ/H7TB5cPZirFVA9GoWk5LzIk8si6VjWBJRm8b3keKJoC9LlNeABRUIR5z0ocYkyQQUhdMfg==}
+    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
+    peerDependencies:
+      chokidar: ^3.5.2
+    peerDependenciesMeta:
+      chokidar:
+        optional: true
+
+  '@angular-devkit/core@18.0.7':
+    resolution: {integrity: sha512-pVmuE37DNuTe3S4Lh1jg6U4dyHljiZiqI99u3gtS7PF765P4AeGlugHIYE7ztC74fYd9gy04sWnbeV+RQuBTVw==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
       chokidar: ^3.5.2
@@ -11450,6 +11460,17 @@ snapshots:
     optionalDependencies:
       chokidar: 3.5.3
 
+  '@angular-devkit/core@18.0.7(chokidar@3.5.3)':
+    dependencies:
+      ajv: 8.13.0
+      ajv-formats: 3.0.1(ajv@8.13.0)
+      jsonc-parser: 3.2.1
+      picomatch: 4.0.2
+      rxjs: 7.8.1
+      source-map: 0.7.4
+    optionalDependencies:
+      chokidar: 3.5.3
+
   '@angular-devkit/schematics@13.3.11(chokidar@3.5.3)':
     dependencies:
       '@angular-devkit/core': 13.3.11(chokidar@3.5.3)
@@ -16425,6 +16446,16 @@ snapshots:
       postcss: 8.4.47
       postcss-value-parser: 4.2.0
 
+  autoprefixer@10.4.19(postcss@8.4.39):
+    dependencies:
+      browserslist: 4.23.0
+      caniuse-lite: 1.0.30001613
+      fraction.js: 4.3.7
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss: 8.4.39
+      postcss-value-parser: 4.2.0
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.0.0
@@ -20781,6 +20812,8 @@ snapshots:
 
   limiter@1.1.5: {}
 
+  limiter@1.1.5: {}
+
   lines-and-columns@1.2.4: {}
 
   lines-and-columns@2.0.3: {}
@@ -24607,6 +24640,12 @@ snapshots:
       browserslist: 4.24.2
       escalade: 3.2.0
       picocolors: 1.1.0
+
+  update-browserslist-db@1.1.0(browserslist@4.23.2):
+    dependencies:
+      browserslist: 4.23.2
+      escalade: 3.1.2
+      picocolors: 1.0.1
 
   uri-js@4.4.1:
     dependencies:
