@@ -2,6 +2,9 @@
 
 ![NPM Version](https://img.shields.io/npm/v/%40smarttools%2Fsmart-ngrx)
 ![example workflow](https://github.com/DaveMBush/SmartNgRX/actions/workflows/build.yml/badge.svg)
+[![View - Documentation](https://img.shields.io/badge/View-Documentation-2ea44f)](https://davembush.github.io/SmartNgRX/ 'Go to project documentation')
+[![Angular - 18](https://img.shields.io/badge/Angular-18-2ea44f)](https://angular.dev/)
+[![NgRX - 18](https://img.shields.io/badge/NgRX-18-2ea44f)](https://ngrx.io/guide/store)
 
 ## What is SmartNgRX?
 
