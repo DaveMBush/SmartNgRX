@@ -73,9 +73,6 @@ export class NodeEditorComponent
   }
 
   keydownHandler(e: KeyboardEvent): void {
-    if (e.key === 'Enter') {
-      this.save.emit(this.value);
-    }
     e.stopPropagation();
   }
 }
