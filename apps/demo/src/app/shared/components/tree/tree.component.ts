@@ -118,8 +118,9 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.addMenuOpenedNode = '';
   }
 
-  waitForScroll = true;
+  waitForScroll = false;
   addChild(parent: TreeNode, type: string): void {
+    this.waitForScroll = true;
     this.editingContent = `New ${type}`;
     const position = this.treeComponentService.addChild(
       {
