@@ -181,8 +181,8 @@ importers:
         specifier: ^10.4.4
         version: 10.4.4(@nestjs/common@10.4.4(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.4(@nestjs/common@10.4.4(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.4)(@nestjs/websockets@10.4.4)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.4(@nestjs/common@10.4.4(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/core@10.4.4))
       '@ngrx/schematics':
-        specifier: 18.0.2
-        version: 18.0.2
+        specifier: 18.1.1
+        version: 18.1.1
       '@nx/cypress':
         specifier: 20.0.6
         version: 20.0.6(@babel/traverse@7.25.9)(@swc-node/register@1.10.9(@swc/core@1.7.21(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.4.5))(@swc/core@1.7.21(@swc/helpers@0.5.12))(@types/node@22.6.1)(@zkochan/js-yaml@0.0.7)(cypress@13.9.0)(eslint@8.57.0)(nx@20.0.6(@swc-node/register@1.10.9(@swc/core@1.7.21(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.4.5))(@swc/core@1.7.21(@swc/helpers@0.5.12)))(typescript@5.4.5)
@@ -2749,8 +2749,8 @@ packages:
     peerDependencies:
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@ngrx/schematics@18.0.2':
-    resolution: {integrity: sha512-vJZyH6ngJuGL/kd6XBRmp5hh1ik3KiE12CkRWSi7ha7fDNaXIdfGNj02oaXlRG/GvJFQOG/BQlxKkMTUviuaGw==}
+  '@ngrx/schematics@18.1.1':
+    resolution: {integrity: sha512-6EexKNoTNzwHf8AIXcioOm11l6rTZ8WUpGYiPTSW2I/Pn5CsjCBDwbBDEHJZ1RqGoCXpunZn6adH63A2V8V4Sg==}
 
   '@ngrx/store-devtools@18.0.2':
     resolution: {integrity: sha512-NcfVGUOGNvl1luV+Lt8KDqqwuwNYYaSbEuGi4mq70Hb4ws3sO6BFL9v+AeHLCQ51vKccL/cYqDNMYe4QMD7UaA==}
@@ -14323,7 +14323,7 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.7.0
 
-  '@ngrx/schematics@18.0.2': {}
+  '@ngrx/schematics@18.1.1': {}
 
   '@ngrx/store-devtools@18.0.2(@ngrx/store@18.0.2(@angular/core@18.2.9(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(rxjs@7.8.1)':
     dependencies:
