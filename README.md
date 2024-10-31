@@ -6,7 +6,7 @@
 [![View - Documentation](https://img.shields.io/badge/View-Documentation-2ea44f)](https://davembush.github.io/SmartNgRX/ 'Go to project documentation')
 [![Angular - 18](https://img.shields.io/badge/Angular-18-2ea44f)](https://angular.dev/)
 [![NgRX - 18](https://img.shields.io/badge/NgRX-18-2ea44f)](https://ngrx.io/guide/store)
-![Branch Coverage - 100%](https://img.shields.io/badge/Branch_Coverage-100%-2ea44f)
+![Branch Coverage](https://img.shields.io/badge/Branch%20Coverage-100%25-2ea44f?style=plastic&logoSize=auto)
 
 ## What is SmartNgRX?
 
