@@ -26,7 +26,7 @@ export function replaceIdInFeatureParents(
     string,
     string[] | VirtualArrayContents
   >();
-  const childField = childDefinition.parentField as keyof SmartNgRXRowBase;
+  const childField = childDefinition.parentField;
 
   const parentIds: string[] = Object.keys(entities).filter((key) => {
     const entity = entities[key];

@@ -16,7 +16,8 @@
     "unused-imports",
     "ngrx",
     "max-params-no-constructor",
-    "jest"
+    "jest",
+    "@stylistic"
   ],
   "overrides": [
     {
@@ -337,7 +338,9 @@
         "@typescript-eslint/adjacent-overload-signatures": "error",
         "@typescript-eslint/ban-ts-comment": "error",
         "@typescript-eslint/ban-tslint-comment": "error",
-        "@typescript-eslint/ban-types": "error",
+        "@typescript-eslint/no-empty-object-type": "error",
+        "@typescript-eslint/no-unsafe-function-type": "error",
+        "@typescript-eslint/no-wrapper-object-types": "error",
         //// off because of prettier
         "@typescript-eslint/brace-style": "off",
         "@typescript-eslint/consistent-indexed-object-style": "error",
@@ -397,7 +400,7 @@
         ],
         "@typescript-eslint/explicit-module-boundary-types": "error",
         //// Improves code readability
-        "@typescript-eslint/lines-between-class-members": [
+        "@stylistic/lines-between-class-members": [
           "error",
           "always",
           {
@@ -506,8 +509,6 @@
         //// from the service back to the effect.
         "@typescript-eslint/no-dynamic-delete": "error",
         "@typescript-eslint/no-empty-function": "error",
-        //// Prevents unnecessary and possibly erroneous code
-        "@typescript-eslint/no-empty-interface": "error",
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/no-extra-non-null-assertion": "error",
         "@typescript-eslint/no-extraneous-class": [
@@ -579,7 +580,7 @@
         //// This rule detects when an as cast is doing the same job as
         //// an ! would, and suggests fixing the code to be an !
         "@typescript-eslint/non-nullable-type-assertion-style": "error",
-        "@typescript-eslint/padding-line-between-statements": "error",
+        "@stylistic/padding-line-between-statements": "error",
         "@typescript-eslint/prefer-enum-initializers": "error",
         // for of is 10x slower than for/next.  Use the forNext function
         // instead to gain the performance benefits as well as readability.
