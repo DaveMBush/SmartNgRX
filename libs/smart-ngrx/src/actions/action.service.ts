@@ -346,7 +346,7 @@ export class ActionService {
   ): void {
     const updates = ids
       .filter((id) => {
-        return entities[id] !== undefined && entities[id]!.isEditing !== true;
+        return entities[id] !== undefined && entities[id].isEditing !== true;
       })
       .map((id) => {
         const entityChanges: Partial<SmartNgRXRowBase> = {
@@ -366,7 +366,7 @@ export class ActionService {
     ids: string[],
   ): void {
     let idsToRemove = ids.filter(
-      (id) => entities[id] !== undefined && entities[id]!.isEditing !== true,
+      (id) => entities[id] !== undefined && entities[id].isEditing !== true,
     );
     if (idsToRemove.length === 0) {
       return;
