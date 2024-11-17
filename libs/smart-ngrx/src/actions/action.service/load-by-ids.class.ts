@@ -73,7 +73,7 @@ export class LoadByIds {
       )
       .subscribe(([ids, entity]) => {
         ids = ids.filter(
-          (id) => entity[id] === undefined || entity[id]!.isLoading !== true,
+          (id) => entity[id] === undefined || entity[id].isLoading !== true,
         );
         if (ids.length === 0) {
           return;
