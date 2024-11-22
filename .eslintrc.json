@@ -12,6 +12,7 @@
     "eslint-comments",
     "eslint-plugin-unicorn",
     "@smarttools/rxjs",
+    "@smarttools",
     "@typescript-eslint",
     "unused-imports",
     "ngrx",
@@ -678,6 +679,8 @@
         "ngrx/updater-explicit-return-type": "error",
         "ngrx/use-consistent-global-store-name": "error",
         "ngrx/use-effects-lifecycle-interface": "error",
+        // Performance and debugging rules
+        "@smarttools/no-anonymous-functions": "error",
         // RxJS Plugin
         "@smarttools/rxjs/no-finnish": "error",
         // rxjs rules require typescript so they are turned off by default
