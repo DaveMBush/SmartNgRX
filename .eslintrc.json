@@ -11,7 +11,7 @@
     "@angular-eslint/eslint-plugin",
     "eslint-comments",
     "eslint-plugin-unicorn",
-    "eslint-plugin-rxjs",
+    "@smarttools/rxjs",
     "@typescript-eslint",
     "unused-imports",
     "ngrx",
@@ -115,7 +115,7 @@
           "@typescript-eslint/no-unsafe-call",
           "@typescript-eslint/no-unsafe-member-access",
           "@typescript-eslint/no-unsafe-return",
-          "rxjs/no-implicit-any-catch",
+          "@smarttools/rxjs/no-implicit-any-catch",
           // the following enforce single responsibility principle
           "complexity",
           "max-depth", // also for code clarity
@@ -679,35 +679,35 @@
         "ngrx/use-consistent-global-store-name": "error",
         "ngrx/use-effects-lifecycle-interface": "error",
         // RxJS Plugin
-        "rxjs/no-finnish": "error",
+        "@smarttools/rxjs/no-finnish": "error",
         // rxjs rules require typescript so they are turned off by default
         //// prevents async methods from being passed to subscribe()
-        "rxjs/no-async-subscribe": "error",
+        "@smarttools/rxjs/no-async-subscribe": "error",
         //// Keeps people from copy and pasting older code.  Even if we never
         //// need it, it is a good rule to add.  Especially as we bring on
         //// new people from who knows where and what they"ve done in the
         //// past (despite our best efforts to hire the best!)
-        "rxjs/no-compat": "error",
-        "rxjs/no-create": "error",
-        "rxjs/no-exposed-subjects": "error",
+        "@smarttools/rxjs/no-compat": "error",
+        "@smarttools/rxjs/no-create": "error",
+        "@smarttools/rxjs/no-exposed-subjects": "error",
         //// ensures repeatWhen or retryWhen notifies get used
-        "rxjs/no-ignored-notifier": "error",
+        "@smarttools/rxjs/no-ignored-notifier": "error",
         //// ensures the buffer size is specified
-        "rxjs/no-ignored-replay-buffer": "error",
+        "@smarttools/rxjs/no-ignored-replay-buffer": "error",
         //// ensures the takeWhile value is used
-        "rxjs/no-ignored-takewhile-value": "error",
+        "@smarttools/rxjs/no-ignored-takewhile-value": "error",
         //// makes sure errors are typed
-        "rxjs/no-implicit-any-catch": "error",
+        "@smarttools/rxjs/no-implicit-any-catch": "error",
         //// Make sure you import from the directory instead of index.*
-        "rxjs/no-index": "error",
+        "@smarttools/rxjs/no-index": "error",
         //// Make sure you import from root instead of deep referencing
-        "rxjs/no-internal": "error",
-        "rxjs/no-nested-subscribe": "error",
+        "@smarttools/rxjs/no-internal": "error",
+        "@smarttools/rxjs/no-nested-subscribe": "error",
         //// (if an attempt is made to send a notification to an
         //// observer after a complete or error notification has
         //// already been sent
-        "rxjs/no-redundant-notify": "error",
-        "rxjs/no-sharereplay": [
+        "@smarttools/rxjs/no-redundant-notify": "error",
+        "@smarttools/rxjs/no-sharereplay": [
           "error",
           {
             "allowConfig": true
@@ -716,8 +716,8 @@
         //// Unsubscribing a subject isn"t the same
         //// as unsubscribing a subscription. This rule
         //// protects us against someone who thinks they are
-        "rxjs/no-subject-unsubscribe": "error",
-        "rxjs/no-subject-value": "error",
+        "@smarttools/rxjs/no-subject-unsubscribe": "error",
+        "@smarttools/rxjs/no-subject-value": "error",
         //// Using promises, directly or indirectly, is
         //// normally an indication that the programmer
         //// does not know how to use observables OR
@@ -731,15 +731,15 @@
         //// add an eslint exclusion comment with an
         //// explanation as to why you think using a promise
         //// is acceptable.
-        "rxjs/no-topromise": "error",
-        "rxjs/no-unbound-methods": "error",
-        "rxjs/no-unsafe-catch": "error",
-        "rxjs/no-unsafe-first": "error",
+        "@smarttools/rxjs/no-topromise": "error",
+        "@smarttools/rxjs/no-unbound-methods": "error",
+        "@smarttools/rxjs/no-unsafe-catch": "error",
+        "@smarttools/rxjs/no-unsafe-first": "error",
         //// don"t pass undefined to next()
-        "rxjs/no-unsafe-subject-next": "error",
-        "rxjs/no-unsafe-switchmap": "error",
-        "rxjs/no-unsafe-takeuntil": "error",
-        "rxjs/prefer-observer": "error",
+        "@smarttools/rxjs/no-unsafe-subject-next": "error",
+        "@smarttools/rxjs/no-unsafe-switchmap": "error",
+        "@smarttools/rxjs/no-unsafe-takeuntil": "error",
+        "@smarttools/rxjs/prefer-observer": "error",
         // One off plugins
         "unicorn/filename-case": "error",
         "unicorn/no-abusive-eslint-disable": "error",
