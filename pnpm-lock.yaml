@@ -219,9 +219,12 @@ importers:
       '@schematics/angular':
         specifier: ~18.2.6
         version: 18.2.6(chokidar@3.5.3)
+      '@smarttools/eslint-plugin':
+        specifier: 1.0.1
+        version: 1.0.1
       '@smarttools/eslint-plugin-rxjs':
-        specifier: 1.0.2
-        version: 1.0.2(eslint@8.57.0)
+        specifier: 1.0.3
+        version: 1.0.3(eslint@8.57.0)
       '@stylistic/eslint-plugin':
         specifier: 2.10.1
         version: 2.10.1(eslint@8.57.0)(typescript@5.5.4)
@@ -3356,8 +3359,11 @@ packages:
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
 
-  '@smarttools/eslint-plugin-rxjs@1.0.2':
-    resolution: {integrity: sha512-v9Vf7HkqTEheS1llk6NTjFSJKboVVqG7kKmy6WVyR1sUWJb/rvuYK63vPt80GB9tJjRTA3ycIQMNv/oArk2zKw==}
+  '@smarttools/eslint-plugin-rxjs@1.0.3':
+    resolution: {integrity: sha512-UyAUZeJG4bJ2xOKn1QECw1EUqQ72WwfvOrYJ1m4Pt+MmgV6Tm26i4+scuKU6sPqHvSx0Q5BpmwNR7s/YAZ2fQA==}
+
+  '@smarttools/eslint-plugin@1.0.1':
+    resolution: {integrity: sha512-7QZ2CFhKxPq3igeVXjAVxfSnA2Pe43htGbMj7yax0AqQtXYyLbDeSmMgypVFbCwfu5Nj7pdIbpAjT+Zn7qq+Uw==}
 
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
@@ -15108,7 +15114,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 3.0.1
 
-  '@smarttools/eslint-plugin-rxjs@1.0.2(eslint@8.57.0)':
+  '@smarttools/eslint-plugin-rxjs@1.0.3(eslint@8.57.0)':
     dependencies:
       '@typescript-eslint/rule-tester': 8.15.0(eslint@8.57.0)(typescript@5.5.4)
       '@typescript-eslint/utils': 8.15.0(eslint@8.57.0)(typescript@5.5.4)
@@ -15120,6 +15126,8 @@ snapshots:
     transitivePeerDependencies:
       - eslint
       - supports-color
+
+  '@smarttools/eslint-plugin@1.0.1': {}
 
   '@socket.io/component-emitter@3.1.2': {}
 
