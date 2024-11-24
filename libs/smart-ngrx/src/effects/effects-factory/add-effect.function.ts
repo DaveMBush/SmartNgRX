@@ -21,21 +21,21 @@ export function addEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
 ) {
-  return (
+  return function addEffectFunction(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-  ) => {
+  ) {
     /* jscpd:ignore-end */
     return actions$.pipe(
       ofType(actions.add),
-      concatMap((action) => {
+      concatMap(function addEffectConcatMap(action) {
         return effectService.add(action.row).pipe(
           // action.parentService has to get passed to map and catchError
           // could we get the action from the registration instead of passing
           // it in since we are in an effect that we own?
-          map((rows) => {
+          map(function addEffectMap(rows) {
             return actions.addSuccess({
               oldRow: action.row,
               newRow: rows[0],
@@ -46,7 +46,7 @@ export function addEffect<T extends SmartNgRXRowBase>(
               parentEntityName: action.parentEntityName,
             });
           }),
-          catchError((_: unknown, __) => {
+          catchError(function addEffectConcatMapCatchError(_: unknown, __) {
             markParentsDirty(action.parentFeature, action.parentEntityName, [
               action.parentId,
             ]);

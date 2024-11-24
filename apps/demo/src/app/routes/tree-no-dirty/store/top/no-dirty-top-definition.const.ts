@@ -10,8 +10,10 @@ export const noDirtyTopDefinition: SmartEntityDefinition<Top> = {
     markDirtyTime: -1,
   },
   isInitialRow: true,
-  defaultRow: (id) => ({
-    id,
-    locations: [],
-  }),
+  defaultRow: function noDirtyTopDefaultRowFunction(id) {
+    return {
+      id,
+      locations: [],
+    };
+  },
 };

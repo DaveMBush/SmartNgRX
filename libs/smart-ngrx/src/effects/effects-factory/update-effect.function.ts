@@ -45,22 +45,26 @@ export function updateEffect<T extends SmartNgRXRowBase>(
   const lastRow: Map<string, T> = new Map();
   const lastRowTimeout: Map<string, number> = new Map();
 
-  return (
+  return function updateEffectFunction(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-  ) => {
+  ) {
     return actions$.pipe(
       ofType(actions.update),
-      tap((action) => manageMaps<T>(lastRow, lastRowTimeout, action)),
+      tap(function updateEffectTap(action) {
+        manageMaps<T>(lastRow, lastRowTimeout, action);
+      }),
       // scan allows us to change fields in multiple rows
       // within the same event loop
       scan(
-        (acc, action) => ({
-          ...acc,
-          [action.old.row.id]: action,
-        }),
+        function updateEffectScan(acc, action) {
+          return {
+            ...acc,
+            [action.old.row.id]: action,
+          };
+        },
         {} as Record<string, { old: RowProp<T>; new: RowProp<T> }>,
       ),
       // debounceTime(1) lets us set multiple fields in a row but only
@@ -68,17 +72,17 @@ export function updateEffect<T extends SmartNgRXRowBase>(
       debounceTime(1),
       // mergeMap allows us to call the server once for each
       // row that was updated
-      mergeMap((accActions) => {
+      mergeMap(function updateEffectMergeMap(accActions) {
         return Object.values(accActions);
       }),
-      concatMap((action) =>
-        effectService.update(action.new.row).pipe(
-          catchError(() => {
+      concatMap(function updateEffectConcatMap(action) {
+        return effectService.update(action.new.row).pipe(
+          catchError(function updateEffectConcatMapCatchError() {
             return of([action.old.row]);
           }),
-        ),
-      ),
-      map((rows) => {
+        );
+      }),
+      map(function updateEffectMap(rows) {
         // set the last row to the row we got back here.
         // rows only has one row it it we just return an array
         // so we can reuse code.

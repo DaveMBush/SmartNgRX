@@ -19,7 +19,7 @@ export function mergeRowsWithEntities<T extends SmartNgRXRowBase>(
   rows: T[],
   entities: Dictionary<SmartNgRXRowBase>,
 ): T[] {
-  forNext(rows, (row) => {
+  forNext(rows, function mergeRowsWithEntitiesForNextRow(row) {
     const existingRow = entities[row.id];
     if (existingRow !== undefined) {
       row = mergeNewRowWithExisting(

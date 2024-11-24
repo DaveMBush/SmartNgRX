@@ -70,11 +70,17 @@ export class LoadByIndexes {
    * Dispatches the loadByIndexes action after buffering the indexes.
    */
   loadByIndexesDispatcher(): void {
+    const store = this.store;
+    const actions = this.actions;
     this.loadByIndexesSubject
       .pipe(bufferIndexes())
-      .subscribe(({ parentId, childField, indexes }) => {
-        this.store.dispatch(
-          this.actions.loadByIndexes({
+      .subscribe(function loadByIndexesDispatcherSubscribe({
+        parentId,
+        childField,
+        indexes,
+      }) {
+        store.dispatch(
+          actions.loadByIndexes({
             parentId,
             childField,
             indexes,
@@ -98,19 +104,25 @@ export class LoadByIndexes {
     childField: string,
     array: PartialArrayDefinition,
   ): void {
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      const row = entities[parentId] as Record<string, VirtualArrayContents> &
-        SmartNgRXRowBase;
-      const updatedField = this.processLoadByIndexesSuccess(
-        row[childField],
-        array,
-      );
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows: [{ ...row, [childField]: updatedField }],
-        }),
-      );
-    });
+    const processLoadByIndexesSuccess =
+      this.processLoadByIndexesSuccess.bind(this);
+    const store = this.store;
+    const actions = this.actions;
+    this.entities
+      .pipe(take(1))
+      .subscribe(function loadByIndexesSuccessSubscribe(entities) {
+        const row = entities[parentId] as Record<string, VirtualArrayContents> &
+          SmartNgRXRowBase;
+        const updatedField = processLoadByIndexesSuccess(
+          row[childField],
+          array,
+        );
+        store.dispatch(
+          actions.storeRows({
+            rows: [{ ...row, [childField]: updatedField }],
+          }),
+        );
+      });
   }
 
   private processLoadByIndexesSuccess(
@@ -119,9 +131,12 @@ export class LoadByIndexes {
   ): VirtualArrayContents {
     const updatedField = { ...field };
     updatedField.indexes = [...field.indexes];
-    forNext(array.indexes, (item, index) => {
-      updatedField.indexes[index + array.startIndex] = item;
-    });
+    forNext(
+      array.indexes,
+      function processLoadByIndexesSuccessForNext(item, index) {
+        updatedField.indexes[index + array.startIndex] = item;
+      },
+    );
     updatedField.length = array.length;
     if (
       updatedField.indexes.length > 0 &&

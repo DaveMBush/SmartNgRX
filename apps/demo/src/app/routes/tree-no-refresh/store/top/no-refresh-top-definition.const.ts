@@ -12,8 +12,10 @@ export const noRefreshTopDefinition: SmartEntityDefinition<Top> = {
     removeTime: 4 * 60 * 1000,
   },
   isInitialRow: true,
-  defaultRow: (id) => ({
-    id,
-    locations: [],
-  }),
+  defaultRow: function noRefreshTopDefaultRowFunction(id) {
+    return {
+      id,
+      locations: [],
+    };
+  },
 };

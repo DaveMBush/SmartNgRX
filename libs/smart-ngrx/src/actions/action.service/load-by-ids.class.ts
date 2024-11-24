@@ -10,7 +10,9 @@ import { ActionGroup } from '../action-group.interface';
 import { bufferIdsAction } from './buffer-ids-action.function';
 
 function notAPreloadId(c: string): boolean {
-  return !['index-', 'indexNoOp-'].some((v) => c.startsWith(v));
+  return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {
+    return c.startsWith(v);
+  });
 }
 
 /**
@@ -65,21 +67,26 @@ export class LoadByIds {
    * Dispatches the loadByIds action after buffering the ids.
    */
   loadByIdsDispatcher(): void {
+    const store = this.store;
+    const actions = this.actions;
+
     this.loadByIdsSubject
       .pipe(
         bufferIdsAction(),
-        map((ids) => ids.filter(notAPreloadId)),
+        map(function loadByIdsDispatcherMap(ids) {
+          return ids.filter(notAPreloadId);
+        }),
         withLatestFrom(this.entities),
       )
-      .subscribe(([ids, entity]) => {
-        ids = ids.filter(
-          (id) => entity[id] === undefined || entity[id].isLoading !== true,
-        );
+      .subscribe(function loadByIdsDispatcherSubscribe([ids, entity]) {
+        ids = ids.filter(function loadByIdsDispatcherFilter(id) {
+          return entity[id] === undefined || entity[id].isLoading !== true;
+        });
         if (ids.length === 0) {
           return;
         }
-        this.store.dispatch(
-          this.actions.loadByIds({
+        store.dispatch(
+          actions.loadByIds({
             ids,
           }),
         );
@@ -92,16 +99,23 @@ export class LoadByIds {
    * @param ids the ids to load
    */
   loadByIdsPreload(ids: string[]): void {
-    this.entities.pipe(take(1)).subscribe((entity) => {
-      let rows = defaultRows(ids, entity, this.defaultRow);
-      // don't let virtual arrays get overwritten by the default row
-      rows = mergeRowsWithEntities(this.feature, this.entity, rows, entity);
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows,
-        }),
-      );
-    });
+    const store = this.store;
+    const actions = this.actions;
+    const defaultRow = this.defaultRow;
+    const feature = this.feature;
+    const thisEntity = this.entity;
+    this.entities
+      .pipe(take(1))
+      .subscribe(function loadByIdsPreloadSubscribe(entity) {
+        let rows = defaultRows(ids, entity, defaultRow);
+        // don't let virtual arrays get overwritten by the default row
+        rows = mergeRowsWithEntities(feature, thisEntity, rows, entity);
+        store.dispatch(
+          actions.storeRows({
+            rows,
+          }),
+        );
+      });
   }
 
   /**
@@ -110,20 +124,26 @@ export class LoadByIds {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    let registeredRows = registerEntityRows(this.feature, this.entity, rows);
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      // don't let virtual arrays get overwritten by the default row
-      registeredRows = mergeRowsWithEntities(
-        this.feature,
-        this.entity,
-        registeredRows,
-        entities,
-      );
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows: registeredRows,
-        }),
-      );
-    });
+    const feature = this.feature;
+    const entity = this.entity;
+    const store = this.store;
+    const actions = this.actions;
+    let registeredRows = registerEntityRows(feature, entity, rows);
+    this.entities
+      .pipe(take(1))
+      .subscribe(function loadByIdsSuccessSubscribe(entities) {
+        // don't let virtual arrays get overwritten by the default row
+        registeredRows = mergeRowsWithEntities(
+          feature,
+          entity,
+          registeredRows,
+          entities,
+        );
+        store.dispatch(
+          actions.storeRows({
+            rows: registeredRows,
+          }),
+        );
+      });
   }
 }

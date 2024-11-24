@@ -6,7 +6,7 @@ import { selectTreeNoRefreshState } from '../tree-no-refresh.selectors';
 
 export const selectDepartments = createSelector(
   selectTreeNoRefreshState,
-  (state) => {
+  function selectDepartmentsFunction(state) {
     return state.departments;
   },
 );

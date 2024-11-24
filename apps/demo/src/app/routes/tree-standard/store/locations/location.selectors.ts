@@ -10,7 +10,7 @@ import { selectTreeStandardState } from '../tree-standard-state.selectors';
 
 export const selectLocationEntities = createSelector(
   selectTreeStandardState,
-  (state) => {
+  function selectLocationEntitiesFunction(state) {
     return state.locations;
   },
 );
@@ -32,7 +32,7 @@ export const selectLocationsDepartments = createSmartSelector(
 export const selectCurrentLocation = createSelector(
   selectLocationsDepartments,
   selectCurrentLocationId,
-  (locations, id) => {
+  function selectCurrentLocationFunction(locations, id) {
     return (
       locations.entities[id] ?? {
         id,

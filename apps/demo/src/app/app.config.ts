@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideExperimentalZonelessChangeDetection(),
     {
       provide: SocketService,
-      useFactory: (): SocketService => {
+      useFactory: function socketServiceFactory(): SocketService {
         const s = new SocketService();
         s.init();
         return s;

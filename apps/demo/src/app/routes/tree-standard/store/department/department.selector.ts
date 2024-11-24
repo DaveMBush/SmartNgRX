@@ -7,7 +7,7 @@ import { selectTreeStandardState } from '../tree-standard-state.selectors';
 
 export const selectDepartments = createSelector(
   selectTreeStandardState,
-  (state) => {
+  function selectDepartmentsFunction(state) {
     return state.departments;
   },
 );

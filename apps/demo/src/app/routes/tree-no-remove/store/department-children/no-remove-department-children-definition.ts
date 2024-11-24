@@ -11,9 +11,11 @@ export const noRemoveDepartmentChildrenDefinition: SmartEntityDefinition<Departm
       markDirtyTime: 2 * 60 * 1000,
       removeTime: 0,
     },
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: [],
-    }),
+    defaultRow: function noRemoveDepartmentChildrenDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: [],
+      };
+    },
   };

@@ -105,8 +105,10 @@ export class TreeComponentService {
     }
 
     parent.node.children.addToStore!(row, parent.node);
-    const index = this.component!.fullDataSource.findIndex((node) =>
-      TreeComponentService.isNodeAtPosition(node, parent),
+    const index = this.component!.fullDataSource.findIndex(
+      function findNodeIndex(node) {
+        return TreeComponentService.isNodeAtPosition(node, parent);
+      },
     );
     return parent.node.children.length + index;
   }

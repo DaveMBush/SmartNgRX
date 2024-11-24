@@ -11,7 +11,10 @@ import { markParentsDirty } from './mark-parents-dirty.function';
 export function markFeatureParentsDirty(
   action: ReturnType<ActionGroup['delete']>,
 ) {
-  forNext(action.parentInfo, (parentInfo: ParentInfo) => {
-    markParentsDirty(parentInfo.feature, parentInfo.entity, parentInfo.ids);
-  });
+  forNext(
+    action.parentInfo,
+    function markFeatureParentsDirtyForNext(parentInfo: ParentInfo) {
+      markParentsDirty(parentInfo.feature, parentInfo.entity, parentInfo.ids);
+    },
+  );
 }

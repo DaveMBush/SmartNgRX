@@ -4,7 +4,7 @@ import { selectTreeNoDirtyState } from '../tree-no-dirty.selectors';
 
 export const selectDepartmentChildren = createSelector(
   selectTreeNoDirtyState,
-  (state) => {
+  function selectDepartmentChildrenFunction(state) {
     return state.departmentChildren;
   },
 );

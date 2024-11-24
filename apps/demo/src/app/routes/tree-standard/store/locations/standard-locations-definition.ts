@@ -6,9 +6,11 @@ import { locationEffectsServiceToken } from '../../../../shared/locations/locati
 export const standardLocationsDefinition: SmartEntityDefinition<Location> = {
   entityName: 'locations',
   effectServiceToken: locationEffectsServiceToken,
-  defaultRow: (id) => ({
-    id,
-    name: '',
-    departments: [],
-  }),
+  defaultRow: function standardLocationsDefaultRowFunction(id) {
+    return {
+      id,
+      name: '',
+      departments: [],
+    };
+  },
 };

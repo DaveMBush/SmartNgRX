@@ -25,16 +25,20 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
     feature,
     entity,
   ).effectServiceToken;
-  return (
+  return function loadByIndexesEffectFunction(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-  ) => {
+  ) {
     return actions$.pipe(
       ofType(actions.loadByIndexes),
-      mergeMap((actionProps) => {
-        const numberIds = actionProps.indexes.map((id) => +id);
+      mergeMap(function loadByIndexesEffectMergeMap(actionProps) {
+        const numberIds = actionProps.indexes.map(
+          function convertStringToNumber(id) {
+            return +id;
+          },
+        );
         const min = Math.min(...numberIds);
         const max = Math.max(...numberIds);
         return (
@@ -47,7 +51,7 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
             )
             // nested pipe to get access to actionProps
             .pipe(
-              map((indexes) => {
+              map(function loadByIndexesEffectMapItem(indexes) {
                 const actionService = actionServiceRegistry(feature, entity);
                 assert(
                   !!actionService,

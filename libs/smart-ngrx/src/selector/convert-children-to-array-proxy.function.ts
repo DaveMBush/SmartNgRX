@@ -23,14 +23,21 @@ export function convertChildrenToArrayProxy<
   child: EntityState<C>,
   childDefinition: ChildDefinition<P, C>,
 ): void {
-  forNext(parentEntity.ids as string[], (w) => {
-    const entity: P = { ...parentEntity.entities[w] } as P;
-    parentEntity.entities[w] = entity;
-    const childArray = entity[parentFieldName] as ArrayProxy<P, C> | string[];
+  forNext(
+    parentEntity.ids as string[],
+    function innerConvertChildrenToArrayProxy(w) {
+      const entity: P = { ...parentEntity.entities[w] } as P;
+      parentEntity.entities[w] = entity;
+      const childArray = entity[parentFieldName] as ArrayProxy<P, C> | string[];
 
-    const arrayProxy = new ArrayProxy<P, C>(childArray, child, childDefinition);
-    arrayProxy.init();
-    castTo<Record<string, unknown>>(entity)[parentFieldName as string] =
-      arrayProxy;
-  });
+      const arrayProxy = new ArrayProxy<P, C>(
+        childArray,
+        child,
+        childDefinition,
+      );
+      arrayProxy.init();
+      castTo<Record<string, unknown>>(entity)[parentFieldName as string] =
+        arrayProxy;
+    },
+  );
 }

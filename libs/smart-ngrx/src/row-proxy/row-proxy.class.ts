@@ -41,12 +41,8 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
     this.record = castTo<Record<string | symbol, unknown>>(row);
 
     return new Proxy(this, {
-      get: (target, prop) => rowProxyGet(target, prop, service),
-      set: (target, prop, value) =>
-        rowProxySet(target, prop, value, {
-          service,
-          parentService,
-        }),
+      get: rowProxyGet(service),
+      set: rowProxySet({ service, parentService }),
     });
   }
 
@@ -58,16 +54,17 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
   getRealRow(): T {
     const keys = Object.keys(this.row);
     const realRow: Record<string | symbol, unknown> = {};
+    const record = this.record;
     // We have to create a row that uses the rawArray instead of the
     // one we are proxying so that the proxy doesn't get triggered
     // and cause an infinite loop. Therefore, we need to cast the
     // record to SmartArray to get at the rawArray if it exists.
-    forNext(keys, (key) => {
-      const rawArray = (this.record[key] as ArrayProxy).rawArray;
+    forNext(keys, function getRealRowsForNext(key) {
+      const rawArray = (record[key] as ArrayProxy).rawArray;
       if (rawArray !== undefined) {
         realRow[key] = rawArray;
       } else {
-        realRow[key] = this.record[key];
+        realRow[key] = record[key];
       }
     });
     return realRow as T;

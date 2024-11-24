@@ -23,17 +23,21 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ) {
-  return (
+  return function loadByIdsEffectFunction(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-  ) => {
+  ) {
     return actions$.pipe(
       ofType(actions.loadByIds),
-      map((action) => action.ids),
-      filter((ids) => ids.length > 0),
-      mergeMap((ids): Observable<T[]> => {
+      map(function actionToActionId(action) {
+        return action.ids;
+      }),
+      filter(function filterOutIdsWithZeroLength(ids) {
+        return ids.length > 0;
+      }),
+      mergeMap(function loadByIdsEffectMergeMap(ids): Observable<T[]> {
         const actionService = actionServiceRegistry(feature, entity);
         assert(
           !!actionService,
@@ -42,7 +46,7 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
         actionService.loadByIdsPreload(ids);
         return effectService.loadByIds(ids);
       }),
-      map((rows) => {
+      map(function loadByIdsEffectMapRow(rows) {
         const service = actionServiceRegistry(feature, entity);
         assert(
           !!service,

@@ -11,7 +11,9 @@ export function updateForType(
   /* istanbul ignore next */
   idName: string = 'id', // this is just a default value that does not need to be tested
 ): Observable<DepartmentChild[]> {
-  return service
-    .update({ id: row.id, name: row.name })
-    .pipe(map((rows): DepartmentChild[] => updateId(rows, type, idName)));
+  return service.update({ id: row.id, name: row.name }).pipe(
+    map(function updateForTypeMapRow(rows): DepartmentChild[] {
+      return updateId(rows, type, idName);
+    }),
+  );
 }

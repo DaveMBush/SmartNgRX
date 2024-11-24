@@ -11,29 +11,33 @@ import { currentLocationActions } from './current-location.actions';
 import { selectCurrentLocationId } from './current-location.selector';
 
 function locationEqualsLocationId(id: string) {
-  return (l: string): boolean => {
+  return function locationEqualsLocationIdFunction(l: string): boolean {
     return l === id;
   };
 }
 
 export const watchLocations = createEffect(
   /* istanbul ignore next -- not real conditions but injectables */
-  (actions = inject(Actions), store = inject(Store)) => {
+  function watchLocationsEffectFunction(
+    actions = inject(Actions),
+    store = inject(Store),
+  ) {
     return actions.pipe(
       ofType(locationActions.storeRows),
-      switchMap(() => store.select(selectLocationEntities)),
+      switchMap(function watchLocationsSwitchMapFunction() {
+        return store.select(selectLocationEntities);
+      }),
       withLatestFrom(store.select(selectCurrentLocationId)),
-      map(([locations, locationId]) => {
+      map(function watchLocationsMapFunction([locations, locationId]) {
         return {
           ids: locations.ids as string[],
           locationId,
         };
       }),
-      filter(
-        ({ ids, locationId }) =>
-          !ids.some(locationEqualsLocationId(locationId)),
-      ),
-      map(({ ids }) => {
+      filter(function watchLocationsFilterByLocationId({ ids, locationId }) {
+        return !ids.some(locationEqualsLocationId(locationId));
+      }),
+      map(function watchLocationsMapToSetAction({ ids }) {
         const id = ids[0];
         return currentLocationActions.set({ id });
       }),

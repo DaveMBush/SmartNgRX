@@ -287,7 +287,7 @@
         //// This rule is aimed to flag usage of Function.prototype.apply()
         //// in situations where spread syntax could be used instead
         "prefer-spread": "error",
-        "prefer-arrow-callback": "error",
+        "prefer-arrow-callback": "off",
         "radix": "error",
         // Angular Rules
         "@angular-eslint/component-class-suffix": "error",
@@ -545,8 +545,8 @@
         "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
         "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-require-imports": "error",
-        "@typescript-eslint/no-shadow": ["error"],
-        "@typescript-eslint/no-this-alias": "error",
+        "@typescript-eslint/no-shadow": "error",
+        "@typescript-eslint/no-this-alias": "off",
         // Use types for what interfaces can"t do.
         "@typescript-eslint/no-type-alias": [
           "error",
@@ -884,6 +884,7 @@
         "jest": true
       },
       "rules": {
+        "@smarttools/no-anonymous-functions": "off",
         "no-restricted-syntax": "off",
         "max-lines": "off",
         "max-lines-per-function": "off",

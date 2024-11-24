@@ -12,14 +12,16 @@ export const noRemoveDepartmentsDefinition: SmartEntityDefinition<Department> =
       markDirtyTime: 2 * 60 * 1000,
       removeTime: 0,
     },
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: {
-        indexes: [],
-        startIndex: 0,
-        length: 0,
-      },
-    }),
+    defaultRow: function noRemoveDepartmentsDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: {
+          indexes: [],
+          startIndex: 0,
+          length: 0,
+        },
+      };
+    },
   };
 /* jscpd:ignore-end */

@@ -15,11 +15,14 @@ import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 export function markAndDeleteFeaturesInterval(): Observable<number> {
   const markAndDeleteInterval = getGlobalMarkAndDeleteInit().runInterval;
   return interval(markAndDeleteInterval).pipe(
-    tap(() => {
+    tap(function markAndDeleteFeaturesIntervalTab() {
       const featureKeys = markAndDeleteEntities();
       // for/next is faster than forEach
-      forNext(featureKeys, (item) =>
-        markAndDeleteEntity(item.split(psi) as [string, string]),
+      forNext(
+        featureKeys,
+        function markAndDeleteFeaturesIntervalTabForNext(item) {
+          markAndDeleteEntity(item.split(psi) as [string, string]);
+        },
       );
     }),
   );

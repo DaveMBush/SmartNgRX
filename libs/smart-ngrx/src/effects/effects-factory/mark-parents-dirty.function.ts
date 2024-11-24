@@ -19,9 +19,11 @@ export function markParentsDirty(
     `the service for ${parentFeature}:${parentEntity} is not available`,
   );
   parentService.updateMany(
-    parentIds.map((id) => ({
-      id,
-      changes: { isDirty: true },
-    })),
+    parentIds.map(function markParentsDirtyMapItem(id) {
+      return {
+        id,
+        changes: { isDirty: true },
+      };
+    }),
   );
 }

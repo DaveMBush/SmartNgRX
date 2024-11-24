@@ -11,7 +11,9 @@
         // we need to spit out information to the console as part of this app.
         "no-console": "off",
         // turns off the Promise restriction because MemLab uses Promises
-        "no-restricted-syntax": "off"
+        "no-restricted-syntax": "off",
+        // we don't care about anonymous function for memlab
+        "@smarttools/no-anonymous-functions": "error"
       },
       "extends": [
         "plugin:@nx/angular",

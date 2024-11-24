@@ -11,8 +11,10 @@ export const noRemoveTopDefinition: SmartEntityDefinition<Top> = {
     removeTime: 0,
   },
   isInitialRow: true,
-  defaultRow: (id) => ({
-    id,
-    locations: [],
-  }),
+  defaultRow: function noRemoveTopDefaultRowFunction(id) {
+    return {
+      id,
+      locations: [],
+    };
+  },
 };

@@ -35,7 +35,7 @@ export function mergeVirtualArrays(
     addRow = existingArray.indexes[existingArray.length - 1];
   }
   const mergedArray = [...existingArray.indexes];
-  forNext(newArray.indexes, (item, index) => {
+  forNext(newArray.indexes, function mergeVirtualArraysForNext(item, index) {
     if (item !== undefined) {
       mergedArray[index] = item;
     }
@@ -48,7 +48,9 @@ export function mergeVirtualArrays(
     newArray.length + (addRow !== undefined ? 1 : 0) - (hasDeleted ? 1 : 0);
   return {
     indexes: hasDeleted
-      ? mergedArray.filter((item) => !itemIsMarkedForDeletion(item))
+      ? mergedArray.filter(function mergeVirtualArraysFilter(item) {
+          return !itemIsMarkedForDeletion(item);
+        })
       : mergedArray,
     length,
   };

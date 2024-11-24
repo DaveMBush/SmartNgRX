@@ -67,6 +67,7 @@ export class ActionService {
    * @returns true if successful, false if not
    */
   init(): boolean {
+    const entity = this.entity;
     if (!featureRegistry.hasFeature(this.feature)) {
       return false;
     }
@@ -76,14 +77,17 @@ export class ActionService {
     >(this.feature);
 
     this.entityDefinition = entityDefinitionCache(this.feature, this.entity);
-    const selectEntity = createSelector(selectFeature, (f) => {
-      try {
-        return f[this.entity];
-        // eslint-disable-next-line sonarjs/no-ignored-exceptions, unused-imports/no-unused-vars -- we ARE handling the error, buggy rule
-      } catch (_) {
-        return { ids: [], entities: {} };
-      }
-    });
+    const selectEntity = createSelector(
+      selectFeature,
+      function selectEntityFunction(f) {
+        try {
+          return f[entity];
+          // eslint-disable-next-line sonarjs/no-ignored-exceptions, unused-imports/no-unused-vars -- we ARE handling the error, buggy rule
+        } catch (_) {
+          return { ids: [], entities: {} };
+        }
+      },
+    );
     this.entityAdapter = this.entityDefinition.entityAdapter;
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
@@ -109,15 +113,19 @@ export class ActionService {
    * @param ids the ids to mark as dirty
    */
   markDirty(ids: string[]): void {
+    const feature = this.feature;
+    const entity = this.entity;
     if (!this.markDirtyFetchesNew) {
-      this.entities.pipe(take(1)).subscribe((entities) => {
-        const entIds = entities as Record<string, SmartNgRXRowBase>;
-        const idsIds = [] as SmartNgRXRowBase[];
-        forNext(ids, (id) => {
-          idsIds.push(entIds[id]);
+      this.entities
+        .pipe(take(1))
+        .subscribe(function markDirtySubscribe(entities) {
+          const entIds = entities as Record<string, SmartNgRXRowBase>;
+          const idsIds = [] as SmartNgRXRowBase[];
+          forNext(ids, function markDirtyForNext(id) {
+            idsIds.push(entIds[id]);
+          });
+          registerEntityRows(feature, entity, idsIds);
         });
-        registerEntityRows(this.feature, this.entity, idsIds);
-      });
       return;
     }
     this.forceDirty(ids);
@@ -130,9 +138,12 @@ export class ActionService {
    * @param ids the ids to mark as dirty
    */
   forceDirty(ids: string[]): void {
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      this.markDirtyWithEntities(entities, ids);
-    });
+    const markDirtyWithEntities = this.markDirtyWithEntities.bind(this);
+    this.entities
+      .pipe(take(1))
+      .subscribe(function markDirtySubscribe(entities) {
+        markDirtyWithEntities(entities, ids);
+      });
   }
 
   /**
@@ -143,13 +154,12 @@ export class ActionService {
   markNotDirty(ids: string[]): void {
     this.store.dispatch(
       this.actions.updateMany({
-        changes: ids.map(
-          (id) =>
-            ({
-              id,
-              changes: { isDirty: false },
-            }) as UpdateStr<SmartNgRXRowBase>,
-        ),
+        changes: ids.map(function markNotDirtyMap(id) {
+          return {
+            id,
+            changes: { isDirty: false },
+          } as UpdateStr<SmartNgRXRowBase>;
+        }),
       }),
     );
   }
@@ -161,9 +171,13 @@ export class ActionService {
    * @param ids the ids to remove
    */
   garbageCollect(ids: string[]): void {
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      this.garbageCollectWithEntities(entities, ids);
-    });
+    const garbageCollectWithEntities =
+      this.garbageCollectWithEntities.bind(this);
+    this.entities
+      .pipe(take(1))
+      .subscribe(function garbageCollectSubscribe(entities) {
+        garbageCollectWithEntities(entities, ids);
+      });
   }
 
   /**
@@ -243,9 +257,12 @@ export class ActionService {
       this.entity,
     );
     const parentInfo: ParentInfo[] = [];
-    forNext(childDefinitions, (childDefinition) => {
-      removeIdFromParents(childDefinition, id, parentInfo);
-    });
+    forNext(
+      childDefinitions,
+      function removeFromParentsForNext(childDefinition) {
+        removeIdFromParents(childDefinition, id, parentInfo);
+      },
+    );
     return parentInfo;
   }
 
@@ -261,9 +278,12 @@ export class ActionService {
       this.feature,
       this.entity,
     );
-    forNext(childDefinitions, (childDefinition) => {
-      replaceIdInParents(childDefinition, id, newId);
-    });
+    forNext(
+      childDefinitions,
+      function replaceIdInParentsForNext(childDefinition) {
+        replaceIdInParents(childDefinition, id, newId);
+      },
+    );
   }
 
   /**
@@ -274,7 +294,9 @@ export class ActionService {
   delete(id: string): void {
     let parentInfo = this.removeFromParents(id);
 
-    parentInfo = parentInfo.filter((info) => info.ids.length > 0);
+    parentInfo = parentInfo.filter(function filterParentInfo(info) {
+      return info.ids.length > 0;
+    });
     // remove the row from the store
     this.store.dispatch(
       this.actions.delete({
@@ -345,10 +367,10 @@ export class ActionService {
     ids: string[],
   ): void {
     const updates = ids
-      .filter((id) => {
+      .filter(function filterMarkDirtyIds(id) {
         return entities[id] !== undefined && entities[id].isEditing !== true;
       })
-      .map((id) => {
+      .map(function mapMarkDirtyIds(id) {
         const entityChanges: Partial<SmartNgRXRowBase> = {
           isDirty: true,
         };
@@ -365,9 +387,11 @@ export class ActionService {
     entities: Dictionary<R>,
     ids: string[],
   ): void {
-    let idsToRemove = ids.filter(
-      (id) => entities[id] !== undefined && entities[id].isEditing !== true,
-    );
+    const feature = this.feature;
+    const entity = this.entity;
+    let idsToRemove = ids.filter(function filterGarbageCollectIds(id) {
+      return entities[id] !== undefined && entities[id].isEditing !== true;
+    });
     if (idsToRemove.length === 0) {
       return;
     }
@@ -379,9 +403,9 @@ export class ActionService {
     );
     // make sure we remove the virtualArray from the map AFTER
     // we remove the row from the store
-    asapScheduler.schedule(() => {
-      idsToRemove.forEach((id) => {
-        virtualArrayMap.remove(this.feature, this.entity, id);
+    asapScheduler.schedule(function garbageCollectSchedule() {
+      idsToRemove.forEach(function garbageCollectForEach(id) {
+        virtualArrayMap.remove(feature, entity, id);
       });
     });
   }

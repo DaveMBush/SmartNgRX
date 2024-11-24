@@ -7,7 +7,10 @@
       "parserOptions": {
         "project": ["./tsconfig.*?.json"]
       },
-      "rules": {}
+      "rules": {
+        // we don't care about anonymous function for memlab
+        "@smarttools/no-anonymous-functions": "off"
+      }
     },
     {
       "files": ["*.ts", "*.tsx"],
