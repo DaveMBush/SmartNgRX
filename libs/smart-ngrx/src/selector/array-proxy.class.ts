@@ -253,20 +253,13 @@ export class ArrayProxy<
       },
     );
     this.childActionService.remove([childId]);
-
+    const removeChildIdFromChildArray =
+      this.removeChildIdFromChildArray.bind(this);
     store()
       .select(selectEntity)
       .pipe(take(1))
-      .subscribe(function removeEntityFromChildArray(
-        this: ArrayProxy<P, C>,
-        entity: EntityState<P>,
-      ) {
-        this.removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
+      .subscribe(function removeEntityFromChildArray(entity: EntityState<P>) {
+        removeChildIdFromChildArray(entity, parentId, parentField, childId);
       });
   }
 
