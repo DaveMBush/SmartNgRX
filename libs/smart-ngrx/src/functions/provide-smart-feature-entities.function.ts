@@ -46,28 +46,37 @@ export function provideSmartFeatureEntities(
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
-  forNext(entityDefinitions, (entityDefinition) => {
-    entityDefinitionCache(
-      featureName,
-      entityDefinition.entityName,
-      entityDefinition,
-    );
-    const { entityName, effectServiceToken } = entityDefinition;
-    const effects = effectsFactory(featureName, entityName, effectServiceToken);
-    provideWatchInitialRowEffect(
-      entityDefinition,
-      effects,
-      featureName,
-      entityName,
-    );
+  forNext(
+    entityDefinitions,
+    function provideSmartFeatureEntitiesForNext(entityDefinition) {
+      entityDefinitionCache(
+        featureName,
+        entityDefinition.entityName,
+        entityDefinition,
+      );
+      const { entityName, effectServiceToken } = entityDefinition;
+      const effects = effectsFactory(
+        featureName,
+        entityName,
+        effectServiceToken,
+      );
+      provideWatchInitialRowEffect(
+        entityDefinition,
+        effects,
+        featureName,
+        entityName,
+      );
 
-    allEffects.push(effects);
-    const reducer = reducerFactory(featureName, entityName);
-    reducers[entityName] = reducer;
-    void unpatchedPromise.resolve().then(() => {
-      delayedRegisterEntity(featureName, entityName, entityDefinition);
-    });
-  });
+      allEffects.push(effects);
+      const reducer = reducerFactory(featureName, entityName);
+      reducers[entityName] = reducer;
+      void unpatchedPromise
+        .resolve()
+        .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
+          delayedRegisterEntity(featureName, entityName, entityDefinition);
+        });
+    },
+  );
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),
     EffectsModule.forFeature(allEffects),

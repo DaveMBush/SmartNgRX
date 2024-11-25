@@ -22,13 +22,11 @@ export function handleSocketNotification(
 
   // filter by features that have the table/entity
   featureEntityKeys = featureEntityKeys
-    .filter((key) => key.endsWith(psi + table))
-    .map((key) => key.split(psi)[0])
-    .filter((feature) => {
-      return Boolean(featureRegistry.hasFeature(feature));
-    });
+    .filter(filterByPsiTable(table))
+    .map(extractFeatureFromPsiTable)
+    .filter(featureIsRegistered);
   // for each feature
-  forNext(featureEntityKeys, (feature) => {
+  forNext(featureEntityKeys, function innerHandleSocketNotification(feature) {
     switch (action) {
       case 'delete':
         deleteEntity(feature, table, ids);
@@ -40,4 +38,18 @@ export function handleSocketNotification(
         throw new Error(`Error: invalid action ${action}`);
     }
   });
+}
+
+function featureIsRegistered(feature: string): boolean {
+  return Boolean(featureRegistry.hasFeature(feature));
+}
+
+function filterByPsiTable(table: string): (key: string) => boolean {
+  return function innerFilterByPsiTable(key: string) {
+    return key.endsWith(psi + table);
+  };
+}
+
+function extractFeatureFromPsiTable(key: string): string {
+  return key.split(psi)[0];
 }

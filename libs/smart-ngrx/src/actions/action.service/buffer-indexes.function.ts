@@ -18,10 +18,10 @@ function flatten(prop: IndexesProp[]): IndexesProp {
     childField: '',
     parentId: '',
   } as IndexesProp;
-  forNext(prop, (a) => {
+  forNext(prop, function flattenForNext(a) {
     returnProps.childField = a.childField;
     returnProps.parentId = a.parentId;
-    forNext(a.indexes, (b) => {
+    forNext(a.indexes, function flattenForNextIndexes(b) {
       returnProps.indexes.push(b);
     });
   });
@@ -35,22 +35,26 @@ function mainIndexesBuffer(
 ) {
   source
     .pipe(
-      groupBy((action) => `${action.parentId}-${action.childField}`),
-      mergeMap((grouped) =>
-        grouped.pipe(
+      groupBy(function groupByParentIdChildField(action) {
+        return `${action.parentId}-${action.childField}`;
+      }),
+      mergeMap(function mergeMapGrouped(grouped) {
+        return grouped.pipe(
           buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
-          map((actions: IndexesProp[]) => flatten(actions)),
-        ),
-      ),
+          map(function mapFlatten(actions) {
+            return flatten(actions);
+          }),
+        );
+      }),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => {
+      next: function bufferIndexesNext(value) {
         observer.next(value);
       },
-      error: (err: unknown) => {
+      error: function bufferIndexesError(err: unknown) {
         observer.error(err);
       },
-      complete: () => {
+      complete: function bufferIndexesComplete() {
         observer.complete();
       },
     });
@@ -74,8 +78,12 @@ export function bufferIndexes(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
 ): (source: Observable<IndexesProp>) => Observable<IndexesProp> {
-  return (source: Observable<IndexesProp>): Observable<IndexesProp> => {
-    return new Observable<IndexesProp>((observer) => {
+  return function bufferIndexesReturn(
+    source: Observable<IndexesProp>,
+  ): Observable<IndexesProp> {
+    return new Observable<IndexesProp>(function bufferIndexesObservable(
+      observer,
+    ) {
       mainIndexesBuffer(source, bufferTime, observer);
     });
   };

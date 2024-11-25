@@ -10,14 +10,16 @@ export const noRefreshDepartmentsDefinition: SmartEntityDefinition<Department> =
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
     markAndDelete,
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: {
-        indexes: [],
-        startIndex: 0,
-        length: 0,
-      },
-    }),
+    defaultRow: function noRefreshDepartmentsDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: {
+          indexes: [],
+          startIndex: 0,
+          length: 0,
+        },
+      };
+    },
   };
 /* jscpd:ignore-end */

@@ -11,8 +11,8 @@ import { forNext } from '../../common/for-next.function';
 
 function flatten<T>(array: T[][]): T[] {
   const returnArray = [] as T[];
-  forNext(array, (a) => {
-    forNext(a, (b) => {
+  forNext(array, function flattenForNextArray(a) {
+    forNext(a, function flattenForForNextA(b) {
       returnArray.push(b);
     });
   });
@@ -27,15 +27,25 @@ function mainIdsBuffer(
   source
     .pipe(
       buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
-      map((ids: string[][]) => {
+      map(function mapFlattenIds(ids) {
         return flatten(ids);
       }),
-      map((ids) => ids.filter((c, index) => ids.indexOf(c) === index)),
+      map(function mapFilterIds(ids) {
+        return ids.filter(function filterIndexesInIds(c, index) {
+          return ids.indexOf(c) === index;
+        });
+      }),
     ) /* jscpd:ignore-start -- intentionally duplicated */
     .subscribe({
-      next: (value) => observer.next(value),
-      error: (err: unknown) => observer.error(err),
-      complete: () => observer.complete(),
+      next: function bufferIdsNext(value) {
+        observer.next(value);
+      },
+      error: function bufferIdsError(err: unknown) {
+        observer.error(err);
+      },
+      complete: function bufferIdsComplete() {
+        observer.complete();
+      },
     });
   /* jscpd:ignore-end */
 }
@@ -77,8 +87,12 @@ export function bufferIdsAction(
   /* istanbul ignore next */
   bufferTime = 1, // default value does not need to be tested
 ): (ids: Observable<string[]>) => Observable<string[]> {
-  return (source: Observable<string[]>): Observable<string[]> => {
-    return new Observable<string[]>((observer) => {
+  return function bufferIdsActionReturn(
+    source: Observable<string[]>,
+  ): Observable<string[]> {
+    return new Observable<string[]>(function bufferIdsActionObservable(
+      observer,
+    ) {
       mainIdsBuffer(source, bufferTime, observer);
     });
   };

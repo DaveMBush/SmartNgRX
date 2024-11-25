@@ -7,8 +7,10 @@ export const standardTopDefinition: SmartEntityDefinition<Top> = {
   entityName: 'top',
   effectServiceToken: topEffectsServiceToken,
   isInitialRow: true,
-  defaultRow: (id) => ({
-    id,
-    locations: [],
-  }),
+  defaultRow: function defaultRowFunction(id) {
+    return {
+      id,
+      locations: [],
+    };
+  },
 };

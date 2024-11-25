@@ -6,5 +6,10 @@ const initialState = '';
 
 export const currentLocationNoRefreshReducer = createReducer(
   initialState,
-  on(currentLocationActions.set, (_, { id }): string => id),
+  on(
+    currentLocationActions.set,
+    function currentLocationNoRefreshReducerSetFunction(_, { id }) {
+      return id;
+    },
+  ),
 );

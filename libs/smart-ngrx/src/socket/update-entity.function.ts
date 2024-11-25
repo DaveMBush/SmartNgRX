@@ -1,6 +1,7 @@
-import { EntityState } from '@ngrx/entity';
+import { Dictionary, EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
+import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
 import { actionServiceRegistry } from '../registrations/action.service.registry';
@@ -29,20 +30,34 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   if (!featureRegistry.hasFeature(feature)) {
     return;
   }
-  const selectEntities = (state: unknown) => {
+  function selectEntities(state: unknown) {
     const featureState = (
       state as Record<string, Record<string, EntityState<T>>>
     )[feature];
     return featureState[entity].entities;
-  };
+  }
   store()
     .select(selectEntities)
     .pipe(take(1))
-    .subscribe((state) => {
-      forNext(ids, (id) => {
-        if (state[id] !== undefined) {
-          actionService.forceDirty([id]);
-        }
-      });
-    });
+    .subscribe(forceEntitiesDirty(ids, actionService));
+}
+
+function forceEntitiesDirty<T extends SmartNgRXRowBase>(
+  ids: string[],
+  actionService: ActionService,
+): (state: Dictionary<T>) => void {
+  return function innerForceEntitiesDirty(state: Dictionary<T>) {
+    forNext(ids, forceIdDirty(state, actionService));
+  };
+}
+
+function forceIdDirty<T extends SmartNgRXRowBase>(
+  state: Dictionary<T>,
+  actionService: ActionService,
+): (id: string) => void {
+  return function innerForceIdDirty(id: string) {
+    if (state[id] !== undefined) {
+      actionService.forceDirty([id]);
+    }
+  };
 }

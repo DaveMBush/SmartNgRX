@@ -7,9 +7,11 @@ export const standardDepartmentChildrenDefinition: SmartEntityDefinition<Departm
   {
     entityName: 'departmentChildren',
     effectServiceToken: departmentChildEffectsServiceToken,
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: [],
-    }),
+    defaultRow: function standardDepartmentChildrenDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: [],
+      };
+    },
   };

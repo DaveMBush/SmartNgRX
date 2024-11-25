@@ -32,21 +32,7 @@ export class VirtualArray<
     this.rawArray = array.indexes;
     this.length = array.length;
     return new Proxy(this, {
-      get: (target: VirtualArray<P, C>, prop: string | symbol): unknown => {
-        if (typeof prop === 'string' && !Number.isNaN(+prop)) {
-          if (this.rawArray[+prop]) {
-            return this.rawArray[+prop];
-          }
-          // don't modify rawArray until after we've dispatched the action.
-          this.dispatchLoadByIndexes(parentId, childField, +prop);
-          if (Object.isFrozen(this.rawArray)) {
-            this.rawArray = [...this.rawArray];
-          }
-          this.rawArray[+prop] = `indexNoOp-${prop}`;
-          return `index-${prop}`;
-        }
-        return Reflect.get(target, prop);
-      },
+      get: proxyGetVirtualArray<P, C>(parentId, childField),
     });
   }
 
@@ -76,11 +62,14 @@ export class VirtualArray<
     return undefined;
   }
 
-  private dispatchLoadByIndexes(
-    parentId: string,
-    childField: string,
-    index: number,
-  ) {
+  /**
+   * This is used internally by the Proxy get handler
+   *
+   * @param parentId the id of the parent row
+   * @param childField the fieldName in the parent row that holds the children for this array
+   * @param index the index to load
+   */
+  dispatchLoadByIndexes(parentId: string, childField: string, index: number) {
     this.parentActionService.loadByIndexes(parentId, childField, [index]);
     if (Object.isFrozen(this.fetchedIndexes)) {
       this.fetchedIndexes = [...this.fetchedIndexes];
@@ -89,4 +78,28 @@ export class VirtualArray<
   }
 
   [key: number]: C;
+}
+
+function proxyGetVirtualArray<P extends object, C extends SmartNgRXRowBase>(
+  parentId: string,
+  childField: string,
+) {
+  return function innerProxyGetVirtualArray(
+    target: VirtualArray<P, C>,
+    prop: string | symbol,
+  ): unknown {
+    if (typeof prop === 'string' && !Number.isNaN(+prop)) {
+      if (target.rawArray[+prop]) {
+        return target.rawArray[+prop];
+      }
+      // don't modify rawArray until after we've dispatched the action.
+      target.dispatchLoadByIndexes(parentId, childField, +prop);
+      if (Object.isFrozen(target.rawArray)) {
+        target.rawArray = [...target.rawArray];
+      }
+      target.rawArray[+prop] = `indexNoOp-${prop}`;
+      return `index-${prop}`;
+    }
+    return Reflect.get(target, prop);
+  };
 }

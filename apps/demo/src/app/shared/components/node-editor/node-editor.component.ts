@@ -27,7 +27,9 @@ import {
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NodeEditorComponent),
+      useExisting: forwardRef(function forwardRefInner() {
+        return NodeEditorComponent;
+      }),
       multi: true,
     },
   ],
@@ -37,13 +39,13 @@ export class NodeEditorComponent
 {
   value = '';
   disabled = false;
-  onChange = (_: string): void => {
+  onChange(_: string): void {
     /* */
-  };
+  }
 
-  onTouched = (): void => {
+  onTouched(): void {
     /* */
-  };
+  }
 
   placeholder = input<string>('');
   readonly save = output<string>();

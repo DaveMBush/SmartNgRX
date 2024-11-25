@@ -2,6 +2,7 @@ import { ParentInfo } from '../actions/parent-info.interface';
 import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
+import { ChildDefinition } from '../types/child-definition.interface';
 
 /**
  * Delete the feature/entity/ids from the store
@@ -16,10 +17,18 @@ export function deleteEntity(feature: string, entity: string, ids: string[]) {
     entity,
   );
   const parentInfo: ParentInfo[] = [];
-  forNext(childDefinitions, (childDefinition) => {
-    forNext(ids, (id) => {
-      // This doesn't make a database call, it just updates the store.
+  forNext(childDefinitions, deleteEntityByChildDefinition(parentInfo, ids));
+}
+
+function deleteEntityByChildDefinition(
+  parentInfo: ParentInfo[],
+  ids: string[],
+) {
+  return function deletedEntityForChildDefinition(
+    childDefinition: ChildDefinition,
+  ) {
+    forNext(ids, function deleteEntityForChildAndId(id) {
       removeIdFromParents(childDefinition, id, parentInfo);
     });
-  });
+  };
 }

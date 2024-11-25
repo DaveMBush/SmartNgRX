@@ -7,7 +7,10 @@
       "parserOptions": {
         "project": ["./tsconfig.*?.json"]
       },
-      "rules": {}
+      "rules": {
+        // we don't care about anonymous function for server code
+        "@smarttools/no-anonymous-functions": "off"
+      }
     },
     {
       "files": ["*.ts", "*.tsx"],

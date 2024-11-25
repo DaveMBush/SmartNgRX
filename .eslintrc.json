@@ -12,6 +12,7 @@
     "eslint-comments",
     "eslint-plugin-unicorn",
     "@smarttools/rxjs",
+    "@smarttools",
     "@typescript-eslint",
     "unused-imports",
     "ngrx",
@@ -286,7 +287,7 @@
         //// This rule is aimed to flag usage of Function.prototype.apply()
         //// in situations where spread syntax could be used instead
         "prefer-spread": "error",
-        "prefer-arrow-callback": "error",
+        "prefer-arrow-callback": "off",
         "radix": "error",
         // Angular Rules
         "@angular-eslint/component-class-suffix": "error",
@@ -544,8 +545,8 @@
         "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
         "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-require-imports": "error",
-        "@typescript-eslint/no-shadow": ["error"],
-        "@typescript-eslint/no-this-alias": "error",
+        "@typescript-eslint/no-shadow": "error",
+        "@typescript-eslint/no-this-alias": "off",
         // Use types for what interfaces can"t do.
         "@typescript-eslint/no-type-alias": [
           "error",
@@ -678,6 +679,8 @@
         "ngrx/updater-explicit-return-type": "error",
         "ngrx/use-consistent-global-store-name": "error",
         "ngrx/use-effects-lifecycle-interface": "error",
+        // Performance and debugging rules
+        "@smarttools/no-anonymous-functions": "error",
         // RxJS Plugin
         "@smarttools/rxjs/no-finnish": "error",
         // rxjs rules require typescript so they are turned off by default
@@ -881,6 +884,7 @@
         "jest": true
       },
       "rules": {
+        "@smarttools/no-anonymous-functions": "off",
         "no-restricted-syntax": "off",
         "max-lines": "off",
         "max-lines-per-function": "off",

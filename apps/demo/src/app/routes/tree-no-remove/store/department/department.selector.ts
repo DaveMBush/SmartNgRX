@@ -6,7 +6,7 @@ import { selectTreeNoRemoveState } from '../tree-no-remove.selectors';
 
 export const selectDepartments = createSelector(
   selectTreeNoRemoveState,
-  (state) => {
+  function selectDepartmentsFunction(state) {
     return state.departments;
   },
 );

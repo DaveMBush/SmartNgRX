@@ -44,12 +44,8 @@ describe('customProxySet', () => {
   });
   describe('when prop is not in target.record', () => {
     it('should return false', () => {
-      expect(
-        rowProxySet(target!, 'c', 'd', {
-          service: {} as ActionService,
-          parentService: {} as ActionService,
-        }),
-      ).toBe(false);
+      const p = rowProxySet(services);
+      expect(p(target!, 'c', 'd')).toBe(false);
     });
   });
   describe('when prop is in target.record', () => {
@@ -59,13 +55,13 @@ describe('customProxySet', () => {
           ({ parentId: 1 }) as unknown as SmartNgRXRowBase;
       });
       it('should add the new row', () => {
-        rowProxySet(target!, 'a', 'd', services);
+        rowProxySet(services)(target!, 'a', 'd');
         expect(serviceAddSpy).toHaveBeenCalled();
       });
     });
     describe('when target does not have a parentId', () => {
       it('should update the row', () => {
-        rowProxySet(target!, 'a', 'd', services);
+        rowProxySet(services)(target!, 'a', 'd');
         expect(serviceAddSpy).not.toHaveBeenCalled();
         expect(serviceUpdateSpy).toHaveBeenCalled();
       });

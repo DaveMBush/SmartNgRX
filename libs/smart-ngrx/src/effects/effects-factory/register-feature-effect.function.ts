@@ -10,7 +10,7 @@ import { featureRegistry } from '../../registrations/feature-registry.class';
  */
 export function registerFeatureEffect(feature: string) {
   let registered = false;
-  return () => {
+  return function registerFeatureEffectFunction() {
     if (registered) {
       return of({});
     }

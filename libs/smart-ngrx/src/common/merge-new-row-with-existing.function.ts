@@ -21,15 +21,23 @@ export function mergeNewRowWithExisting<T extends SmartNgRXRowBase>(
   existingRow: Record<keyof T, unknown> & SmartNgRXRowBase,
 ): T {
   const mergedRow = newRow as Record<keyof T, VirtualArrayContents>;
-  forNext(Object.keys(newRow) as (keyof T)[], (key) => {
-    const value = newRow[key] as VirtualArrayContents;
-    if (!isVirtualArrayContents(value)) {
-      return;
-    }
-    const existingArray = existingRow[key] as VirtualArrayContents;
-    // Preserve virtual array data
-    mergedRow[key] = mergeVirtualArrays(feature, entity, value, existingArray);
-  });
+  forNext(
+    Object.keys(newRow) as (keyof T)[],
+    function mergeNewRowWithExistingForNextKey(key) {
+      const value = newRow[key] as VirtualArrayContents;
+      if (!isVirtualArrayContents(value)) {
+        return;
+      }
+      const existingArray = existingRow[key] as VirtualArrayContents;
+      // Preserve virtual array data
+      mergedRow[key] = mergeVirtualArrays(
+        feature,
+        entity,
+        value,
+        existingArray,
+      );
+    },
+  );
 
   return mergedRow as T;
 }

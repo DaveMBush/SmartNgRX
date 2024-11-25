@@ -8,14 +8,16 @@ export const standardDepartmentsDefinition: SmartEntityDefinition<Department> =
   {
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: {
-        indexes: [],
-        startIndex: 0,
-        length: 0,
-      },
-    }),
+    defaultRow: function standardDepartmentsDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: {
+          indexes: [],
+          startIndex: 0,
+          length: 0,
+        },
+      };
+    },
   };
 /* jscpd:ignore-end */

@@ -6,5 +6,10 @@ const initialState = '';
 
 export const currentLocationNoDirtyReducer = createReducer(
   initialState,
-  on(currentLocationActions.set, (_, { id }): string => id),
+  on(
+    currentLocationActions.set,
+    function currentLocationNoDirtyReducerSetFunction(_, { id }) {
+      return id;
+    },
+  ),
 );

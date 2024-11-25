@@ -9,9 +9,11 @@ export const noRefreshDepartmentChildrenDefinition: SmartEntityDefinition<Depart
     entityName: 'departmentChildren',
     effectServiceToken: departmentChildEffectsServiceToken,
     markAndDelete,
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: [],
-    }),
+    defaultRow: function noRefreshDepartmentChildrenDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: [],
+      };
+    },
   };

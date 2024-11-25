@@ -41,8 +41,8 @@ jobs:
 
       - name: Publish to npm
         run: |
-          # User the version from the workflow input if it is set, otherwise
-          # use from the github release
+          # Use the version from the workflow input if it is set,
+          # otherwise use from the github release
           VERSION=${{ github.event.inputs.version || github.ref_name }}
           npx nx release version --specifier $VERSION --verbose --skip-nx-cache
           npx nx release publish --verbose --skip-nx-cache

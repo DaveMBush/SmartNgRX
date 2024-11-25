@@ -19,18 +19,18 @@ export function deleteEffect<T extends SmartNgRXRowBase>(
   effectServiceToken: InjectionToken<EffectService<T>>,
   actions: ActionGroup<T>,
 ) {
-  return (
+  return function deleteEffectFunction(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
     effectService = inject(effectServiceToken),
-  ) => {
+  ) {
     /* jscpd:ignore-end */
     return actions$.pipe(
       ofType(actions.delete),
-      concatMap((action) => {
+      concatMap(function deleteEffectConcatMap(action) {
         return effectService.delete(action.id).pipe(
-          catchError((_: unknown, __) => {
+          catchError(function deleteEffectConcatMapCatchError(_: unknown, __) {
             markFeatureParentsDirty(action);
             return of();
           }),

@@ -24,27 +24,30 @@ export function removeIdFromParents(
   if (parentService === null) {
     return;
   }
-  parentService.entities.pipe(take(1)).subscribe((entities) => {
-    // optimistically remove the ids from the parent
-    const parentIds = replaceIdInFeatureParents(
-      entities,
-      childDefinition,
-      parentService,
-      [id, null],
-    );
-    if (
-      parentInfo.some(
-        (p) =>
-          p.feature === childDefinition.parentFeature &&
-          p.entity === childDefinition.parentEntity,
-      )
-    ) {
-      return;
-    }
-    parentInfo.push({
-      feature: childDefinition.parentFeature,
-      entity: childDefinition.parentEntity,
-      ids: parentIds,
+  parentService.entities
+    .pipe(take(1))
+    .subscribe(function removeIdFromParentsSubscribe(entities) {
+      // optimistically remove the ids from the parent
+      const parentIds = replaceIdInFeatureParents(
+        entities,
+        childDefinition,
+        parentService,
+        [id, null],
+      );
+      if (
+        parentInfo.some(function removeIdFromParentsSome(p) {
+          return (
+            p.feature === childDefinition.parentFeature &&
+            p.entity === childDefinition.parentEntity
+          );
+        })
+      ) {
+        return;
+      }
+      parentInfo.push({
+        feature: childDefinition.parentFeature,
+        entity: childDefinition.parentEntity,
+        ids: parentIds,
+      });
     });
-  });
 }

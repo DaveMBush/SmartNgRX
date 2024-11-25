@@ -18,7 +18,7 @@ export function registerEntityRows<T extends SmartNgRXRowBase>(
 ): T[] {
   const adapter = entityDefinitionCache(feature, entity).entityAdapter;
   const markAndDeleteMap = getMarkAndDeleteEntityMap(feature, entity);
-  return rows.map((row) => {
+  return rows.map(function registerEntityRowsMapItem(row) {
     const markAndDeleteKey = `${adapter.selectId(row)}`;
     markAndDeleteMap.delete(markAndDeleteKey);
     markAndDeleteMap.set(markAndDeleteKey, Date.now());
@@ -42,7 +42,7 @@ export function unregisterEntityRows(
   ids: string[],
 ): string[] {
   const markAndDeleteMap = getMarkAndDeleteEntityMap(feature, entity);
-  return ids.map((id) => {
+  return ids.map(function unregisterEntityRowsItem(id) {
     markAndDeleteMap.delete(id);
     return id;
   });

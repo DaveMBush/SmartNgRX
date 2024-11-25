@@ -45,7 +45,7 @@ describe('customProxyGet()', () => {
       // Arrange
       const prop = 'toJSON';
       // Act
-      const result = rowProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(service)(target, prop) as () => void;
       result();
       // Assert
       expect(getJsonSpy).toHaveBeenCalled();
@@ -57,7 +57,7 @@ describe('customProxyGet()', () => {
       // Arrange
       const prop = 'isEditing';
       // Act
-      rowProxyGet(target, prop, service);
+      rowProxyGet(service)(target, prop);
       // Assert
       expect(loadByIdsSuccessSpy).toHaveBeenCalled();
     });
@@ -65,7 +65,7 @@ describe('customProxyGet()', () => {
   describe('when prop is "getRealRow"', () => {
     it('should return a function that calls target.getRealRow()', () => {
       const prop = 'getRealRow';
-      const result = rowProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(service)(target, prop) as () => void;
       result();
       expect(getRealRowSpy).toHaveBeenCalled();
       expect(getJsonSpy).not.toHaveBeenCalled();
@@ -74,7 +74,7 @@ describe('customProxyGet()', () => {
   describe('when prop is "delete"', () => {
     it('should return a function that calls target.delete()', () => {
       const prop = 'delete';
-      const result = rowProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(service)(target, prop) as () => void;
       result();
       expect(deleteSpy).toHaveBeenCalled();
       expect(getJsonSpy).not.toHaveBeenCalled();
@@ -84,7 +84,7 @@ describe('customProxyGet()', () => {
     it('should return the value from changes', () => {
       const prop = 'a';
       // Act
-      const result = rowProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(service)(target, prop) as () => void;
       expect(result).toBe('a');
     });
   });
@@ -92,7 +92,7 @@ describe('customProxyGet()', () => {
     it('should return the value from record', () => {
       const prop = 'b';
       // Act
-      const result = rowProxyGet(target, prop, service) as () => void;
+      const result = rowProxyGet(service)(target, prop) as () => void;
       expect(result).toBe('c');
     });
   });

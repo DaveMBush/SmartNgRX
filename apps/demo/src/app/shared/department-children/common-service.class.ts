@@ -11,23 +11,29 @@ export class CommonService {
   ) {}
 
   loadByIds(ids: string[]): Observable<DepartmentChild[]> {
-    return this.http
-      .post<DepartmentChild[]>(this.path, ids)
-      .pipe(map((rows) => addIsDirty(rows)));
+    return this.http.post<DepartmentChild[]>(this.path, ids).pipe(
+      map(function mapLoadByIdsRowsToDirty(rows) {
+        return addIsDirty(rows);
+      }),
+    );
   }
 
   update(
     row: Pick<DepartmentChild, 'id' | 'name'>,
   ): Observable<DepartmentChild[]> {
-    return this.http
-      .put<DepartmentChild[]>(this.path, row)
-      .pipe(map((docs) => addIsDirty(docs)));
+    return this.http.put<DepartmentChild[]>(this.path, row).pipe(
+      map(function mapUpdateRowsToDirty(rows) {
+        return addIsDirty(rows);
+      }),
+    );
   }
 
   add(row: DepartmentChild): Observable<DepartmentChild[]> {
-    return this.http
-      .post<DepartmentChild[]>(this.path + '/add', row)
-      .pipe(map((docs) => addIsDirty(docs)));
+    return this.http.post<DepartmentChild[]>(this.path + '/add', row).pipe(
+      map(function mapAddRowsToDirty(rows) {
+        return addIsDirty(rows);
+      }),
+    );
   }
 
   delete(id: string): Observable<void> {

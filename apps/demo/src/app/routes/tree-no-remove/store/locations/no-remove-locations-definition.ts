@@ -10,9 +10,11 @@ export const noRemoveLocationsDefinition: SmartEntityDefinition<Location> = {
     markDirtyTime: 2 * 60 * 1000,
     removeTime: 0,
   },
-  defaultRow: (id) => ({
-    id,
-    name: '',
-    departments: [],
-  }),
+  defaultRow: function noRemoveLocationsDefaultRowFunction(id) {
+    return {
+      id,
+      name: '',
+      departments: [],
+    };
+  },
 };

@@ -17,7 +17,7 @@ export function processMarkAndDelete(
   markDirtyRowIds: string[],
 ) {
   requestIdleCallback(
-    () => {
+    function processMarkAndDeleteCallback() {
       const actionService = actionServiceRegistry(featureKey, entity);
       if (!actionService) {
         return;

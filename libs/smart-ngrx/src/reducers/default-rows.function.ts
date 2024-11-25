@@ -19,7 +19,7 @@ export function defaultRows<T extends SmartNgRXRowBase>(
   defaultRow: (id: string) => T,
 ): T[] {
   const t: T[] = [];
-  forNext(ids, (id) => {
+  forNext(ids, function defaultRowsForNext(id) {
     if (entities?.[id] !== undefined) {
       return;
     }

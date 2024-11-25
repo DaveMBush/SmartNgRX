@@ -28,33 +28,37 @@ export function replaceIdInFeatureParents(
   >();
   const childField = childDefinition.parentField;
 
-  const parentIds: string[] = Object.keys(entities).filter((key) => {
-    const entity = entities[key];
-    assert(!!entity, `Entity with key ${key} not found in parent service`);
+  const parentIds: string[] = Object.keys(entities).filter(
+    function replaceIdInFeatureParentsFilter(key) {
+      const entity = entities[key];
+      assert(!!entity, `Entity with key ${key} not found in parent service`);
 
-    const { hasChild, updatedChildField } = processEntity(
-      entity,
-      childField,
-      id,
-      newId,
-    );
-    if (hasChild) {
-      mapChildIdToChildren.set(key, updatedChildField);
-    }
-    return hasChild;
-  });
+      const { hasChild, updatedChildField } = processEntity(
+        entity,
+        childField,
+        id,
+        newId,
+      );
+      if (hasChild) {
+        mapChildIdToChildren.set(key, updatedChildField);
+      }
+      return hasChild;
+    },
+  );
 
   if (parentIds.length === 0) {
     return [];
   }
 
   parentService.updateMany(
-    parentIds.map((v) => ({
-      id: v,
-      changes: {
-        [childField]: mapChildIdToChildren.get(v),
-      },
-    })),
+    parentIds.map(function replaceIdInFeatureParentsMapItem(v) {
+      return {
+        id: v,
+        changes: {
+          [childField]: mapChildIdToChildren.get(v),
+        },
+      };
+    }),
   );
 
   return parentIds;
@@ -88,7 +92,11 @@ function processArrayChildField(
   id: string,
   newId: string | null,
 ): ProcessResult {
-  const index = childArray.findIndex((v) => id === v);
+  const index = childArray.findIndex(
+    function processArrayChildFieldFindIndex(v) {
+      return id === v;
+    },
+  );
   let updatedArray = childArray;
   if (index !== -1 && newId !== null) {
     updatedArray = [...childArray];
@@ -96,7 +104,11 @@ function processArrayChildField(
   }
   return {
     hasChild: index !== -1,
-    updatedChildField: updatedArray.filter((v) => id !== v),
+    updatedChildField: updatedArray.filter(
+      function processArrayChildFieldFilter(v) {
+        return id !== v;
+      },
+    ),
   };
 }
 
@@ -105,7 +117,11 @@ function processVirtualArrayChildField(
   id: string,
   newId: string | null,
 ): ProcessResult {
-  const index = virtualArray.indexes.findIndex((v) => id === v);
+  const index = virtualArray.indexes.findIndex(
+    function processVirtualArrayChildFieldFindIndex(v) {
+      return id === v;
+    },
+  );
   let updatedArray = virtualArray;
   if (index !== -1 && newId !== null) {
     updatedArray = {
@@ -120,7 +136,11 @@ function processVirtualArrayChildField(
   return {
     hasChild: index !== -1,
     updatedChildField: {
-      indexes: updatedArray.indexes.filter((v) => id !== v),
+      indexes: updatedArray.indexes.filter(
+        function processVirtualArrayChildFieldFilter(v) {
+          return id !== v;
+        },
+      ),
       length: virtualArray.length - (newId === null ? 1 : 0),
     },
   };

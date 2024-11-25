@@ -61,12 +61,14 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
       lists: listStream,
       sprintFolders: sprintFolderStream,
     }).pipe(
-      map(({ docs, folders, lists, sprintFolders }) => [
-        ...docs,
-        ...folders,
-        ...lists,
-        ...sprintFolders,
-      ]),
+      map(function loadByIdsForkJoinMap({
+        docs,
+        folders,
+        lists,
+        sprintFolders,
+      }) {
+        return [...docs, ...folders, ...lists, ...sprintFolders];
+      }),
     );
   }
 
@@ -92,90 +94,112 @@ export class DepartmentChildEffectsService extends EffectService<DepartmentChild
     let updateStream: Observable<DepartmentChild[]> = of(
       [] as DepartmentChild[],
     );
-    docIds.forEach((id) => {
-      updateStream = updateForType(
-        this.doc,
-        { ...newRow, id },
-        this.docs,
-        'did',
-      );
+    const docService = this.doc;
+    const docs = this.docs;
+    docIds.forEach(function updateForTypeForEachDocId(id) {
+      updateStream = updateForType(docService, { ...newRow, id }, docs, 'did');
     });
-    folderIds.forEach((id) => {
+    const folderService = this.folder;
+    const folders = this.folders;
+    folderIds.forEach(function updateForTypeForEachFolderId(id) {
       updateStream = updateForType(
-        this.folder,
+        folderService,
         {
           ...newRow,
           id,
         },
-        this.folders,
+        folders,
       );
     });
-    listIds.forEach((id) => {
-      updateStream = updateForType(this.list, { ...newRow, id }, this.lists);
+    const listService = this.list;
+    const lists = this.lists;
+    listIds.forEach(function updateForTypeForEachListId(id) {
+      updateStream = updateForType(listService, { ...newRow, id }, lists);
     });
-    sprintFolderIds.forEach((id) => {
+    const sprintFolderService = this.sprintFolder;
+    const sprintFolders = this.sprintFolders;
+    sprintFolderIds.forEach(function updateForTypeForEachSprintFolderId(id) {
       updateStream = updateForType(
-        this.sprintFolder,
+        sprintFolderService,
         {
           ...newRow,
           id,
         },
-        this.sprintFolders,
+        sprintFolders,
       );
     });
 
     return updateStream;
   }
 
-  override add: (row: DepartmentChild) => Observable<DepartmentChild[]> = (
-    row: DepartmentChild,
-  ) => {
+  override add(row: DepartmentChild): Observable<DepartmentChild[]> {
     const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(
       row.id,
     );
 
     let addStream: Observable<DepartmentChild[]> = of([] as DepartmentChild[]);
-    docIds.forEach(() => {
-      addStream = this.doc
-        .add(row)
-        .pipe(map((rows) => updateId(rows, this.docs, 'did')));
+    const docService = this.doc;
+    const docs = this.docs;
+    docIds.forEach(function addForEachDocId() {
+      addStream = docService.add(row).pipe(
+        map(function mapDocRows(rows) {
+          return updateId(rows, docs, 'did');
+        }),
+      );
     });
-    folderIds.forEach(() => {
-      addStream = this.folder
-        .add(row)
-        .pipe(map((rows) => updateId(rows, this.folders)));
+    const folderService = this.folder;
+    const folders = this.folders;
+    folderIds.forEach(function addForEachFolderId() {
+      addStream = folderService.add(row).pipe(
+        map(function mapFolderRows(rows) {
+          return updateId(rows, folders);
+        }),
+      );
     });
-    listIds.forEach(() => {
-      addStream = this.list
-        .add(row)
-        .pipe(map((rows) => updateId(rows, this.lists)));
+    const listService = this.list;
+    const lists = this.lists;
+    listIds.forEach(function addForEachListId() {
+      addStream = listService.add(row).pipe(
+        map(function mapListRows(rows) {
+          return updateId(rows, lists);
+        }),
+      );
     });
-    sprintFolderIds.forEach(() => {
-      addStream = this.sprintFolder
-        .add(row)
-        .pipe(map((rows) => updateId(rows, this.sprintFolders)));
+    const sprintFolderService = this.sprintFolder;
+    const sprintFolders = this.sprintFolders;
+    sprintFolderIds.forEach(function addForEachSprintFolderId() {
+      addStream = sprintFolderService.add(row).pipe(
+        map(function mapSprintFolderRows(rows) {
+          return updateId(rows, sprintFolders);
+        }),
+      );
     });
 
     // need to do something here similar to updateForType except we already have the row.
     return addStream;
-  };
+  }
 
   override delete(id: string): Observable<void> {
     const { docIds, folderIds, listIds, sprintFolderIds } = this.bucketId(id);
-
+    const docService = this.doc;
+    const folderService = this.folder;
+    const listService = this.list;
+    const sprintFolderService = this.sprintFolder;
     let deleteStream: Observable<void> = of(undefined);
-    docIds.forEach((docId) => {
-      deleteStream = this.doc.delete(docId);
+    docIds.forEach(function deleteForEachDocId(docId) {
+      deleteStream = docService.delete(docId);
     });
-    folderIds.forEach((folderId) => {
-      deleteStream = this.folder.delete(folderId);
+    folderIds.forEach(function deleteForEachFolderId(folderId) {
+      deleteStream = folderService.delete(folderId);
     });
-    listIds.forEach((listId) => {
-      deleteStream = this.list.delete(listId);
+    listIds.forEach(function deleteForEachListId(listId) {
+      deleteStream = listService.delete(listId);
     });
-    sprintFolderIds.forEach((sprintFolderId) => {
-      deleteStream = this.sprintFolder.delete(sprintFolderId);
-    });
+    sprintFolderIds.forEach(
+      function deleteForEachSprintFolderId(sprintFolderId) {
+        deleteStream = sprintFolderService.delete(sprintFolderId);
+      },
+    );
 
     return deleteStream;
   }

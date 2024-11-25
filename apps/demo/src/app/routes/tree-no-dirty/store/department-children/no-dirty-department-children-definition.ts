@@ -10,9 +10,11 @@ export const noDirtyDepartmentChildrenDefinition: SmartEntityDefinition<Departme
     markAndDelete: {
       markDirtyTime: -1,
     },
-    defaultRow: (id) => ({
-      id,
-      name: '',
-      children: [],
-    }),
+    defaultRow: function noDirtyDepartmentChildrenDefaultRowFunction(id) {
+      return {
+        id,
+        name: '',
+        children: [],
+      };
+    },
   };
