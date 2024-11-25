@@ -27,7 +27,10 @@ export const selectTopLocations = createSmartSelector(selectTopEntities, [
 // but that causes a circular reference
 export const selectLocations = createSelector(
   selectTopLocations,
-  function selectLocationsFunction(tops: { ids: string[], entities: Record<string, { locations: Location[] }> }): Location[] {
+  function selectLocationsFunction(tops: {
+    ids: string[];
+    entities: Record<string, { locations: Location[] }>;
+  }): Location[] {
     const firstId = tops.ids[0];
     const firstEntity = firstId ? tops.entities[firstId] : null;
     return firstEntity?.locations ?? [];
