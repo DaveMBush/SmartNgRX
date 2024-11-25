@@ -341,6 +341,7 @@ function filterByChildId(childId: string) {
 
 function mapIndexToDelete(childId: string) {
   return function innerMapIndexToDelete(cid: string) {
+    // istanbul ignore next -- cid is difficult if not impossible to test but needed for defensive programming
     return cid !== childId ? cid : 'delete';
   };
 }
