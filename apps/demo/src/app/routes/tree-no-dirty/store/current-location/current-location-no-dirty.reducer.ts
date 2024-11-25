@@ -8,7 +8,7 @@ export const currentLocationNoDirtyReducer = createReducer(
   initialState,
   on(
     currentLocationActions.set,
-    function currentLocationNoDirtyReducerSetReducer(_, { id }) {
+    function currentLocationNoDirtyReducerSetFunction(_, { id }) {
       return id;
     },
   ),
