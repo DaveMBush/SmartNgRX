@@ -5,8 +5,8 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
+import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { Location } from '../../shared/locations/location.interface';
-import { SharedModule } from '../../shared/shared.module';
 import { currentLocationActions } from './store/current-location/current-location.actions';
 import { selectCurrentLocationId } from './store/current-location/current-location.selector';
 import { selectCurrentLocation } from './store/locations/location.selectors';
@@ -15,7 +15,7 @@ import { selectLocations } from './store/top/top.selector';
 @Component({
   selector: 'dmb-demo-tree',
   standalone: true,
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedTreeComponent],
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
