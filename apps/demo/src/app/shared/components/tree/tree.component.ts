@@ -68,7 +68,6 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   @ViewChild(CdkVirtualScrollViewport)
   virtualScroll!: CdkVirtualScrollViewport;
 
-  // end = -1 to force first render to be everything that can be displayed
   range = { start: 0, end: -1 };
 
   dataSource: TreeNode[] = [];
