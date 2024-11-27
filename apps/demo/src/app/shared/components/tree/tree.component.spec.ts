@@ -27,6 +27,7 @@ interface TestableTreeComponent
 // Create a test host component
 @Component({
   selector: `dmb-test-host-component`,
+  imports: [TreeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<dmb-tree
     locationId="1"
@@ -50,8 +51,8 @@ describe('TreeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TreeComponent, TestHostComponent],
       imports: [
+        TestHostComponent,
         NoopAnimationsModule,
         FormsModule,
         CommonModule,

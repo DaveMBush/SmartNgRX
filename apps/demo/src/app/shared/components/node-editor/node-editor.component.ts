@@ -49,6 +49,7 @@ export class NodeEditorComponent
 
   placeholder = input<string>('');
   readonly save = output<string>();
+  // eslint-disable-next-line @angular-eslint/no-output-native -- cancel only applies to a handful of elements which this is not
   readonly cancel = output();
   @ViewChild('input', { read: ElementRef })
   inputField!: ElementRef<HTMLInputElement>;

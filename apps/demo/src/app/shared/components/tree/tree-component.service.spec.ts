@@ -46,8 +46,8 @@ describe('TreeComponentService', () => {
 
   beforeEach(() => {
     fixture = TestBed.configureTestingModule({
-      declarations: [TreeComponent],
       imports: [
+        TreeComponent,
         NoopAnimationsModule,
         FormsModule,
         CommonModule,
