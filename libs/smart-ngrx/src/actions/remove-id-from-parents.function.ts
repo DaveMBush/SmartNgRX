@@ -1,6 +1,6 @@
 import { take } from 'rxjs';
 
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ParentInfo } from './parent-info.interface';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
@@ -17,7 +17,7 @@ export function removeIdFromParents(
   id: string,
   parentInfo: ParentInfo[],
 ): void {
-  const parentService = actionServiceRegistry(
+  const parentService = actionServiceRegistry.register(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
   );

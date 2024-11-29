@@ -3,11 +3,8 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import {
-  registerEntity,
-  unregisterEntity,
-} from '../registrations/register-entity.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { ChildDefinition } from '../types/child-definition.interface';
@@ -56,10 +53,10 @@ describe('realOrMocked', () => {
   beforeEach(() => {
     featureRegistry.registerFeature('feature');
     featureRegistry.registerFeature('parentFeature');
-    registerEntity('feature', 'entity', {
+    entityRegistry.register('feature', 'entity', {
       markAndDeleteInit: {},
     } as EntityAttributes);
-    registerEntity('parentFeature', 'parentEntity', {
+    entityRegistry.register('parentFeature', 'parentEntity', {
       markAndDeleteInit: {},
     } as EntityAttributes);
     TestBed.configureTestingModule({
@@ -76,8 +73,8 @@ describe('realOrMocked', () => {
     });
   });
   afterEach(() => {
-    unregisterEntity('feature', 'entity');
-    unregisterEntity('parentFeature', 'parentEntity');
+    entityRegistry.unregister('feature', 'entity');
+    entityRegistry.unregister('parentFeature', 'parentEntity');
   });
   it('returns the real value if available', () => {
     const r = realOrMocked(real, 'department1', defaultObject, childDefinition);

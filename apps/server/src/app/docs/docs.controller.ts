@@ -13,7 +13,8 @@ import { from, Observable, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
-import { DocInDTO, DocOutDTO } from './doc-dto.interface';
+import { DocInDTO } from './doc-in-dto.interface';
+import { DocOutDTO } from './doc-out-dto.interface';
 // jscpd:ignore-end
 
 @Controller('docs')

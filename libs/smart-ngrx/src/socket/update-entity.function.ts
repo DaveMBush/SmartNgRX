@@ -4,7 +4,7 @@ import { take } from 'rxjs';
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -22,7 +22,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = actionServiceRegistry(feature, entity);
+  const actionService = actionServiceRegistry.register(feature, entity);
   assert(
     !!actionService,
     `the service for ${feature}:${entity} is not available`,

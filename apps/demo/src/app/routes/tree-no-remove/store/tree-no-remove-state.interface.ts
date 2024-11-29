@@ -1,17 +1,11 @@
-import {
-  DepartmentChildEntity,
-  DepartmentEntity,
-  LocationEntity,
-  TopEntity,
-} from '../../../shared/entities';
+import { DepartmentChildEntity } from '../../../shared/entities/department-child-entity.type';
+import { DepartmentEntity } from '../../../shared/entities/department-entity.type';
+import { LocationEntity } from '../../../shared/entities/location-entity.type';
+import { TopEntity } from '../../../shared/entities/top-entity.type';
 
 export interface TreeNoRemoveState {
   top: TopEntity;
   locations: LocationEntity;
   departments: DepartmentEntity;
   departmentChildren: DepartmentChildEntity;
-}
-
-export interface TreeNoRemoveState2 {
-  currentLocation: string;
 }

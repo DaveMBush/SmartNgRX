@@ -5,19 +5,16 @@ import { asapScheduler, Observable, Subject, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import {
-  registerEntityRows,
-  unregisterEntityRows,
-} from '../mark-and-delete/register-entity-rows.function';
+import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import { getEntityRegistry } from '../registrations/register-entity.function';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
-import { SmartValidatedEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { actionFactory } from './action.factory';
 import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
@@ -93,7 +90,7 @@ export class ActionService {
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
 
-    const registry = getEntityRegistry(this.feature, this.entity);
+    const registry = entityRegistry.get(this.feature, this.entity);
     this.markDirtyFetchesNew =
       isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
       registry.markAndDeleteInit.markDirtyFetchesNew;
@@ -124,7 +121,7 @@ export class ActionService {
           forNext(ids, function markDirtyForNext(id) {
             idsIds.push(entIds[id]);
           });
-          registerEntityRows(feature, entity, idsIds);
+          entityRowsRegistry.register(feature, entity, idsIds);
         });
       return;
     }
@@ -395,7 +392,7 @@ export class ActionService {
     if (idsToRemove.length === 0) {
       return;
     }
-    idsToRemove = unregisterEntityRows(this.feature, this.entity, ids);
+    idsToRemove = entityRowsRegistry.unregister(feature, entity, ids);
     this.store.dispatch(
       this.actions.remove({
         ids: idsToRemove,

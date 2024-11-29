@@ -1,6 +1,6 @@
 import { forNext } from '../common/for-next.function';
 import { psi } from '../common/psi.const';
-import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entity.map';
+import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { updateEntity } from './update-entity.function';
@@ -18,7 +18,7 @@ export function handleSocketNotification(
   ids: string[],
 ): void {
   // get all the active features
-  let featureEntityKeys = markAndDeleteEntities();
+  let featureEntityKeys = markAndDeleteEntities.entities();
 
   // filter by features that have the table/entity
   featureEntityKeys = featureEntityKeys

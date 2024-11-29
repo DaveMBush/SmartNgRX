@@ -3,7 +3,7 @@ import { EntityState } from '@ngrx/entity';
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { zoneless } from '../common/zoneless.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -24,7 +24,7 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): void {
-  const actionService = actionServiceRegistry(feature, entity);
+  const actionService = actionServiceRegistry.register(feature, entity);
   assert(
     !!actionService,
     `the service for ${feature}:${entity} is not available`,

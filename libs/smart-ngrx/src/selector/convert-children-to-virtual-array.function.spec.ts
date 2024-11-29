@@ -1,14 +1,14 @@
 import { EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
 
-jest.mock('../registrations/action.service.registry');
+jest.mock('../registrations/action-service-registry.class');
 jest.mock('./virtual-array.class');
 jest.mock('./virtual-array-map.const');
 
@@ -23,7 +23,9 @@ describe('convertChildrenToVirtualArray', () => {
 
   beforeEach(() => {
     mockActionService = {} as ActionService;
-    (actionServiceRegistry as jest.Mock).mockReturnValue(mockActionService);
+    (actionServiceRegistry.register as jest.Mock).mockReturnValue(
+      mockActionService,
+    );
 
     mockParentEntity = {
       ids: ['1', '2'],
@@ -119,7 +121,7 @@ describe('convertChildrenToVirtualArray', () => {
   });
 
   it('should throw an error if actionServiceRegistry returns undefined', () => {
-    (actionServiceRegistry as jest.Mock).mockReturnValue(undefined);
+    (actionServiceRegistry.register as jest.Mock).mockReturnValue(undefined);
 
     expect(() => {
       convertChildrenToVirtualArray<ParentRow, SmartNgRXRowBase>(

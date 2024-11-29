@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectTreeNoRefreshState } from '../tree-no-refresh.selectors';
+import { selectTreeNoRefreshState } from '../selectors/select-tree-no-refresh-state.selectors';
 
 export const selectDepartmentChildren = createSelector(
   selectTreeNoRefreshState,

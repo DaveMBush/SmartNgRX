@@ -4,8 +4,9 @@ import { map, mergeMap } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
 import { assert } from '../../common/assert.function';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { EffectServiceToken } from '../../types/effect-service.token';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 
 /**
@@ -25,7 +26,21 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
     feature,
     entity,
   ).effectServiceToken;
-  return function loadByIndexesEffectFunction(
+  return loadByIndexesEffectFunction<T>(
+    feature,
+    entity,
+    actions,
+    effectServiceToken,
+  );
+}
+
+function loadByIndexesEffectFunction<T extends SmartNgRXRowBase>(
+  feature: string,
+  entity: string,
+  actions: ActionGroup<T>,
+  effectServiceToken: EffectServiceToken<SmartNgRXRowBase>,
+) {
+  return function loadByIndexesEffectFunctionInner(
     /* istanbul ignore next -- default value, not really a condition */
     actions$ = inject(Actions),
     /* istanbul ignore next -- default value, not really a condition */
@@ -52,7 +67,10 @@ export function loadByIndexesEffect<T extends SmartNgRXRowBase>(
             // nested pipe to get access to actionProps
             .pipe(
               map(function loadByIndexesEffectMapItem(indexes) {
-                const actionService = actionServiceRegistry(feature, entity);
+                const actionService = actionServiceRegistry.register(
+                  feature,
+                  entity,
+                );
                 assert(
                   !!actionService,
                   `the service for ${feature}:${entity} is not available`,

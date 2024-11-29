@@ -3,13 +3,10 @@ import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import {
-  registerEntity,
-  unregisterEntity,
-} from '../registrations/register-entity.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { EntityAttributes } from '../types/entity-attributes.interface';
@@ -34,7 +31,7 @@ describe('ensureDataLoaded()', () => {
     entityDefinitionCache(feature, entity, {
       entityAdapter: createEntityAdapter(),
     } as SmartEntityDefinition<SmartNgRXRowBase>);
-    registerEntity(feature, entity, {
+    entityRegistry.register(feature, entity, {
       markAndDeleteInit: { markDirtyFetchesNew: true },
     } as EntityAttributes);
     // setup the store so the feature exist and we can retrieve the action service
@@ -43,13 +40,13 @@ describe('ensureDataLoaded()', () => {
       ids: [],
       entities: {},
     });
-    actionService = actionServiceRegistry(feature, entity);
+    actionService = actionServiceRegistry.register(feature, entity);
     assert(!!actionService, 'actionService is not defined');
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
   });
   afterEach(() => {
     jest.clearAllMocks();
-    unregisterEntity(feature, entity);
+    entityRegistry.unregister(feature, entity);
   });
   describe('when the id is not loaded', () => {
     beforeEach(() => {

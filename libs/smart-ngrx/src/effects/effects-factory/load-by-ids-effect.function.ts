@@ -4,7 +4,7 @@ import { filter, map, mergeMap, Observable } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
 import { assert } from '../../common/assert.function';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
 
@@ -38,7 +38,7 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
         return ids.length > 0;
       }),
       mergeMap(function loadByIdsEffectMergeMap(ids): Observable<T[]> {
-        const actionService = actionServiceRegistry(feature, entity);
+        const actionService = actionServiceRegistry.register(feature, entity);
         assert(
           !!actionService,
           `the service for ${feature}:${entity} is not available`,
@@ -47,7 +47,7 @@ export function loadByIdsEffect<T extends SmartNgRXRowBase>(
         return effectService.loadByIds(ids);
       }),
       map(function loadByIdsEffectMapRow(rows) {
-        const service = actionServiceRegistry(feature, entity);
+        const service = actionServiceRegistry.register(feature, entity);
         assert(
           !!service,
           `the service for ${feature}:${entity} is not available`,

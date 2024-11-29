@@ -681,6 +681,7 @@
         "ngrx/use-effects-lifecycle-interface": "error",
         // Performance and debugging rules
         "@smarttools/no-anonymous-functions": "error",
+        "@smarttools/one-exported-item-per-file": "error",
         // RxJS Plugin
         "@smarttools/rxjs/no-finnish": "error",
         // rxjs rules require typescript so they are turned off by default
@@ -885,6 +886,7 @@
       },
       "rules": {
         "@smarttools/no-anonymous-functions": "off",
+        "@smarttools/one-exported-item-per-file": "off",
         "no-restricted-syntax": "off",
         "max-lines": "off",
         "max-lines-per-function": "off",

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectTreeNoDirtyState2 } from '../tree-no-dirty.selectors';
+import { selectTreeNoDirtyState2 } from '../selectors/select-tree-no-dirty-state2.selectors';
 
 export const selectCurrentLocationId = createSelector(
   selectTreeNoDirtyState2,

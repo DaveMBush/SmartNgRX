@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectTreeStandardState } from '../tree-standard-state.selectors';
+import { selectTreeStandardState } from '../selectors/select-tree-standard-state.selectors';
 
 export const selectDepartmentChildren = createSelector(
   selectTreeStandardState,

@@ -3,11 +3,9 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { psi } from '../common/psi.const';
-import {
-  SmartEntityDefinition,
-  SmartValidatedEntityDefinition,
-} from '../types/smart-entity-definition.interface';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 
 const entityDefinitionMap = new Map<
   string,

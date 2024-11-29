@@ -4,8 +4,8 @@ import { of } from 'rxjs';
 
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import { getEntityRegistry } from '../registrations/register-entity.function';
 import * as storeFunction from '../selector/store.function';
 import * as actionFactory from './action.factory';
 import { ActionService } from './action.service';
@@ -13,7 +13,7 @@ import { ActionGroup } from './action-group.interface';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-cache.function');
-jest.mock('../registrations/register-entity.function');
+jest.mock('../registrations/entity-registry.class');
 jest.mock('./action.factory');
 jest.mock('../selector/store.function');
 
@@ -66,7 +66,7 @@ describe('ActionService', () => {
       (entityDefinitionCache as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
       });
-      (getEntityRegistry as jest.Mock).mockReturnValue({
+      (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},
       });
 
@@ -84,7 +84,7 @@ describe('ActionService', () => {
       (entityDefinitionCache as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
       });
-      (getEntityRegistry as jest.Mock).mockReturnValue({
+      (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},
       });
 

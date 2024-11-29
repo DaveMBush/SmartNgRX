@@ -1,5 +1,5 @@
 import { assert } from '../../common/assert.function';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 
 /**
  * Common function to mark the parent row as dirty
@@ -13,7 +13,10 @@ export function markParentsDirty(
   parentEntity: string,
   parentIds: string[],
 ): void {
-  const parentService = actionServiceRegistry(parentFeature, parentEntity);
+  const parentService = actionServiceRegistry.register(
+    parentFeature,
+    parentEntity,
+  );
   assert(
     !!parentService,
     `the service for ${parentFeature}:${parentEntity} is not available`,

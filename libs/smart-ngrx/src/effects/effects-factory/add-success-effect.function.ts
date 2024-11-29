@@ -5,7 +5,7 @@ import { map, tap, timer } from 'rxjs';
 
 import { ActionGroup } from '../../actions/action-group.interface';
 import { assert } from '../../common/assert.function';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { store } from '../../selector/store.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 
@@ -43,7 +43,7 @@ export function addSuccessEffect<T extends SmartNgRXRowBase = SmartNgRXRowBase>(
         });
       }),
       map(function addSuccessEffectMap(action) {
-        const parentService = actionServiceRegistry(
+        const parentService = actionServiceRegistry.register(
           action.feature,
           action.entity,
         );

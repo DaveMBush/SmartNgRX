@@ -1,13 +1,14 @@
 import { of } from 'rxjs';
 
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { ActionService } from './action.service';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 // Mock dependencies
-jest.mock('../registrations/action.service.registry');
+jest.mock('../registrations/action-service-registry.class');
 jest.mock('./replace-id-in-feature-parents.function');
 
 describe('removeIdFromParents', () => {
@@ -22,8 +23,11 @@ describe('removeIdFromParents', () => {
   };
   const mockReplaceIdResult = ['parent1', 'parent2'];
 
+  let actionServiceRegistryRegisterSpy: jest.SpyInstance;
   beforeEach(() => {
-    (actionServiceRegistry as jest.Mock).mockReturnValue(mockParentService);
+    actionServiceRegistryRegisterSpy = jest
+      .spyOn(actionServiceRegistry, 'register')
+      .mockReturnValue(mockParentService as unknown as ActionService);
     (replaceIdInFeatureParents as jest.Mock).mockReturnValue(
       mockReplaceIdResult,
     );
@@ -36,7 +40,7 @@ describe('removeIdFromParents', () => {
   it('should call actionServiceRegistry with correct parameters', () => {
     removeIdFromParents(mockChildDefinition, mockId, mockParentInfo);
 
-    expect(actionServiceRegistry).toHaveBeenCalledWith(
+    expect(actionServiceRegistryRegisterSpy).toHaveBeenCalledWith(
       mockChildDefinition.parentFeature,
       mockChildDefinition.parentEntity,
     );
@@ -86,7 +90,7 @@ describe('removeIdFromParents', () => {
   });
 
   it('should do nothing if actionServiceRegistry returns null', () => {
-    (actionServiceRegistry as jest.Mock).mockReturnValue(null);
+    (actionServiceRegistry.register as jest.Mock).mockReturnValue(null);
 
     removeIdFromParents(mockChildDefinition, mockId, mockParentInfo);
 

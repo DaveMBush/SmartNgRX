@@ -13,7 +13,7 @@ import {
 
 import { ActionGroup } from '../../actions/action-group.interface';
 import { assert } from '../../common/assert.function';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
@@ -104,7 +104,7 @@ function updateRow<T extends SmartNgRXRowBase>(
   entity: string,
 ) {
   // have to call the service to pickup the registration
-  const service = actionServiceRegistry(feature, entity);
+  const service = actionServiceRegistry.register(feature, entity);
   assert(!!service, `the service for ${feature}:${entity} is not available`);
   service.loadByIdsSuccess(rows);
 }

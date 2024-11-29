@@ -10,13 +10,10 @@ import {
   PartialArrayDefinition,
   setState,
 } from '../..';
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../../registrations/entity-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
-import {
-  registerEntity,
-  unregisterEntity,
-} from '../../registrations/register-entity.function';
 import { EntityAttributes } from '../../types/entity-attributes.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { EffectService } from '../effect-service';
@@ -77,7 +74,7 @@ describe('update-effect.function.ts', () => {
   let serviceSpy: jest.SpyInstance;
   beforeEach(() => {
     featureRegistry.registerFeature('feature');
-    registerEntity(feature, entity, {
+    entityRegistry.register(feature, entity, {
       markAndDeleteInit: {},
     } as EntityAttributes);
     createStore();
@@ -86,7 +83,7 @@ describe('update-effect.function.ts', () => {
       entities: {},
     });
     effect = updateEffect(serviceToken, actions, feature, entity);
-    const actionService = actionServiceRegistry('feature', 'entity');
+    const actionService = actionServiceRegistry.register('feature', 'entity');
     assert(!!actionService, 'actionService is not defined');
 
     serviceSpy = jest.spyOn(testService, 'update');
@@ -96,7 +93,7 @@ describe('update-effect.function.ts', () => {
     );
   });
   afterEach(() => {
-    unregisterEntity(feature, entity);
+    entityRegistry.unregister(feature, entity);
     jest.clearAllMocks();
   });
   describe('when updateEffect is called once', () => {

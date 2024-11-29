@@ -1,5 +1,5 @@
-import { getEntityRegistry } from '../../registrations/register-entity.function';
-import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
+import { entityRegistry } from '../../registrations/entity-registry.class';
+import { globalMarkAndDeleteInit } from '../global-mark-and-delete-init.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 
 /**
@@ -10,13 +10,13 @@ import { processMarkAndDelete } from './process-mark-and-delete.function';
  * @param root0."1" the entity we are processing
  */
 export function markAndDeleteEntity([feature, entity]: [string, string]): void {
-  const registry = getEntityRegistry(feature, entity);
+  const registry = entityRegistry.get(feature, entity);
   const entityMap = registry.markAndDeleteEntityMap;
   const featureInit = registry.markAndDeleteInit;
   const garbageCollectRowIds: string[] = [];
   const markDirtyRowIds: string[] = [];
   const now = Date.now();
-  const runInterval = getGlobalMarkAndDeleteInit().runInterval!;
+  const runInterval = globalMarkAndDeleteInit.get().runInterval!;
   for (const [key, value] of entityMap) {
     if (
       1 > featureInit.removeTime &&

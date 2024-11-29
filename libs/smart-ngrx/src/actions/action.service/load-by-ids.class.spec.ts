@@ -2,7 +2,7 @@ import { fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 
-import * as registerEntityRowsModule from '../../mark-and-delete/register-entity-rows.function';
+import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
 import { ActionGroup } from '../action-group.interface';
@@ -26,7 +26,7 @@ describe('LoadByIds', () => {
       dispatch: jest.fn(),
     };
     jest
-      .spyOn(registerEntityRowsModule, 'registerEntityRows')
+      .spyOn(entityRowsRegistry, 'register')
       .mockImplementation((_, __, rows) => rows);
     jest.spyOn(mockStore, 'dispatch');
     actions = actionFactory<SomeDataRow>('testFeature', 'testEntity');
