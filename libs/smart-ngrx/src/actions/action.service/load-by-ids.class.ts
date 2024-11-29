@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable, Subject, take, withLatestFrom } from 'rxjs';
 
 import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
-import { registerEntityRows } from '../../mark-and-delete/register-entity-rows.function';
+import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { defaultRows } from '../../reducers/default-rows.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { ActionGroup } from '../action-group.interface';
@@ -128,7 +128,7 @@ export class LoadByIds {
     const entity = this.entity;
     const store = this.store;
     const actions = this.actions;
-    let registeredRows = registerEntityRows(feature, entity, rows);
+    let registeredRows = entityRowsRegistry.register(feature, entity, rows);
     this.entities
       .pipe(take(1))
       .subscribe(function loadByIdsSuccessSubscribe(entities) {

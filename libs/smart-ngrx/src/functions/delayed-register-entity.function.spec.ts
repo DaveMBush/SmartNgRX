@@ -1,13 +1,11 @@
 import { InjectionToken } from '@angular/core';
 
-import * as getGlobalMarkAndDeleteInit from '../mark-and-delete/mark-and-delete-init';
+import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 
 describe('delayedRegisterEntity', () => {
   beforeEach(() => {
-    jest
-      .spyOn(getGlobalMarkAndDeleteInit, 'getGlobalMarkAndDeleteInit')
-      .mockReturnValue({});
+    jest.spyOn(globalMarkAndDeleteInit, 'get').mockReturnValue({});
   });
   describe('when the getGlobalMarkAndDeleteInit() function returns an empty object', () => {
     it('should not call the registerEntity() function', () => {

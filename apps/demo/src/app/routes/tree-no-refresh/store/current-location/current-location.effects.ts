@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs';
 
 import { locationActions } from '../locations/location.actions';
-import { selectLocationEntities } from '../locations/location.selectors';
+import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
 import { currentLocationActions } from './current-location.actions';
 import { selectCurrentLocationId } from './current-location.selector';
 

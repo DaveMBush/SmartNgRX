@@ -1,6 +1,6 @@
 import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -21,12 +21,15 @@ export function getServices<
 } {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
-  const service = actionServiceRegistry(childFeature, childEntity);
+  const service = actionServiceRegistry.register(childFeature, childEntity);
   assert(
     !!service,
     `the service for ${childFeature}:${childEntity} is not available`,
   );
-  const parentService = actionServiceRegistry(parentFeature, parentEntity);
+  const parentService = actionServiceRegistry.register(
+    parentFeature,
+    parentEntity,
+  );
   assert(
     !!parentService,
     `the service for ${parentFeature}:${parentEntity} is not available`,

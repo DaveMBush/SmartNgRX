@@ -2,8 +2,8 @@ import { interval, Observable, tap } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
 import { psi } from '../../common/psi.const';
-import { markAndDeleteEntities } from '../mark-and-delete-entity.map';
-import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
+import { globalMarkAndDeleteInit } from '../global-mark-and-delete-init.class';
+import { markAndDeleteEntities } from '../mark-and-delete-entities.class';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 
 /**
@@ -13,10 +13,10 @@ import { markAndDeleteEntity } from './mark-and-delete-entity.function';
  * @returns Observable<number> - just an observable for the effect to observe
  */
 export function markAndDeleteFeaturesInterval(): Observable<number> {
-  const markAndDeleteInterval = getGlobalMarkAndDeleteInit().runInterval;
+  const markAndDeleteInterval = globalMarkAndDeleteInit.get().runInterval;
   return interval(markAndDeleteInterval).pipe(
     tap(function markAndDeleteFeaturesIntervalTab() {
-      const featureKeys = markAndDeleteEntities();
+      const featureKeys = markAndDeleteEntities.entities();
       // for/next is faster than forEach
       forNext(
         featureKeys,

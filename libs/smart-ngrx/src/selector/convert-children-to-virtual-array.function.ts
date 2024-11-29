@@ -1,7 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 
 import { assert } from '../common/assert.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
@@ -24,7 +24,7 @@ export function convertChildrenToVirtualArray<
   parentFeature: string,
   parentEntityName: string,
 ): void {
-  const parentActionService = actionServiceRegistry(
+  const parentActionService = actionServiceRegistry.register(
     parentFeature,
     parentEntityName,
   );

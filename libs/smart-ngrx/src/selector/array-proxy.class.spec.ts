@@ -17,16 +17,12 @@ jest.mock('./get-array-item.function', () => ({
   getArrayItem: jest.fn().mockReturnValue({ id: '1', relatedIds: [] }),
 }));
 
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { getArrayItem } from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
 
-// Mock the actionServiceRegistry and entityDefinitionCache
-jest.mock('../registrations/action.service.registry', () => ({
-  actionServiceRegistry: jest.fn().mockReturnValue({
-    remove: jest.fn(),
-  }),
-}));
+//Mock the actionServiceRegistry and entityDefinitionCache
 
 jest.mock('../registrations/entity-definition-cache.function', () => ({
   entityDefinitionCache: jest.fn().mockReturnValue({
@@ -83,6 +79,7 @@ describe('ArrayProxy', () => {
     mockService = {
       loadByIdsSuccess: jest.fn(),
     } as unknown as ActionService;
+    jest.spyOn(actionServiceRegistry, 'register').mockReturnValue(mockService);
 
     arrayProxy = new ArrayProxy(
       [],
