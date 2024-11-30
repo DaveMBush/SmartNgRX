@@ -21,7 +21,8 @@
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
+        "{workspaceRoot}/.eslintignore",
+        "{workspaceRoot}/eslint.config.js"
       ]
     },
     "nx-release-publish": {
@@ -34,7 +35,8 @@
       "inputs": [
         "default",
         "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
+        "{workspaceRoot}/.eslintignore",
+        "{workspaceRoot}/eslint.config.js"
       ],
       "cache": true
     },
@@ -59,7 +61,8 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.js"
     ],
     "sharedGlobals": []
   },
