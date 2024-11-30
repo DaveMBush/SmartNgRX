@@ -6,7 +6,6 @@
     "jsdoc",
     "@nx",
     "sonarjs",
-    "deprecation",
     "eslint-plugin-import",
     "@angular-eslint/eslint-plugin",
     "eslint-comments",
@@ -15,7 +14,7 @@
     "@smarttools",
     "@typescript-eslint",
     "unused-imports",
-    "ngrx",
+    "@ngrx",
     "max-params-no-constructor",
     "jest",
     "@stylistic"
@@ -83,7 +82,6 @@
       "extends": [
         "plugin:@nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates",
-        "plugin:ngrx/recommended",
         "plugin:sonarjs/recommended-legacy"
       ],
       "rules": {
@@ -637,20 +635,18 @@
           }
         ],
         // NgRX Plugin
-        "ngrx/avoid-combining-selectors": "error",
-        "ngrx/avoid-cyclic-effects": "error",
+        "@ngrx/avoid-combining-selectors": "error",
+        "@ngrx/avoid-cyclic-effects": "error",
         //// we don"t care about sequential dispatches
-        "ngrx/avoid-dispatching-multiple-actions-sequentially": "off",
-        "ngrx/avoid-duplicate-actions-in-reducer": "error",
-        "ngrx/avoid-mapping-selectors": "error",
-        "ngrx/good-action-hygiene": "error",
-        "ngrx/no-dispatch-in-effects": "error",
-        "ngrx/no-effect-decorator": "error",
-        "ngrx/no-effect-decorator-and-creator": "error",
-        "ngrx/no-effects-in-providers": "error",
-        "ngrx/no-multiple-global-stores": "error",
-        "ngrx/no-reducer-in-key-names": "error",
-        "ngrx/no-store-subscription": "error",
+        "@ngrx/avoid-dispatching-multiple-actions-sequentially": "off",
+        "@ngrx/avoid-duplicate-actions-in-reducer": "error",
+        "@ngrx/avoid-mapping-selectors": "error",
+        "@ngrx/good-action-hygiene": "error",
+        "@ngrx/no-dispatch-in-effects": "error",
+        "@ngrx/no-effects-in-providers": "error",
+        "@ngrx/no-multiple-global-stores": "error",
+        "@ngrx/no-reducer-in-key-names": "error",
+        "@ngrx/no-store-subscription": "error",
         //// We don"t want to type the store when it is injected
         //// because it will only be available for that one type
         //// when often we want to use it for multiple types.
@@ -658,13 +654,13 @@
         //// The proper way to deal with this conflict in rules it to
         //// specify `unknown` as the type for the store.  ie,
         //// `store: Store<unknown>` instead of using `any`.
-        "ngrx/no-typed-global-store": "error",
-        "ngrx/on-function-explicit-return-type": "error",
-        "ngrx/prefer-action-creator": "error",
-        "ngrx/prefer-action-creator-in-dispatch": "error",
-        "ngrx/prefer-action-creator-in-of-type": "error",
-        "ngrx/prefer-concat-latest-from": "error",
-        "ngrx/prefer-effect-callback-in-block-statement": "off",
+        "@ngrx/no-typed-global-store": "error",
+        "@ngrx/on-function-explicit-return-type": "error",
+        "@ngrx/prefer-action-creator": "error",
+        "@ngrx/prefer-action-creator-in-dispatch": "error",
+        "@ngrx/prefer-action-creator-in-of-type": "error",
+        "@ngrx/prefer-concat-latest-from": "error",
+        "@ngrx/prefer-effect-callback-in-block-statement": "off",
         //// This one isn"t quite so obvious why we need it to be
         //// implemented. But we want to tread the props as parameters
         //// and for this, we need to specify them directly.
@@ -672,13 +668,13 @@
         //// realize just how important this rule is.
         //// Read the docs here to understand why we implement this.
         //// https://github.com/timdeschryver/eslint-plugin-ngrx/blob/main/docs/rules/prefer-inline-action-props.md
-        "ngrx/prefer-inline-action-props": "error",
-        "ngrx/prefer-one-generic-in-create-for-feature-selector": "error",
-        "ngrx/prefix-selectors-with-select": "error",
-        "ngrx/select-style": ["error", "method"],
-        "ngrx/updater-explicit-return-type": "error",
-        "ngrx/use-consistent-global-store-name": "error",
-        "ngrx/use-effects-lifecycle-interface": "error",
+        "@ngrx/prefer-inline-action-props": "error",
+        "@ngrx/prefer-one-generic-in-create-for-feature-selector": "error",
+        "@ngrx/prefix-selectors-with-select": "error",
+        "@ngrx/select-style": ["error", "method"],
+        "@ngrx/updater-explicit-return-type": "error",
+        "@ngrx/use-consistent-global-store-name": "error",
+        "@ngrx/use-effects-lifecycle-interface": "error",
         // Performance and debugging rules
         "@smarttools/no-anonymous-functions": "error",
         "@smarttools/one-exported-item-per-file": "error",
@@ -748,7 +744,6 @@
         "unicorn/filename-case": "error",
         "unicorn/no-abusive-eslint-disable": "error",
         "import/no-duplicates": ["error"],
-        "deprecation/deprecation": "error",
         //// The next two rules don"t allow default exports particularly
         //// to defend against React guys who are still doing this even
         //// though it really makes no sense there either 🙄
@@ -794,26 +789,11 @@
     },
     {
       "files": ["*.reducer.ts"],
-      "plugins": ["functional"],
       "rules": {
         // these rules require typescript to run so they are off by default
         "@typescript-eslint/prefer-readonly": "error",
-        "@typescript-eslint/prefer-readonly-parameter-types": "off",
+        "@typescript-eslint/prefer-readonly-parameter-types": "off"
         // Functional Plugin
-        "functional/immutable-data": [
-          "error",
-          {
-            "ignoreImmediateMutation": true,
-            "ignoreAccessorPattern": "this.*"
-          }
-        ],
-        "functional/no-let": [
-          "error",
-          {
-            "allowInFunctions": true
-          }
-        ],
-        "functional/no-loop-statements": "error"
       }
     },
     {

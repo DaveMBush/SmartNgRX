@@ -19,7 +19,7 @@ let globalStore: Store | undefined;
  * @returns = the global store value.
  */
 export function store(
-  // eslint-disable-next-line ngrx/use-consistent-global-store-name -- it is either this or get a shadowing lint issue
+  // eslint-disable-next-line @ngrx/use-consistent-global-store-name -- it is either this or get a shadowing lint issue
   storeParam?: Store,
 ): Store {
   if (storeParam) {
