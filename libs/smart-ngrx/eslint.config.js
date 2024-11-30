@@ -54,7 +54,7 @@ module.exports = [
       },
       languageOptions: {
         parserOptions: {
-          project: ['./tsconfig.*?.json'],
+          project: ['./tsconfig.*.json'],
         },
       },
     })),
