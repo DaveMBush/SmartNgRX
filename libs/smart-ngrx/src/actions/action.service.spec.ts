@@ -124,7 +124,6 @@ describe('ActionService', () => {
         };
 
         // Mock the store's select method to return our mock entities
-        // eslint-disable-next-line deprecation/deprecation -- needed for testing
         mockStore.select.mockReturnValue(of(mockEntities));
 
         // Mock the entityAdapter's selectEntities method
@@ -155,7 +154,6 @@ describe('ActionService', () => {
         const mockEntities: Record<string, MockEntity> = {
           '1': { id: '1', isEditing: true },
         };
-        // eslint-disable-next-line deprecation/deprecation -- needed for testing
         mockStore.select.mockReturnValue(of(mockEntities));
 
         service.garbageCollect(['1']);
