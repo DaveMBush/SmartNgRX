@@ -1,10 +1,13 @@
+import { inject, Injector } from '@angular/core';
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { asapScheduler, Observable, Subject, take } from 'rxjs';
+import { createFeatureSelector, createSelector, Store } from '@ngrx/store';
+import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { EffectService } from '../effects/effect-service';
+import { markFeatureParentsDirty } from '../effects/effects-factory/mark-feature-parents-dirty.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -40,10 +43,8 @@ export class ActionService {
   private store = storeFunction();
   private markDirtyFetchesNew = true;
   private entityDefinition!: SmartValidatedEntityDefinition<SmartNgRXRowBase>;
-  private loadByIdsSubject = new Subject<string[]>();
   private loadByIndexesService!: LoadByIndexes;
   private loadByIdsService!: LoadByIds;
-
   /**
    * constructor for the ActionService
    *
@@ -52,10 +53,19 @@ export class ActionService {
    */
   constructor(
     public feature: string,
-    public entity: string,
+    public entity: string
   ) {
-    this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
-    this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+    this.loadByIndexesService = new LoadByIndexes(
+      this.feature,
+      this.entity,
+      this.store,
+    );
+    this.loadByIdsService = new LoadByIds(
+      this.feature,
+      this.entity,
+      this.store,
+      this,
+    );
   }
 
   /**
@@ -64,7 +74,7 @@ export class ActionService {
    * @returns true if successful, false if not
    */
   init(): boolean {
-    const entity = this.entity;
+
     if (!featureRegistry.hasFeature(this.feature)) {
       return false;
     }
@@ -73,12 +83,13 @@ export class ActionService {
       Record<string, EntityState<SmartNgRXRowBase>>
     >(this.feature);
 
+    const entityName = this.entity;
     this.entityDefinition = entityDefinitionCache(this.feature, this.entity);
     const selectEntity = createSelector(
       selectFeature,
       function selectEntityFunction(f) {
         try {
-          return f[entity];
+          return f[entityName];
           // eslint-disable-next-line sonarjs/no-ignored-exceptions, unused-imports/no-unused-vars -- we ARE handling the error, buggy rule
         } catch (_) {
           return { ids: [], entities: {} };
@@ -294,11 +305,10 @@ export class ActionService {
     parentInfo = parentInfo.filter(function filterParentInfo(info) {
       return info.ids.length > 0;
     });
-    // remove the row from the store
-    this.store.dispatch(
-      this.actions.delete({
-        id,
-        parentInfo,
+    this.effectsService.delete(id).pipe(
+      catchError(function deleteEffectConcatMapCatchError(_: unknown, __) {
+        markFeatureParentsDirty(parentInfo);
+        return of();
       }),
     );
   }

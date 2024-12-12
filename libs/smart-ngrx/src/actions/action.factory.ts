@@ -42,12 +42,12 @@ export function actionFactory<T extends SmartNgRXRowBase>(
     events: {
       'Update Many': props<UpdateChanges<T>>(),
       Remove: props<IdsProp>(),
-      'Load By Ids': props<IdsProp>(),
-      'Load By Ids Preload': props<IdsProp>(),
-      'Load By Indexes': props<IndexesProp>(),
+      // 'Load By Ids': props<IdsProp>(),
+      // 'Load By Ids Preload': props<IdsProp>(),
+      // 'Load By Indexes': props<IndexesProp>(),
       'Store Rows': props<RowsProp<T>>(),
       Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
-      'Add To Store': props<RowProp<T>>(),
+      // 'Add To Store': props<RowProp<T>>(),
       Add: props<{
         row: T;
         feature: string;
@@ -65,14 +65,14 @@ export function actionFactory<T extends SmartNgRXRowBase>(
         parentFeature: string;
         parentEntityName: string;
       }>(),
-      Delete: props<{
-        id: string;
-        parentInfo: {
-          feature: string;
-          entity: string;
-          ids: string[];
-        }[];
-      }>(),
+      // Delete: props<{
+      //   id: string;
+      //   parentInfo: {
+      //     feature: string;
+      //     entity: string;
+      //     ids: string[];
+      //   }[];
+      // }>(),
     },
   });
   actionGroupCache.set(source, actionGroup);

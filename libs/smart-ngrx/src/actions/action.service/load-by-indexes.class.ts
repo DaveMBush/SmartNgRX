@@ -1,6 +1,14 @@
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, take } from 'rxjs';
+import {
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  take,
+  withLatestFrom,
+} from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
 import { newRowRegistry } from '../../selector/new-row-registry.class';
@@ -9,6 +17,11 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { ActionGroup } from '../action-group.interface';
 import { bufferIndexes } from './buffer-indexes.function';
+import { inject } from '@angular/core';
+import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { EffectService } from '../../effects/effect-service';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { assert } from '../../common/assert.function';
 
 /**
  * This class is used to manage loading the child ids by
@@ -17,6 +30,7 @@ import { bufferIndexes } from './buffer-indexes.function';
 export class LoadByIndexes {
   actions!: ActionGroup;
   entities!: Observable<Dictionary<SmartNgRXRowBase>>;
+  private effectsService!: EffectService<SmartNgRXRowBase>;
   private loadByIndexesSubject = new Subject<{
     parentId: string;
     childField: string;
@@ -29,12 +43,17 @@ export class LoadByIndexes {
    * @param feature the name of the feature this class is for
    * @param entity the name of the entity this class is for
    * @param store the store to dispatch the actions to
+   * @param effectsService the effects service to use
    */
   constructor(
     private feature: string,
     private entity: string,
     private store: Store,
-  ) {}
+  ) {
+    this.effectsService = inject(
+      entityDefinitionCache(this.feature, this.entity).effectServiceToken,
+    );
+  }
 
   /**
    * Initializes the service with the actions and starts the dispatcher.
@@ -70,23 +89,41 @@ export class LoadByIndexes {
    * Dispatches the loadByIndexes action after buffering the indexes.
    */
   loadByIndexesDispatcher(): void {
-    const store = this.store;
-    const actions = this.actions;
+    const context = this;
     this.loadByIndexesSubject
       .pipe(bufferIndexes())
-      .subscribe(function loadByIndexesDispatcherSubscribe({
-        parentId,
-        childField,
-        indexes,
-      }) {
-        store.dispatch(
-          actions.loadByIndexes({
-            parentId,
-            childField,
-            indexes,
-          }),
-        );
-      });
+      .pipe(
+        switchMap(function loadByIndexesDispatcherSubscribe({
+          parentId,
+          childField,
+          indexes,
+        }) {
+          const numberIds = indexes.map(function convertStringToNumber(id) {
+            return +id;
+          });
+          const min = Math.min(...numberIds);
+          const max = Math.max(...numberIds);
+          return context.effectsService
+            .loadByIndexes(parentId, childField, min, max - min + 1)
+            .pipe(withLatestFrom(of({ parentId, childField })));
+        }),
+        map(function loadByIndexesEffectMapItem([
+          indexes,
+          { parentId, childField },
+        ]) {
+          const actionService = actionServiceRegistry.register(
+            context.feature,
+            context.entity,
+          );
+          assert(
+            !!actionService,
+            `the service for ${context.feature}:${context.entity} is not available`,
+          );
+          actionService.loadByIndexesSuccess(parentId, childField, indexes);
+        }),
+      )
+      // this is a long running operation so we don't need to unsubscribe
+      .subscribe();
   }
 
   /**
