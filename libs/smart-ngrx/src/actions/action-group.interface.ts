@@ -30,24 +30,24 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Remove`,
     (props: IdsProp) => Action<`[${any}] Remove`> & IdsProp
   >;
-  // /**
-  //  * Action to load rows by their IDs.
-  //  */
-  // loadByIds: ActionCreator<
-  //   `[${any}] Load By Ids`,
-  //   (props: IdsProp) => Action<`[${any}] Load By Ids`> & IdsProp
-  // >;
+  /**
+   * Action to load rows by their IDs.
+   */
+  loadByIds: ActionCreator<
+    `[${any}] Load By Ids`,
+    (props: IdsProp) => Action<`[${any}] Load By Ids`> & IdsProp
+  >;
 
-  // /**
-  //  * Action to load rows by their index.
-  //  */
-  // loadByIndexes: ActionCreator<
-  //   `[${any}] Load By Indexes`,
-  //   (props: IndexesProp) => Action<`[${any}] Load By Indexes`> & IndexesProp
-  // >;
-  // /**
-  //  * Action to put rows into the store.
-  //  */
+  /**
+   * Action to load rows by their index.
+   */
+  loadByIndexes: ActionCreator<
+    `[${any}] Load By Indexes`,
+    (props: IndexesProp) => Action<`[${any}] Load By Indexes`> & IndexesProp
+  >;
+  /**
+   * Action to put rows into the store.
+   */
   storeRows: ActionCreator<
     `[${any}] Store Rows`,
     (props: RowsProp<T>) => Action<`[${any}] Store Rows`> & RowsProp<T>
@@ -110,26 +110,26 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       parentEntityName: string;
     }
   >;
-  // /**
-  //  * Action to trigger deleting a new row, this eventually calls the effect service
-  //  * which will handle the physical delete on the server.
-  //  */
-  // delete: ActionCreator<
-  //   `[${any}] Delete`,
-  //   (props: {
-  //     id: string;
-  //     parentInfo: {
-  //       feature: string;
-  //       entity: string;
-  //       ids: string[];
-  //     }[];
-  //   }) => Action<`[${any}] Delete`> & {
-  //     id: string;
-  //     parentInfo: {
-  //       feature: string;
-  //       entity: string;
-  //       ids: string[];
-  //     }[];
-  //   }
-  // >;
+  /**
+   * Action to trigger deleting a new row, this eventually calls the effect service
+   * which will handle the physical delete on the server.
+   */
+  delete: ActionCreator<
+    `[${any}] Delete`,
+    (props: {
+      id: string;
+      parentInfo: {
+        feature: string;
+        entity: string;
+        ids: string[];
+      }[];
+    }) => Action<`[${any}] Delete`> & {
+      id: string;
+      parentInfo: {
+        feature: string;
+        entity: string;
+        ids: string[];
+      }[];
+    }
+  >;
 }

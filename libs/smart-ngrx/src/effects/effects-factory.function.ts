@@ -7,6 +7,9 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { addEffect } from './effects-factory/add-effect.function';
 import { addSuccessEffect } from './effects-factory/add-success-effect.function';
+import { deleteEffect } from './effects-factory/delete-effect.function';
+import { loadByIdsEffect } from './effects-factory/load-by-ids-effect.function';
+import { loadByIndexesEffect } from './effects-factory/load-by-indexes-effect.function';
 import { registerFeatureEffect } from './effects-factory/register-feature-effect.function';
 import { updateEffect } from './effects-factory/update-effect.function';
 
@@ -28,6 +31,9 @@ const dispatchTrue = {
 type EffectsFactoryKeys =
   | 'add'
   | 'addSuccess'
+  | 'delete'
+  | 'loadByIds'
+  | 'loadByIndexes'
   | 'registerFeature'
   | 'update';
 
@@ -54,6 +60,30 @@ export function effectsFactory<T extends SmartNgRXRowBase>(
   const entityDefinition = entityDefinitionCache<T>(feature, entityName);
   const adapter = entityDefinition.entityAdapter;
   return {
+    /**
+     * Ends up calling the `EffectService` to delete the row specified
+     * by the ID in the action.
+     */
+    delete: createEffect(
+      deleteEffect(effectsServiceToken, actions),
+      dispatchFalse,
+    ),
+    /**
+     * Ends up calling the `EffectService` to load the rows specified
+     * from the server.
+     */
+    loadByIds: createEffect(
+      loadByIdsEffect(effectsServiceToken, actions, feature, entityName),
+      dispatchFalse,
+    ),
+    /**
+     * Ends up calling the `EffectService` to load the rows specified
+     * from the server.
+     */
+    loadByIndexes: createEffect(
+      loadByIndexesEffect(actions, feature, entityName),
+      dispatchFalse,
+    ),
     /**
      * Ends up calling the `EffectService` to update the row specified
      * by the row in the action.
