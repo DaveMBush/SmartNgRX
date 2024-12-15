@@ -1,8 +1,9 @@
 import { ActionService } from '../actions/action.service';
 import { psi } from '../common/psi.const';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class ActionServiceRegistry {
-  actionServiceMap = new Map<string, ActionService>();
+  actionServiceMap = new Map<string, ActionService<SmartNgRXRowBase>>();
   /**
    * mechanism for getting the ActionService object/class for a given feature and entity
    *
@@ -10,18 +11,17 @@ class ActionServiceRegistry {
    * @param entity the entity
    * @returns the ActionService object/class for the given feature and entity
    */
-  register(feature: string, entity: string): ActionService | null {
+  register<T extends SmartNgRXRowBase>(feature: string, entity: string): ActionService<T> | null {
     const key = `${feature}${psi}${entity}`;
     let actionServiceCache = this.actionServiceMap.get(key);
     if (actionServiceCache === undefined) {
       actionServiceCache = new ActionService(feature, entity);
-      if (!actionServiceCache.init()) {
-        return null;
-      }
-
       this.actionServiceMap.set(key, actionServiceCache);
     }
-    return actionServiceCache;
+    if (!actionServiceCache.init()) {
+      return null;
+    }
+    return actionServiceCache as unknown as ActionService<T>;
   }
 
   /**

@@ -16,23 +16,20 @@ export function getServices<
 >(
   childDefinition: ChildDefinition<P, C>,
 ): {
-  service: ActionService;
-  parentService: ActionService;
+  service: ActionService<C>;
+  parentService: ActionService<P>;
 } {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
   const service = actionServiceRegistry.register(childFeature, childEntity);
-  assert(
-    !!service,
-    `the service for ${childFeature}:${childEntity} is not available`,
-  );
   const parentService = actionServiceRegistry.register(
     parentFeature,
     parentEntity,
   );
-  assert(
-    !!parentService,
-    `the service for ${parentFeature}:${parentEntity} is not available`,
-  );
-  return { service, parentService };
+  assert(!!service, `the service for ${childFeature}:${childEntity} is not available`);
+  assert(!!parentService, `the service for ${parentFeature}:${parentEntity} is not available`);
+  return {
+    service: service as unknown as ActionService<C>,
+    parentService: parentService as unknown as ActionService<P>
+  };
 }

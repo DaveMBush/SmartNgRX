@@ -35,8 +35,8 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
    */
   constructor(
     public row: T,
-    private service: ActionService,
-    parentService: ActionService,
+    private service: ActionService<T>,
+    parentService: ActionService<SmartNgRXRowBase>,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
 

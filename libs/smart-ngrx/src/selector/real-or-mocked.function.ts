@@ -1,5 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
+import { ActionService } from '../actions/action.service';
 import { rowProxy } from '../row-proxy/row-proxy.function';
 import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
@@ -35,5 +36,5 @@ export function realOrMocked<
   if (row === undefined) {
     row = { ...defaultObject, id, isLoading: true };
   }
-  return rowProxy<T>(row, service, parentService);
+  return rowProxy<T>(row, service, parentService as unknown as ActionService<SmartNgRXRowBase>);
 }

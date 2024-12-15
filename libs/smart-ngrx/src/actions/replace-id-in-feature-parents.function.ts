@@ -18,7 +18,7 @@ import { ActionService } from './action.service';
 export function replaceIdInFeatureParents(
   entities: Dictionary<SmartNgRXRowBase>,
   childDefinition: ChildDefinition,
-  parentService: ActionService,
+  parentService: ActionService<SmartNgRXRowBase>,
   ids: [string, string | null],
 ): string[] {
   const [id, newId] = ids;

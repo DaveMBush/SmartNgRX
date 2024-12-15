@@ -44,7 +44,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
 
 function forceEntitiesDirty<T extends SmartNgRXRowBase>(
   ids: string[],
-  actionService: ActionService,
+  actionService: ActionService<T>,
 ): (state: Dictionary<T>) => void {
   return function innerForceEntitiesDirty(state: Dictionary<T>) {
     forNext(ids, forceIdDirty(state, actionService));
@@ -53,7 +53,7 @@ function forceEntitiesDirty<T extends SmartNgRXRowBase>(
 
 function forceIdDirty<T extends SmartNgRXRowBase>(
   state: Dictionary<T>,
-  actionService: ActionService,
+  actionService: ActionService<T>,
 ): (id: string) => void {
   return function innerForceIdDirty(id: string) {
     if (state[id] !== undefined) {

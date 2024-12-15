@@ -9,7 +9,7 @@ import { RowProxy } from './row-proxy.class';
  * @returns the value of the property
  */
 export function rowProxyGet<T extends SmartNgRXRowBase>(
-  service: ActionService,
+  service: ActionService<T>,
 ): (target: RowProxy<T>, prop: string | symbol) => unknown {
   return function innerRowProxyGet(target: RowProxy<T>, prop: string | symbol) {
     if (prop === 'toJSON') {

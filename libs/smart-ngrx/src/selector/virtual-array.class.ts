@@ -25,7 +25,7 @@ export class VirtualArray<
    */
   constructor(
     public array: VirtualArrayContents,
-    private parentActionService: ActionService,
+    private parentActionService: ActionService<SmartNgRXRowBase>,
     parentId: string,
     childField: string,
   ) {

@@ -57,7 +57,6 @@ export function provideSmartFeatureEntities(
       const { entityName, effectServiceToken } = entityDefinition;
       const effects = effectsFactory(
         featureName,
-        entityName,
         effectServiceToken,
       );
       provideWatchInitialRowEffect(

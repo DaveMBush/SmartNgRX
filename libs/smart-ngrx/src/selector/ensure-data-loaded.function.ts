@@ -25,10 +25,6 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   entity: string,
 ): void {
   const actionService = actionServiceRegistry.register(feature, entity);
-  assert(
-    !!actionService,
-    `the service for ${feature}:${entity} is not available`,
-  );
   const ids = entityState.entities as Record<string, T>;
 
   const idsId = ids[id];
@@ -43,11 +39,11 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
     void unpatchedPromise
       .resolve()
-      .then(actionServiceLoadByIds(actionService, [id]));
+      .then(actionServiceLoadByIds(actionService as ActionService<SmartNgRXRowBase>, [id]));
   }
 }
 
-function actionServiceLoadByIds(actionService: ActionService, ids: string[]) {
+function actionServiceLoadByIds(actionService: ActionService<SmartNgRXRowBase>, ids: string[]) {
   return function internalActionServiceLoadByIds() {
     actionService.loadByIds(ids);
   };

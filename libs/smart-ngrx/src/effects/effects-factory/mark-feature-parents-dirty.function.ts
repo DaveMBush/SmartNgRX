@@ -9,7 +9,7 @@ import { markParentsDirty } from './mark-parents-dirty.function';
  * @param action the action that has the parentInfo in it
  */
 export function markFeatureParentsDirty(
-  action: ReturnType<ActionGroup['delete']>,
+  action: Omit<ReturnType<ActionGroup['delete']>, 'type'>,
 ) {
   forNext(
     action.parentInfo,

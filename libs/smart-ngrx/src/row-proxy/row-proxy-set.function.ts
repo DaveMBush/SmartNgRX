@@ -11,8 +11,8 @@ import { RowProxy } from './row-proxy.class';
  * @returns true if the property was set, false otherwise
  */
 export function rowProxySet<T extends SmartNgRXRowBase>(services: {
-  service: ActionService;
-  parentService: ActionService;
+  service: ActionService<T>;
+  parentService: ActionService<SmartNgRXRowBase>;
 }): (target: RowProxy<T>, prop: string | symbol, value: unknown) => boolean {
   return function innerRowProxySet(
     target: RowProxy<T>,

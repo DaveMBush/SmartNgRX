@@ -30,21 +30,7 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Remove`,
     (props: IdsProp) => Action<`[${any}] Remove`> & IdsProp
   >;
-  /**
-   * Action to load rows by their IDs.
-   */
-  loadByIds: ActionCreator<
-    `[${any}] Load By Ids`,
-    (props: IdsProp) => Action<`[${any}] Load By Ids`> & IdsProp
-  >;
 
-  /**
-   * Action to load rows by their index.
-   */
-  loadByIndexes: ActionCreator<
-    `[${any}] Load By Indexes`,
-    (props: IndexesProp) => Action<`[${any}] Load By Indexes`> & IndexesProp
-  >;
   /**
    * Action to put rows into the store.
    */
@@ -67,48 +53,11 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     }
   >;
   /**
-   * Action to trigger adding a new row
+   * Action to trigger upserting a new/existing row
    */
-  add: ActionCreator<
-    `[${any}] Add`,
-    (props: {
-      row: T;
-      feature: string;
-      entity: string;
-      parentId: string;
-      parentFeature: string;
-      parentEntityName: string;
-    }) => Action<`[${any}] Add`> & {
-      row: T;
-      feature: string;
-      entity: string;
-      parentId: string;
-      parentFeature: string;
-      parentEntityName: string;
-    }
-  >;
-  /**
-   * Action to trigger storing a new row
-   */
-  addSuccess: ActionCreator<
-    `[${any}] Add Success`,
-    (props: {
-      oldRow: T;
-      newRow: T;
-      feature: string;
-      entity: string;
-      parentId: string;
-      parentFeature: string;
-      parentEntityName: string;
-    }) => Action<`[${any}] Add Success`> & {
-      oldRow: T;
-      newRow: T;
-      feature: string;
-      entity: string;
-      parentId: string;
-      parentFeature: string;
-      parentEntityName: string;
-    }
+  upsertRow: ActionCreator<
+    `[${any}] Upsert Row`,
+    (props: RowProp<T>) => Action<`[${any}] Upsert Row`> & RowProp<T>
   >;
   /**
    * Action to trigger deleting a new row, this eventually calls the effect service

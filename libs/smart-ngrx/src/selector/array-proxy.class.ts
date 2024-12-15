@@ -46,7 +46,7 @@ export class ArrayProxy<
   // so they are safe to use later on.
   entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
   parentEntityAdapter!: EntityAdapter<SmartNgRXRowBase>;
-  childActionService!: ActionService;
+  childActionService!: ActionService<C>;
   [isProxy] = true;
   rawArray: string[] = [];
 
@@ -180,8 +180,8 @@ export class ArrayProxy<
    * @returns the `ActionService` for the child and the parent
    */
   getServices(): {
-    service: ActionService;
-    parentService: ActionService;
+    service: ActionService<C>;
+    parentService: ActionService<P>;
   } {
     return getServices<P, C>(this.childDefinition);
   }
