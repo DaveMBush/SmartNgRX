@@ -41,19 +41,8 @@ export function actionFactory<T extends SmartNgRXRowBase>(
     events: {
       'Update Many': props<UpdateChanges<T>>(),
       Remove: props<IdsProp>(),
-      'Load By Ids Preload': props<IdsProp>(),
       'Store Rows': props<RowsProp<T>>(),
       'Upsert Row': props<RowProp<T>>(),
-      Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
-      'Add To Store': props<RowProp<T>>(),
-      Delete: props<{
-        id: string;
-        parentInfo: {
-          feature: string;
-          entity: string;
-          ids: string[];
-        }[];
-      }>(),
     },
   });
   actionGroupCache.set(source, actionGroup);

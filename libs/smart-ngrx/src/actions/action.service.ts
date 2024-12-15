@@ -437,13 +437,6 @@ export class ActionService<T extends SmartNgRXRowBase> {
     parentInfo = parentInfo.filter(function filterParentInfo(info) {
       return info.ids.length > 0;
     });
-    // remove the row from the store
-    this.store.dispatch(
-      this.actions.delete({
-        id,
-        parentInfo,
-      }),
-    );
     const effectService = effectServiceRegistry.get(
       this.entityDefinition.effectServiceToken,
     );
