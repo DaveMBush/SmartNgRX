@@ -1,7 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { zoneless } from '../common/zoneless.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -39,11 +38,11 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
     void unpatchedPromise
       .resolve()
-      .then(actionServiceLoadByIds(actionService as ActionService<SmartNgRXRowBase>, [id]));
+      .then(actionServiceLoadByIds(actionService!, [id]));
   }
 }
 
-function actionServiceLoadByIds(actionService: ActionService<SmartNgRXRowBase>, ids: string[]) {
+function actionServiceLoadByIds(actionService: ActionService, ids: string[]) {
   return function internalActionServiceLoadByIds() {
     actionService.loadByIds(ids);
   };

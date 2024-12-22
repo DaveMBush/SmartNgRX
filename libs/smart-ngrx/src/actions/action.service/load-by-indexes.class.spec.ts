@@ -1,13 +1,23 @@
+import { InjectionToken } from '@angular/core';
+import { fakeAsync, tick } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 
 import * as forNextModule from '../../common/for-next.function';
+import { EffectService } from '../../effects/effect-service';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
+import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../../registrations/entity-registry.class';
+import { featureRegistry } from '../../registrations/feature-registry.class';
 import * as newRowRegistryModule from '../../selector/new-row-registry.class';
+import { createStore } from '../../tests/functions/create-store.function';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { actionFactory } from '../action.factory';
+import { ActionService } from '../action.service';
 import { ActionGroup } from '../action-group.interface';
 import { LoadByIndexes } from './load-by-indexes.class';
 
@@ -37,28 +47,97 @@ interface LoadByIndexesPublic
   ): VirtualArrayContents;
 }
 
+class MockEffectService extends EffectService<SmartNgRXRowBase> {
+  override loadByIndexes(
+    parentId: string,
+    childField: string,
+    startIndex: number,
+    length: number,
+  ): Observable<PartialArrayDefinition> {
+    return of({
+      startIndex,
+      indexes: [],
+      length,
+    });
+  }
+
+  override loadByIds(_: string[]): Observable<SmartNgRXRowBase[]> {
+    return of([]);
+  }
+
+  override update(newRow: SmartNgRXRowBase): Observable<SmartNgRXRowBase[]> {
+    return of([newRow]);
+  }
+
+  override add(row: SmartNgRXRowBase): Observable<SmartNgRXRowBase[]> {
+    return of([row]);
+  }
+
+  override delete(_: string): Observable<void> {
+    return of(undefined);
+  }
+}
+
 describe('LoadByIndexes', () => {
+  const effectServiceToken = new InjectionToken<EffectService<SmartNgRXRowBase>>('testEffectService');
   let loadByIndexes: LoadByIndexesPublic;
+  let actionService: Omit<ActionService, 'loadByIndexesService'> & {
+    loadByIndexesService: LoadByIndexes;
+  };
   let mockStore: Partial<Store>;
   let actions: ActionGroup;
   let mockEntities: Observable<Dictionary<SmartNgRXRowBase>>;
   let mockStoreDispatchSpy: jest.SpyInstance;
+  let effectServiceLoadByIndexesSpy: jest.SpyInstance;
+  const effectService = new MockEffectService();
 
   beforeEach(() => {
+    createStore();
+    entityRegistry.register('testFeature', 'testEntity', {
+      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+      markAndDeleteInit: {
+        markDirtyTime: 15 * 60000,
+        markDirtyFetchesNew: true,
+        removeTime: 30 * 60000,
+        runInterval: 60000,
+      },
+      markAndDeleteEntityMap: new Map(),
+    });
+    featureRegistry.registerFeature('testFeature');
+    entityDefinitionCache('testFeature', 'testEntity', {
+      entityName: 'testEntity',
+      effectServiceToken,
+      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+    });
+    effectServiceRegistry.register(effectServiceToken, effectService);
+    effectServiceLoadByIndexesSpy = jest.spyOn(effectService, 'loadByIndexes').mockImplementation((parentId, childField, startIndex, length) => {
+      return of({
+        startIndex,
+        indexes: [],
+        length,
+      });
+    });
     mockStore = { dispatch: jest.fn() };
     mockStoreDispatchSpy = jest.spyOn(mockStore, 'dispatch');
 
     actions = actionFactory<SmartNgRXRowBase>('testFeature', 'testEntity');
-
+    actionService = actionServiceRegistry.register('testFeature', 'testEntity') as unknown as Omit<ActionService, 'loadByIndexesService'> & {
+      loadByIndexesService: LoadByIndexes;
+    };
     const mockEntitiesSubject = new Subject<Dictionary<SmartNgRXRowBase>>();
     mockEntitiesSubject.next({} as Dictionary<SmartNgRXRowBase>);
     mockEntities = mockEntitiesSubject.asObservable();
-
-    loadByIndexes = new LoadByIndexes(
+    actionService.loadByIndexesService = new LoadByIndexes(
       'testFeature',
       'testEntity',
       mockStore as Store,
-    ) as unknown as LoadByIndexesPublic;
+    );
+    loadByIndexes =
+      actionService.loadByIndexesService as unknown as LoadByIndexesPublic;
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+    entityRegistry.unregister('testFeature', 'testEntity');
   });
 
   describe('init', () => {
@@ -97,30 +176,21 @@ describe('LoadByIndexes', () => {
   });
 
   describe('loadByIndexesDispatcher', () => {
-    it('should dispatch the loadByIndexes action after buffering', () => {
-      const mockSubject = new Subject<{
-        parentId: string;
-        childField: string;
-        indexes: number[];
-      }>();
-      loadByIndexes.loadByIndexesSubject = mockSubject;
-      loadByIndexes.actions = actions;
+    it('should call the loadByIndexes method on the effect service after buffering', fakeAsync(() => {
 
       loadByIndexes.init(actions, mockEntities);
-      mockSubject.next({
-        parentId: 'parent1',
-        childField: 'child1',
-        indexes: [1, 2, 3],
-      });
+      loadByIndexes.loadByIndexes('parent1', 'child1', [1, 2, 3]);
 
-      expect(mockStoreDispatchSpy).toHaveBeenCalledWith(
-        actions.loadByIndexes({
-          parentId: 'parent1',
-          childField: 'child1',
-          indexes: [1, 2, 3],
-        }),
+      tick();
+
+      expect(effectServiceLoadByIndexesSpy).toHaveBeenCalled();
+      expect(effectServiceLoadByIndexesSpy).toHaveBeenCalledWith(
+        'parent1',
+        'child1',
+        1,
+        3,
       );
-    });
+    }));
   });
 
   describe('loadByIndexesSuccess', () => {

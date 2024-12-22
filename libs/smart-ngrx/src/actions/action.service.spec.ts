@@ -136,7 +136,12 @@ describe('ActionService', () => {
             getSelectors: () => ({ selectEntities: mockSelectEntities }),
           },
         });
-
+        // we need a new instance of the service so we can
+        // rerun the init method to use our mocks.
+        service = new ActionService(
+          'testFeature',
+          'testEntity',
+        ) as unknown as TestableActionService;
         // Reinitialize the service to use our new mocks
         service.init();
 

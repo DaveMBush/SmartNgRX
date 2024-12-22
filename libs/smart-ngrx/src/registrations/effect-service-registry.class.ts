@@ -1,8 +1,8 @@
 import { InjectionToken } from '@angular/core';
 
+import { assert } from '../common/assert.function';
 import { EffectService } from '../effects/effect-service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { assert } from '../common/assert.function';
 
 class EffectServiceRegistry {
   private readonly effectServices: Map<

@@ -56,7 +56,7 @@ describe('ArrayProxy', () => {
   let arrayProxy: TestableArrayProxy<MockRow, MockRow>;
   let mockChild: EntityState<MockRow>;
   let mockChildDefinition: ChildDefinition<MockRow, MockRow>;
-  let mockService: ActionService;
+  let mockService: ActionService<MockRow>;
 
   beforeEach(() => {
     mockChild = {
@@ -78,8 +78,8 @@ describe('ArrayProxy', () => {
     } as ChildDefinition<MockRow, MockRow>;
     mockService = {
       loadByIdsSuccess: jest.fn(),
-    } as unknown as ActionService;
-    jest.spyOn(actionServiceRegistry, 'register').mockReturnValue(mockService);
+    } as unknown as ActionService<MockRow>;
+    jest.spyOn(actionServiceRegistry, 'register').mockReturnValue(mockService as unknown as ActionService<SmartNgRXRowBase>);
 
     arrayProxy = new ArrayProxy(
       [],
@@ -155,18 +155,18 @@ describe('ArrayProxy', () => {
     });
   });
   describe('addToStore', () => {
-    let mockParentService: ActionService;
+    let mockParentService: ActionService<MockRow>;
 
     beforeEach(() => {
       mockService = {
         add: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       mockParentService = {
         update: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
         service: mockService,
@@ -241,17 +241,17 @@ describe('ArrayProxy', () => {
   });
 
   describe('removeFromStore', () => {
-    let mockParentService: ActionService;
+    let mockParentService: ActionService<MockRow>;
 
     beforeEach(() => {
       mockService = {
         remove: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       mockParentService = {
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
         service: mockService,

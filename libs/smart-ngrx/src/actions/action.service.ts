@@ -4,24 +4,14 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   asapScheduler,
   catchError,
-  concatMap,
-  debounceTime,
-  map,
-  mergeMap,
   Observable,
   of,
-  scan,
-  Subject,
   take,
-  tap,
-  timer,
 } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { markFeatureParentsDirty } from '../effects/effects-factory/mark-feature-parents-dirty.function';
-import { markParentsDirty } from '../effects/effects-factory/mark-parents-dirty.function';
-import { manageMaps } from '../effects/effects-factory/update-effect/manage-maps.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
@@ -31,16 +21,16 @@ import { featureRegistry } from '../registrations/feature-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
-import { RowProp } from '../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { actionFactory } from './action.factory';
+import { Add } from './action.service/add.class';
 import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
+import { Update } from './action.service/update.class';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
-import { replaceIdInParents } from './replace-id-in-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -49,7 +39,7 @@ import { replaceIdInParents } from './replace-id-in-parents.function';
  * to the store, and keeps logic out of the reducer and effects without
  * scattering the logic throughout the application.
  */
-export class ActionService<T extends SmartNgRXRowBase> {
+export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   /**
    * entityAdapter is needed for delete so it is public
    */
@@ -61,11 +51,9 @@ export class ActionService<T extends SmartNgRXRowBase> {
   private entityDefinition!: SmartValidatedEntityDefinition<T>;
   private loadByIndexesService!: LoadByIndexes;
   private loadByIdsService!: LoadByIds;
+  private updateService!: Update<T>;
+  private addService!: Add<T>;
   private initCalled = false;
-  private updateSubject = new Subject<{
-    old: RowProp<SmartNgRXRowBase>;
-    new: RowProp<SmartNgRXRowBase>;
-  }>();
 
   /**
    * constructor for the ActionService
@@ -79,6 +67,13 @@ export class ActionService<T extends SmartNgRXRowBase> {
   ) {
     this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
     this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+    this.updateService = new Update<T>(
+      feature,
+      entity,
+      this.entityAdapter,
+      this.loadByIdsSuccess.bind(this),
+    );
+    this.addService = new Add<T>(feature, entity, this.entityAdapter);
   }
 
   /**
@@ -126,7 +121,7 @@ export class ActionService<T extends SmartNgRXRowBase> {
       this.entities,
       this.entityDefinition.defaultRow,
     );
-    this.updateInit();
+    this.updateService.init();
     this.loadByIndexesService.init(this.actions, this.entities);
     return true;
   }
@@ -219,77 +214,13 @@ export class ActionService<T extends SmartNgRXRowBase> {
   }
 
   /**
-   * Initializes the updateSubject and the lastRow and lastRowTimeout maps
-   */
-  updateInit(): void {
-    const lastRow: Map<string, SmartNgRXRowBase> = new Map();
-    const lastRowTimeout: Map<string, number> = new Map();
-    const context = this;
-
-    this.updateSubject
-      .pipe(
-        tap(function updateEffectTap(action) {
-          manageMaps(lastRow, lastRowTimeout, action);
-        }),
-        // scan allows us to change fields in multiple rows
-        // within the same event loop
-        scan(
-          function updateScan(acc, action) {
-            return {
-              ...acc,
-              [action.old.row.id]: action,
-            };
-          },
-          {} as Record<string, { old: RowProp<SmartNgRXRowBase>; new: RowProp<SmartNgRXRowBase> }>,
-        ),
-        // debounceTime(1) lets us set multiple fields in a row but only
-        // call the server once
-        debounceTime(1),
-        // mergeMap allows us to call the server once for each
-        // row that was updated
-        mergeMap(function updateEffectMergeMap(accActions) {
-          return Object.values(accActions);
-        }),
-        concatMap(function updateEffectConcatMap(action) {
-          const effectService = effectServiceRegistry.get(
-            entityDefinitionCache(context.feature, context.entity)
-              .effectServiceToken,
-          );
-          return effectService.update(action.new.row as SmartNgRXRowBase).pipe(
-            catchError(function updateEffectConcatMapCatchError() {
-              return of([action.old.row]);
-            }),
-          );
-        }),
-        map(function updateEffectMap(rows) {
-          // set the last row to the row we got back here.
-          // rows only has one row it it we just return an array
-          // so we can reuse code.
-          const now = Date.now();
-          const id = context.entityAdapter.selectId(
-            rows[0] as T,
-          ) as string;
-          // delete the timeout to keep things in order.
-          lastRowTimeout.delete(id);
-          lastRowTimeout.set(id, now);
-          lastRow.set(id, rows[0] as T);
-          context.loadByIdsSuccess(rows);
-        }),
-      )
-      .subscribe();
-  }
-
-  /**
    * updates the row in the store
    *
    * @param oldRow the row before the changes
    * @param newRow the row after the changes
    */
   update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
-    this.updateSubject.next({
-      old: { row: oldRow },
-      new: { row: newRow },
-    });
+    this.updateService.update(oldRow, newRow);
   }
 
   /**
@@ -315,74 +246,9 @@ export class ActionService<T extends SmartNgRXRowBase> {
   add(
     row: SmartNgRXRowBase,
     parentId: string,
-    parentService: ActionService<SmartNgRXRowBase>,
+    parentService: ActionService,
   ): void {
-    const context = this;
-    const actionPayload = {
-      row,
-      feature: this.feature,
-      entity: this.entity,
-      parentId,
-      parentFeature: parentService.feature,
-      parentEntityName: parentService.entity,
-    };
-    this.store.dispatch(this.actions.upsertRow({ row: actionPayload.row }));
-    const entityDefinition = entityDefinitionCache(this.feature, this.entity);
-    const adapter = entityDefinition.entityAdapter;
-    const effectService = effectServiceRegistry.get(
-      entityDefinition.effectServiceToken,
-    );
-
-    effectService
-      .add(actionPayload.row)
-      .pipe(
-        // action.parentService has to get passed to map and catchError
-        // could we get the action from the registration instead of passing
-        // it in since we are in an effect that we own?
-        map(function addEffectMap(rows) {
-          const successPayload = {
-            oldRow: actionPayload.row,
-            newRow: rows[0],
-            feature: actionPayload.feature,
-            entity: actionPayload.entity,
-            parentId: actionPayload.parentId,
-            parentFeature: actionPayload.parentFeature,
-            parentEntityName: actionPayload.parentEntityName,
-          };
-          context.store.dispatch(
-            context.actions.upsertRow({ row: successPayload.newRow }),
-          );
-          return successPayload;
-        }),
-        tap(function addSuccessEffectTap(successPayload) {
-          // we want the garbage collection to happen well after the parent has refreshed
-          // so that the system doesn't insert a dummy record while it is still in the
-          // parent's child array.
-          timer(1000).subscribe(function addSuccessEffectTimerSubscribe() {
-            context.store.dispatch(
-              context.actions.remove({
-                ids: [adapter.selectId(successPayload.oldRow) as string],
-              }),
-            );
-          });
-        }),
-        map(function addSuccessEffectMap(successPayload) {
-          const oldId = adapter.selectId(successPayload.oldRow) as string;
-          context.replaceIdInParents(oldId, successPayload.newRow.id);
-        }),
-        catchError(function addEffectConcatMapCatchError(_: unknown, __) {
-          markParentsDirty(
-            actionPayload.parentFeature,
-            actionPayload.parentEntityName,
-            [actionPayload.parentId],
-          );
-          // because NgRX requires an action to be returned
-          // from an effect that returns an action
-          return of({ type: 'noop' });
-        }),
-        // self terminating subscription
-      )
-      .subscribe();
+    this.addService.add(row as T, parentId, parentService);
   }
 
   /**
@@ -404,26 +270,6 @@ export class ActionService<T extends SmartNgRXRowBase> {
       },
     );
     return parentInfo;
-  }
-
-  /**
-   * replaces the id in the parent rows with the new id
-   * this is used when we commit a new row to the server
-   *
-   * @param id the id to replace
-   * @param newId the new id to replace the old id with
-   */
-  replaceIdInParents(id: string, newId: string): void {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    forNext(
-      childDefinitions,
-      function replaceIdInParentsForNext(childDefinition) {
-        replaceIdInParents(childDefinition, id, newId);
-      },
-    );
   }
 
   /**

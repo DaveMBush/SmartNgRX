@@ -12,7 +12,7 @@ import { RowProxy } from './row-proxy.class';
  */
 export function rowProxySet<T extends SmartNgRXRowBase>(services: {
   service: ActionService<T>;
-  parentService: ActionService<SmartNgRXRowBase>;
+  parentService: ActionService;
 }): (target: RowProxy<T>, prop: string | symbol, value: unknown) => boolean {
   return function innerRowProxySet(
     target: RowProxy<T>,

@@ -1,7 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
@@ -10,6 +9,7 @@ import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { updateEntity } from './update-entity.function';
+import { assert } from '../common/assert.function';
 
 const feature = 'testFeature';
 const entity = 'testEntity';

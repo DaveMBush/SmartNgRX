@@ -37,7 +37,6 @@ export class DepartmentEffectsService extends EffectService<Department> {
     startIndex: number,
     length: number,
   ): Observable<PartialArrayDefinition> {
-    console.log('loadByIndexes', parentId, childField, startIndex, length);
     return this.http.post<PartialArrayDefinition>(
       `${this.apiDepartments}/indexes`,
       {

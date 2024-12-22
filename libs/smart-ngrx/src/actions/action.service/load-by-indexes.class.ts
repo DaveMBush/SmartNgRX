@@ -2,17 +2,17 @@ import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
+import { assert } from '../../common/assert.function';
 import { forNext } from '../../common/for-next.function';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
+import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { newRowRegistry } from '../../selector/new-row-registry.class';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { ActionGroup } from '../action-group.interface';
 import { bufferIndexes } from './buffer-indexes.function';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { assert } from '../../common/assert.function';
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 
 /**
  * This class is used to manage loading the child ids by
@@ -79,50 +79,44 @@ export class LoadByIndexes {
     this.loadByIndexesSubject
       .pipe(
         bufferIndexes(),
-        switchMap(function loadByIndexesDispatcherSubscribe({
+        switchMap(function loadByIndexesSwitchMap({
           parentId,
           childField,
           indexes,
         }) {
-          const numberIds = indexes.map(
-            function convertStringToNumber(id) {
-              return +id;
-          },
-        );
-        const min = Math.min(...numberIds);
-        const max = Math.max(...numberIds);
-        const effectService = effectServiceRegistry.get(
-          entityDefinitionCache(feature, entity).effectServiceToken,
-        );
-        return (
-          effectService
-            .loadByIndexes(
-              parentId,
-              childField,
-              min,
-              max - min + 1,
-            )
-            // nested pipe to get access to actionProps
-            .pipe(
-              map(function loadByIndexesEffectMapItem(serviceResult) {
-                const actionService = actionServiceRegistry.register(
-                  feature,
-                  entity,
-                );
-                assert(
-                  !!actionService,
-                  `the service for ${feature}:${entity} is not available`,
-                );
-                actionService.loadByIndexesSuccess(
-                  parentId,
-                  childField,
-                  serviceResult,
-                );
-              }),
-            )
-        );
-      }),
-    ).subscribe();
+          const numberIds = indexes.map(function convertStringToNumber(id) {
+            return +id;
+          });
+          const min = Math.min(...numberIds);
+          const max = Math.max(...numberIds);
+          const effectService = effectServiceRegistry.get(
+            entityDefinitionCache(feature, entity).effectServiceToken,
+          );
+          return (
+            effectService
+              .loadByIndexes(parentId, childField, min, max - min + 1)
+              // nested pipe to get access to actionProps
+              .pipe(
+                map(function loadByIndexesMapItem(serviceResult) {
+                  const actionService = actionServiceRegistry.register(
+                    feature,
+                    entity,
+                  );
+                  assert(
+                    !!actionService,
+                    `the service for ${feature}:${entity} is not available`,
+                  );
+                  actionService.loadByIndexesSuccess(
+                    parentId,
+                    childField,
+                    serviceResult,
+                  );
+                }),
+              )
+          );
+        }),
+      )
+      .subscribe();
   }
 
   /**

@@ -1,7 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { createEffect, EffectConfig, FunctionalEffect } from '@ngrx/effects';
 
-import { actionFactory } from '../actions/action.factory';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { EffectService } from './effect-service';
 import { registerFeatureEffect } from './effects-factory/register-feature-effect.function';
@@ -23,7 +22,6 @@ type EffectsFactoryKeys =
  * by the `InjectionToken` provided.
  *
  * @param feature the feature name this effect is being run for
- * @param entityName the entity within the feature this effect is being run for
  * @param effectsServiceToken The token for the service that
  *   the resulting effect will call.
  * @returns The NgRX effects for the source provided

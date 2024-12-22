@@ -36,5 +36,5 @@ export function realOrMocked<
   if (row === undefined) {
     row = { ...defaultObject, id, isLoading: true };
   }
-  return rowProxy<T>(row, service, parentService as unknown as ActionService<SmartNgRXRowBase>);
+  return rowProxy<T>(row, service, parentService as unknown as ActionService);
 }

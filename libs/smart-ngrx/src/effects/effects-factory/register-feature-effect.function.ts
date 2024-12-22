@@ -3,14 +3,13 @@ import { of } from 'rxjs';
 
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
-import { EffectService } from '../effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { EffectService } from '../effect-service';
 
 /**
  * Registers a feature with the feature registry.
  *
  * @param feature The feature to register
- * @param entity The entity to register
  * @param effectsServiceToken The token to use to get the effect service
  * @returns An effect that will register the feature
  */
