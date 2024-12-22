@@ -16,7 +16,7 @@ export function markFeatureParentsDirty(action: {
     entity: string;
     ids: string[];
   }[];
-}) {
+}): void {
   forNext(
     action.parentInfo,
     function markFeatureParentsDirtyForNext(parentInfo: ParentInfo) {
