@@ -5,7 +5,6 @@ import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { markFeatureParentsDirty } from '../effects/effects-factory/mark-feature-parents-dirty.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
@@ -21,6 +20,7 @@ import { actionFactory } from './action.factory';
 import { Add } from './action.service/add.class';
 import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
+import { markFeatureParentsDirty } from './action.service/mark-feature-parents-dirty.function';
 import { Update } from './action.service/update.class';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';

@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { manageMaps } from '../../effects/effects-factory/update-effect/manage-maps.function';
+import { manageMaps } from '../../effects/effects-factory/long-running-observables/manage-maps.function';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { RowProp } from '../../types/row-prop.interface';

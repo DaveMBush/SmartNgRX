@@ -4,7 +4,6 @@ import { catchError } from 'rxjs/operators';
 
 import { forNext } from '../../common/for-next.function';
 import { EffectService } from '../../effects/effect-service';
-import { markParentsDirty } from '../../effects/effects-factory/mark-parents-dirty.function';
 import { childDefinitionRegistry } from '../../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
@@ -14,6 +13,7 @@ import { actionFactory } from '../action.factory';
 import { ActionService } from '../action.service';
 import { ActionGroup } from '../action-group.interface';
 import { replaceIdInParents } from '../replace-id-in-parents.function';
+import { markParentsDirty } from './mark-parents-dirty.function';
 
 /**
  * Class responsible for adding rows to the store
