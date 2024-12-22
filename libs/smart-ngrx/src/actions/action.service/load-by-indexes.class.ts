@@ -86,8 +86,14 @@ export class LoadByIndexes {
           const numberIds = indexes.map(function convertStringToNumber(id) {
             return +id;
           });
-          const min = Math.min(...numberIds);
-          const max = Math.max(...numberIds);
+          // User reduce to find the min and max because spread can fail
+          // with large arrays.
+          const min = numberIds.reduce(function reduceMin(a, b) {
+            return Math.min(a, b);
+          }, numberIds[0]);
+          const max = numberIds.reduce(function reduceMax(a, b) {
+            return Math.max(a, b);
+          }, numberIds[0]);
           const effectService = effectServiceRegistry.get(
             entityDefinitionCache(feature, entity).effectServiceToken,
           );

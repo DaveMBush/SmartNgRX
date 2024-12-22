@@ -89,7 +89,7 @@ describe('removeIdFromParents', () => {
     ]);
   });
 
-  it('should do nothing if actionServiceRegistry returns null', () => {
+  it('should throw an error when ActionService.init() returns false', () => {
     (actionServiceRegistry.register as jest.Mock).mockReturnValue(null);
 
     expect(() =>
