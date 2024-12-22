@@ -19,7 +19,7 @@ describe('actionServiceRegistry', () => {
     actionServiceRegistry.clear();
   });
 
-  it('should return null when ActionService.init() returns false', () => {
+  it('should throw an error when ActionService.init() fails', () => {
     mockActionServiceFactory.mockImplementationOnce(() => ({
       init: jest.fn().mockReturnValue(false),
     }));
