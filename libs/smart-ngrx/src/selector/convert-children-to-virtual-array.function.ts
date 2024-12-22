@@ -1,6 +1,5 @@
 import { EntityState } from '@ngrx/entity';
 
-import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
@@ -28,7 +27,6 @@ export function convertChildrenToVirtualArray<
     parentFeature,
     parentEntityName,
   );
-  assert(!!parentActionService, 'parentActionService is undefined');
 
   const length = parentEntity.ids.length;
   for (let i = 0; i < length; i++) {

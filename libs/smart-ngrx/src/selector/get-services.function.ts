@@ -1,5 +1,4 @@
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -25,14 +24,6 @@ export function getServices<
   const parentService = actionServiceRegistry.register(
     parentFeature,
     parentEntity,
-  );
-  assert(
-    !!service,
-    `the service for ${childFeature}:${childEntity} is not available`,
-  );
-  assert(
-    !!parentService,
-    `the service for ${parentFeature}:${parentEntity} is not available`,
   );
   return {
     service: service as unknown as ActionService<C>,

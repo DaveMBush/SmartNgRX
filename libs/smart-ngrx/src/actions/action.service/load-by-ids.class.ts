@@ -10,7 +10,6 @@ import {
   withLatestFrom,
 } from 'rxjs';
 
-import { assert } from '../../common/assert.function';
 import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { defaultRows } from '../../reducers/default-rows.function';
@@ -82,10 +81,6 @@ export class LoadByIds {
     const feature = this.feature;
     const entityName = this.entity;
     const actionService = actionServiceRegistry.register(feature, entityName);
-    assert(
-      !!actionService,
-      `the service for ${feature}:${entityName} is not available`,
-    );
 
     this.loadByIdsSubject
       .pipe(

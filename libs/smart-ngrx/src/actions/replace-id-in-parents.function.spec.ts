@@ -22,20 +22,6 @@ describe('replaceIdInParents', () => {
     jest.clearAllMocks();
   });
 
-  it('should not call replaceIdInFeatureParents when actionServiceRegistry returns null', () => {
-    const actionServiceRegistryRegisterSpy = jest
-      .spyOn(actionServiceRegistry, 'register')
-      .mockReturnValue(null);
-
-    replaceIdInParents(mockChildDefinition, mockId, mockNewId);
-
-    expect(actionServiceRegistryRegisterSpy).toHaveBeenCalledWith(
-      'testFeature',
-      'testEntity',
-    );
-    expect(replaceIdInFeatureParents).not.toHaveBeenCalled();
-  });
-
   it('should call replaceIdInFeatureParents when actionServiceRegistry returns a service', () => {
     const mockEntities = [{ id: '1' }, { id: '2' }];
     const mockParentService = {

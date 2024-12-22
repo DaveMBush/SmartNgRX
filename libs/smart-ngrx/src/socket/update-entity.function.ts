@@ -2,7 +2,6 @@ import { Dictionary, EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { forNext } from '../common/for-next.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
@@ -23,10 +22,6 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   ids: string[],
 ): void {
   const actionService = actionServiceRegistry.register(feature, entity);
-  assert(
-    !!actionService,
-    `the service for ${feature}:${entity} is not available`,
-  );
   if (!featureRegistry.hasFeature(feature)) {
     return;
   }

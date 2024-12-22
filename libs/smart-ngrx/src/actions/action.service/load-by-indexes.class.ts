@@ -2,7 +2,6 @@ import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
-import { assert } from '../../common/assert.function';
 import { forNext } from '../../common/for-next.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
@@ -101,10 +100,6 @@ export class LoadByIndexes {
                   const actionService = actionServiceRegistry.register(
                     feature,
                     entity,
-                  );
-                  assert(
-                    !!actionService,
-                    `the service for ${feature}:${entity} is not available`,
                   );
                   actionService.loadByIndexesSuccess(
                     parentId,

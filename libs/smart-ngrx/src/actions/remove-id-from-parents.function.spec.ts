@@ -92,9 +92,10 @@ describe('removeIdFromParents', () => {
   it('should do nothing if actionServiceRegistry returns null', () => {
     (actionServiceRegistry.register as jest.Mock).mockReturnValue(null);
 
-    removeIdFromParents(mockChildDefinition, mockId, mockParentInfo);
+    expect(() =>
+      removeIdFromParents(mockChildDefinition, mockId, mockParentInfo),
+    ).toThrow();
 
-    expect(replaceIdInFeatureParents).not.toHaveBeenCalled();
     expect(mockParentInfo).toEqual([]);
   });
 });

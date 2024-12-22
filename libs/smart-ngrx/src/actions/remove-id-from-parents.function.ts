@@ -21,9 +21,6 @@ export function removeIdFromParents(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
   );
-  if (parentService === null) {
-    return;
-  }
   parentService.entities
     .pipe(take(1))
     .subscribe(function removeIdFromParentsSubscribe(entities) {

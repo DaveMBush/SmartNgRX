@@ -20,9 +20,6 @@ export function replaceIdInParents(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
   );
-  if (parentService === null) {
-    return;
-  }
   parentService.entities
     .pipe(take(1))
     .subscribe(function replaceIdInParentsSubscribe(entities) {

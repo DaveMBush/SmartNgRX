@@ -24,9 +24,9 @@ describe('actionServiceRegistry', () => {
       init: jest.fn().mockReturnValue(false),
     }));
 
-    const result = actionServiceRegistry.register('testFeature', 'testEntity');
-
-    expect(result).toBeNull();
+    expect(() =>
+      actionServiceRegistry.register('testFeature', 'testEntity'),
+    ).toThrow();
     expect(ActionService).toHaveBeenCalledWith('testFeature', 'testEntity');
   });
 
@@ -37,7 +37,7 @@ describe('actionServiceRegistry', () => {
       expect.objectContaining({ init: expect.any(Function) }),
     );
     expect(ActionService).toHaveBeenCalledWith('testFeature', 'testEntity');
-    expect(result!.init).toHaveBeenCalled();
+    expect(result.init).toHaveBeenCalled();
   });
 
   it('should cache and return the same ActionService instance for repeated calls', () => {
@@ -46,7 +46,7 @@ describe('actionServiceRegistry', () => {
 
     expect(result1).toBe(result2);
     expect(ActionService).toHaveBeenCalledTimes(1);
-    expect(result1!.init).toHaveBeenCalledTimes(1);
+    expect(result1.init).toHaveBeenCalledTimes(1);
   });
 
   it('should create separate instances for different feature-entity combinations', () => {

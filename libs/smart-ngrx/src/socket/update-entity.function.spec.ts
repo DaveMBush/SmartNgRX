@@ -1,7 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
@@ -35,7 +34,6 @@ describe('updateEntity', () => {
     });
     featureRegistry.registerFeature(feature);
     actionService = actionServiceRegistry.register(feature, entity);
-    assert(!!actionService, 'actionService is not available');
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 

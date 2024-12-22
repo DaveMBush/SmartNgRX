@@ -119,17 +119,4 @@ describe('convertChildrenToVirtualArray', () => {
       ).fetchedIndexes,
     ).toEqual([true, false]);
   });
-
-  it('should throw an error if actionServiceRegistry returns undefined', () => {
-    (actionServiceRegistry.register as jest.Mock).mockReturnValue(undefined);
-
-    expect(() => {
-      convertChildrenToVirtualArray<ParentRow, SmartNgRXRowBase>(
-        'children',
-        mockParentEntity,
-        'parentFeature',
-        'parentEntity',
-      );
-    }).toThrow('Error: parentActionService is undefined');
-  });
 });
