@@ -79,7 +79,9 @@ describe('ArrayProxy', () => {
     mockService = {
       loadByIdsSuccess: jest.fn(),
     } as unknown as ActionService<MockRow>;
-    jest.spyOn(actionServiceRegistry, 'register').mockReturnValue(mockService as unknown as ActionService<SmartNgRXRowBase>);
+    jest
+      .spyOn(actionServiceRegistry, 'register')
+      .mockReturnValue(mockService as unknown as ActionService);
 
     arrayProxy = new ArrayProxy(
       [],

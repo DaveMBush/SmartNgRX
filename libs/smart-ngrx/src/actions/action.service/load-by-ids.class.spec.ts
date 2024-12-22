@@ -99,7 +99,7 @@ describe('LoadByIds', () => {
     effectServiceLoadByIdSpy = jest
       .spyOn(effectService, 'loadByIds')
       .mockImplementation((ids) => {
-        return of(ids.map((id) => ({ id, someData: id } as SomeDataRow)));
+        return of(ids.map((id) => ({ id, someData: id }) as SomeDataRow));
       });
 
     loadByIds = new LoadByIds('testFeature', 'testEntity', mockStore as Store);

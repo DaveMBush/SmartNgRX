@@ -13,8 +13,7 @@ const dispatchFalse = {
   dispatch: false;
 };
 
-type EffectsFactoryKeys =
-  | 'registerFeature';
+type EffectsFactoryKeys = 'registerFeature';
 
 /**
  * The effects factory creates a new set of effects for the

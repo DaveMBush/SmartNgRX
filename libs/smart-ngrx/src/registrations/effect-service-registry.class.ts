@@ -17,9 +17,7 @@ class EffectServiceRegistry {
     this.effectServices.set(token, effectService);
   }
 
-  get<T extends SmartNgRXRowBase>(
-    token: InjectionToken<EffectService<T>>,
-  ) {
+  get<T extends SmartNgRXRowBase>(token: InjectionToken<EffectService<T>>) {
     const service = this.effectServices.get(token);
     assert(!!service, 'Effect service not found');
     return service as EffectService<T>;

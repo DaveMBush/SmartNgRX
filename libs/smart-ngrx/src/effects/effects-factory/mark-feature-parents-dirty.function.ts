@@ -9,16 +9,14 @@ import { markParentsDirty } from './mark-parents-dirty.function';
  * @param action.id the id of the row the parent is for
  * @param action.parentInfo the parent feature, entity and ids to mark as dirty
  */
-export function markFeatureParentsDirty(
-  action: {
-    id: string;
-    parentInfo: {
-      feature: string;
-      entity: string;
-      ids: string[];
-    }[];
-  },
-) {
+export function markFeatureParentsDirty(action: {
+  id: string;
+  parentInfo: {
+    feature: string;
+    entity: string;
+    ids: string[];
+  }[];
+}) {
   forNext(
     action.parentInfo,
     function markFeatureParentsDirtyForNext(parentInfo: ParentInfo) {

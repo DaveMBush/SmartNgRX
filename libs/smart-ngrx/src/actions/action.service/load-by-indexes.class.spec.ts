@@ -79,7 +79,9 @@ class MockEffectService extends EffectService<SmartNgRXRowBase> {
 }
 
 describe('LoadByIndexes', () => {
-  const effectServiceToken = new InjectionToken<EffectService<SmartNgRXRowBase>>('testEffectService');
+  const effectServiceToken = new InjectionToken<
+    EffectService<SmartNgRXRowBase>
+  >('testEffectService');
   let loadByIndexes: LoadByIndexesPublic;
   let actionService: Omit<ActionService, 'loadByIndexesService'> & {
     loadByIndexesService: LoadByIndexes;
@@ -110,18 +112,23 @@ describe('LoadByIndexes', () => {
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
     });
     effectServiceRegistry.register(effectServiceToken, effectService);
-    effectServiceLoadByIndexesSpy = jest.spyOn(effectService, 'loadByIndexes').mockImplementation((parentId, childField, startIndex, length) => {
-      return of({
-        startIndex,
-        indexes: [],
-        length,
+    effectServiceLoadByIndexesSpy = jest
+      .spyOn(effectService, 'loadByIndexes')
+      .mockImplementation((parentId, childField, startIndex, length) => {
+        return of({
+          startIndex,
+          indexes: [],
+          length,
+        });
       });
-    });
     mockStore = { dispatch: jest.fn() };
     mockStoreDispatchSpy = jest.spyOn(mockStore, 'dispatch');
 
     actions = actionFactory<SmartNgRXRowBase>('testFeature', 'testEntity');
-    actionService = actionServiceRegistry.register('testFeature', 'testEntity') as unknown as Omit<ActionService, 'loadByIndexesService'> & {
+    actionService = actionServiceRegistry.register(
+      'testFeature',
+      'testEntity',
+    ) as unknown as Omit<ActionService, 'loadByIndexesService'> & {
       loadByIndexesService: LoadByIndexes;
     };
     const mockEntitiesSubject = new Subject<Dictionary<SmartNgRXRowBase>>();
@@ -177,7 +184,6 @@ describe('LoadByIndexes', () => {
 
   describe('loadByIndexesDispatcher', () => {
     it('should call the loadByIndexes method on the effect service after buffering', fakeAsync(() => {
-
       loadByIndexes.init(actions, mockEntities);
       loadByIndexes.loadByIndexes('parent1', 'child1', [1, 2, 3]);
 

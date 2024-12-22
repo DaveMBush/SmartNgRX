@@ -1,22 +1,27 @@
 import { InjectionToken } from '@angular/core';
-import { featureRegistry } from '../../registrations/feature-registry.class';
-import { registerFeatureEffect } from './register-feature-effect.function';
-import { EffectService } from '../effect-service';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+
+import { featureRegistry } from '../../registrations/feature-registry.class';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { EffectService } from '../effect-service';
+import { registerFeatureEffect } from './register-feature-effect.function';
 
 const errorMessage = 'Method not implemented.';
 
 class TestEffectService extends EffectService<SmartNgRXRowBase> {
-  override loadByIndexes(_: string, __: string, ___: number, ____: number): Observable<PartialArrayDefinition> {
+  override loadByIndexes(
+    _: string,
+    __: string,
+    ___: number,
+    ____: number,
+  ): Observable<PartialArrayDefinition> {
     throw new Error(errorMessage);
   }
 
   override update(_: SmartNgRXRowBase): Observable<SmartNgRXRowBase[]> {
     return of([]);
-    throw new Error(errorMessage);
   }
 
   override add(_: SmartNgRXRowBase): Observable<SmartNgRXRowBase[]> {
@@ -41,9 +46,7 @@ describe('registerFeatureEffect', () => {
       'featureToken',
     );
     TestBed.configureTestingModule({
-      providers: [
-        { provide: featureToken, useValue: testEffectService },
-      ],
+      providers: [{ provide: featureToken, useValue: testEffectService }],
     });
     registerFeatureSpy = jest.spyOn(featureRegistry, 'registerFeature');
   });

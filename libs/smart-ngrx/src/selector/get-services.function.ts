@@ -26,10 +26,16 @@ export function getServices<
     parentFeature,
     parentEntity,
   );
-  assert(!!service, `the service for ${childFeature}:${childEntity} is not available`);
-  assert(!!parentService, `the service for ${parentFeature}:${parentEntity} is not available`);
+  assert(
+    !!service,
+    `the service for ${childFeature}:${childEntity} is not available`,
+  );
+  assert(
+    !!parentService,
+    `the service for ${parentFeature}:${parentEntity} is not available`,
+  );
   return {
     service: service as unknown as ActionService<C>,
-    parentService: parentService as unknown as ActionService<P>
+    parentService: parentService as unknown as ActionService<P>,
   };
 }

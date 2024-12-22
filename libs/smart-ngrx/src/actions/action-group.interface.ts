@@ -44,4 +44,4 @@ export interface ActionGroup<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     `[${any}] Upsert Row`,
     (props: RowProp<T>) => Action<`[${any}] Upsert Row`> & RowProp<T>
   >;
- }
+}

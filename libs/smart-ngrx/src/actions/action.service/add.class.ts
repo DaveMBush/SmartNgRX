@@ -1,6 +1,6 @@
 import { EntityAdapter } from '@ngrx/entity';
-import { map,Observable,of ,  timer  } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { map, Observable, of, timer } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { forNext } from '../../common/for-next.function';
 import { EffectService } from '../../effects/effect-service';
@@ -41,7 +41,8 @@ export class Add<T extends SmartNgRXRowBase> {
   init(): void {
     this.actions = actionFactory(this.feature, this.entity);
     const entityDefinition = entityDefinitionCache(this.feature, this.entity);
-    this.adapter = entityDefinition.entityAdapter as unknown as EntityAdapter<T>;
+    this.adapter =
+      entityDefinition.entityAdapter as unknown as EntityAdapter<T>;
     this.effectService = effectServiceRegistry.get<T>(
       entityDefinition.effectServiceToken,
     );
@@ -85,17 +86,16 @@ export class Add<T extends SmartNgRXRowBase> {
           // we want the garbage collection to happen well after the parent has refreshed
           // so that the system doesn't insert a dummy record while it is still in the
           // parent's child array.
-          timer(1000).subscribe(function addSuccessEffectTimerSubscribe() {
-            store().dispatch(
-              context.actions.remove({
-                ids: [context.adapter.selectId(successPayload.oldRow) as string],
-              }),
-            );
-          });
-          const oldId = context.adapter.selectId(successPayload.oldRow) as string;
+          context.scheduleGarbageCollection(successPayload.oldRow);
+          const oldId = context.adapter.selectId(
+            successPayload.oldRow,
+          ) as string;
           context.replaceIdInParents(oldId, successPayload.newRow.id);
         }),
-        catchError(function addEffectConcatMapCatchError(_: unknown, __: Observable<void>) {
+        catchError(function addEffectConcatMapCatchError(
+          _: unknown,
+          __: Observable<void>,
+        ) {
           markParentsDirty(
             actionPayload.parentFeature,
             actionPayload.parentEntityName,
@@ -106,6 +106,22 @@ export class Add<T extends SmartNgRXRowBase> {
         // self terminating subscription
       )
       .subscribe();
+  }
+
+  /**
+   * schedules the garbage collection of the old row
+   *
+   * @param oldRow the old row to garbage collect
+   */
+  scheduleGarbageCollection(oldRow: T): void {
+    const context = this;
+    timer(1000).subscribe(function addSuccessEffectTimerSubscribe() {
+      store().dispatch(
+        context.actions.remove({
+          ids: [context.adapter.selectId(oldRow) as string],
+        }),
+      );
+    });
   }
 
   /**
