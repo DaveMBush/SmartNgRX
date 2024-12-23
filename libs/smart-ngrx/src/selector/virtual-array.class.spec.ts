@@ -55,7 +55,7 @@ describe('VirtualArray', () => {
       expect(mockActionService.loadByIndexes).toHaveBeenCalledWith(
         parentId,
         childField,
-        [3],
+        3,
       );
     });
 
@@ -130,7 +130,7 @@ describe('VirtualArray', () => {
       expect(mockActionService.loadByIndexes).toHaveBeenCalledWith(
         parentId,
         childField,
-        [1],
+        1,
       );
     });
   });

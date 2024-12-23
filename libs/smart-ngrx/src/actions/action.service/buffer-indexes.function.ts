@@ -2,64 +2,71 @@ import {
   asapScheduler,
   buffer,
   debounceTime,
-  groupBy,
   map,
-  mergeMap,
   Observable,
   Subscriber,
 } from 'rxjs';
 
-import { forNext } from '../../common/for-next.function';
-import { IndexesProp } from '../../types/indexes-props.interface';
+import { IndexProp } from '../../types/index-prop.interfaces';
+import { IndexesProp } from '../../types/indexes-prop.interface';
 
-function flatten(prop: IndexesProp[]): IndexesProp {
-  const returnProps = {
-    indexes: [],
-    childField: '',
-    parentId: '',
-  } as IndexesProp;
-  forNext(prop, function flattenForNext(a) {
-    returnProps.childField = a.childField;
-    returnProps.parentId = a.parentId;
-    forNext(a.indexes, function flattenForNextIndexes(b) {
-      returnProps.indexes.push(b);
-    });
-  });
-  return returnProps;
+function groupActionsByKey(actions: IndexProp[]): Map<string, IndexProp[]> {
+  return actions.reduce(function addToGroup(groups, action) {
+    const key = `${action.parentId}-${action.childField}`;
+    if (!groups.has(key)) {
+      groups.set(key, []);
+    }
+    groups.get(key)!.push(action);
+    return groups;
+  }, new Map<string, IndexProp[]>());
 }
 
-function mainIndexesBuffer(
-  source: Observable<IndexesProp>,
-  bufferTime: number,
+function createIndexesProp(actions: IndexProp[]): IndexesProp {
+  return {
+    indexes: [
+      ...new Set(
+        actions.map(function getIndex(a) {
+          return a.index;
+        }),
+      ),
+    ],
+    childField: actions[0].childField,
+    parentId: actions[0].parentId,
+  };
+}
+
+function processGroups(groups: IndexProp[][]): IndexesProp[] {
+  return groups.map(createIndexesProp);
+}
+
+function getGroupValues(actions: IndexProp[]): IndexProp[][] {
+  return [...groupActionsByKey(actions).values()];
+}
+
+function emitGroup(
   observer: Subscriber<IndexesProp>,
-) {
-  source
-    .pipe(
-      groupBy(function groupByParentIdChildField(action) {
-        return `${action.parentId}-${action.childField}`;
-      }),
-      mergeMap(function mergeMapGrouped(grouped) {
-        return grouped.pipe(
-          buffer(source.pipe(debounceTime(bufferTime, asapScheduler))),
-          map(function mapFlatten(actions) {
-            return flatten(actions);
-          }),
-        );
-      }),
-    ) /* jscpd:ignore-start -- intentionally duplicated */
-    .subscribe({
-      next: function bufferIndexesNext(value) {
-        observer.next(value);
-      },
-      error: function bufferIndexesError(err: unknown) {
-        observer.error(err);
-      },
-      complete: function bufferIndexesComplete() {
-        observer.complete();
-      },
-    });
-  /* jscpd:ignore-end */
+  group: IndexesProp,
+): void {
+  observer.next(group);
 }
+
+function emitGroups(
+  observer: Subscriber<IndexesProp>,
+  groupedIndexes: IndexesProp[],
+): void {
+  groupedIndexes.forEach(function iterateGroups(group) {
+    emitGroup(observer, group);
+  });
+}
+
+function handleError(observer: Subscriber<IndexesProp>, err: unknown): void {
+  observer.error(err);
+}
+
+function handleComplete(observer: Subscriber<IndexesProp>): void {
+  observer.complete();
+}
+
 /**
  * This is an internal function that is used by the Effects to buffer
  * the loadByIndexes actions coming into an effect so that we
@@ -75,16 +82,29 @@ function mainIndexesBuffer(
  * @returns The buffered indexes.
  */
 export function bufferIndexes(
-  /* istanbul ignore next */
-  bufferTimeMs = 0, // default to using microtasks
-): (source: Observable<IndexesProp>) => Observable<IndexesProp> {
-  return function bufferIndexesReturn(
-    source: Observable<IndexesProp>,
+  bufferTimeMs = 0,
+): (source: Observable<IndexProp>) => Observable<IndexesProp> {
+  return function bufferOperation(
+    source: Observable<IndexProp>,
   ): Observable<IndexesProp> {
-    return new Observable<IndexesProp>(function bufferIndexesObservable(
-      observer,
-    ) {
-      mainIndexesBuffer(source, bufferTimeMs, observer);
+    return new Observable<IndexesProp>(function subscribe(observer) {
+      source
+        .pipe(
+          buffer(source.pipe(debounceTime(bufferTimeMs, asapScheduler))),
+          map(getGroupValues),
+          map(processGroups),
+        )
+        .subscribe({
+          next: function handleNext(groupedIndexes) {
+            emitGroups(observer, groupedIndexes);
+          },
+          error: function handleSubscriptionError(err: unknown) {
+            handleError(observer, err);
+          },
+          complete: function handleSubscriptionComplete() {
+            handleComplete(observer);
+          },
+        });
     });
   };
 }

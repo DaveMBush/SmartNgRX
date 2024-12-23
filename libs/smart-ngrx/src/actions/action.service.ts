@@ -322,10 +322,10 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    *
    * @param parentId the id of the parent row
    * @param childField the child field to load
-   * @param indexes the indexes to load
+   * @param index the index to load
    */
-  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
-    this.loadByIndexesService.loadByIndexes(parentId, childField, indexes);
+  loadByIndexes(parentId: string, childField: string, index: number): void {
+    this.loadByIndexesService.loadByIndexes(parentId, childField, index);
   }
 
   /**

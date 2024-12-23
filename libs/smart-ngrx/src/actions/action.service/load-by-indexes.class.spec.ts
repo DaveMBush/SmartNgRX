@@ -172,7 +172,9 @@ describe('LoadByIndexes', () => {
       const mockSubjectNextSpy = jest.spyOn(mockSubject, 'next');
       loadByIndexes.loadByIndexesSubject = mockSubject;
 
-      loadByIndexes.loadByIndexes('parentId', 'childField', [1, 2, 3]);
+      [1, 2, 3].forEach((i) => {
+        loadByIndexes.loadByIndexes('parentId', 'childField', i);
+      });
 
       expect(mockSubjectNextSpy).toHaveBeenCalledWith({
         parentId: 'parentId',
@@ -185,7 +187,9 @@ describe('LoadByIndexes', () => {
   describe('loadByIndexesDispatcher', () => {
     it('should call the loadByIndexes method on the effect service after buffering', fakeAsync(() => {
       loadByIndexes.init(actions, mockEntities);
-      loadByIndexes.loadByIndexes('parent1', 'child1', [1, 2, 3]);
+      [1, 2, 3].forEach((i) => {
+        loadByIndexes.loadByIndexes('parent1', 'child1', i);
+      });
 
       tick();
 
