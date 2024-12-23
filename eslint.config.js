@@ -88,7 +88,7 @@ module.exports = [
     })
     .map((config) => ({
       ...config,
-      files: ['**/*.ts', '**/*.tsx'],
+      files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts'],
       rules: {
         ...config.rules,
         'simple-import-sort/imports': [
@@ -741,7 +741,7 @@ module.exports = [
     })
     .map((config) => ({
       ...config,
-      files: ['**/*.js', '**/*.jsx'],
+      files: ['**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
       rules: {
         ...config.rules,
       },
