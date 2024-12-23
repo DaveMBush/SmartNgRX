@@ -18,7 +18,7 @@ import { effectServiceRegistry } from '../../registrations/effect-service-regist
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { ActionGroup } from '../action-group.interface';
-import { bufferIdsAction } from './buffer-ids-action.function';
+import { bufferIds } from './buffer-ids.function';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {
@@ -32,7 +32,7 @@ function notAPreloadId(c: string): boolean {
 export class LoadByIds {
   private defaultRow!: (id: string) => SmartNgRXRowBase;
   private actions!: ActionGroup;
-  private loadByIdsSubject = new Subject<string[]>();
+  private loadByIdsSubject = new Subject<string>();
   private entities!: Observable<Dictionary<SmartNgRXRowBase>>;
   /**
    * The constructor for the LoadByIds class.
@@ -66,11 +66,11 @@ export class LoadByIds {
   }
 
   /**
-   * Calls the loadByIds action to load the rows into the store.
+   * buffers the Id in the loadByIdsSubject.
    *
    * @param ids the ids to load
    */
-  loadByIds(ids: string[]): void {
+  loadByIds(ids: string): void {
     this.loadByIdsSubject.next(ids);
   }
 
@@ -84,7 +84,7 @@ export class LoadByIds {
 
     this.loadByIdsSubject
       .pipe(
-        bufferIdsAction(),
+        bufferIds(),
         map(function loadByIdsDispatcherMap(ids) {
           return ids.filter(notAPreloadId);
         }),

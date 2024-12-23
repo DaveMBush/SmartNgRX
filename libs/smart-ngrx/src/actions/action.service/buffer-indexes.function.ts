@@ -69,14 +69,14 @@ function mainIndexesBuffer(
  * NOTE: bufferAction assumes an array of indexes is passed to the action
  * it is buffering.
  *
- * @param bufferTime The time to buffer the ids before sending them to the server.
+ * @param bufferTimeMs The time to buffer the ids before sending them to the server.
  *     The default is 1ms which only allow the buffer to last until the thread frees up
  *     and is probably all we will ever need.
  * @returns The buffered indexes.
  */
 export function bufferIndexes(
   /* istanbul ignore next */
-  bufferTime = 1, // default value does not need to be tested
+  bufferTimeMs = 0, // default to using microtasks
 ): (source: Observable<IndexesProp>) => Observable<IndexesProp> {
   return function bufferIndexesReturn(
     source: Observable<IndexesProp>,
@@ -84,7 +84,7 @@ export function bufferIndexes(
     return new Observable<IndexesProp>(function bufferIndexesObservable(
       observer,
     ) {
-      mainIndexesBuffer(source, bufferTime, observer);
+      mainIndexesBuffer(source, bufferTimeMs, observer);
     });
   };
 }

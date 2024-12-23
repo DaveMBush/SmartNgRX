@@ -299,7 +299,7 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    *
    * @param ids the ids to load
    */
-  loadByIds(ids: string[]): void {
+  loadByIds(ids: string): void {
     this.loadByIdsService.loadByIds(ids);
   }
 

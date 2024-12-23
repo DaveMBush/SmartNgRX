@@ -38,12 +38,12 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
     void unpatchedPromise
       .resolve()
-      .then(actionServiceLoadByIds(actionService, [id]));
+      .then(actionServiceLoadByIds(actionService, id));
   }
 }
 
-function actionServiceLoadByIds(actionService: ActionService, ids: string[]) {
+function actionServiceLoadByIds(actionService: ActionService, id: string) {
   return function internalActionServiceLoadByIds() {
-    actionService.loadByIds(ids);
+    actionService.loadByIds(id);
   };
 }

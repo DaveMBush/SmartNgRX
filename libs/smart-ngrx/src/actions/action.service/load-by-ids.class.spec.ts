@@ -126,8 +126,7 @@ describe('LoadByIds', () => {
       mockEntities.next(existingEntities);
 
       ids.forEach((id) => {
-        loadByIds.loadByIds([id]);
-        tick(0);
+        loadByIds.loadByIds(id);
       });
 
       tick(300);
@@ -145,7 +144,7 @@ describe('LoadByIds', () => {
       mockEntities.next(existingEntities);
 
       ids.forEach((id) => {
-        loadByIds.loadByIds([id]);
+        loadByIds.loadByIds(id);
         tick(0);
       });
 
