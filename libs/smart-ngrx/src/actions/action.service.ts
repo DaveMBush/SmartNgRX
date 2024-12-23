@@ -237,12 +237,8 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    * @param parentId the id of the parent row
    * @param parentService the service for the parent row
    */
-  add(
-    row: SmartNgRXRowBase,
-    parentId: string,
-    parentService: ActionService,
-  ): void {
-    this.addService.add(row as T, parentId, parentService);
+  add(row: T, parentId: string, parentService: ActionService): void {
+    this.addService.add(row, parentId, parentService);
   }
 
   /**
