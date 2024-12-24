@@ -1,8 +1,16 @@
+import { InjectionToken } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
+import { EffectService } from '../../effects/effect-service';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
+import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
+import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../../registrations/entity-registry.class';
+import { featureRegistry } from '../../registrations/feature-registry.class';
+import { createStore } from '../../tests/functions/create-store.function';
+import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
 import { ActionGroup } from '../action-group.interface';
@@ -12,16 +20,72 @@ interface SomeDataRow extends SmartNgRXRowBase {
   someData: string;
 }
 
+class MockEffectService extends EffectService<SmartNgRXRowBase> {
+  override loadByIndexes(
+    parentId: string,
+    childField: string,
+    startIndex: number,
+    length: number,
+  ): Observable<PartialArrayDefinition> {
+    return of({
+      startIndex,
+      indexes: [],
+      length,
+    });
+  }
+
+  override loadByIds(_: string[]): Observable<SmartNgRXRowBase[]> {
+    return of([]);
+  }
+
+  override update(newRow: SmartNgRXRowBase): Observable<SmartNgRXRowBase[]> {
+    return of([newRow]);
+  }
+
+  override add(row: SmartNgRXRowBase): Observable<SmartNgRXRowBase[]> {
+    return of([row]);
+  }
+
+  override delete(_: string): Observable<void> {
+    return of(undefined);
+  }
+}
+
 // Mock types
 type MockStore = Partial<Store>;
 
 describe('LoadByIds', () => {
+  let effectServiceLoadByIdSpy: jest.SpyInstance;
+
+  const effectServiceToken = new InjectionToken<
+    EffectService<SmartNgRXRowBase>
+  >('testEffectService');
   let loadByIds: LoadByIds;
   let mockStore: MockStore;
   let actions: ActionGroup<SomeDataRow>;
   let mockEntities: BehaviorSubject<Record<string, SomeDataRow>>;
+  const effectService = new MockEffectService();
 
   beforeEach(() => {
+    createStore();
+    entityRegistry.register('testFeature', 'testEntity', {
+      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+      markAndDeleteInit: {
+        markDirtyTime: 15 * 60000,
+        markDirtyFetchesNew: true,
+        removeTime: 30 * 60000,
+        runInterval: 60000,
+      },
+      markAndDeleteEntityMap: new Map(),
+    });
+    featureRegistry.registerFeature('testFeature');
+    entityDefinitionCache('testFeature', 'testEntity', {
+      entityName: 'testEntity',
+      effectServiceToken,
+      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+    });
+    effectServiceRegistry.register(effectServiceToken, effectService);
+
     mockStore = {
       dispatch: jest.fn(),
     };
@@ -31,6 +95,12 @@ describe('LoadByIds', () => {
     jest.spyOn(mockStore, 'dispatch');
     actions = actionFactory<SomeDataRow>('testFeature', 'testEntity');
     mockEntities = new BehaviorSubject<Record<string, SomeDataRow>>({});
+    actions = actionFactory<SomeDataRow>('testFeature', 'testEntity');
+    effectServiceLoadByIdSpy = jest
+      .spyOn(effectService, 'loadByIds')
+      .mockImplementation((ids) => {
+        return of(ids.map((id) => ({ id, someData: id }) as SomeDataRow));
+      });
 
     loadByIds = new LoadByIds('testFeature', 'testEntity', mockStore as Store);
     loadByIds.init(
@@ -41,6 +111,7 @@ describe('LoadByIds', () => {
   });
   afterEach(() => {
     jest.clearAllMocks();
+    entityRegistry.unregister('testFeature', 'testEntity');
   });
 
   describe('loadByIds', () => {
@@ -55,16 +126,13 @@ describe('LoadByIds', () => {
       mockEntities.next(existingEntities);
 
       ids.forEach((id) => {
-        loadByIds.loadByIds([id]);
-        tick(0);
+        loadByIds.loadByIds(id);
       });
 
       tick(300);
       tick();
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        actions.loadByIds({ ids: ['3', '5'] }),
-      );
+      expect(effectServiceLoadByIdSpy).toHaveBeenCalled();
+      expect(effectServiceLoadByIdSpy).toHaveBeenCalledWith(['3', '5']);
     }));
 
     it('should not dispatch action if all ids are filtered out', fakeAsync(() => {
@@ -76,14 +144,14 @@ describe('LoadByIds', () => {
       mockEntities.next(existingEntities);
 
       ids.forEach((id) => {
-        loadByIds.loadByIds([id]);
+        loadByIds.loadByIds(id);
         tick(0);
       });
 
       tick(300);
       tick();
 
-      expect(mockStore.dispatch).not.toHaveBeenCalled();
+      expect(effectServiceLoadByIdSpy).not.toHaveBeenCalled();
     }));
   });
 

@@ -1,12 +1,13 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { asapScheduler, Observable, Subject, take } from 'rxjs';
+import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
+import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
@@ -16,12 +17,14 @@ import { PartialArrayDefinition } from '../types/partial-array-definition.interf
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { actionFactory } from './action.factory';
+import { Add } from './action.service/add.class';
 import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
+import { markFeatureParentsDirty } from './action.service/mark-feature-parents-dirty.function';
+import { Update } from './action.service/update.class';
 import { ActionGroup } from './action-group.interface';
 import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
-import { replaceIdInParents } from './replace-id-in-parents.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -30,19 +33,21 @@ import { replaceIdInParents } from './replace-id-in-parents.function';
  * to the store, and keeps logic out of the reducer and effects without
  * scattering the logic throughout the application.
  */
-export class ActionService {
+export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   /**
    * entityAdapter is needed for delete so it is public
    */
-  entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
-  entities!: Observable<Dictionary<SmartNgRXRowBase>>;
+  entityAdapter!: EntityAdapter<T>;
+  entities!: Observable<Dictionary<T>>;
   private actions!: ActionGroup;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
-  private entityDefinition!: SmartValidatedEntityDefinition<SmartNgRXRowBase>;
-  private loadByIdsSubject = new Subject<string[]>();
+  private entityDefinition!: SmartValidatedEntityDefinition<T>;
   private loadByIndexesService!: LoadByIndexes;
   private loadByIdsService!: LoadByIds;
+  private updateService!: Update<T>;
+  private addService!: Add<T>;
+  private initCalled = false;
 
   /**
    * constructor for the ActionService
@@ -56,6 +61,13 @@ export class ActionService {
   ) {
     this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
     this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+    this.updateService = new Update<T>(
+      feature,
+      entity,
+      this.entityAdapter,
+      this.loadByIdsSuccess.bind(this),
+    );
+    this.addService = new Add<T>(feature, entity, this.entityAdapter);
   }
 
   /**
@@ -64,6 +76,10 @@ export class ActionService {
    * @returns true if successful, false if not
    */
   init(): boolean {
+    if (this.initCalled) {
+      return true;
+    }
+    this.initCalled = true;
     const entity = this.entity;
     if (!featureRegistry.hasFeature(this.feature)) {
       return false;
@@ -76,9 +92,9 @@ export class ActionService {
     this.entityDefinition = entityDefinitionCache(this.feature, this.entity);
     const selectEntity = createSelector(
       selectFeature,
-      function selectEntityFunction(f) {
+      function selectEntityFunction(f): EntityState<T> {
         try {
-          return f[entity];
+          return f[entity] as EntityState<T>;
           // eslint-disable-next-line sonarjs/no-ignored-exceptions, unused-imports/no-unused-vars -- we ARE handling the error, buggy rule
         } catch (_) {
           return { ids: [], entities: {} };
@@ -99,6 +115,7 @@ export class ActionService {
       this.entities,
       this.entityDefinition.defaultRow,
     );
+    this.updateService.init();
     this.loadByIndexesService.init(this.actions, this.entities);
     return true;
   }
@@ -197,12 +214,7 @@ export class ActionService {
    * @param newRow the row after the changes
    */
   update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
-    this.store.dispatch(
-      this.actions.update({
-        old: { row: oldRow },
-        new: { row: newRow },
-      }),
-    );
+    this.updateService.update(oldRow, newRow);
   }
 
   /**
@@ -225,21 +237,8 @@ export class ActionService {
    * @param parentId the id of the parent row
    * @param parentService the service for the parent row
    */
-  add(
-    row: SmartNgRXRowBase,
-    parentId: string,
-    parentService: ActionService,
-  ): void {
-    this.store.dispatch(
-      this.actions.add({
-        row,
-        feature: this.feature,
-        entity: this.entity,
-        parentId,
-        parentFeature: parentService.feature,
-        parentEntityName: parentService.entity,
-      }),
-    );
+  add(row: T, parentId: string, parentService: ActionService): void {
+    this.addService.add(row, parentId, parentService);
   }
 
   /**
@@ -264,26 +263,6 @@ export class ActionService {
   }
 
   /**
-   * replaces the id in the parent rows with the new id
-   * this is used when we commit a new row to the server
-   *
-   * @param id the id to replace
-   * @param newId the new id to replace the old id with
-   */
-  replaceIdInParents(id: string, newId: string): void {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    forNext(
-      childDefinitions,
-      function replaceIdInParentsForNext(childDefinition) {
-        replaceIdInParents(childDefinition, id, newId);
-      },
-    );
-  }
-
-  /**
    * Deletes the row represented by the Id from the store
    *
    * @param id the id of the row to delete
@@ -294,13 +273,21 @@ export class ActionService {
     parentInfo = parentInfo.filter(function filterParentInfo(info) {
       return info.ids.length > 0;
     });
-    // remove the row from the store
-    this.store.dispatch(
-      this.actions.delete({
-        id,
-        parentInfo,
-      }),
+    const effectService = effectServiceRegistry.get(
+      this.entityDefinition.effectServiceToken,
     );
+    effectService
+      .delete(id)
+      .pipe(
+        catchError(function deleteEffectConcatMapCatchError(_: unknown, __) {
+          markFeatureParentsDirty({
+            id,
+            parentInfo,
+          });
+          return of();
+        }),
+      )
+      .subscribe();
   }
 
   /**
@@ -308,7 +295,7 @@ export class ActionService {
    *
    * @param ids the ids to load
    */
-  loadByIds(ids: string[]): void {
+  loadByIds(ids: string): void {
     this.loadByIdsService.loadByIds(ids);
   }
 
@@ -335,10 +322,10 @@ export class ActionService {
    *
    * @param parentId the id of the parent row
    * @param childField the child field to load
-   * @param indexes the indexes to load
+   * @param index the index to load
    */
-  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
-    this.loadByIndexesService.loadByIndexes(parentId, childField, indexes);
+  loadByIndexes(parentId: string, childField: string, index: number): void {
+    this.loadByIndexesService.loadByIndexes(parentId, childField, index);
   }
 
   /**

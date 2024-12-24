@@ -50,11 +50,12 @@ describe('VirtualArray', () => {
     it('should dispatch load action and return placeholder for unknown index', () => {
       const result = virtualArray[3];
       expect(result).toBe('index-3');
-      // eslint-disable-next-line @typescript-eslint/unbound-method -- for testing
+
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- needed for unit testing
       expect(mockActionService.loadByIndexes).toHaveBeenCalledWith(
         parentId,
         childField,
-        [3],
+        3,
       );
     });
 
@@ -125,11 +126,11 @@ describe('VirtualArray', () => {
     it('should call loadByIndexes on the action service', () => {
       virtualArray.dispatchLoadByIndexes(parentId, childField, 1);
 
-      // eslint-disable-next-line @typescript-eslint/unbound-method -- for testing
+      // eslint-disable-next-line @typescript-eslint/unbound-method -- needed for unit testing
       expect(mockActionService.loadByIndexes).toHaveBeenCalledWith(
         parentId,
         childField,
-        [1],
+        1,
       );
     });
   });

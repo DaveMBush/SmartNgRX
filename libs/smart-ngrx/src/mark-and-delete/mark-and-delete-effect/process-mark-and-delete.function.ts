@@ -19,9 +19,6 @@ export function processMarkAndDelete(
   requestIdleCallback(
     function processMarkAndDeleteCallback() {
       const actionService = actionServiceRegistry.register(featureKey, entity);
-      if (!actionService) {
-        return;
-      }
       if (garbageCollectRowIds.length > 0) {
         actionService.garbageCollect(garbageCollectRowIds);
       }

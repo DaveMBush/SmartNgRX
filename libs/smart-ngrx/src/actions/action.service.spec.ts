@@ -54,6 +54,10 @@ describe('ActionService', () => {
     ) as unknown as TestableActionService;
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('init', () => {
     it('should return false if feature is not registered', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(false);
@@ -71,6 +75,14 @@ describe('ActionService', () => {
       });
 
       expect(service.init()).toBeTruthy();
+    });
+
+    it('should return true if init has already been called', () => {
+      const spy = jest.spyOn(featureRegistry, 'hasFeature');
+      service.init();
+      jest.resetAllMocks();
+      expect(service.init()).toBeTruthy();
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
@@ -136,7 +148,12 @@ describe('ActionService', () => {
             getSelectors: () => ({ selectEntities: mockSelectEntities }),
           },
         });
-
+        // we need a new instance of the service so we can
+        // rerun the init method to use our mocks.
+        service = new ActionService(
+          'testFeature',
+          'testEntity',
+        ) as unknown as TestableActionService;
         // Reinitialize the service to use our new mocks
         service.init();
 

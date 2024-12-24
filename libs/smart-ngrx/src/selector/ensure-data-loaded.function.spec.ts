@@ -2,7 +2,6 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
@@ -41,7 +40,6 @@ describe('ensureDataLoaded()', () => {
       entities: {},
     });
     actionService = actionServiceRegistry.register(feature, entity);
-    assert(!!actionService, 'actionService is not defined');
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
   });
   afterEach(() => {

@@ -21,7 +21,7 @@ import { RowProxyDelete } from './row-proxy-delete.interface';
  */
 export function rowProxy<T extends SmartNgRXRowBase>(
   row: T,
-  service: ActionService,
+  service: ActionService<T>,
   parentService: ActionService,
 ): RowProxyDelete & T {
   forceRefetchOfVirtualIndexes<T>(row);

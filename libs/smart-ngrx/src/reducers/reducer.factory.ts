@@ -24,15 +24,9 @@ export function reducerFactory<T extends SmartNgRXRowBase>(
 
   return createReducer(
     initialState,
-    on(actions.add, function actionsAddReducer(state, { row }) {
+    on(actions.upsertRow, function actionsUpsertRowReducer(state, { row }) {
       return adapter.upsertOne(row, state);
     }),
-    on(
-      actions.addSuccess,
-      function actionsAddSuccessReducer(state, { newRow }) {
-        return adapter.upsertOne(newRow, state);
-      },
-    ),
     on(
       actions.updateMany,
       function actionsUpdateManyReducer(state, { changes }) {
@@ -42,10 +36,6 @@ export function reducerFactory<T extends SmartNgRXRowBase>(
     on(actions.remove, function actionsRemoveReducer(state, { ids }) {
       return adapter.removeMany(ids, state);
     }),
-    on(actions.update, function actionsUpdateReducer(state, { new: { row } }) {
-      return adapter.upsertOne(row, state);
-    }),
-
     on(actions.storeRows, function actionsStoreRowsReducer(state, { rows }) {
       return adapter.upsertMany(rows, state);
     }),
