@@ -31,8 +31,9 @@ jobs:
       - run: pnpm i
       - run: pnpm dupcheck
       - run: pnpm format:check
-      - run: exec nx affected -t build lint --exclude=documentation --parallel=5
+      - run: pnpm lint
       - run: pnpm htmllint
+      - run: pnpm build
       - run: pnpm test:coverage
       - name: Configure Git
         run: |
