@@ -41,7 +41,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - name: Build documentation
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-        run: pnpm nx run documentation:main-build:production
+        run: pnpm nx run documentation:build:production
       - name: Run update docs script
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         env:
