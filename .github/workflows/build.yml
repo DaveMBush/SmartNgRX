@@ -31,14 +31,16 @@ jobs:
       - run: pnpm i
       - run: pnpm dupcheck
       - run: pnpm format:check
-      - run: pnpm lint
+      - run: exec nx affected -t build lint --exclude=documentation --parallel=5
       - run: pnpm htmllint
-      - run: pnpm build
       - run: pnpm test:coverage
       - name: Configure Git
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Build documentation
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+        run: pnpm nx run documentation:main-build:production
       - name: Run update docs script
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
         env:
