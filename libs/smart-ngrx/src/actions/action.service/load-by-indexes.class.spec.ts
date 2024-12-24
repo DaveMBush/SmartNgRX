@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { fakeAsync, tick } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
@@ -20,15 +20,6 @@ import { actionFactory } from '../action.factory';
 import { ActionService } from '../action.service';
 import { ActionGroup } from '../action-group.interface';
 import { LoadByIndexes } from './load-by-indexes.class';
-
-jest.mock(
-  './buffer-indexes.function',
-  () =>
-    ({
-      ...jest.requireActual('./buffer-indexes.function'),
-      bufferIndexes: () => (s: Observable<unknown>) => s,
-    }) as typeof jest,
-);
 
 interface LoadByIndexesPublic
   extends Omit<
@@ -179,7 +170,17 @@ describe('LoadByIndexes', () => {
       expect(mockSubjectNextSpy).toHaveBeenCalledWith({
         parentId: 'parentId',
         childField: 'childField',
-        indexes: [1, 2, 3],
+        index: 1,
+      });
+      expect(mockSubjectNextSpy).toHaveBeenCalledWith({
+        parentId: 'parentId',
+        childField: 'childField',
+        index: 2,
+      });
+      expect(mockSubjectNextSpy).toHaveBeenCalledWith({
+        parentId: 'parentId',
+        childField: 'childField',
+        index: 3,
       });
     });
   });
@@ -187,11 +188,12 @@ describe('LoadByIndexes', () => {
   describe('loadByIndexesDispatcher', () => {
     it('should call the loadByIndexes method on the effect service after buffering', fakeAsync(() => {
       loadByIndexes.init(actions, mockEntities);
-      [1, 2, 3].forEach((i) => {
-        loadByIndexes.loadByIndexes('parent1', 'child1', i);
-      });
+      loadByIndexes.loadByIndexes('parent1', 'child1', 1);
+      loadByIndexes.loadByIndexes('parent1', 'child1', 2);
+      loadByIndexes.loadByIndexes('parent1', 'child1', 3);
 
-      tick();
+      tick(100);
+      flushMicrotasks();
 
       expect(effectServiceLoadByIndexesSpy).toHaveBeenCalled();
       expect(effectServiceLoadByIndexesSpy).toHaveBeenCalledWith(
