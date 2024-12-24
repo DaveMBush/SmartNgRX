@@ -1,6 +1,6 @@
 import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectDepartmentChildren } from '../../../tree-no-remove/store/department-children/select-department-children.selectors';
+import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { selectDepartments } from './select-departments.selectors';
 
 export const selectDepartmentsChildren = createSmartSelector(
