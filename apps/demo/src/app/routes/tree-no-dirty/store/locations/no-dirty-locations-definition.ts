@@ -9,9 +9,11 @@ export const noDirtyLocationsDefinition: SmartEntityDefinition<Location> = {
   markAndDelete: {
     markDirtyTime: -1,
   },
-  defaultRow: (id) => ({
-    id,
-    name: '',
-    departments: [],
-  }),
+  defaultRow: function noDirtyLocationsDefaultRowFunction(id) {
+    return {
+      id,
+      name: '',
+      departments: [],
+    };
+  },
 };

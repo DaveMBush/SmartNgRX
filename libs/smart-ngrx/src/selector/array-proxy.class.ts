@@ -46,7 +46,7 @@ export class ArrayProxy<
   // so they are safe to use later on.
   entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
   parentEntityAdapter!: EntityAdapter<SmartNgRXRowBase>;
-  childActionService!: ActionService;
+  childActionService!: ActionService<C>;
   [isProxy] = true;
   rawArray: string[] = [];
 
@@ -66,7 +66,9 @@ export class ArrayProxy<
     // proxying this so that we can intercept going after
     // an index and return the item from the store instead
     return new Proxy(this, {
-      get: (target, prop) => arrayProxyClassGet(target, prop),
+      get: function arrayProxyProxyGet(target, prop) {
+        return arrayProxyClassGet(target, prop);
+      },
     });
   }
 
@@ -178,8 +180,8 @@ export class ArrayProxy<
    * @returns the `ActionService` for the child and the parent
    */
   getServices(): {
-    service: ActionService;
-    parentService: ActionService;
+    service: ActionService<C>;
+    parentService: ActionService<P>;
   } {
     return getServices<P, C>(this.childDefinition);
   }
@@ -246,20 +248,18 @@ export class ArrayProxy<
       createFeatureSelector<Record<string, EntityState<P>>>(parentFeature);
     const selectEntity = createSelector(
       selectFeature,
-      (state: Record<string, EntityState<P>>) => state[parentEntity],
+      function retrieveEntityFromState(state: Record<string, EntityState<P>>) {
+        return state[parentEntity];
+      },
     );
     this.childActionService.remove([childId]);
-
+    const removeChildIdFromChildArray =
+      this.removeChildIdFromChildArray.bind(this);
     store()
       .select(selectEntity)
       .pipe(take(1))
-      .subscribe((entity) => {
-        this.removeChildIdFromChildArray(
-          entity,
-          parentId,
-          parentField,
-          childId,
-        );
+      .subscribe(function removeEntityFromChildArray(entity: EntityState<P>) {
+        removeChildIdFromChildArray(entity, parentId, parentField, childId);
       });
   }
 
@@ -290,7 +290,7 @@ export class ArrayProxy<
       const newParent = {
         ...parentRow,
         isEditing: false,
-        [parentField]: parentArray.filter((cid) => cid !== childId),
+        [parentField]: parentArray.filter(filterByChildId(childId)),
       };
       parentService.loadByIdsSuccess([newParent]);
     } else {
@@ -306,10 +306,7 @@ export class ArrayProxy<
         isEditing: false,
         [parentField]: {
           ...virtualArrayContents,
-          indexes: virtualArrayContents.indexes.map((cid) =>
-            /* istanbul ignore next -- not possible to test if part of ternary */
-            cid !== childId ? cid : 'delete',
-          ),
+          indexes: virtualArrayContents.indexes.map(mapIndexToDelete(childId)),
           length: virtualArrayContents.length - 1,
         },
       };
@@ -334,4 +331,17 @@ export class ArrayProxy<
     }
     return newParent;
   }
+}
+
+function filterByChildId(childId: string) {
+  return function innerFilterByChildId(cid: string) {
+    return cid !== childId;
+  };
+}
+
+function mapIndexToDelete(childId: string) {
+  return function innerMapIndexToDelete(cid: string) {
+    // istanbul ignore next -- cid is difficult if not impossible to test but needed for defensive programming
+    return cid !== childId ? cid : 'delete';
+  };
 }

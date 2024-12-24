@@ -6,17 +6,17 @@ import { Store } from '@ngrx/store';
 import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
 import { Observable, of } from 'rxjs';
 
+import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { Location } from '../../shared/locations/location.interface';
-import { SharedModule } from '../../shared/shared.module';
 import { currentLocationActions } from './store/current-location/current-location.actions';
 import { selectCurrentLocationId } from './store/current-location/current-location.selector';
-import { selectCurrentLocation } from './store/locations/location.selectors';
-import { selectLocations } from './store/top/top.selector';
+import { selectCurrentLocation } from './store/locations/selectors/select-current-location.selectors';
+import { selectLocations } from './store/locations/selectors/select-locations.selectors';
 
 @Component({
   selector: 'dmb-tree-no-refresh',
   standalone: true,
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedTreeComponent],
   templateUrl: './tree-no-refresh.component.html',
   styleUrls: ['./tree-no-refresh.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

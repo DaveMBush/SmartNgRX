@@ -1,10 +1,7 @@
 import { psi } from '../../common/psi.const';
-import {
-  registerEntity,
-  unregisterEntity,
-} from '../../registrations/register-entity.function';
+import { entityRegistry } from '../../registrations/entity-registry.class';
 import { MarkAndDeleteInit } from '../../types/mark-and-delete-init.interface';
-import { registerGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
+import { globalMarkAndDeleteInit } from '../global-mark-and-delete-init.class';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 import * as processMarkAndDelete from './process-mark-and-delete.function';
 
@@ -18,12 +15,12 @@ describe('markAndDeleteEntity', () => {
       });
   });
   afterEach(() => {
-    unregisterEntity('feature', 'entity');
+    entityRegistry.unregister('feature', 'entity');
     processMarkAndDeleteSpy.mockRestore();
   });
   describe('when there is nothing to mark dirty or remove', () => {
     it('should not send anything to processMarkAndDelete(...)', () => {
-      registerEntity('feature', 'entity', {
+      entityRegistry.register('feature', 'entity', {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 30 * 60 * 1000,
@@ -47,13 +44,13 @@ describe('markAndDeleteEntity', () => {
   });
   describe('when there is something to remove but the feature removeTime is 0', () => {
     it('should not send anything to processMarkAndDelete(...)', () => {
-      registerGlobalMarkAndDeleteInit({
+      globalMarkAndDeleteInit.register({
         runInterval: 60 * 1000,
         markDirtyTime: 15 * 60 * 1000,
         removeTime: 60 * 60 * 1000,
         markDirtyFetchesNew: true,
       });
-      registerEntity('feature', 'entity', {
+      entityRegistry.register('feature', 'entity', {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 0,
@@ -79,7 +76,7 @@ describe('markAndDeleteEntity', () => {
   });
   describe('when there is something to remove and the removeTime is not 0', () => {
     it('should send the correct data to processMarkAndDelete(...)', () => {
-      registerEntity('feature', 'entity', {
+      entityRegistry.register('feature', 'entity', {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 20 * 60 * 1000,
@@ -105,7 +102,7 @@ describe('markAndDeleteEntity', () => {
   });
   describe('when there is something to mark dirty', () => {
     it('should send dirty data to processMarkAndDelete(...)', () => {
-      registerEntity('feature', 'entity', {
+      entityRegistry.register('feature', 'entity', {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 20 * 60 * 1000,
@@ -131,7 +128,7 @@ describe('markAndDeleteEntity', () => {
   });
   describe('when nothing is dirty or removable', () => {
     it('should send dirty data to processMarkAndDelete(...)', () => {
-      registerEntity('feature', 'entity', {
+      entityRegistry.register('feature', 'entity', {
         markAndDeleteInit: {
           markDirtyTime: 15 * 60 * 1000,
           removeTime: 20 * 60 * 1000,

@@ -1,5 +1,5 @@
-import { actionServiceRegistry } from '../../registrations/action.service.registry';
-import { getGlobalMarkAndDeleteInit } from '../mark-and-delete-init';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { globalMarkAndDeleteInit } from '../global-mark-and-delete-init.class';
 
 /**
  * Goes through all the rows that have been registered and marks them
@@ -17,11 +17,8 @@ export function processMarkAndDelete(
   markDirtyRowIds: string[],
 ) {
   requestIdleCallback(
-    () => {
-      const actionService = actionServiceRegistry(featureKey, entity);
-      if (!actionService) {
-        return;
-      }
+    function processMarkAndDeleteCallback() {
+      const actionService = actionServiceRegistry.register(featureKey, entity);
       if (garbageCollectRowIds.length > 0) {
         actionService.garbageCollect(garbageCollectRowIds);
       }
@@ -30,7 +27,7 @@ export function processMarkAndDelete(
       }
     },
     {
-      timeout: getGlobalMarkAndDeleteInit().runInterval! - 100,
+      timeout: globalMarkAndDeleteInit.get().runInterval! - 100,
     },
   );
 }

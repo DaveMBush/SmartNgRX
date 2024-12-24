@@ -16,9 +16,8 @@ import { store } from '../../selector/store.function';
  */
 export function setState<T>(feature: string, entity: string, state: T): void {
   store()
-    .select((s) => s)
     .pipe(take(1))
-    .subscribe((s) => {
+    .subscribe(function setStateInternal(s) {
       const sAsRecord = s as Record<string, Record<string, object>>;
       const existingFeature = sAsRecord[feature] ?? {};
       const newState = {

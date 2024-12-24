@@ -11,7 +11,7 @@ import { store as storeFunction } from './store.function';
  */
 export const storeEffect = createEffect(
   /* istanbul ignore next -- inject() can't be called from test so it is passed in */
-  (store: Store = inject(Store)) => {
+  function storeEffectFunction(store: Store = inject(Store)) {
     storeFunction(store);
     return of(null);
   },

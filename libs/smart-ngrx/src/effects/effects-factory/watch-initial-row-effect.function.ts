@@ -19,14 +19,17 @@ export function watchInitialRowEffect<T extends SmartNgRXRowBase>(
 ) {
   const selectFeature =
     createFeatureSelector<Record<string, EntityState<T>>>(feature);
-  const selectTopRow = createSelector(selectFeature, (state) => {
-    return state[entity];
-  });
-  return () => {
+  const selectTopRow = createSelector(
+    selectFeature,
+    function watchInitialRowEffectSelectTopRow(state) {
+      return state[entity];
+    },
+  );
+  return function watchInitialRowEffectFunction() {
     return store()
       .select(selectTopRow)
       .pipe(
-        tap((topRowEntity) => {
+        tap(function watchInitialRowEffectTap(topRowEntity) {
           ensureDataLoaded(topRowEntity, '1', feature, entity);
         }),
       );

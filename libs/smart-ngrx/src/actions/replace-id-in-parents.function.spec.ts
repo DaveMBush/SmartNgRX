@@ -1,12 +1,13 @@
 import { of } from 'rxjs';
 
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { ActionService } from './action.service';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
 
 // Mock dependencies
-jest.mock('../registrations/action.service.registry');
+jest.mock('../registrations/action-service-registry.class');
 jest.mock('./replace-id-in-feature-parents.function');
 
 describe('replaceIdInParents', () => {
@@ -21,28 +22,18 @@ describe('replaceIdInParents', () => {
     jest.clearAllMocks();
   });
 
-  it('should not call replaceIdInFeatureParents when actionServiceRegistry returns null', () => {
-    (actionServiceRegistry as jest.Mock).mockReturnValue(null);
-
-    replaceIdInParents(mockChildDefinition, mockId, mockNewId);
-
-    expect(actionServiceRegistry).toHaveBeenCalledWith(
-      'testFeature',
-      'testEntity',
-    );
-    expect(replaceIdInFeatureParents).not.toHaveBeenCalled();
-  });
-
   it('should call replaceIdInFeatureParents when actionServiceRegistry returns a service', () => {
     const mockEntities = [{ id: '1' }, { id: '2' }];
     const mockParentService = {
       entities: of(mockEntities),
     };
-    (actionServiceRegistry as jest.Mock).mockReturnValue(mockParentService);
+    const actionServiceRegistrySpy = jest
+      .spyOn(actionServiceRegistry, 'register')
+      .mockReturnValue(mockParentService as unknown as ActionService);
 
     replaceIdInParents(mockChildDefinition, mockId, mockNewId);
 
-    expect(actionServiceRegistry).toHaveBeenCalledWith(
+    expect(actionServiceRegistrySpy).toHaveBeenCalledWith(
       'testFeature',
       'testEntity',
     );

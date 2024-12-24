@@ -10,20 +10,24 @@ export function loadByIdsForType(
   idField = 'id',
 ): Observable<DepartmentChild[]> {
   return service.loadByIds(ids).pipe(
-    map((items) =>
-      items.map((item) => {
+    map(function loadByIdsForTypeMapItems(items): DepartmentChild[] {
+      return items.map(function loadByIdsForTypeMapRowItem(item) {
         const fieldValue = item[idField as keyof DepartmentChild] as string;
         return {
           id: `${type}:${fieldValue}`,
           name: item.name,
           children: [],
         } as DepartmentChild;
-      }),
-    ),
+      });
+    }),
     // wait for 1 second before calling this a failure
     timeout(1000),
     // catch any errors, including timeout, and just return
     // an empty array.
-    catchError(() => of([] as DepartmentChild[])),
+    catchError(function loadByIdsForTypeCatchError(): Observable<
+      DepartmentChild[]
+    > {
+      return of([] as DepartmentChild[]);
+    }),
   );
 }

@@ -1,5 +1,5 @@
 import { ActionService } from '../../actions/action.service';
-import * as actionServiceRegistry from '../../registrations/action.service.registry';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 // we have to supply requestIdleCallback for jest
 window.requestIdleCallback = (
@@ -26,7 +26,7 @@ describe('processMarkAndDelete', () => {
   beforeEach(() => {
     const mockActionService = new MockActionService();
     jest
-      .spyOn(actionServiceRegistry, 'actionServiceRegistry')
+      .spyOn(actionServiceRegistry, 'register')
       .mockImplementation(
         (_: string, __: string) =>
           mockActionService as unknown as ActionService,
@@ -71,30 +71,6 @@ describe('processMarkAndDelete', () => {
     const entity = 'exampleEntity';
     const garbageCollectRowIds: string[] = [];
     const markDirtyRowIds: string[] = [];
-
-    // Act
-    processMarkAndDelete(
-      featureKey,
-      entity,
-      garbageCollectRowIds,
-      markDirtyRowIds,
-    );
-
-    // Assert
-    expect(garbageCollectSpy).not.toHaveBeenCalled();
-    expect(markDirtySpy).not.toHaveBeenCalled();
-  });
-  it('should not call garbageCollect or markDirty when actionService is not found', () => {
-    // Arrange
-    const featureKey = 'nonExistentFeature';
-    const entity = 'nonExistentEntity';
-    const garbageCollectRowIds = ['row1', 'row2'];
-    const markDirtyRowIds = ['row3', 'row4'];
-
-    // Mock actionServiceRegistry to return undefined
-    jest
-      .spyOn(actionServiceRegistry, 'actionServiceRegistry')
-      .mockReturnValue(null);
 
     // Act
     processMarkAndDelete(

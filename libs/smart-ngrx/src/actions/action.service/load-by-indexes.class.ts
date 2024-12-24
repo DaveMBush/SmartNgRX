@@ -1,9 +1,13 @@
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { Observable, Subject, take } from 'rxjs';
+import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
+import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { newRowRegistry } from '../../selector/new-row-registry.class';
+import { IndexProp } from '../../types/index-prop.interfaces';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
@@ -17,11 +21,7 @@ import { bufferIndexes } from './buffer-indexes.function';
 export class LoadByIndexes {
   actions!: ActionGroup;
   entities!: Observable<Dictionary<SmartNgRXRowBase>>;
-  private loadByIndexesSubject = new Subject<{
-    parentId: string;
-    childField: string;
-    indexes: number[];
-  }>();
+  private loadByIndexesSubject = new Subject<IndexProp>();
 
   /**
    * The constructor for the LoadByIndexes class.
@@ -56,13 +56,13 @@ export class LoadByIndexes {
    *
    * @param parentId the id of the parent row
    * @param childField the child field to load
-   * @param indexes the indexes to load
+   * @param index the index to load
    */
-  loadByIndexes(parentId: string, childField: string, indexes: number[]): void {
+  loadByIndexes(parentId: string, childField: string, index: number): void {
     this.loadByIndexesSubject.next({
       parentId,
       childField,
-      indexes,
+      index,
     });
   }
 
@@ -70,17 +70,48 @@ export class LoadByIndexes {
    * Dispatches the loadByIndexes action after buffering the indexes.
    */
   loadByIndexesDispatcher(): void {
+    const feature = this.feature;
+    const entity = this.entity;
     this.loadByIndexesSubject
-      .pipe(bufferIndexes())
-      .subscribe(({ parentId, childField, indexes }) => {
-        this.store.dispatch(
-          this.actions.loadByIndexes({
-            parentId,
-            childField,
-            indexes,
-          }),
-        );
-      });
+      .pipe(
+        bufferIndexes(),
+        switchMap(function loadByIndexesSwitchMap({
+          parentId,
+          childField,
+          indexes,
+        }) {
+          // User reduce to find the min and max because spread can fail
+          // with large arrays.
+          const min = indexes.reduce(function reduceMin(a, b) {
+            return Math.min(a, b);
+          }, indexes[0]);
+          const max = indexes.reduce(function reduceMax(a, b) {
+            return Math.max(a, b);
+          }, indexes[0]);
+          const effectService = effectServiceRegistry.get(
+            entityDefinitionCache(feature, entity).effectServiceToken,
+          );
+          return (
+            effectService
+              .loadByIndexes(parentId, childField, min, max - min + 1)
+              // nested pipe to get access to actionProps
+              .pipe(
+                map(function loadByIndexesMapItem(serviceResult) {
+                  const actionService = actionServiceRegistry.register(
+                    feature,
+                    entity,
+                  );
+                  actionService.loadByIndexesSuccess(
+                    parentId,
+                    childField,
+                    serviceResult,
+                  );
+                }),
+              )
+          );
+        }),
+      )
+      .subscribe();
   }
 
   /**
@@ -98,19 +129,25 @@ export class LoadByIndexes {
     childField: string,
     array: PartialArrayDefinition,
   ): void {
-    this.entities.pipe(take(1)).subscribe((entities) => {
-      const row = entities[parentId] as Record<string, VirtualArrayContents> &
-        SmartNgRXRowBase;
-      const updatedField = this.processLoadByIndexesSuccess(
-        row[childField],
-        array,
-      );
-      this.store.dispatch(
-        this.actions.storeRows({
-          rows: [{ ...row, [childField]: updatedField }],
-        }),
-      );
-    });
+    const processLoadByIndexesSuccess =
+      this.processLoadByIndexesSuccess.bind(this);
+    const store = this.store;
+    const actions = this.actions;
+    this.entities
+      .pipe(take(1))
+      .subscribe(function loadByIndexesSuccessSubscribe(entities) {
+        const row = entities[parentId] as Record<string, VirtualArrayContents> &
+          SmartNgRXRowBase;
+        const updatedField = processLoadByIndexesSuccess(
+          row[childField],
+          array,
+        );
+        store.dispatch(
+          actions.storeRows({
+            rows: [{ ...row, [childField]: updatedField }],
+          }),
+        );
+      });
   }
 
   private processLoadByIndexesSuccess(
@@ -119,9 +156,12 @@ export class LoadByIndexes {
   ): VirtualArrayContents {
     const updatedField = { ...field };
     updatedField.indexes = [...field.indexes];
-    forNext(array.indexes, (item, index) => {
-      updatedField.indexes[index + array.startIndex] = item;
-    });
+    forNext(
+      array.indexes,
+      function processLoadByIndexesSuccessForNext(item, index) {
+        updatedField.indexes[index + array.startIndex] = item;
+      },
+    );
     updatedField.length = array.length;
     if (
       updatedField.indexes.length > 0 &&

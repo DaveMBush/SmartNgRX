@@ -50,26 +50,30 @@ export function createInnerSmartSelector<
     childDefinition,
   );
   return castTo<MemoizedSelector<object, EntityState<P>>>(
-    createSelector(parentSelector, childSelector, (parent, child) => {
-      const newParentEntity: EntityState<P> = {
-        ids: [...parent.ids] as number[] | string[],
-        entities: { ...parent.entities },
-      };
+    createSelector(
+      parentSelector,
+      childSelector,
+      function innerCreateInnerSmartSelector(parent, child) {
+        const newParentEntity: EntityState<P> = {
+          ids: [...parent.ids] as number[] | string[],
+          entities: { ...parent.entities },
+        };
 
-      convertChildrenToVirtualArray(
-        parentFieldName,
-        newParentEntity,
-        parentFeature,
-        parentEntity,
-      );
+        convertChildrenToVirtualArray(
+          parentFieldName,
+          newParentEntity,
+          parentFeature,
+          parentEntity,
+        );
 
-      convertChildrenToArrayProxy(
-        newParentEntity,
-        parentFieldName,
-        child,
-        childDefinition,
-      );
-      return newParentEntity;
-    }),
+        convertChildrenToArrayProxy(
+          newParentEntity,
+          parentFieldName,
+          child,
+          childDefinition,
+        );
+        return newParentEntity;
+      },
+    ),
   );
 }

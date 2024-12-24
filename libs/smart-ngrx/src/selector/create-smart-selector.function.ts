@@ -30,10 +30,15 @@ export function createSmartSelector<
   T extends SmartNgRXRowBase,
 >(
   parentSelector: ParentSelector<P>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- easiest way to allow any string definition
+
   children: ChildDefinition<P, T>[],
 ): MemoizedSelector<object, EntityState<P>> {
-  return children.reduce((p, child) => {
-    return createInnerSmartSelector(p, child);
-  }, parentSelector);
+  return children.reduce(createSmartSelectorChildReducer<P, T>, parentSelector);
+}
+
+function createSmartSelectorChildReducer<
+  P extends SmartNgRXRowBase,
+  T extends SmartNgRXRowBase,
+>(parentSelector: ParentSelector<P>, childDefinition: ChildDefinition<P, T>) {
+  return createInnerSmartSelector(parentSelector, childDefinition);
 }

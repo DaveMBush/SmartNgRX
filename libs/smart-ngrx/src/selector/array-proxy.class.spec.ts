@@ -17,16 +17,12 @@ jest.mock('./get-array-item.function', () => ({
   getArrayItem: jest.fn().mockReturnValue({ id: '1', relatedIds: [] }),
 }));
 
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { getArrayItem } from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
 
-// Mock the actionServiceRegistry and entityDefinitionCache
-jest.mock('../registrations/action.service.registry', () => ({
-  actionServiceRegistry: jest.fn().mockReturnValue({
-    remove: jest.fn(),
-  }),
-}));
+//Mock the actionServiceRegistry and entityDefinitionCache
 
 jest.mock('../registrations/entity-definition-cache.function', () => ({
   entityDefinitionCache: jest.fn().mockReturnValue({
@@ -60,7 +56,7 @@ describe('ArrayProxy', () => {
   let arrayProxy: TestableArrayProxy<MockRow, MockRow>;
   let mockChild: EntityState<MockRow>;
   let mockChildDefinition: ChildDefinition<MockRow, MockRow>;
-  let mockService: ActionService;
+  let mockService: ActionService<MockRow>;
 
   beforeEach(() => {
     mockChild = {
@@ -82,7 +78,10 @@ describe('ArrayProxy', () => {
     } as ChildDefinition<MockRow, MockRow>;
     mockService = {
       loadByIdsSuccess: jest.fn(),
-    } as unknown as ActionService;
+    } as unknown as ActionService<MockRow>;
+    jest
+      .spyOn(actionServiceRegistry, 'register')
+      .mockReturnValue(mockService as unknown as ActionService);
 
     arrayProxy = new ArrayProxy(
       [],
@@ -158,18 +157,18 @@ describe('ArrayProxy', () => {
     });
   });
   describe('addToStore', () => {
-    let mockParentService: ActionService;
+    let mockParentService: ActionService<MockRow>;
 
     beforeEach(() => {
       mockService = {
         add: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       mockParentService = {
         update: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
         service: mockService,
@@ -244,17 +243,17 @@ describe('ArrayProxy', () => {
   });
 
   describe('removeFromStore', () => {
-    let mockParentService: ActionService;
+    let mockParentService: ActionService<MockRow>;
 
     beforeEach(() => {
       mockService = {
         remove: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       mockParentService = {
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ActionService;
+      } as unknown as ActionService<MockRow>;
 
       jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
         service: mockService,

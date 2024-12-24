@@ -4,7 +4,8 @@ import { MockStore } from '@ngrx/store/testing';
 import { createStore, setState, store } from '@smarttools/smart-ngrx';
 import { firstValueFrom } from 'rxjs';
 
-import { selectLocations, selectTopLocations } from './top.selector';
+import { selectLocations } from '../locations/selectors/select-locations.selectors';
+import { selectTopLocations } from './select-top-locations.selector';
 
 describe('Top Selectors', () => {
   const initialTop = {

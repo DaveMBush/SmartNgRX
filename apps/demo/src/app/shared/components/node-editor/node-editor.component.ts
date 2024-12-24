@@ -27,7 +27,9 @@ import {
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => NodeEditorComponent),
+      useExisting: forwardRef(function forwardRefInner() {
+        return NodeEditorComponent;
+      }),
       multi: true,
     },
   ],
@@ -37,16 +39,17 @@ export class NodeEditorComponent
 {
   value = '';
   disabled = false;
-  onChange = (_: string): void => {
+  onChange(_: string): void {
     /* */
-  };
+  }
 
-  onTouched = (): void => {
+  onTouched(): void {
     /* */
-  };
+  }
 
   placeholder = input<string>('');
   readonly save = output<string>();
+  // eslint-disable-next-line @angular-eslint/no-output-native -- cancel only applies to a handful of elements which this is not
   readonly cancel = output();
   @ViewChild('input', { read: ElementRef })
   inputField!: ElementRef<HTMLInputElement>;

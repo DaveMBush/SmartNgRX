@@ -28,7 +28,7 @@ describe('RowProxy', () => {
     row.children.rawArray = ['child1', 'child2'];
     customProxy = new RowProxy<TRow>(
       row as unknown as TRow,
-      {} as ActionService,
+      {} as ActionService<TRow>,
       {} as ActionService,
     );
   });

@@ -8,7 +8,7 @@ import { markAndDeleteFeaturesInterval } from './mark-and-delete-effect/mark-and
  */
 export const markAndDeleteEffect = createEffect(
   /* istanbul ignore next -- not optional */
-  () => {
+  function markAndDeleteEffectFunction() {
     return markAndDeleteFeaturesInterval();
   },
   { dispatch: false, functional: true },

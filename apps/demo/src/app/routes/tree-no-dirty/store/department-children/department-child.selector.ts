@@ -1,10 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { selectTreeNoDirtyState } from '../tree-no-dirty.selectors';
+import { selectTreeNoDirtyState } from '../selectors/select-tree-no-dirty-state.selectors';
 
 export const selectDepartmentChildren = createSelector(
   selectTreeNoDirtyState,
-  (state) => {
+  function selectDepartmentChildrenFunction(state) {
     return state.departmentChildren;
   },
 );

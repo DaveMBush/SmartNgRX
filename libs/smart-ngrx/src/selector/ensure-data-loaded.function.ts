@@ -1,8 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 
-import { assert } from '../common/assert.function';
+import { ActionService } from '../actions/action.service';
 import { zoneless } from '../common/zoneless.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -23,11 +23,7 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): void {
-  const actionService = actionServiceRegistry(feature, entity);
-  assert(
-    !!actionService,
-    `the service for ${feature}:${entity} is not available`,
-  );
+  const actionService = actionServiceRegistry.register(feature, entity);
   const ids = entityState.entities as Record<string, T>;
 
   const idsId = ids[id];
@@ -40,8 +36,14 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
     // too much trouble to pass Zone in so just going after
     // unpatched Promise directly.
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
-    void unpatchedPromise.resolve().then(() => {
-      actionService.loadByIds([id]);
-    });
+    void unpatchedPromise
+      .resolve()
+      .then(actionServiceLoadByIds(actionService, id));
   }
+}
+
+function actionServiceLoadByIds(actionService: ActionService, id: string) {
+  return function internalActionServiceLoadByIds() {
+    actionService.loadByIds(id);
+  };
 }

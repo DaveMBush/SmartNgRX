@@ -4,7 +4,6 @@ import { createActionGroup, props } from '@ngrx/store';
 
 import { psi } from '../common/psi.const';
 import { IdsProp } from '../types/ids-prop.interface';
-import { IndexesProp } from '../types/indexes-props.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -42,37 +41,8 @@ export function actionFactory<T extends SmartNgRXRowBase>(
     events: {
       'Update Many': props<UpdateChanges<T>>(),
       Remove: props<IdsProp>(),
-      'Load By Ids': props<IdsProp>(),
-      'Load By Ids Preload': props<IdsProp>(),
-      'Load By Indexes': props<IndexesProp>(),
       'Store Rows': props<RowsProp<T>>(),
-      Update: props<{ old: RowProp<T>; new: RowProp<T> }>(),
-      'Add To Store': props<RowProp<T>>(),
-      Add: props<{
-        row: T;
-        feature: string;
-        entity: string;
-        parentId: string;
-        parentFeature: string;
-        parentEntityName: string;
-      }>(),
-      'Add Success': props<{
-        newRow: T;
-        oldRow: T;
-        feature: string;
-        entity: string;
-        parentId: string;
-        parentFeature: string;
-        parentEntityName: string;
-      }>(),
-      Delete: props<{
-        id: string;
-        parentInfo: {
-          feature: string;
-          entity: string;
-          ids: string[];
-        }[];
-      }>(),
+      'Upsert Row': props<RowProp<T>>(),
     },
   });
   actionGroupCache.set(source, actionGroup);

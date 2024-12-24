@@ -4,8 +4,8 @@ import { of } from 'rxjs';
 
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import { getEntityRegistry } from '../registrations/register-entity.function';
 import * as storeFunction from '../selector/store.function';
 import * as actionFactory from './action.factory';
 import { ActionService } from './action.service';
@@ -13,7 +13,7 @@ import { ActionGroup } from './action-group.interface';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-cache.function');
-jest.mock('../registrations/register-entity.function');
+jest.mock('../registrations/entity-registry.class');
 jest.mock('./action.factory');
 jest.mock('../selector/store.function');
 
@@ -54,6 +54,10 @@ describe('ActionService', () => {
     ) as unknown as TestableActionService;
   });
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   describe('init', () => {
     it('should return false if feature is not registered', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(false);
@@ -66,11 +70,19 @@ describe('ActionService', () => {
       (entityDefinitionCache as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
       });
-      (getEntityRegistry as jest.Mock).mockReturnValue({
+      (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},
       });
 
       expect(service.init()).toBeTruthy();
+    });
+
+    it('should return true if init has already been called', () => {
+      const spy = jest.spyOn(featureRegistry, 'hasFeature');
+      service.init();
+      jest.resetAllMocks();
+      expect(service.init()).toBeTruthy();
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
@@ -84,7 +96,7 @@ describe('ActionService', () => {
       (entityDefinitionCache as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
       });
-      (getEntityRegistry as jest.Mock).mockReturnValue({
+      (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},
       });
 
@@ -124,7 +136,7 @@ describe('ActionService', () => {
         };
 
         // Mock the store's select method to return our mock entities
-        // eslint-disable-next-line deprecation/deprecation -- needed for testing
+        // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed for testing
         mockStore.select.mockReturnValue(of(mockEntities));
 
         // Mock the entityAdapter's selectEntities method
@@ -136,7 +148,12 @@ describe('ActionService', () => {
             getSelectors: () => ({ selectEntities: mockSelectEntities }),
           },
         });
-
+        // we need a new instance of the service so we can
+        // rerun the init method to use our mocks.
+        service = new ActionService(
+          'testFeature',
+          'testEntity',
+        ) as unknown as TestableActionService;
         // Reinitialize the service to use our new mocks
         service.init();
 
@@ -155,7 +172,7 @@ describe('ActionService', () => {
         const mockEntities: Record<string, MockEntity> = {
           '1': { id: '1', isEditing: true },
         };
-        // eslint-disable-next-line deprecation/deprecation -- needed for testing
+        // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed for testing
         mockStore.select.mockReturnValue(of(mockEntities));
 
         service.garbageCollect(['1']);

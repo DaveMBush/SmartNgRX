@@ -18,19 +18,27 @@ export class SocketService {
     switch (data.table) {
       case 'docs':
         data.table = 'departmentChildren';
-        data.ids = data.ids.map((id) => `docs:${id}`);
+        data.ids = data.ids.map(function mapDocsIds(id) {
+          return `docs:${id}`;
+        });
         break;
       case 'lists':
         data.table = 'departmentChildren';
-        data.ids = data.ids.map((id) => `lists:${id}`);
+        data.ids = data.ids.map(function mapListsIds(id) {
+          return `lists:${id}`;
+        });
         break;
       case 'folders':
         data.table = 'departmentChildren';
-        data.ids = data.ids.map((id) => `folders:${id}`);
+        data.ids = data.ids.map(function mapFoldersIds(id) {
+          return `folders:${id}`;
+        });
         break;
       case 'sprintFolders':
         data.table = 'departmentChildren';
-        data.ids = data.ids.map((id) => `sprint-folders:${id}`);
+        data.ids = data.ids.map(function mapSprintFoldersIds(id) {
+          return `sprint-folders:${id}`;
+        });
         break;
       default:
         break;

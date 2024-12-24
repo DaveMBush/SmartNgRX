@@ -1,9 +1,9 @@
-import { EntityState } from '@ngrx/entity';
+import { Dictionary, EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
-import { assert } from '../common/assert.function';
+import { ActionService } from '../actions/action.service';
 import { forNext } from '../common/for-next.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -21,28 +21,38 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = actionServiceRegistry(feature, entity);
-  assert(
-    !!actionService,
-    `the service for ${feature}:${entity} is not available`,
-  );
+  const actionService = actionServiceRegistry.register(feature, entity);
   if (!featureRegistry.hasFeature(feature)) {
     return;
   }
-  const selectEntities = (state: unknown) => {
+  function selectEntities(state: unknown) {
     const featureState = (
       state as Record<string, Record<string, EntityState<T>>>
     )[feature];
     return featureState[entity].entities;
-  };
+  }
   store()
     .select(selectEntities)
     .pipe(take(1))
-    .subscribe((state) => {
-      forNext(ids, (id) => {
-        if (state[id] !== undefined) {
-          actionService.forceDirty([id]);
-        }
-      });
-    });
+    .subscribe(forceEntitiesDirty(ids, actionService));
+}
+
+function forceEntitiesDirty<T extends SmartNgRXRowBase>(
+  ids: string[],
+  actionService: ActionService<T>,
+): (state: Dictionary<T>) => void {
+  return function innerForceEntitiesDirty(state: Dictionary<T>) {
+    forNext(ids, forceIdDirty(state, actionService));
+  };
+}
+
+function forceIdDirty<T extends SmartNgRXRowBase>(
+  state: Dictionary<T>,
+  actionService: ActionService<T>,
+): (id: string) => void {
+  return function innerForceIdDirty(id: string) {
+    if (state[id] !== undefined) {
+      actionService.forceDirty([id]);
+    }
+  };
 }

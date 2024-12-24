@@ -1,14 +1,10 @@
 import { InjectionToken } from '@angular/core';
 
 import { ActionService } from '../actions/action.service';
-import { assert } from '../common/assert.function';
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import {
-  registerEntity,
-  unregisterEntity,
-} from '../registrations/register-entity.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
@@ -31,20 +27,19 @@ describe('updateEntity', () => {
       effectServiceToken: new InjectionToken(entity + 'Service'),
       defaultRow: () => ({ id: '1' }),
     });
-    registerEntity(feature, entity, {
+    entityRegistry.register(feature, entity, {
       defaultRow: () => ({ id: '1' }),
       markAndDeleteInit: {} as MarkAndDeleteInit,
       markAndDeleteEntityMap: new Map(),
     });
     featureRegistry.registerFeature(feature);
-    actionService = actionServiceRegistry(feature, entity);
-    assert(!!actionService, 'actionService is not available');
+    actionService = actionServiceRegistry.register(feature, entity);
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 
   afterEach(() => {
     actionServiceForceDirtySpy.mockRestore();
-    unregisterEntity(feature, entity);
+    entityRegistry.unregister(feature, entity);
   });
 
   it('should update entities', () => {

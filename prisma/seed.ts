@@ -5,6 +5,7 @@ const prisma = new PrismaClient({
 });
 
 (async function main() {
+  if (process.env.CI === 'true') return;
   const locationIds = await seedLocations();
   if (!locationIds.length) throw new Error('No locations found after seeding');
   const departmentIds = await seedTable(

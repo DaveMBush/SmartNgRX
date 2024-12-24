@@ -1,6 +1,6 @@
 import { take } from 'rxjs';
 
-import { actionServiceRegistry } from '../registrations/action.service.registry';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
@@ -16,18 +16,17 @@ export function replaceIdInParents(
   id: string,
   newId: string,
 ): void {
-  const parentService = actionServiceRegistry(
+  const parentService = actionServiceRegistry.register(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
   );
-  if (parentService === null) {
-    return;
-  }
-  parentService.entities.pipe(take(1)).subscribe((entities) => {
-    // optimistically remove the ids from the parent
-    replaceIdInFeatureParents(entities, childDefinition, parentService, [
-      id,
-      newId,
-    ]);
-  });
+  parentService.entities
+    .pipe(take(1))
+    .subscribe(function replaceIdInParentsSubscribe(entities) {
+      // optimistically remove the ids from the parent
+      replaceIdInFeatureParents(entities, childDefinition, parentService, [
+        id,
+        newId,
+      ]);
+    });
 }

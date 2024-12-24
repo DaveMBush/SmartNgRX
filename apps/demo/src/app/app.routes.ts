@@ -1,4 +1,4 @@
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, Type } from '@angular/core';
 import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
@@ -28,7 +28,8 @@ import { standardDepartmentsDefinition } from './routes/tree-standard/store/depa
 import { standardDepartmentChildrenDefinition } from './routes/tree-standard/store/department-children/standard-department-children-definition';
 import { standardLocationsDefinition } from './routes/tree-standard/store/locations/standard-locations-definition';
 import { standardTopDefinition } from './routes/tree-standard/store/top/standard-top-definition.const';
-import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state.interface';
+import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state2.interface';
+import { TreeComponent } from './routes/tree-standard/tree.component';
 
 // This ensure we have one key per SharedState property
 const sharedReducersStandard: ActionReducerMap<TreeStandardState2> = {
@@ -53,13 +54,16 @@ export const appRoutes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: async () =>
-      (await import('./routes/home/home.component')).HomeComponent,
+    loadComponent: async function homeRoute(): Promise<Type<unknown>> {
+      return (await import('./routes/home/home.component')).HomeComponent;
+    },
   },
   {
     path: 'tree',
-    loadComponent: async () =>
-      (await import('./routes/tree-standard/tree.component')).TreeComponent,
+    loadComponent: async function treeRoute(): Promise<Type<TreeComponent>> {
+      return (await import('./routes/tree-standard/tree.component'))
+        .TreeComponent;
+    },
     providers: [
       importProvidersFrom([
         StoreModule.forFeature('tree-standard2', sharedReducersStandard),
@@ -75,9 +79,11 @@ export const appRoutes: Routes = [
   },
   {
     path: 'treeNoRefresh',
-    loadComponent: async () =>
-      (await import('./routes/tree-no-refresh/tree-no-refresh.component'))
-        .TreeNoRefreshComponent,
+    loadComponent: async function treeNoRefreshRoute(): Promise<Type<unknown>> {
+      return (
+        await import('./routes/tree-no-refresh/tree-no-refresh.component')
+      ).TreeNoRefreshComponent;
+    },
     providers: [
       importProvidersFrom([
         StoreModule.forFeature('tree-no-refresh2', sharedReducersNoRefresh),
@@ -93,9 +99,10 @@ export const appRoutes: Routes = [
   },
   {
     path: 'treeNoDirty',
-    loadComponent: async () =>
-      (await import('./routes/tree-no-dirty/tree-no-dirty.component'))
-        .TreeNoDirtyComponent,
+    loadComponent: async function treeNoDirtyRoute(): Promise<Type<unknown>> {
+      return (await import('./routes/tree-no-dirty/tree-no-dirty.component'))
+        .TreeNoDirtyComponent;
+    },
     providers: [
       importProvidersFrom([
         StoreModule.forFeature('tree-no-dirty2', sharedReducersNoDirty),
@@ -111,9 +118,10 @@ export const appRoutes: Routes = [
   },
   {
     path: 'treeNoRemove',
-    loadComponent: async () =>
-      (await import('./routes/tree-no-remove/tree-no-remove.component'))
-        .TreeNoRemoveComponent,
+    loadComponent: async function treeNoRemoveRoute(): Promise<Type<unknown>> {
+      return (await import('./routes/tree-no-remove/tree-no-remove.component'))
+        .TreeNoRemoveComponent;
+    },
     providers: [
       importProvidersFrom([
         StoreModule.forFeature('tree-no-remove2', sharedReducersNoRemove),

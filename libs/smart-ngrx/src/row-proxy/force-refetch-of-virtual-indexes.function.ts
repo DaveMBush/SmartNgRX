@@ -23,8 +23,14 @@ export function forceRefetchOfVirtualIndexes<T extends SmartNgRXRowBase>(
     return;
   }
   const keys = Object.keys(row) as (keyof T)[];
-  forNext(keys, (key) => {
-    const arrayProxy = (row as Record<keyof T, unknown>)[key] as ArrayProxy;
+  forNext(keys, forNextFunction<T>(row));
+}
+
+function forNextFunction<T extends SmartNgRXRowBase>(
+  row: Record<keyof T, unknown>,
+) {
+  return function innerForNextFunction(key: keyof T) {
+    const arrayProxy = row[key] as ArrayProxy;
     if (arrayProxy === undefined) {
       return;
     }
@@ -34,5 +40,5 @@ export function forceRefetchOfVirtualIndexes<T extends SmartNgRXRowBase>(
     if (isVirtualArray(rawArray)) {
       rawArray.refetchIndexes();
     }
-  });
+  };
 }
