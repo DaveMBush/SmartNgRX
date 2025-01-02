@@ -1,5 +1,6 @@
 import { createEffect } from '@ngrx/effects';
 
+import { functionEffectNoDispatch } from '../constants/function-effect-no-dispatch.const';
 import { markAndDeleteFeaturesInterval } from './mark-and-delete-effect/mark-and-delete-features-interval.function';
 
 /**
@@ -11,5 +12,5 @@ export const markAndDeleteEffect = createEffect(
   function markAndDeleteEffectFunction() {
     return markAndDeleteFeaturesInterval();
   },
-  { dispatch: false, functional: true },
+  functionEffectNoDispatch,
 );

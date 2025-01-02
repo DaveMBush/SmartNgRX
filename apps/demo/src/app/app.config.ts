@@ -12,9 +12,13 @@ import {
   provideStoreDevtools,
   StoreDevtoolsModule,
 } from '@ngrx/store-devtools';
-import { provideSmartNgRX } from '@smarttools/smart-ngrx';
+import {
+  provideSmartNgRX,
+  smartNgRXErrorHandlerToken,
+} from '@smarttools/smart-ngrx';
 
 import { appRoutes } from './app.routes';
+import { ErrorHandlerService } from './error-handler/error-handler.service';
 import { DepartmentEffectsService } from './shared/department/department-effects.service';
 import { departmentEffectsServiceToken } from './shared/department/department-effects.service-token';
 import { DepartmentChildEffectsService } from './shared/department-children/department-child-effects.service';
@@ -35,6 +39,10 @@ export const appConfig: ApplicationConfig = {
         s.init();
         return s;
       },
+    },
+    {
+      provide: smartNgRXErrorHandlerToken,
+      useClass: ErrorHandlerService,
     },
     {
       provide: topEffectsServiceToken,

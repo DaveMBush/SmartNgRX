@@ -5,6 +5,7 @@ import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { handleError } from '../error-handler/handle-error.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
@@ -279,7 +280,14 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     effectService
       .delete(id)
       .pipe(
-        catchError(function deleteEffectConcatMapCatchError(_: unknown, __) {
+        catchError(function deleteEffectConcatMapCatchError(
+          error: unknown,
+          __,
+        ) {
+          handleError(
+            'Error deleting row, refreshing the parent row(s)',
+            error,
+          );
           markFeatureParentsDirty({
             id,
             parentInfo,

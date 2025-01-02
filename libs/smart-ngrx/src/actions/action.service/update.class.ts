@@ -12,6 +12,7 @@ import {
 import { catchError } from 'rxjs/operators';
 
 import { manageMaps } from '../../effects/effects-factory/long-running-observables/manage-maps.function';
+import { handleError } from '../../error-handler/handle-error.function';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { RowProp } from '../../types/row-prop.interface';
@@ -95,8 +96,8 @@ export class Update<T extends SmartNgRXRowBase> {
               .effectServiceToken,
           );
           return effectService.update(action.new.row).pipe(
-            catchError(function updateEffectConcatMapCatchError() {
-              return of([action.old.row]);
+            catchError(function errorHandler(error: unknown) {
+              return context.handleUpdateError(error, action.old.row);
             }),
           );
         }),
@@ -114,5 +115,18 @@ export class Update<T extends SmartNgRXRowBase> {
         }),
       )
       .subscribe();
+  }
+
+  /**
+   * Handles update errors by rolling back to the original row
+   *
+   * @param error The error that occurred
+   * @param originalRow The original row to roll back to
+   *
+   * @returns An observable of the original row
+   */
+  private handleUpdateError(error: unknown, originalRow: SmartNgRXRowBase) {
+    handleError('Error updating row, rolling back to original row', error);
+    return of([originalRow]);
   }
 }
