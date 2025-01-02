@@ -1,4 +1,4 @@
-import { EffectConfig } from '@ngrx/effects/src/models';
+import { EffectConfig } from '@ngrx/effects';
 
 export const functionEffectNoDispatch: EffectConfig & {
   functional: true;

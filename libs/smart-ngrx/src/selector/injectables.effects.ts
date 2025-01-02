@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { createEffect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 import { functionEffectNoDispatch } from '../constants/function-effect-no-dispatch.const';
 import { injectOptional } from '../constants/inject-optional.const';
@@ -28,7 +28,7 @@ export const injectablesEffect = createEffect(
     if (errorHandler) {
       errorHandlerRegistry.register(errorHandler);
     }
-    return of(null);
+    return EMPTY;
   },
   functionEffectNoDispatch,
 );
