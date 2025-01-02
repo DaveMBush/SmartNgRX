@@ -22,3 +22,7 @@ export * from './tests/functions/set-state.function';
 export * from './types/partial-array-definition.interface';
 export * from './types/smart-entity-definition.interface';
 export * from './types/smart-ngrx-row-base.interface';
+
+// error handling
+export * from './error-handler/smart-ngrx-error-handler.interface';
+export * from './error-handler/smart-ngrx-error-handler-token.const';

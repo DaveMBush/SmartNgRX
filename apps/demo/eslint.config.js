@@ -44,4 +44,10 @@ module.exports = [
       '@angular-eslint/prefer-standalone': 'off',
     },
   },
+  {
+    files: ['**/demo/src/app/error-handler/error-handler.service.ts'],
+    rules: {
+      'no-console': 'off',
+    },
+  },
 ];

@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 
 import { forNext } from '../../common/for-next.function';
 import { EffectService } from '../../effects/effect-service';
+import { handleError } from '../../error-handler/handle-error.function';
 import { childDefinitionRegistry } from '../../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
@@ -92,16 +93,11 @@ export class Add<T extends SmartNgRXRowBase> {
           ) as string;
           context.replaceIdInParents(oldId, successPayload.newRow.id);
         }),
-        catchError(function addEffectConcatMapCatchError(
-          _: unknown,
+        catchError(function addErrorHandler(
+          error: unknown,
           __: Observable<void>,
         ) {
-          markParentsDirty(
-            actionPayload.parentFeature,
-            actionPayload.parentEntityName,
-            [actionPayload.parentId],
-          );
-          return of(null);
+          return context.handleAddError(error, actionPayload);
         }),
         // self terminating subscription
       )
@@ -142,5 +138,32 @@ export class Add<T extends SmartNgRXRowBase> {
         replaceIdInParents(childDefinition, id, newId);
       },
     );
+  }
+
+  /**
+   * Handles errors that occur during the add operation
+   *
+   * @param error The error that occurred
+   * @param actionPayload The action payload object
+   * @param actionPayload.parentFeature The feature of the parent entity
+   * @param actionPayload.parentEntityName The name of the parent entity
+   * @param actionPayload.parentId The ID of the parent entity
+   * @returns An observable of null to continue the stream
+   */
+  private handleAddError(
+    error: unknown,
+    actionPayload: {
+      parentFeature: string;
+      parentEntityName: string;
+      parentId: string;
+    },
+  ): Observable<null> {
+    handleError('Error adding row, refreshing the parent row(s)', error);
+    markParentsDirty(
+      actionPayload.parentFeature,
+      actionPayload.parentEntityName,
+      [actionPayload.parentId],
+    );
+    return of(null);
   }
 }
