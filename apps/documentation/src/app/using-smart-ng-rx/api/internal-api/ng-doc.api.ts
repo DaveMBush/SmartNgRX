@@ -14,7 +14,6 @@ const api: NgDocApi = {
       exclude: [
         'libs/smart-ngrx/src/index.ts',
         'libs/smart-ngrx/src/**/*.spec.ts',
-        'libs/smart-ngrx/src/ngrx-internals/**/*',
       ],
     },
   ],
