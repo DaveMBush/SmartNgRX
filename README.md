@@ -7,6 +7,7 @@
 [![Angular - 18](https://img.shields.io/badge/Angular-18-2ea44f)](https://angular.dev/)
 [![NgRX - 19](https://img.shields.io/badge/NgRX-18-2ea44f)](https://ngrx.io/guide/store)
 ![Branch Coverage](https://img.shields.io/badge/Branch%20Coverage-100%25-2ea44f?style=plastic&logoSize=auto)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/DaveMBush/SmartNgRX)
 
 ## What is SmartNgRX?
 
