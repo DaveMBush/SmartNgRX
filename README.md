@@ -30,6 +30,12 @@ SmartNgRX is a library that hides most of NgRX from the developer for CRUD opera
 
 More details are in our [documentation](https://davembush.github.io/SmartNgRX/).
 
+## But How Fast Is It?
+
+Click the image below to see a video of SmartNgRX in action.
+
+[![How Fast Is SmartNgRX?](https://img.youtube.com/vi/xA8jEnNA4V0/0.jpg)](https://www.youtube.com/watch?v=xA8jEnNA4V0)
+
 ## Installation
 
 To install this library, run:
