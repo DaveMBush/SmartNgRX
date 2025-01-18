@@ -22,6 +22,10 @@ class EffectServiceRegistry {
     assert(!!service, 'Effect service not found');
     return service as EffectService<T>;
   }
+
+  has(token: InjectionToken<EffectService<SmartNgRXRowBase>>) {
+    return this.effectServices.has(token);
+  }
 }
 
 export const effectServiceRegistry = new EffectServiceRegistry();

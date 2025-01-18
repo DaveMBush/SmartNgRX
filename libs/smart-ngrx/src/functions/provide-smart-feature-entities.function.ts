@@ -8,6 +8,7 @@ import { zoneless } from '../common/zoneless.function';
 import { effectsFactory } from '../effects/effects-factory.function';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
@@ -46,6 +47,7 @@ export function provideSmartFeatureEntities(
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
+
   forNext(
     entityDefinitions,
     function provideSmartFeatureEntitiesForNext(entityDefinition) {
@@ -55,6 +57,10 @@ export function provideSmartFeatureEntities(
         entityDefinition,
       );
       const { entityName, effectServiceToken } = entityDefinition;
+      if (!featureRegistry.hasFeature(featureName)) {
+        featureRegistry.registerFeature(featureName);
+      }
+
       const effects = effectsFactory(featureName, effectServiceToken);
       provideWatchInitialRowEffect(
         entityDefinition,
@@ -73,6 +79,7 @@ export function provideSmartFeatureEntities(
         });
     },
   );
+
   return importProvidersFrom(
     StoreModule.forFeature(featureName, reducers),
     EffectsModule.forFeature(allEffects),
