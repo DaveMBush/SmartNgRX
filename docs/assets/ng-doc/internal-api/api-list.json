@@ -98,6 +98,16 @@
         "name": "zoneless"
       },
       {
+        "route": "/internal-api/variables/internal-api/functionEffectNoDispatch",
+        "type": "Variable",
+        "name": "functionEffectNoDispatch"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/injectOptional",
+        "type": "Variable",
+        "name": "injectOptional"
+      },
+      {
         "route": "/internal-api/classes/internal-api/EffectService",
         "type": "Class",
         "name": "EffectService"
@@ -106,6 +116,31 @@
         "route": "/internal-api/functions/internal-api/effectsFactory",
         "type": "Function",
         "name": "effectsFactory"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/errorHandlerRegistry",
+        "type": "Variable",
+        "name": "errorHandlerRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/errorHandler",
+        "type": "Variable",
+        "name": "errorHandler"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/handleError",
+        "type": "Function",
+        "name": "handleError"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/smartNgRXErrorHandlerToken",
+        "type": "Variable",
+        "name": "smartNgRXErrorHandlerToken"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/SmartNgRXErrorHandler",
+        "type": "Interface",
+        "name": "SmartNgRXErrorHandler"
       },
       {
         "route": "/internal-api/functions/internal-api/delayedRegisterEntity",
@@ -268,6 +303,11 @@
         "name": "getServices"
       },
       {
+        "route": "/internal-api/variables/internal-api/injectablesEffect",
+        "type": "Variable",
+        "name": "injectablesEffect"
+      },
+      {
         "route": "/internal-api/functions/internal-api/isArrayProxy",
         "type": "Function",
         "name": "isArrayProxy"
@@ -291,11 +331,6 @@
         "route": "/internal-api/interfaces/internal-api/SmartArray",
         "type": "Interface",
         "name": "SmartArray"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/storeEffect",
-        "type": "Variable",
-        "name": "storeEffect"
       },
       {
         "route": "/internal-api/functions/internal-api/store",
