@@ -5,16 +5,14 @@ import { ActionReducer, StoreModule } from '@ngrx/store';
 
 import { forNext } from '../common/for-next.function';
 import { zoneless } from '../common/zoneless.function';
-import { effectsFactory } from '../effects/effects-factory.function';
+import { registerFeatureEffect } from '../effects/effects-factory/register-feature-effect.function';
+import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
-import { provideWatchInitialRowEffect } from './provide-watch-initial-row-effect.function';
-import { registerFeatureEffect } from '../effects/effects-factory/register-feature-effect.function';
-import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 

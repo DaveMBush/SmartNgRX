@@ -15,8 +15,6 @@ let globalStore: Store | undefined;
  * Internal function used to provide and retrieve a global store
  * that is needed by code that does not have DI.
  *
- * @param storeParam This is an optional parameter.  If it is there,
- *     we set the store.  Otherwise, we use what is already set.
  * @returns = the global store value.
  */
 export function store(): Store {
