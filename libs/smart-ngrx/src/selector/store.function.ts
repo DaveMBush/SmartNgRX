@@ -1,6 +1,7 @@
-import type { Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { assert } from '../common/assert.function';
+import { getRootInjector } from '../common/root-injector.function';
 
 /**
  * This code allows us to make the store globally available without using dependency injection.
@@ -18,12 +19,9 @@ let globalStore: Store | undefined;
  *     we set the store.  Otherwise, we use what is already set.
  * @returns = the global store value.
  */
-export function store(
-  // eslint-disable-next-line @ngrx/use-consistent-global-store-name -- it is either this or get a shadowing lint issue
-  storeParam?: Store,
-): Store {
-  if (storeParam) {
-    globalStore = storeParam;
+export function store(): Store {
+  if (!globalStore) {
+    globalStore = getRootInjector().get(Store);
   }
   assert(!!globalStore, 'store is undefined');
   return globalStore;

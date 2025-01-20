@@ -11,7 +11,6 @@ import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { setRootInjector } from '../common/root-injector.function';
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
 import { markAndDeleteEffect } from '../mark-and-delete/mark-and-delete.effect';
-import { injectablesEffect } from '../selector/injectables.effects';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
 /**
@@ -65,7 +64,6 @@ export function provideSmartNgRX(
       setRootInjector(inject(EnvironmentInjector));
     }),
     provideEffects({
-      injectablesEffect,
       markAndDeleteEffect,
     }),
   ]);

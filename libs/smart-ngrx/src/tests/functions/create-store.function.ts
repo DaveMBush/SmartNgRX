@@ -1,6 +1,7 @@
 import { createMockStore } from '@ngrx/store/testing';
 
 import { store } from '../../selector/store.function';
+import { assert } from '../../common/assert.function';
 
 /**
  * Used during unit testing, this creates an empty
@@ -8,5 +9,6 @@ import { store } from '../../selector/store.function';
  * so our code can get at it later.
  */
 export function createStore(): void {
-  store(createMockStore({ initialState: {} }));
+  assert(false, 'createStore is not implemented');
+  //store(createMockStore({ initialState: {} }));
 }
