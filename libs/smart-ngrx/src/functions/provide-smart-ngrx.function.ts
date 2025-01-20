@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { setRootInjector } from '../common/root-injector.function';
+import { rootInjector } from '../common/root-injector.function';
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { markAndDeleteFeaturesInterval } from '../mark-and-delete/mark-and-delete-effect/mark-and-delete-features-interval.function';
@@ -61,7 +61,7 @@ export function provideSmartNgRX(
   return makeEnvironmentProviders([
     // eslint-disable-next-line @smarttools/no-anonymous-functions -- have to use fat arrow to get access to the injector
     provideAppInitializer(() => {
-      setRootInjector(inject(EnvironmentInjector));
+      rootInjector.set(inject(EnvironmentInjector));
     })
   ]);
 }

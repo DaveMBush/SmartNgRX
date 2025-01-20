@@ -1,22 +1,29 @@
 import { EnvironmentInjector } from '@angular/core';
 
-let rootInjector: EnvironmentInjector;
-
 /**
- * Sets the root injector for the application.
- * This should be called once during application initialization.
+ * Manages the root injector for the application.
  */
-export function setRootInjector(injector: EnvironmentInjector): void {
-  rootInjector = injector;
-}
+class RootInjector {
+  private instance: EnvironmentInjector | undefined;
 
-/**
- * Gets the root injector for the application.
- * @throws Error if the root injector hasn't been set
- */
-export function getRootInjector(): EnvironmentInjector {
-  if (!rootInjector) {
-    throw new Error('Root injector not set. Call setRootInjector first.');
+  /**
+   * Sets the root injector for the application.
+   * This should be called once during application initialization.
+   */
+  set(injector: EnvironmentInjector): void {
+    this.instance = injector;
   }
-  return rootInjector;
+
+  /**
+   * Gets the root injector for the application.
+   * @throws Error if the root injector hasn't been set
+   */
+  get(): EnvironmentInjector {
+    if (!this.instance) {
+      throw new Error('Root injector not set. Call rootInjector.set first.');
+    }
+    return this.instance;
+  }
 }
+
+export const rootInjector = new RootInjector();

@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 
 import { assert } from '../common/assert.function';
-import { getRootInjector } from '../common/root-injector.function';
+import { rootInjector } from '../common/root-injector.function';
 
 /**
  * This code allows us to make the store globally available without using dependency injection.
@@ -19,7 +19,7 @@ let globalStore: Store | undefined;
  */
 export function store(): Store {
   if (!globalStore) {
-    globalStore = getRootInjector().get(Store);
+    globalStore = rootInjector.get().get(Store);
   }
   assert(!!globalStore, 'store is undefined');
   return globalStore;
