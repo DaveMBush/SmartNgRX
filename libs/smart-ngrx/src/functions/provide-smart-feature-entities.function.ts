@@ -1,5 +1,5 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
-import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
+import { createEffect, EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
@@ -13,6 +13,8 @@ import { SmartEntityDefinition } from '../types/smart-entity-definition.interfac
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 import { provideWatchInitialRowEffect } from './provide-watch-initial-row-effect.function';
+import { registerFeatureEffect } from '../effects/effects-factory/register-feature-effect.function';
+import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
@@ -61,13 +63,18 @@ export function provideSmartFeatureEntities(
         featureRegistry.registerFeature(featureName);
       }
 
-      const effects = effectsFactory(featureName, effectServiceToken);
-      provideWatchInitialRowEffect(
-        entityDefinition,
-        effects,
-        featureName,
-        entityName,
-      );
+      const effects: Record<string, FunctionalEffect> = {
+        registerFeature: createEffect(
+          registerFeatureEffect(featureName, effectServiceToken),
+          { dispatch: false , functional: true },
+        ),
+      };
+      if (entityDefinition.isInitialRow === true) {
+        effects['watchInitialRow'] = createEffect(
+          watchInitialRowEffect(featureName, entityName),
+          { dispatch: false, functional: true },
+        );
+      }
 
       allEffects.push(effects);
       const reducer = reducerFactory(featureName, entityName);
