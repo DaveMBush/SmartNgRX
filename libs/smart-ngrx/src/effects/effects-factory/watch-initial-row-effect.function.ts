@@ -17,15 +17,16 @@ export function watchInitialRowEffect<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ) {
-  const selectFeature =
-    createFeatureSelector<Record<string, EntityState<T>>>(feature);
-  const selectTopRow = createSelector(
-    selectFeature,
-    function watchInitialRowEffectSelectTopRow(state) {
-      return state[entity];
-    },
-  );
   return function watchInitialRowEffectFunction() {
+    const selectFeature =
+      createFeatureSelector<Record<string, EntityState<T>>>(feature);
+    const selectTopRow = createSelector(
+      selectFeature,
+      function watchInitialRowEffectSelectTopRow(state) {
+        return state[entity];
+      },
+    );
+
     return store()
       .select(selectTopRow)
       .pipe(

@@ -5,6 +5,7 @@ import { EnvironmentInjector } from '@angular/core';
  */
 class RootInjector {
   private instance: EnvironmentInjector | undefined;
+  private functionList: (() => void)[] = [];
 
   /**
    * Sets the root injector for the application.
@@ -12,6 +13,7 @@ class RootInjector {
    */
   set(injector: EnvironmentInjector): void {
     this.instance = injector;
+    this.runAll();
   }
 
   /**
@@ -23,6 +25,31 @@ class RootInjector {
       throw new Error('Root injector not set. Call rootInjector.set first.');
     }
     return this.instance;
+  }
+
+  /**
+   * Registers a function to run when the root injector
+   * is available.
+   *
+   * @param fn The function to run.
+   */
+  runOnRootInjector(fn: () => void): void {
+    if (this.instance) {
+      fn();
+      return;
+    }
+    this.functionList.push(fn);
+  }
+
+  /**
+   * Runs all the functions that were registered to run
+   * when the root injector is available.
+   */
+  runAll(): void {
+    this.functionList.forEach(function runFunction(fn) {
+      fn();
+    });
+    this.functionList = [];
   }
 }
 

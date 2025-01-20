@@ -13,6 +13,8 @@ import { featureRegistry } from '../registrations/feature-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { rootInjector } from '../common/root-injector.function';
+import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
@@ -61,12 +63,23 @@ export function provideSmartFeatureEntities(
         featureRegistry.registerFeature(featureName);
       }
 
-      const effects: Record<string, FunctionalEffect> = {
-        registerFeature: createEffect(
-          registerFeatureEffect(featureName, effectServiceToken),
-          { dispatch: false , functional: true },
-        ),
-      };
+      rootInjector.runOnRootInjector(
+        function registerFeature() {
+          if (!effectServiceRegistry.has(effectServiceToken)) {
+            effectServiceRegistry.register(
+              effectServiceToken,
+              rootInjector.get().get(effectServiceToken),
+            );
+          }
+        },
+      );
+      // if (entityDefinition.isInitialRow === true) {
+      //   rootInjector.runOnRootInjector(() => {
+      //     watchInitialRowEffect(featureName, entityName)().subscribe();
+      //   });
+      // }
+
+      const effects: Record<string, FunctionalEffect> = {};
       if (entityDefinition.isInitialRow === true) {
         effects['watchInitialRow'] = createEffect(
           watchInitialRowEffect(featureName, entityName),
