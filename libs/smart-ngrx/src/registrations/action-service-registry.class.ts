@@ -26,6 +26,11 @@ class ActionServiceRegistry {
     return actionServiceCache as unknown as ActionService<T>;
   }
 
+  hasActionService(feature: string, entity: string): boolean {
+    const key = `${feature}${psi}${entity}`;
+    return this.actionServiceMap.has(key);
+  }
+
   /**
    * Only used for testing so we can clear the registry
    * between unit tests

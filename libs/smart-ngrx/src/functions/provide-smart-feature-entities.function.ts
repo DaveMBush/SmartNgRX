@@ -1,11 +1,10 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { createEffect, EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
-import { ActionReducer, StoreModule } from '@ngrx/store';
+import { ActionReducer, createReducer, StoreModule } from '@ngrx/store';
 
 import { forNext } from '../common/for-next.function';
 import { zoneless } from '../common/zoneless.function';
-import { registerFeatureEffect } from '../effects/effects-factory/register-feature-effect.function';
 import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
@@ -28,7 +27,7 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  * ``` typescript
  * providers: [
  * ...
- * provideEntities('someFeature', entityDefinitions),
+ * provideSmartFeatureEntities('someFeature', entityDefinitions),
  * ...
  * ],
  * ```
@@ -63,21 +62,17 @@ export function provideSmartFeatureEntities(
         featureRegistry.registerFeature(featureName);
       }
 
-      rootInjector.runOnRootInjector(
-        function registerFeature() {
-          if (!effectServiceRegistry.has(effectServiceToken)) {
-            effectServiceRegistry.register(
-              effectServiceToken,
-              rootInjector.get().get(effectServiceToken),
-            );
-          }
-        },
-      );
-      // if (entityDefinition.isInitialRow === true) {
-      //   rootInjector.runOnRootInjector(() => {
-      //     watchInitialRowEffect(featureName, entityName)().subscribe();
-      //   });
-      // }
+      rootInjector.runOnRootInjector(function registerFeature() {
+        if (!effectServiceRegistry.has(effectServiceToken)) {
+          effectServiceRegistry.register(
+            effectServiceToken,
+            rootInjector.get().get(effectServiceToken),
+          );
+        }
+      });
+
+      const reducer = reducerFactory(featureName, entityName);
+      reducers[entityName] = reducer;
 
       const effects: Record<string, FunctionalEffect> = {};
       if (entityDefinition.isInitialRow === true) {
@@ -88,8 +83,8 @@ export function provideSmartFeatureEntities(
       }
 
       allEffects.push(effects);
-      const reducer = reducerFactory(featureName, entityName);
-      reducers[entityName] = reducer;
+
+
       void unpatchedPromise
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
