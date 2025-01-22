@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { ensureDataLoaded } from '../../selector/ensure-data-loaded.function';
 import { store } from '../../selector/store.function';
@@ -16,23 +16,21 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 export function watchInitialRowEffect<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
-) {
-  return function watchInitialRowEffectFunction() {
-    const selectFeature =
-      createFeatureSelector<Record<string, EntityState<T>>>(feature);
-    const selectTopRow = createSelector(
-      selectFeature,
-      function watchInitialRowEffectSelectTopRow(state) {
-        return state[entity];
-      },
-    );
+): Observable<EntityState<T>> {
+  const selectFeature =
+    createFeatureSelector<Record<string, EntityState<T>>>(feature);
+  const selectTopRow = createSelector(
+    selectFeature,
+    function watchInitialRowEffectSelectTopRow(state) {
+      return state[entity];
+    },
+  );
 
-    return store()
-      .select(selectTopRow)
-      .pipe(
-        tap(function watchInitialRowEffectTap(topRowEntity) {
-          ensureDataLoaded(topRowEntity, '1', feature, entity);
-        }),
-      );
-  };
+  return store()
+    .select(selectTopRow)
+    .pipe(
+      tap(function watchInitialRowEffectTap(topRowEntity) {
+        ensureDataLoaded(topRowEntity, '1', feature, entity);
+      }),
+    );
 }

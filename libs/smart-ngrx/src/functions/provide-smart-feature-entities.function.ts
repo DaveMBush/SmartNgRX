@@ -43,7 +43,6 @@ export function provideSmartFeatureEntities(
   featureName: string,
   entityDefinitions: SmartEntityDefinition<SmartNgRXRowBase>[],
 ): EnvironmentProviders {
-  const allEffects: Record<string, FunctionalEffect>[] = [];
   const reducers: Record<
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
@@ -74,17 +73,6 @@ export function provideSmartFeatureEntities(
       const reducer = reducerFactory(featureName, entityName);
       reducers[entityName] = reducer;
 
-      const effects: Record<string, FunctionalEffect> = {};
-      if (entityDefinition.isInitialRow === true) {
-        effects['watchInitialRow'] = createEffect(
-          watchInitialRowEffect(featureName, entityName),
-          { dispatch: false, functional: true },
-        );
-      }
-
-      allEffects.push(effects);
-
-
       void unpatchedPromise
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
@@ -93,8 +81,5 @@ export function provideSmartFeatureEntities(
     },
   );
 
-  return importProvidersFrom(
-    StoreModule.forFeature(featureName, reducers),
-    EffectsModule.forFeature(allEffects),
-  );
+  return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
 }
