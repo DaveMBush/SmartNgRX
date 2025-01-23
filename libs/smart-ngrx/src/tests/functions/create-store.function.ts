@@ -1,4 +1,3 @@
-
 import { assert } from '../../common/assert.function';
 
 /**

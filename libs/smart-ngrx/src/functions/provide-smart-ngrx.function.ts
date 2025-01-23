@@ -62,6 +62,6 @@ export function provideSmartNgRX(
     // eslint-disable-next-line @smarttools/no-anonymous-functions -- have to use fat arrow to get access to the injector
     provideAppInitializer(() => {
       rootInjector.set(inject(EnvironmentInjector));
-    })
+    }),
   ]);
 }
