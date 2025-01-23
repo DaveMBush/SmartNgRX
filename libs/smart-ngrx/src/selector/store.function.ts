@@ -21,6 +21,6 @@ export function store(): Store {
   if (!globalStore) {
     globalStore = rootInjector.get().get(Store);
   }
-  assert(!!globalStore, 'store is undefined');
+  assert(globalStore !== undefined, 'store is undefined');
   return globalStore;
 }

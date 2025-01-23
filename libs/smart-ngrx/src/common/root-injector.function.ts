@@ -10,6 +10,8 @@ class RootInjector {
   /**
    * Sets the root injector for the application.
    * This should be called once during application initialization.
+   *
+   * @param injector the root injector set by initialization provider
    */
   set(injector: EnvironmentInjector): void {
     this.instance = injector;
@@ -18,7 +20,9 @@ class RootInjector {
 
   /**
    * Gets the root injector for the application.
+   *
    * @throws Error if the root injector hasn't been set
+   * @returns the root injector
    */
   get(): EnvironmentInjector {
     if (!this.instance) {

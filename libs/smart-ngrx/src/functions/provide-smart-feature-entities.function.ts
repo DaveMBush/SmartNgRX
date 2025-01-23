@@ -1,19 +1,17 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
-import { createEffect, EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
-import { ActionReducer, createReducer, StoreModule } from '@ngrx/store';
+import { ActionReducer, StoreModule } from '@ngrx/store';
 
 import { forNext } from '../common/for-next.function';
+import { rootInjector } from '../common/root-injector.function';
 import { zoneless } from '../common/zoneless.function';
-import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 import { reducerFactory } from '../reducers/reducer.factory';
+import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
-import { rootInjector } from '../common/root-injector.function';
-import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 

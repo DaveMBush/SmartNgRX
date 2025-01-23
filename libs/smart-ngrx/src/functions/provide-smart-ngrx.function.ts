@@ -9,8 +9,8 @@ import {
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { rootInjector } from '../common/root-injector.function';
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { markAndDeleteFeaturesInterval } from '../mark-and-delete/mark-and-delete-effect/mark-and-delete-features-interval.function';
+import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
 /**
  * This provides and all the common SmartNgRX providers.
