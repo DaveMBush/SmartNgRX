@@ -1,5 +1,5 @@
-import { RowProp } from '../../../types/row-prop.interface';
-import { SmartNgRXRowBase } from '../../../types/smart-ngrx-row-base.interface';
+import { RowProp } from '../../types/row-prop.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 
 /**
  * Helper function that updates the maps used in update-effect.function.ts

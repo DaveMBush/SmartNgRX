@@ -3,12 +3,12 @@ import { map, Observable, of, timer } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { forNext } from '../../common/for-next.function';
-import { EffectService } from '../../effects/effect-service';
 import { handleError } from '../../error-handler/handle-error.function';
 import { childDefinitionRegistry } from '../../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { store } from '../../selector/store.function';
+import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
 import { ActionService } from '../action.service';

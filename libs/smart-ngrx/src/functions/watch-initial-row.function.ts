@@ -2,9 +2,9 @@ import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { Observable, tap } from 'rxjs';
 
-import { ensureDataLoaded } from '../../selector/ensure-data-loaded.function';
-import { store } from '../../selector/store.function';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { ensureDataLoaded } from '../selector/ensure-data-loaded.function';
+import { store } from '../selector/store.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 /**
  * This watches the row specified as a top level row so that it can
  * refresh it when it is marked dirty.
@@ -13,7 +13,7 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
  * @param entity the name of the entity this is related to
  * @returns the effects for this feature/effect
  */
-export function watchInitialRowEffect<T extends SmartNgRXRowBase>(
+export function watchInitialRow<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): Observable<EntityState<T>> {

@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 
 import * as forNextModule from '../../common/for-next.function';
-import { EffectService } from '../../effects/effect-service';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
@@ -13,6 +12,7 @@ import { entityRegistry } from '../../registrations/entity-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
 import * as newRowRegistryModule from '../../selector/new-row-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
+import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';

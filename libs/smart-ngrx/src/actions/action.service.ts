@@ -5,8 +5,8 @@ import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { watchInitialRowEffect } from '../effects/effects-factory/watch-initial-row-effect.function';
 import { handleError } from '../error-handler/handle-error.function';
+import { watchInitialRow } from '../functions/watch-initial-row.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
@@ -122,9 +122,7 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     this.updateService.init();
     this.loadByIndexesService.init(this.actions, this.entities);
     if (this.entityDefinition.isInitialRow === true) {
-      watchInitialRowEffect(this.feature, this.entity)
-        .pipe(take(1))
-        .subscribe();
+      watchInitialRow(this.feature, this.entity).pipe(take(1)).subscribe();
     }
     return true;
   }

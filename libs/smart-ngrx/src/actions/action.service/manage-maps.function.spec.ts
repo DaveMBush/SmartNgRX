@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from '../../../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { manageMaps } from './manage-maps.function';
 
 interface Row extends SmartNgRXRowBase {
