@@ -1,4 +1,5 @@
 import { Store } from '@ngrx/store';
+import { MockStore } from '@ngrx/store/testing';
 
 import { assert } from '../common/assert.function';
 import { rootInjector } from '../common/root-injector.function';
@@ -15,9 +16,15 @@ let globalStore: Store | undefined;
  * Internal function used to provide and retrieve a global store
  * that is needed by code that does not have DI.
  *
+ * @param mockStore optional mock store to use for testing.
+ *
  * @returns = the global store value.
  */
-export function store(): Store {
+export function store(mockStore?: MockStore): Store {
+  if (mockStore) {
+    globalStore = mockStore;
+    return globalStore;
+  }
   if (!globalStore) {
     globalStore = rootInjector.get().get(Store);
   }
