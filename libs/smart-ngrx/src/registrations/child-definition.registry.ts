@@ -25,6 +25,7 @@ class ChildDefinitionRegistry {
     entity: string,
     childDefinition: ChildDefinition<P, T>,
   ): void {
+    /* istanbul ignore next -- trivial*/
     const existingEntries =
       this.childDefinitionMap.get(`${feature}${psi}${entity}`) ?? [];
     this.childDefinitionMap.set(

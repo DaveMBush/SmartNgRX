@@ -25,6 +25,7 @@ export function store(mockStore?: MockStore): Store {
     globalStore = mockStore;
     return globalStore;
   }
+  /* istanbul ignore next -- not testable because we can't clear globalStore in a clean manner */
   if (!globalStore) {
     globalStore = rootInjector.get().get(Store);
   }

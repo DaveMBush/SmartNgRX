@@ -121,4 +121,32 @@ describe('processMarkAndDelete', () => {
       expect(markDirtySpy).toHaveBeenCalled();
     });
   });
+
+  describe('when no action service exists for the feature and entity', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(actionServiceRegistry, 'hasActionService')
+        .mockReturnValue(false);
+    });
+
+    it('should return early without calling register, garbageCollect or markDirty', () => {
+      // Arrange
+      const garbageCollectRowIds = ['row1'];
+      const markDirtyRowIds = ['row2'];
+      const registerSpy = jest.spyOn(actionServiceRegistry, 'register');
+
+      // Act
+      processMarkAndDelete(
+        featureKey,
+        entity,
+        garbageCollectRowIds,
+        markDirtyRowIds,
+      );
+
+      // Assert
+      expect(registerSpy).not.toHaveBeenCalled();
+      expect(garbageCollectSpy).not.toHaveBeenCalled();
+      expect(markDirtySpy).not.toHaveBeenCalled();
+    });
+  });
 });
