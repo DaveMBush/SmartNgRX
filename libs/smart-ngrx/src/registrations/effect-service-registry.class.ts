@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 import { assert } from '../common/assert.function';
-import { EffectService } from '../effects/effect-service';
+import { EffectService } from '../types/effect-service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class EffectServiceRegistry {
@@ -21,6 +21,10 @@ class EffectServiceRegistry {
     const service = this.effectServices.get(token);
     assert(!!service, 'Effect service not found');
     return service as EffectService<T>;
+  }
+
+  has(token: InjectionToken<EffectService<SmartNgRXRowBase>>) {
+    return this.effectServices.has(token);
   }
 }
 

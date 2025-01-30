@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+import { PartialArrayDefinition } from './partial-array-definition.interface';
 
 /**
  * This is the abstract class that all services the Effects

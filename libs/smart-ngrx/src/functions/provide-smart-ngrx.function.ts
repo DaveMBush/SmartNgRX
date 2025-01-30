@@ -1,10 +1,15 @@
-import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { provideEffects } from '@ngrx/effects';
+import {
+  EnvironmentInjector,
+  EnvironmentProviders,
+  inject,
+  makeEnvironmentProviders,
+  provideAppInitializer,
+} from '@angular/core';
 
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { rootInjector } from '../common/root-injector.function';
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
-import { markAndDeleteEffect } from '../mark-and-delete/mark-and-delete.effect';
-import { injectablesEffect } from '../selector/injectables.effects';
+import { markAndDeleteFeaturesInterval } from '../mark-and-delete/mark-and-delete-effect/mark-and-delete-features-interval.function';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 
 /**
@@ -51,10 +56,12 @@ export function provideSmartNgRX(
     localConfig.markDirtyFetchesNew = true;
   }
   globalMarkAndDeleteInit.register(localConfig as MarkAndDeleteInit);
+  markAndDeleteFeaturesInterval().subscribe();
+
   return makeEnvironmentProviders([
-    provideEffects({
-      injectablesEffect,
-      markAndDeleteEffect,
+    // eslint-disable-next-line @smarttools/no-anonymous-functions -- have to use fat arrow to get access to the injector
+    provideAppInitializer(() => {
+      rootInjector.set(inject(EnvironmentInjector));
     }),
   ]);
 }

@@ -1,17 +1,17 @@
 import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
-import { EffectsModule, FunctionalEffect } from '@ngrx/effects';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
 import { forNext } from '../common/for-next.function';
+import { rootInjector } from '../common/root-injector.function';
 import { zoneless } from '../common/zoneless.function';
-import { effectsFactory } from '../effects/effects-factory.function';
 import { reducerFactory } from '../reducers/reducer.factory';
+import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { featureRegistry } from '../registrations/feature-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
-import { provideWatchInitialRowEffect } from './provide-watch-initial-row-effect.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
@@ -25,7 +25,7 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  * ``` typescript
  * providers: [
  * ...
- * provideEntities('someFeature', entityDefinitions),
+ * provideSmartFeatureEntities('someFeature', entityDefinitions),
  * ...
  * ],
  * ```
@@ -41,11 +41,11 @@ export function provideSmartFeatureEntities(
   featureName: string,
   entityDefinitions: SmartEntityDefinition<SmartNgRXRowBase>[],
 ): EnvironmentProviders {
-  const allEffects: Record<string, FunctionalEffect>[] = [];
   const reducers: Record<
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
+
   forNext(
     entityDefinitions,
     function provideSmartFeatureEntitiesForNext(entityDefinition) {
@@ -55,17 +55,22 @@ export function provideSmartFeatureEntities(
         entityDefinition,
       );
       const { entityName, effectServiceToken } = entityDefinition;
-      const effects = effectsFactory(featureName, effectServiceToken);
-      provideWatchInitialRowEffect(
-        entityDefinition,
-        effects,
-        featureName,
-        entityName,
-      );
+      if (!featureRegistry.hasFeature(featureName)) {
+        featureRegistry.registerFeature(featureName);
+      }
 
-      allEffects.push(effects);
+      rootInjector.runOnRootInjector(function registerFeature() {
+        if (!effectServiceRegistry.has(effectServiceToken)) {
+          effectServiceRegistry.register(
+            effectServiceToken,
+            rootInjector.get().get(effectServiceToken),
+          );
+        }
+      });
+
       const reducer = reducerFactory(featureName, entityName);
       reducers[entityName] = reducer;
+
       void unpatchedPromise
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
@@ -73,8 +78,6 @@ export function provideSmartFeatureEntities(
         });
     },
   );
-  return importProvidersFrom(
-    StoreModule.forFeature(featureName, reducers),
-    EffectsModule.forFeature(allEffects),
-  );
+
+  return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
 }

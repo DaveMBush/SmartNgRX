@@ -1,6 +1,8 @@
-import type { Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { MockStore } from '@ngrx/store/testing';
 
 import { assert } from '../common/assert.function';
+import { rootInjector } from '../common/root-injector.function';
 
 /**
  * This code allows us to make the store globally available without using dependency injection.
@@ -14,17 +16,19 @@ let globalStore: Store | undefined;
  * Internal function used to provide and retrieve a global store
  * that is needed by code that does not have DI.
  *
- * @param storeParam This is an optional parameter.  If it is there,
- *     we set the store.  Otherwise, we use what is already set.
+ * @param mockStore optional mock store to use for testing.
+ *
  * @returns = the global store value.
  */
-export function store(
-  // eslint-disable-next-line @ngrx/use-consistent-global-store-name -- it is either this or get a shadowing lint issue
-  storeParam?: Store,
-): Store {
-  if (storeParam) {
-    globalStore = storeParam;
+export function store(mockStore?: MockStore): Store {
+  if (mockStore) {
+    globalStore = mockStore;
+    return globalStore;
   }
-  assert(!!globalStore, 'store is undefined');
+  /* istanbul ignore next -- not testable because we can't clear globalStore in a clean manner */
+  if (!globalStore) {
+    globalStore = rootInjector.get().get(Store);
+  }
+  assert(globalStore !== undefined, 'store is undefined');
   return globalStore;
 }
