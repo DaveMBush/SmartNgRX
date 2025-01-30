@@ -5,8 +5,8 @@ import { catchError } from 'rxjs/operators';
 import { forNext } from '../../common/for-next.function';
 import { handleError } from '../../error-handler/handle-error.function';
 import { childDefinitionRegistry } from '../../registrations/child-definition.registry';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import { store } from '../../selector/store.function';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -44,7 +44,7 @@ export class Add<T extends SmartNgRXRowBase> {
     const entityDefinition = entityDefinitionCache(this.feature, this.entity);
     this.adapter =
       entityDefinition.entityAdapter as unknown as EntityAdapter<T>;
-    this.effectService = effectServiceRegistry.get<T>(
+    this.effectService = serviceRegistry.get<T>(
       entityDefinition.effectServiceToken,
     );
   }

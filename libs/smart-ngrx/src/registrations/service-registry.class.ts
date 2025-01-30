@@ -4,7 +4,7 @@ import { assert } from '../common/assert.function';
 import { EffectService } from '../types/effect-service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
-class EffectServiceRegistry {
+class ServiceRegistry {
   private readonly effectServices: Map<
     InjectionToken<EffectService<SmartNgRXRowBase>>,
     EffectService<SmartNgRXRowBase>
@@ -28,4 +28,4 @@ class EffectServiceRegistry {
   }
 }
 
-export const effectServiceRegistry = new EffectServiceRegistry();
+export const serviceRegistry = new ServiceRegistry();

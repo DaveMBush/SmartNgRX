@@ -4,8 +4,8 @@ import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import { newRowRegistry } from '../../selector/new-row-registry.class';
 import { IndexProp } from '../../types/index-prop.interfaces';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
@@ -88,7 +88,7 @@ export class LoadByIndexes {
           const max = indexes.reduce(function reduceMax(a, b) {
             return Math.max(a, b);
           }, indexes[0]);
-          const effectService = effectServiceRegistry.get(
+          const effectService = serviceRegistry.get(
             entityDefinitionCache(feature, entity).effectServiceToken,
           );
           return (

@@ -6,10 +6,10 @@ import { Observable, of, Subject } from 'rxjs';
 
 import * as forNextModule from '../../common/for-next.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../../registrations/entity-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import * as newRowRegistryModule from '../../selector/new-row-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { EffectService } from '../../types/effect-service';
@@ -102,7 +102,7 @@ describe('LoadByIndexes', () => {
       effectServiceToken,
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
     });
-    effectServiceRegistry.register(effectServiceToken, effectService);
+    serviceRegistry.register(effectServiceToken, effectService);
     effectServiceLoadByIndexesSpy = jest
       .spyOn(effectService, 'loadByIndexes')
       .mockImplementation((parentId, childField, startIndex, length) => {

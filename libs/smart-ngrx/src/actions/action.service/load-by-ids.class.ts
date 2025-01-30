@@ -14,8 +14,8 @@ import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.fun
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { defaultRows } from '../../reducers/default-rows.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { ActionGroup } from '../action-group.interface';
 import { bufferIds } from './buffer-ids.function';
@@ -96,7 +96,7 @@ export class LoadByIds {
           if (ids.length === 0) {
             return of([]);
           }
-          const effectService = effectServiceRegistry.get(
+          const effectService = serviceRegistry.get(
             entityDefinitionCache(feature, entityName).effectServiceToken,
           );
           actionService.loadByIdsPreload(ids);
