@@ -2,6 +2,7 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import * as watchInitialRowModule from '../functions/watch-initial-row.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
@@ -83,6 +84,57 @@ describe('ActionService', () => {
       jest.resetAllMocks();
       expect(service.init()).toBeTruthy();
       expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should call watchInitialRow when isInitialRow is true', () => {
+      // Mock dependencies
+      (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
+      (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
+      (entityDefinitionCache as jest.Mock).mockReturnValue({
+        entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
+        isInitialRow: true,
+      });
+      (entityRegistry.get as jest.Mock).mockReturnValue({
+        markAndDeleteInit: {},
+      });
+
+      // Mock watchInitialRow
+      const watchInitialRowSpy = jest
+        .spyOn(watchInitialRowModule, 'watchInitialRow')
+        .mockReturnValue(of({ ids: [], entities: {} }));
+
+      // Initialize the service
+      service.init();
+
+      // Verify watchInitialRow was called with correct parameters
+      expect(watchInitialRowSpy).toHaveBeenCalledWith(
+        'testFeature',
+        'testEntity',
+      );
+    });
+
+    it('should not call watchInitialRow when isInitialRow is false', () => {
+      // Mock dependencies
+      (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
+      (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
+      (entityDefinitionCache as jest.Mock).mockReturnValue({
+        entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
+        isInitialRow: false,
+      });
+      (entityRegistry.get as jest.Mock).mockReturnValue({
+        markAndDeleteInit: {},
+      });
+
+      // Mock watchInitialRow
+      const watchInitialRowSpy = jest
+        .spyOn(watchInitialRowModule, 'watchInitialRow')
+        .mockReturnValue(of({ ids: [], entities: {} }));
+
+      // Initialize the service
+      service.init();
+
+      // Verify watchInitialRow was not called
+      expect(watchInitialRowSpy).not.toHaveBeenCalled();
     });
   });
 

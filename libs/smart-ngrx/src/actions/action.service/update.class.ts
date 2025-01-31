@@ -11,12 +11,12 @@ import {
 } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { manageMaps } from '../../effects/effects-factory/long-running-observables/manage-maps.function';
 import { handleError } from '../../error-handler/handle-error.function';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { manageMaps } from './manage-maps.function';
 
 /**
  * Class responsible for updating rows in the store
@@ -91,7 +91,7 @@ export class Update<T extends SmartNgRXRowBase> {
           return Object.values(accActions);
         }),
         concatMap(function updateEffectConcatMap(action) {
-          const effectService = effectServiceRegistry.get(
+          const effectService = serviceRegistry.get(
             entityDefinitionCache(context.feature, context.entity)
               .effectServiceToken,
           );

@@ -6,12 +6,13 @@ import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { handleError } from '../error-handler/handle-error.function';
+import { watchInitialRow } from '../functions/watch-initial-row.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
@@ -81,10 +82,12 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       return true;
     }
     this.initCalled = true;
+
     const entity = this.entity;
     if (!featureRegistry.hasFeature(this.feature)) {
       return false;
     }
+
     this.actions = actionFactory(this.feature, this.entity);
     const selectFeature = createFeatureSelector<
       Record<string, EntityState<SmartNgRXRowBase>>
@@ -118,6 +121,9 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     );
     this.updateService.init();
     this.loadByIndexesService.init(this.actions, this.entities);
+    if (this.entityDefinition.isInitialRow === true) {
+      watchInitialRow(this.feature, this.entity).pipe(take(1)).subscribe();
+    }
     return true;
   }
 
@@ -274,7 +280,7 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     parentInfo = parentInfo.filter(function filterParentInfo(info) {
       return info.ids.length > 0;
     });
-    const effectService = effectServiceRegistry.get(
+    const effectService = serviceRegistry.get(
       this.entityDefinition.effectServiceToken,
     );
     effectService

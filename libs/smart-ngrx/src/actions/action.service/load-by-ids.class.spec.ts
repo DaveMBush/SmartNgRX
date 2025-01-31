@@ -3,13 +3,13 @@ import { fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { EffectService } from '../../effects/effect-service';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../../registrations/entity-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
+import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
@@ -84,7 +84,7 @@ describe('LoadByIds', () => {
       effectServiceToken,
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
     });
-    effectServiceRegistry.register(effectServiceToken, effectService);
+    serviceRegistry.register(effectServiceToken, effectService);
 
     mockStore = {
       dispatch: jest.fn(),
