@@ -14,6 +14,7 @@ class ServiceRegistry {
     token: InjectionToken<EffectService<SmartNgRXRowBase>>,
     effectService: EffectService<SmartNgRXRowBase>,
   ) {
+    assert(effectService !== undefined, 'Effect service is required');
     this.effectServices.set(token, effectService);
   }
 

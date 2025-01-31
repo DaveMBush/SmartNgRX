@@ -1,6 +1,7 @@
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import {
+  catchError,
   map,
   mergeMap,
   Observable,
@@ -11,6 +12,8 @@ import {
 } from 'rxjs';
 
 import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
+import { rootInjector } from '../../common/root-injector.function';
+import { smartNgRXErrorHandlerToken } from '../../error-handler/smart-ngrx-error-handler-token.const';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { defaultRows } from '../../reducers/default-rows.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
@@ -105,6 +108,13 @@ export class LoadByIds {
         map(function loadByIdsSuccessMap(rows) {
           actionService.loadByIdsSuccess(rows);
           return of(rows);
+        }),
+        catchError(function loadByIdsError(error: unknown) {
+          const errorHandler = rootInjector
+            .get()
+            .get(smartNgRXErrorHandlerToken);
+          errorHandler.handleError('loadByIds', error);
+          return of([]);
         }),
       )
       .subscribe();
