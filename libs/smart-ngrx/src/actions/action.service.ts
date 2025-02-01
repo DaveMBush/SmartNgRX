@@ -60,16 +60,29 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   constructor(
     public feature: string,
     public entity: string,
-  ) {
-    this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
-    this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+  ) {}
+
+  /**
+   * Initializes the classes the ActionService needs to function
+   */
+  initClasses(): void {
+    this.loadByIndexesService = new LoadByIndexes(
+      this.feature,
+      this.entity,
+      this.store,
+    );
+    this.loadByIdsService = new LoadByIds(
+      this.feature,
+      this.entity,
+      this.store,
+    );
     this.updateService = new Update<T>(
-      feature,
-      entity,
+      this.feature,
+      this.entity,
       this.entityAdapter,
       this.loadByIdsSuccess.bind(this),
     );
-    this.addService = new Add<T>(feature, entity, this.entityAdapter);
+    this.addService = new Add<T>(this.feature, this.entity, this.entityAdapter);
   }
 
   /**
@@ -106,6 +119,9 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       },
     );
     this.entityAdapter = this.entityDefinition.entityAdapter;
+
+    this.initClasses();
+
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
