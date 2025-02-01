@@ -237,6 +237,21 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    * @param newRow the row after the changes
    */
   update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
+    //// optimistic update
+    const changes: Record<string, unknown> = {};
+    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
+    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
+    Object.keys(newRowAsRecord).forEach(function updateForEach(key) {
+      if (key === 'id') {
+        return;
+      }
+      if (newRowAsRecord[key] !== oldRowAsRecord[key]) {
+        changes[key] = newRowAsRecord[key];
+      }
+    });
+    this.updateMany([{ id: oldRow.id, changes }]);
+    //// send to server
+
     this.updateService.update(oldRow, newRow);
   }
 

@@ -36,11 +36,6 @@ export function rowProxySet<T extends SmartNgRXRowBase>(services: {
     }
     // if there is not parentId then we are simply saving the
     // row to the server
-    //// optimistic update
-    services.service.updateMany([
-      { id: realRow.id, changes: { [prop]: value } },
-    ]);
-    //// send to server
     services.service.update(realRow, {
       ...realRow,
       [prop]: value,
