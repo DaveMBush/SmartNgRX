@@ -237,22 +237,28 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    * @param newRow the row after the changes
    */
   update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
-    //// optimistic update
+    this.optimisticUpdate(oldRow, newRow);
+    this.updateService.update(oldRow, newRow);
+  }
+
+  /**
+   * Optimistically updates the row in the store
+   * based on the diff between the old row and the new row
+   *
+   * @param oldRow the row before the changes
+   * @param newRow the row after the changes
+   */
+  optimisticUpdate(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
     const changes: Record<string, unknown> = {};
     const newRowAsRecord = newRow as unknown as Record<string, unknown>;
     const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
     Object.keys(newRowAsRecord).forEach(function updateForEach(key) {
-      if (key === 'id') {
-        return;
-      }
       if (newRowAsRecord[key] !== oldRowAsRecord[key]) {
         changes[key] = newRowAsRecord[key];
       }
     });
-    this.updateMany([{ id: oldRow.id, changes }]);
-    //// send to server
-
-    this.updateService.update(oldRow, newRow);
+    const id = this.entityAdapter.selectId(oldRow as T);
+    this.updateMany([{ id: id.toString(), changes }]);
   }
 
   /**
