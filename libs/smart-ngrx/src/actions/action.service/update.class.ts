@@ -100,7 +100,7 @@ export class Update<T extends SmartNgRXRowBase> {
    */
   private createUpdatePipeline(): Observable<void> {
     function mapToVoidFn(): void {
-      return undefined;
+      return;
     }
 
     const updateRow = this.createUpdateRow();
