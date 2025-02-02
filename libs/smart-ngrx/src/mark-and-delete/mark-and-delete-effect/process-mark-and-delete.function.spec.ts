@@ -23,7 +23,10 @@ class MockActionService {
 describe('processMarkAndDelete', () => {
   let garbageCollectSpy: jest.SpyInstance;
   let markDirtySpy: jest.SpyInstance;
+  const featureKey = 'exampleFeature';
+  const entity = 'exampleEntity';
   beforeEach(() => {
+    jest.spyOn(actionServiceRegistry, 'hasActionService').mockReturnValue(true);
     const mockActionService = new MockActionService();
     jest
       .spyOn(actionServiceRegistry, 'register')
@@ -47,8 +50,6 @@ describe('processMarkAndDelete', () => {
   });
   it('should mark rows as dirty and garbage collect them', () => {
     // Arrange
-    const featureKey = 'exampleFeature';
-    const entity = 'exampleEntity';
     const garbageCollectRowIds = ['row1', 'row2'];
     const markDirtyRowIds = ['row3', 'row4'];
 
@@ -67,8 +68,6 @@ describe('processMarkAndDelete', () => {
 
   it('should handle empty row arrays', () => {
     // Arrange
-    const featureKey = 'exampleFeature';
-    const entity = 'exampleEntity';
     const garbageCollectRowIds: string[] = [];
     const markDirtyRowIds: string[] = [];
 
@@ -87,8 +86,6 @@ describe('processMarkAndDelete', () => {
   describe('when garbageCollectRowIds is empty but markDirtyRowIds is not', () => {
     it('should only garbage collect rows', () => {
       // Arrange
-      const featureKey = 'exampleFeature';
-      const entity = 'exampleEntity';
       const garbageCollectRowIds = ['row1', 'row2'];
       const markDirtyRowIds: string[] = [];
 
@@ -108,8 +105,6 @@ describe('processMarkAndDelete', () => {
   describe('when markDirtyRowIds is empty but garbageCollectRowIds is not', () => {
     it('should only garbage collect rows', () => {
       // Arrange
-      const featureKey = 'exampleFeature';
-      const entity = 'exampleEntity';
       const garbageCollectRowIds: string[] = [];
       const markDirtyRowIds = ['row1', 'row2'];
 
@@ -124,6 +119,34 @@ describe('processMarkAndDelete', () => {
       // Assert
       expect(garbageCollectSpy).not.toHaveBeenCalled();
       expect(markDirtySpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('when no action service exists for the feature and entity', () => {
+    beforeEach(() => {
+      jest
+        .spyOn(actionServiceRegistry, 'hasActionService')
+        .mockReturnValue(false);
+    });
+
+    it('should return early without calling register, garbageCollect or markDirty', () => {
+      // Arrange
+      const garbageCollectRowIds = ['row1'];
+      const markDirtyRowIds = ['row2'];
+      const registerSpy = jest.spyOn(actionServiceRegistry, 'register');
+
+      // Act
+      processMarkAndDelete(
+        featureKey,
+        entity,
+        garbageCollectRowIds,
+        markDirtyRowIds,
+      );
+
+      // Assert
+      expect(registerSpy).not.toHaveBeenCalled();
+      expect(garbageCollectSpy).not.toHaveBeenCalled();
+      expect(markDirtySpy).not.toHaveBeenCalled();
     });
   });
 });

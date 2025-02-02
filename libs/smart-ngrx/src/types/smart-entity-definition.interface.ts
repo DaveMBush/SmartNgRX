@@ -20,6 +20,7 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * specific purposes.
    */
   entityName: string;
+
   /**
    * This is the service token related to the service the effect for this entity
    * should call to do CRUD operations against the backend.

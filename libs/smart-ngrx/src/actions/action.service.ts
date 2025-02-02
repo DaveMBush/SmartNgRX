@@ -6,12 +6,13 @@ import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { handleError } from '../error-handler/handle-error.function';
+import { watchInitialRow } from '../functions/watch-initial-row.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
@@ -59,16 +60,29 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   constructor(
     public feature: string,
     public entity: string,
-  ) {
-    this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
-    this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+  ) {}
+
+  /**
+   * Initializes the classes the ActionService needs to function
+   */
+  initClasses(): void {
+    this.loadByIndexesService = new LoadByIndexes(
+      this.feature,
+      this.entity,
+      this.store,
+    );
+    this.loadByIdsService = new LoadByIds(
+      this.feature,
+      this.entity,
+      this.store,
+    );
     this.updateService = new Update<T>(
-      feature,
-      entity,
+      this.feature,
+      this.entity,
       this.entityAdapter,
       this.loadByIdsSuccess.bind(this),
     );
-    this.addService = new Add<T>(feature, entity, this.entityAdapter);
+    this.addService = new Add<T>(this.feature, this.entity, this.entityAdapter);
   }
 
   /**
@@ -81,10 +95,12 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       return true;
     }
     this.initCalled = true;
+
     const entity = this.entity;
     if (!featureRegistry.hasFeature(this.feature)) {
       return false;
     }
+
     this.actions = actionFactory(this.feature, this.entity);
     const selectFeature = createFeatureSelector<
       Record<string, EntityState<SmartNgRXRowBase>>
@@ -103,6 +119,9 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       },
     );
     this.entityAdapter = this.entityDefinition.entityAdapter;
+
+    this.initClasses();
+
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
@@ -118,6 +137,9 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     );
     this.updateService.init();
     this.loadByIndexesService.init(this.actions, this.entities);
+    if (this.entityDefinition.isInitialRow === true) {
+      watchInitialRow(this.feature, this.entity).pipe(take(1)).subscribe();
+    }
     return true;
   }
 
@@ -215,7 +237,31 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    * @param newRow the row after the changes
    */
   update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
+    this.optimisticUpdate(oldRow, newRow);
     this.updateService.update(oldRow, newRow);
+  }
+
+  /**
+   * Optimistically updates the row in the store
+   * based on the diff between the old row and the new row
+   *
+   * @param oldRow the row before the changes
+   * @param newRow the row after the changes
+   */
+  optimisticUpdate(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
+    const changes: Record<string, unknown> = {};
+    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
+    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
+    Object.entries(newRowAsRecord).forEach(function updateForEach([
+      key,
+      value,
+    ]) {
+      if (value !== oldRowAsRecord[key]) {
+        changes[key] = value;
+      }
+    });
+    const id = this.entityAdapter.selectId(oldRow as T);
+    this.updateMany([{ id: id.toString(), changes }]);
   }
 
   /**
@@ -274,7 +320,7 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     parentInfo = parentInfo.filter(function filterParentInfo(info) {
       return info.ids.length > 0;
     });
-    const effectService = effectServiceRegistry.get(
+    const effectService = serviceRegistry.get(
       this.entityDefinition.effectServiceToken,
     );
     effectService
