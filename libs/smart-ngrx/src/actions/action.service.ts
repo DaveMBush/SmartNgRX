@@ -60,16 +60,29 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   constructor(
     public feature: string,
     public entity: string,
-  ) {
-    this.loadByIndexesService = new LoadByIndexes(feature, entity, this.store);
-    this.loadByIdsService = new LoadByIds(feature, entity, this.store);
+  ) {}
+
+  /**
+   * Initializes the classes the ActionService needs to function
+   */
+  initClasses(): void {
+    this.loadByIndexesService = new LoadByIndexes(
+      this.feature,
+      this.entity,
+      this.store,
+    );
+    this.loadByIdsService = new LoadByIds(
+      this.feature,
+      this.entity,
+      this.store,
+    );
     this.updateService = new Update<T>(
-      feature,
-      entity,
+      this.feature,
+      this.entity,
       this.entityAdapter,
       this.loadByIdsSuccess.bind(this),
     );
-    this.addService = new Add<T>(feature, entity, this.entityAdapter);
+    this.addService = new Add<T>(this.feature, this.entity, this.entityAdapter);
   }
 
   /**
@@ -106,6 +119,9 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       },
     );
     this.entityAdapter = this.entityDefinition.entityAdapter;
+
+    this.initClasses();
+
     const selectEntities = this.entityAdapter.getSelectors().selectEntities;
     const selectFeatureEntities = createSelector(selectEntity, selectEntities);
     this.entities = this.store.select(selectFeatureEntities);
@@ -221,7 +237,31 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
    * @param newRow the row after the changes
    */
   update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
+    this.optimisticUpdate(oldRow, newRow);
     this.updateService.update(oldRow, newRow);
+  }
+
+  /**
+   * Optimistically updates the row in the store
+   * based on the diff between the old row and the new row
+   *
+   * @param oldRow the row before the changes
+   * @param newRow the row after the changes
+   */
+  optimisticUpdate(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
+    const changes: Record<string, unknown> = {};
+    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
+    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
+    Object.entries(newRowAsRecord).forEach(function updateForEach([
+      key,
+      value,
+    ]) {
+      if (value !== oldRowAsRecord[key]) {
+        changes[key] = value;
+      }
+    });
+    const id = this.entityAdapter.selectId(oldRow as T);
+    this.updateMany([{ id: id.toString(), changes }]);
   }
 
   /**

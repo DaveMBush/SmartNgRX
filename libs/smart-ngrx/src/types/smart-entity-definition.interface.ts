@@ -22,11 +22,6 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
   entityName: string;
 
   /**
-   * If this is true, the entity will be a signal entity.
-   */
-  isSignal?: boolean;
-
-  /**
    * This is the service token related to the service the effect for this entity
    * should call to do CRUD operations against the backend.
    */

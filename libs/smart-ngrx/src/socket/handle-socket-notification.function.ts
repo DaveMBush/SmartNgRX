@@ -1,7 +1,7 @@
 import { forNext } from '../common/for-next.function';
 import { psi } from '../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { updateEntity } from './update-entity.function';
 
@@ -24,7 +24,7 @@ export function handleSocketNotification(
   featureEntityKeys = featureEntityKeys
     .filter(filterByPsiTable(table))
     .map(extractFeatureFromPsiTable)
-    .filter(featureIsRegistered);
+    .filter(featureIsRegistered(table));
   // for each feature
   forNext(featureEntityKeys, function innerHandleSocketNotification(feature) {
     switch (action) {
@@ -40,8 +40,10 @@ export function handleSocketNotification(
   });
 }
 
-function featureIsRegistered(feature: string): boolean {
-  return Boolean(featureRegistry.hasFeature(feature));
+function featureIsRegistered(table: string) {
+  return function innerFeatureIsRegistered(feature: string): boolean {
+    return actionServiceRegistry.hasActionService(feature, table);
+  };
 }
 
 function filterByPsiTable(table: string): (key: string) => boolean {

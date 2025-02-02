@@ -16,6 +16,9 @@ export function processMarkAndDelete(
   garbageCollectRowIds: string[],
   markDirtyRowIds: string[],
 ) {
+  if (garbageCollectRowIds.length === 0 && markDirtyRowIds.length === 0) {
+    return;
+  }
   requestIdleCallback(
     function processMarkAndDeleteCallback() {
       if (!actionServiceRegistry.hasActionService(featureKey, entity)) {
