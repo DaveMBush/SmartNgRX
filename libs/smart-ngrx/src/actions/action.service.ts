@@ -252,9 +252,12 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     const changes: Record<string, unknown> = {};
     const newRowAsRecord = newRow as unknown as Record<string, unknown>;
     const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
-    Object.keys(newRowAsRecord).forEach(function updateForEach(key) {
-      if (newRowAsRecord[key] !== oldRowAsRecord[key]) {
-        changes[key] = newRowAsRecord[key];
+    Object.entries(newRowAsRecord).forEach(function updateForEach([
+      key,
+      value,
+    ]) {
+      if (value !== oldRowAsRecord[key]) {
+        changes[key] = value;
       }
     });
     const id = this.entityAdapter.selectId(oldRow as T);
