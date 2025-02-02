@@ -93,29 +93,19 @@
         "name": "psi"
       },
       {
+        "route": "/internal-api/variables/internal-api/rootInjector",
+        "type": "Variable",
+        "name": "rootInjector"
+      },
+      {
         "route": "/internal-api/functions/internal-api/zoneless",
         "type": "Function",
         "name": "zoneless"
       },
       {
-        "route": "/internal-api/variables/internal-api/functionEffectNoDispatch",
-        "type": "Variable",
-        "name": "functionEffectNoDispatch"
-      },
-      {
         "route": "/internal-api/variables/internal-api/injectOptional",
         "type": "Variable",
         "name": "injectOptional"
-      },
-      {
-        "route": "/internal-api/classes/internal-api/EffectService",
-        "type": "Class",
-        "name": "EffectService"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/effectsFactory",
-        "type": "Function",
-        "name": "effectsFactory"
       },
       {
         "route": "/internal-api/variables/internal-api/errorHandlerRegistry",
@@ -158,14 +148,14 @@
         "name": "provideSmartNgRX"
       },
       {
-        "route": "/internal-api/functions/internal-api/provideWatchInitialRowEffect",
-        "type": "Function",
-        "name": "provideWatchInitialRowEffect"
-      },
-      {
         "route": "/internal-api/functions/internal-api/resolveRemoveTime",
         "type": "Function",
         "name": "resolveRemoveTime"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/watchInitialRow",
+        "type": "Function",
+        "name": "watchInitialRow"
       },
       {
         "route": "/internal-api/variables/internal-api/entityRowsRegistry",
@@ -181,11 +171,6 @@
         "route": "/internal-api/variables/internal-api/markAndDeleteEntities",
         "type": "Variable",
         "name": "markAndDeleteEntities"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/markAndDeleteEffect",
-        "type": "Variable",
-        "name": "markAndDeleteEffect"
       },
       {
         "route": "/internal-api/functions/internal-api/defaultRows",
@@ -208,11 +193,6 @@
         "name": "childDefinitionRegistry"
       },
       {
-        "route": "/internal-api/variables/internal-api/effectServiceRegistry",
-        "type": "Variable",
-        "name": "effectServiceRegistry"
-      },
-      {
         "route": "/internal-api/functions/internal-api/entityDefinitionCache",
         "type": "Function",
         "name": "entityDefinitionCache"
@@ -226,6 +206,11 @@
         "route": "/internal-api/variables/internal-api/featureRegistry",
         "type": "Variable",
         "name": "featureRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/serviceRegistry",
+        "type": "Variable",
+        "name": "serviceRegistry"
       },
       {
         "route": "/internal-api/functions/internal-api/forceRefetchOfVirtualIndexes",
@@ -303,11 +288,6 @@
         "name": "getServices"
       },
       {
-        "route": "/internal-api/variables/internal-api/injectablesEffect",
-        "type": "Variable",
-        "name": "injectablesEffect"
-      },
-      {
         "route": "/internal-api/functions/internal-api/isArrayProxy",
         "type": "Function",
         "name": "isArrayProxy"
@@ -371,6 +351,11 @@
         "route": "/internal-api/type-aliases/internal-api/EffectServiceToken",
         "type": "TypeAlias",
         "name": "EffectServiceToken"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/EffectService",
+        "type": "Class",
+        "name": "EffectService"
       },
       {
         "route": "/internal-api/interfaces/internal-api/EntityAttributes",
@@ -473,6 +458,11 @@
         "name": "LoadByIndexes"
       },
       {
+        "route": "/internal-api/functions/internal-api/manageMaps",
+        "type": "Function",
+        "name": "manageMaps"
+      },
+      {
         "route": "/internal-api/functions/internal-api/markFeatureParentsDirty",
         "type": "Function",
         "name": "markFeatureParentsDirty"
@@ -486,16 +476,6 @@
         "route": "/internal-api/classes/internal-api/Update",
         "type": "Class",
         "name": "Update"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/registerFeatureEffect",
-        "type": "Function",
-        "name": "registerFeatureEffect"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/watchInitialRowEffect",
-        "type": "Function",
-        "name": "watchInitialRowEffect"
       },
       {
         "route": "/internal-api/functions/internal-api/markAndDeleteEntity",
@@ -526,11 +506,6 @@
         "route": "/internal-api/functions/internal-api/setState",
         "type": "Function",
         "name": "setState"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/manageMaps",
-        "type": "Function",
-        "name": "manageMaps"
       }
     ]
   }
