@@ -1,10 +1,13 @@
 import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, tap } from 'rxjs';
 
+import { rootInjector } from '../common/root-injector.function';
+import { smartNgRXErrorHandlerToken } from '../error-handler/smart-ngrx-error-handler-token.const';
 import { ensureDataLoaded } from '../selector/ensure-data-loaded.function';
 import { store } from '../selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+
 /**
  * This watches the row specified as a top level row so that it can
  * refresh it when it is marked dirty.
@@ -29,6 +32,11 @@ export function watchInitialRow<T extends SmartNgRXRowBase>(
   return store()
     .select(selectTopRow)
     .pipe(
+      catchError(function watchInitialRowEffectCatchError(error: unknown) {
+        const errorHandler = rootInjector.get().get(smartNgRXErrorHandlerToken);
+        errorHandler.handleError('watchInitialRow', error);
+        return EMPTY;
+      }),
       tap(function watchInitialRowEffectTap(topRowEntity) {
         ensureDataLoaded(topRowEntity, '1', feature, entity);
       }),

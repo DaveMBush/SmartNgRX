@@ -2,30 +2,45 @@ import { EntityAdapter } from '@ngrx/entity';
 import {
   concatMap,
   debounceTime,
+  groupBy,
   map,
   mergeMap,
+  Observable,
   of,
-  scan,
   Subject,
   tap,
 } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { handleError } from '../../error-handler/handle-error.function';
-import { effectServiceRegistry } from '../../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { serviceRegistry } from '../../registrations/service-registry.class';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { manageMaps } from './manage-maps.function';
+
+/** The debounce time in milliseconds for update operations */
+const updateDebounceTimeMs = 1;
+
+/** The index of the first row in an array of rows */
+const firstRowIndex = 0;
+
+interface UpdateAction {
+  old: RowProp<SmartNgRXRowBase>;
+  new: RowProp<SmartNgRXRowBase>;
+}
+
+function groupByIdFn(action: UpdateAction): string {
+  return action.old.row.id;
+}
 
 /**
  * Class responsible for updating rows in the store
  */
 export class Update<T extends SmartNgRXRowBase> {
-  private updateSubject = new Subject<{
-    old: RowProp<SmartNgRXRowBase>;
-    new: RowProp<SmartNgRXRowBase>;
-  }>();
+  private readonly updateSubject = new Subject<UpdateAction>();
+  protected readonly lastRow: Map<string, SmartNgRXRowBase> = new Map();
+  protected readonly lastRowTimeout: Map<string, number> = new Map();
 
   /**
    * constructor
@@ -36,11 +51,18 @@ export class Update<T extends SmartNgRXRowBase> {
    * @param loadByIdsSuccess the loadByIdsSuccess action function
    */
   constructor(
-    private readonly feature: string,
-    private readonly entity: string,
-    private readonly entityAdapter: EntityAdapter<T>,
-    private readonly loadByIdsSuccess: (rows: T[]) => void,
+    readonly feature: string,
+    readonly entity: string,
+    readonly entityAdapter: EntityAdapter<T>,
+    readonly loadByIdsSuccess: (rows: T[]) => void,
   ) {}
+
+  /**
+   * Initializes the update pipeline
+   */
+  init(): void {
+    this.createUpdatePipeline().subscribe();
+  }
 
   /**
    * updates the row in the store
@@ -56,68 +78,6 @@ export class Update<T extends SmartNgRXRowBase> {
   }
 
   /**
-   * Initializes the updateSubject and the lastRow and lastRowTimeout maps
-   */
-  init() {
-    const lastRow: Map<string, SmartNgRXRowBase> = new Map();
-    const lastRowTimeout: Map<string, number> = new Map();
-    const context = this;
-
-    this.updateSubject
-      .pipe(
-        tap(function updateEffectTap(action) {
-          manageMaps(lastRow, lastRowTimeout, action);
-        }),
-        // scan allows us to change fields in multiple rows
-        // within the same event loop
-        scan(
-          function updateScan(acc, action) {
-            return {
-              ...acc,
-              [action.old.row.id]: action,
-            };
-          },
-          {} as Record<
-            string,
-            { old: RowProp<SmartNgRXRowBase>; new: RowProp<SmartNgRXRowBase> }
-          >,
-        ),
-        // debounceTime(1) lets us set multiple fields in a row but only
-        // call the server once
-        debounceTime(1),
-        // mergeMap allows us to call the server once for each
-        // row that was updated
-        mergeMap(function updateEffectMergeMap(accActions) {
-          return Object.values(accActions);
-        }),
-        concatMap(function updateEffectConcatMap(action) {
-          const effectService = effectServiceRegistry.get(
-            entityDefinitionCache(context.feature, context.entity)
-              .effectServiceToken,
-          );
-          return effectService.update(action.new.row).pipe(
-            catchError(function errorHandler(error: unknown) {
-              return context.handleUpdateError(error, action.old.row);
-            }),
-          );
-        }),
-        map(function updateEffectMap(rows) {
-          // set the last row to the row we got back here.
-          // rows only has one row it it we just return an array
-          // so we can reuse code.
-          const now = Date.now();
-          const id = context.entityAdapter.selectId(rows[0] as T) as string;
-          // delete the timeout to keep things in order.
-          lastRowTimeout.delete(id);
-          lastRowTimeout.set(id, now);
-          lastRow.set(id, rows[0] as T);
-          context.loadByIdsSuccess(rows as T[]);
-        }),
-      )
-      .subscribe();
-  }
-
-  /**
    * Handles update errors by rolling back to the original row
    *
    * @param error The error that occurred
@@ -125,8 +85,112 @@ export class Update<T extends SmartNgRXRowBase> {
    *
    * @returns An observable of the original row
    */
-  private handleUpdateError(error: unknown, originalRow: SmartNgRXRowBase) {
+  protected handleUpdateError(
+    error: unknown,
+    originalRow: SmartNgRXRowBase,
+  ): Observable<T[]> {
     handleError('Error updating row, rolling back to original row', error);
-    return of([originalRow]);
+    return of([originalRow as T]);
+  }
+
+  /**
+   * Creates the update pipeline for processing row updates
+   *
+   * @returns An Observable that processes and handles row updates
+   */
+  private createUpdatePipeline(): Observable<void> {
+    function mapToVoidFn(): void {
+      return;
+    }
+
+    const updateRow = this.createUpdateRow();
+    const updateEffectMap = this.createUpdateEffectMap();
+
+    function processGroupFn(
+      this: Update<T>,
+      group: Observable<UpdateAction>,
+    ): Observable<T[]> {
+      return group.pipe(
+        debounceTime(updateDebounceTimeMs),
+        map(function mapToUpdateActionFn(action: UpdateAction): UpdateAction {
+          return action;
+        }),
+        concatMap(updateRow),
+        tap(updateEffectMap),
+      );
+    }
+
+    const boundProcessGroup = processGroupFn.bind(this);
+
+    return this.updateSubject.pipe(
+      tap(this.createUpdateEffectTap()),
+      groupBy(groupByIdFn),
+      mergeMap(boundProcessGroup),
+      map(mapToVoidFn),
+    );
+  }
+
+  /**
+   * Creates the update effect tap function
+   *
+   * @returns A function that handles the update effect tap
+   */
+  private createUpdateEffectTap(): (action: UpdateAction) => void {
+    return function updateEffectTapFn(
+      this: Update<T>,
+      action: UpdateAction,
+    ): void {
+      manageMaps(this.lastRow, this.lastRowTimeout, action);
+    }.bind(this);
+  }
+
+  /**
+   * Creates the update row function
+   *
+   * @returns A function that updates a row
+   */
+  private createUpdateRow(): (action: UpdateAction) => Observable<T[]> {
+    function handleErrorFn(
+      this: Update<T>,
+      error: unknown,
+      action: UpdateAction,
+    ): Observable<T[]> {
+      return this.handleUpdateError(error, action.old.row);
+    }
+
+    return function updateRowFn(
+      this: Update<T>,
+      action: UpdateAction,
+    ): Observable<T[]> {
+      const effectService = serviceRegistry.get(
+        entityDefinitionCache(this.feature, this.entity).effectServiceToken,
+      );
+
+      const boundHandleError = handleErrorFn.bind(this);
+
+      function catchErrorFn(error: unknown): Observable<T[]> {
+        return boundHandleError(error, action);
+      }
+
+      return effectService
+        .update(action.new.row as T)
+        .pipe(catchError(catchErrorFn)) as unknown as Observable<T[]>;
+    }.bind(this);
+  }
+
+  /**
+   * Creates the update effect map function
+   *
+   * @returns A function that handles the update effect map
+   */
+  private createUpdateEffectMap(): (rows: T[]) => void {
+    return function updateEffectMapFn(this: Update<T>, rows: T[]): void {
+      const now = Date.now();
+      const id = this.entityAdapter.selectId(rows[firstRowIndex]) as string;
+      this.lastRowTimeout.delete(id);
+      this.lastRowTimeout.set(id, now);
+      this.lastRow.set(id, rows[firstRowIndex]);
+      this.loadByIdsSuccess(rows);
+    }.bind(this);
   }
 }

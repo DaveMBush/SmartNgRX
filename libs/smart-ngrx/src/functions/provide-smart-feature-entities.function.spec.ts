@@ -4,8 +4,8 @@ import { StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import { rootInjector } from '../common/root-injector.function';
-import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
 import { EffectService } from '../types/effect-service';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
@@ -73,8 +73,8 @@ describe('provideSmartFeatureEntities', () => {
     // Setup spies after reset
     jest.spyOn(featureRegistry, 'hasFeature');
     jest.spyOn(featureRegistry, 'registerFeature');
-    jest.spyOn(effectServiceRegistry, 'has');
-    jest.spyOn(effectServiceRegistry, 'register');
+    jest.spyOn(serviceRegistry, 'has');
+    jest.spyOn(serviceRegistry, 'register');
 
     // Setup root injector spy with callback capture
     const mockInjector = TestBed.inject(EnvironmentInjector);
@@ -117,8 +117,8 @@ describe('provideSmartFeatureEntities', () => {
   });
 
   it('should register effect service if not already registered', () => {
-    const hasService = jest.spyOn(effectServiceRegistry, 'has');
-    const registerService = jest.spyOn(effectServiceRegistry, 'register');
+    const hasService = jest.spyOn(serviceRegistry, 'has');
+    const registerService = jest.spyOn(serviceRegistry, 'register');
 
     provideSmartFeatureEntities(featureName, [entityDefinition]);
 
@@ -131,8 +131,8 @@ describe('provideSmartFeatureEntities', () => {
   });
 
   it('should not register effect service if already registered', () => {
-    const registerService = jest.spyOn(effectServiceRegistry, 'register');
-    jest.spyOn(effectServiceRegistry, 'has').mockReturnValue(true);
+    const registerService = jest.spyOn(serviceRegistry, 'register');
+    jest.spyOn(serviceRegistry, 'has').mockReturnValue(true);
 
     provideSmartFeatureEntities(featureName, [entityDefinition]);
 
@@ -168,8 +168,8 @@ describe('provideSmartFeatureEntities', () => {
     const mockInjector = TestBed.inject(EnvironmentInjector);
     jest.spyOn(rootInjector, 'get').mockReturnValue(mockInjector);
 
-    const hasService = jest.spyOn(effectServiceRegistry, 'has');
-    const registerService = jest.spyOn(effectServiceRegistry, 'register');
+    const hasService = jest.spyOn(serviceRegistry, 'has');
+    const registerService = jest.spyOn(serviceRegistry, 'register');
 
     provideSmartFeatureEntities(featureName, [
       entityDefinition,

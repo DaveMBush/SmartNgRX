@@ -6,9 +6,9 @@ import { forNext } from '../common/for-next.function';
 import { rootInjector } from '../common/root-injector.function';
 import { zoneless } from '../common/zoneless.function';
 import { reducerFactory } from '../reducers/reducer.factory';
-import { effectServiceRegistry } from '../registrations/effect-service-registry.class';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
@@ -60,8 +60,8 @@ export function provideSmartFeatureEntities(
       }
 
       rootInjector.runOnRootInjector(function registerFeature() {
-        if (!effectServiceRegistry.has(effectServiceToken)) {
-          effectServiceRegistry.register(
+        if (!serviceRegistry.has(effectServiceToken)) {
+          serviceRegistry.register(
             effectServiceToken,
             rootInjector.get().get(effectServiceToken),
           );

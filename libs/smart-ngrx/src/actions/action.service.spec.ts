@@ -2,15 +2,16 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
+import * as watchInitialRowModule from '../functions/watch-initial-row.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import * as storeFunction from '../selector/store.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import * as actionFactory from './action.factory';
 import { ActionService } from './action.service';
 import { ActionGroup } from './action-group.interface';
-import * as watchInitialRowModule from '../functions/watch-initial-row.function';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-cache.function');
@@ -18,8 +19,12 @@ jest.mock('../registrations/entity-registry.class');
 jest.mock('./action.factory');
 jest.mock('../selector/store.function');
 
-interface MockEntity {
+interface MockEntity extends SmartNgRXRowBase {
   id: string;
+  name?: string;
+  age?: number;
+  unchanged?: string;
+  newProp?: string;
   isEditing?: boolean;
 }
 
@@ -144,9 +149,13 @@ describe('ActionService', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({
         remove: jest.fn().mockReturnValue({ type: 'REMOVE_ACTION' }),
+        updateMany: jest.fn().mockReturnValue({ type: 'UPDATE_MANY_ACTION' }),
       });
       (entityDefinitionCache as jest.Mock).mockReturnValue({
-        entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
+        entityAdapter: {
+          getSelectors: () => ({ selectEntities: jest.fn() }),
+          selectId: (row: MockEntity) => row.id,
+        },
       });
       (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},
@@ -154,6 +163,85 @@ describe('ActionService', () => {
 
       // Initialize the service
       service.init();
+    });
+
+    describe('optimisticUpdate', () => {
+      it('should only update changed properties', () => {
+        const updateManySpy = jest.spyOn(service, 'updateMany');
+        const oldRow: MockEntity = {
+          id: '1',
+          name: 'old',
+          age: 30,
+          unchanged: 'same',
+        };
+        const newRow: MockEntity = {
+          id: '1',
+          name: 'new',
+          age: 31,
+          unchanged: 'same',
+        };
+
+        service.optimisticUpdate(oldRow, newRow);
+
+        expect(updateManySpy).toHaveBeenCalledWith([
+          {
+            id: '1',
+            changes: {
+              name: 'new',
+              age: 31,
+            },
+          },
+        ]);
+      });
+
+      it('should not update when properties are the same', () => {
+        const updateManySpy = jest.spyOn(service, 'updateMany');
+        const oldRow: MockEntity = { id: '1', name: 'same', age: 30 };
+        const newRow: MockEntity = { id: '1', name: 'same', age: 30 };
+
+        service.optimisticUpdate(oldRow, newRow);
+
+        expect(updateManySpy).toHaveBeenCalledWith([
+          {
+            id: '1',
+            changes: {},
+          },
+        ]);
+      });
+
+      it('should handle new properties in newRow', () => {
+        const updateManySpy = jest.spyOn(service, 'updateMany');
+        const oldRow: MockEntity = { id: '1', name: 'old' };
+        const newRow: MockEntity = { id: '1', name: 'old', newProp: 'value' };
+
+        service.optimisticUpdate(oldRow, newRow);
+
+        expect(updateManySpy).toHaveBeenCalledWith([
+          {
+            id: '1',
+            changes: {
+              newProp: 'value',
+            },
+          },
+        ]);
+      });
+
+      it('should handle string id conversion', () => {
+        const updateManySpy = jest.spyOn(service, 'updateMany');
+        const oldRow: MockEntity = { id: '1', name: 'old' };
+        const newRow: MockEntity = { id: '1', name: 'new' };
+
+        service.optimisticUpdate(oldRow, newRow);
+
+        expect(updateManySpy).toHaveBeenCalledWith([
+          {
+            id: '1',
+            changes: {
+              name: 'new',
+            },
+          },
+        ]);
+      });
     });
 
     describe('markDirty', () => {
