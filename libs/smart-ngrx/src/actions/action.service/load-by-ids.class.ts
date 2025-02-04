@@ -15,13 +15,13 @@ import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.fun
 import { rootInjector } from '../../common/root-injector.function';
 import { smartNgRXErrorHandlerToken } from '../../error-handler/smart-ngrx-error-handler-token.const';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
-import { defaultRows } from '../../reducers/default-rows.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
+import { ActionGroup } from '../../types/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { ActionGroup } from '../action-group.interface';
 import { bufferIds } from './buffer-ids.function';
+import { defaultRows } from './default-rows.function';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {
@@ -100,7 +100,7 @@ export class LoadByIds {
             return of([]);
           }
           const effectService = serviceRegistry.get(
-            entityDefinitionCache(feature, entityName).effectServiceToken,
+            entityDefinitionRegistry(feature, entityName).effectServiceToken,
           );
           actionService.loadByIdsPreload(ids);
           return effectService.loadByIds(ids);

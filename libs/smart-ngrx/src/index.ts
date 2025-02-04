@@ -2,12 +2,12 @@ export * from './actions/action.factory';
 export * from './common/assert.function';
 export * from './common/cast-to.function';
 export * from './common/for-next.function';
-export * from './functions/provide-smart-feature-entities.function';
-export * from './functions/provide-smart-ngrx.function';
-export * from './row-proxy/row-proxy-delete.interface';
+export * from './providers/provide-smart-feature-entities.function';
+export * from './providers/provide-smart-ngrx.function';
 export * from './selector/create-smart-selector.function';
-export * from './selector/smart-array.interface';
 export * from './types/effect-service';
+export * from './types/row-proxy-delete.interface';
+export * from './types/smart-array.interface';
 
 // store.function is needed for testing
 export * from './selector/store.function';
@@ -24,5 +24,5 @@ export * from './types/smart-entity-definition.interface';
 export * from './types/smart-ngrx-row-base.interface';
 
 // error handling
-export * from './error-handler/smart-ngrx-error-handler.interface';
 export * from './error-handler/smart-ngrx-error-handler-token.const';
+export * from './types/smart-ngrx-error-handler.interface';

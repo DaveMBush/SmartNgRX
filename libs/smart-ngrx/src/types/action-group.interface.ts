@@ -2,11 +2,11 @@
 /* jscpd:ignore-start */
 import { Action, ActionCreator } from '@ngrx/store';
 
-import { IdsProp } from '../types/ids-prop.interface';
-import { RowProp } from '../types/row-prop.interface';
-import { RowsProp } from '../types/rows-prop.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { UpdateChanges } from '../types/update-changes.interface';
+import { IdsProp } from './ids-prop.interface';
+import { RowProp } from './row-prop.interface';
+import { RowsProp } from './rows-prop.interface';
+import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
+import { UpdateChanges } from './update-changes.interface';
 /* jscpd:ignore-start */
 
 /**

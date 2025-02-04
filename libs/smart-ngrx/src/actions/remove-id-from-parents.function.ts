@@ -2,7 +2,7 @@ import { take } from 'rxjs';
 
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { ParentInfo } from './parent-info.interface';
+import { ParentInfo } from '../types/parent-info.interface';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 /**

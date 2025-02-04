@@ -13,7 +13,7 @@ import {
 import { catchError } from 'rxjs/operators';
 
 import { handleError } from '../../error-handler/handle-error.function';
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { RowProp } from '../../types/row-prop.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -163,7 +163,7 @@ export class Update<T extends SmartNgRXRowBase> {
       action: UpdateAction,
     ): Observable<T[]> {
       const effectService = serviceRegistry.get(
-        entityDefinitionCache(this.feature, this.entity).effectServiceToken,
+        entityDefinitionRegistry(this.feature, this.entity).effectServiceToken,
       );
 
       const boundHandleError = handleErrorFn.bind(this);

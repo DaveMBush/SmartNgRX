@@ -1,7 +1,7 @@
-import { psi } from '../../common/psi.const';
-import { entityRegistry } from '../../registrations/entity-registry.class';
-import { MarkAndDeleteInit } from '../../types/mark-and-delete-init.interface';
-import { globalMarkAndDeleteInit } from '../global-mark-and-delete-init.class';
+import { psi } from '../common/psi.const';
+import { entityRegistry } from '../registrations/entity-registry.class';
+import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 import * as processMarkAndDelete from './process-mark-and-delete.function';
 

@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
 import { actionFactory } from '../actions/action.factory';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
@@ -18,7 +18,7 @@ export function reducerFactory<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): ActionReducer<EntityState<T>> {
-  const adapter = entityDefinitionCache<T>(feature, entity).entityAdapter;
+  const adapter = entityDefinitionRegistry<T>(feature, entity).entityAdapter;
   const initialState = adapter.getInitialState();
   const actions = actionFactory<T>(feature, entity);
 

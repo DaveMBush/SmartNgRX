@@ -1,9 +1,9 @@
 import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
+import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 import { RowProxy } from './row-proxy.class';
-import { RowProxyDelete } from './row-proxy-delete.interface';
 
 /**
  * Wraps a row in a proxy that will take care of editing the row

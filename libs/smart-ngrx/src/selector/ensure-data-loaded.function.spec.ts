@@ -3,7 +3,7 @@ import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
@@ -27,7 +27,7 @@ describe('ensureDataLoaded()', () => {
   beforeEach(() => {
     createStore();
     featureRegistry.registerFeature(feature);
-    entityDefinitionCache(feature, entity, {
+    entityDefinitionRegistry(feature, entity, {
       entityAdapter: createEntityAdapter(),
     } as SmartEntityDefinition<SmartNgRXRowBase>);
     entityRegistry.register(feature, entity, {

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { createEntityAdapter } from '@ngrx/entity';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
@@ -38,13 +38,13 @@ describe('realOrMocked', () => {
     SmartNgRXRowBase,
     { id: string; name: string }
   >;
-  entityDefinitionCache('feature', 'entity', {
+  entityDefinitionRegistry('feature', 'entity', {
     entityName: 'entity',
     entityAdapter: createEntityAdapter(),
     defaultRow: (id: string) => ({ name: '', id }),
     effectServiceToken: null,
   } as unknown as SmartEntityDefinition<typeof defaultObject>);
-  entityDefinitionCache('parentFeature', 'parentEntity', {
+  entityDefinitionRegistry('parentFeature', 'parentEntity', {
     entityName: 'parentEntity',
     entityAdapter: createEntityAdapter(),
     defaultRow: (id: string) => ({ name: '', id }),
