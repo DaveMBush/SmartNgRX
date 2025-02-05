@@ -4,14 +4,14 @@ import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { newRowRegistry } from '../../selector/new-row-registry.class';
+import { ActionGroup } from '../../types/action-group.interface';
 import { IndexProp } from '../../types/index-prop.interfaces';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
-import { ActionGroup } from '../action-group.interface';
 import { bufferIndexes } from './buffer-indexes.function';
 
 /**
@@ -89,7 +89,7 @@ export class LoadByIndexes {
             return Math.max(a, b);
           }, indexes[0]);
           const effectService = serviceRegistry.get(
-            entityDefinitionCache(feature, entity).effectServiceToken,
+            entityDefinitionRegistry(feature, entity).effectServiceToken,
           );
           return (
             effectService

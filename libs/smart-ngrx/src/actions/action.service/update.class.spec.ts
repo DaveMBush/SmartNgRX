@@ -1,4 +1,4 @@
-jest.mock('../../registrations/entity-definition-cache.function');
+jest.mock('../../registrations/entity-definition-registry.function');
 
 import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -6,7 +6,7 @@ import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import { of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
@@ -108,7 +108,7 @@ describe('Update', () => {
 
     jest.spyOn(serviceRegistry, 'get').mockReturnValue(mockEffectService);
 
-    (entityDefinitionCache as jest.Mock).mockReturnValue({
+    (entityDefinitionRegistry as jest.Mock).mockReturnValue({
       effectServiceToken: mockEffectServiceToken,
     });
 

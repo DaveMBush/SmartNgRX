@@ -1,8 +1,8 @@
-import { ParentInfo } from '../actions/parent-info.interface';
 import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { ParentInfo } from '../types/parent-info.interface';
 
 /**
  * Delete the feature/entity/ids from the store

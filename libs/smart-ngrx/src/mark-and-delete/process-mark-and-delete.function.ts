@@ -1,5 +1,5 @@
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { globalMarkAndDeleteInit } from '../global-mark-and-delete-init.class';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 
 /**
  * Goes through all the rows that have been registered and marks them

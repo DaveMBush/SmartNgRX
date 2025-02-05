@@ -2,8 +2,8 @@ import { EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
 import { rowProxy } from '../row-proxy/row-proxy.function';
-import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { getServices } from './get-services.function';
 

@@ -1,4 +1,4 @@
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { markAndDeleteEntities } from './mark-and-delete-entities.class';
 
@@ -17,7 +17,7 @@ class EntityRowsRegistry {
     entity: string,
     rows: T[],
   ): T[] {
-    const adapter = entityDefinitionCache(feature, entity).entityAdapter;
+    const adapter = entityDefinitionRegistry(feature, entity).entityAdapter;
     const markAndDeleteMap = markAndDeleteEntities.map(feature, entity);
     return rows.map(function registerEntityRowsMapItem(row) {
       const markAndDeleteKey = `${adapter.selectId(row)}`;

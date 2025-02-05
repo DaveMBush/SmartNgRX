@@ -22,7 +22,7 @@ const entityDefinitionMap = new Map<
  *
  * @see `EntityDefinition`
  */
-export function entityDefinitionCache<
+export function entityDefinitionRegistry<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
 >(
   featureName: string,

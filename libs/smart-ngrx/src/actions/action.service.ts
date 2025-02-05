@@ -6,15 +6,16 @@ import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
 import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { handleError } from '../error-handler/handle-error.function';
-import { watchInitialRow } from '../functions/watch-initial-row.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { store as storeFunction } from '../selector/store.function';
 import { virtualArrayMap } from '../selector/virtual-array-map.const';
+import { ActionGroup } from '../types/action-group.interface';
+import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
@@ -24,9 +25,8 @@ import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
 import { markFeatureParentsDirty } from './action.service/mark-feature-parents-dirty.function';
 import { Update } from './action.service/update.class';
-import { ActionGroup } from './action-group.interface';
-import { ParentInfo } from './parent-info.interface';
 import { removeIdFromParents } from './remove-id-from-parents.function';
+import { watchInitialRow } from './watch-initial-row.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -106,7 +106,7 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
       Record<string, EntityState<SmartNgRXRowBase>>
     >(this.feature);
 
-    this.entityDefinition = entityDefinitionCache(this.feature, this.entity);
+    this.entityDefinition = entityDefinitionRegistry(this.feature, this.entity);
     const selectEntity = createSelector(
       selectFeature,
       function selectEntityFunction(f): EntityState<T> {

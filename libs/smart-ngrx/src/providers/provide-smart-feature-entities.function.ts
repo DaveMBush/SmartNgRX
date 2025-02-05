@@ -6,7 +6,7 @@ import { forNext } from '../common/for-next.function';
 import { rootInjector } from '../common/root-injector.function';
 import { zoneless } from '../common/zoneless.function';
 import { reducerFactory } from '../reducers/reducer.factory';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
@@ -49,7 +49,7 @@ export function provideSmartFeatureEntities(
   forNext(
     entityDefinitions,
     function provideSmartFeatureEntitiesForNext(entityDefinition) {
-      entityDefinitionCache(
+      entityDefinitionRegistry(
         featureName,
         entityDefinition.entityName,
         entityDefinition,

@@ -6,19 +6,19 @@ import { Observable, of, Subject } from 'rxjs';
 
 import * as forNextModule from '../../common/for-next.function';
 import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../../registrations/entity-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import * as newRowRegistryModule from '../../selector/new-row-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
+import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { actionFactory } from '../action.factory';
 import { ActionService } from '../action.service';
-import { ActionGroup } from '../action-group.interface';
 import { LoadByIndexes } from './load-by-indexes.class';
 
 interface LoadByIndexesPublic
@@ -97,7 +97,7 @@ describe('LoadByIndexes', () => {
       markAndDeleteEntityMap: new Map(),
     });
     featureRegistry.registerFeature('testFeature');
-    entityDefinitionCache('testFeature', 'testEntity', {
+    entityDefinitionRegistry('testFeature', 'testEntity', {
       entityName: 'testEntity',
       effectServiceToken,
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
