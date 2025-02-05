@@ -22,10 +22,10 @@ import { RowProxy } from '../row-proxy/row-proxy.class';
 import { getArrayItem } from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
 
-//Mock the actionServiceRegistry and entityDefinitionCache
+//Mock the actionServiceRegistry and entityDefinitionRegistry
 
-jest.mock('../registrations/entity-definition-cache.function', () => ({
-  entityDefinitionCache: jest.fn().mockReturnValue({
+jest.mock('../registrations/entity-definition-registry.function', () => ({
+  entityDefinitionRegistry: jest.fn().mockReturnValue({
     entityAdapter: createEntityAdapter<MockRow>(),
   }),
 }));

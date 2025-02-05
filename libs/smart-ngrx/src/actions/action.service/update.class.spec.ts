@@ -1,4 +1,4 @@
-jest.mock('../../registrations/entity-definition-cache.function');
+jest.mock('../../registrations/entity-definition-registry.function');
 
 import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';

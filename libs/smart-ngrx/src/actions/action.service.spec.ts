@@ -14,7 +14,7 @@ import { ActionService } from './action.service';
 import * as watchInitialRowModule from './watch-initial-row.function';
 
 jest.mock('../registrations/feature-registry.class');
-jest.mock('../registrations/entity-definition-cache.function');
+jest.mock('../registrations/entity-definition-registry.function');
 jest.mock('../registrations/entity-registry.class');
 jest.mock('./action.factory');
 jest.mock('../selector/store.function');
