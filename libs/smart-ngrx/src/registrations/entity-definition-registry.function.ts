@@ -9,7 +9,7 @@ import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-
 
 const entityDefinitionMap = new Map<
   string,
-  SmartEntityDefinition<SmartNgRXRowBase>
+  SmartValidatedEntityDefinition<SmartNgRXRowBase>
 >();
 
 /**
@@ -31,13 +31,19 @@ export function entityDefinitionRegistry<
 ): SmartValidatedEntityDefinition<T> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
-    cached = entityDefinition;
-    if (entityDefinition.entityAdapter === undefined) {
-      entityDefinition.entityAdapter = createEntityAdapter();
+    const entityDefinitionWithAdapter =
+      entityDefinition as SmartValidatedEntityDefinition<T>;
+    cached = entityDefinitionWithAdapter as unknown as SmartValidatedEntityDefinition<
+      SmartNgRXRowBase
+    >;
+    if (entityDefinition.isSignal !== true) {
+      entityDefinitionWithAdapter.entityAdapter = createEntityAdapter<T>({
+        selectId: entityDefinition.selectId,
+      });
     }
     entityDefinitionMap.set(
       `${featureName}${psi}${entityName}`,
-      entityDefinition,
+      cached,
     );
   }
   assert(
@@ -46,7 +52,7 @@ export function entityDefinitionRegistry<
   );
   const entityAdapter = cached.entityAdapter;
   assert(
-    !!entityAdapter,
+    entityAdapter !== undefined,
     `Entity adapter for ${featureName}${psi}${entityName} not found.`,
   );
   // we can cast this now because we've validated that it obeys the type rules

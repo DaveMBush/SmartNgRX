@@ -52,9 +52,23 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
   isInitialRow?: boolean;
 
   /**
-   * Supply your own entityAdapter if you are not using ID as the primary key.
+   * If this is true, the backing store is signalStore and not standard NgRx.
    */
-  entityAdapter?: EntityAdapter<SmartNgRXRowBase>;
+  isSignal?: boolean;
+
+  // /**
+  //  * Supply your own entityAdapter if you are not using ID as the primary key.
+  //  */
+  // entityAdapter?: EntityAdapter<SmartNgRXRowBase>;
+
+  /**
+   * Function that returns the ID of the row. If this is not
+   * supplied, the code will assume that `id` is the primary key.
+   *
+   * @param row
+   * @returns string that is the identifier value (not the field name) of the row.
+   */
+  selectId?(this: void, row: SmartNgRXRowBase): string;
 
   /**
    * The `MarkAndDeleteInit` for this entity. This is optional and if not provided

@@ -1,4 +1,4 @@
-import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
+import { EnvironmentProviders, importProvidersFrom, ImportProvidersSource } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
@@ -68,8 +68,12 @@ export function provideSmartFeatureEntities(
         }
       });
 
-      const reducer = reducerFactory(featureName, entityName);
-      reducers[entityName] = reducer;
+      if (entityDefinition.isSignal !== true) {
+        // equivalent for signals is going to be a signalService
+        // with the same interface as the actionService
+        const reducer = reducerFactory(featureName, entityName);
+        reducers[entityName] = reducer;
+      }
 
       void unpatchedPromise
         .resolve()
@@ -78,6 +82,8 @@ export function provideSmartFeatureEntities(
         });
     },
   );
-
-  return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
+  if (Object.keys(reducers).length > 0) {
+    return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
+  }
+  return {} as EnvironmentProviders;
 }

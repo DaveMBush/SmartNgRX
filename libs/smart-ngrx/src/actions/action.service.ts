@@ -20,6 +20,7 @@ import { PartialArrayDefinition } from '../types/partial-array-definition.interf
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { actionFactory } from './action.factory';
+import { ActionServiceBase } from './action.service.base';
 import { Add } from './action.service/add.class';
 import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
@@ -35,13 +36,12 @@ import { watchInitialRow } from './watch-initial-row.function';
  * to the store, and keeps logic out of the reducer and effects without
  * scattering the logic throughout the application.
  */
-export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
-  /**
-   * entityAdapter is needed for delete so it is public
-   */
+export class ActionService<
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+> extends ActionServiceBase<T> {
   entityAdapter!: EntityAdapter<T>;
   entities!: Observable<Dictionary<T>>;
-  private actions!: ActionGroup;
+  protected actions!: ActionGroup;
   private store = storeFunction();
   private markDirtyFetchesNew = true;
   private entityDefinition!: SmartValidatedEntityDefinition<T>;
@@ -50,40 +50,6 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
   private updateService!: Update<T>;
   private addService!: Add<T>;
   private initCalled = false;
-
-  /**
-   * constructor for the ActionService
-   *
-   * @param feature the name of the feature this class is for
-   * @param entity the name of the entity this class is for
-   */
-  constructor(
-    public feature: string,
-    public entity: string,
-  ) {}
-
-  /**
-   * Initializes the classes the ActionService needs to function
-   */
-  initClasses(): void {
-    this.loadByIndexesService = new LoadByIndexes(
-      this.feature,
-      this.entity,
-      this.store,
-    );
-    this.loadByIdsService = new LoadByIds(
-      this.feature,
-      this.entity,
-      this.store,
-    );
-    this.updateService = new Update<T>(
-      this.feature,
-      this.entity,
-      this.entityAdapter,
-      this.loadByIdsSuccess.bind(this),
-    );
-    this.addService = new Add<T>(this.feature, this.entity, this.entityAdapter);
-  }
 
   /**
    * Tries to initialize the ActionService.
@@ -398,6 +364,29 @@ export class ActionService<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
     array: PartialArrayDefinition,
   ): void {
     this.loadByIndexesService.loadByIndexesSuccess(parentId, childField, array);
+  }
+
+  /**
+   * Initializes the classes the ActionService needs to function
+   */
+  private initClasses(): void {
+    this.loadByIndexesService = new LoadByIndexes(
+      this.feature,
+      this.entity,
+      this.store,
+    );
+    this.loadByIdsService = new LoadByIds(
+      this.feature,
+      this.entity,
+      this.store,
+    );
+    this.updateService = new Update<T>(
+      this.feature,
+      this.entity,
+      this.entityAdapter,
+      this.loadByIdsSuccess.bind(this),
+    );
+    this.addService = new Add<T>(this.feature, this.entity, this.entityAdapter);
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(
