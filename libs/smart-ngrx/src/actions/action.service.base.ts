@@ -1,8 +1,5 @@
-import { Dictionary, EntityAdapter } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
-import { Observable } from 'rxjs';
 
-import { ActionGroup } from '../types/action-group.interface';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -13,7 +10,6 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 export abstract class ActionServiceBase<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
-
   /**
    * Creates an instance of ActionServiceBase
    *

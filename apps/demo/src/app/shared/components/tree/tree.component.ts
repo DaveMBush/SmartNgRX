@@ -60,9 +60,9 @@ import { TreeNode } from './tree-node.interface';
 })
 export class TreeComponent implements OnChanges, AfterViewInit {
   private treeComponentService = inject(TreeComponentService);
-  locations = input.required<Location[] | null>();
-  locationId = input<number | string | null>('');
-  location = input<Location | null>(null);
+  locations$ = input.required<Location[] | null>();
+  locationId$ = input<number | string | null>('');
+  location$ = input<Location | null>(null);
   readonly locationChanged = output<string>();
 
   @ViewChild(CdkVirtualScrollViewport)
@@ -107,7 +107,7 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['location'] !== undefined) {
+    if (changes['location$'] !== undefined) {
       this.treeComponentService.applyRange();
     }
   }

@@ -1,4 +1,4 @@
-import { EnvironmentProviders, importProvidersFrom, ImportProvidersSource } from '@angular/core';
+import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 

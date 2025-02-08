@@ -1,5 +1,3 @@
-import { EntityAdapter } from '@ngrx/entity';
-
 import { EffectServiceToken } from './effect-service.token';
 import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
 import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
@@ -36,7 +34,6 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * id that is passed in will be in the form of `index${psi}${index}`. You can use
    * this information to create whatever ID is appropriate for the row.
    */
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- decorating with void because this should not use this.
   defaultRow(this: void, id: string): Row;
 
   /**

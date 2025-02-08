@@ -39,12 +39,12 @@ export class TreeComponentService {
     const component = this.component;
     assert(!!component, 'component is null');
     // no use in painting if there is nothing to paint
-    if (component.location() === undefined || component.location() === null) {
+    if (component.location$() === undefined || component.location$() === null) {
       return;
     }
     component.fullDataSource = this.transform({
-      parentId: component.locationId() as string,
-      children: component.location()!.departments as SmartArray<
+      parentId: component.locationId$() as string,
+      children: component.location$()!.departments as SmartArray<
         CommonSourceNode,
         CommonSourceNode
       >,

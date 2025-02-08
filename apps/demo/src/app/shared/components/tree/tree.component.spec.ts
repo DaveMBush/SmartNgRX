@@ -20,8 +20,8 @@ interface TestableTreeComponent
   // because it is private and we need it available as public
   extends Omit<TreeComponent, 'treeComponentService'> {
   treeComponentService: TreeComponentService;
-  locationId: InputSignal<number | string | null>;
-  locations: InputSignal<Location[] | null>;
+  locationId$: InputSignal<number | string | null>;
+  locations$: InputSignal<Location[] | null>;
 }
 
 // Create a test host component
@@ -88,7 +88,7 @@ describe('TreeComponent', () => {
     testHostFixture.detectChanges();
 
     // Verify that locationName is updated
-    expect(treeComponent.locationId()).toBe('1');
+    expect(treeComponent.locationId$()).toBe('1');
 
     // Verify that applyRange has been called
     expect(applyRangeSpy).toHaveBeenCalled();
