@@ -2,6 +2,7 @@
 import { createEntityAdapter } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
+import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
@@ -23,6 +24,8 @@ interface Row extends SmartNgRXRowBase {
 
 describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
+  let actionServiceMarkNotDirtySpy: jest.SpyInstance;
+  let entityRowsRegistrySpy: jest.SpyInstance;
   let actionService: ActionService | null;
   beforeEach(() => {
     createStore();
@@ -41,6 +44,8 @@ describe('ensureDataLoaded()', () => {
     });
     actionService = actionServiceRegistry.register(feature, entity);
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
+    actionServiceMarkNotDirtySpy = jest.spyOn(actionService, 'markNotDirty');
+    entityRowsRegistrySpy = jest.spyOn(entityRowsRegistry, 'register');
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -87,6 +92,43 @@ describe('ensureDataLoaded()', () => {
       });
       it('should call the action service to load the id', () => {
         expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
+      });
+    });
+    describe('and isDirty is true but mark dirty does not fetch new', () => {
+      beforeEach(() => {
+        // have to unregister and re-register so we can set markDirtyFetchesNew
+        // and because we already registered in the parent beforeEach
+        entityRegistry.unregister(feature, entity);
+        entityRegistry.register(feature, entity, {
+          markAndDeleteInit: { markDirtyFetchesNew: false },
+        } as EntityAttributes);
+
+        const row = { id: 'id', name: 'foo', isDirty: true };
+        ensureDataLoaded<Row>(
+          {
+            ids: [],
+            entities: { id: row },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
+      });
+
+      it('should register the entity row', () => {
+        expect(entityRowsRegistrySpy).toHaveBeenCalledWith(
+          'feature',
+          'entity',
+          [{ id: 'id', name: 'foo', isDirty: true }],
+        );
+      });
+
+      it('should mark the entity as not dirty', () => {
+        expect(actionServiceMarkNotDirtySpy).toHaveBeenCalledWith('id');
+      });
+
+      it('should not call loadByIds', () => {
+        expect(actionServiceLoadByIdsSpy).not.toHaveBeenCalled();
       });
     });
   });

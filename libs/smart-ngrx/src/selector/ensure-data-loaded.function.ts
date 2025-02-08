@@ -1,8 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 
 import { ActionService } from '../actions/action.service';
+import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { zoneless } from '../common/zoneless.function';
+import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { entityRegistry } from '../registrations/entity-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -23,14 +26,19 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): void {
+  const registry = entityRegistry.get(feature, entity);
   const actionService = actionServiceRegistry.register(feature, entity);
   const ids = entityState.entities as Record<string, T>;
+  const markDirtyFetchesNew = !(
+    isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
+    !registry.markAndDeleteInit.markDirtyFetchesNew
+  );
 
   const idsId = ids[id];
 
   if (
     idsId === undefined ||
-    idsId.isDirty === true ||
+    (idsId.isDirty === true && markDirtyFetchesNew) ||
     idsId.isDirty === undefined
   ) {
     // too much trouble to pass Zone in so just going after
@@ -39,6 +47,11 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
     void unpatchedPromise
       .resolve()
       .then(actionServiceLoadByIds(actionService, id));
+  } else if (idsId.isDirty && !markDirtyFetchesNew) {
+    entityRowsRegistry.register(feature, entity, [idsId]);
+    void unpatchedPromise.resolve().then(function actionServiceMarkNotDirty() {
+      actionService.markNotDirty(id);
+    });
   }
 }
 
