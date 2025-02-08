@@ -152,17 +152,17 @@ export class ActionService<
   /**
    * marks the rows represented by the ids as not dirty
    *
-   * @param ids the ids to mark as not dirty
+   * @param id the id of the row to mark as not dirty
    */
-  markNotDirty(ids: string[]): void {
+  markNotDirty(id: string): void {
     this.store.dispatch(
       this.actions.updateMany({
-        changes: ids.map(function markNotDirtyMap(id) {
-          return {
+        changes: [
+          {
             id,
             changes: { isDirty: false },
-          } as UpdateStr<SmartNgRXRowBase>;
-        }),
+          },
+        ],
       }),
     );
   }
