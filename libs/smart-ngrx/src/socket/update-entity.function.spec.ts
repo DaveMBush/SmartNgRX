@@ -2,7 +2,7 @@ import { InjectionToken } from '@angular/core';
 
 import { ActionService } from '../actions/action.service';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
@@ -22,7 +22,7 @@ describe('updateEntity', () => {
       ids: [],
       entities: {},
     });
-    entityDefinitionCache(feature, entity, {
+    entityDefinitionRegistry(feature, entity, {
       entityName: entity,
       effectServiceToken: new InjectionToken(entity + 'Service'),
       defaultRow: () => ({ id: '1' }),

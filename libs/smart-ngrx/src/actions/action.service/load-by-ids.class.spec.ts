@@ -4,16 +4,16 @@ import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
-import { entityDefinitionCache } from '../../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../../registrations/entity-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
+import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
-import { ActionGroup } from '../action-group.interface';
 import { LoadByIds } from './load-by-ids.class';
 
 interface SomeDataRow extends SmartNgRXRowBase {
@@ -79,7 +79,7 @@ describe('LoadByIds', () => {
       markAndDeleteEntityMap: new Map(),
     });
     featureRegistry.registerFeature('testFeature');
-    entityDefinitionCache('testFeature', 'testEntity', {
+    entityDefinitionRegistry('testFeature', 'testEntity', {
       entityName: 'testEntity',
       effectServiceToken,
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,

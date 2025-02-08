@@ -1,5 +1,5 @@
+import { SmartNgRXErrorHandler } from '../types/smart-ngrx-error-handler.interface';
 import { errorHandler } from './error-handler.class';
-import { SmartNgRXErrorHandler } from './smart-ngrx-error-handler.interface';
 
 class ErrorHandlerRegistry {
   private handler = errorHandler;

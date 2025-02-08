@@ -2,19 +2,19 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 
-import * as watchInitialRowModule from '../functions/watch-initial-row.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import * as storeFunction from '../selector/store.function';
+import { ActionGroup } from '../types/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import * as actionFactory from './action.factory';
 import { ActionService } from './action.service';
-import { ActionGroup } from './action-group.interface';
+import * as watchInitialRowModule from './watch-initial-row.function';
 
 jest.mock('../registrations/feature-registry.class');
-jest.mock('../registrations/entity-definition-cache.function');
+jest.mock('../registrations/entity-definition-registry.function');
 jest.mock('../registrations/entity-registry.class');
 jest.mock('./action.factory');
 jest.mock('../selector/store.function');
@@ -73,7 +73,7 @@ describe('ActionService', () => {
     it('should initialize successfully if feature is registered', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
-      (entityDefinitionCache as jest.Mock).mockReturnValue({
+      (entityDefinitionRegistry as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
       });
       (entityRegistry.get as jest.Mock).mockReturnValue({
@@ -95,7 +95,7 @@ describe('ActionService', () => {
       // Mock dependencies
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
-      (entityDefinitionCache as jest.Mock).mockReturnValue({
+      (entityDefinitionRegistry as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
         isInitialRow: true,
       });
@@ -122,7 +122,7 @@ describe('ActionService', () => {
       // Mock dependencies
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
-      (entityDefinitionCache as jest.Mock).mockReturnValue({
+      (entityDefinitionRegistry as jest.Mock).mockReturnValue({
         entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
         isInitialRow: false,
       });
@@ -151,7 +151,7 @@ describe('ActionService', () => {
         remove: jest.fn().mockReturnValue({ type: 'REMOVE_ACTION' }),
         updateMany: jest.fn().mockReturnValue({ type: 'UPDATE_MANY_ACTION' }),
       });
-      (entityDefinitionCache as jest.Mock).mockReturnValue({
+      (entityDefinitionRegistry as jest.Mock).mockReturnValue({
         entityAdapter: {
           getSelectors: () => ({ selectEntities: jest.fn() }),
           selectId: (row: MockEntity) => row.id,
@@ -283,7 +283,7 @@ describe('ActionService', () => {
         const mockSelectEntities = jest
           .fn()
           .mockReturnValue(() => mockEntities);
-        (entityDefinitionCache as jest.Mock).mockReturnValue({
+        (entityDefinitionRegistry as jest.Mock).mockReturnValue({
           entityAdapter: {
             getSelectors: () => ({ selectEntities: mockSelectEntities }),
           },

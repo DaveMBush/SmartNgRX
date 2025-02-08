@@ -1,5 +1,5 @@
 import { forNext } from '../../common/for-next.function';
-import { ParentInfo } from '../parent-info.interface';
+import { ParentInfo } from '../../types/parent-info.interface';
 import { markParentsDirty } from './mark-parents-dirty.function';
 
 /**

@@ -1,5 +1,5 @@
-import { ActionService } from '../../actions/action.service';
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { ActionService } from '../actions/action.service';
+import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 // we have to supply requestIdleCallback for jest
 window.requestIdleCallback = (

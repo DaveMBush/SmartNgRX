@@ -4,7 +4,7 @@ import * as createEntityAdapterObject from '@ngrx/entity';
 import { EffectServiceToken } from '../types/effect-service.token';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { entityDefinitionCache } from './entity-definition-cache.function';
+import { entityDefinitionRegistry } from './entity-definition-registry.function';
 
 jest.mock('@ngrx/entity', () => {
   return {
@@ -52,7 +52,7 @@ describe('provideSmartFeatureEntities', () => {
   });
   describe('when entityDefinitions has an entityAdapter', () => {
     it('should not call createEntityAdapter', () => {
-      entityDefinitionCache(featureName, entityName, definition);
+      entityDefinitionRegistry(featureName, entityName, definition);
       expect(createEntityAdapterSpy).not.toHaveBeenCalled();
     });
   });
@@ -61,7 +61,7 @@ describe('provideSmartFeatureEntities', () => {
       delete definition.entityAdapter;
     });
     it('should call createEntityAdapter', () => {
-      entityDefinitionCache(featureName, entityName, definition);
+      entityDefinitionRegistry(featureName, entityName, definition);
       expect(createEntityAdapterSpy).toHaveBeenCalledTimes(1);
     });
   });

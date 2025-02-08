@@ -3,12 +3,12 @@
 import { createActionGroup, props } from '@ngrx/store';
 
 import { psi } from '../common/psi.const';
+import { ActionGroup } from '../types/action-group.interface';
 import { IdsProp } from '../types/ids-prop.interface';
 import { RowProp } from '../types/row-prop.interface';
 import { RowsProp } from '../types/rows-prop.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { UpdateChanges } from '../types/update-changes.interface';
-import { ActionGroup } from './action-group.interface';
 /* jscpd:ignore-end */
 const actionGroupCache = new Map<string, unknown>();
 

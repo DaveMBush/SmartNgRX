@@ -6,10 +6,11 @@ import { ActionService } from '../actions/action.service';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
-import { entityDefinitionCache } from '../registrations/entity-definition-cache.function';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { RowProxy } from '../row-proxy/row-proxy.class';
-import { RowProxyDelete } from '../row-proxy/row-proxy-delete.interface';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { RowProxyDelete } from '../types/row-proxy-delete.interface';
+import { SmartArray } from '../types/smart-array.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
@@ -17,7 +18,6 @@ import { getArrayItem } from './get-array-item.function';
 import { getServices } from './get-services.function';
 import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
-import { SmartArray } from './smart-array.interface';
 import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
 
@@ -82,10 +82,13 @@ export class ArrayProxy<
     const { service } = this.getServices();
     this.childActionService = service;
     // needed primarily for adding items to the array
-    const { entityAdapter } = entityDefinitionCache(childFeature, childEntity);
+    const { entityAdapter } = entityDefinitionRegistry(
+      childFeature,
+      childEntity,
+    );
     this.entityAdapter = entityAdapter;
     const { parentFeature, parentEntity } = this.childDefinition;
-    const { entityAdapter: parentEntityAdapter } = entityDefinitionCache(
+    const { entityAdapter: parentEntityAdapter } = entityDefinitionRegistry(
       parentFeature,
       parentEntity,
     );
