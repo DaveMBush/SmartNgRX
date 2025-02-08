@@ -3,11 +3,6 @@
     "title": "Internal API",
     "items": [
       {
-        "route": "/internal-api/interfaces/internal-api/ActionGroup",
-        "type": "Interface",
-        "name": "ActionGroup"
-      },
-      {
         "route": "/internal-api/functions/internal-api/actionFactory",
         "type": "Function",
         "name": "actionFactory"
@@ -16,11 +11,6 @@
         "route": "/internal-api/classes/internal-api/ActionService",
         "type": "Class",
         "name": "ActionService"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/ParentInfo",
-        "type": "Interface",
-        "name": "ParentInfo"
       },
       {
         "route": "/internal-api/functions/internal-api/removeIdFromParents",
@@ -36,6 +26,11 @@
         "route": "/internal-api/functions/internal-api/replaceIdInParents",
         "type": "Function",
         "name": "replaceIdInParents"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/watchInitialRow",
+        "type": "Function",
+        "name": "watchInitialRow"
       },
       {
         "route": "/internal-api/functions/internal-api/assert",
@@ -103,11 +98,6 @@
         "name": "zoneless"
       },
       {
-        "route": "/internal-api/variables/internal-api/injectOptional",
-        "type": "Variable",
-        "name": "injectOptional"
-      },
-      {
         "route": "/internal-api/variables/internal-api/errorHandlerRegistry",
         "type": "Variable",
         "name": "errorHandlerRegistry"
@@ -128,9 +118,34 @@
         "name": "smartNgRXErrorHandlerToken"
       },
       {
-        "route": "/internal-api/interfaces/internal-api/SmartNgRXErrorHandler",
-        "type": "Interface",
-        "name": "SmartNgRXErrorHandler"
+        "route": "/internal-api/variables/internal-api/entityRowsRegistry",
+        "type": "Variable",
+        "name": "entityRowsRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/globalMarkAndDeleteInit",
+        "type": "Variable",
+        "name": "globalMarkAndDeleteInit"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/markAndDeleteEntities",
+        "type": "Variable",
+        "name": "markAndDeleteEntities"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/markAndDeleteEntity",
+        "type": "Function",
+        "name": "markAndDeleteEntity"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/markAndDeleteFeaturesInterval",
+        "type": "Function",
+        "name": "markAndDeleteFeaturesInterval"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/processMarkAndDelete",
+        "type": "Function",
+        "name": "processMarkAndDelete"
       },
       {
         "route": "/internal-api/functions/internal-api/delayedRegisterEntity",
@@ -153,31 +168,6 @@
         "name": "resolveRemoveTime"
       },
       {
-        "route": "/internal-api/functions/internal-api/watchInitialRow",
-        "type": "Function",
-        "name": "watchInitialRow"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/entityRowsRegistry",
-        "type": "Variable",
-        "name": "entityRowsRegistry"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/globalMarkAndDeleteInit",
-        "type": "Variable",
-        "name": "globalMarkAndDeleteInit"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/markAndDeleteEntities",
-        "type": "Variable",
-        "name": "markAndDeleteEntities"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/defaultRows",
-        "type": "Function",
-        "name": "defaultRows"
-      },
-      {
         "route": "/internal-api/functions/internal-api/reducerFactory",
         "type": "Function",
         "name": "reducerFactory"
@@ -193,9 +183,9 @@
         "name": "childDefinitionRegistry"
       },
       {
-        "route": "/internal-api/functions/internal-api/entityDefinitionCache",
+        "route": "/internal-api/functions/internal-api/entityDefinitionRegistry",
         "type": "Function",
-        "name": "entityDefinitionCache"
+        "name": "entityDefinitionRegistry"
       },
       {
         "route": "/internal-api/variables/internal-api/entityRegistry",
@@ -216,11 +206,6 @@
         "route": "/internal-api/functions/internal-api/forceRefetchOfVirtualIndexes",
         "type": "Function",
         "name": "forceRefetchOfVirtualIndexes"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/RowProxyDelete",
-        "type": "Interface",
-        "name": "RowProxyDelete"
       },
       {
         "route": "/internal-api/functions/internal-api/rowProxyGet",
@@ -308,11 +293,6 @@
         "name": "realOrMocked"
       },
       {
-        "route": "/internal-api/interfaces/internal-api/SmartArray",
-        "type": "Interface",
-        "name": "SmartArray"
-      },
-      {
         "route": "/internal-api/functions/internal-api/store",
         "type": "Function",
         "name": "store"
@@ -341,6 +321,11 @@
         "route": "/internal-api/functions/internal-api/updateEntity",
         "type": "Function",
         "name": "updateEntity"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/ActionGroup",
+        "type": "Interface",
+        "name": "ActionGroup"
       },
       {
         "route": "/internal-api/interfaces/internal-api/ChildDefinition",
@@ -388,6 +373,11 @@
         "name": "MarkAndDeleteInit"
       },
       {
+        "route": "/internal-api/interfaces/internal-api/ParentInfo",
+        "type": "Interface",
+        "name": "ParentInfo"
+      },
+      {
         "route": "/internal-api/interfaces/internal-api/PartialArrayDefinition",
         "type": "Interface",
         "name": "PartialArrayDefinition"
@@ -398,14 +388,29 @@
         "name": "RowProp"
       },
       {
+        "route": "/internal-api/interfaces/internal-api/RowProxyDelete",
+        "type": "Interface",
+        "name": "RowProxyDelete"
+      },
+      {
         "route": "/internal-api/interfaces/internal-api/RowsProp",
         "type": "Interface",
         "name": "RowsProp"
       },
       {
+        "route": "/internal-api/interfaces/internal-api/SmartArray",
+        "type": "Interface",
+        "name": "SmartArray"
+      },
+      {
         "route": "/internal-api/interfaces/internal-api/SmartEntityDefinition",
         "type": "Interface",
         "name": "SmartEntityDefinition"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/SmartNgRXErrorHandler",
+        "type": "Interface",
+        "name": "SmartNgRXErrorHandler"
       },
       {
         "route": "/internal-api/type-aliases/internal-api/SmartNgRXRowBaseSelector",
@@ -448,6 +453,11 @@
         "name": "bufferIndexes"
       },
       {
+        "route": "/internal-api/functions/internal-api/defaultRows",
+        "type": "Function",
+        "name": "defaultRows"
+      },
+      {
         "route": "/internal-api/classes/internal-api/LoadByIds",
         "type": "Class",
         "name": "LoadByIds"
@@ -476,21 +486,6 @@
         "route": "/internal-api/classes/internal-api/Update",
         "type": "Class",
         "name": "Update"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/markAndDeleteEntity",
-        "type": "Function",
-        "name": "markAndDeleteEntity"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/markAndDeleteFeaturesInterval",
-        "type": "Function",
-        "name": "markAndDeleteFeaturesInterval"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/processMarkAndDelete",
-        "type": "Function",
-        "name": "processMarkAndDelete"
       },
       {
         "route": "/internal-api/functions/internal-api/clearState",

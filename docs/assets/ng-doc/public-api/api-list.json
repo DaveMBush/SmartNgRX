@@ -33,24 +33,24 @@
         "name": "provideSmartNgRX"
       },
       {
-        "route": "/public-api/interfaces/public-api/RowProxyDelete",
-        "type": "Interface",
-        "name": "RowProxyDelete"
-      },
-      {
         "route": "/public-api/functions/public-api/createSmartSelector",
         "type": "Function",
         "name": "createSmartSelector"
       },
       {
-        "route": "/public-api/interfaces/public-api/SmartArray",
-        "type": "Interface",
-        "name": "SmartArray"
-      },
-      {
         "route": "/public-api/classes/public-api/EffectService",
         "type": "Class",
         "name": "EffectService"
+      },
+      {
+        "route": "/public-api/interfaces/public-api/RowProxyDelete",
+        "type": "Interface",
+        "name": "RowProxyDelete"
+      },
+      {
+        "route": "/public-api/interfaces/public-api/SmartArray",
+        "type": "Interface",
+        "name": "SmartArray"
       },
       {
         "route": "/public-api/functions/public-api/store",
@@ -93,14 +93,14 @@
         "name": "SmartNgRXRowBase"
       },
       {
-        "route": "/public-api/interfaces/public-api/SmartNgRXErrorHandler",
-        "type": "Interface",
-        "name": "SmartNgRXErrorHandler"
-      },
-      {
         "route": "/public-api/variables/public-api/smartNgRXErrorHandlerToken",
         "type": "Variable",
         "name": "smartNgRXErrorHandlerToken"
+      },
+      {
+        "route": "/public-api/interfaces/public-api/SmartNgRXErrorHandler",
+        "type": "Interface",
+        "name": "SmartNgRXErrorHandler"
       }
     ]
   }
