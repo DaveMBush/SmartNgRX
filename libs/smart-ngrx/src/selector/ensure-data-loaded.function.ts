@@ -36,18 +36,20 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
 
   const idsId = ids[id];
 
-  if (
-    idsId === undefined ||
-    (idsId.isDirty === true && markDirtyFetchesNew) ||
-    idsId.isDirty === undefined
-  ) {
+  const isUndefinedOrDirty = idsId?.isDirty === undefined;
+  const isDirtyAndShouldFetchNew =
+    idsId?.isDirty === true && markDirtyFetchesNew;
+  const isDirtyAndShouldNotFetchNew =
+    idsId?.isDirty === true && !markDirtyFetchesNew;
+
+  if (isUndefinedOrDirty || isDirtyAndShouldFetchNew) {
     // too much trouble to pass Zone in so just going after
     // unpatched Promise directly.
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
     void unpatchedPromise
       .resolve()
       .then(actionServiceLoadByIds(actionService, id));
-  } else if (idsId.isDirty && !markDirtyFetchesNew) {
+  } else if (isDirtyAndShouldNotFetchNew) {
     entityRowsRegistry.register(feature, entity, [idsId]);
     void unpatchedPromise.resolve().then(function actionServiceMarkNotDirty() {
       actionService.markNotDirty(id);
