@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Observable, of, Subject } from 'rxjs';
 
 import * as forNextModule from '../../common/for-next.function';
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../../registrations/entity-registry.class';
+import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import * as newRowRegistryModule from '../../selector/new-row-registry.class';
@@ -17,7 +17,7 @@ import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
-import { ActionServiceBase } from '../action.service.base';
+import { FacadeBase } from '../facade.base';
 import { actionFactory } from './action.factory';
 import { LoadByIndexes } from './load-by-indexes.class';
 
@@ -74,7 +74,7 @@ describe('LoadByIndexes', () => {
     EffectService<SmartNgRXRowBase>
   >('testEffectService');
   let loadByIndexes: LoadByIndexesPublic;
-  let actionService: Omit<ActionServiceBase, 'loadByIndexesService'> & {
+  let actionService: Omit<FacadeBase, 'loadByIndexesService'> & {
     loadByIndexesService: LoadByIndexes;
   };
   let mockStore: Partial<Store>;
@@ -116,10 +116,10 @@ describe('LoadByIndexes', () => {
     mockStoreDispatchSpy = jest.spyOn(mockStore, 'dispatch');
 
     actions = actionFactory<SmartNgRXRowBase>('testFeature', 'testEntity');
-    actionService = actionServiceRegistry.register(
+    actionService = facadeRegistry.register(
       'testFeature',
       'testEntity',
-    ) as unknown as Omit<ActionServiceBase, 'loadByIndexesService'> & {
+    ) as unknown as Omit<FacadeBase, 'loadByIndexesService'> & {
       loadByIndexesService: LoadByIndexes;
     };
     const mockEntitiesSubject = new Subject<Dictionary<SmartNgRXRowBase>>();

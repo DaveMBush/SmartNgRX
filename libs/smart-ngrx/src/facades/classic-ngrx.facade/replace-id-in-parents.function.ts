@@ -1,8 +1,8 @@
 import { take } from 'rxjs';
 
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { ChildDefinition } from '../../types/child-definition.interface';
-import { ActionService } from '../action.service';
+import { ClassicNgrxFacade } from '../classic-ngrx.facade';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 /**
@@ -17,10 +17,10 @@ export function replaceIdInParents(
   id: string,
   newId: string,
 ): void {
-  const parentService = actionServiceRegistry.register(
+  const parentService = facadeRegistry.register(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
-  ) as ActionService;
+  ) as ClassicNgrxFacade;
   parentService.entities
     .pipe(take(1))
     .subscribe(function replaceIdInParentsSubscribe(entities) {

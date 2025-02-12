@@ -1,4 +1,4 @@
-import { ActionServiceBase } from '../actions/action.service.base';
+import { FacadeBase } from '../facades/facade.base';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
 
@@ -11,8 +11,8 @@ import { RowProxy } from './row-proxy.class';
  * @returns true if the property was set, false otherwise
  */
 export function rowProxySet<T extends SmartNgRXRowBase>(services: {
-  service: ActionServiceBase<T>;
-  parentService: ActionServiceBase;
+  service: FacadeBase<T>;
+  parentService: FacadeBase;
 }): (target: RowProxy<T>, prop: string | symbol, value: unknown) => boolean {
   return function innerRowProxySet(
     target: RowProxy<T>,

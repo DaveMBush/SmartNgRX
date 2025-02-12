@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
@@ -23,7 +23,7 @@ export function convertChildrenToVirtualArray<
   parentFeature: string,
   parentEntityName: string,
 ): void {
-  const parentActionService = actionServiceRegistry.register(
+  const parentActionService = facadeRegistry.register(
     parentFeature,
     parentEntityName,
   );

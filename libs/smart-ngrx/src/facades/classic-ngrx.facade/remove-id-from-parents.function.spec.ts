@@ -1,14 +1,14 @@
 import { of } from 'rxjs';
 
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { ChildDefinition } from '../../types/child-definition.interface';
 import { ParentInfo } from '../../types/parent-info.interface';
-import { ActionServiceBase } from '../action.service.base';
+import { FacadeBase } from '../facade.base';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 // Mock dependencies
-jest.mock('../../registrations/action-service-registry.class');
+jest.mock('../../registrations/facade-registry.class');
 jest.mock('./replace-id-in-feature-parents.function');
 
 describe('removeIdFromParents', () => {
@@ -26,8 +26,8 @@ describe('removeIdFromParents', () => {
   let actionServiceRegistryRegisterSpy: jest.SpyInstance;
   beforeEach(() => {
     actionServiceRegistryRegisterSpy = jest
-      .spyOn(actionServiceRegistry, 'register')
-      .mockReturnValue(mockParentService as unknown as ActionServiceBase);
+      .spyOn(facadeRegistry, 'register')
+      .mockReturnValue(mockParentService as unknown as FacadeBase);
     (replaceIdInFeatureParents as jest.Mock).mockReturnValue(
       mockReplaceIdResult,
     );
@@ -90,7 +90,7 @@ describe('removeIdFromParents', () => {
   });
 
   it('should throw an error when ActionService.init() fails', () => {
-    (actionServiceRegistry.register as jest.Mock).mockReturnValue(null);
+    (facadeRegistry.register as jest.Mock).mockReturnValue(null);
 
     expect(() =>
       removeIdFromParents(mockChildDefinition, mockId, mockParentInfo),

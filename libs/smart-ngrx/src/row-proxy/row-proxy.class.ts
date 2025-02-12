@@ -1,6 +1,6 @@
-import { ActionServiceBase } from '../actions/action.service.base';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { FacadeBase } from '../facades/facade.base';
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -35,8 +35,8 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
    */
   constructor(
     public row: T,
-    private service: ActionServiceBase<T>,
-    parentService: ActionServiceBase,
+    private service: FacadeBase<T>,
+    parentService: FacadeBase,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
 

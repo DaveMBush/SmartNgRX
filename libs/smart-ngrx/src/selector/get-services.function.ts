@@ -1,5 +1,5 @@
-import { ActionServiceBase } from '../actions/action.service.base';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { FacadeBase } from '../facades/facade.base';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -15,18 +15,15 @@ export function getServices<
 >(
   childDefinition: ChildDefinition<P, C>,
 ): {
-  service: ActionServiceBase<C>;
-  parentService: ActionServiceBase<P>;
+  service: FacadeBase<C>;
+  parentService: FacadeBase<P>;
 } {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
-  const service = actionServiceRegistry.register(childFeature, childEntity);
-  const parentService = actionServiceRegistry.register(
-    parentFeature,
-    parentEntity,
-  );
+  const service = facadeRegistry.register(childFeature, childEntity);
+  const parentService = facadeRegistry.register(parentFeature, parentEntity);
   return {
-    service: service as unknown as ActionServiceBase<C>,
-    parentService: parentService as unknown as ActionServiceBase<P>,
+    service: service as unknown as FacadeBase<C>,
+    parentService: parentService as unknown as FacadeBase<P>,
   };
 }

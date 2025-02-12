@@ -1,11 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionServiceBase } from '../actions/action.service.base';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { zoneless } from '../common/zoneless.function';
+import { FacadeBase } from '../facades/facade.base';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityRegistry } from '../registrations/entity-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -27,7 +27,7 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   entity: string,
 ): void {
   const registry = entityRegistry.get(feature, entity);
-  const actionService = actionServiceRegistry.register(feature, entity);
+  const actionService = facadeRegistry.register(feature, entity);
   const ids = entityState.entities as Record<string, T>;
   const markDirtyFetchesNew = !(
     isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
@@ -57,7 +57,7 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   }
 }
 
-function actionServiceLoadByIds(actionService: ActionServiceBase, id: string) {
+function actionServiceLoadByIds(actionService: FacadeBase, id: string) {
   return function internalActionServiceLoadByIds() {
     actionService.loadByIds(id);
   };

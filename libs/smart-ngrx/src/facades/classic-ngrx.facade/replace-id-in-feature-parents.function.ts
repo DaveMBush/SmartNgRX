@@ -4,7 +4,7 @@ import { assert } from '../../common/assert.function';
 import { ChildDefinition } from '../../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
-import { ActionServiceBase } from '../action.service.base';
+import { FacadeBase } from '../facade.base';
 
 /**
  * Used by delete to remove the id from the parent's child field and return the list of parentIds that were affected.
@@ -18,7 +18,7 @@ import { ActionServiceBase } from '../action.service.base';
 export function replaceIdInFeatureParents(
   entities: Dictionary<SmartNgRXRowBase>,
   childDefinition: ChildDefinition,
-  parentService: ActionServiceBase,
+  parentService: FacadeBase,
   ids: [string, string | null],
 ): string[] {
   const [id, newId] = ids;

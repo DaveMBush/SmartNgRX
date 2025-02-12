@@ -9,14 +9,14 @@ import { featureRegistry } from '../registrations/feature-registry.class';
 import * as storeFunction from '../selector/store.function';
 import { ActionGroup } from '../types/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { ActionService } from './action.service';
-import * as actionFactory from './action.service/action.factory';
+import { ClassicNgrxFacade } from './classic-ngrx.facade';
+import * as actionFactory from './classic-ngrx.facade/action.factory';
 import * as watchInitialRowModule from './watch-initial-row.function';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-registry.function');
 jest.mock('../registrations/entity-registry.class');
-jest.mock('./action.service/action.factory');
+jest.mock('./classic-ngrx.facade/action.factory');
 jest.mock('../selector/store.function');
 
 interface MockEntity extends SmartNgRXRowBase {
@@ -30,7 +30,7 @@ interface MockEntity extends SmartNgRXRowBase {
 
 interface TestableActionService
   extends Omit<
-    ActionService,
+    ClassicNgrxFacade,
     'actions' | 'forceDirty' | 'markDirtyFetchesNew'
   > {
   markDirtyFetchesNew: boolean;
@@ -51,10 +51,10 @@ describe('ActionService', () => {
     (storeFunction.store as jest.Mock).mockReturnValue(mockStore);
 
     TestBed.configureTestingModule({
-      providers: [ActionService, { provide: Store, useValue: mockStore }],
+      providers: [ClassicNgrxFacade, { provide: Store, useValue: mockStore }],
     });
 
-    service = new ActionService(
+    service = new ClassicNgrxFacade(
       'testFeature',
       'testEntity',
     ) as unknown as TestableActionService;
@@ -291,7 +291,7 @@ describe('ActionService', () => {
         });
         // we need a new instance of the service so we can
         // rerun the init method to use our mocks.
-        service = new ActionService(
+        service = new ClassicNgrxFacade(
           'testFeature',
           'testEntity',
         ) as unknown as TestableActionService;

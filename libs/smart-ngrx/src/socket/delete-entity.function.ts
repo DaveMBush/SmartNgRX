@@ -1,5 +1,5 @@
-import { removeIdFromParents } from '../actions/action.service/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
+import { removeIdFromParents } from '../facades/classic-ngrx.facade/remove-id-from-parents.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ParentInfo } from '../types/parent-info.interface';

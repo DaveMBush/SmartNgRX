@@ -1,14 +1,14 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionServiceBase } from '../actions/action.service.base';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { FacadeBase } from '../facades/facade.base';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
 
-jest.mock('../registrations/action-service-registry.class');
+jest.mock('../registrations/facade-registry.class');
 jest.mock('./virtual-array.class');
 jest.mock('./virtual-array-map.const');
 
@@ -19,13 +19,11 @@ interface ParentRow extends SmartNgRXRowBase {
 
 describe('convertChildrenToVirtualArray', () => {
   let mockParentEntity: EntityState<ParentRow>;
-  let mockActionService: ActionServiceBase;
+  let mockActionService: FacadeBase;
 
   beforeEach(() => {
-    mockActionService = {} as ActionServiceBase;
-    (actionServiceRegistry.register as jest.Mock).mockReturnValue(
-      mockActionService,
-    );
+    mockActionService = {} as FacadeBase;
+    (facadeRegistry.register as jest.Mock).mockReturnValue(mockActionService);
 
     mockParentEntity = {
       ids: ['1', '2'],

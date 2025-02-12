@@ -1,13 +1,13 @@
 import { of } from 'rxjs';
 
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { ChildDefinition } from '../../types/child-definition.interface';
-import { ActionServiceBase } from '../action.service.base';
+import { FacadeBase } from '../facade.base';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
 
 // Mock dependencies
-jest.mock('../../registrations/action-service-registry.class');
+jest.mock('../../registrations/facade-registry.class');
 jest.mock('./replace-id-in-feature-parents.function');
 
 describe('replaceIdInParents', () => {
@@ -28,8 +28,8 @@ describe('replaceIdInParents', () => {
       entities: of(mockEntities),
     };
     const actionServiceRegistrySpy = jest
-      .spyOn(actionServiceRegistry, 'register')
-      .mockReturnValue(mockParentService as unknown as ActionServiceBase);
+      .spyOn(facadeRegistry, 'register')
+      .mockReturnValue(mockParentService as unknown as FacadeBase);
 
     replaceIdInParents(mockChildDefinition, mockId, mockNewId);
 

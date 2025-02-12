@@ -1,7 +1,7 @@
 import { forNext } from '../common/for-next.function';
 import { psi } from '../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { updateEntity } from './update-entity.function';
 
@@ -42,7 +42,7 @@ export function handleSocketNotification(
 
 function featureIsRegistered(table: string) {
   return function innerFeatureIsRegistered(feature: string): boolean {
-    return actionServiceRegistry.hasActionService(feature, table);
+    return facadeRegistry.hasActionService(feature, table);
   };
 }
 

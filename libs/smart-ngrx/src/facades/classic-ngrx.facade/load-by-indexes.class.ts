@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
+import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { newRowRegistry } from '../../selector/new-row-registry.class';
 import { ActionGroup } from '../../types/action-group.interface';
@@ -97,7 +97,7 @@ export class LoadByIndexes {
               // nested pipe to get access to actionProps
               .pipe(
                 map(function loadByIndexesMapItem(serviceResult) {
-                  const actionService = actionServiceRegistry.register(
+                  const actionService = facadeRegistry.register(
                     feature,
                     entity,
                   );

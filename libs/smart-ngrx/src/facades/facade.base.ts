@@ -6,7 +6,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 /**
  * Base class for ActionService that defines the interface for all action services
  */
-export abstract class ActionServiceBase<
+export abstract class FacadeBase<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
   selectId!: (row: T) => string;
@@ -85,11 +85,7 @@ export abstract class ActionServiceBase<
    * @param parentId The parent entity ID
    * @param parentService The parent entity's action service
    */
-  abstract add(
-    row: T,
-    parentId: string,
-    parentService: ActionServiceBase,
-  ): void;
+  abstract add(row: T, parentId: string, parentService: FacadeBase): void;
 
   /**
    * Deletes an entity from the store

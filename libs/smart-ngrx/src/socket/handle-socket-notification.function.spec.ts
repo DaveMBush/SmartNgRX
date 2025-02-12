@@ -1,7 +1,7 @@
 // unit tests for handleSocketNotification function
 import { psi } from '../common/psi.const';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { handleSocketNotification } from './handle-socket-notification.function';
@@ -23,7 +23,7 @@ describe('handleSocketNotification', () => {
       .spyOn(markAndDeleteEntities, 'entities')
       .mockReturnValue(featureEntityKeys);
     hasActionServiceSpy = jest
-      .spyOn(actionServiceRegistry, 'hasActionService')
+      .spyOn(facadeRegistry, 'hasActionService')
       .mockReturnValue(true);
   });
 

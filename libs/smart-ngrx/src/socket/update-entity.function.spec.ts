@@ -1,9 +1,9 @@
 import { InjectionToken } from '@angular/core';
 
-import { ActionServiceBase } from '../actions/action.service.base';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { FacadeBase } from '../facades/facade.base';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
@@ -14,7 +14,7 @@ const feature = 'testFeature';
 const entity = 'testEntity';
 
 describe('updateEntity', () => {
-  let actionService: ActionServiceBase | null = null;
+  let actionService: FacadeBase | null = null;
   let actionServiceForceDirtySpy: jest.SpyInstance;
   beforeEach(() => {
     createStore();
@@ -33,7 +33,7 @@ describe('updateEntity', () => {
       markAndDeleteEntityMap: new Map(),
     });
     featureRegistry.registerFeature(feature);
-    actionService = actionServiceRegistry.register(feature, entity);
+    actionService = facadeRegistry.register(feature, entity);
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 

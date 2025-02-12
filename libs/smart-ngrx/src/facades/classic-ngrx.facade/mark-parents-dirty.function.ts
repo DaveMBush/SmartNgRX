@@ -1,4 +1,4 @@
-import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { facadeRegistry } from '../../registrations/facade-registry.class';
 
 /**
  * Common function to mark the parent row as dirty
@@ -12,10 +12,7 @@ export function markParentsDirty(
   parentEntity: string,
   parentIds: string[],
 ): void {
-  const parentService = actionServiceRegistry.register(
-    parentFeature,
-    parentEntity,
-  );
+  const parentService = facadeRegistry.register(parentFeature, parentEntity);
   parentService.updateMany(
     parentIds.map(function markParentsDirtyMapItem(id) {
       return {

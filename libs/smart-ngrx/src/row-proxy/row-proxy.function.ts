@@ -1,5 +1,5 @@
-import { ActionServiceBase } from '../actions/action.service.base';
 import { castTo } from '../common/cast-to.function';
+import { FacadeBase } from '../facades/facade.base';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
@@ -21,8 +21,8 @@ import { RowProxy } from './row-proxy.class';
  */
 export function rowProxy<T extends SmartNgRXRowBase>(
   row: T,
-  service: ActionServiceBase<T>,
-  parentService: ActionServiceBase,
+  service: FacadeBase<T>,
+  parentService: FacadeBase,
 ): RowProxyDelete & T {
   forceRefetchOfVirtualIndexes<T>(row);
   // To the outside world, this has to look like the original row

@@ -19,14 +19,14 @@ import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
-import { ActionServiceBase } from './action.service.base';
-import { actionFactory } from './action.service/action.factory';
-import { Add } from './action.service/add.class';
-import { LoadByIds } from './action.service/load-by-ids.class';
-import { LoadByIndexes } from './action.service/load-by-indexes.class';
-import { markFeatureParentsDirty } from './action.service/mark-feature-parents-dirty.function';
-import { removeIdFromParents } from './action.service/remove-id-from-parents.function';
-import { Update } from './action.service/update.class';
+import { actionFactory } from './classic-ngrx.facade/action.factory';
+import { Add } from './classic-ngrx.facade/add.class';
+import { LoadByIds } from './classic-ngrx.facade/load-by-ids.class';
+import { LoadByIndexes } from './classic-ngrx.facade/load-by-indexes.class';
+import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';
+import { removeIdFromParents } from './classic-ngrx.facade/remove-id-from-parents.function';
+import { Update } from './classic-ngrx.facade/update.class';
+import { FacadeBase } from './facade.base';
 import { watchInitialRow } from './watch-initial-row.function';
 
 /**
@@ -36,9 +36,9 @@ import { watchInitialRow } from './watch-initial-row.function';
  * to the store, and keeps logic out of the reducer and effects without
  * scattering the logic throughout the application.
  */
-export class ActionService<
+export class ClassicNgrxFacade<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-> extends ActionServiceBase<T> {
+> extends FacadeBase<T> {
   entityAdapter!: EntityAdapter<T>;
   entities!: Observable<Dictionary<T>>;
   protected actions!: ActionGroup;
@@ -251,7 +251,7 @@ export class ActionService<
    * @param parentId the id of the parent row
    * @param parentService the service for the parent row
    */
-  add(row: T, parentId: string, parentService: ActionService): void {
+  add(row: T, parentId: string, parentService: ClassicNgrxFacade): void {
     this.addService.add(row, parentId, parentService);
   }
 

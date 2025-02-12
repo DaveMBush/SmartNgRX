@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionServiceBase } from '../actions/action.service.base';
+import { FacadeBase } from '../facades/facade.base';
 import { rowProxy } from '../row-proxy/row-proxy.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
@@ -36,9 +36,5 @@ export function realOrMocked<
   if (row === undefined) {
     row = { ...defaultObject, id, isLoading: true };
   }
-  return rowProxy<T>(
-    row,
-    service,
-    parentService as unknown as ActionServiceBase,
-  );
+  return rowProxy<T>(row, service, parentService as unknown as FacadeBase);
 }

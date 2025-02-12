@@ -1,4 +1,4 @@
-import { ActionServiceBase } from '../actions/action.service.base';
+import { FacadeBase } from '../facades/facade.base';
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
@@ -28,8 +28,8 @@ describe('RowProxy', () => {
     row.children.rawArray = ['child1', 'child2'];
     customProxy = new RowProxy<TRow>(
       row as unknown as TRow,
-      {} as ActionServiceBase<TRow>,
-      {} as ActionServiceBase,
+      {} as FacadeBase<TRow>,
+      {} as FacadeBase,
     );
   });
   describe('getRealRow()', () => {

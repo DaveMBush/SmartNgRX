@@ -1,11 +1,11 @@
 /* eslint-disable sonarjs/no-duplicate-string -- conflicting rule */
 import { createEntityAdapter } from '@ngrx/entity';
 
-import { ActionServiceBase } from '../actions/action.service.base';
+import { FacadeBase } from '../facades/facade.base';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
@@ -26,7 +26,7 @@ describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
   let actionServiceMarkNotDirtySpy: jest.SpyInstance;
   let entityRowsRegistrySpy: jest.SpyInstance;
-  let actionService: ActionServiceBase | null;
+  let actionService: FacadeBase | null;
   beforeEach(() => {
     createStore();
     featureRegistry.registerFeature(feature);
@@ -42,7 +42,7 @@ describe('ensureDataLoaded()', () => {
       ids: [],
       entities: {},
     });
-    actionService = actionServiceRegistry.register(feature, entity);
+    actionService = facadeRegistry.register(feature, entity);
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
     actionServiceMarkNotDirtySpy = jest.spyOn(actionService, 'markNotDirty');
     entityRowsRegistrySpy = jest.spyOn(entityRowsRegistry, 'register');
