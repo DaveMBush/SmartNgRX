@@ -1,9 +1,9 @@
 import { Dictionary } from '@ngrx/entity';
 
-import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { ActionServiceBase } from './action.service.base';
+import { ChildDefinition } from '../../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
+import { ActionServiceBase } from '../action.service.base';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 describe('replaceIdInFeatureParents', () => {

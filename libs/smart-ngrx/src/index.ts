@@ -1,4 +1,4 @@
-export * from './actions/action.factory';
+export * from './actions/action.service/action.factory';
 export * from './common/assert.function';
 export * from './common/cast-to.function';
 export * from './common/for-next.function';

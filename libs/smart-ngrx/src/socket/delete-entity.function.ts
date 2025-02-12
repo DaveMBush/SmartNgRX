@@ -1,4 +1,4 @@
-import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
+import { removeIdFromParents } from '../actions/action.service/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';

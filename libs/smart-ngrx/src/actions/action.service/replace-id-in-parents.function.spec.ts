@@ -1,13 +1,13 @@
 import { of } from 'rxjs';
 
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { ActionServiceBase } from './action.service.base';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { ChildDefinition } from '../../types/child-definition.interface';
+import { ActionServiceBase } from '../action.service.base';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
 
 // Mock dependencies
-jest.mock('../registrations/action-service-registry.class');
+jest.mock('../../registrations/action-service-registry.class');
 jest.mock('./replace-id-in-feature-parents.function');
 
 describe('replaceIdInParents', () => {

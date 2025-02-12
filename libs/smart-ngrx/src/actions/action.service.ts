@@ -19,14 +19,14 @@ import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
-import { actionFactory } from './action.factory';
 import { ActionServiceBase } from './action.service.base';
+import { actionFactory } from './action.service/action.factory';
 import { Add } from './action.service/add.class';
 import { LoadByIds } from './action.service/load-by-ids.class';
 import { LoadByIndexes } from './action.service/load-by-indexes.class';
 import { markFeatureParentsDirty } from './action.service/mark-feature-parents-dirty.function';
+import { removeIdFromParents } from './action.service/remove-id-from-parents.function';
 import { Update } from './action.service/update.class';
-import { removeIdFromParents } from './remove-id-from-parents.function';
 import { watchInitialRow } from './watch-initial-row.function';
 
 /**

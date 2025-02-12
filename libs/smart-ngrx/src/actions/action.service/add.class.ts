@@ -11,10 +11,10 @@ import { store } from '../../selector/store.function';
 import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { actionFactory } from '../action.factory';
 import { ActionServiceBase } from '../action.service.base';
-import { replaceIdInParents } from '../replace-id-in-parents.function';
+import { actionFactory } from './action.factory';
 import { markParentsDirty } from './mark-parents-dirty.function';
+import { replaceIdInParents } from './replace-id-in-parents.function';
 
 /**
  * Class responsible for adding rows to the store

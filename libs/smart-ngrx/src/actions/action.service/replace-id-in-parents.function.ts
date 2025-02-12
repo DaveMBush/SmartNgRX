@@ -1,8 +1,8 @@
 import { take } from 'rxjs';
 
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { ActionService } from './action.service';
+import { actionServiceRegistry } from '../../registrations/action-service-registry.class';
+import { ChildDefinition } from '../../types/child-definition.interface';
+import { ActionService } from '../action.service';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 /**

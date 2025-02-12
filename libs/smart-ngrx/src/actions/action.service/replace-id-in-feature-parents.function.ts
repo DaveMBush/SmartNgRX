@@ -1,10 +1,10 @@
 import { Dictionary } from '@ngrx/entity';
 
-import { assert } from '../common/assert.function';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { ActionServiceBase } from './action.service.base';
+import { assert } from '../../common/assert.function';
+import { ChildDefinition } from '../../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
+import { ActionServiceBase } from '../action.service.base';
 
 /**
  * Used by delete to remove the id from the parent's child field and return the list of parentIds that were affected.

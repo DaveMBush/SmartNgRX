@@ -13,7 +13,7 @@ import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { actionFactory } from '../action.factory';
+import { actionFactory } from './action.factory';
 import { LoadByIds } from './load-by-ids.class';
 
 interface SomeDataRow extends SmartNgRXRowBase {

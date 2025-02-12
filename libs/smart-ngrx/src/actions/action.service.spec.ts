@@ -9,14 +9,14 @@ import { featureRegistry } from '../registrations/feature-registry.class';
 import * as storeFunction from '../selector/store.function';
 import { ActionGroup } from '../types/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import * as actionFactory from './action.factory';
 import { ActionService } from './action.service';
+import * as actionFactory from './action.service/action.factory';
 import * as watchInitialRowModule from './watch-initial-row.function';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-registry.function');
 jest.mock('../registrations/entity-registry.class');
-jest.mock('./action.factory');
+jest.mock('./action.service/action.factory');
 jest.mock('../selector/store.function');
 
 interface MockEntity extends SmartNgRXRowBase {

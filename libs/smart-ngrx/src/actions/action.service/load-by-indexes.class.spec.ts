@@ -17,8 +17,8 @@ import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
-import { actionFactory } from '../action.factory';
 import { ActionServiceBase } from '../action.service.base';
+import { actionFactory } from './action.factory';
 import { LoadByIndexes } from './load-by-indexes.class';
 
 interface LoadByIndexesPublic
