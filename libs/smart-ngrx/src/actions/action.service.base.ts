@@ -1,6 +1,5 @@
 import { UpdateStr } from '@ngrx/entity/src/models';
 
-import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -10,6 +9,8 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 export abstract class ActionServiceBase<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
+  selectId!: (row: T) => string;
+
   /**
    * Creates an instance of ActionServiceBase
    *
@@ -32,6 +33,7 @@ export abstract class ActionServiceBase<
    * @param ids IDs of entities to mark as dirty
    */
   abstract markDirty(ids: string[]): void;
+  abstract markNotDirty(id: string): void;
 
   /**
    * Forces entities to be marked as dirty
@@ -70,17 +72,6 @@ export abstract class ActionServiceBase<
   abstract update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void;
 
   /**
-   * Optimistically updates an entity in the store
-   *
-   * @param oldRow The original entity
-   * @param newRow The updated entity
-   */
-  abstract optimisticUpdate(
-    oldRow: SmartNgRXRowBase,
-    newRow: SmartNgRXRowBase,
-  ): void;
-
-  /**
    * Updates multiple entities in the store
    *
    * @param changes The changes to apply
@@ -99,13 +90,6 @@ export abstract class ActionServiceBase<
     parentId: string,
     parentService: ActionServiceBase,
   ): void;
-
-  /**
-   * Removes an entity ID from its parents
-   *
-   * @param id The ID to remove
-   */
-  abstract removeFromParents(id: string): ParentInfo[];
 
   /**
    * Deletes an entity from the store

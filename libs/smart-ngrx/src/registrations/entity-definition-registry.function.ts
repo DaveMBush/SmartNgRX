@@ -31,20 +31,21 @@ export function entityDefinitionRegistry<
 ): SmartValidatedEntityDefinition<T> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
+    if (entityDefinition.selectId === undefined) {
+      entityDefinition.selectId = function defaultSelectId(row: T) {
+        return row.id;
+      };
+    }
     const entityDefinitionWithAdapter =
       entityDefinition as SmartValidatedEntityDefinition<T>;
-    cached = entityDefinitionWithAdapter as unknown as SmartValidatedEntityDefinition<
-      SmartNgRXRowBase
-    >;
+    cached =
+      entityDefinitionWithAdapter as unknown as SmartValidatedEntityDefinition<SmartNgRXRowBase>;
     if (entityDefinition.isSignal !== true) {
       entityDefinitionWithAdapter.entityAdapter = createEntityAdapter<T>({
         selectId: entityDefinition.selectId,
       });
     }
-    entityDefinitionMap.set(
-      `${featureName}${psi}${entityName}`,
-      cached,
-    );
+    entityDefinitionMap.set(`${featureName}${psi}${entityName}`, cached);
   }
   assert(
     !!cached,

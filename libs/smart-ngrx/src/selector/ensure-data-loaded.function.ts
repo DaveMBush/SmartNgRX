@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { zoneless } from '../common/zoneless.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
@@ -57,7 +57,7 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   }
 }
 
-function actionServiceLoadByIds(actionService: ActionService, id: string) {
+function actionServiceLoadByIds(actionService: ActionServiceBase, id: string) {
   return function internalActionServiceLoadByIds() {
     actionService.loadByIds(id);
   };

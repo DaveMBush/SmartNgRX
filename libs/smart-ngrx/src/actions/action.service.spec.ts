@@ -156,6 +156,7 @@ describe('ActionService', () => {
           getSelectors: () => ({ selectEntities: jest.fn() }),
           selectId: (row: MockEntity) => row.id,
         },
+        selectId: (row: MockEntity) => row.id,
       });
       (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},

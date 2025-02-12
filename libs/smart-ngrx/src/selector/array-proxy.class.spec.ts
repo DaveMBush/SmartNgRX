@@ -2,7 +2,6 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { ActionService } from '../actions/action.service';
 import { clearState } from '../tests/functions/clear-state.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
@@ -17,6 +16,7 @@ jest.mock('./get-array-item.function', () => ({
   getArrayItem: jest.fn().mockReturnValue({ id: '1', relatedIds: [] }),
 }));
 
+import { ActionService } from '../actions/action.service';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { getArrayItem } from './get-array-item.function';

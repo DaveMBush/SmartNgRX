@@ -20,7 +20,6 @@ describe('provideSmartFeatureEntities', () => {
   const entityName = 'entityName';
   const definition: SmartEntityDefinition<SmartNgRXRowBase & { id: string }> = {
     entityName,
-    entityAdapter: {} as unknown as EntityAdapter<SmartNgRXRowBase>,
     effectServiceToken: null as unknown as EffectServiceToken<SmartNgRXRowBase>,
     defaultRow: () => ({
       id: '1',
@@ -50,16 +49,7 @@ describe('provideSmartFeatureEntities', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  describe('when entityDefinitions has an entityAdapter', () => {
-    it('should not call createEntityAdapter', () => {
-      entityDefinitionRegistry(featureName, entityName, definition);
-      expect(createEntityAdapterSpy).not.toHaveBeenCalled();
-    });
-  });
   describe('when entityDefinitions does not have an entityAdapter', () => {
-    beforeEach(() => {
-      delete definition.entityAdapter;
-    });
     it('should call createEntityAdapter', () => {
       entityDefinitionRegistry(featureName, entityName, definition);
       expect(createEntityAdapterSpy).toHaveBeenCalledTimes(1);

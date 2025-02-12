@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
@@ -14,7 +14,7 @@ const feature = 'testFeature';
 const entity = 'testEntity';
 
 describe('updateEntity', () => {
-  let actionService: ActionService | null = null;
+  let actionService: ActionServiceBase | null = null;
   let actionServiceForceDirtySpy: jest.SpyInstance;
   beforeEach(() => {
     createStore();

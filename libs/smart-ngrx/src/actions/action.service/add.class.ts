@@ -12,7 +12,7 @@ import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from '../action.factory';
-import { ActionService } from '../action.service';
+import { ActionServiceBase } from '../action.service.base';
 import { replaceIdInParents } from '../replace-id-in-parents.function';
 import { markParentsDirty } from './mark-parents-dirty.function';
 
@@ -59,7 +59,7 @@ export class Add<T extends SmartNgRXRowBase> {
    * @param parentId the id of the parent row
    * @param parentService the service for the parent row
    */
-  add(row: T, parentId: string, parentService: ActionService): void {
+  add(row: T, parentId: string, parentService: ActionServiceBase): void {
     const context = this;
     const actionPayload = {
       row,

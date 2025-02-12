@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
 
@@ -13,14 +13,14 @@ interface TestableVirtualArray<P extends object>
 
 describe('VirtualArray', () => {
   let virtualArray: TestableVirtualArray<object>;
-  let mockActionService: jest.Mocked<ActionService>;
+  let mockActionService: jest.Mocked<ActionServiceBase>;
   let mockVirtualArrayContents: VirtualArrayContents;
   const parentId = 'parent123';
   const childField = 'children';
   beforeEach(() => {
     mockActionService = {
       loadByIndexes: jest.fn(),
-    } as unknown as jest.Mocked<ActionService>;
+    } as unknown as jest.Mocked<ActionServiceBase>;
 
     mockVirtualArrayContents = {
       indexes: ['id1', 'id2', 'id3'],

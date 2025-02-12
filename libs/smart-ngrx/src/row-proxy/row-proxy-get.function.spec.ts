@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { RowProxy } from './row-proxy.class';
 import { rowProxyGet } from './row-proxy-get.function';
 
@@ -26,7 +26,7 @@ describe('customProxyGet()', () => {
     loadByIdsSuccess: () => {
       /*noop*/
     },
-  } as unknown as ActionService;
+  } as unknown as ActionServiceBase;
   let getRealRowSpy: jest.SpyInstance;
   let getJsonSpy: jest.SpyInstance;
   let loadByIdsSuccessSpy: jest.SpyInstance;

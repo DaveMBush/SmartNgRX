@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 
@@ -25,7 +25,7 @@ export class VirtualArray<
    */
   constructor(
     public array: VirtualArrayContents,
-    private parentActionService: ActionService,
+    private parentActionService: ActionServiceBase,
     parentId: string,
     childField: string,
   ) {

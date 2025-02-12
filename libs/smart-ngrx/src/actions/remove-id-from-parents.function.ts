@@ -3,6 +3,7 @@ import { take } from 'rxjs';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ParentInfo } from '../types/parent-info.interface';
+import { ActionService } from './action.service';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 /**
@@ -20,7 +21,7 @@ export function removeIdFromParents(
   const parentService = actionServiceRegistry.register(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
-  );
+  ) as ActionService;
   parentService.entities
     .pipe(take(1))
     .subscribe(function removeIdFromParentsSubscribe(entities) {

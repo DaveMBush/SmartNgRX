@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string -- conflicting rule */
 import { createEntityAdapter } from '@ngrx/entity';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
@@ -26,13 +26,13 @@ describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
   let actionServiceMarkNotDirtySpy: jest.SpyInstance;
   let entityRowsRegistrySpy: jest.SpyInstance;
-  let actionService: ActionService | null;
+  let actionService: ActionServiceBase | null;
   beforeEach(() => {
     createStore();
     featureRegistry.registerFeature(feature);
     entityDefinitionRegistry(feature, entity, {
       entityAdapter: createEntityAdapter(),
-    } as SmartEntityDefinition<SmartNgRXRowBase>);
+    } as unknown as SmartEntityDefinition<SmartNgRXRowBase>);
     entityRegistry.register(feature, entity, {
       markAndDeleteInit: { markDirtyFetchesNew: true },
     } as EntityAttributes);

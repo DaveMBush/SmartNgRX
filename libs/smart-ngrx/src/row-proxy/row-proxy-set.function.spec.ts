@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
 import { rowProxySet } from './row-proxy-set.function';
@@ -6,8 +6,8 @@ import { rowProxySet } from './row-proxy-set.function';
 describe('customProxySet', () => {
   let target: RowProxy | undefined;
   let services: {
-    service: ActionService;
-    parentService: ActionService;
+    service: ActionServiceBase;
+    parentService: ActionServiceBase;
   };
   let serviceAddSpy: jest.SpyInstance;
   let serviceUpdateSpy: jest.SpyInstance;
@@ -28,8 +28,8 @@ describe('customProxySet', () => {
         update: () => {
           /*noop*/
         },
-      } as unknown as ActionService,
-      parentService: {} as ActionService,
+      } as unknown as ActionServiceBase,
+      parentService: {} as ActionServiceBase,
     };
     serviceAddSpy = jest
       .spyOn(services.service, 'add')

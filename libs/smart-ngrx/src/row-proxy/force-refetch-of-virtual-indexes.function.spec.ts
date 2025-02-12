@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { ArrayProxy } from '../selector/array-proxy.class';
 import { VirtualArray } from '../selector/virtual-array.class';
 import { ChildDefinition } from '../types/child-definition.interface';
@@ -20,7 +20,7 @@ class MockVirtualArray<T extends SmartNgRXRowBase> extends VirtualArray<T> {
       indexes: [],
       length: 0,
     };
-    super(virtualArrayContents, {} as ActionService, '', '');
+    super(virtualArrayContents, {} as ActionServiceBase, '', '');
   }
 
   override refetchIndexes = jest.fn();

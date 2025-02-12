@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 // we have to supply requestIdleCallback for jest
@@ -32,7 +32,7 @@ describe('processMarkAndDelete', () => {
       .spyOn(actionServiceRegistry, 'register')
       .mockImplementation(
         (_: string, __: string) =>
-          mockActionService as unknown as ActionService,
+          mockActionService as unknown as ActionServiceBase,
       );
     garbageCollectSpy = jest
       .spyOn(mockActionService, 'garbageCollect')

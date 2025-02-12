@@ -3,7 +3,7 @@ import { Dictionary } from '@ngrx/entity';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
-import { ActionService } from './action.service';
+import { ActionServiceBase } from './action.service.base';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 describe('replaceIdInFeatureParents', () => {
@@ -12,7 +12,7 @@ describe('replaceIdInFeatureParents', () => {
     SmartNgRXRowBase & { children: VirtualArrayContents }
   >;
   let childDefinition: ChildDefinition;
-  let parentService: ActionService;
+  let parentService: ActionServiceBase;
   let updateManySpy: jest.SpyInstance;
 
   beforeEach(() => {
@@ -22,7 +22,7 @@ describe('replaceIdInFeatureParents', () => {
     } as unknown as ChildDefinition;
     parentService = {
       updateMany: jest.fn(),
-    } as unknown as ActionService;
+    } as unknown as ActionServiceBase;
     updateManySpy = jest.spyOn(parentService, 'updateMany');
   });
 

@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ParentInfo } from '../types/parent-info.interface';
-import { ActionService } from './action.service';
+import { ActionServiceBase } from './action.service.base';
 import { removeIdFromParents } from './remove-id-from-parents.function';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
@@ -27,7 +27,7 @@ describe('removeIdFromParents', () => {
   beforeEach(() => {
     actionServiceRegistryRegisterSpy = jest
       .spyOn(actionServiceRegistry, 'register')
-      .mockReturnValue(mockParentService as unknown as ActionService);
+      .mockReturnValue(mockParentService as unknown as ActionServiceBase);
     (replaceIdInFeatureParents as jest.Mock).mockReturnValue(
       mockReplaceIdResult,
     );

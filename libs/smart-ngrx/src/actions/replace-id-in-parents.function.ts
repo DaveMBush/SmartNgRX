@@ -2,6 +2,7 @@ import { take } from 'rxjs';
 
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
+import { ActionService } from './action.service';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 /**
@@ -19,7 +20,7 @@ export function replaceIdInParents(
   const parentService = actionServiceRegistry.register(
     childDefinition.parentFeature,
     childDefinition.parentEntity,
-  );
+  ) as ActionService;
   parentService.entities
     .pipe(take(1))
     .subscribe(function replaceIdInParentsSubscribe(entities) {

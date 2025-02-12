@@ -85,6 +85,7 @@ export class ActionService<
       },
     );
     this.entityAdapter = this.entityDefinition.entityAdapter;
+    this.selectId = this.entityDefinition.selectId as (row: T) => string;
 
     this.initClasses();
 
@@ -226,7 +227,7 @@ export class ActionService<
         changes[key] = value;
       }
     });
-    const id = this.entityAdapter.selectId(oldRow as T);
+    const id = this.selectId(oldRow as T);
     this.updateMany([{ id: id.toString(), changes }]);
   }
 

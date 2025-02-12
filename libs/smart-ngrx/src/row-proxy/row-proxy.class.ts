@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
 import { ArrayProxy } from '../selector/array-proxy.class';
@@ -35,8 +35,8 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
    */
   constructor(
     public row: T,
-    private service: ActionService<T>,
-    parentService: ActionService,
+    private service: ActionServiceBase<T>,
+    parentService: ActionServiceBase,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
 
@@ -85,7 +85,7 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
    * also optimistically update the store
    */
   delete(): void {
-    const id = this.service.entityAdapter.selectId(this.row) as string;
+    const id = this.service.selectId(this.row);
     this.service.delete(id);
   }
 }

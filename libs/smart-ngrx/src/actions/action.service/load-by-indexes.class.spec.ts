@@ -18,7 +18,7 @@ import { PartialArrayDefinition } from '../../types/partial-array-definition.int
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { actionFactory } from '../action.factory';
-import { ActionService } from '../action.service';
+import { ActionServiceBase } from '../action.service.base';
 import { LoadByIndexes } from './load-by-indexes.class';
 
 interface LoadByIndexesPublic
@@ -74,7 +74,7 @@ describe('LoadByIndexes', () => {
     EffectService<SmartNgRXRowBase>
   >('testEffectService');
   let loadByIndexes: LoadByIndexesPublic;
-  let actionService: Omit<ActionService, 'loadByIndexesService'> & {
+  let actionService: Omit<ActionServiceBase, 'loadByIndexesService'> & {
     loadByIndexesService: LoadByIndexes;
   };
   let mockStore: Partial<Store>;
@@ -119,7 +119,7 @@ describe('LoadByIndexes', () => {
     actionService = actionServiceRegistry.register(
       'testFeature',
       'testEntity',
-    ) as unknown as Omit<ActionService, 'loadByIndexesService'> & {
+    ) as unknown as Omit<ActionServiceBase, 'loadByIndexesService'> & {
       loadByIndexesService: LoadByIndexes;
     };
     const mockEntitiesSubject = new Subject<Dictionary<SmartNgRXRowBase>>();

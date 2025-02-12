@@ -2,7 +2,7 @@ import { EntityAdapter, EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { take } from 'rxjs';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { assert } from '../common/assert.function';
 import { castTo } from '../common/cast-to.function';
 import { isProxy } from '../common/is-proxy.const';
@@ -46,7 +46,7 @@ export class ArrayProxy<
   // so they are safe to use later on.
   entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
   parentEntityAdapter!: EntityAdapter<SmartNgRXRowBase>;
-  childActionService!: ActionService<C>;
+  childActionService!: ActionServiceBase<C>;
   [isProxy] = true;
   rawArray: string[] = [];
 
@@ -183,8 +183,8 @@ export class ArrayProxy<
    * @returns the `ActionService` for the child and the parent
    */
   getServices(): {
-    service: ActionService<C>;
-    parentService: ActionService<P>;
+    service: ActionServiceBase<C>;
+    parentService: ActionServiceBase<P>;
   } {
     return getServices<P, C>(this.childDefinition);
   }

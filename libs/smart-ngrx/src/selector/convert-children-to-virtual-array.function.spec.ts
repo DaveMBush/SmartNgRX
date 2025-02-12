@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
@@ -19,10 +19,10 @@ interface ParentRow extends SmartNgRXRowBase {
 
 describe('convertChildrenToVirtualArray', () => {
   let mockParentEntity: EntityState<ParentRow>;
-  let mockActionService: ActionService;
+  let mockActionService: ActionServiceBase;
 
   beforeEach(() => {
-    mockActionService = {} as ActionService;
+    mockActionService = {} as ActionServiceBase;
     (actionServiceRegistry.register as jest.Mock).mockReturnValue(
       mockActionService,
     );

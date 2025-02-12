@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
 
@@ -9,7 +9,7 @@ import { RowProxy } from './row-proxy.class';
  * @returns the value of the property
  */
 export function rowProxyGet<T extends SmartNgRXRowBase>(
-  service: ActionService<T>,
+  service: ActionServiceBase<T>,
 ): (target: RowProxy<T>, prop: string | symbol) => unknown {
   return function innerRowProxyGet(target: RowProxy<T>, prop: string | symbol) {
     if (prop === 'toJSON') {

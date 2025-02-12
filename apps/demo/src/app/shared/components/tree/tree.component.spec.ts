@@ -30,12 +30,13 @@ interface TestableTreeComponent
   imports: [TreeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<dmb-tree
-    locationId="1"
-    [location]="testLocation"
-    [locations]="locations"
+    [locationId$]="locationId"
+    [location$]="testLocation"
+    [locations$]="locations"
   ></dmb-tree>`,
 })
 class TestHostComponent {
+  locationId = '1';
   testLocation = {
     id: '1',
     name: 'Initial Location',

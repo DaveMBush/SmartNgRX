@@ -1,4 +1,4 @@
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -15,8 +15,8 @@ export function getServices<
 >(
   childDefinition: ChildDefinition<P, C>,
 ): {
-  service: ActionService<C>;
-  parentService: ActionService<P>;
+  service: ActionServiceBase<C>;
+  parentService: ActionServiceBase<P>;
 } {
   const { childFeature, childEntity, parentFeature, parentEntity } =
     childDefinition;
@@ -26,7 +26,7 @@ export function getServices<
     parentEntity,
   );
   return {
-    service: service as unknown as ActionService<C>,
-    parentService: parentService as unknown as ActionService<P>,
+    service: service as unknown as ActionServiceBase<C>,
+    parentService: parentService as unknown as ActionServiceBase<P>,
   };
 }

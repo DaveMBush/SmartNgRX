@@ -1,7 +1,7 @@
 import { Dictionary, EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
-import { ActionService } from '../actions/action.service';
+import { ActionServiceBase } from '../actions/action.service.base';
 import { forNext } from '../common/for-next.function';
 import { actionServiceRegistry } from '../registrations/action-service-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
@@ -39,7 +39,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
 
 function forceEntitiesDirty<T extends SmartNgRXRowBase>(
   ids: string[],
-  actionService: ActionService<T>,
+  actionService: ActionServiceBase<T>,
 ): (state: Dictionary<T>) => void {
   return function innerForceEntitiesDirty(state: Dictionary<T>) {
     forNext(ids, forceIdDirty(state, actionService));
@@ -48,7 +48,7 @@ function forceEntitiesDirty<T extends SmartNgRXRowBase>(
 
 function forceIdDirty<T extends SmartNgRXRowBase>(
   state: Dictionary<T>,
-  actionService: ActionService<T>,
+  actionService: ActionServiceBase<T>,
 ): (id: string) => void {
   return function innerForceIdDirty(id: string) {
     if (state[id] !== undefined) {
