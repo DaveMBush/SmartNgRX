@@ -30,6 +30,12 @@ import { standardLocationsDefinition } from './routes/tree-standard/store/locati
 import { standardTopDefinition } from './routes/tree-standard/store/top/standard-top-definition.const';
 import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state2.interface';
 import { TreeComponent } from './routes/tree-standard/tree.component';
+import { watchLocations as watchStandardSignalsLocations } from './routes/tree-standard-signals/store/current-location/current-location.effects';
+import { currentLocationStandardSignalsReducer } from './routes/tree-standard-signals/store/current-location/current-location-standard-signals.reducer';
+import { standardSignalsDepartmentsDefinition } from './routes/tree-standard-signals/store/department/standard-signals-departments-definition';
+import { standardSignalsDepartmentChildrenDefinition } from './routes/tree-standard-signals/store/department-children/standard-signals-department-children-definition';
+import { standardSignalsLocationsDefinition } from './routes/tree-standard-signals/store/locations/standard-signals-locations-definition';
+import { standardSignalsTopDefinition } from './routes/tree-standard-signals/store/top/standard-signals-top-definition.const';
 
 // This ensure we have one key per SharedState property
 const sharedReducersStandard: ActionReducerMap<TreeStandardState2> = {
@@ -44,6 +50,9 @@ const sharedReducersNoDirty: ActionReducerMap<TreeStandardState2> = {
 };
 const sharedReducersNoRemove: ActionReducerMap<TreeStandardState2> = {
   currentLocation: currentLocationNoRemoveReducer,
+};
+const sharedReducersStandardSignals: ActionReducerMap<TreeStandardState2> = {
+  currentLocation: currentLocationStandardSignalsReducer,
 };
 
 export const appRoutes: Routes = [
@@ -132,6 +141,28 @@ export const appRoutes: Routes = [
         noRemoveLocationsDefinition,
         noRemoveDepartmentsDefinition,
         noRemoveDepartmentChildrenDefinition,
+      ]),
+    ],
+  },
+  {
+    path: 'treeSignals',
+    loadComponent: async function treeRoute(): Promise<Type<unknown>> {
+      return (await import('./routes/tree-standard-signals/tree.component'))
+        .TreeComponent;
+    },
+    providers: [
+      importProvidersFrom([
+        StoreModule.forFeature(
+          'tree-standard-signals2',
+          sharedReducersStandardSignals,
+        ),
+        EffectsModule.forFeature([{ watchStandardSignalsLocations }]),
+      ]),
+      provideSmartFeatureEntities('tree-standard-signals', [
+        standardSignalsTopDefinition,
+        standardSignalsLocationsDefinition,
+        standardSignalsDepartmentsDefinition,
+        standardSignalsDepartmentChildrenDefinition,
       ]),
     ],
   },

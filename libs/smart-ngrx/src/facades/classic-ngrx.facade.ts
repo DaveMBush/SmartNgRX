@@ -49,7 +49,6 @@ export class ClassicNgrxFacade<
   private loadByIdsService!: LoadByIds;
   private updateService!: Update<T>;
   private addService!: Add<T>;
-  private initCalled = false;
 
   /**
    * Tries to initialize the ActionService.
