@@ -1,3 +1,3 @@
 export interface TreeStandardSignalsState2 {
-  currentLocation: string;
+  currentLocationId: string;
 }

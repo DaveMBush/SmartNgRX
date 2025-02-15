@@ -1,3 +1,4 @@
+export * from './adapters/signal-to-selector.function';
 export * from './common/assert.function';
 export * from './common/cast-to.function';
 export * from './common/for-next.function';
