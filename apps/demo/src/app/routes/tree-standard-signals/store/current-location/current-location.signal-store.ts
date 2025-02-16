@@ -8,7 +8,7 @@ import {
 } from '@ngrx/signals';
 import { Store } from '@ngrx/store';
 
-import { selectLocationEntities } from '../../../tree-standard/store/locations/selectors/select-location-entities.selectors';
+import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
 import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
 
 export const currentLocationSignalStore = signalStore(

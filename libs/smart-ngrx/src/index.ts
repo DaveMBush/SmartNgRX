@@ -27,3 +27,6 @@ export * from './types/smart-ngrx-row-base.interface';
 // error handling
 export * from './error-handler/smart-ngrx-error-handler-token.const';
 export * from './types/smart-ngrx-error-handler.interface';
+
+// root injector
+export * from './common/root-injector.function';

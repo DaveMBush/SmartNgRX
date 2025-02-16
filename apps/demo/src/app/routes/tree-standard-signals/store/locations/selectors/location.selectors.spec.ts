@@ -24,8 +24,8 @@ describe('Location Selectors', () => {
 
   beforeEach(() => {
     createStore();
-    setState('tree-standard', 'locations', initialState);
-    setState('tree-standard2', 'currentLocation', '1');
+    setState('tree-standard-signals', 'locations', initialState);
+    setState('tree-standard-signals2', 'currentLocation', '1');
     (store() as MockStore).overrideSelector(selectLocationsDepartments, {
       entities: {
         1: {
