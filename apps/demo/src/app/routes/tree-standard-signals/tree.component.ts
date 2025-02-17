@@ -1,7 +1,12 @@
 // jscpd:ignore-start
 // component is intentionally duplicated.
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
@@ -22,7 +27,7 @@ export class TreeComponent implements OnInit {
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
   locations: Observable<Location[]> = of([]);
-  location: Observable<Location> = of({id: '', name: '', departments: []});
+  location: Observable<Location> = of({ id: '', name: '', departments: [] });
   constructor(private store: Store) {}
 
   locationChanged(event: string): void {

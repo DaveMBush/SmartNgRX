@@ -34,13 +34,31 @@ export const currentLocationSignalStore = signalStore(
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
+          console.log(
+            'selectCurrentLocationIdComputedFunction - currentLocationId',
+            currentLocationId(),
+          );
           const locationEntities = s.selectSignal(selectLocationEntities)();
           if (currentLocationId().length > 0) {
+            console.log(
+              'selectCurrentLocationIdComputedFunction - returning currentLocationId',
+              currentLocationId(),
+            );
             return currentLocationId();
           }
+          console.log(
+            'selectCurrentLocationIdComputedFunction - locationEntities',
+            locationEntities,
+          );
           if (locationEntities.ids.length > 0) {
+            console.log(
+              'selectCurrentLocationIdComputedFunction - returning first id',
+            );
             return locationEntities.ids[0] as string;
           }
+          console.log(
+            'selectCurrentLocationIdComputedFunction - returning empty string',
+          );
           return '';
         },
       ),

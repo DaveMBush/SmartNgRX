@@ -14,32 +14,47 @@ import { rootInjector } from '../common/root-injector.function';
  */
 export function signalTokenToSelector<T, S>(
   signalToken: ProviderToken<T>,
-  projector: (value: T) => Signal<S>
+  projector: (value: T) => Signal<S>,
 ): MemoizedSelector<object, S> {
   const signalService = rootInjector.get().get<T>(signalToken);
   const signal = projector(signalService);
-  let lastValue: S;
-  let lastState: object | null = null;
+  let lastValue: S = signal();
 
-  function memoizedSignalSelector(state: object): S {
-    if (state === lastState && lastValue !== undefined) {
-      return lastValue;
+  // Create the selector function
+  function memoizedSignalSelector(_: object): S {
+    console.log('memoizedSignalSelector - lastValue', lastValue);
+    const newValue = signal();
+    console.log('memoizedSignalSelector - newValue', newValue);
+    if (newValue !== lastValue) {
+      lastValue = newValue;
     }
-
-    lastState = state;
-    lastValue = signal();
     return lastValue;
   }
 
-  return Object.assign(memoizedSignalSelector, {
-    release: function signalSelectorRelease() {
-      lastState = null;
+  // Add required NgRX selector properties
+  Object.defineProperties(memoizedSignalSelector, {
+    release: {
+      writable: false,
+      enumerable: false,
+      value: function signalSelectorRelease(): void {
+        // No cleanup needed
+      },
     },
-    projector: function signalSelectorProjector(_: object) {
-      return signal();
+    projector: {
+      writable: false,
+      enumerable: false,
+      value: function signalSelectorProjector(_: object): S {
+        return signal();
+      },
     },
-    setResult: function signalSelectorSetResult(result: S) {
-      lastValue = result;
+    setResult: {
+      writable: false,
+      enumerable: false,
+      value: function signalSelectorSetResult(result: S): void {
+        lastValue = result;
+      },
     },
-  }) as MemoizedSelector<object, S>;
+  });
+
+  return memoizedSignalSelector as MemoizedSelector<object, S>;
 }

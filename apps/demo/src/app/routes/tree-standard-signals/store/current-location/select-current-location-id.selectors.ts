@@ -1,12 +1,14 @@
-import { createSelector } from "@ngrx/store";
+import { signalTokenToSelector } from '@smarttools/smart-ngrx';
 
-import { selectCurrentLocationSignal } from "./select-current-location-signal.selectors";
+import { currentLocationSignalStore } from './current-location.signal-store';
 
-export const selectCurrentLocationId = createSelector(
-  selectCurrentLocationSignal,
-  function selectCurrentLocationIdProjector(currentLocation: {
-    currentLocationId: string;
-  }) {
-    return currentLocation.currentLocationId;
+export const selectCurrentLocationId = signalTokenToSelector(
+  currentLocationSignalStore,
+  function currentLocationIdProjector(store) {
+    console.log(
+      'currentLocationIdProjector - currentLocationId',
+      store.selectCurrentLocationId(),
+    );
+    return store.selectCurrentLocationId;
   },
 );
