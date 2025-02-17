@@ -12,6 +12,7 @@ export const selectCurrentLocation = createSelector(
   function selectCurrentLocationFunction(locations, id) {
     console.log('selectCurrentLocation - locations', locations);
     console.log('selectCurrentLocation - id', "'" + id + "'");
+    console.log('selectCurrentLocation - locations.entities[id]', locations.entities[id]);
     return (
       locations.entities[id as string] ??
       ({
