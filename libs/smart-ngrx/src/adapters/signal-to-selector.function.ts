@@ -22,9 +22,7 @@ export function signalTokenToSelector<T, S>(
 
   // Create the selector function
   function memoizedSignalSelector(_: object): S {
-    console.log('memoizedSignalSelector - lastValue', lastValue);
     const newValue = signal();
-    console.log('memoizedSignalSelector - newValue', newValue);
     if (newValue !== lastValue) {
       lastValue = newValue;
     }

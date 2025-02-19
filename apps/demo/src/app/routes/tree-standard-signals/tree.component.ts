@@ -13,7 +13,6 @@ import { Observable, of } from 'rxjs';
 import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { Location } from '../../shared/locations/location.interface';
 import { currentLocationSignalStore } from './store/current-location/current-location.signal-store';
-import { selectCurrentLocation } from './store/locations/selectors/select-current-location.selectors';
 import { selectLocations } from './store/locations/selectors/select-locations.selector';
 @Component({
   selector: 'dmb-demo-tree',
@@ -27,7 +26,7 @@ export class TreeComponent implements OnInit {
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
   locations: Observable<Location[]> = of([]);
-  location: Observable<Location> = of({ id: '', name: '', departments: [] });
+  location$ = this.currentLocationSignalStore.selectCurrentLocation;
   constructor(private store: Store) {}
 
   locationChanged(event: string): void {
@@ -36,7 +35,6 @@ export class TreeComponent implements OnInit {
 
   ngOnInit(): void {
     this.locations = this.store.select(selectLocations);
-    this.location = this.store.select(selectCurrentLocation);
   }
 }
 // jscpd:ignore-end

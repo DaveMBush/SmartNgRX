@@ -9,6 +9,7 @@ import {
 import { Store } from '@ngrx/store';
 
 import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
+import { selectLocationsDepartments } from '../locations/selectors/select-locations-departments.selectors';
 import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
 
 export const currentLocationSignalStore = signalStore(
@@ -34,34 +35,32 @@ export const currentLocationSignalStore = signalStore(
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
-          console.log(
-            'selectCurrentLocationIdComputedFunction - currentLocationId',
-            currentLocationId(),
-          );
           const locationEntities = s.selectSignal(selectLocationEntities)();
           if (currentLocationId().length > 0) {
-            console.log(
-              'selectCurrentLocationIdComputedFunction - returning currentLocationId',
-              currentLocationId(),
-            );
             return currentLocationId();
           }
-          console.log(
-            'selectCurrentLocationIdComputedFunction - locationEntities',
-            locationEntities,
-          );
           if (locationEntities.ids.length > 0) {
-            console.log(
-              'selectCurrentLocationIdComputedFunction - returning first id',
-            );
             return locationEntities.ids[0] as string;
           }
-          console.log(
-            'selectCurrentLocationIdComputedFunction - returning empty string',
-          );
           return '';
         },
       ),
+    };
+  }),
+  withComputed(function computedFunction2(
+    { selectCurrentLocationId },
+    s = inject(Store),
+  ) {
+    return {
+      selectCurrentLocation: computed(function selectCurrentLocation() {
+        const entities = s.selectSignal(selectLocationsDepartments)().entities;
+        const currentLocation = entities[selectCurrentLocationId()] ?? {
+          id: '',
+          name: '',
+          departments: [],
+        };
+        return currentLocation;
+      }),
     };
   }),
 );

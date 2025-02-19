@@ -1,6 +1,6 @@
 <dmb-tree
   [locations$]="locations | async"
   [locationId$]="locationId$()"
-  [location$]="location | async"
+  [location$]="location$()"
   (locationChanged)="locationChanged($event)"
 ></dmb-tree>
