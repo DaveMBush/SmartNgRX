@@ -9,7 +9,6 @@ import {
 import { Store } from '@ngrx/store';
 
 import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
-import { selectLocationsDepartments } from '../locations/selectors/select-locations-departments.selectors';
 import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
 
 export const currentLocationSignalStore = signalStore(
@@ -45,22 +44,6 @@ export const currentLocationSignalStore = signalStore(
           return '';
         },
       ),
-    };
-  }),
-  withComputed(function computedFunction2(
-    { selectCurrentLocationId },
-    s = inject(Store),
-  ) {
-    return {
-      selectCurrentLocation: computed(function selectCurrentLocation() {
-        const entities = s.selectSignal(selectLocationsDepartments)().entities;
-        const currentLocation = entities[selectCurrentLocationId()] ?? {
-          id: '',
-          name: '',
-          departments: [],
-        };
-        return currentLocation;
-      }),
     };
   }),
 );

@@ -1,18 +1,16 @@
-import { Signal } from '@angular/core';
+import { EnvironmentInjector, Signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { rootInjector } from '@smarttools/smart-ngrx';
 
 import { LocationEntity } from '../../../../shared/entities/location-entity.type';
-import { Location } from '../../../../shared/locations/location.interface';
 import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
-import { selectLocationsDepartments } from '../locations/selectors/select-locations-departments.selectors';
 import { currentLocationSignalStore } from './current-location.signal-store';
 
 interface CurrentLocationStore {
   currentLocationId: Signal<string>;
   selectCurrentLocationId: Signal<string>;
-  selectCurrentLocation: Signal<Location>;
   setCurrentLocationId(currentLocationId: string): void;
 }
 
@@ -24,7 +22,7 @@ describe('CurrentLocationSignalStore', () => {
     TestBed.configureTestingModule({
       providers: [provideMockStore(), currentLocationSignalStore],
     });
-
+    rootInjector.set(TestBed.inject(EnvironmentInjector));
     store = TestBed.inject(Store) as MockStore;
     signalStore = TestBed.inject(
       currentLocationSignalStore,
@@ -71,40 +69,6 @@ describe('CurrentLocationSignalStore', () => {
       } as LocationEntity);
 
       expect(signalStore.selectCurrentLocationId()).toBe('');
-    });
-  });
-
-  describe('selectCurrentLocation', () => {
-    it('should return location when it exists in entities', () => {
-      const testLocation: Location = {
-        id: 'test-id',
-        name: 'Test Location',
-        departments: ['dept1', 'dept2'],
-      };
-
-      store.overrideSelector(selectLocationsDepartments, {
-        ids: ['test-id'],
-        entities: { 'test-id': testLocation },
-      });
-      signalStore.setCurrentLocationId('test-id');
-
-      expect(signalStore.selectCurrentLocation()).toEqual(testLocation);
-    });
-
-    it('should return default location when id does not exist in entities', () => {
-      const defaultLocation: Location = {
-        id: '',
-        name: '',
-        departments: [],
-      };
-
-      store.overrideSelector(selectLocationsDepartments, {
-        ids: [],
-        entities: {},
-      });
-      signalStore.setCurrentLocationId('non-existent-id');
-
-      expect(signalStore.selectCurrentLocation()).toEqual(defaultLocation);
     });
   });
 });
