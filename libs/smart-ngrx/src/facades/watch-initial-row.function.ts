@@ -4,8 +4,8 @@ import { catchError, EMPTY, Observable, tap } from 'rxjs';
 
 import { rootInjector } from '../common/root-injector.function';
 import { smartNgRXErrorHandlerToken } from '../error-handler/smart-ngrx-error-handler-token.const';
-import { ensureDataLoaded } from '../selector/ensure-data-loaded.function';
-import { store } from '../selector/store.function';
+import { ensureDataLoaded } from '../smart-selector/ensure-data-loaded.function';
+import { store } from '../smart-selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**

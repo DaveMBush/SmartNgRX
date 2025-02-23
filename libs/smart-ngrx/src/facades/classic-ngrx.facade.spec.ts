@@ -6,7 +6,7 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import * as storeFunction from '../selector/store.function';
+import * as storeFunction from '../smart-selector/store.function';
 import { ActionGroup } from '../types/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
@@ -17,7 +17,7 @@ jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-registry.function');
 jest.mock('../registrations/entity-registry.class');
 jest.mock('./classic-ngrx.facade/action.factory');
-jest.mock('../selector/store.function');
+jest.mock('../smart-selector/store.function');
 
 interface MockEntity extends SmartNgRXRowBase {
   id: string;

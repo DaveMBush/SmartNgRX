@@ -10,7 +10,7 @@ import { entityRegistry } from '../../registrations/entity-registry.class';
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import * as newRowRegistryModule from '../../selector/new-row-registry.class';
+import * as newRowRegistryModule from '../../smart-selector/new-row-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';

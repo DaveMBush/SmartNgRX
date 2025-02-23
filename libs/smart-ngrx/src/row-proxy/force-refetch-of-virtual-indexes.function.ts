@@ -1,7 +1,7 @@
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
-import { ArrayProxy } from '../selector/array-proxy.class';
-import { VirtualArray } from '../selector/virtual-array.class';
+import { ArrayProxy } from '../smart-selector/array-proxy.class';
+import { VirtualArray } from '../smart-selector/virtual-array.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 function isVirtualArray(

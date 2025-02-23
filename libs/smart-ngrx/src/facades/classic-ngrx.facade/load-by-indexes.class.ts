@@ -6,7 +6,7 @@ import { forNext } from '../../common/for-next.function';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import { newRowRegistry } from '../../selector/new-row-registry.class';
+import { newRowRegistry } from '../../smart-selector/new-row-registry.class';
 import { ActionGroup } from '../../types/action-group.interface';
 import { IndexProp } from '../../types/index-prop.interfaces';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';

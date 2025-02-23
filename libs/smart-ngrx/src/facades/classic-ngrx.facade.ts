@@ -12,8 +12,8 @@ import { entityDefinitionRegistry } from '../registrations/entity-definition-reg
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
-import { store as storeFunction } from '../selector/store.function';
-import { virtualArrayMap } from '../selector/virtual-array-map.const';
+import { store as storeFunction } from '../smart-selector/store.function';
+import { virtualArrayMap } from '../smart-selector/virtual-array-map.const';
 import { ActionGroup } from '../types/action-group.interface';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';

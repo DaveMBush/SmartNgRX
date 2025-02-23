@@ -7,7 +7,7 @@ import { handleError } from '../../error-handler/handle-error.function';
 import { childDefinitionRegistry } from '../../registrations/child-definition.registry';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import { store } from '../../selector/store.function';
+import { store } from '../../smart-selector/store.function';
 import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
