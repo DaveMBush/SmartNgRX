@@ -16,8 +16,10 @@ function methodNotImplemented(): never {
  */
 export class SignalsFacade<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-> extends FacadeBase<T> {
-  entityStore = signalStore(withEntities<T>());
+  > extends FacadeBase<T> {
+  override brand = 'signal' as const;
+  entitySymbol = signalStore(withEntities<T>());
+  entityStore = new this.entitySymbol();
 
   /**
    * Initialization code for the facade

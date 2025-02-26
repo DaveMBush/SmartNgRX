@@ -8,7 +8,8 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
  */
 export abstract class FacadeBase<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-> {
+  > {
+  brand: 'classic' | 'signal' = 'classic' as const;
   protected initCalled = false;
 
   selectId!: (row: T) => string;

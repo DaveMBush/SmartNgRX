@@ -1,5 +1,5 @@
 import { Signal } from '@angular/core';
-import { Dictionary } from '@ngrx/entity';
+import { Dictionary, EntityState } from '@ngrx/entity';
 
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -12,7 +12,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
->(parentSignal: Signal<Dictionary<P>>, children: ChildDefinition<P, T>[]): Signal<P> {
+>(parentSignal: Signal<EntityState<P>>, children: ChildDefinition<P, T>[]): Signal<EntityState<P>> {
   return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);
 }
 

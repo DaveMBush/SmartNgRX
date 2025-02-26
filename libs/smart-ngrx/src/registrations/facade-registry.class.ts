@@ -2,6 +2,7 @@ import { assert } from '../common/assert.function';
 import { psi } from '../common/psi.const';
 import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade';
 import { FacadeBase } from '../facades/facade.base';
+import { SignalsFacade } from '../facades/signals-facade';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class FacadeRegistry {
@@ -16,11 +17,12 @@ class FacadeRegistry {
   register<T extends SmartNgRXRowBase>(
     feature: string,
     entity: string,
+    isSignal: boolean = false,
   ): FacadeBase<T> {
     const key = `${feature}${psi}${entity}`;
     let actionServiceCache = this.actionServiceMap.get(key);
     if (actionServiceCache === undefined) {
-      actionServiceCache = new ClassicNgrxFacade(feature, entity);
+      actionServiceCache = isSignal ? new SignalsFacade(feature,entity) : new ClassicNgrxFacade(feature, entity);
       this.actionServiceMap.set(key, actionServiceCache);
       assert(actionServiceCache.init(), 'ActionService init failed');
     }
