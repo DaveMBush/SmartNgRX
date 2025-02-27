@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 
 import { PrismaModule } from '../orm/prisma.module';
-import { SocketGateway } from '../socket/socket.gateway';
+import { SocketModule } from '../socket/socket.module';
 import { SprintFoldersController } from './sprint-folders.controller';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, SocketModule],
   controllers: [SprintFoldersController],
-  providers: [SocketGateway],
+  providers: [],
 })
 export class SprintFoldersModule {}
