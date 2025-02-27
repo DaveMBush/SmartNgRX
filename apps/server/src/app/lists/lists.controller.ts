@@ -13,6 +13,7 @@ import { from, Observable, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
+import { socketGatewayToken } from '../socket/socket-gateway.token';
 import { ListDTO } from './lists-dto.interface';
 // jscpd:ignore-end
 
@@ -21,6 +22,7 @@ export class ListsController {
   constructor(
     @Inject(prismaServiceToken)
     private prisma: PrismaClient,
+    @Inject(socketGatewayToken)
     private gateway: SocketGateway,
   ) {}
 
