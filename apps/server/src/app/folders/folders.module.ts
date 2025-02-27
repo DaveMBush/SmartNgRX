@@ -7,6 +7,5 @@ import { FoldersController } from './folders.controller';
 @Module({
   imports: [PrismaModule, SocketModule],
   controllers: [FoldersController],
-  providers: [],
 })
 export class FoldersModule {}

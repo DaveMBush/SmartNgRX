@@ -7,6 +7,5 @@ import { SprintFoldersController } from './sprint-folders.controller';
 @Module({
   imports: [PrismaModule, SocketModule],
   controllers: [SprintFoldersController],
-  providers: [],
 })
 export class SprintFoldersModule {}

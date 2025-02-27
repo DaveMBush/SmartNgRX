@@ -7,6 +7,5 @@ import { ListsController } from './lists.controller';
 @Module({
   imports: [PrismaModule, SocketModule],
   controllers: [ListsController],
-  providers: [],
 })
 export class ListsModule {}

@@ -7,6 +7,5 @@ import { DocsController } from './docs.controller';
 @Module({
   imports: [PrismaModule, SocketModule],
   controllers: [DocsController],
-  providers: [],
 })
 export class DocsModule {}

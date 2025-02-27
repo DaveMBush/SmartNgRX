@@ -6,6 +6,5 @@ import { LocationsController } from './locations.controller';
 @Module({
   imports: [PrismaModule],
   controllers: [LocationsController],
-  providers: [],
 })
 export class LocationsModule {}
