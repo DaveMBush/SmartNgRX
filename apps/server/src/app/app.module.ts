@@ -6,7 +6,7 @@ import { FoldersModule } from './folders/folders.module';
 import { ListsModule } from './lists/lists.module';
 import { LocationsModule } from './locations/locations.module';
 import { PrismaModule } from './orm/prisma.module';
-import { SocketGateway } from './socket/socket.gateway';
+import { SocketModule } from './socket/socket.module';
 import { SocketService } from './socket/socket.service';
 import { SprintFoldersModule } from './sprint-folders/sprint-folders.module';
 import { TopModule } from './top/top.module';
@@ -14,6 +14,7 @@ import { TopModule } from './top/top.module';
 @Module({
   imports: [
     PrismaModule,
+    SocketModule,
     TopModule,
     LocationsModule,
     DepartmentsModule,
@@ -23,6 +24,6 @@ import { TopModule } from './top/top.module';
     ListsModule,
   ],
   controllers: [],
-  providers: [SocketGateway, SocketService],
+  providers: [SocketService],
 })
 export class AppModule {}

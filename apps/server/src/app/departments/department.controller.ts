@@ -13,6 +13,7 @@ import { map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
+import { socketGatewayToken } from '../socket/socket-gateway.token';
 import { DepartmentDTO } from './department-dto.interface';
 
 interface DepartmentNameAndId {
@@ -35,6 +36,7 @@ export class DepartmentsController {
   constructor(
     @Inject(prismaServiceToken)
     private prisma: PrismaClient,
+    @Inject(socketGatewayToken)
     private gateway: SocketGateway,
   ) {}
 
