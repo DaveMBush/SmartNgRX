@@ -1,13 +1,13 @@
+import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 
+import { SignalsFacade } from '../facades/signals-facade';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { convertChildrenToArrayProxy } from '../smart-selector/convert-children-to-array-proxy.function';
 import { convertChildrenToVirtualArray } from '../smart-selector/convert-children-to-virtual-array.function';
-import { Signal } from '@angular/core';
-import { facadeRegistry } from '../registrations/facade-registry.class';
-import { SignalsFacade } from '../facades/signals-facade';
+import { ChildDefinition } from '../types/child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * This is an internal function used by `createSmartSignal`.
@@ -36,44 +36,47 @@ export function createInnerSmartSignal<
   parentSignal: Signal<EntityState<P>>,
   childDefinition: ChildDefinition<P, C>,
 ): Signal<EntityState<P>> {
-  const {
-    childFeature,
-    childEntity,
-    parentFeature,
-    parentEntity,
-    parentField: parentFieldName,
-  } = childDefinition;
-  childDefinitionRegistry.registerChildDefinition(
-    childFeature,
-    childEntity,
-    childDefinition,
-  );
-  const parent = parentSignal();
-  // find the child entity from the actionService
-  const childService = facadeRegistry.register(childFeature, childEntity, true) as SignalsFacade<C>;
-  const entityStore = childService.entityStore;
-  const child = {
-    ids: entityStore.ids() as string[],
-    entities: entityStore.entityMap(),
-  }
+  return computed(function createInnerSmartComputedSignal() {
+    const {
+      childFeature,
+      childEntity,
+      parentFeature,
+      parentEntity,
+      parentField: parentFieldName,
+    } = childDefinition;
+    childDefinitionRegistry.registerChildDefinition(
+      childFeature,
+      childEntity,
+      childDefinition,
+    );
+    const parent = parentSignal();
+    // find the child entity from the actionService
+    const childService = facadeRegistry.register(
+      childFeature,
+      childEntity,
+      true,
+    ) as SignalsFacade<C>;
+    const entityStore = childService.entityStore;
+    const child = {
+      ids: entityStore.ids() as string[],
+      entities: entityStore.entityMap(),
+    };
 
-  const newParentEntity: EntityState<P> = {
-    ids: [...parent.ids] as number[] | string[],
-    entities: { ...parent.entities },
-  };
+    convertChildrenToVirtualArray(
+      parentFieldName,
+      parent,
+      parentFeature,
+      parentEntity,
+    );
 
-  convertChildrenToVirtualArray(
-    parentFieldName,
-    newParentEntity,
-    parentFeature,
-    parentEntity,
-  );
+    convertChildrenToArrayProxy(
+      parent,
+      parentFieldName,
+      child,
+      childDefinition,
+    );
 
-  convertChildrenToArrayProxy(
-    newParentEntity,
-    parentFieldName,
-    child,
-    childDefinition,
-  );
-  return newParentEntity;
+    // update the parent signal from parent
+    return parent;
+  });
 }
