@@ -178,8 +178,8 @@ importers:
         specifier: ^10.4.15
         version: 10.4.15(@nestjs/common@10.4.15(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.15(@nestjs/common@10.4.15(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.15)(@nestjs/websockets@10.4.15)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.15(@nestjs/common@10.4.15(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.15))
       '@ngrx/eslint-plugin':
-        specifier: 19.0.0
-        version: 19.0.0(@typescript-eslint/utils@8.18.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(eslint@9.21.0(jiti@1.21.0))(typescript-eslint@8.24.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(typescript@5.7.3)
+        specifier: 19.0.1
+        version: 19.0.1(@typescript-eslint/utils@8.18.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(eslint@9.21.0(jiti@1.21.0))(typescript-eslint@8.24.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(typescript@5.7.3)
       '@ngrx/schematics':
         specifier: 19.0.1
         version: 19.0.1
@@ -2903,8 +2903,8 @@ packages:
       '@ngrx/store': 19.0.0
       rxjs: ^6.5.3 || ^7.5.0
 
-  '@ngrx/eslint-plugin@19.0.0':
-    resolution: {integrity: sha512-opL4ADcNfIIZ6V9uaiQ6+BhTGkpYUQeAYDhz5VYY7KlUdvDlhl3JARb851t1bI4fToJ+twvixP//zcZTZdBG2Q==}
+  '@ngrx/eslint-plugin@19.0.1':
+    resolution: {integrity: sha512-cJjJ4oXPHaW9KTSyvujSGl+uvuA5ix5XNaMSxiaoNPRPlJ/EzSS6KKbY5XkxDPFj6hGLkO7vJPrCL27cGDjZ3Q==}
     peerDependencies:
       '@typescript-eslint/utils': ^8.0.0
       eslint: ^8.57.0 || ^9.0.0
@@ -14299,11 +14299,11 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.8.1
 
-  '@ngrx/eslint-plugin@19.0.0(@typescript-eslint/utils@8.18.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(eslint@9.21.0(jiti@1.21.0))(typescript-eslint@8.24.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(typescript@5.7.3)':
+  '@ngrx/eslint-plugin@19.0.1(@typescript-eslint/utils@8.18.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(eslint@9.21.0(jiti@1.21.0))(typescript-eslint@8.24.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3))(typescript@5.7.3)':
     dependencies:
       '@typescript-eslint/utils': 8.18.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3)
       eslint: 9.21.0(jiti@1.21.0)
-      semver: 7.6.3
+      semver: 7.7.1
       strip-json-comments: 3.1.1
       typescript: 5.7.3
       typescript-eslint: 8.24.0(eslint@9.21.0(jiti@1.21.0))(typescript@5.7.3)
