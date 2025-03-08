@@ -1,5 +1,5 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- needed for overloads */
-import { computed, Signal } from '@angular/core';
+import { computed, isSignal, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 
 import { SignalsFacade } from '../facades/signals-facade';
@@ -41,7 +41,7 @@ export function createSmartSignal<
   p2: ChildDefinition<P, T>[] | string,
 ): Signal<EntityState<P>> {
   if (typeof p1 === 'string' && typeof p2 === 'string') {
-    const facade = facadeRegistry.register(p1, p2) as SignalsFacade<P>;
+    const facade = facadeRegistry.register(p1, p2, true) as SignalsFacade<P>;
     const parentSignal = computed(function entityStateAdapter() {
       return {
         ids: facade.entityState.ids(),
@@ -50,7 +50,11 @@ export function createSmartSignal<
     });
     return parentSignal;
   }
-  if (typeof p1 !== 'string' && 'signal' in p1 && Array.isArray(p2)) {
+  if (
+    typeof p1 !== 'string' &&
+    isSignal(p1) &&
+    Array.isArray(p2)
+  ) {
     const parentSignal = p1 as Signal<EntityState<P>>;
     const children = p2;
     return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);

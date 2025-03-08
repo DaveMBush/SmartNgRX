@@ -7,6 +7,7 @@ export const standardSignalsTopDefinition: SmartEntityDefinition<Top> = {
   entityName: 'top',
   effectServiceToken: topEffectsServiceToken,
   isInitialRow: true,
+  isSignal: true,
   defaultRow: function defaultRowFunction(id) {
     return {
       id,

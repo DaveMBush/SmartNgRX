@@ -51,11 +51,13 @@ export function entityDefinitionRegistry<
     !!cached,
     `Entity definition for ${featureName}${psi}${entityName} not found.`,
   );
-  const entityAdapter = cached.entityAdapter;
-  assert(
-    entityAdapter !== undefined,
-    `Entity adapter for ${featureName}${psi}${entityName} not found.`,
-  );
+  if (cached.isSignal !== true) {
+    const entityAdapter = cached.entityAdapter;
+    assert(
+      entityAdapter !== undefined,
+      `Entity adapter for ${featureName}${psi}${entityName} not found.`,
+    );
+  }
   // we can cast this now because we've validated that it obeys the type rules
   // and we have to return the typed version instead of the common version
   // we store it as
