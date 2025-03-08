@@ -28,9 +28,7 @@ export class Add<T extends SmartNgRXRowBase> {
    * @param entity the entity name
    * @param selectId the select id function
    */
-  constructor(
-    private readonly facade: FacadeBase<T>,
-  ) {
+  constructor(private readonly facade: FacadeBase<T>) {
     this.feature = facade.feature;
     this.entity = facade.entity;
     this.selectId = facade.selectId;
@@ -86,9 +84,7 @@ export class Add<T extends SmartNgRXRowBase> {
           // so that the system doesn't insert a dummy record while it is still in the
           // parent's child array.
           context.scheduleGarbageCollection(successPayload.oldRow);
-          const oldId = context.selectId(
-            successPayload.oldRow,
-          );
+          const oldId = context.selectId(successPayload.oldRow);
           context.replaceIdInParents(oldId, successPayload.newRow.id);
         }),
         catchError(function addErrorHandler(

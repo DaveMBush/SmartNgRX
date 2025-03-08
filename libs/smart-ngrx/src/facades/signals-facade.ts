@@ -270,11 +270,7 @@ export class SignalsFacade<
     childField: string,
     array: PartialArrayDefinition,
   ): void {
-    this.loadByIndexesService.loadByIndexesSuccess(
-      parentId,
-      childField,
-      array,
-    );
+    this.loadByIndexesService.loadByIndexesSuccess(parentId, childField, array);
   }
 
   /**

@@ -11,7 +11,9 @@ export const selectCurrentLocationSignal = computed(
     const currentLocation = injector.get(currentLocationSignalStore);
     const store = injector.get(Store);
     const currentLocationId = currentLocation.selectCurrentLocationId();
-    const locationDepartmentsSignal = store.selectSignal(selectLocationsDepartments);
+    const locationDepartmentsSignal = store.selectSignal(
+      selectLocationsDepartments,
+    );
     const entities = locationDepartmentsSignal().entities;
     return (
       entities[currentLocationId] ?? {

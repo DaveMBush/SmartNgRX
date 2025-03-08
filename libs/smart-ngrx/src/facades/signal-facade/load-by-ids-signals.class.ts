@@ -53,9 +53,7 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
    *
    * @param defaultRow the default row to use
    */
-  init(
-    defaultRow: (id: string) => T,
-  ): void {
+  init(defaultRow: (id: string) => T): void {
     this.defaultRow = defaultRow;
     this.loadByIdsDispatcher();
   }
@@ -86,7 +84,9 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
         mergeMap(function loadByIdsDispatcherSubscribe(ids) {
           const entities = actionService.entityState.entityMap();
           ids = ids.filter(function loadByIdsDispatcherFilter(id) {
-            return entities[id] === undefined || entities[id].isLoading !== true;
+            return (
+              entities[id] === undefined || entities[id].isLoading !== true
+            );
           });
           if (ids.length === 0) {
             return of([]);
@@ -134,9 +134,13 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: T[]): void {
-    let registeredRows = entityRowsRegistry.register(this.feature, this.entity, rows);
+    let registeredRows = entityRowsRegistry.register(
+      this.feature,
+      this.entity,
+      rows,
+    );
     const entities = this.facade.entityState.entityMap();
-        // don't let virtual arrays get overwritten by the default row
+    // don't let virtual arrays get overwritten by the default row
     registeredRows = mergeRowsWithEntities(
       this.feature,
       this.entity,

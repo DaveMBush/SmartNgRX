@@ -21,7 +21,7 @@ export function removeIdFromParentsSignals(
     childDefinition.parentEntity,
   ) as SignalsFacade;
   const entities = parentService.entityState.entityMap();
-      // optimistically remove the ids from the parent
+  // optimistically remove the ids from the parent
   const parentIds = replaceIdInFeatureParents(
     entities,
     childDefinition,

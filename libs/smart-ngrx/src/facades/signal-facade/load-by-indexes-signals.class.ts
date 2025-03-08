@@ -28,9 +28,7 @@ export class LoadByIndexesSignals {
    *
    * @param facade the facade that called this class
    */
-  constructor(
-    private facade: SignalsFacade,
-  ) {
+  constructor(private facade: SignalsFacade) {
     this.feature = facade.feature;
     this.entity = facade.entity;
   }
@@ -38,8 +36,7 @@ export class LoadByIndexesSignals {
   /**
    * Initializes the service with the actions and starts the dispatcher.
    */
-  init(
-  ): void {
+  init(): void {
     this.loadByIndexesDispatcher();
   }
 

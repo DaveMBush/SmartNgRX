@@ -22,7 +22,9 @@ class FacadeRegistry {
     const key = `${feature}${psi}${entity}`;
     let actionServiceCache = this.actionServiceMap.get(key);
     if (actionServiceCache === undefined) {
-      actionServiceCache = isSignal ? new SignalsFacade(feature,entity) : new ClassicNgrxFacade(feature, entity);
+      actionServiceCache = isSignal
+        ? new SignalsFacade(feature, entity)
+        : new ClassicNgrxFacade(feature, entity);
       this.actionServiceMap.set(key, actionServiceCache);
       assert(actionServiceCache.init(), 'ActionService init failed');
     }
