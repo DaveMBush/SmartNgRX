@@ -81,6 +81,8 @@ export class ClassicNgrxFacade<
     );
     this.selectId = (this.entityDefinition.selectId ??
       this.entityAdapter.selectId) as (row: T) => string;
+    // This is needed in classic to get the selectors
+    this.entityAdapter = this.entityDefinition.entityAdapter;
 
     this.initClasses();
 
