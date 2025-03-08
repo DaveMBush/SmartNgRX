@@ -19,11 +19,11 @@ import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { FacadeBase } from '../facade.base';
 import { actionFactory } from './action.factory';
-import { LoadByIndexes } from './load-by-indexes.class';
+import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 
 interface LoadByIndexesPublic
   extends Omit<
-    LoadByIndexes,
+    LoadByIndexesClassic,
     'loadByIndexesSubject' | 'processLoadByIndexesSuccess'
   > {
   loadByIndexesSubject: Subject<{

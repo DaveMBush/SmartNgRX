@@ -2,15 +2,24 @@ import { UpdateStr } from '@ngrx/entity/src/models';
 
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
+import { Update } from './classic-ngrx.facade/update.class';
+import { Add } from './classic-ngrx.facade/add.class';
+import { LoadByIdsClassic } from './classic-ngrx.facade/load-by-ids-classic.class';
 
 /**
  * Base class for ActionService that defines the interface for all action services
  */
 export abstract class FacadeBase<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-  > {
+> {
   brand: 'classic' | 'signal' = 'classic' as const;
+  protected entityDefinition!: SmartValidatedEntityDefinition<T>;
+
   protected initCalled = false;
+  protected markDirtyFetchesNew = true;
+  protected updateService!: Update<T>;
+  protected addService!: Add<T>;
 
   selectId!: (row: T) => string;
 
@@ -143,4 +152,6 @@ export abstract class FacadeBase<
     childField: string,
     array: PartialArrayDefinition,
   ): void;
+
+  abstract upsertRow(row: T): void;
 }

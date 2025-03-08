@@ -21,13 +21,13 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { actionFactory } from './classic-ngrx.facade/action.factory';
 import { Add } from './classic-ngrx.facade/add.class';
-import { LoadByIds } from './classic-ngrx.facade/load-by-ids.class';
-import { LoadByIndexes } from './classic-ngrx.facade/load-by-indexes.class';
+import { LoadByIdsClassic } from './classic-ngrx.facade/load-by-ids-classic.class';
+import { LoadByIndexesClassic } from './classic-ngrx.facade/load-by-indexes-classic.class';
 import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';
-import { removeIdFromParents } from './classic-ngrx.facade/remove-id-from-parents.function';
+import { removeIdFromParentsClassic } from './classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { Update } from './classic-ngrx.facade/update.class';
 import { FacadeBase } from './facade.base';
-import { watchInitialRow } from './watch-initial-row.function';
+import { watchInitialRow } from './classic-ngrx.facade/watch-initial-row.function';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic
@@ -43,12 +43,8 @@ export class ClassicNgrxFacade<
   entities!: Observable<Dictionary<T>>;
   protected actions!: ActionGroup;
   private store = storeFunction();
-  private markDirtyFetchesNew = true;
-  private entityDefinition!: SmartValidatedEntityDefinition<T>;
-  private loadByIndexesService!: LoadByIndexes;
-  private loadByIdsService!: LoadByIds;
-  private updateService!: Update<T>;
-  private addService!: Add<T>;
+  private loadByIndexesService!: LoadByIndexesClassic;
+  private loadByIdsService!: LoadByIdsClassic;
 
   /**
    * Tries to initialize the ActionService.
@@ -83,8 +79,8 @@ export class ClassicNgrxFacade<
         }
       },
     );
-    this.entityAdapter = this.entityDefinition.entityAdapter;
-    this.selectId = this.entityDefinition.selectId as (row: T) => string;
+    this.selectId = (this.entityDefinition.selectId ??
+      this.entityAdapter.selectId) as (row: T) => string;
 
     this.initClasses();
 
@@ -208,29 +204,6 @@ export class ClassicNgrxFacade<
   }
 
   /**
-   * Optimistically updates the row in the store
-   * based on the diff between the old row and the new row
-   *
-   * @param oldRow the row before the changes
-   * @param newRow the row after the changes
-   */
-  optimisticUpdate(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
-    const changes: Record<string, unknown> = {};
-    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
-    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
-    Object.entries(newRowAsRecord).forEach(function updateForEach([
-      key,
-      value,
-    ]) {
-      if (value !== oldRowAsRecord[key]) {
-        changes[key] = value;
-      }
-    });
-    const id = this.selectId(oldRow as T);
-    this.updateMany([{ id: id.toString(), changes }]);
-  }
-
-  /**
    * updates many rows in the store
    *
    * @param changes the changes to make
@@ -250,29 +223,8 @@ export class ClassicNgrxFacade<
    * @param parentId the id of the parent row
    * @param parentService the service for the parent row
    */
-  add(row: T, parentId: string, parentService: ClassicNgrxFacade): void {
+  override add(row: T, parentId: string, parentService: FacadeBase): void {
     this.addService.add(row, parentId, parentService);
-  }
-
-  /**
-   * removes the id from the child arrays of the parent rows
-   *
-   * @param id the id to remove
-   * @returns the parent info for each parent
-   */
-  removeFromParents(id: string): ParentInfo[] {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    const parentInfo: ParentInfo[] = [];
-    forNext(
-      childDefinitions,
-      function removeFromParentsForNext(childDefinition) {
-        removeIdFromParents(childDefinition, id, parentInfo);
-      },
-    );
-    return parentInfo;
   }
 
   /**
@@ -315,7 +267,7 @@ export class ClassicNgrxFacade<
    *
    * @param ids the ids to load
    */
-  loadByIds(ids: string): void {
+  override loadByIds(ids: string): void {
     this.loadByIdsService.loadByIds(ids);
   }
 
@@ -324,7 +276,7 @@ export class ClassicNgrxFacade<
    *
    * @param ids the ids we are retrieving
    */
-  loadByIdsPreload(ids: string[]): void {
+  override loadByIdsPreload(ids: string[]): void {
     this.loadByIdsService.loadByIdsPreload(ids);
   }
 
@@ -367,15 +319,45 @@ export class ClassicNgrxFacade<
   }
 
   /**
+   * Upserts a row into the store
+   *
+   * @param row the row to upsert
+   */
+  override upsertRow(row: T): void {
+    this.store.dispatch(this.actions.upsertRow({ row }));
+  }
+
+  /**
+   * removes the id from the child arrays of the parent rows
+   *
+   * @param id the id to remove
+   * @returns the parent info for each parent
+   */
+  private removeFromParents(id: string): ParentInfo[] {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    const parentInfo: ParentInfo[] = [];
+    forNext(
+      childDefinitions,
+      function removeFromParentsForNext(childDefinition) {
+        removeIdFromParentsClassic(childDefinition, id, parentInfo);
+      },
+    );
+    return parentInfo;
+  }
+
+  /**
    * Initializes the classes the ActionService needs to function
    */
   private initClasses(): void {
-    this.loadByIndexesService = new LoadByIndexes(
+    this.loadByIndexesService = new LoadByIndexesClassic(
       this.feature,
       this.entity,
       this.store,
     );
-    this.loadByIdsService = new LoadByIds(
+    this.loadByIdsService = new LoadByIdsClassic(
       this.feature,
       this.entity,
       this.store,
@@ -383,10 +365,10 @@ export class ClassicNgrxFacade<
     this.updateService = new Update<T>(
       this.feature,
       this.entity,
-      this.entityAdapter,
+      this.selectId as (row: T) => string,
       this.loadByIdsSuccess.bind(this),
     );
-    this.addService = new Add<T>(this.feature, this.entity, this.entityAdapter);
+    this.addService = new Add<T>(this);
   }
 
   private markDirtyWithEntities<R extends SmartNgRXRowBase>(
@@ -435,5 +417,31 @@ export class ClassicNgrxFacade<
         virtualArrayMap.remove(feature, entity, id);
       });
     });
+  }
+
+  /**
+   * Optimistically updates the row in the store
+   * based on the diff between the old row and the new row
+   *
+   * @param oldRow the row before the changes
+   * @param newRow the row after the changes
+   */
+  private optimisticUpdate(
+    oldRow: SmartNgRXRowBase,
+    newRow: SmartNgRXRowBase,
+  ): void {
+    const changes: Record<string, unknown> = {};
+    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
+    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
+    Object.entries(newRowAsRecord).forEach(function updateForEach([
+      key,
+      value,
+    ]) {
+      if (value !== oldRowAsRecord[key]) {
+        changes[key] = value;
+      }
+    });
+    const id = this.selectId(oldRow as T);
+    this.updateMany([{ id: id.toString(), changes }]);
   }
 }

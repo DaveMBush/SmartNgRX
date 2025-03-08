@@ -1,4 +1,3 @@
-import { EntityAdapter } from '@ngrx/entity';
 import {
   concatMap,
   debounceTime,
@@ -47,13 +46,13 @@ export class Update<T extends SmartNgRXRowBase> {
    *
    * @param feature the feature name
    * @param entity the entity name
-   * @param entityAdapter the entity adapter
+   * @param selectId function pointer that returns the Id of a row
    * @param loadByIdsSuccess the loadByIdsSuccess action function
    */
   constructor(
     readonly feature: string,
     readonly entity: string,
-    readonly entityAdapter: EntityAdapter<T>,
+    readonly selectId: (row: T) => string,
     readonly loadByIdsSuccess: (rows: T[]) => void,
   ) {}
 
@@ -104,7 +103,7 @@ export class Update<T extends SmartNgRXRowBase> {
     }
 
     const updateRow = this.createUpdateRow();
-    const updateEffectMap = this.createUpdateEffectMap();
+    const updateEffectMap = this.createUpdatePipelineMap();
 
     function processGroupFn(
       this: Update<T>,
@@ -123,7 +122,7 @@ export class Update<T extends SmartNgRXRowBase> {
     const boundProcessGroup = processGroupFn.bind(this);
 
     return this.updateSubject.pipe(
-      tap(this.createUpdateEffectTap()),
+      tap(this.createUpdatePipelineTap()),
       groupBy(groupByIdFn),
       mergeMap(boundProcessGroup),
       map(mapToVoidFn),
@@ -135,8 +134,8 @@ export class Update<T extends SmartNgRXRowBase> {
    *
    * @returns A function that handles the update effect tap
    */
-  private createUpdateEffectTap(): (action: UpdateAction) => void {
-    return function updateEffectTapFn(
+  private createUpdatePipelineTap(): (action: UpdateAction) => void {
+    return function updatePipelineTapFn(
       this: Update<T>,
       action: UpdateAction,
     ): void {
@@ -179,14 +178,14 @@ export class Update<T extends SmartNgRXRowBase> {
   }
 
   /**
-   * Creates the update effect map function
+   * Creates the update pipeline map function
    *
-   * @returns A function that handles the update effect map
+   * @returns A function that handles the update pipeline map
    */
-  private createUpdateEffectMap(): (rows: T[]) => void {
-    return function updateEffectMapFn(this: Update<T>, rows: T[]): void {
+  private createUpdatePipelineMap(): (rows: T[]) => void {
+    return function updatePipelineMapFn(this: Update<T>, rows: T[]): void {
       const now = Date.now();
-      const id = this.entityAdapter.selectId(rows[firstRowIndex]) as string;
+      const id = this.selectId(rows[firstRowIndex]);
       this.lastRowTimeout.delete(id);
       this.lastRowTimeout.set(id, now);
       this.lastRow.set(id, rows[firstRowIndex]);

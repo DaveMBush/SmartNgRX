@@ -1,11 +1,28 @@
 import { UpdateStr } from '@ngrx/entity/src/models';
-import { signalStore } from '@ngrx/signals';
-import { withEntities } from '@ngrx/signals/entities';
+import { asapScheduler, catchError, of } from 'rxjs';
 
+import { forNext } from '../common/for-next.function';
+import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { handleError } from '../error-handler/handle-error.function';
+import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
+import { childDefinitionRegistry } from '../registrations/child-definition.registry';
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
+import { entityRegistry } from '../registrations/entity-registry.class';
+import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
+import { ensureDataLoaded } from '../smart-selector/ensure-data-loaded.function';
+import { virtualArrayMap } from '../smart-selector/virtual-array-map.const';
+import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { Add } from './classic-ngrx.facade/add.class';
+import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';
+import { Update as UpdateService } from './classic-ngrx.facade/update.class';
 import { FacadeBase } from './facade.base';
-
+import { entitySignalStoreFactory } from './signal-facade/entity-signal-store.factory';
+import { LoadByIdsSignals } from './signal-facade/load-by-ids-signals.class';
+import { removeIdFromParentsSignals } from './signal-facade/remove-id-from-parents-signals.function';
+import { LoadByIndexesSignals } from './signal-facade/load-by-indexes-signals.class';
 function methodNotImplemented(): never {
   throw new Error('Method not implemented.');
 }
@@ -16,17 +33,19 @@ function methodNotImplemented(): never {
  */
 export class SignalsFacade<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-  > extends FacadeBase<T> {
+> extends FacadeBase<T> {
+  private loadByIdsService!: LoadByIdsSignals<T>;
+  private loadByIndexesService!: LoadByIndexesSignals;
+
   override brand = 'signal' as const;
-  entitySymbol = signalStore(withEntities<T>());
-  entityStore = new this.entitySymbol();
+
+  entityState = entitySignalStoreFactory(this);
 
   /**
    * Initialization code for the facade
    *
    * @returns true if the facade is initialized successfully
    */
-  // eslint-disable-next-line sonarjs/no-invariant-returns -- part of a set that may return false
   override init(): boolean {
     if (this.initCalled) {
       return true;
@@ -34,6 +53,32 @@ export class SignalsFacade<
     this.initCalled = true;
 
     // init code as needed here
+    if (!featureRegistry.hasFeature(this.feature)) {
+      return false;
+    }
+    this.entityDefinition = entityDefinitionRegistry(this.feature, this.entity);
+    this.selectId = this.entityDefinition.selectId!;
+
+    this.initClasses();
+
+    const registry = entityRegistry.get(this.feature, this.entity);
+
+    this.markDirtyFetchesNew =
+      isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
+      registry.markAndDeleteInit.markDirtyFetchesNew;
+
+    this.loadByIdsService.init(this.entityDefinition.defaultRow);
+    if (this.entityDefinition.isInitialRow === true) {
+      const context = this;
+      asapScheduler.schedule(function watchInitialRowSchedule() {
+        ensureDataLoaded(
+          context.entityState.entityState(),
+          '1',
+          context.feature,
+          context.entity,
+        );
+      });
+    }
 
     return true;
   }
@@ -43,19 +88,22 @@ export class SignalsFacade<
    *
    * @param ids the ids to mark as dirty
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override markDirty(ids: string[]): void {
-    methodNotImplemented();
-  }
-
-  /**
-   * Mark Not Dirty for Signals
-   *
-   * @param id the id to mark as not dirty
-   */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
-  override markNotDirty(id: string): void {
-    methodNotImplemented();
+    const feature = this.feature;
+    const entity = this.entity;
+    if (!this.markDirtyFetchesNew) {
+      const entIds = this.entityState.entityState().entities as Record<
+        string,
+        SmartNgRXRowBase
+      >;
+      const idsIds = [] as SmartNgRXRowBase[];
+      forNext(ids, function markDirtyForNext(id) {
+        idsIds.push(entIds[id]);
+      });
+      entityRowsRegistry.register(feature, entity, idsIds);
+      return;
+    }
+    this.forceDirty(ids);
   }
 
   /**
@@ -63,9 +111,22 @@ export class SignalsFacade<
    *
    * @param ids the ids to force dirty
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override forceDirty(ids: string[]): void {
-    methodNotImplemented();
+    this.markDirtyWithEntities(this.entityState.entityState().entities, ids);
+  }
+
+  /**
+   * Mark Not Dirty for Signals
+   *
+   * @param id the id to mark as not dirty
+   */
+  override markNotDirty(id: string): void {
+    this.updateMany([
+      {
+        id,
+        changes: { isDirty: false },
+      },
+    ] as UpdateStr<T>[]);
   }
 
   /**
@@ -73,9 +134,11 @@ export class SignalsFacade<
    *
    * @param ids the ids to garbage collect
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override garbageCollect(ids: string[]): void {
-    methodNotImplemented();
+    this.garbageCollectWithEntities(
+      this.entityState.entityState().entities,
+      ids,
+    );
   }
 
   /**
@@ -83,9 +146,8 @@ export class SignalsFacade<
    *
    * @param ids the ids to remove
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override remove(ids: string[]): void {
-    methodNotImplemented();
+    this.entityState.remove(ids);
   }
 
   /**
@@ -94,9 +156,9 @@ export class SignalsFacade<
    * @param oldRow the old row
    * @param newRow the new row
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
-    methodNotImplemented();
+    this.optimisticUpdate(oldRow, newRow);
+    this.updateService.update(oldRow, newRow);
   }
 
   /**
@@ -104,9 +166,8 @@ export class SignalsFacade<
    *
    * @param changes the changes to update
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
-  override updateMany(changes: UpdateStr<SmartNgRXRowBase>[]): void {
-    methodNotImplemented();
+  override updateMany(changes: UpdateStr<T>[]): void {
+    this.entityState.updateMany(changes);
   }
 
   /**
@@ -116,15 +177,8 @@ export class SignalsFacade<
    * @param parentId the parent id
    * @param parentService the parent service
    */
-  override add(
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
-    row: SmartNgRXRowBase,
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
-    parentId: string,
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
-    parentService: FacadeBase,
-  ): void {
-    methodNotImplemented();
+  override add(row: T, parentId: string, parentService: FacadeBase): void {
+    this.addService.add(row, parentId, parentService);
   }
 
   /**
@@ -132,9 +186,34 @@ export class SignalsFacade<
    *
    * @param id the id to delete
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override delete(id: string): void {
-    methodNotImplemented();
+    let parentInfo = this.removeFromParents(id);
+
+    parentInfo = parentInfo.filter(function filterParentInfo(info) {
+      return info.ids.length > 0;
+    });
+    const effectService = serviceRegistry.get(
+      this.entityDefinition.effectServiceToken,
+    );
+    effectService
+      .delete(id)
+      .pipe(
+        catchError(function deleteEffectConcatMapCatchError(
+          error: unknown,
+          __,
+        ) {
+          handleError(
+            'Error deleting row, refreshing the parent row(s)',
+            error,
+          );
+          markFeatureParentsDirty({
+            id,
+            parentInfo,
+          });
+          return of();
+        }),
+      )
+      .subscribe();
   }
 
   /**
@@ -142,9 +221,8 @@ export class SignalsFacade<
    *
    * @param ids the ids to load
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override loadByIds(ids: string): void {
-    methodNotImplemented();
+    this.loadByIdsService.loadByIds(ids);
   }
 
   /**
@@ -152,9 +230,8 @@ export class SignalsFacade<
    *
    * @param ids the ids to load
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
   override loadByIdsPreload(ids: string[]): void {
-    methodNotImplemented();
+    this.loadByIdsService.loadByIdsPreload(ids);
   }
 
   /**
@@ -162,9 +239,8 @@ export class SignalsFacade<
    *
    * @param rows the rows to load
    */
-  // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
-  override loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    methodNotImplemented();
+  override loadByIdsSuccess(rows: T[]): void {
+    this.loadByIdsService.loadByIdsSuccess(rows);
   }
 
   /**
@@ -175,14 +251,11 @@ export class SignalsFacade<
    * @param index the index
    */
   override loadByIndexes(
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
     parentId: string,
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
     childField: string,
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
     index: number,
   ): void {
-    methodNotImplemented();
+    this.loadByIndexesService.loadByIndexes(parentId, childField, index);
   }
 
   /**
@@ -193,13 +266,134 @@ export class SignalsFacade<
    * @param array the array
    */
   override loadByIndexesSuccess(
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
     parentId: string,
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
     childField: string,
-    // eslint-disable-next-line unused-imports/no-unused-vars -- waiting for the implementation
     array: PartialArrayDefinition,
   ): void {
-    methodNotImplemented();
+    this.loadByIndexesService.loadByIndexesSuccess(
+      parentId,
+      childField,
+      array,
+    );
+  }
+
+  /**
+   * Upserts a row into the store
+   *
+   * @param row the row to upsert
+   */
+  override upsertRow(row: T): void {
+    this.entityState.upsert(row);
+  }
+
+  /**
+   * This saves the rows to the store
+   *
+   * @param rows the rows to save
+   */
+  storeRows(rows: T[]): void {
+    this.entityState.storeRows(rows);
+  }
+
+  /**
+   * removes the id from the child arrays of the parent rows
+   *
+   * @param id the id to remove
+   * @returns the parent info for each parent
+   */
+  private removeFromParents(id: string): ParentInfo[] {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    const parentInfo: ParentInfo[] = [];
+    forNext(
+      childDefinitions,
+      function removeFromParentsForNext(childDefinition) {
+        removeIdFromParentsSignals(childDefinition, id, parentInfo);
+      },
+    );
+    return parentInfo;
+  }
+
+  private markDirtyWithEntities<R extends SmartNgRXRowBase>(
+    entities: Record<string, R>,
+    ids: string[],
+  ): void {
+    const updates = ids
+      .filter(function filterMarkDirtyIds(id) {
+        return entities[id] !== undefined && entities[id].isEditing !== true;
+      })
+      .map(function mapMarkDirtyIds(id) {
+        const entityChanges: Partial<SmartNgRXRowBase> = {
+          isDirty: true,
+        };
+
+        return {
+          id,
+          changes: entityChanges,
+        } as UpdateStr<T>;
+      });
+    this.updateMany(updates);
+  }
+
+  private garbageCollectWithEntities<R extends SmartNgRXRowBase>(
+    entities: Record<string, R>,
+    ids: string[],
+  ): void {
+    const feature = this.feature;
+    const entity = this.entity;
+    let idsToRemove = ids.filter(function filterGarbageCollectIds(id) {
+      return entities[id] !== undefined && entities[id].isEditing !== true;
+    });
+    if (idsToRemove.length === 0) {
+      return;
+    }
+    idsToRemove = entityRowsRegistry.unregister(feature, entity, ids);
+    this.remove(idsToRemove);
+    // make sure we remove the virtualArray from the map AFTER
+    // we remove the row from the store
+    asapScheduler.schedule(function garbageCollectSchedule() {
+      idsToRemove.forEach(function garbageCollectForEach(id) {
+        virtualArrayMap.remove(feature, entity, id);
+      });
+    });
+  }
+
+  /**
+   * Optimistically updates the row in the store
+   * based on the diff between the old row and the new row
+   *
+   * @param oldRow the row before the changes
+   * @param newRow the row after the changes
+   */
+  private optimisticUpdate(
+    oldRow: SmartNgRXRowBase,
+    newRow: SmartNgRXRowBase,
+  ): void {
+    const changes: Record<string, unknown> = {};
+    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
+    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
+    Object.entries(newRowAsRecord).forEach(function updateForEach([
+      key,
+      value,
+    ]) {
+      if (value !== oldRowAsRecord[key]) {
+        changes[key] = value;
+      }
+    });
+    const id = this.selectId(oldRow as T);
+    this.updateMany([{ id: id.toString(), changes }] as UpdateStr<T>[]);
+  }
+
+  private initClasses(): void {
+    this.loadByIdsService = new LoadByIdsSignals(this);
+    this.updateService = new UpdateService<T>(
+      this.feature,
+      this.entity,
+      this.selectId as (row: T) => string,
+      this.loadByIdsSuccess.bind(this),
+    );
+    this.addService = new Add<T>(this);
   }
 }

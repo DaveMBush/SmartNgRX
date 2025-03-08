@@ -1,4 +1,3 @@
-import { EntityAdapter } from '@ngrx/entity';
 import { map, Observable, of, timer } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -8,11 +7,9 @@ import { childDefinitionRegistry } from '../../registrations/child-definition.re
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { store } from '../../smart-selector/store.function';
-import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { FacadeBase } from '../facade.base';
-import { actionFactory } from './action.factory';
 import { markParentsDirty } from './mark-parents-dirty.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
 
@@ -20,33 +17,33 @@ import { replaceIdInParents } from './replace-id-in-parents.function';
  * Class responsible for adding rows to the store
  */
 export class Add<T extends SmartNgRXRowBase> {
-  private actions!: ActionGroup;
-  private adapter!: EntityAdapter<T>;
+  private feature!: string;
+  private entity!: string;
+  private selectId!: (row: T) => string;
   private effectService!: EffectService<T>;
   /**
    * constructor
    *
    * @param feature the feature name
    * @param entity the entity name
-   * @param entityAdapter the entity adapter
+   * @param selectId the select id function
    */
   constructor(
-    private readonly feature: string,
-    private readonly entity: string,
-    private readonly entityAdapter: EntityAdapter<T>,
-  ) {}
+    private readonly facade: FacadeBase<T>,
+  ) {
+    this.feature = facade.feature;
+    this.entity = facade.entity;
+    this.selectId = facade.selectId;
+  }
 
   /**
    * initialized the class
    */
   init(): void {
-    this.actions = actionFactory(this.feature, this.entity);
     const entityDefinition = entityDefinitionRegistry(
       this.feature,
       this.entity,
     );
-    this.adapter =
-      entityDefinition.entityAdapter as unknown as EntityAdapter<T>;
     this.effectService = serviceRegistry.get<T>(
       entityDefinition.effectServiceToken,
     );
@@ -69,7 +66,7 @@ export class Add<T extends SmartNgRXRowBase> {
       parentFeature: parentService.feature,
       parentEntityName: parentService.entity,
     };
-    store().dispatch(this.actions.upsertRow({ row: actionPayload.row }));
+    this.facade.upsertRow(actionPayload.row);
 
     this.effectService
       .add(actionPayload.row)
@@ -84,16 +81,14 @@ export class Add<T extends SmartNgRXRowBase> {
             parentFeature: actionPayload.parentFeature,
             parentEntityName: actionPayload.parentEntityName,
           };
-          store().dispatch(
-            context.actions.upsertRow({ row: successPayload.newRow }),
-          );
+          context.facade.upsertRow(successPayload.newRow);
           // we want the garbage collection to happen well after the parent has refreshed
           // so that the system doesn't insert a dummy record while it is still in the
           // parent's child array.
           context.scheduleGarbageCollection(successPayload.oldRow);
-          const oldId = context.adapter.selectId(
+          const oldId = context.selectId(
             successPayload.oldRow,
-          ) as string;
+          );
           context.replaceIdInParents(oldId, successPayload.newRow.id);
         }),
         catchError(function addErrorHandler(
@@ -115,11 +110,7 @@ export class Add<T extends SmartNgRXRowBase> {
   scheduleGarbageCollection(oldRow: T): void {
     const context = this;
     timer(1000).subscribe(function addSuccessEffectTimerSubscribe() {
-      store().dispatch(
-        context.actions.remove({
-          ids: [context.adapter.selectId(oldRow) as string],
-        }),
-      );
+      context.facade.remove([context.selectId(oldRow)]);
     });
   }
 

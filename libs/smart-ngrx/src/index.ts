@@ -5,6 +5,7 @@ export * from './facades/classic-ngrx.facade/action.factory';
 export * from './providers/provide-smart-feature-entities.function';
 export * from './providers/provide-smart-ngrx.function';
 export * from './smart-selector/create-smart-selector.function';
+export * from './smart-signals/create-smart-signal.function';
 export * from './types/effect-service';
 export * from './types/row-proxy-delete.interface';
 export * from './types/smart-array.interface';

@@ -18,7 +18,7 @@ import { bufferIndexes } from './buffer-indexes.function';
  * This class is used to manage loading the child ids by
  * their location in the array.
  */
-export class LoadByIndexes {
+export class LoadByIndexesClassic {
   actions!: ActionGroup;
   entities!: Observable<Dictionary<SmartNgRXRowBase>>;
   private loadByIndexesSubject = new Subject<IndexProp>();

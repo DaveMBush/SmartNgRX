@@ -13,7 +13,7 @@ import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.funct
  * @param id the id of the row being deleted
  * @param parentInfo holds the parent feature, entity, and ids that are affected by the delete
  */
-export function removeIdFromParents(
+export function removeIdFromParentsClassic(
   childDefinition: ChildDefinition,
   id: string,
   parentInfo: ParentInfo[],

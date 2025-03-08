@@ -14,7 +14,7 @@ import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
-import { LoadByIds } from './load-by-ids.class';
+import { LoadByIdsClassic } from './load-by-ids-classic.class';
 
 interface SomeDataRow extends SmartNgRXRowBase {
   someData: string;
@@ -60,7 +60,7 @@ describe('LoadByIds', () => {
   const effectServiceToken = new InjectionToken<
     EffectService<SmartNgRXRowBase>
   >('testEffectService');
-  let loadByIds: LoadByIds;
+  let loadByIds: LoadByIdsClassic;
   let mockStore: MockStore;
   let actions: ActionGroup<SomeDataRow>;
   let mockEntities: BehaviorSubject<Record<string, SomeDataRow>>;
@@ -102,7 +102,11 @@ describe('LoadByIds', () => {
         return of(ids.map((id) => ({ id, someData: id }) as SomeDataRow));
       });
 
-    loadByIds = new LoadByIds('testFeature', 'testEntity', mockStore as Store);
+    loadByIds = new LoadByIdsClassic(
+      'testFeature',
+      'testEntity',
+      mockStore as Store,
+    );
     loadByIds.init(
       actions as unknown as ActionGroup,
       mockEntities.asObservable(),

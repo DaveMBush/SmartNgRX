@@ -20,8 +20,9 @@ import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { ActionGroup } from '../../types/action-group.interface';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { bufferIds } from './buffer-ids.function';
-import { defaultRows } from './default-rows.function';
+import { bufferIds } from '../classic-ngrx.facade/buffer-ids.function';
+import { defaultRows } from '../classic-ngrx.facade/default-rows.function';
+import { SignalsFacade } from '../signals-facade';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {
@@ -32,38 +33,29 @@ function notAPreloadId(c: string): boolean {
 /**
  * Manages the loading of rows by their Ids
  */
-export class LoadByIds {
-  private defaultRow!: (id: string) => SmartNgRXRowBase;
-  private actions!: ActionGroup;
+export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
+  private defaultRow!: (id: string) => T;
   private loadByIdsSubject = new Subject<string>();
-  private entities!: Observable<Dictionary<SmartNgRXRowBase>>;
+  private feature: string;
+  private entity: string;
   /**
    * The constructor for the LoadByIds class.
    *
-   * @param feature the name of the feature this class is for
-   * @param entity the name of the entity this class is for
-   * @param store the store to dispatch the actions to
+   * @param facade the signal facade that called this class
    */
-  constructor(
-    private feature: string,
-    private entity: string,
-    private store: Store,
-  ) {}
+  constructor(private facade: SignalsFacade<T>) {
+    this.feature = facade.feature;
+    this.entity = facade.entity;
+  }
 
   /**
    * Initializes the service with the actions and starts the dispatcher.
    *
-   * @param actions the actions to use
-   * @param entities the entities to check for loading
    * @param defaultRow the default row to use
    */
   init(
-    actions: ActionGroup,
-    entities: Observable<Dictionary<SmartNgRXRowBase>>,
-    defaultRow: (id: string) => SmartNgRXRowBase,
+    defaultRow: (id: string) => T,
   ): void {
-    this.actions = actions;
-    this.entities = entities;
     this.defaultRow = defaultRow;
     this.loadByIdsDispatcher();
   }
@@ -81,9 +73,9 @@ export class LoadByIds {
    * Dispatches the loadByIds action after buffering the ids.
    */
   loadByIdsDispatcher(): void {
-    const feature = this.feature;
-    const entityName = this.entity;
-    const actionService = facadeRegistry.register(feature, entityName);
+    const feature = this.facade.feature;
+    const entityName = this.facade.entity;
+    const actionService = this.facade;
 
     this.loadByIdsSubject
       .pipe(
@@ -91,10 +83,10 @@ export class LoadByIds {
         map(function loadByIdsDispatcherMap(ids) {
           return ids.filter(notAPreloadId);
         }),
-        withLatestFrom(this.entities),
-        mergeMap(function loadByIdsDispatcherSubscribe([ids, entity]) {
+        mergeMap(function loadByIdsDispatcherSubscribe(ids) {
+          const entities = actionService.entityState.entityMap();
           ids = ids.filter(function loadByIdsDispatcherFilter(id) {
-            return entity[id] === undefined || entity[id].isLoading !== true;
+            return entities[id] === undefined || entities[id].isLoading !== true;
           });
           if (ids.length === 0) {
             return of([]);
@@ -103,7 +95,7 @@ export class LoadByIds {
             entityDefinitionRegistry(feature, entityName).effectServiceToken,
           );
           actionService.loadByIdsPreload(ids);
-          return effectService.loadByIds(ids);
+          return effectService.loadByIds(ids) as Observable<T[]>;
         }),
         map(function loadByIdsSuccessMap(rows) {
           actionService.loadByIdsSuccess(rows);
@@ -126,23 +118,14 @@ export class LoadByIds {
    * @param ids the ids to load
    */
   loadByIdsPreload(ids: string[]): void {
-    const store = this.store;
-    const actions = this.actions;
     const defaultRow = this.defaultRow;
-    const feature = this.feature;
-    const thisEntity = this.entity;
-    this.entities
-      .pipe(take(1))
-      .subscribe(function loadByIdsPreloadSubscribe(entity) {
-        let rows = defaultRows(ids, entity, defaultRow);
-        // don't let virtual arrays get overwritten by the default row
-        rows = mergeRowsWithEntities(feature, thisEntity, rows, entity);
-        store.dispatch(
-          actions.storeRows({
-            rows,
-          }),
-        );
-      });
+    const feature = this.facade.feature;
+    const entity = this.facade.entity;
+    const entities = this.facade.entityState.entityMap();
+    let rows = defaultRows(ids, entities, defaultRow);
+    // don't let virtual arrays get overwritten by the default row
+    rows = mergeRowsWithEntities(feature, entity, rows, entities);
+    this.facade.storeRows(rows);
   }
 
   /**
@@ -150,27 +133,16 @@ export class LoadByIds {
    *
    * @param rows the rows to put in the store
    */
-  loadByIdsSuccess(rows: SmartNgRXRowBase[]): void {
-    const feature = this.feature;
-    const entity = this.entity;
-    const store = this.store;
-    const actions = this.actions;
-    let registeredRows = entityRowsRegistry.register(feature, entity, rows);
-    this.entities
-      .pipe(take(1))
-      .subscribe(function loadByIdsSuccessSubscribe(entities) {
+  loadByIdsSuccess(rows: T[]): void {
+    let registeredRows = entityRowsRegistry.register(this.feature, this.entity, rows);
+    const entities = this.facade.entityState.entityMap();
         // don't let virtual arrays get overwritten by the default row
-        registeredRows = mergeRowsWithEntities(
-          feature,
-          entity,
-          registeredRows,
-          entities,
-        );
-        store.dispatch(
-          actions.storeRows({
-            rows: registeredRows,
-          }),
-        );
-      });
+    registeredRows = mergeRowsWithEntities(
+      this.feature,
+      this.entity,
+      registeredRows,
+      entities,
+    );
+    this.facade.storeRows(registeredRows);
   }
 }

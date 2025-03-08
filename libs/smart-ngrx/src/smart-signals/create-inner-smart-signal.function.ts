@@ -1,5 +1,5 @@
 import { computed, Signal } from '@angular/core';
-import { EntityState } from '@ngrx/entity';
+import { Dictionary, EntityState } from '@ngrx/entity';
 
 import { SignalsFacade } from '../facades/signals-facade';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
@@ -8,6 +8,8 @@ import { convertChildrenToArrayProxy } from '../smart-selector/convert-children-
 import { convertChildrenToVirtualArray } from '../smart-selector/convert-children-to-virtual-array.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { EntityMap } from '@ngrx/signals/entities';
+import { entitySignalStoreFactory } from '../facades/signal-facade/entity-signal-store.factory';
 
 /**
  * This is an internal function used by `createSmartSignal`.
@@ -50,17 +52,15 @@ export function createInnerSmartSignal<
       childDefinition,
     );
     const parent = parentSignal();
+
     // find the child entity from the actionService
     const childService = facadeRegistry.register(
       childFeature,
       childEntity,
       true,
     ) as SignalsFacade<C>;
-    const entityStore = childService.entityStore;
-    const child = {
-      ids: entityStore.ids() as string[],
-      entities: entityStore.entityMap(),
-    };
+    const childState = childService.entityState;
+    const child = childState.entityState();
 
     convertChildrenToVirtualArray(
       parentFieldName,
@@ -77,6 +77,9 @@ export function createInnerSmartSignal<
     );
 
     // update the parent signal from parent
-    return parent;
+    return {
+      ids: parent.ids,
+      entities: parent.entities,
+    } as EntityState<P>;
   });
 }
