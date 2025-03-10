@@ -1,4 +1,18 @@
+import { computed } from '@angular/core';
 import { UpdateStr } from '@ngrx/entity/src/models';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import {
+  addEntity,
+  removeEntities,
+  updateEntity,
+  withEntities,
+} from '@ngrx/signals/entities';
 import { asapScheduler, catchError, of } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
@@ -21,11 +35,8 @@ import { Update as UpdateService } from './classic-ngrx.facade/update.class';
 import { FacadeBase } from './facade.base';
 import { entitySignalStoreFactory } from './signal-facade/entity-signal-store.factory';
 import { LoadByIdsSignals } from './signal-facade/load-by-ids-signals.class';
-import { removeIdFromParentsSignals } from './signal-facade/remove-id-from-parents-signals.function';
 import { LoadByIndexesSignals } from './signal-facade/load-by-indexes-signals.class';
-function methodNotImplemented(): never {
-  throw new Error('Method not implemented.');
-}
+import { removeIdFromParentsSignals } from './signal-facade/remove-id-from-parents-signals.function';
 
 /**
  * The SignalsFacade is the main interface for
@@ -39,7 +50,7 @@ export class SignalsFacade<
 
   override brand = 'signal' as const;
 
-  entityState = entitySignalStoreFactory(this);
+  entityState!: ReturnType<typeof entitySignalStoreFactory<T>>;
 
   /**
    * Initialization code for the facade
@@ -58,6 +69,7 @@ export class SignalsFacade<
     }
     this.entityDefinition = entityDefinitionRegistry(this.feature, this.entity);
     this.selectId = this.entityDefinition.selectId!;
+    this.entityState = entitySignalStoreFactory(this);
 
     this.initClasses();
 

@@ -38,27 +38,28 @@ export function createInnerSmartSignal<
   parentSignal: Signal<EntityState<P>>,
   childDefinition: ChildDefinition<P, C>,
 ): Signal<EntityState<P>> {
+  const {
+    childFeature,
+    childEntity,
+    parentFeature,
+    parentEntity,
+    parentField: parentFieldName,
+  } = childDefinition;
+  // find the child entity from the actionService
+  const childService = facadeRegistry.register(
+    childFeature,
+    childEntity,
+    true,
+  ) as SignalsFacade<C>;
+  childDefinitionRegistry.registerChildDefinition(
+    childFeature,
+    childEntity,
+    childDefinition,
+  );
+
   return computed(function createInnerSmartComputedSignal() {
-    const {
-      childFeature,
-      childEntity,
-      parentFeature,
-      parentEntity,
-      parentField: parentFieldName,
-    } = childDefinition;
-    childDefinitionRegistry.registerChildDefinition(
-      childFeature,
-      childEntity,
-      childDefinition,
-    );
     const parent = parentSignal();
 
-    // find the child entity from the actionService
-    const childService = facadeRegistry.register(
-      childFeature,
-      childEntity,
-      true,
-    ) as SignalsFacade<C>;
     const childState = childService.entityState;
     const child = childState.entityState();
 

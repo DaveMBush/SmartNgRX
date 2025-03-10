@@ -55,7 +55,7 @@ export function createSmartSignal<
     isSignal(p1) &&
     Array.isArray(p2)
   ) {
-    const parentSignal = p1 as Signal<EntityState<P>>;
+    const parentSignal = p1;
     const children = p2;
     return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);
   }

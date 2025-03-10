@@ -29,19 +29,22 @@ export function entitySignalStoreFactory<T extends SmartNgRXRowBase>(
   signalFacade: SignalsFacade<T>,
 ) {
   const signalDefinition = signalStore(
+    // Base state
     withState({}),
     withEntities<T>(),
-    withMethods(function withMethodsFunction(store) {
+
+    // Core state modification methods
+    withMethods(function defineCoreMethods(store) {
       return {
-        updateMany: function updateMany(changes: Update<T>[]) {
-          forNext(changes, function updateManyForNext(change) {
+        updateMany: function updateManyMethod(changes: Update<T>[]) {
+          forNext(changes, function applyUpdate(change) {
             patchState(store, updateEntity(change));
           });
         },
-        remove: function remove(ids: string[]) {
+        remove: function removeMethod(ids: string[]) {
           patchState(store, removeEntities(ids));
         },
-        upsert: function upsert(row: T) {
+        upsert: function upsertMethod(row: T) {
           const id = signalFacade.selectId(row);
           const hasId = id in store.entityMap();
           if (hasId) {
@@ -52,18 +55,21 @@ export function entitySignalStoreFactory<T extends SmartNgRXRowBase>(
         },
       };
     }),
-    withMethods(function withMethodsFunction2(store) {
+
+    // Additional methods that depend on core methods
+    withMethods(function defineHelperMethods(store) {
       return {
-        storeRows: function storeRows(rows: T[]) {
-          forNext(rows, function storeRowsForNext(row) {
+        storeRows: function storeRowsMethod(rows: T[]) {
+          forNext(rows, function storeRow(row) {
             store.upsert(row);
           });
         },
       };
     }),
-    withComputed(function withComputedFunction(store) {
+    // Computed signals
+    withComputed(function computeEntityState(store) {
       return {
-        entityState: computed(function entityState() {
+        entityState: computed(function computeState() {
           return {
             ids: store.ids() as string[],
             entities: store.entityMap(),
@@ -72,5 +78,6 @@ export function entitySignalStoreFactory<T extends SmartNgRXRowBase>(
       };
     }),
   );
+
   return new signalDefinition();
 }
