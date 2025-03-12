@@ -24,9 +24,9 @@ export function convertSignalChildrenToArrayProxy<
   childDefinition: ChildDefinition<P, C>,
 ): EntityState<P> {
   const returnEntity = {
-    ids: parentEntity.ids,
-    entities: parentEntity.entities,
-  };
+    ids: [...parentEntity.ids],
+    entities: { ...parentEntity.entities },
+  } as EntityState<P>;
 
   forNext(
     parentEntity.ids as string[],
