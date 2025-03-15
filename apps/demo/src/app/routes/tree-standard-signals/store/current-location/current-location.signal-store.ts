@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 
 import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
 import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
+import { selectLocations } from '../locations/selectors/select-locations.selector';
 
 export const currentLocationSignalStore = signalStore(
   { providedIn: 'root' },
@@ -29,17 +30,16 @@ export const currentLocationSignalStore = signalStore(
   }),
   withComputed(function computedFunction(
     { currentLocationId },
-    s = inject(Store),
   ) {
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
-          const locationEntities = s.selectSignal(selectLocationEntities)();
+          const locations= selectLocations();
           if (currentLocationId().length > 0) {
             return currentLocationId();
           }
-          if (locationEntities.ids.length > 0) {
-            return locationEntities.ids[0] as string;
+          if (locations.length > 0 && typeof locations[0] === 'object') {
+            return locations[0].id;
           }
           return '';
         },

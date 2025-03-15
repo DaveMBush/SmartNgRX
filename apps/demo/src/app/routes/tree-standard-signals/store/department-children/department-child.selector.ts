@@ -1,10 +1,6 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSignal } from '@smarttools/smart-ngrx';
 
-import { selectTreeStandardSignalsState } from '../selectors/select-tree-standard-signals-state.selectors';
+import { DepartmentChild } from '../../../../shared/department-children/department-child.interface';
+import { featureName } from '../../feature.const';
 
-export const selectDepartmentChildren = createSelector(
-  selectTreeStandardSignalsState,
-  function selectDepartmentChildrenFunction(state) {
-    return state.departmentChildren;
-  },
-);
+export const selectDepartmentChildren = createSmartSignal<DepartmentChild>(featureName, 'departmentChildren');

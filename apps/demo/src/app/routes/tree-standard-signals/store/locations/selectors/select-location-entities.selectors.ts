@@ -1,10 +1,5 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSignal } from '@smarttools/smart-ngrx';
 
-import { selectTreeStandardSignalsState } from '../../selectors/select-tree-standard-signals-state.selectors';
-
-export const selectLocationEntities = createSelector(
-  selectTreeStandardSignalsState,
-  function selectLocationEntitiesFunction(state) {
-    return state.locations;
-  },
-);
+import { Location } from '../../../../../shared/locations/location.interface';
+import { featureName } from '../../../feature.const';
+export const selectLocationEntities = createSmartSignal<Location>(featureName, 'locations');

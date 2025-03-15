@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
 } from '@angular/core';
@@ -27,7 +28,14 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
 export class TreeComponent implements OnInit {
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
-  locations: Observable<Location[]> = of([]);
+  locations$ = computed(function computedLocations$() {
+    const locations = selectLocations();
+    if (locations.length > 0 && typeof locations[0] === 'object') {
+      return locations as Location[];
+    }
+    return [];
+  });
+  
   location$ = selectCurrentLocationSignal;
   constructor(private store: Store) {}
 
@@ -36,7 +44,6 @@ export class TreeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.locations = this.store.select(selectLocations);
   }
 }
 // jscpd:ignore-end

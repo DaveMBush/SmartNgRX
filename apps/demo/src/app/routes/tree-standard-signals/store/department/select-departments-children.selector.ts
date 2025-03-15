@@ -1,12 +1,12 @@
 // jscpd:ignore-start
 // intentionally duplicated.
-import { createSmartSelector } from '@smarttools/smart-ngrx';
+import { createSmartSignal } from '@smarttools/smart-ngrx';
 
 import { featureName } from '../../feature.const';
 import { selectDepartmentChildren } from '../department-children/department-child.selector';
 import { selectDepartments } from './select-departments.selector';
 
-export const selectDepartmentsChildren = createSmartSelector(
+export const selectDepartmentsChildren = createSmartSignal(
   // parent table selector
   selectDepartments,
   [
