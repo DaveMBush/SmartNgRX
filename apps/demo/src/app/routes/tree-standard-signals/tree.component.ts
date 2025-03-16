@@ -8,8 +8,6 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
 
 import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { Location } from '../../shared/locations/location.interface';
@@ -24,8 +22,9 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [currentLocationSignalStore],
 })
-export class TreeComponent implements OnInit {
+export class TreeComponent {
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
   locations$ = computed(function computedLocations$() {
@@ -35,15 +34,11 @@ export class TreeComponent implements OnInit {
     }
     return [];
   });
-  
+
   location$ = selectCurrentLocationSignal;
-  constructor(private store: Store) {}
 
   locationChanged(event: string): void {
     this.currentLocationSignalStore.setCurrentLocationId(event);
-  }
-
-  ngOnInit(): void {
   }
 }
 // jscpd:ignore-end

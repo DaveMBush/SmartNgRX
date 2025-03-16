@@ -1,18 +1,4 @@
-import { computed } from '@angular/core';
 import { UpdateStr } from '@ngrx/entity/src/models';
-import {
-  patchState,
-  signalStore,
-  withComputed,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
-import {
-  addEntity,
-  removeEntities,
-  updateEntity,
-  withEntities,
-} from '@ngrx/signals/entities';
 import { asapScheduler, catchError, of } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
@@ -62,9 +48,12 @@ export class SignalsFacade<
       return true;
     }
     this.initCalled = true;
-
+    console.log('init', this.feature, this.entity);
     // init code as needed here
     if (!featureRegistry.hasFeature(this.feature)) {
+      console.error(
+        `Feature ${this.feature} not found when called using ${this.entity}`,
+      );
       return false;
     }
     this.entityDefinition = entityDefinitionRegistry(this.feature, this.entity);

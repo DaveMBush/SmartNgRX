@@ -21,7 +21,7 @@ export function processMarkAndDelete(
   }
   requestIdleCallback(
     function processMarkAndDeleteCallback() {
-      if (!facadeRegistry.hasActionService(featureKey, entity)) {
+      if (!facadeRegistry.hasFacade(featureKey, entity)) {
         return;
       }
       const actionService = facadeRegistry.register(featureKey, entity);

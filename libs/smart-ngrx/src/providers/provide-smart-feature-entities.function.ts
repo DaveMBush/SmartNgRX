@@ -56,6 +56,7 @@ export function provideSmartFeatureEntities(
       );
       const { entityName, effectServiceToken } = entityDefinition;
       if (!featureRegistry.hasFeature(featureName)) {
+        console.log('registerFeature', featureName);
         featureRegistry.registerFeature(featureName);
       }
 

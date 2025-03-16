@@ -7,6 +7,7 @@ export const standardSignalsLocationsDefinition: SmartEntityDefinition<Location>
   {
     entityName: 'locations',
     effectServiceToken: locationEffectsServiceToken,
+    isSignal: true,
     defaultRow: function standardLocationsDefaultRowFunction(id) {
       return {
         id,

@@ -1,4 +1,4 @@
-import { computed, inject } from '@angular/core';
+import { computed } from '@angular/core';
 import {
   patchState,
   signalStore,
@@ -6,14 +6,11 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Store } from '@ngrx/store';
 
-import { selectLocationEntities } from '../locations/selectors/select-location-entities.selectors';
-import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
 import { selectLocations } from '../locations/selectors/select-locations.selector';
+import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
 
 export const currentLocationSignalStore = signalStore(
-  { providedIn: 'root' },
   withState({
     currentLocationId: '',
   } as TreeStandardSignalsState2),
@@ -28,13 +25,11 @@ export const currentLocationSignalStore = signalStore(
       },
     };
   }),
-  withComputed(function computedFunction(
-    { currentLocationId },
-  ) {
+  withComputed(function computedFunction({ currentLocationId }) {
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
-          const locations= selectLocations();
+          const locations = selectLocations();
           if (currentLocationId().length > 0) {
             return currentLocationId();
           }

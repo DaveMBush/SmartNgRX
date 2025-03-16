@@ -42,7 +42,7 @@ export function handleSocketNotification(
 
 function featureIsRegistered(table: string) {
   return function innerFeatureIsRegistered(feature: string): boolean {
-    return facadeRegistry.hasActionService(feature, table);
+    return facadeRegistry.hasFacade(feature, table);
   };
 }
 

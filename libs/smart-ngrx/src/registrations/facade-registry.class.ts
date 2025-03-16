@@ -6,12 +6,14 @@ import { SignalsFacade } from '../facades/signals-facade';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class FacadeRegistry {
-  actionServiceMap = new Map<string, FacadeBase>();
+  facadeMap = new Map<string, FacadeBase>();
+
   /**
    * mechanism for getting the ActionService object/class for a given feature and entity
    *
    * @param feature the feature
    * @param entity the entity
+   * @param isSignal whether the facade is a signal facade. default is false
    * @returns the ActionService object/class for the given feature and entity
    */
   register<T extends SmartNgRXRowBase>(
@@ -20,20 +22,20 @@ class FacadeRegistry {
     isSignal: boolean = false,
   ): FacadeBase<T> {
     const key = `${feature}${psi}${entity}`;
-    let actionServiceCache = this.actionServiceMap.get(key);
-    if (actionServiceCache === undefined) {
-      actionServiceCache = isSignal
+    let facadeCache = this.facadeMap.get(key);
+    if (facadeCache === undefined) {
+      facadeCache = isSignal
         ? new SignalsFacade(feature, entity)
         : new ClassicNgrxFacade(feature, entity);
-      this.actionServiceMap.set(key, actionServiceCache);
-      assert(actionServiceCache.init(), 'ActionService init failed');
+      this.facadeMap.set(key, facadeCache);
+      assert(facadeCache.init(), 'ActionService init failed');
     }
-    return actionServiceCache as unknown as FacadeBase<T>;
+    return facadeCache as unknown as FacadeBase<T>;
   }
 
-  hasActionService(feature: string, entity: string): boolean {
+  hasFacade(feature: string, entity: string): boolean {
     const key = `${feature}${psi}${entity}`;
-    return this.actionServiceMap.has(key);
+    return this.facadeMap.has(key);
   }
 
   /**
@@ -41,7 +43,7 @@ class FacadeRegistry {
    * between unit tests
    */
   clear(): void {
-    this.actionServiceMap.clear();
+    this.facadeMap.clear();
   }
 }
 
