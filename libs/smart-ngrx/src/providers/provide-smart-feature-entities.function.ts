@@ -1,4 +1,8 @@
-import { EnvironmentProviders, importProvidersFrom } from '@angular/core';
+import {
+  EnvironmentProviders,
+  importProvidersFrom,
+  Provider,
+} from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 
@@ -34,13 +38,14 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  * in standard NgRX code.
  * @param entityDefinitions An array of entity definitions.
  * @returns `EnvironmentProviders` that will get used to provide the NgRX reducer and effect for this slice.
+ * Returns an empty array if there are no reducers (e.g., when using signals).
  *
  * @see `EntityDefinition`
  */
 export function provideSmartFeatureEntities(
   featureName: string,
   entityDefinitions: SmartEntityDefinition<SmartNgRXRowBase>[],
-): EnvironmentProviders {
+): EnvironmentProviders | Provider[] {
   const reducers: Record<
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
@@ -86,5 +91,5 @@ export function provideSmartFeatureEntities(
   if (Object.keys(reducers).length > 0) {
     return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
   }
-  return {} as EnvironmentProviders;
+  return [];
 }

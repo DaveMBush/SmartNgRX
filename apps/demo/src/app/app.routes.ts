@@ -152,7 +152,7 @@ export const appRoutes: Routes = [
         standardSignalsTopDefinition,
         standardSignalsLocationsDefinition,
         standardSignalsDepartmentsDefinition,
-        //standardSignalsDepartmentChildrenDefinition,
+        standardSignalsDepartmentChildrenDefinition,
       ]),
     ],
   },
