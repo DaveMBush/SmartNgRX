@@ -11,6 +11,7 @@ import { selectLocations } from '../locations/selectors/select-locations.selecto
 import { TreeStandardSignalsState2 } from '../tree-standard-signals-state2.interface';
 
 export const currentLocationSignalStore = signalStore(
+  { providedIn: 'root' },
   withState({
     currentLocationId: '',
   } as TreeStandardSignalsState2),
@@ -26,10 +27,12 @@ export const currentLocationSignalStore = signalStore(
     };
   }),
   withComputed(function computedFunction({ currentLocationId }) {
+    const locationsSignal = selectLocations();
+
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
-          const locations = selectLocations();
+          const locations = locationsSignal();
           if (currentLocationId().length > 0) {
             return currentLocationId();
           }

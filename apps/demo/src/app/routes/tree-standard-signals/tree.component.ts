@@ -25,12 +25,14 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
   providers: [currentLocationSignalStore],
 })
 export class TreeComponent {
+  selectLocations = selectLocations();// factory function that returns the real signal
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
-  locations$ = computed(function computedLocations$() {
-    const locations = selectLocations();
+  // eslint-disable-next-line @smarttools/no-anonymous-functions -- need fat arrow to be able to see this
+  locations$ = computed(() => {
+    const locations = this.selectLocations();
     if (locations.length > 0 && typeof locations[0] === 'object') {
-      return locations as Location[];
+      return locations;
     }
     return [];
   });
