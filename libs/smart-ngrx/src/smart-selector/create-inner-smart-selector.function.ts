@@ -66,11 +66,6 @@ export function createInnerSmartSelector<
           parentEntity,
         );
 
-        // if child is a function
-        if (typeof child === 'function') {
-          child = child();
-        }
-
         convertChildrenToArrayProxy(
           newParentEntity,
           parentFieldName,

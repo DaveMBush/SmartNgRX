@@ -12,16 +12,16 @@ import { createInnerSmartSignal } from './create-inner-smart-signal.function';
 export function createSmartSignal<P extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
-): () => Signal<EntityState<P>>;
+): Signal<EntityState<P>>;
 
 // Second overload - now accepts a parent signal factory
 export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
 >(
-  parent: () => Signal<EntityState<P>>,
+  parent: Signal<EntityState<P>>,
   children: ChildDefinition<P, T>[],
-): () => Signal<EntityState<P>>;
+): Signal<EntityState<P>>;
 
 /**
  * Creates a smart signal that can be used to create a signal for a
@@ -40,42 +40,37 @@ export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
 >(
-  p1: string | (() => Signal<EntityState<P>>),
+  p1: Signal<EntityState<P>> | string,
   p2: ChildDefinition<P, T>[] | string,
-): () => Signal<EntityState<P>> {
+): Signal<EntityState<P>> {
   // Handle the feature/entity case (first overload)
   if (typeof p1 === 'string' && typeof p2 === 'string') {
     const feature = p1;
     const entity = p2;
 
-    return function createEntityStateSignal(): Signal<EntityState<P>> {
-      const facade = facadeRegistry.register(
-        feature,
-        entity,
-        true,
-      ) as SignalsFacade<P>;
+    const facade = facadeRegistry.register(
+      feature,
+      entity,
+      true,
+    ) as SignalsFacade<P>;
 
-      // Create new signal
-      const parentSignal = computed(function entityStateAdapter() {
-        return {
-          ids: facade.entityState.ids(),
-          entities: facade.entityState.entityMap(),
-        } as EntityState<P>;
-      });
+    // Create new signal
+    const parentSignal = computed(function entityStateAdapter() {
+      return {
+        ids: facade.entityState.ids(),
+        entities: facade.entityState.entityMap(),
+      } as EntityState<P>;
+    });
 
-      return parentSignal;
-    };
+    return parentSignal;
   }
 
   // Handle parent/child case (second overload) - now handles parent signal factory
-  if (typeof p1 === 'function' && Array.isArray(p2)) {
-    const parentSignalFactory = p1;
+  if (typeof p1 === 'object' && Array.isArray(p2)) {
+    const parentSignal = p1;
     const children = p2;
 
-    return function createChildEntityStateSignal(): Signal<EntityState<P>> {
-      const parentSignal = parentSignalFactory();
-      return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);
-    };
+    return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);
   }
 
   throw new Error('Invalid arguments');

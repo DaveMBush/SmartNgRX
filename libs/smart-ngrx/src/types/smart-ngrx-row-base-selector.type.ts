@@ -12,4 +12,4 @@ import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
  */
 export type SmartNgRXRowBaseSelector<T extends SmartNgRXRowBase> =
   | MemoizedSelector<object, EntityState<T>, DefaultProjectorFn<EntityState<T>>>
-  | (() => Signal<EntityState<T>>);
+  | Signal<EntityState<T>>;
