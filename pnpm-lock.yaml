@@ -64,7 +64,7 @@ importers:
         version: 19.1.0(f7bbn6lfsyfdaoh5t5ra6wrj2e)
       '@ng-doc/builder':
         specifier: 19.1.0
-        version: 19.1.0(z2rufmluk6mvyxnobbq77pn4tq)
+        version: 19.1.0(a36slspqvrzbiprnfrluvzktxe)
       '@ng-doc/core':
         specifier: 19.1.0
         version: 19.1.0
@@ -88,7 +88,7 @@ importers:
         version: 19.0.0(@angular/core@19.1.6(rxjs@7.8.2)(zone.js@0.15.0))(@ngrx/store@19.0.0(@angular/core@19.1.6(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(rxjs@7.8.2)
       '@nx/angular':
         specifier: 20.4.6
-        version: 20.4.6(@angular-devkit/build-angular@19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m))(@angular-devkit/core@19.1.7)(@angular-devkit/schematics@19.1.7)(@babel/traverse@7.26.10)(@rspack/core@1.1.6(@swc/helpers@0.5.15))(@schematics/angular@19.1.4)(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(@types/node@22.10.6)(@zkochan/js-yaml@0.0.7)(esbuild@0.25.0)(eslint@9.21.0(jiti@1.21.0))(nx@20.4.6(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.7.3)
+        version: 20.4.6(@angular-devkit/build-angular@19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m))(@angular-devkit/core@19.2.3)(@angular-devkit/schematics@19.1.7)(@babel/traverse@7.26.10)(@rspack/core@1.1.6(@swc/helpers@0.5.15))(@schematics/angular@19.1.4)(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(@types/node@22.10.6)(@zkochan/js-yaml@0.0.7)(esbuild@0.25.0)(eslint@9.21.0(jiti@1.21.0))(nx@20.4.6(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.7.3)
       '@prisma/client':
         specifier: ^6.4.1
         version: 6.4.1(prisma@6.2.1)(typescript@5.7.3)
@@ -145,8 +145,8 @@ importers:
         specifier: ~19.1.7
         version: 19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m)
       '@angular-devkit/core':
-        specifier: ~19.1.7
-        version: 19.1.7
+        specifier: ~19.2.3
+        version: 19.2.3
       '@angular-devkit/schematics':
         specifier: ~19.1.7
         version: 19.1.7
@@ -473,6 +473,15 @@ packages:
 
   '@angular-devkit/core@19.1.7':
     resolution: {integrity: sha512-q0I6L9KTqyQ7D5M8H+fWLT+yjapvMNb7SRdfU6GzmexO66Dpo83q4HDzuDKIPDF29Yl0ELs9ICJqe9yUXh6yDQ==}
+    engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
+    peerDependencies:
+      chokidar: ^4.0.0
+    peerDependenciesMeta:
+      chokidar:
+        optional: true
+
+  '@angular-devkit/core@19.2.3':
+    resolution: {integrity: sha512-53trlqWu9/grXImOPascS0HcJhzRQfQeeMCTbEKQkxEkKTQPm1/lFQMEQZALigmync8GrkQhFlJ05I4Zhrjk3A==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
       chokidar: ^4.0.0
@@ -6163,8 +6172,8 @@ packages:
   fast-safe-stringify@2.1.1:
     resolution: {integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==}
 
-  fast-uri@3.0.1:
-    resolution: {integrity: sha512-MWipKbbYiYI0UC7cl8m/i/IWTqfC8YXsqjzybjddLsFjStroQzsHXkc73JutMvBiXmOvapk+axIl79ig5t55Bw==}
+  fast-uri@3.0.6:
+    resolution: {integrity: sha512-Atfo14OibSv5wAp4VWNsFYE1AchQRTv9cBGWET4pZWHzYshFSS9NQI6I57rdKn9croWVMbYFbLhJ+yJvmZIIHw==}
 
   fastq@1.17.1:
     resolution: {integrity: sha512-sRVD3lWVIXWg6By68ZN7vho9a1pQcN/WBFaAAsDDFzlJjvoGx0P8z7V1t72grFJfJhu3YPZBuu25f7Kaw2jN1w==}
@@ -11088,6 +11097,15 @@ snapshots:
       rxjs: 7.8.1
       source-map: 0.7.4
 
+  '@angular-devkit/core@19.2.3':
+    dependencies:
+      ajv: 8.17.1
+      ajv-formats: 3.0.1(ajv@8.17.1)
+      jsonc-parser: 3.3.1
+      picomatch: 4.0.2
+      rxjs: 7.8.1
+      source-map: 0.7.4
+
   '@angular-devkit/schematics@16.0.1':
     dependencies:
       '@angular-devkit/core': 16.0.1
@@ -14747,7 +14765,7 @@ snapshots:
       - '@tinkoff/ng-polymorpheus'
       - supports-color
 
-  '@ng-doc/builder@19.1.0(z2rufmluk6mvyxnobbq77pn4tq)':
+  '@ng-doc/builder@19.1.0(a36slspqvrzbiprnfrluvzktxe)':
     dependencies:
       '@angular-devkit/architect': 0.1900.6
       '@angular-devkit/build-angular': 19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m)
@@ -14766,7 +14784,7 @@ snapshots:
       gray-matter: 4.0.3
       marked: 12.0.1
       minimatch: 9.0.1
-      ng-morph: 4.0.3(@angular-devkit/core@19.1.7)(@angular-devkit/schematics@19.1.7)
+      ng-morph: 4.0.3(@angular-devkit/core@19.2.3)(@angular-devkit/schematics@19.1.7)
       nunjucks: 3.2.4
       parsimmon: 1.18.1
       posthtml-parser: 0.11.0
@@ -14999,10 +15017,10 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@nx/angular@20.4.6(@angular-devkit/build-angular@19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m))(@angular-devkit/core@19.1.7)(@angular-devkit/schematics@19.1.7)(@babel/traverse@7.26.10)(@rspack/core@1.1.6(@swc/helpers@0.5.15))(@schematics/angular@19.1.4)(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(@types/node@22.10.6)(@zkochan/js-yaml@0.0.7)(esbuild@0.25.0)(eslint@9.21.0(jiti@1.21.0))(nx@20.4.6(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.7.3)':
+  '@nx/angular@20.4.6(@angular-devkit/build-angular@19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m))(@angular-devkit/core@19.2.3)(@angular-devkit/schematics@19.1.7)(@babel/traverse@7.26.10)(@rspack/core@1.1.6(@swc/helpers@0.5.15))(@schematics/angular@19.1.4)(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/helpers@0.5.15)(@types/node@22.10.6)(@zkochan/js-yaml@0.0.7)(esbuild@0.25.0)(eslint@9.21.0(jiti@1.21.0))(nx@20.4.6(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)(typescript@5.7.3)':
     dependencies:
       '@angular-devkit/build-angular': 19.1.7(e6ugtbwzlb5woejjkqp2d3wh4m)
-      '@angular-devkit/core': 19.1.7
+      '@angular-devkit/core': 19.2.3
       '@angular-devkit/schematics': 19.1.7
       '@nx/devkit': 20.4.6(nx@20.4.6(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15)))
       '@nx/eslint': 20.4.6(@babel/traverse@7.26.10)(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15))(@types/node@22.10.6)(@zkochan/js-yaml@0.0.7)(eslint@9.21.0(jiti@1.21.0))(nx@20.4.6(@swc-node/register@1.10.9(@swc/core@1.10.8(@swc/helpers@0.5.15))(@swc/types@0.1.17)(typescript@5.7.3))(@swc/core@1.10.8(@swc/helpers@0.5.15)))
@@ -16716,7 +16734,7 @@ snapshots:
   ajv@8.17.1:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.0.1
+      fast-uri: 3.0.6
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -19090,7 +19108,7 @@ snapshots:
 
   fast-safe-stringify@2.1.1: {}
 
-  fast-uri@3.0.1: {}
+  fast-uri@3.0.6: {}
 
   fastq@1.17.1:
     dependencies:
@@ -21617,9 +21635,9 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  ng-morph@4.0.3(@angular-devkit/core@19.1.7)(@angular-devkit/schematics@19.1.7):
+  ng-morph@4.0.3(@angular-devkit/core@19.2.3)(@angular-devkit/schematics@19.1.7):
     dependencies:
-      '@angular-devkit/core': 19.1.7
+      '@angular-devkit/core': 19.2.3
       '@angular-devkit/schematics': 19.1.7
       jsonc-parser: 3.2.0
       minimatch: 9.0.3
