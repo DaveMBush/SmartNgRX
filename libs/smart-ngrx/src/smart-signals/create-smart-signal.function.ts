@@ -50,8 +50,7 @@ export function createSmartSignal<
 
     const facade = facadeRegistry.register(
       feature,
-      entity,
-      true,
+      entity
     ) as SignalsFacade<P>;
 
     // Create new signal

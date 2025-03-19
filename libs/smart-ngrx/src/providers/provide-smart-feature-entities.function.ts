@@ -1,6 +1,7 @@
 import {
   EnvironmentProviders,
   importProvidersFrom,
+  InjectionToken,
   Provider,
 } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
@@ -16,6 +17,8 @@ import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { psi } from '../common/psi.const';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
@@ -50,6 +53,7 @@ export function provideSmartFeatureEntities(
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
+  const signalProviders: Provider[] = [];
 
   forNext(
     entityDefinitions,
@@ -61,7 +65,6 @@ export function provideSmartFeatureEntities(
       );
       const { entityName, effectServiceToken } = entityDefinition;
       if (!featureRegistry.hasFeature(featureName)) {
-        console.log('registerFeature', featureName);
         featureRegistry.registerFeature(featureName);
       }
 
@@ -79,6 +82,15 @@ export function provideSmartFeatureEntities(
         // with the same interface as the actionService
         const reducer = reducerFactory(featureName, entityName);
         reducers[entityName] = reducer;
+      } else {
+        signalProviders.push({
+          provide: new InjectionToken(
+            `SignalStore_${featureName}${psi}${entityName}`,
+          ),
+          useFactory: function signalProviderFactory() {
+            facadeRegistry.register(featureName, entityName, true);
+          },
+        });
       }
 
       void unpatchedPromise
@@ -91,5 +103,5 @@ export function provideSmartFeatureEntities(
   if (Object.keys(reducers).length > 0) {
     return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
   }
-  return [];
+  return signalProviders;
 }

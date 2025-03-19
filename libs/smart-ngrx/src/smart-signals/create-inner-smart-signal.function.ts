@@ -46,8 +46,7 @@ export function createInnerSmartSignal<
   // find the child entity from the actionService
   const childService = facadeRegistry.register(
     childFeature,
-    childEntity,
-    true,
+    childEntity
   ) as SignalsFacade<C>;
   childDefinitionRegistry.registerChildDefinition(
     childFeature,
