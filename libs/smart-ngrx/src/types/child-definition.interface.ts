@@ -4,7 +4,7 @@ import { SmartNgRXRowBaseSelector } from './smart-ngrx-row-base-selector.type';
 /**
  * The definition of how to access the child data from a parent entity.
  */
-export interface ChildDefinition<
+interface NgRXChildDefinition<
   P extends SmartNgRXRowBase = SmartNgRXRowBase,
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
@@ -38,3 +38,22 @@ export interface ChildDefinition<
    */
   parentEntity: string;
 }
+
+type SmartSignalChildDefinition<
+  P extends SmartNgRXRowBase = SmartNgRXRowBase,
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+> = Omit<NgRXChildDefinition<P, T>, 'childSelector'>;
+
+interface NgRXType {
+  type: 'NgRX';
+}
+
+interface SignalType {
+  type: 'Signal';
+}
+
+export type ChildDefinition<
+  P extends SmartNgRXRowBase = SmartNgRXRowBase,
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+  > = NgRXChildDefinition<P, T> & NgRXType
+    | SignalType & SmartSignalChildDefinition<P, T>;

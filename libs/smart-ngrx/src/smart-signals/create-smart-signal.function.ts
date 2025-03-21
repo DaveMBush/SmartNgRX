@@ -7,6 +7,7 @@ import { facadeRegistry } from '../registrations/facade-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
+import { assert } from '../common/assert.function';
 
 // First overload - returns a function that creates the signal when called
 export function createSmartSignal<P extends SmartNgRXRowBase>(
@@ -19,7 +20,6 @@ export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
 >(
-  parent: Signal<EntityState<P>>,
   children: ChildDefinition<P, T>[],
 ): Signal<EntityState<P>>;
 
@@ -39,19 +39,13 @@ export function createSmartSignal<
 export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
->(
-  p1: Signal<EntityState<P>> | string,
-  p2: ChildDefinition<P, T>[] | string,
-): Signal<EntityState<P>> {
+>(p1: ChildDefinition<P, T>[] | string, p2?: string): Signal<EntityState<P>> {
   // Handle the feature/entity case (first overload)
   if (typeof p1 === 'string' && typeof p2 === 'string') {
     const feature = p1;
     const entity = p2;
 
-    const facade = facadeRegistry.register(
-      feature,
-      entity
-    ) as SignalsFacade<P>;
+    const facade = facadeRegistry.register(feature, entity) as SignalsFacade<P>;
 
     // Create new signal
     const parentSignal = computed(function entityStateAdapter() {
@@ -65,9 +59,29 @@ export function createSmartSignal<
   }
 
   // Handle parent/child case (second overload) - now handles parent signal factory
-  if (typeof p1 === 'object' && Array.isArray(p2)) {
-    const parentSignal = p1;
-    const children = p2;
+  if (p2 === undefined && Array.isArray(p1)) {
+    const children = p1;
+
+    // verify that the parentFeature and parentEntity are the same for all children
+    const parentFeature = children[0].parentFeature;
+    const parentEntity = children[0].parentEntity;
+    const allSame = children.every(function childHasSameParent(child) {
+      return (
+        child.parentFeature === parentFeature &&
+        child.parentEntity === parentEntity
+      );
+    });
+    assert(
+      allSame,
+      'All children must have the same parentFeature and parentEntity',
+    );
+
+    // find the parent entity from the actionService
+    const parentService = facadeRegistry.register(
+      parentFeature,
+      parentEntity,
+    ) as SignalsFacade<P>;
+    const parentSignal = parentService.entityState.entityState;
 
     return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);
   }

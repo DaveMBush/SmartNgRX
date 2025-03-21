@@ -11,6 +11,7 @@ export const selectDepartmentsChildren = createSmartSelector(
   selectDepartments,
   [
     {
+      type: 'NgRX',
       childFeature: featureName,
       childEntity: 'departmentChildren',
       parentFeature: featureName,

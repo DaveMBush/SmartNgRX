@@ -83,13 +83,16 @@ export function provideSmartFeatureEntities(
         const reducer = reducerFactory(featureName, entityName);
         reducers[entityName] = reducer;
       } else {
+        console.log('signalProviderFactory - push', featureName, entityName);
         signalProviders.push({
           provide: new InjectionToken(
             `SignalStore_${featureName}${psi}${entityName}`,
           ),
-          useFactory: function signalProviderFactory() {
+          useValue: (function signalProviderFactory() {
+            console.log('signalProviderFactory', featureName, entityName);
             facadeRegistry.register(featureName, entityName, true);
-          },
+            return true;
+          })(),
         });
       }
 

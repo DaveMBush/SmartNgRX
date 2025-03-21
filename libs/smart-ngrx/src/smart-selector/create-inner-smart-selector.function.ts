@@ -1,6 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
+import { assert } from '..';
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
@@ -41,9 +42,10 @@ export function createInnerSmartSelector<
     childEntity,
     parentFeature,
     parentEntity,
-    childSelector,
     parentField: parentFieldName,
   } = childDefinition;
+  const childSelector = childDefinition.type === 'NgRX' ? childDefinition.childSelector : undefined;
+  assert(!!childSelector, 'childSelector is required');
   childDefinitionRegistry.registerChildDefinition(
     childFeature,
     childEntity,

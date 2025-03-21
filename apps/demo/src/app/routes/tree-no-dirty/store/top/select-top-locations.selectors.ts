@@ -5,6 +5,7 @@ import { selectTopEntities } from './select-top-entities.selectors';
 
 export const selectTopLocations = createSmartSelector(selectTopEntities, [
   {
+    type: 'NgRX',
     childFeature: 'tree-no-dirty',
     childEntity: 'locations',
     parentField: 'locations',

@@ -34,7 +34,7 @@ export function createInnerSmartSignal<
   C extends SmartNgRXRowBase,
 >(
   parentSignal: Signal<EntityState<P>>,
-  childDefinition: ChildDefinition<P, C>,
+  childDefinition: ChildDefinition<P, C>
 ): Signal<EntityState<P>> {
   const {
     childFeature,
