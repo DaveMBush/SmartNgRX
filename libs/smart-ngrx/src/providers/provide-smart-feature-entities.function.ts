@@ -17,7 +17,6 @@ import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
-import { psi } from '../common/psi.const';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -53,7 +52,6 @@ export function provideSmartFeatureEntities(
     string,
     ActionReducer<EntityState<SmartNgRXRowBase>>
   > = {};
-  const signalProviders: Provider[] = [];
 
   forNext(
     entityDefinitions,
@@ -82,29 +80,20 @@ export function provideSmartFeatureEntities(
         // with the same interface as the actionService
         const reducer = reducerFactory(featureName, entityName);
         reducers[entityName] = reducer;
-      } else {
-        console.log('signalProviderFactory - push', featureName, entityName);
-        signalProviders.push({
-          provide: new InjectionToken(
-            `SignalStore_${featureName}${psi}${entityName}`,
-          ),
-          useValue: (function signalProviderFactory() {
-            console.log('signalProviderFactory', featureName, entityName);
-            facadeRegistry.register(featureName, entityName, true);
-            return true;
-          })(),
-        });
       }
 
       void unpatchedPromise
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
           delayedRegisterEntity(featureName, entityName, entityDefinition);
+          if (entityDefinition.isSignal === true) {
+            facadeRegistry.register(featureName, entityName, true);
+          }
         });
     },
   );
   if (Object.keys(reducers).length > 0) {
     return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
   }
-  return signalProviders;
+  return [];
 }
