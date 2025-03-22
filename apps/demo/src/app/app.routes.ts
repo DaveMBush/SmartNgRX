@@ -34,7 +34,6 @@ import { standardSignalsDepartmentsDefinition } from './routes/tree-standard-sig
 import { standardSignalsDepartmentChildrenDefinition } from './routes/tree-standard-signals/store/department-children/standard-signals-department-children-definition';
 import { standardSignalsLocationsDefinition } from './routes/tree-standard-signals/store/locations/standard-signals-locations-definition';
 import { standardSignalsTopDefinition } from './routes/tree-standard-signals/store/top/standard-signals-top-definition.const';
-//import { currentLocationSignalStore } from './routes/tree-standard-signals/store/current-location/current-location.signal-store';
 
 // This ensure we have one key per SharedState property
 const sharedReducersStandard: ActionReducerMap<TreeStandardState2> = {
