@@ -36,7 +36,7 @@ export function convertChildrenToVirtualArray<
     const arrayContent = row[parentFieldName] as VirtualArrayContents;
     // if it is an array, we can't convert it to a virtual array.
     if (Array.isArray(arrayContent)) {
-      return;
+      continue;
     }
     const existingVirtualArray = virtualArrayMap.get(
       parentFeature,

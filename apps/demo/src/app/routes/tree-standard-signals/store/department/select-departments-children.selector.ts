@@ -2,22 +2,21 @@
 // intentionally duplicated.
 import { createSmartSignal } from '@smarttools/smart-ngrx';
 
+import { Department } from '../../../../shared/department/department.interface';
+import { DepartmentChild } from '../../../../shared/department-children/department-child.interface';
 import { featureName } from '../../feature.const';
-import { selectDepartmentChildren } from '../department-children/department-child.selector';
-import { selectDepartments } from './select-departments.selector';
 
-export const selectDepartmentsChildren = createSmartSignal(
-  // parent table selector
-  selectDepartments,
-  [
-    {
-      childFeature: featureName,
-      childEntity: 'departmentChildren',
-      parentFeature: featureName,
-      parentEntity: 'departments',
-      parentField: 'children',
-      childSelector: selectDepartmentChildren,
-    },
-  ],
-);
+export const selectDepartmentsChildren = createSmartSignal<
+  Department,
+  DepartmentChild
+>([
+  {
+    type: 'Signal',
+    childFeature: featureName,
+    childEntity: 'departmentChildren',
+    parentFeature: featureName,
+    parentEntity: 'departments',
+    parentField: 'children',
+  },
+]);
 // jscpd:ignore-end

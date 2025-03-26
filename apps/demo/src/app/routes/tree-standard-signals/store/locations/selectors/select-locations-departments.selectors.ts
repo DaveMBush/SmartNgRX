@@ -18,5 +18,5 @@ export const selectLocationsDepartments = createSmartSignal<
     parentFeature: featureName,
     parentEntity: 'locations',
   },
-  ]);
-  // jscpd:ignore-end
+]);
+// jscpd:ignore-end

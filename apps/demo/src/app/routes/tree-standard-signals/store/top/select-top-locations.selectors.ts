@@ -1,7 +1,5 @@
 // jscpd:ignore-start
 // intentionally duplicated.
-console.log('selectTopLocations is loaded');
-
 import { createSmartSignal } from '@smarttools/smart-ngrx';
 
 import { Location } from '../../../../shared/locations/location.interface';

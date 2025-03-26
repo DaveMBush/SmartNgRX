@@ -12,7 +12,11 @@ export const standardSignalsDepartmentChildrenDefinition: SmartEntityDefinition<
       return {
         id,
         name: '',
-        children: [],
+        children: {
+          indexes: [],
+          startIndex: 0,
+          length: 0,
+        },
       };
     },
   };

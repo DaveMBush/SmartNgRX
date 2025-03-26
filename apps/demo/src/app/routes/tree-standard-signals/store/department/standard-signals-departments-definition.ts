@@ -15,7 +15,6 @@ export const standardSignalsDepartmentsDefinition: SmartEntityDefinition<Departm
         name: '',
         children: {
           indexes: [],
-          startIndex: 0,
           length: 0,
         },
       };
