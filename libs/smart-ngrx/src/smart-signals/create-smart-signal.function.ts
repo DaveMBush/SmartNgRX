@@ -2,12 +2,12 @@
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 
+import { assert } from '../common/assert.function';
 import { SignalsFacade } from '../facades/signals-facade';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
-import { assert } from '../common/assert.function';
 
 // First overload - returns a function that creates the signal when called
 export function createSmartSignal<P extends SmartNgRXRowBase>(
@@ -65,6 +65,7 @@ export function createSmartSignal<
     // verify that the parentFeature and parentEntity are the same for all children
     const parentFeature = children[0].parentFeature;
     const parentEntity = children[0].parentEntity;
+    console.log('>>> createSmartSignal', parentEntity);
     const allSame = children.every(function childHasSameParent(child) {
       return (
         child.parentFeature === parentFeature &&

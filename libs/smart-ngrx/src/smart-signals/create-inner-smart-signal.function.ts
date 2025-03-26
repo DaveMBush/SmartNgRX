@@ -36,6 +36,7 @@ export function createInnerSmartSignal<
   parentSignal: Signal<EntityState<P>>,
   childDefinition: ChildDefinition<P, C>
 ): Signal<EntityState<P>> {
+  console.log('>>> createInnerSmartSignal', childDefinition.parentEntity);
   const {
     childFeature,
     childEntity,
@@ -55,6 +56,7 @@ export function createInnerSmartSignal<
   );
 
   return computed(function createInnerSmartComputedSignal() {
+    console.log('>>> createInnerSmartComputedSignal', parentFeature, parentEntity);
     const parent = parentSignal();
 
     const childState = childService.entityState;

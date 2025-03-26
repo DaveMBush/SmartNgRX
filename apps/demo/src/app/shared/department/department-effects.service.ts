@@ -13,6 +13,7 @@ export class DepartmentEffectsService extends EffectService<Department> {
   }
 
   override loadByIds(ids: string[]): Observable<Department[]> {
+    console.log('department-effects.service loadByIds');
     return this.http.post<Department[]>(this.apiDepartments, ids);
   }
 
@@ -37,6 +38,7 @@ export class DepartmentEffectsService extends EffectService<Department> {
     startIndex: number,
     length: number,
   ): Observable<PartialArrayDefinition> {
+    console.log('department-effects.service loadByIndexes');
     return this.http.post<PartialArrayDefinition>(
       `${this.apiDepartments}/indexes`,
       {
