@@ -9,14 +9,27 @@ export const selectCurrentLocationSignal = computed(
     const injector = rootInjector.get();
     const currentLocation = injector.get(currentLocationSignalStore);
     const currentLocationId = currentLocation.selectCurrentLocationId();
+
+    // First get the location with departments
     const locationDepartmentsSignal = selectLocationsDepartments;
-    const entities = locationDepartmentsSignal().entities;
-    return (
-      entities[currentLocationId] ?? {
-        id: '',
-        name: '',
-        departments: [],
-      }
-    );
+    const locationState = locationDepartmentsSignal();
+
+    const location = locationState.entities[currentLocationId];
+
+    if (location) {
+      // The departments array should automatically handle its child signals
+      const departments = location.departments;
+
+      return {
+        ...location,
+        departments,
+      };
+    }
+
+    return {
+      id: '',
+      name: '',
+      departments: [],
+    };
   },
 );

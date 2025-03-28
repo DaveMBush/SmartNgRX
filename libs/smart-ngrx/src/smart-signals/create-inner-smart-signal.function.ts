@@ -34,9 +34,14 @@ export function createInnerSmartSignal<
   C extends SmartNgRXRowBase,
 >(
   parentSignal: Signal<EntityState<P>>,
-  childDefinition: ChildDefinition<P, C>
+  childDefinition: ChildDefinition<P, C>,
 ): Signal<EntityState<P>> {
-  console.log('>>> createInnerSmartSignal', childDefinition.parentEntity);
+  console.log(
+    '>>> createInnerSmartSignal START:',
+    childDefinition.parentEntity,
+    '->',
+    childDefinition.childEntity,
+  );
   const {
     childFeature,
     childEntity,
@@ -47,7 +52,7 @@ export function createInnerSmartSignal<
   // find the child entity from the actionService
   const childService = facadeRegistry.register(
     childFeature,
-    childEntity
+    childEntity,
   ) as SignalsFacade<C>;
   childDefinitionRegistry.registerChildDefinition(
     childFeature,
@@ -56,24 +61,43 @@ export function createInnerSmartSignal<
   );
 
   return computed(function createInnerSmartComputedSignal() {
-    console.log('>>> createInnerSmartComputedSignal', parentFeature, parentEntity);
+    console.log(
+      '>>> createInnerSmartComputedSignal START:',
+      parentFeature,
+      parentEntity,
+      '->',
+      childEntity,
+    );
     const parent = parentSignal();
+    console.log('>>> parent state:', parent);
 
     const childState = childService.entityState;
     const child = childState.entityState();
+    console.log('>>> child state:', child);
 
-    convertChildrenToVirtualArray(
+    if (parentEntity === 'departments') {
+      console.log('breakpoint');
+    }
+
+    let returnEntity = convertChildrenToVirtualArray(
       parentFieldName,
       parent,
       parentFeature,
       parentEntity,
     );
 
-    const returnEntity = convertSignalChildrenToArrayProxy(
+    returnEntity = convertSignalChildrenToArrayProxy(
       parent,
       parentFieldName,
       child,
       childDefinition,
+    );
+    console.log(
+      '>>> createInnerSmartComputedSignal END:',
+      parentFeature,
+      parentEntity,
+      '->',
+      childEntity,
     );
 
     // update the parent signal from parent

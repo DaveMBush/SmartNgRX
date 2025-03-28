@@ -96,10 +96,14 @@ export class ArrayProxy<
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
     }
-    // at this point, we can be sure that childArray is a string[]
+
     if (Object.isFrozen(this.childArray)) {
-      // unfreeze the original array so we can proxy it.
-      this.childArray = [...this.childArray];
+      if (Array.isArray(this.childArray)) {
+        // unfreeze the original array so we can proxy it.
+        this.childArray = [...this.childArray];
+      } else {
+        this.childArray = { ...this.childArray };
+      }
     }
 
     this.rawArray = this.childArray;

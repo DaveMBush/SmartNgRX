@@ -44,16 +44,29 @@ export function createSmartSignal<
 export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
->(p1: Signal<EntityState<P>> | string, p2?: ChildDefinition<P, T>[] | string): Signal<EntityState<P>> {
+>(
+  p1: Signal<EntityState<P>> | string,
+  p2?: ChildDefinition<P, T>[] | string,
+): Signal<EntityState<P>> {
   // Handle the feature/entity case (first overload)
   if (typeof p1 === 'string' && typeof p2 === 'string') {
     const feature = p1;
     const entity = p2;
+    console.log(
+      '>>> createSmartSignal - feature/entity case:',
+      feature,
+      entity,
+    );
 
     const facade = facadeRegistry.register(feature, entity) as SignalsFacade<P>;
 
     // Create new signal
     const parentSignal = computed(function entityStateAdapter() {
+      console.log(
+        '>>> entityStateAdapter computed running for:',
+        feature,
+        entity,
+      );
       return {
         ids: facade.entityState.ids(),
         entities: facade.entityState.entityMap(),
@@ -71,7 +84,13 @@ export function createSmartSignal<
     // verify that the parentFeature and parentEntity are the same for all children
     const parentFeature = children[0].parentFeature;
     const parentEntity = children[0].parentEntity;
-    console.log('>>> createSmartSignal', parentEntity);
+    console.log(
+      '>>> createSmartSignal - parent/child case:',
+      parentFeature,
+      parentEntity,
+    );
+    console.log('>>> createSmartSignal - children:', children);
+
     const allSame = children.every(function childHasSameParent(child) {
       return (
         child.parentFeature === parentFeature &&
@@ -96,5 +115,10 @@ function createSmartSignalChildReducer<
   parentSignal: Signal<EntityState<P>>,
   childDefinition: ChildDefinition<P, T>,
 ): Signal<EntityState<P>> {
+  console.log(
+    '>>> createSmartSignalChildReducer:',
+    childDefinition.parentEntity,
+    childDefinition.childEntity,
+  );
   return createInnerSmartSignal(parentSignal, childDefinition);
 }

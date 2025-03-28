@@ -22,7 +22,12 @@ export function convertChildrenToVirtualArray<
   parentEntity: EntityState<P>,
   parentFeature: string,
   parentEntityName: string,
-): void {
+): EntityState<P> {
+  const returnEntity = {
+    ids: [...parentEntity.ids],
+    entities: { ...parentEntity.entities },
+  } as EntityState<P>;
+
   const parentActionService = facadeRegistry.register(
     parentFeature,
     parentEntityName,
@@ -59,6 +64,7 @@ export function convertChildrenToVirtualArray<
       parentFieldName as string,
       row[parentFieldName] as VirtualArray<SmartNgRXRowBase>,
     );
-    parentEntity.entities[id] = row;
+    returnEntity.entities[id] = row;
   }
+  return returnEntity;
 }
