@@ -9,6 +9,10 @@ import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
 
+function isSignal(value: unknown): boolean {
+  return typeof value === 'function';
+}
+
 // First overload - returns a function that creates the signal when called
 export function createSmartSignal<P extends SmartNgRXRowBase>(
   feature: string,
@@ -20,6 +24,7 @@ export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
 >(
+  parentSignal: Signal<EntityState<P>>,
   children: ChildDefinition<P, T>[],
 ): Signal<EntityState<P>>;
 
@@ -39,7 +44,7 @@ export function createSmartSignal<
 export function createSmartSignal<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
->(p1: ChildDefinition<P, T>[] | string, p2?: string): Signal<EntityState<P>> {
+>(p1: Signal<EntityState<P>> | string, p2?: ChildDefinition<P, T>[] | string): Signal<EntityState<P>> {
   // Handle the feature/entity case (first overload)
   if (typeof p1 === 'string' && typeof p2 === 'string') {
     const feature = p1;
@@ -59,8 +64,9 @@ export function createSmartSignal<
   }
 
   // Handle parent/child case (second overload) - now handles parent signal factory
-  if (p2 === undefined && Array.isArray(p1)) {
-    const children = p1;
+  if (isSignal(p1) && Array.isArray(p2)) {
+    const children = p2;
+    const parent = p1 as Signal<EntityState<P>>;
 
     // verify that the parentFeature and parentEntity are the same for all children
     const parentFeature = children[0].parentFeature;
@@ -77,14 +83,7 @@ export function createSmartSignal<
       'All children must have the same parentFeature and parentEntity',
     );
 
-    // find the parent entity from the actionService
-    const parentService = facadeRegistry.register(
-      parentFeature,
-      parentEntity,
-    ) as SignalsFacade<P>;
-    const parentSignal = parentService.entityState.entityState;
-
-    return children.reduce(createSmartSignalChildReducer<P, T>, parentSignal);
+    return children.reduce(createSmartSignalChildReducer<P, T>, parent);
   }
 
   throw new Error('Invalid arguments');

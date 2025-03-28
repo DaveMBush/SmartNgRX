@@ -1,5 +1,7 @@
 import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 import { SmartNgRXRowBaseSelector } from './smart-ngrx-row-base-selector.type';
+import { Signal } from '@angular/core';
+import { EntityState } from '@ngrx/entity';
 
 /**
  * The definition of how to access the child data from a parent entity.
@@ -42,7 +44,9 @@ interface NgRXChildDefinition<
 type SmartSignalChildDefinition<
   P extends SmartNgRXRowBase = SmartNgRXRowBase,
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-> = Omit<NgRXChildDefinition<P, T>, 'childSelector'>;
+> = Omit<NgRXChildDefinition<P, T>, 'childSelector'> & {
+  childSelector: Signal<EntityState<SmartNgRXRowBase>>;
+};
 
 interface NgRXType {
   type: 'NgRX';
