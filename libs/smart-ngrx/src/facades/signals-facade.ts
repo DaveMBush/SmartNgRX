@@ -48,7 +48,6 @@ export class SignalsFacade<
       return true;
     }
     this.initCalled = true;
-    console.log('init', this.feature, this.entity);
     // init code as needed here
     if (!featureRegistry.hasFeature(this.feature)) {
       console.error(
@@ -241,7 +240,6 @@ export class SignalsFacade<
    * @param rows the rows to load
    */
   override loadByIdsSuccess(rows: T[]): void {
-    console.log('SignalsFacade loadByIdsSuccess');
     this.loadByIdsService.loadByIdsSuccess(rows);
   }
 
@@ -290,7 +288,6 @@ export class SignalsFacade<
    * @param rows the rows to save
    */
   storeRows(rows: T[]): void {
-    console.log('SignalsFacade storeRows', rows);
     this.entityState.storeRows(rows);
   }
 

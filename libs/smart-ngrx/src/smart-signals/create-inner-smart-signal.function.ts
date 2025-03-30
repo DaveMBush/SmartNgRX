@@ -36,12 +36,6 @@ export function createInnerSmartSignal<
   parentSignal: Signal<EntityState<P>>,
   childDefinition: ChildDefinition<P, C>,
 ): Signal<EntityState<P>> {
-  console.log(
-    '>>> createInnerSmartSignal START:',
-    childDefinition.parentEntity,
-    '->',
-    childDefinition.childEntity,
-  );
   const {
     childFeature,
     childEntity,
@@ -61,23 +55,10 @@ export function createInnerSmartSignal<
   );
 
   return computed(function createInnerSmartComputedSignal() {
-    console.log(
-      '>>> createInnerSmartComputedSignal START:',
-      parentFeature,
-      parentEntity,
-      '->',
-      childEntity,
-    );
     const parent = parentSignal();
-    console.log('>>> parent state:', parent);
 
     const childState = childService.entityState;
     const child = childState.entityState();
-    console.log('>>> child state:', child);
-
-    if (parentEntity === 'departments') {
-      console.log('breakpoint');
-    }
 
     let returnEntity = convertChildrenToVirtualArray(
       parentFieldName,
@@ -91,13 +72,6 @@ export function createInnerSmartSignal<
       parentFieldName,
       child,
       childDefinition,
-    );
-    console.log(
-      '>>> createInnerSmartComputedSignal END:',
-      parentFeature,
-      parentEntity,
-      '->',
-      childEntity,
     );
 
     // update the parent signal from parent

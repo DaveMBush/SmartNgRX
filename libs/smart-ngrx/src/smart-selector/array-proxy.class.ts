@@ -97,13 +97,9 @@ export class ArrayProxy<
       this.childArray = this.childArray.rawArray;
     }
 
-    if (Object.isFrozen(this.childArray)) {
-      if (Array.isArray(this.childArray)) {
-        // unfreeze the original array so we can proxy it.
-        this.childArray = [...this.childArray];
-      } else {
-        this.childArray = { ...this.childArray };
-      }
+    if (Object.isFrozen(this.childArray) && Array.isArray(this.childArray)) {
+      // unfreeze the original array so we can proxy it.
+      this.childArray = [...this.childArray];
     }
 
     this.rawArray = this.childArray;

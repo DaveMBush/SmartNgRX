@@ -60,9 +60,7 @@ export function entitySignalStoreFactory<T extends SmartNgRXRowBase>(
     withMethods(function defineHelperMethods(store) {
       return {
         storeRows: function storeRowsMethod(rows: T[]) {
-          console.log('entitySignalStoreFactory storeRows', rows);
           forNext(rows, function storeRow(row) {
-            console.log('entitySignalStoreFactory storeRow', row);
             store.upsert(row);
           });
         },

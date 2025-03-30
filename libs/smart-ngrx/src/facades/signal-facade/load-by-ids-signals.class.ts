@@ -1,11 +1,4 @@
-import {
-  catchError,
-  map,
-  mergeMap,
-  Observable,
-  of,
-  Subject,
-} from 'rxjs';
+import { catchError, map, mergeMap, Observable, of, Subject } from 'rxjs';
 
 import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
 import { rootInjector } from '../../common/root-injector.function';
@@ -128,14 +121,12 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
    * @param rows the rows to put in the store
    */
   loadByIdsSuccess(rows: T[]): void {
-    console.log('LoadByIdsSignals loadByIdsSuccess');
     let registeredRows = entityRowsRegistry.register(
       this.feature,
       this.entity,
       rows,
     );
     const entities = this.facade.entityState.entityMap();
-    console.log('LoadByIdsSignals loadByIdsSuccess entities', entities);
     // don't let virtual arrays get overwritten by the default row
     registeredRows = mergeRowsWithEntities(
       this.feature,
@@ -143,7 +134,6 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
       registeredRows,
       entities,
     );
-    console.log('LoadByIdsSignals loadByIdsSuccess registeredRows', registeredRows);
     this.facade.storeRows(registeredRows);
   }
 }

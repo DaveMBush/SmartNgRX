@@ -2,9 +2,9 @@ import { EntityState } from '@ngrx/entity';
 
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { ArrayProxy } from '../smart-selector/array-proxy.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { ArrayProxy } from '../smart-selector/array-proxy.class';
 
 /**
  * wraps the array in a proxy so we can return a row for the ID
