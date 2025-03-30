@@ -270,6 +270,7 @@ export class ClassicNgrxFacade<
    * @param ids the ids to load
    */
   override loadByIds(ids: string): void {
+    console.log('ClassicNgrxFacade loadByIds', ids);
     this.loadByIdsService.loadByIds(ids);
   }
 

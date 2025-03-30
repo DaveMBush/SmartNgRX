@@ -20,6 +20,7 @@ import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
+import { isVirtualArrayContents } from '../common/is-virtual-array-contents.function';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
   return typeof item === 'object' && item !== null && 'rawArray' in item;
@@ -96,10 +97,15 @@ export class ArrayProxy<
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
     }
-
-    if (Object.isFrozen(this.childArray) && Array.isArray(this.childArray)) {
-      // unfreeze the original array so we can proxy it.
-      this.childArray = [...this.childArray];
+    console.log('ArrayProxy - childArray', this.childArray);
+    if (Object.isFrozen(this.childArray)) {
+      if (Array.isArray(this.childArray)) {
+        // unfreeze the original array so we can proxy it.
+        this.childArray = [...this.childArray];
+      }
+      if (isVirtualArrayContents(this.childArray)) {
+        this.childArray = [...this.childArray.indexes];
+      }
     }
 
     this.rawArray = this.childArray;

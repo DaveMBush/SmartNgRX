@@ -25,6 +25,7 @@ import { defaultRows } from './default-rows.function';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {
+    console.log('someStartsWith', v, c);
     return c.startsWith(v);
   });
 }
@@ -74,6 +75,7 @@ export class LoadByIdsClassic {
    * @param ids the ids to load
    */
   loadByIds(ids: string): void {
+    console.log('loadByIds', ids);
     this.loadByIdsSubject.next(ids);
   }
 
@@ -89,6 +91,7 @@ export class LoadByIdsClassic {
       .pipe(
         bufferIds(),
         map(function loadByIdsDispatcherMap(ids) {
+          console.log('loadByIdsDispatcherMap', ids);
           return ids.filter(notAPreloadId);
         }),
         withLatestFrom(this.entities),

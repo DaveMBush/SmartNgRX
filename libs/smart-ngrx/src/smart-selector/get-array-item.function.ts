@@ -27,7 +27,9 @@ export function getArrayItem<
   childDefinition: ChildDefinition<P, T>,
 ): RowProxyDelete & T {
   const { childFeature, childEntity } = childDefinition;
-
+  console.log('getArrayItem - childFeature', childFeature);
+  console.log('getArrayItem - childEntity', childEntity);
+  console.log('getArrayItem - id', id);
   const registry = entityRegistry.get(childFeature, childEntity);
   ensureDataLoaded(entityState, id, childFeature, childEntity);
 

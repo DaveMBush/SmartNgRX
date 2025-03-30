@@ -28,7 +28,11 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
 ): void {
   const registry = entityRegistry.get(feature, entity);
   const actionService = facadeRegistry.register(feature, entity);
+  console.log('ensureDataLoaded - entity', entity);
+  console.log('ensureDataLoaded - id', id);
+  console.log('ensureDataLoaded -entityState', entityState);
   const ids = entityState.entities as Record<string, T>;
+  console.log('ids', ids);
   const markDirtyFetchesNew = !(
     isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
     !registry.markAndDeleteInit.markDirtyFetchesNew
@@ -58,7 +62,9 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
 }
 
 function actionServiceLoadByIds(actionService: FacadeBase, id: string) {
+  console.log('actionServiceLoadByIds', id);
   return function internalActionServiceLoadByIds() {
+    console.log('internalActionServiceLoadByIds', id);
     actionService.loadByIds(id);
   };
 }
