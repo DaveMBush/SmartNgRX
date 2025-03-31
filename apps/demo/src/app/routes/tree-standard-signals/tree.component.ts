@@ -25,7 +25,7 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
   providers: [currentLocationSignalStore],
 })
 export class TreeComponent {
-  selectLocations = selectLocations();// factory function that returns the real signal
+  selectLocations = selectLocations(); // factory function that returns the real signal
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
   // eslint-disable-next-line @smarttools/no-anonymous-functions -- need fat arrow to be able to see this

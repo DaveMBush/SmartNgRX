@@ -43,10 +43,10 @@ export class ArrayProxy<
   >
   implements SmartArray<P, C>, ArrayLike<C>, Iterable<C>
 {
-  // entityAdapter and childActionService are initialized in the init method
+  // selectId and childActionService are initialized in the init method
   // so they are safe to use later on.
-  entityAdapter!: EntityAdapter<SmartNgRXRowBase>;
-  parentEntityAdapter!: EntityAdapter<SmartNgRXRowBase>;
+  selectId!: ((this: void, row: SmartNgRXRowBase) => string);
+  parentSelectId!: ((this: void, row: SmartNgRXRowBase) => string);
   childActionService!: FacadeBase<C>;
   [isProxy] = true;
   rawArray: string[] = [];
@@ -83,17 +83,14 @@ export class ArrayProxy<
     const { service } = this.getServices();
     this.childActionService = service;
     // needed primarily for adding items to the array
-    const { entityAdapter } = entityDefinitionRegistry(
-      childFeature,
-      childEntity,
-    );
-    this.entityAdapter = entityAdapter;
+    const { selectId } = entityDefinitionRegistry(childFeature, childEntity);
+    this.selectId = selectId!;
     const { parentFeature, parentEntity } = this.childDefinition;
-    const { entityAdapter: parentEntityAdapter } = entityDefinitionRegistry(
+    const { selectId: parentSelectId } = entityDefinitionRegistry(
       parentFeature,
       parentEntity,
     );
-    this.parentEntityAdapter = parentEntityAdapter;
+    this.parentSelectId = parentSelectId!;
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
     }
@@ -203,8 +200,8 @@ export class ArrayProxy<
    */
   addToStore(newRow: C, thisRow: P): void {
     const { parentFeature, parentEntity } = this.childDefinition;
-    const childId = this.entityAdapter.selectId(newRow) as string;
-    const parentId = this.parentEntityAdapter.selectId(thisRow) as string;
+    const childId = this.selectId(newRow) as string;
+    const parentId = this.parentSelectId(thisRow) as string;
     const { service, parentService } = this.getServices();
     const newParent = this.createNewParentFromParent(thisRow, true);
     newRow.parentId = parentId;
@@ -249,8 +246,8 @@ export class ArrayProxy<
       parentEntity,
       parentField,
     } = this.childDefinition;
-    const childId = this.entityAdapter.selectId(row) as string;
-    const parentId = this.parentEntityAdapter.selectId(parent) as string;
+    const childId = this.selectId(row);
+    const parentId = this.parentSelectId(parent) as string;
     newRowRegistry.remove(childFeature, childEntity, row.id);
     const selectFeature =
       createFeatureSelector<Record<string, EntityState<P>>>(parentFeature);

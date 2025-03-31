@@ -100,6 +100,7 @@ export class ClassicNgrxFacade<
       this.entityDefinition.defaultRow,
     );
     this.updateService.init();
+    this.addService.init();
     this.loadByIndexesService.init(this.actions, this.entities);
     if (this.entityDefinition.isInitialRow === true) {
       watchInitialRow(this.feature, this.entity).pipe(take(1)).subscribe();

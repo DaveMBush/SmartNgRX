@@ -68,6 +68,8 @@ export class SignalsFacade<
       registry.markAndDeleteInit.markDirtyFetchesNew;
 
     this.loadByIdsService.init(this.entityDefinition.defaultRow);
+    this.updateService.init();
+    this.addService.init();
     if (this.entityDefinition.isInitialRow === true) {
       const context = this;
       asapScheduler.schedule(function watchInitialRowSchedule() {
