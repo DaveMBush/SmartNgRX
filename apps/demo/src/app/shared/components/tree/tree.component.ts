@@ -87,11 +87,9 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   constructor(private cd: ChangeDetectorRef) {
     this.treeComponentService.form = this;
     const context = this;
-    effect(
-      function watchLocationEffect() {
-        context.watchLocationEffect();
-      },
-    );
+    effect(function watchLocationEffect() {
+      context.watchLocationEffect();
+    });
   }
 
   trackBy(index: number, _: TreeNode): string {
