@@ -12,9 +12,7 @@ import {
   effect,
   inject,
   input,
-  OnChanges,
   output,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -59,7 +57,7 @@ import { TreeNode } from './tree-node.interface';
   encapsulation: ViewEncapsulation.Emulated,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeComponent implements OnChanges, AfterViewInit {
+export class TreeComponent implements AfterViewInit {
   private treeComponentService = inject(TreeComponentService);
   locations$ = input.required<Location[] | null>();
   locationId$ = input<number | string | null>('');
@@ -87,8 +85,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   constructor(private cd: ChangeDetectorRef) {
     this.treeComponentService.form = this;
     const context = this;
-    effect(function watchLocationEffect() {
-      context.watchLocationEffect();
+    effect(function watchLocation() {
+      const location = context.location$();
+      if (location !== null && location !== undefined) {
+        context.treeComponentService.applyRange();
+        context.cd.markForCheck();
+      }
     });
   }
 
@@ -110,12 +112,6 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   toggleExpand(node: TreeNode): void {
     this.treeComponentService.toggleExpand(node);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['location$'] !== undefined) {
-      this.treeComponentService.applyRange();
-    }
   }
 
   selectNode(node: TreeNode): void {
@@ -203,13 +199,5 @@ export class TreeComponent implements OnChanges, AfterViewInit {
         context.range = range;
         context.treeComponentService.applyRange();
       });
-  }
-
-  private watchLocationEffect(): void {
-    const location = this.location$();
-    if (location !== null && location !== undefined) {
-      this.treeComponentService.applyRange();
-      this.cd.markForCheck();
-    }
   }
 }
