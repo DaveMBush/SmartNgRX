@@ -9,6 +9,7 @@ import {
   ChangeDetectorRef,
   Component,
   DestroyRef,
+  effect,
   inject,
   input,
   OnChanges,
@@ -80,10 +81,17 @@ export class TreeComponent implements OnChanges, AfterViewInit {
   addingNode = '';
   addingParent: TreeNode | null = null;
   addMenuOpenedNode = '';
+  waitForScroll = false;
   destroyRef = inject(DestroyRef);
 
   constructor(private cd: ChangeDetectorRef) {
     this.treeComponentService.form = this;
+    const context = this;
+    effect(
+      function watchLocationEffect() {
+        context.watchLocationEffect();
+      },
+    );
   }
 
   trackBy(index: number, _: TreeNode): string {
@@ -148,7 +156,6 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.addMenuOpenedNode = '';
   }
 
-  waitForScroll = false;
   addChild(parent: TreeNode, type: string): void {
     this.waitForScroll = true;
     this.editingContent = `New ${type}`;
@@ -164,9 +171,6 @@ export class TreeComponent implements OnChanges, AfterViewInit {
     this.addingParent = parent;
     const virtualScroll = this.virtualScroll;
     const context = this;
-    // give the tree time to update
-    // there is probably a better way to do this
-    // but this is just a demo
     timer(1000)
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -184,14 +188,12 @@ export class TreeComponent implements OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     const context = this;
-    // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
       .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
       .subscribe(function scrollRangeStreamSubscribeFunction(range) {
         context.range = range;
         context.treeComponentService.applyRange();
       });
-    // this stream watching for scroll height changes
     this.virtualScroll.renderedRangeStream
       .pipe(
         distinctUntilChanged(function distinctUntilChangedRange(a, b) {
@@ -203,5 +205,13 @@ export class TreeComponent implements OnChanges, AfterViewInit {
         context.range = range;
         context.treeComponentService.applyRange();
       });
+  }
+
+  private watchLocationEffect(): void {
+    const location = this.location$();
+    if (location !== null && location !== undefined) {
+      this.treeComponentService.applyRange();
+      this.cd.markForCheck();
+    }
   }
 }
