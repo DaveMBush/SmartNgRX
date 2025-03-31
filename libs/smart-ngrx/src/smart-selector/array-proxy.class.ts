@@ -97,7 +97,6 @@ export class ArrayProxy<
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
     }
-    console.log('ArrayProxy - childArray', this.childArray);
     if (Object.isFrozen(this.childArray)) {
       if (Array.isArray(this.childArray)) {
         // unfreeze the original array so we can proxy it.
