@@ -75,9 +75,6 @@ export class LoadByIdsClassic {
    * @param ids the ids to load
    */
   loadByIds(ids: string): void {
-    if (ids === undefined) {
-      throw new Error('ids is undefined');
-    }
     this.loadByIdsSubject.next(ids);
   }
 
