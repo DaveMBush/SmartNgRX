@@ -21,10 +21,10 @@ import { FacadeBase } from '../facade.base';
 import { actionFactory } from './action.factory';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 
-interface LoadByIndexesPublic
+interface LoadByIndexesClassicPublic
   extends Omit<
     LoadByIndexesClassic,
-    'loadByIndexesSubject' | 'processLoadByIndexesSuccess'
+    'loadByIndexesSubject' | 'processLoadByIndexesClassicSuccess'
   > {
   loadByIndexesSubject: Subject<{
     parentId: string;
@@ -32,7 +32,7 @@ interface LoadByIndexesPublic
     indexes: number[];
   }>;
 
-  processLoadByIndexesSuccess(
+  processLoadByIndexesClassicSuccess(
     field: VirtualArrayContents,
     array: PartialArrayDefinition,
   ): VirtualArrayContents;
@@ -69,19 +69,19 @@ class MockEffectService extends EffectService<SmartNgRXRowBase> {
   }
 }
 
-describe('LoadByIndexes', () => {
+describe('LoadByIndexesClassic', () => {
   const effectServiceToken = new InjectionToken<
     EffectService<SmartNgRXRowBase>
   >('testEffectService');
-  let loadByIndexes: LoadByIndexesPublic;
+  let loadByIndexes: LoadByIndexesClassicPublic;
   let actionService: Omit<FacadeBase, 'loadByIndexesService'> & {
-    loadByIndexesService: LoadByIndexes;
+    loadByIndexesService: LoadByIndexesClassic;
   };
   let mockStore: Partial<Store>;
   let actions: ActionGroup;
   let mockEntities: Observable<Dictionary<SmartNgRXRowBase>>;
   let mockStoreDispatchSpy: jest.SpyInstance;
-  let effectServiceLoadByIndexesSpy: jest.SpyInstance;
+  let effectServiceLoadByIndexesClassicSpy: jest.SpyInstance;
   const effectService = new MockEffectService();
 
   beforeEach(() => {
@@ -103,7 +103,7 @@ describe('LoadByIndexes', () => {
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
     });
     serviceRegistry.register(effectServiceToken, effectService);
-    effectServiceLoadByIndexesSpy = jest
+    effectServiceLoadByIndexesClassicSpy = jest
       .spyOn(effectService, 'loadByIndexes')
       .mockImplementation((parentId, childField, startIndex, length) => {
         return of({
@@ -120,18 +120,18 @@ describe('LoadByIndexes', () => {
       'testFeature',
       'testEntity',
     ) as unknown as Omit<FacadeBase, 'loadByIndexesService'> & {
-      loadByIndexesService: LoadByIndexes;
+      loadByIndexesService: LoadByIndexesClassic;
     };
     const mockEntitiesSubject = new Subject<Dictionary<SmartNgRXRowBase>>();
     mockEntitiesSubject.next({} as Dictionary<SmartNgRXRowBase>);
     mockEntities = mockEntitiesSubject.asObservable();
-    actionService.loadByIndexesService = new LoadByIndexes(
+    actionService.loadByIndexesService = new LoadByIndexesClassic(
       'testFeature',
       'testEntity',
       mockStore as Store,
     );
     loadByIndexes =
-      actionService.loadByIndexesService as unknown as LoadByIndexesPublic;
+      actionService.loadByIndexesService as unknown as LoadByIndexesClassicPublic;
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -195,8 +195,8 @@ describe('LoadByIndexes', () => {
       tick(100);
       flushMicrotasks();
 
-      expect(effectServiceLoadByIndexesSpy).toHaveBeenCalled();
-      expect(effectServiceLoadByIndexesSpy).toHaveBeenCalledWith(
+      expect(effectServiceLoadByIndexesClassicSpy).toHaveBeenCalled();
+      expect(effectServiceLoadByIndexesClassicSpy).toHaveBeenCalledWith(
         'parent1',
         'child1',
         1,
@@ -215,7 +215,7 @@ describe('LoadByIndexes', () => {
       loadByIndexes.init(actions, mockEntities);
 
       const spyProcessSuccess = jest
-        .spyOn(loadByIndexes, 'processLoadByIndexesSuccess')
+        .spyOn(loadByIndexes, 'processLoadByIndexesClassicSuccess')
         .mockReturnValue({ indexes: ['id1', 'id2', 'id3'], length: 3 });
 
       loadByIndexes.loadByIndexesSuccess('parent1', 'childField', {
@@ -238,7 +238,7 @@ describe('LoadByIndexes', () => {
     });
   });
 
-  describe('processLoadByIndexesSuccess', () => {
+  describe('processLoadByIndexesClassicSuccess', () => {
     it('should update the field with new indexes', () => {
       const field = {
         indexes: [null, null, null] as unknown as string[],
@@ -256,7 +256,10 @@ describe('LoadByIndexes', () => {
           arr.forEach((item, index) => callback(item, index, arr));
         });
 
-      const result = loadByIndexes.processLoadByIndexesSuccess(field, array);
+      const result = loadByIndexes.processLoadByIndexesClassicSuccess(
+        field,
+        array,
+      );
 
       expect(result).toEqual({ indexes: ['id1', 'id2', 'id3'], length: 3 });
     });
@@ -279,7 +282,10 @@ describe('LoadByIndexes', () => {
         .spyOn(newRowRegistryModule.newRowRegistry, 'isNewRow')
         .mockReturnValue(true);
 
-      const result = loadByIndexes.processLoadByIndexesSuccess(field, array);
+      const result = loadByIndexes.processLoadByIndexesClassicSuccess(
+        field,
+        array,
+      );
 
       expect(result).toEqual({
         indexes: ['id1', 'id2', 'newId', 'newId'],

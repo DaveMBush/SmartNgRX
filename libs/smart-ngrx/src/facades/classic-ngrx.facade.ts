@@ -18,7 +18,6 @@ import { ActionGroup } from '../types/action-group.interface';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { actionFactory } from './classic-ngrx.facade/action.factory';
 import { Add } from './classic-ngrx.facade/add.class';
 import { LoadByIdsClassic } from './classic-ngrx.facade/load-by-ids-classic.class';
@@ -26,8 +25,8 @@ import { LoadByIndexesClassic } from './classic-ngrx.facade/load-by-indexes-clas
 import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';
 import { removeIdFromParentsClassic } from './classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { Update } from './classic-ngrx.facade/update.class';
-import { FacadeBase } from './facade.base';
 import { watchInitialRow } from './classic-ngrx.facade/watch-initial-row.function';
+import { FacadeBase } from './facade.base';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic

@@ -11,7 +11,7 @@ import { ActionGroup } from '../types/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import * as actionFactory from './classic-ngrx.facade/action.factory';
-import * as watchInitialRowModule from './watch-initial-row.function';
+import * as watchInitialRowModule from './classic-ngrx.facade/watch-initial-row.function';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-registry.function');
@@ -31,11 +31,19 @@ interface MockEntity extends SmartNgRXRowBase {
 interface TestableActionService
   extends Omit<
     ClassicNgrxFacade,
-    'actions' | 'forceDirty' | 'markDirtyFetchesNew'
+    | 'actions'
+    | 'forceDirty'
+    | 'markDirtyFetchesNew'
+    | 'optimisticUpdate'
+    | 'removeFromParents'
+    | 'updateMany'
   > {
   markDirtyFetchesNew: boolean;
   forceDirty(ids: string[]): void;
   actions: ActionGroup;
+  optimisticUpdate(oldRow: MockEntity, newRow: MockEntity): void;
+  updateMany(updates: { id: string; changes: Partial<MockEntity> }[]): void;
+  removeFromParents(id: string): string[];
 }
 
 describe('ActionService', () => {

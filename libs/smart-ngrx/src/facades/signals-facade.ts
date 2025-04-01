@@ -50,9 +50,6 @@ export class SignalsFacade<
     this.initCalled = true;
     // init code as needed here
     if (!featureRegistry.hasFeature(this.feature)) {
-      console.error(
-        `Feature ${this.feature} not found when called using ${this.entity}`,
-      );
       return false;
     }
     this.entityDefinition = entityDefinitionRegistry(this.feature, this.entity);

@@ -34,6 +34,7 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * id that is passed in will be in the form of `index${psi}${index}`. You can use
    * this information to create whatever ID is appropriate for the row.
    */
+  /* eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- this: void is valid for functions that should not access this context */
   defaultRow(this: void, id: string): Row;
 
   /**
@@ -65,6 +66,7 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * @param row
    * @returns string that is the identifier value (not the field name) of the row.
    */
+  /* eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- this: void is valid for functions that should not access this context */
   selectId?(this: void, row: SmartNgRXRowBase): string;
 
   /**

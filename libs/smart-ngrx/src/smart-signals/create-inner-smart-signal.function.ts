@@ -4,10 +4,10 @@ import { EntityState } from '@ngrx/entity';
 import { SignalsFacade } from '../facades/signals-facade';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { facadeRegistry } from '../registrations/facade-registry.class';
+import { convertChildrenToArrayProxy } from '../smart-selector/convert-children-to-array-proxy.function';
 import { convertChildrenToVirtualArray } from '../smart-selector/convert-children-to-virtual-array.function';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { convertSignalChildrenToArrayProxy } from './convert-signal-children-to-array-proxy.function';
 
 /**
  * This is an internal function used by `createSmartSignal`.
@@ -67,7 +67,7 @@ export function createInnerSmartSignal<
       parentEntity,
     );
 
-    returnEntity = convertSignalChildrenToArrayProxy(
+    returnEntity = convertChildrenToArrayProxy(
       returnEntity,
       parentFieldName,
       child,

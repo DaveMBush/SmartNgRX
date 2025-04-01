@@ -6,7 +6,6 @@ import { handleError } from '../../error-handler/handle-error.function';
 import { childDefinitionRegistry } from '../../registrations/child-definition.registry';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import { store } from '../../smart-selector/store.function';
 import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { FacadeBase } from '../facade.base';
@@ -24,9 +23,7 @@ export class Add<T extends SmartNgRXRowBase> {
   /**
    * constructor
    *
-   * @param feature the feature name
-   * @param entity the entity name
-   * @param selectId the select id function
+   * @param facade the facade to use when we need to access facade members.
    */
   constructor(private readonly facade: FacadeBase<T>) {
     this.feature = facade.feature;

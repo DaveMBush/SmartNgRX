@@ -1,6 +1,4 @@
-import { Dictionary } from '@ngrx/entity';
-import { Store } from '@ngrx/store';
-import { map, Observable, Subject, switchMap, take } from 'rxjs';
+import { map, Subject, switchMap } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';

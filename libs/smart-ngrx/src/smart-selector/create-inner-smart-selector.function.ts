@@ -44,7 +44,8 @@ export function createInnerSmartSelector<
     parentEntity,
     parentField: parentFieldName,
   } = childDefinition;
-  const childSelector = childDefinition.type === 'NgRX' ? childDefinition.childSelector : undefined;
+  const childSelector =
+    childDefinition.type === 'NgRX' ? childDefinition.childSelector : undefined;
   assert(!!childSelector, 'childSelector is required');
   childDefinitionRegistry.registerChildDefinition(
     childFeature,

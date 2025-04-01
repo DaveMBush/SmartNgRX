@@ -48,5 +48,5 @@ export function getArrayItem<
     id,
     registry.defaultRow(id) as T,
     childDefinition,
-  ) as RowProxyDelete & T;
+  );
 }

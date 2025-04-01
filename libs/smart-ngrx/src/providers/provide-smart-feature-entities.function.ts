@@ -1,7 +1,6 @@
 import {
   EnvironmentProviders,
   importProvidersFrom,
-  InjectionToken,
   Provider,
 } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
@@ -12,12 +11,12 @@ import { rootInjector } from '../common/root-injector.function';
 import { zoneless } from '../common/zoneless.function';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
-import { facadeRegistry } from '../registrations/facade-registry.class';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 

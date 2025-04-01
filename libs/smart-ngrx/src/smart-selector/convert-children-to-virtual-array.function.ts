@@ -13,6 +13,8 @@ import { virtualArrayMap } from './virtual-array-map.const';
  * @param parentEntity the entity data we are dealing with
  * @param parentFeature the feature this entity belongs to
  * @param parentEntityName the name of the entity
+ *
+ * @returns the entity with the child field converted to a virtual array
  */
 export function convertChildrenToVirtualArray<
   P extends SmartNgRXRowBase,
@@ -36,8 +38,7 @@ export function convertChildrenToVirtualArray<
   const length = parentEntity.ids.length;
   for (let i = 0; i < length; i++) {
     const id = parentEntity.ids[i] as string;
-    let row = parentEntity.entities[id]!;
-    row = { ...row };
+    const row = { ...parentEntity.entities[id]! };
     const arrayContent = row[parentFieldName] as VirtualArrayContents;
     // if it is an array, we can't convert it to a virtual array.
     if (Array.isArray(arrayContent)) {

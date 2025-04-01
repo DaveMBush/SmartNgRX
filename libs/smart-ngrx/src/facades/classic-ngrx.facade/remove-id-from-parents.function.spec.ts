@@ -4,7 +4,7 @@ import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { ChildDefinition } from '../../types/child-definition.interface';
 import { ParentInfo } from '../../types/parent-info.interface';
 import { FacadeBase } from '../facade.base';
-import { removeIdFromParents } from './remove-id-from-parents.function';
+import { removeIdFromParentsClassic } from './remove-id-from-parents-classic.function';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
 // Mock dependencies
@@ -38,7 +38,7 @@ describe('removeIdFromParents', () => {
   });
 
   it('should call actionServiceRegistry with correct parameters', () => {
-    removeIdFromParents(mockChildDefinition, mockId, mockParentInfo);
+    removeIdFromParentsClassic(mockChildDefinition, mockId, mockParentInfo);
 
     expect(actionServiceRegistryRegisterSpy).toHaveBeenCalledWith(
       mockChildDefinition.parentFeature,
@@ -47,7 +47,7 @@ describe('removeIdFromParents', () => {
   });
 
   it('should call replaceIdInFeatureParents with correct parameters', () => {
-    removeIdFromParents(mockChildDefinition, mockId, mockParentInfo);
+    removeIdFromParentsClassic(mockChildDefinition, mockId, mockParentInfo);
 
     expect(replaceIdInFeatureParents).toHaveBeenCalledWith(
       [{ id: 'parent1' }, { id: 'parent2' }],
@@ -58,7 +58,7 @@ describe('removeIdFromParents', () => {
   });
 
   it('should add parent info to parentInfo array if not already present', () => {
-    removeIdFromParents(mockChildDefinition, mockId, mockParentInfo);
+    removeIdFromParentsClassic(mockChildDefinition, mockId, mockParentInfo);
 
     expect(mockParentInfo).toEqual([
       {
@@ -78,7 +78,7 @@ describe('removeIdFromParents', () => {
       },
     ];
 
-    removeIdFromParents(mockChildDefinition, mockId, existingParentInfo);
+    removeIdFromParentsClassic(mockChildDefinition, mockId, existingParentInfo);
 
     expect(existingParentInfo).toEqual([
       {
@@ -93,7 +93,7 @@ describe('removeIdFromParents', () => {
     (facadeRegistry.register as jest.Mock).mockReturnValue(null);
 
     expect(() =>
-      removeIdFromParents(mockChildDefinition, mockId, mockParentInfo),
+      removeIdFromParentsClassic(mockChildDefinition, mockId, mockParentInfo),
     ).toThrow();
 
     expect(mockParentInfo).toEqual([]);

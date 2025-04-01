@@ -1,4 +1,4 @@
-import { EntityAdapter, EntityState } from '@ngrx/entity';
+import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { take } from 'rxjs';
 
@@ -20,7 +20,6 @@ import { isArrayProxy } from './is-array-proxy.function';
 import { newRowRegistry } from './new-row-registry.class';
 import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
-import { isVirtualArrayContents } from '../common/is-virtual-array-contents.function';
 
 function isVirtualArray(item: unknown): item is VirtualArray<object> {
   return typeof item === 'object' && item !== null && 'rawArray' in item;
@@ -45,8 +44,10 @@ export class ArrayProxy<
 {
   // selectId and childActionService are initialized in the init method
   // so they are safe to use later on.
-  selectId!: ((this: void, row: SmartNgRXRowBase) => string);
-  parentSelectId!: ((this: void, row: SmartNgRXRowBase) => string);
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- this: void is valid for functions that should not access this context
+  selectId!: (this: void, row: SmartNgRXRowBase) => string;
+  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- this: void is valid for functions that should not access this context
+  parentSelectId!: (this: void, row: SmartNgRXRowBase) => string;
   childActionService!: FacadeBase<C>;
   [isProxy] = true;
   rawArray: string[] = [];
@@ -109,7 +110,6 @@ export class ArrayProxy<
       }
     }
 
-
     this.rawArray = this.childArray;
     this.childArray = [];
     this.length = this.rawArray.length;
@@ -159,8 +159,6 @@ export class ArrayProxy<
    * store yet.
    */
   getAtIndex(index: number): C & RowProxyDelete {
-    console.log('getAtIndex', index, this.rawArray);
-    console.log('this.rawArray', this.rawArray[index]);
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
       return getArrayItem<C, P>(this.child, id, this.childDefinition);
@@ -208,8 +206,8 @@ export class ArrayProxy<
    */
   addToStore(newRow: C, thisRow: P): void {
     const { parentFeature, parentEntity } = this.childDefinition;
-    const childId = this.selectId(newRow) as string;
-    const parentId = this.parentSelectId(thisRow) as string;
+    const childId = this.selectId(newRow);
+    const parentId = this.parentSelectId(thisRow);
     const { service, parentService } = this.getServices();
     const newParent = this.createNewParentFromParent(thisRow, true);
     newRow.parentId = parentId;
@@ -255,7 +253,7 @@ export class ArrayProxy<
       parentField,
     } = this.childDefinition;
     const childId = this.selectId(row);
-    const parentId = this.parentSelectId(parent) as string;
+    const parentId = this.parentSelectId(parent);
     newRowRegistry.remove(childFeature, childEntity, row.id);
     const selectFeature =
       createFeatureSelector<Record<string, EntityState<P>>>(parentFeature);

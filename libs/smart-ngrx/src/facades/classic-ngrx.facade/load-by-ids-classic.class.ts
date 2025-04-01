@@ -8,7 +8,6 @@ import {
   of,
   Subject,
   take,
-  tap,
   withLatestFrom,
 } from 'rxjs';
 
@@ -89,9 +88,6 @@ export class LoadByIdsClassic {
     this.loadByIdsSubject
       .pipe(
         bufferIds(),
-        tap((ids) => {
-          console.log('loadByIdsSubject buffered Ids', ids);
-        }),
         map(function loadByIdsDispatcherMap(ids) {
           return ids.filter(notAPreloadId);
         }),

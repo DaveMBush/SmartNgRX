@@ -3,8 +3,8 @@ import { UpdateStr } from '@ngrx/entity/src/models';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
-import { Update } from './classic-ngrx.facade/update.class';
 import { Add } from './classic-ngrx.facade/add.class';
+import { Update } from './classic-ngrx.facade/update.class';
 
 /**
  * Base class for ActionService that defines the interface for all action services

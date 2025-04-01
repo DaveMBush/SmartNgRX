@@ -13,6 +13,8 @@ import { ArrayProxy } from './array-proxy.class';
  * @param parentFieldName the field name that holds the child ids
  * @param child the child entity
  * @param childDefinition the child definition (used by the ArrayProxy)
+ *
+ * @returns the entity with the child field converted to an array proxy
  */
 export function convertChildrenToArrayProxy<
   P extends SmartNgRXRowBase,
@@ -27,7 +29,6 @@ export function convertChildrenToArrayProxy<
     ids: [...parentEntity.ids],
     entities: { ...parentEntity.entities },
   } as EntityState<P>;
-
 
   forNext(
     parentEntity.ids as string[],

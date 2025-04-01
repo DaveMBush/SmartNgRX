@@ -3,18 +3,21 @@
 import { createSmartSignal } from '@smarttools/smart-ngrx';
 
 import { featureName } from '../../../feature.const';
-import { selectLocationEntities } from './select-location-entities.selectors';
 import { selectDepartmentsChildren } from '../../department/select-departments-children.selector';
+import { selectLocationEntities } from './select-location-entities.selectors';
 
-export const selectLocationsDepartments = createSmartSignal(selectLocationEntities, [
-  {
-    type: 'Signal',
-    childFeature: featureName,
-    childEntity: 'departments',
-    parentField: 'departments',
-    parentFeature: featureName,
-    parentEntity: 'locations',
-    childSelector: selectDepartmentsChildren,
-  },
-]);
+export const selectLocationsDepartments = createSmartSignal(
+  selectLocationEntities,
+  [
+    {
+      type: 'Signal',
+      childFeature: featureName,
+      childEntity: 'departments',
+      parentField: 'departments',
+      parentFeature: featureName,
+      parentEntity: 'locations',
+      childSelector: selectDepartmentsChildren,
+    },
+  ],
+);
 // jscpd:ignore-end
