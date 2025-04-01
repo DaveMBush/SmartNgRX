@@ -26,6 +26,9 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): void {
+  if (id === undefined) {
+    throw new Error('id is undefined');
+  }
   const registry = entityRegistry.get(feature, entity);
   const actionService = facadeRegistry.register(feature, entity);
   const ids = entityState.entities as Record<string, T>;
@@ -58,6 +61,9 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
 }
 
 function actionServiceLoadByIds(actionService: FacadeBase, id: string) {
+  if (id === undefined) {
+    throw new Error('id is undefined');
+  }
   return function internalActionServiceLoadByIds() {
     actionService.loadByIds(id);
   };

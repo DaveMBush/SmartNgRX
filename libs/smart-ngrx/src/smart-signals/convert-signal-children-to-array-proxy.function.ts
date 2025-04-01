@@ -32,6 +32,7 @@ export function convertSignalChildrenToArrayProxy<
     parentEntity.ids as string[],
     function innerConvertChildrenToArrayProxy(w) {
       const entity: P = { ...returnEntity.entities[w] } as P;
+      parentEntity.entities[w] = entity;
       const childArray = entity[parentFieldName] as ArrayProxy<P, C> | string[];
 
       const arrayProxy = new ArrayProxy<P, C>(

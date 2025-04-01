@@ -94,15 +94,21 @@ export class ArrayProxy<
     if (isArrayProxy<P, C>(this.childArray)) {
       this.childArray = this.childArray.rawArray;
     }
+    if (this.childArray instanceof VirtualArray) {
+      this.rawArray = this.childArray;
+      this.length = this.childArray.length;
+      this.childArray = [];
+      return;
+    }
     if (Object.isFrozen(this.childArray)) {
-      if (Array.isArray(this.childArray)) {
-        // unfreeze the original array so we can proxy it.
+      // unfreeze the original array so we can proxy it.
+      if (this.childArray instanceof Array) {
         this.childArray = [...this.childArray];
-      }
-      if (isVirtualArrayContents(this.childArray)) {
-        this.childArray = [...this.childArray.indexes];
+      } else {
+        this.childArray = Object.assign({}, this.childArray);
       }
     }
+
 
     this.rawArray = this.childArray;
     this.childArray = [];
@@ -153,6 +159,8 @@ export class ArrayProxy<
    * store yet.
    */
   getAtIndex(index: number): C & RowProxyDelete {
+    console.log('getAtIndex', index, this.rawArray);
+    console.log('this.rawArray', this.rawArray[index]);
     if (index >= 0 && index < this.rawArray.length) {
       const id = this.rawArray[index];
       return getArrayItem<C, P>(this.child, id, this.childDefinition);

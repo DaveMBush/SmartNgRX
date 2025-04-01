@@ -8,6 +8,7 @@ import {
   of,
   Subject,
   take,
+  tap,
   withLatestFrom,
 } from 'rxjs';
 
@@ -74,6 +75,9 @@ export class LoadByIdsClassic {
    * @param ids the ids to load
    */
   loadByIds(ids: string): void {
+    if (ids === undefined) {
+      throw new Error('ids is undefined');
+    }
     this.loadByIdsSubject.next(ids);
   }
 
@@ -88,6 +92,9 @@ export class LoadByIdsClassic {
     this.loadByIdsSubject
       .pipe(
         bufferIds(),
+        tap((ids) => {
+          console.log('loadByIdsSubject buffered Ids', ids);
+        }),
         map(function loadByIdsDispatcherMap(ids) {
           return ids.filter(notAPreloadId);
         }),

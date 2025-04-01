@@ -32,7 +32,7 @@ export class SignalsFacade<
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
 > extends FacadeBase<T> {
   private loadByIdsService!: LoadByIdsSignals<T>;
-  private loadByIndexesService!: LoadByIndexesSignals;
+  private loadByIndexesService!: LoadByIndexesSignals<T>;
 
   override brand = 'signal' as const;
 
@@ -68,6 +68,7 @@ export class SignalsFacade<
       registry.markAndDeleteInit.markDirtyFetchesNew;
 
     this.loadByIdsService.init(this.entityDefinition.defaultRow);
+    this.loadByIndexesService.init();
     this.updateService.init();
     this.addService.init();
     if (this.entityDefinition.isInitialRow === true) {
@@ -385,6 +386,7 @@ export class SignalsFacade<
   }
 
   private initClasses(): void {
+    this.loadByIndexesService = new LoadByIndexesSignals(this);
     this.loadByIdsService = new LoadByIdsSignals(this);
     this.updateService = new UpdateService<T>(
       this.feature,

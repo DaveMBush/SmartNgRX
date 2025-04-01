@@ -18,7 +18,7 @@ import { SignalsFacade } from '../signals-facade';
  * This class is used to manage loading the child ids by
  * their location in the array.
  */
-export class LoadByIndexesSignals {
+export class LoadByIndexesSignals<T extends SmartNgRXRowBase> {
   private loadByIndexesSubject = new Subject<IndexProp>();
   private feature: string;
   private entity: string;
@@ -28,7 +28,7 @@ export class LoadByIndexesSignals {
    *
    * @param facade the facade that called this class
    */
-  constructor(private facade: SignalsFacade) {
+  constructor(private facade: SignalsFacade<T>) {
     this.feature = facade.feature;
     this.entity = facade.entity;
   }
@@ -119,10 +119,10 @@ export class LoadByIndexesSignals {
     array: PartialArrayDefinition,
   ): void {
     const entities = this.facade.entityState.entityState().entities;
-    const row = entities[parentId] as Record<string, VirtualArrayContents> &
-      SmartNgRXRowBase;
+    const row = entities[parentId];
+    const rowAsRecord = row as unknown as Record<string, VirtualArrayContents>;
     const updatedField = this.processLoadByIndexesSuccess(
-      row[childField],
+      rowAsRecord[childField],
       array,
     );
     this.facade.storeRows([{ ...row, [childField]: updatedField }]);

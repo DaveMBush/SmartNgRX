@@ -68,7 +68,7 @@ export function createInnerSmartSignal<
     );
 
     returnEntity = convertSignalChildrenToArrayProxy(
-      parent,
+      returnEntity,
       parentFieldName,
       child,
       childDefinition,

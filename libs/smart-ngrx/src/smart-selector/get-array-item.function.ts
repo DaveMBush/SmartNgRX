@@ -26,6 +26,9 @@ export function getArrayItem<
   id: string,
   childDefinition: ChildDefinition<P, T>,
 ): RowProxyDelete & T {
+  if (id === undefined) {
+    throw new Error('id is undefined');
+  }
   const { childFeature, childEntity } = childDefinition;
   const registry = entityRegistry.get(childFeature, childEntity);
   ensureDataLoaded(entityState, id, childFeature, childEntity);

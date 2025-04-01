@@ -61,20 +61,20 @@ export function createInnerSmartSelector<
           entities: { ...parent.entities },
         };
 
-        convertChildrenToVirtualArray(
+        let returnEntity = convertChildrenToVirtualArray(
           parentFieldName,
           newParentEntity,
           parentFeature,
           parentEntity,
         );
 
-        convertChildrenToArrayProxy(
-          newParentEntity,
+        returnEntity = convertChildrenToArrayProxy(
+          returnEntity,
           parentFieldName,
           child,
           childDefinition,
         );
-        return newParentEntity;
+        return returnEntity;
       },
     ),
   );
