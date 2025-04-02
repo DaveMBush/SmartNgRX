@@ -1,14 +1,20 @@
-import { computed } from '@angular/core';
-import { rootInjector } from '@smarttools/smart-ngrx';
+import { computed, Signal } from '@angular/core';
 
 import { selectLocationsDepartments } from '../locations/selectors/select-locations-departments.selectors';
 import { currentLocationSignalStore } from './current-location.signal-store';
 
-export const selectCurrentLocationSignal = computed(
-  function selectCurrentLocation() {
-    const injector = rootInjector.get();
-    const currentLocation = injector.get(currentLocationSignalStore);
-    const currentLocationId = currentLocation.selectCurrentLocationId();
+// Define the store instance type to properly type the parameter
+type CurrentLocationStore = InstanceType<typeof currentLocationSignalStore>;
+
+export function selectCurrentLocationSignal(
+  store: CurrentLocationStore,
+): Signal<{
+  id: string;
+  name: string;
+  departments: unknown[];
+}> {
+  return computed(function selectCurrentLocation() {
+    const currentLocationId = store.selectCurrentLocationId();
 
     // First get the location with departments
     const locationDepartmentsSignal = selectLocationsDepartments;
@@ -31,5 +37,5 @@ export const selectCurrentLocationSignal = computed(
       name: '',
       departments: [],
     };
-  },
-);
+  });
+}

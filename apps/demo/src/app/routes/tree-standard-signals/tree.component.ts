@@ -10,7 +10,7 @@ import {
 
 import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { currentLocationSignalStore } from './store/current-location/current-location.signal-store';
-import { selectCurrentLocationSignal } from './store/current-location/select-current-location.signal';
+import { selectLocationsDepartments } from './store/locations/selectors/select-locations-departments.selectors';
 import { selectLocations } from './store/locations/selectors/select-locations.selector';
 
 @Component({
@@ -35,10 +35,44 @@ export class TreeComponent {
     return [];
   });
 
-  location$ = selectCurrentLocationSignal;
+  // Create the computed signal directly in the component
+  // eslint-disable-next-line @smarttools/no-anonymous-functions -- need fat arrow to be able to see this
+  location$ = computed(() => {
+    return this.selectCurrentLocation();
+  });
 
   locationChanged(event: string): void {
     this.currentLocationSignalStore.setCurrentLocationId(event);
+  }
+
+  private selectCurrentLocation(): {
+    id: string;
+    name: string;
+    departments: unknown[];
+  } {
+    const currentLocationId = this.locationId$();
+
+    // Get the location with departments
+    const locationDepartmentsSignal = selectLocationsDepartments;
+    const locationState = locationDepartmentsSignal();
+
+    const location = locationState.entities[currentLocationId];
+
+    if (location) {
+      // The departments array should automatically handle its child signals
+      const departments = location.departments;
+
+      return {
+        ...location,
+        departments,
+      };
+    }
+
+    return {
+      id: '',
+      name: '',
+      departments: [],
+    };
   }
 }
 // jscpd:ignore-end
