@@ -1,5 +1,6 @@
 import { computed, Signal } from '@angular/core';
 
+import { Department } from '../../../../shared/department/department.interface';
 import { selectLocationsDepartments } from '../locations/selectors/select-locations-departments.selectors';
 import { currentLocationSignalStore } from './current-location.signal-store';
 
@@ -11,7 +12,7 @@ export function selectCurrentLocationSignal(
 ): Signal<{
   id: string;
   name: string;
-  departments: unknown[];
+  departments: Department[] | string[];
 }> {
   return computed(function selectCurrentLocation() {
     const currentLocationId = store.selectCurrentLocationId();
