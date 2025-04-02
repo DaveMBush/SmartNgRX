@@ -2,7 +2,7 @@ jest.mock('../../registrations/entity-definition-registry.function');
 
 import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { createEntityAdapter, EntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter } from '@ngrx/entity';
 import { of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
 
@@ -112,7 +112,9 @@ describe('Update', () => {
       effectServiceToken: mockEffectServiceToken,
     });
 
-    selectId = createEntityAdapter<TestRow>().selectId as (r: TestRow) => string;
+    selectId = createEntityAdapter<TestRow>().selectId as (
+      r: TestRow,
+    ) => string;
   });
 
   it('should debounce multiple updates to the same row', () => {

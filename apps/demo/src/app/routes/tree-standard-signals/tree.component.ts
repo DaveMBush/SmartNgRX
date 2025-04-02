@@ -1,11 +1,7 @@
 // jscpd:ignore-start
 // component is intentionally duplicated.
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { currentLocationSignalStore } from './store/current-location/current-location.signal-store';

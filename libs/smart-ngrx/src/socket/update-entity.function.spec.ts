@@ -59,9 +59,7 @@ describe('updateEntity', () => {
   });
 
   afterEach(() => {
-    if (actionServiceForceDirtySpy) {
-      actionServiceForceDirtySpy.mockRestore();
-    }
+    actionServiceForceDirtySpy.mockRestore();
     entityRegistry.unregister(feature, entity);
   });
 

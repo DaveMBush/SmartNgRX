@@ -12,7 +12,11 @@ export function selectLocations(): Signal<Location[]> {
     // which will trigger the smart signal chain
     if (tops.ids.length === 1) {
       const topEntity = tops.entities[tops.ids[0]];
-      if (topEntity && topEntity.locations.length > 0 && typeof topEntity.locations[0] === 'object') {
+      if (
+        topEntity &&
+        topEntity.locations.length > 0 &&
+        typeof topEntity.locations[0] === 'object'
+      ) {
         // This will now use the smart signal chain through selectLocationsDepartments
         return topEntity.locations as Location[];
       }

@@ -256,10 +256,7 @@ describe('LoadByIndexesClassic', () => {
           arr.forEach((item, index) => callback(item, index, arr));
         });
 
-      const result = loadByIndexes.processLoadByIndexesSuccess(
-        field,
-        array,
-      );
+      const result = loadByIndexes.processLoadByIndexesSuccess(field, array);
 
       expect(result).toEqual({ indexes: ['id1', 'id2', 'id3'], length: 3 });
     });
@@ -282,10 +279,7 @@ describe('LoadByIndexesClassic', () => {
         .spyOn(newRowRegistryModule.newRowRegistry, 'isNewRow')
         .mockReturnValue(true);
 
-      const result = loadByIndexes.processLoadByIndexesSuccess(
-        field,
-        array,
-      );
+      const result = loadByIndexes.processLoadByIndexesSuccess(field, array);
 
       expect(result).toEqual({
         indexes: ['id1', 'id2', 'newId', 'newId'],

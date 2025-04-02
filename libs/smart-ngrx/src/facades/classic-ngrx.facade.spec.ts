@@ -6,13 +6,13 @@ import { childDefinitionRegistry } from '../registrations/child-definition.regis
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
 import * as storeFunction from '../smart-selector/store.function';
 import { ActionGroup } from '../types/action-group.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import * as actionFactory from './classic-ngrx.facade/action.factory';
 import * as watchInitialRowModule from './classic-ngrx.facade/watch-initial-row.function';
-import { serviceRegistry } from '../registrations/service-registry.class';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-registry.function');
