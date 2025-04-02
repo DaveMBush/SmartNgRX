@@ -76,7 +76,7 @@ describe('Update', () => {
   let update: Update<TestRow>;
   let mockEffectService: MockEffectService;
   let mockLoadByIdsSuccess: jest.Mock;
-  let entityAdapter: EntityAdapter<TestRow>;
+  let selectId: (row: TestRow) => string;
   let testScheduler: TestScheduler;
 
   const verifyUpdateSequence = (updates: TestRow[]): void => {
@@ -112,7 +112,7 @@ describe('Update', () => {
       effectServiceToken: mockEffectServiceToken,
     });
 
-    entityAdapter = createEntityAdapter<TestRow>();
+    selectId = createEntityAdapter<TestRow>().selectId as (r: TestRow) => string;
   });
 
   it('should debounce multiple updates to the same row', () => {
@@ -146,7 +146,7 @@ describe('Update', () => {
       update = new Update<TestRow>(
         'testFeature',
         'testEntity',
-        entityAdapter,
+        selectId,
         mockLoadByIdsSuccess,
       );
       update.init();
@@ -225,7 +225,7 @@ describe('Update', () => {
       update = new Update<TestRow>(
         'testFeature',
         'testEntity',
-        entityAdapter,
+        selectId,
         mockLoadByIdsSuccess,
       );
       update.init();
@@ -292,7 +292,7 @@ describe('Update', () => {
       update = new Update<TestRow>(
         'testFeature',
         'testEntity',
-        entityAdapter,
+        selectId,
         mockLoadByIdsSuccess,
       );
       update.init();
@@ -355,7 +355,7 @@ describe('Update', () => {
       update = new Update<TestRow>(
         'testFeature',
         'testEntity',
-        entityAdapter,
+        selectId,
         mockLoadByIdsSuccess,
       );
       update.init();
@@ -420,7 +420,7 @@ describe('Update', () => {
       update = new Update<TestRow>(
         'testFeature',
         'testEntity',
-        entityAdapter,
+        selectId,
         mockLoadByIdsSuccess,
       );
       update.init();

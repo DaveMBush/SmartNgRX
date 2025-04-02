@@ -27,6 +27,8 @@ import { VirtualArray } from './virtual-array.class';
 jest.mock('../registrations/entity-definition-registry.function', () => ({
   entityDefinitionRegistry: jest.fn().mockReturnValue({
     entityAdapter: createEntityAdapter<MockRow>(),
+    selectId: (row: MockRow) => row.id,
+    parentSelectId: (row: MockRow) => row.id,
   }),
 }));
 

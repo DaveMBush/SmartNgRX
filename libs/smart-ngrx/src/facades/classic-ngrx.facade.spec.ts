@@ -12,12 +12,14 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import * as actionFactory from './classic-ngrx.facade/action.factory';
 import * as watchInitialRowModule from './classic-ngrx.facade/watch-initial-row.function';
+import { serviceRegistry } from '../registrations/service-registry.class';
 
 jest.mock('../registrations/feature-registry.class');
 jest.mock('../registrations/entity-definition-registry.function');
 jest.mock('../registrations/entity-registry.class');
 jest.mock('./classic-ngrx.facade/action.factory');
 jest.mock('../smart-selector/store.function');
+jest.mock('../registrations/service-registry.class');
 
 interface MockEntity extends SmartNgRXRowBase {
   id: string;
@@ -49,6 +51,7 @@ interface TestableActionService
 describe('ActionService', () => {
   let service: TestableActionService;
   let mockStore: jest.Mocked<Store>;
+  let mockEffectService: { init: jest.Mock };
 
   beforeEach(() => {
     mockStore = {
@@ -56,7 +59,21 @@ describe('ActionService', () => {
       dispatch: jest.fn(),
     } as unknown as jest.Mocked<Store>;
 
+    mockEffectService = {
+      init: jest.fn(),
+    };
+
     (storeFunction.store as jest.Mock).mockReturnValue(mockStore);
+    (serviceRegistry.get as jest.Mock).mockReturnValue(mockEffectService);
+
+    // Mock the entityDefinitionRegistry with proper entityAdapter
+    (entityDefinitionRegistry as jest.Mock).mockReturnValue({
+      entityAdapter: {
+        selectId: (row: MockEntity) => row.id,
+        getSelectors: () => ({ selectEntities: jest.fn() }),
+      },
+      selectId: (row: MockEntity) => row.id,
+    });
 
     TestBed.configureTestingModule({
       providers: [ClassicNgrxFacade, { provide: Store, useValue: mockStore }],
@@ -82,7 +99,11 @@ describe('ActionService', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
       (entityDefinitionRegistry as jest.Mock).mockReturnValue({
-        entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
+        entityAdapter: {
+          selectId: (row: MockEntity) => row.id,
+          getSelectors: () => ({ selectEntities: jest.fn() }),
+        },
+        selectId: (row: MockEntity) => row.id,
       });
       (entityRegistry.get as jest.Mock).mockReturnValue({
         markAndDeleteInit: {},
@@ -104,7 +125,11 @@ describe('ActionService', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
       (entityDefinitionRegistry as jest.Mock).mockReturnValue({
-        entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
+        entityAdapter: {
+          selectId: (row: MockEntity) => row.id,
+          getSelectors: () => ({ selectEntities: jest.fn() }),
+        },
+        selectId: (row: MockEntity) => row.id,
         isInitialRow: true,
       });
       (entityRegistry.get as jest.Mock).mockReturnValue({
@@ -131,7 +156,11 @@ describe('ActionService', () => {
       (featureRegistry.hasFeature as jest.Mock).mockReturnValue(true);
       (actionFactory.actionFactory as jest.Mock).mockReturnValue({});
       (entityDefinitionRegistry as jest.Mock).mockReturnValue({
-        entityAdapter: { getSelectors: () => ({ selectEntities: jest.fn() }) },
+        entityAdapter: {
+          selectId: (row: MockEntity) => row.id,
+          getSelectors: () => ({ selectEntities: jest.fn() }),
+        },
+        selectId: (row: MockEntity) => row.id,
         isInitialRow: false,
       });
       (entityRegistry.get as jest.Mock).mockReturnValue({
@@ -294,11 +323,14 @@ describe('ActionService', () => {
           .mockReturnValue(() => mockEntities);
         (entityDefinitionRegistry as jest.Mock).mockReturnValue({
           entityAdapter: {
+            selectId: (row: MockEntity) => row.id,
             getSelectors: () => ({ selectEntities: mockSelectEntities }),
           },
+          selectId: (row: MockEntity) => row.id,
         });
+
         // we need a new instance of the service so we can
-        // rerun the init method to use our mocks.
+        // rerun the init method to use our new mocks.
         service = new ClassicNgrxFacade(
           'testFeature',
           'testEntity',

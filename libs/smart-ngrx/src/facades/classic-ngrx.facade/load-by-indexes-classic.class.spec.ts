@@ -24,7 +24,7 @@ import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 interface LoadByIndexesClassicPublic
   extends Omit<
     LoadByIndexesClassic,
-    'loadByIndexesSubject' | 'processLoadByIndexesClassicSuccess'
+    'loadByIndexesSubject' | 'processLoadByIndexesSuccess'
   > {
   loadByIndexesSubject: Subject<{
     parentId: string;
@@ -32,7 +32,7 @@ interface LoadByIndexesClassicPublic
     indexes: number[];
   }>;
 
-  processLoadByIndexesClassicSuccess(
+  processLoadByIndexesSuccess(
     field: VirtualArrayContents,
     array: PartialArrayDefinition,
   ): VirtualArrayContents;
@@ -215,7 +215,7 @@ describe('LoadByIndexesClassic', () => {
       loadByIndexes.init(actions, mockEntities);
 
       const spyProcessSuccess = jest
-        .spyOn(loadByIndexes, 'processLoadByIndexesClassicSuccess')
+        .spyOn(loadByIndexes, 'processLoadByIndexesSuccess')
         .mockReturnValue({ indexes: ['id1', 'id2', 'id3'], length: 3 });
 
       loadByIndexes.loadByIndexesSuccess('parent1', 'childField', {
@@ -256,7 +256,7 @@ describe('LoadByIndexesClassic', () => {
           arr.forEach((item, index) => callback(item, index, arr));
         });
 
-      const result = loadByIndexes.processLoadByIndexesClassicSuccess(
+      const result = loadByIndexes.processLoadByIndexesSuccess(
         field,
         array,
       );
@@ -282,7 +282,7 @@ describe('LoadByIndexesClassic', () => {
         .spyOn(newRowRegistryModule.newRowRegistry, 'isNewRow')
         .mockReturnValue(true);
 
-      const result = loadByIndexes.processLoadByIndexesClassicSuccess(
+      const result = loadByIndexes.processLoadByIndexesSuccess(
         field,
         array,
       );

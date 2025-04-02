@@ -23,7 +23,7 @@ describe('handleSocketNotification', () => {
       .spyOn(markAndDeleteEntities, 'entities')
       .mockReturnValue(featureEntityKeys);
     hasActionServiceSpy = jest
-      .spyOn(facadeRegistry, 'hasActionService')
+      .spyOn(facadeRegistry, 'hasFacade')
       .mockReturnValue(true);
   });
 

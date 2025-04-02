@@ -26,7 +26,7 @@ describe('processMarkAndDelete', () => {
   const featureKey = 'exampleFeature';
   const entity = 'exampleEntity';
   beforeEach(() => {
-    jest.spyOn(facadeRegistry, 'hasActionService').mockReturnValue(true);
+    jest.spyOn(facadeRegistry, 'hasFacade').mockReturnValue(true);
     const mockActionService = new MockActionService();
     jest
       .spyOn(facadeRegistry, 'register')
@@ -123,7 +123,7 @@ describe('processMarkAndDelete', () => {
 
   describe('when no action service exists for the feature and entity', () => {
     beforeEach(() => {
-      jest.spyOn(facadeRegistry, 'hasActionService').mockReturnValue(false);
+      jest.spyOn(facadeRegistry, 'hasFacade').mockReturnValue(false);
     });
 
     it('should return early without calling register, garbageCollect or markDirty', () => {

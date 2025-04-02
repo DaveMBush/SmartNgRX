@@ -1,5 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string -- conflicting rule */
 import { createEntityAdapter } from '@ngrx/entity';
+import { InjectionToken } from '@angular/core';
 
 import { FacadeBase } from '../facades/facade.base';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
@@ -13,6 +14,8 @@ import { EntityAttributes } from '../types/entity-attributes.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
+import { serviceRegistry } from '../registrations/service-registry.class';
+import { EffectService } from '../types/effect-service';
 
 const feature = 'feature';
 const entity = 'entity';
@@ -27,15 +30,32 @@ describe('ensureDataLoaded()', () => {
   let actionServiceMarkNotDirtySpy: jest.SpyInstance;
   let entityRowsRegistrySpy: jest.SpyInstance;
   let actionService: FacadeBase | null;
+  let mockEffectService: jest.Mocked<EffectService<Row>>;
+
   beforeEach(() => {
     createStore();
     featureRegistry.registerFeature(feature);
+
+    // Create and register mock effect service
+    mockEffectService = {
+      loadByIds: jest.fn(),
+      loadByIndexes: jest.fn(),
+    } as unknown as jest.Mocked<EffectService<Row>>;
+
+    const effectServiceToken = new InjectionToken<EffectService<Row>>(
+      'effectService',
+    );
+    serviceRegistry.register(effectServiceToken, mockEffectService);
+
     entityDefinitionRegistry(feature, entity, {
       entityAdapter: createEntityAdapter(),
+      effectServiceToken,
     } as unknown as SmartEntityDefinition<SmartNgRXRowBase>);
+
     entityRegistry.register(feature, entity, {
       markAndDeleteInit: { markDirtyFetchesNew: true },
     } as EntityAttributes);
+
     // setup the store so the feature exist and we can retrieve the action service
     createStore();
     setState(feature, entity, {
@@ -47,10 +67,12 @@ describe('ensureDataLoaded()', () => {
     actionServiceMarkNotDirtySpy = jest.spyOn(actionService, 'markNotDirty');
     entityRowsRegistrySpy = jest.spyOn(entityRowsRegistry, 'register');
   });
+
   afterEach(() => {
     jest.clearAllMocks();
     entityRegistry.unregister(feature, entity);
   });
+
   describe('when the id is not loaded', () => {
     beforeEach(() => {
       ensureDataLoaded({ ids: [], entities: {} }, 'id', 'feature', 'entity');
