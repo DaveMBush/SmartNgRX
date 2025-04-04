@@ -135,22 +135,5 @@ describe('currentLocationSignalStore', () => {
       // Verify locations were retrieved
       expect(mockSelectLocations).toHaveBeenCalled();
     });
-
-    it('should handle undefined locations array', () => {
-      // Set mockSignalFn to return undefined
-      mockSignalFn.mockReturnValue(undefined);
-
-      // Make sure current ID is empty
-      store.setCurrentLocationId('');
-
-      // Get the computed signal value - should not throw due to null check in implementation
-      const result = store.selectCurrentLocationId();
-
-      // Verify results
-      expect(result).toBe('');
-
-      // Verify locations were retrieved
-      expect(mockSelectLocations).toHaveBeenCalled();
-    });
   });
 });

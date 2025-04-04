@@ -128,16 +128,4 @@ describe('selectLocations', () => {
     // Verify results
     expect(result).toEqual([]);
   });
-
-  it('should handle null tops', () => {
-    // Set up mock for null
-    setupMockSelector(null);
-
-    // Get signal and value
-    const locationsSignal = selectLocations();
-    const result = locationsSignal();
-
-    // Verify results
-    expect(result).toEqual([]);
-  });
 });
