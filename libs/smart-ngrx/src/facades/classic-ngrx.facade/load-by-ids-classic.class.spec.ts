@@ -54,7 +54,7 @@ class MockEffectService extends EffectService<SmartNgRXRowBase> {
 // Mock types
 type MockStore = Partial<Store>;
 
-describe('LoadByIds', () => {
+describe('LoadByIds Classic', () => {
   let effectServiceLoadByIdSpy: jest.SpyInstance;
 
   const effectServiceToken = new InjectionToken<

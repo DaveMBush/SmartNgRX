@@ -1,0 +1,207 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- needed for mocking */
+import { ErrorHandler } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+
+import * as rootInjectorModule from '../../common/root-injector.function';
+import * as entityRowsRegistryModule from '../../mark-and-delete/entity-rows-registry.class';
+import * as entityDefinitionRegistryModule from '../../registrations/entity-definition-registry.function';
+import * as serviceRegistryModule from '../../registrations/service-registry.class';
+import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { LoadByIdsSignals } from './load-by-ids-signals.class';
+
+interface TestRow extends SmartNgRXRowBase {
+  name: string;
+  value: number;
+}
+
+// Create type-safe interfaces for our mocks
+interface MockFacade {
+  feature: string;
+  entity: string;
+  loadByIdsPreload: jest.Mock;
+  loadByIdsSuccess: jest.Mock;
+  storeRows: jest.Mock;
+  entityState: {
+    entityMap: jest.Mock;
+  };
+}
+
+interface MockEffectService {
+  loadByIds: jest.Mock;
+}
+
+describe('LoadByIdsSignals', () => {
+  let loadByIdsSignals: LoadByIdsSignals<TestRow>;
+  let mockFacade: MockFacade;
+  let mockEffectService: MockEffectService;
+  let mockErrorHandler: { handleError: jest.Mock };
+
+  const feature = 'testFeature';
+  const entity = 'testEntity';
+
+  const defaultRow = (id: string): TestRow => ({
+    id,
+    name: `Default Row ${id}`,
+    value: 0,
+    isLoading: false,
+  });
+
+  beforeEach(() => {
+    // Create mock for facade and its entityState
+    mockFacade = {
+      feature,
+      entity,
+      loadByIdsPreload: jest.fn(),
+      loadByIdsSuccess: jest.fn(),
+      storeRows: jest.fn(),
+      entityState: {
+        entityMap: jest.fn().mockReturnValue({}),
+      },
+    };
+
+    // Mock for service registry
+    mockEffectService = {
+      loadByIds: jest.fn().mockReturnValue(of([])),
+    };
+
+    jest
+      .spyOn(serviceRegistryModule.serviceRegistry, 'get')
+      .mockReturnValue(mockEffectService as any);
+
+    // Mock for entity definition registry
+    jest
+      .spyOn(entityDefinitionRegistryModule, 'entityDefinitionRegistry')
+      .mockReturnValue({ effectServiceToken: 'testToken' } as any);
+
+    // Mock for entity rows registry
+    jest
+      .spyOn(entityRowsRegistryModule.entityRowsRegistry, 'register')
+      .mockImplementation((_, __, rows) => rows);
+
+    // Mock for root injector and error handler
+    mockErrorHandler = { handleError: jest.fn() };
+    const mockGet = {
+      get: jest.fn().mockReturnValue(mockErrorHandler),
+    };
+
+    jest
+      .spyOn(rootInjectorModule.rootInjector, 'get')
+      .mockReturnValue(mockGet as any);
+
+    // Create instance of LoadByIdsSignals
+    loadByIdsSignals = new LoadByIdsSignals<TestRow>(mockFacade as any);
+    loadByIdsSignals.init(defaultRow);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('loadByIdsDispatcher', () => {
+    it('should filter out IDs with isLoading=true', async () => {
+      // Setup entity map with one loading and one undefined entity
+      mockFacade.entityState.entityMap.mockReturnValue({
+        '1': { id: '1', isLoading: true },
+        '3': { id: '3', isLoading: false },
+      });
+
+      // Mock the loadByIds to complete successfully
+      mockEffectService.loadByIds.mockReturnValue(
+        of([{ id: '2', name: 'Test Row 2', value: 20, isLoading: false }]),
+      );
+
+      // Call loadByIds with multiple IDs
+      loadByIdsSignals.loadByIds('1');
+      loadByIdsSignals.loadByIds('2');
+      loadByIdsSignals.loadByIds('3');
+
+      // Wait for the async pipeline to process
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      // Should not have called loadByIds with ID 1 (it's loading), but should include 2 (not in map) and 3 (not loading)
+      expect(mockEffectService.loadByIds).toHaveBeenCalledWith(['2', '3']);
+      expect(mockFacade.loadByIdsPreload).toHaveBeenCalledWith(['2', '3']);
+    });
+
+    it('should filter out IDs that start with index or indexNoOp', async () => {
+      mockFacade.entityState.entityMap.mockReturnValue({});
+
+      loadByIdsSignals.loadByIds('1');
+      loadByIdsSignals.loadByIds('index-123');
+      loadByIdsSignals.loadByIds('indexNoOp-456');
+      loadByIdsSignals.loadByIds('2');
+
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      expect(mockEffectService.loadByIds).toHaveBeenCalledWith(['1', '2']);
+      expect(mockFacade.loadByIdsPreload).toHaveBeenCalledWith(['1', '2']);
+    });
+
+    it('should return of([]) if no IDs remain after filtering', async () => {
+      // Set up map with all entities either loading or filtered
+      mockFacade.entityState.entityMap.mockReturnValue({
+        '1': { id: '1', isLoading: true },
+        '2': { id: '2', isLoading: true },
+      });
+
+      loadByIdsSignals.loadByIds('1');
+      loadByIdsSignals.loadByIds('2');
+      loadByIdsSignals.loadByIds('index-3');
+
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      // Should not call the effect service or preload when no valid IDs remain
+      expect(mockEffectService.loadByIds).not.toHaveBeenCalled();
+      expect(mockFacade.loadByIdsPreload).not.toHaveBeenCalled();
+    });
+
+    it('should handle errors from the effect service', async () => {
+      // Use throwError to create an observable that emits an error
+      mockEffectService.loadByIds.mockReturnValue(
+        throwError(() => new Error('Test error')),
+      );
+
+      loadByIdsSignals.loadByIds('1');
+
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      expect(mockErrorHandler.handleError).toHaveBeenCalledWith(
+        'loadByIds',
+        expect.any(Error),
+      );
+    });
+  });
+
+  describe('loadByIdsPreload', () => {
+    it('should create default rows for IDs not in the entity map', () => {
+      // Setup an entity map with one existing row
+      mockFacade.entityState.entityMap.mockReturnValue({
+        '1': { id: '1', name: 'Existing Row', value: 10 },
+      });
+
+      // Call loadByIdsPreload with multiple IDs
+      loadByIdsSignals.loadByIdsPreload(['1', '2']);
+
+      // Should only create a default row for ID '2'
+      expect(mockFacade.storeRows).toHaveBeenCalledWith([
+        { id: '2', name: 'Default Row 2', value: 0, isLoading: true },
+      ]);
+    });
+  });
+
+  describe('loadByIdsSuccess', () => {
+    it('should register rows and store them', () => {
+      const rows = [
+        { id: '1', name: 'Row 1', value: 10, isLoading: false },
+        { id: '2', name: 'Row 2', value: 20, isLoading: false },
+      ];
+
+      loadByIdsSignals.loadByIdsSuccess(rows);
+
+      expect(
+        entityRowsRegistryModule.entityRowsRegistry.register,
+      ).toHaveBeenCalledWith(feature, entity, rows);
+      expect(mockFacade.storeRows).toHaveBeenCalled();
+    });
+  });
+});
