@@ -1,15 +1,11 @@
 import {
   EnvironmentProviders,
-  importProvidersFrom,
   Provider,
 } from '@angular/core';
-import { EntityState } from '@ngrx/entity';
-import { ActionReducer, StoreModule } from '@ngrx/store';
 
 import { forNext } from '../common/for-next.function';
 import { rootInjector } from '../common/root-injector.function';
 import { zoneless } from '../common/zoneless.function';
-import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
