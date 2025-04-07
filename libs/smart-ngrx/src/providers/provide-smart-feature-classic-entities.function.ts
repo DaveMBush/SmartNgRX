@@ -43,7 +43,7 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  *
  * @see `EntityDefinition`
  */
-export function provideSmartFeatureEntities(
+export function provideSmartFeatureClassicEntities(
   featureName: string,
   entityDefinitions: SmartEntityDefinition<SmartNgRXRowBase>[],
 ): EnvironmentProviders | Provider[] {
@@ -74,25 +74,17 @@ export function provideSmartFeatureEntities(
         }
       });
 
-      if (entityDefinition.isSignal !== true) {
-        // equivalent for signals is going to be a signalService
-        // with the same interface as the actionService
-        const reducer = reducerFactory(featureName, entityName);
-        reducers[entityName] = reducer;
-      }
+      // equivalent for signals is going to be a signalService
+      // with the same interface as the actionService
+      const reducer = reducerFactory(featureName, entityName);
+      reducers[entityName] = reducer;
 
       void unpatchedPromise
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
           delayedRegisterEntity(featureName, entityName, entityDefinition);
-          if (entityDefinition.isSignal === true) {
-            facadeRegistry.register(featureName, entityName, true);
-          }
         });
     },
   );
-  if (Object.keys(reducers).length > 0) {
-    return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
-  }
-  return [];
+  return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
 }

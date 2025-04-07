@@ -1,6 +1,5 @@
 import { EnvironmentInjector, Injectable, InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 
 import { rootInjector } from '../common/root-injector.function';
@@ -10,7 +9,7 @@ import { EffectService } from '../types/effect-service';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { provideSmartFeatureEntities } from './provide-smart-feature-entities.function';
+import { provideSmartFeatureSignalEntities } from './provide-smart-feature-signal-entities.function';
 
 @Injectable()
 class TestEffectService implements EffectService<TestRow> {
@@ -35,7 +34,7 @@ interface TestRow extends SmartNgRXRowBase {
   name: string;
 }
 
-describe('provideSmartFeatureEntities', () => {
+describe('provideSmartFeatureSignalEntities', () => {
   const featureName = 'testFeature';
   const entityName = 'testEntity';
   let entityDefinition: SmartEntityDefinition<TestRow>;
@@ -63,7 +62,6 @@ describe('provideSmartFeatureEntities', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
       providers: [
         TestEffectService,
         { provide: effectServiceToken, useClass: TestEffectService },
@@ -97,7 +95,7 @@ describe('provideSmartFeatureEntities', () => {
     const hasFeature = jest.spyOn(featureRegistry, 'hasFeature');
     const registerFeature = jest.spyOn(featureRegistry, 'registerFeature');
 
-    provideSmartFeatureEntities(featureName, [entityDefinition]);
+    provideSmartFeatureSignalEntities(featureName, [entityDefinition]);
 
     expect(hasFeature).toHaveBeenCalledWith(featureName);
     expect(registerFeature).toHaveBeenCalledWith(featureName);
@@ -111,7 +109,7 @@ describe('provideSmartFeatureEntities', () => {
     // Then mock hasFeature to return true
     hasFeature.mockReturnValue(true);
 
-    provideSmartFeatureEntities(featureName, [entityDefinition]);
+    provideSmartFeatureSignalEntities(featureName, [entityDefinition]);
 
     expect(registerFeature).not.toHaveBeenCalled();
   });
@@ -120,7 +118,7 @@ describe('provideSmartFeatureEntities', () => {
     const hasService = jest.spyOn(serviceRegistry, 'has');
     const registerService = jest.spyOn(serviceRegistry, 'register');
 
-    provideSmartFeatureEntities(featureName, [entityDefinition]);
+    provideSmartFeatureSignalEntities(featureName, [entityDefinition]);
 
     expect(mockRootInjectorCallback).toHaveBeenCalled();
     expect(hasService).toHaveBeenCalledWith(effectServiceToken);
@@ -134,7 +132,7 @@ describe('provideSmartFeatureEntities', () => {
     const registerService = jest.spyOn(serviceRegistry, 'register');
     jest.spyOn(serviceRegistry, 'has').mockReturnValue(true);
 
-    provideSmartFeatureEntities(featureName, [entityDefinition]);
+    provideSmartFeatureSignalEntities(featureName, [entityDefinition]);
 
     expect(mockRootInjectorCallback).toHaveBeenCalled();
     expect(registerService).not.toHaveBeenCalled();
@@ -156,7 +154,6 @@ describe('provideSmartFeatureEntities', () => {
     // Reset and reconfigure TestBed with both services
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
       providers: [
         TestEffectService,
         { provide: effectServiceToken, useClass: TestEffectService },
@@ -171,7 +168,7 @@ describe('provideSmartFeatureEntities', () => {
     const hasService = jest.spyOn(serviceRegistry, 'has');
     const registerService = jest.spyOn(serviceRegistry, 'register');
 
-    provideSmartFeatureEntities(featureName, [
+    provideSmartFeatureSignalEntities(featureName, [
       entityDefinition,
       secondEntityDefinition,
     ]);
@@ -189,9 +186,11 @@ describe('provideSmartFeatureEntities', () => {
     );
   });
 
-  it('should return environment providers', () => {
-    const result = provideSmartFeatureEntities(featureName, [entityDefinition]);
+  it('should return an empty array', () => {
+    const result = provideSmartFeatureSignalEntities(featureName, [
+      entityDefinition,
+    ]);
 
-    expect(result).toBeDefined();
+    expect(result).toEqual([]);
   });
 });
