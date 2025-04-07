@@ -1,7 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { assert } from '..';
 import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
@@ -9,6 +8,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { convertChildrenToArrayProxy } from './convert-children-to-array-proxy.function';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { ParentSelector } from './parent-selector.type';
+
 /**
  * This is an internal function used by `createSmartSelector`.
  * It is documented here for completeness.  Use `createSmartSelector` instead.
@@ -44,9 +44,7 @@ export function createInnerSmartSelector<
     parentEntity,
     parentField: parentFieldName,
   } = childDefinition;
-  const childSelector =
-    childDefinition.type === 'NgRX' ? childDefinition.childSelector : undefined;
-  assert(!!childSelector, 'childSelector is required');
+  const childSelector = childDefinition.childSelector;
   childDefinitionRegistry.registerChildDefinition(
     childFeature,
     childEntity,
@@ -73,7 +71,7 @@ export function createInnerSmartSelector<
           returnEntity,
           parentFieldName,
           child,
-          childDefinition,
+          childDefinition as ChildDefinition<P>,
         );
         return returnEntity;
       },
