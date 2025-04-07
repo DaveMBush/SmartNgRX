@@ -1,4 +1,5 @@
-import { Update } from '@ngrx/entity';
+import { EntityState, Update } from '@ngrx/entity';
+
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { SignalsFacade } from '../signals-facade';
 import { entitySignalStoreFactory } from './entity-signal-store.factory';
@@ -9,21 +10,24 @@ interface TestRow extends SmartNgRXRowBase {
   value: number;
 }
 
+// Define the store type based on the factory return type
+type TestEntityStore = ReturnType<typeof entitySignalStoreFactory<TestRow>>;
+
+// Define test data
+const testRow1: TestRow = {
+  id: '1',
+  name: 'Test 1',
+  value: 100,
+};
+
+const testRow2: TestRow = {
+  id: '2',
+  name: 'Test 2',
+  value: 200,
+};
+
 describe('entitySignalStoreFactory', () => {
-  // Test data
-  const testRow1: TestRow = {
-    id: '1',
-    name: 'Test 1',
-    value: 100,
-  };
-
-  const testRow2: TestRow = {
-    id: '2',
-    name: 'Test 2',
-    value: 200,
-  };
-
-  let store: ReturnType<typeof entitySignalStoreFactory<TestRow>>;
+  let store: TestEntityStore;
   let facade: Partial<SignalsFacade<TestRow>>;
 
   beforeEach(() => {
@@ -48,7 +52,7 @@ describe('entitySignalStoreFactory', () => {
       expect(store.entityMap()['1']).toEqual(testRow1);
 
       // Now update the same entity
-      const updatedRow = { ...testRow1, value: 150 };
+      const updatedRow: TestRow = { ...testRow1, value: 150 };
       store.upsert(updatedRow);
 
       // Should have updated the entity
@@ -114,7 +118,7 @@ describe('entitySignalStoreFactory', () => {
   describe('storeRows', () => {
     it('should upsert multiple rows', () => {
       // Store multiple rows
-      const rows = [testRow1, testRow2];
+      const rows: TestRow[] = [testRow1, testRow2];
       store.storeRows(rows);
 
       // Check all rows were added
@@ -125,7 +129,7 @@ describe('entitySignalStoreFactory', () => {
       expect(store.entityMap()['2']).toEqual(testRow2);
 
       // Update rows
-      const updatedRows = [
+      const updatedRows: TestRow[] = [
         { ...testRow1, value: 150 },
         { ...testRow2, value: 250 },
       ];
@@ -145,7 +149,7 @@ describe('entitySignalStoreFactory', () => {
       store.upsert(testRow2);
 
       // Get entity state
-      const state = store.entityState();
+      const state: EntityState<TestRow> = store.entityState();
 
       // Check state structure
       expect(state.ids).toEqual(['1', '2']);

@@ -1,12 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- needed for mocking */
-import { ErrorHandler } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { EnvironmentInjector, InjectionToken } from '@angular/core';
+import { EntityAdapter } from '@ngrx/entity';
+import { of, throwError } from 'rxjs';
 
 import * as rootInjectorModule from '../../common/root-injector.function';
 import * as entityRowsRegistryModule from '../../mark-and-delete/entity-rows-registry.class';
 import * as entityDefinitionRegistryModule from '../../registrations/entity-definition-registry.function';
 import * as serviceRegistryModule from '../../registrations/service-registry.class';
+import { EffectService } from '../../types/effect-service';
 import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { SmartValidatedEntityDefinition } from '../../types/smart-validated-entity-definition.type';
+import { SignalsFacade } from '../signals-facade';
 import { LoadByIdsSignals } from './load-by-ids-signals.class';
 
 interface TestRow extends SmartNgRXRowBase {
@@ -26,7 +29,7 @@ interface MockFacade {
   };
 }
 
-interface MockEffectService {
+interface MockEffectService extends EffectService<TestRow> {
   loadByIds: jest.Mock;
 }
 
@@ -62,16 +65,32 @@ describe('LoadByIdsSignals', () => {
     // Mock for service registry
     mockEffectService = {
       loadByIds: jest.fn().mockReturnValue(of([])),
+      loadByIndexes: jest.fn(),
+      update: jest.fn(),
+      add: jest.fn(),
+      delete: jest.fn(),
     };
 
     jest
       .spyOn(serviceRegistryModule.serviceRegistry, 'get')
-      .mockReturnValue(mockEffectService as any);
+      .mockReturnValue(mockEffectService);
 
     // Mock for entity definition registry
+    const mockEntityDefinition: SmartValidatedEntityDefinition<SmartNgRXRowBase> =
+      {
+        effectServiceToken: new InjectionToken<EffectService<TestRow>>(
+          'TestToken',
+        ),
+        entityName: entity,
+        defaultRow: defaultRow as (id: string) => SmartNgRXRowBase,
+        entityAdapter: {
+          selectId: (row: SmartNgRXRowBase) => row.id,
+        } as EntityAdapter<SmartNgRXRowBase>,
+      };
+
     jest
       .spyOn(entityDefinitionRegistryModule, 'entityDefinitionRegistry')
-      .mockReturnValue({ effectServiceToken: 'testToken' } as any);
+      .mockReturnValue(mockEntityDefinition);
 
     // Mock for entity rows registry
     jest
@@ -82,19 +101,17 @@ describe('LoadByIdsSignals', () => {
     mockErrorHandler = { handleError: jest.fn() };
     const mockGet = {
       get: jest.fn().mockReturnValue(mockErrorHandler),
-    };
+      runInContext: jest.fn(),
+      destroy: jest.fn(),
+    } as unknown as EnvironmentInjector;
 
-    jest
-      .spyOn(rootInjectorModule.rootInjector, 'get')
-      .mockReturnValue(mockGet as any);
+    jest.spyOn(rootInjectorModule.rootInjector, 'get').mockReturnValue(mockGet);
 
     // Create instance of LoadByIdsSignals
-    loadByIdsSignals = new LoadByIdsSignals<TestRow>(mockFacade as any);
+    loadByIdsSignals = new LoadByIdsSignals<TestRow>(
+      mockFacade as unknown as SignalsFacade<TestRow>,
+    );
     loadByIdsSignals.init(defaultRow);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   describe('loadByIdsDispatcher', () => {
@@ -196,11 +213,13 @@ describe('LoadByIdsSignals', () => {
         { id: '2', name: 'Row 2', value: 20, isLoading: false },
       ];
 
+      const registerSpy = jest.spyOn(
+        entityRowsRegistryModule.entityRowsRegistry,
+        'register',
+      );
       loadByIdsSignals.loadByIdsSuccess(rows);
 
-      expect(
-        entityRowsRegistryModule.entityRowsRegistry.register,
-      ).toHaveBeenCalledWith(feature, entity, rows);
+      expect(registerSpy).toHaveBeenCalledWith(feature, entity, rows);
       expect(mockFacade.storeRows).toHaveBeenCalled();
     });
   });
