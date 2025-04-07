@@ -2,6 +2,7 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
+import { FacadeBase } from '../facades/facade.base';
 import { clearState } from '../tests/functions/clear-state.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
@@ -136,6 +137,78 @@ describe('ArrayProxy', () => {
 
       // Assert: Check that rawArray is set correctly
       expect(arrayProxy.rawArray).toEqual([]);
+    });
+
+    it('should handle VirtualArray type childArray correctly', () => {
+      // Arrange: Set up a VirtualArray
+      const virtualArray = {
+        rawArray: ['1', '2', '3'],
+        length: 3,
+      } as unknown as VirtualArray<MockRow>;
+
+      arrayProxy = new ArrayProxy(
+        virtualArray as unknown as string[],
+        mockChild,
+        mockChildDefinition,
+      ) as unknown as TestableArrayProxy<MockRow, MockRow>;
+
+      // Act: Call init
+      arrayProxy.init();
+
+      // Assert: Check that rawArray and length are set correctly
+      expect(arrayProxy.rawArray).toBe(virtualArray);
+      expect(arrayProxy.length).toBe(3);
+      expect(
+        (arrayProxy as unknown as { childArray: string[] }).childArray,
+      ).toEqual([]);
+    });
+
+    it('should handle actual VirtualArray instance correctly', () => {
+      // Arrange: Create a real VirtualArray instance
+      const virtualArray = new VirtualArray<MockRow>(
+        { indexes: ['1', '2', '3'], length: 3 },
+        mockService as unknown as FacadeBase,
+        'parentId',
+        'childField',
+      );
+
+      arrayProxy = new ArrayProxy(
+        virtualArray as unknown as string[],
+        mockChild,
+        mockChildDefinition,
+      ) as unknown as TestableArrayProxy<MockRow, MockRow>;
+
+      // Act: Call init
+      arrayProxy.init();
+
+      // Assert: Check that rawArray and length are set correctly
+      expect(arrayProxy.rawArray).toBe(virtualArray);
+      expect(arrayProxy.length).toBe(3);
+      expect(
+        (arrayProxy as unknown as { childArray: string[] }).childArray,
+      ).toEqual([]);
+    });
+
+    it('should unfreeze non-Array type childArray if frozen', () => {
+      // Arrange: Set up a frozen non-Array object
+      const frozenObject = Object.freeze({
+        0: '1',
+        1: '2',
+        length: 2,
+      }) as unknown as string[];
+
+      arrayProxy = new ArrayProxy(
+        frozenObject,
+        mockChild,
+        mockChildDefinition,
+      ) as unknown as TestableArrayProxy<MockRow, MockRow>;
+
+      // Act: Call init
+      arrayProxy.init();
+
+      // Assert: Check that the object is no longer frozen
+      expect(Object.isFrozen(arrayProxy.rawArray)).toBe(false);
+      expect(arrayProxy.rawArray).toEqual({ 0: '1', 1: '2', length: 2 });
     });
   });
   describe('getIdAtIndex', () => {

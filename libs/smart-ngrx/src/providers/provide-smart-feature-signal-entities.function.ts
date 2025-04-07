@@ -1,7 +1,4 @@
-import {
-  EnvironmentProviders,
-  Provider,
-} from '@angular/core';
+import { EnvironmentProviders, Provider } from '@angular/core';
 
 import { forNext } from '../common/for-next.function';
 import { rootInjector } from '../common/root-injector.function';

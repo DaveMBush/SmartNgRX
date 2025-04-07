@@ -533,10 +533,7 @@ describe('ActionService', () => {
         mockStore.dispatch.mockClear();
 
         // This will exercise the code path where ids are filtered to an empty array
-        service.garbageCollectWithEntities(
-          mockEntities,
-          ['1', '2'],
-        );
+        service.garbageCollectWithEntities(mockEntities, ['1', '2']);
 
         // And dispatch should not have been called
         // eslint-disable-next-line @typescript-eslint/unbound-method -- safe because it is a test
