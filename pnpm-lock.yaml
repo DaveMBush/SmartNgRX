@@ -181,8 +181,8 @@ importers:
         specifier: 19.0.1
         version: 19.0.1(@typescript-eslint/utils@8.29.0(eslint@9.23.0(jiti@1.21.0))(typescript@5.7.3))(eslint@9.23.0(jiti@1.21.0))(typescript-eslint@8.29.0(eslint@9.23.0(jiti@1.21.0))(typescript@5.7.3))(typescript@5.7.3)
       '@ngrx/schematics':
-        specifier: 19.0.1
-        version: 19.0.1
+        specifier: 19.1.0
+        version: 19.1.0
       '@nx/cypress':
         specifier: 20.6.2
         version: 20.6.2(@babel/traverse@7.26.10)(@swc-node/register@1.10.10(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/types@0.1.20)(typescript@5.7.3))(@swc/core@1.11.13(@swc/helpers@0.5.15))(@types/node@22.10.6)(@zkochan/js-yaml@0.0.7)(cypress@13.17.0)(eslint@9.23.0(jiti@1.21.0))(nx@20.6.2(@swc-node/register@1.10.10(@swc/core@1.11.13(@swc/helpers@0.5.15))(@swc/types@0.1.20)(typescript@5.7.3))(@swc/core@1.11.13(@swc/helpers@0.5.15)))(typescript@5.7.3)
@@ -2889,8 +2889,8 @@ packages:
       typescript: '*'
       typescript-eslint: ^8.0.0
 
-  '@ngrx/schematics@19.0.1':
-    resolution: {integrity: sha512-kH91X7zewB8niOeemk8NgbjnnW0crwqTl8gG2zZAySW3Q0yGnoPpVAc4Yxezm1/bKsLGLILvEAzzlQGKBrigVg==}
+  '@ngrx/schematics@19.1.0':
+    resolution: {integrity: sha512-n4t0BkVOXL9RMu6i6ef14+021v6nnIrMTLH/kK0HLtW12r8lti+n3qmo+A7K3mWQmS+9eTcZcjEAF3YvfvT64g==}
 
   '@ngrx/store-devtools@19.0.1':
     resolution: {integrity: sha512-afvr6NHh12LpYrOH9JKKEEi/z2DHq/wJ45hRn3mrcRDArQTKpTl7V2eu0dYgjGItSRSeJ2drzzKGjccL61PPSg==}
@@ -14126,7 +14126,7 @@ snapshots:
       typescript: 5.7.3
       typescript-eslint: 8.29.0(eslint@9.23.0(jiti@1.21.0))(typescript@5.7.3)
 
-  '@ngrx/schematics@19.0.1': {}
+  '@ngrx/schematics@19.1.0': {}
 
   '@ngrx/store-devtools@19.0.1(@angular/core@19.2.4(rxjs@7.8.2)(zone.js@0.15.0))(@ngrx/store@19.0.1(@angular/core@19.2.4(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(rxjs@7.8.2)':
     dependencies:
