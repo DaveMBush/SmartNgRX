@@ -112,7 +112,10 @@ export class ClassicNgrxFacade<
       this.entities
         .pipe(take(1))
         .subscribe(function markDirtySubscribe(entities) {
-          context.markDirtyNoFetchWithEntities(entities as Record<string, T>, ids);
+          context.markDirtyNoFetchWithEntities(
+            entities as Record<string, T>,
+            ids,
+          );
         });
       return;
     }

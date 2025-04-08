@@ -84,7 +84,9 @@ export class SignalsFacade<
   override markDirty(ids: string[]): void {
     if (!this.markDirtyFetchesNew) {
       this.markDirtyNoFetchWithEntities(
-        this.entityState.entityState().entities, ids);
+        this.entityState.entityState().entities,
+        ids,
+      );
       return;
     }
     this.forceDirty(ids);
