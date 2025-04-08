@@ -1,19 +1,13 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { asapScheduler, catchError, Observable, of, take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { handleError } from '../error-handler/handle-error.function';
-import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
 import { store as storeFunction } from '../smart-selector/store.function';
-import { virtualArrayMap } from '../smart-selector/virtual-array-map.const';
 import { ActionGroup } from '../types/action-group.interface';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
@@ -22,7 +16,6 @@ import { actionFactory } from './classic-ngrx.facade/action.factory';
 import { Add } from './classic-ngrx.facade/add.class';
 import { LoadByIdsClassic } from './classic-ngrx.facade/load-by-ids-classic.class';
 import { LoadByIndexesClassic } from './classic-ngrx.facade/load-by-indexes-classic.class';
-import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';
 import { removeIdFromParentsClassic } from './classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { Update } from './classic-ngrx.facade/update.class';
 import { watchInitialRow } from './classic-ngrx.facade/watch-initial-row.function';
@@ -113,19 +106,13 @@ export class ClassicNgrxFacade<
    *
    * @param ids the ids to mark as dirty
    */
-  markDirty(ids: string[]): void {
-    const feature = this.feature;
-    const entity = this.entity;
+  override markDirty(ids: string[]): void {
+    const context = this;
     if (!this.markDirtyFetchesNew) {
       this.entities
         .pipe(take(1))
         .subscribe(function markDirtySubscribe(entities) {
-          const entIds = entities as Record<string, SmartNgRXRowBase>;
-          const idsIds = [] as SmartNgRXRowBase[];
-          forNext(ids, function markDirtyForNext(id) {
-            idsIds.push(entIds[id]);
-          });
-          entityRowsRegistry.register(feature, entity, idsIds);
+          context.markDirtyNoFetchWithEntities(entities as Record<string, T>, ids);
         });
       return;
     }
@@ -143,7 +130,7 @@ export class ClassicNgrxFacade<
     this.entities
       .pipe(take(1))
       .subscribe(function markDirtySubscribe(entities) {
-        markDirtyWithEntities(entities, ids);
+        markDirtyWithEntities(entities as Record<string, T>, ids);
       });
   }
 
@@ -177,7 +164,7 @@ export class ClassicNgrxFacade<
     this.entities
       .pipe(take(1))
       .subscribe(function garbageCollectSubscribe(entities) {
-        garbageCollectWithEntities(entities, ids);
+        garbageCollectWithEntities(entities as Record<string, T>, ids);
       });
   }
 
@@ -186,7 +173,7 @@ export class ClassicNgrxFacade<
    *
    * @param ids the ids of the rows to remove from the store
    */
-  remove(ids: string[]): void {
+  override remove(ids: string[]): void {
     this.store.dispatch(
       this.actions.remove({
         ids,
@@ -216,52 +203,6 @@ export class ClassicNgrxFacade<
         changes,
       }),
     );
-  }
-
-  /**
-   * adds a row to the store
-   *
-   * @param row the row to add
-   * @param parentId the id of the parent row
-   * @param parentService the service for the parent row
-   */
-  override add(row: T, parentId: string, parentService: FacadeBase): void {
-    this.addService.add(row, parentId, parentService);
-  }
-
-  /**
-   * Deletes the row represented by the Id from the store
-   *
-   * @param id the id of the row to delete
-   */
-  delete(id: string): void {
-    let parentInfo = this.removeFromParents(id);
-
-    parentInfo = parentInfo.filter(function filterParentInfo(info) {
-      return info.ids.length > 0;
-    });
-    const effectService = serviceRegistry.get(
-      this.entityDefinition.effectServiceToken,
-    );
-    effectService
-      .delete(id)
-      .pipe(
-        catchError(function deleteEffectConcatMapCatchError(
-          error: unknown,
-          __,
-        ) {
-          handleError(
-            'Error deleting row, refreshing the parent row(s)',
-            error,
-          );
-          markFeatureParentsDirty({
-            id,
-            parentInfo,
-          });
-          return of();
-        }),
-      )
-      .subscribe();
   }
 
   /**
@@ -335,19 +276,8 @@ export class ClassicNgrxFacade<
    * @param id the id to remove
    * @returns the parent info for each parent
    */
-  private removeFromParents(id: string): ParentInfo[] {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    const parentInfo: ParentInfo[] = [];
-    forNext(
-      childDefinitions,
-      function removeFromParentsForNext(childDefinition) {
-        removeIdFromParentsClassic(childDefinition, id, parentInfo);
-      },
-    );
-    return parentInfo;
+  override removeFromParents(id: string): ParentInfo[] {
+    return super.removeFromParentsWithFunction(id, removeIdFromParentsClassic);
   }
 
   /**
@@ -371,79 +301,5 @@ export class ClassicNgrxFacade<
       this.loadByIdsSuccess.bind(this),
     );
     this.addService = new Add<T>(this);
-  }
-
-  private markDirtyWithEntities<R extends SmartNgRXRowBase>(
-    entities: Dictionary<R>,
-    ids: string[],
-  ): void {
-    const updates = ids
-      .filter(function filterMarkDirtyIds(id) {
-        return entities[id] !== undefined && entities[id].isEditing !== true;
-      })
-      .map(function mapMarkDirtyIds(id) {
-        const entityChanges: Partial<SmartNgRXRowBase> = {
-          isDirty: true,
-        };
-
-        return {
-          id,
-          changes: entityChanges,
-        } as UpdateStr<SmartNgRXRowBase>;
-      });
-    this.store.dispatch(this.actions.updateMany({ changes: updates }));
-  }
-
-  private garbageCollectWithEntities<R extends SmartNgRXRowBase>(
-    entities: Dictionary<R>,
-    ids: string[],
-  ): void {
-    const feature = this.feature;
-    const entity = this.entity;
-    let idsToRemove = ids.filter(function filterGarbageCollectIds(id) {
-      return entities[id] !== undefined && entities[id].isEditing !== true;
-    });
-    if (idsToRemove.length === 0) {
-      return;
-    }
-    idsToRemove = entityRowsRegistry.unregister(feature, entity, ids);
-    this.store.dispatch(
-      this.actions.remove({
-        ids: idsToRemove,
-      }),
-    );
-    // make sure we remove the virtualArray from the map AFTER
-    // we remove the row from the store
-    asapScheduler.schedule(function garbageCollectSchedule() {
-      idsToRemove.forEach(function garbageCollectForEach(id) {
-        virtualArrayMap.remove(feature, entity, id);
-      });
-    });
-  }
-
-  /**
-   * Optimistically updates the row in the store
-   * based on the diff between the old row and the new row
-   *
-   * @param oldRow the row before the changes
-   * @param newRow the row after the changes
-   */
-  private optimisticUpdate(
-    oldRow: SmartNgRXRowBase,
-    newRow: SmartNgRXRowBase,
-  ): void {
-    const changes: Record<string, unknown> = {};
-    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
-    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
-    Object.entries(newRowAsRecord).forEach(function updateForEach([
-      key,
-      value,
-    ]) {
-      if (value !== oldRowAsRecord[key]) {
-        changes[key] = value;
-      }
-    });
-    const id = this.selectId(oldRow as T);
-    this.updateMany([{ id: id.toString(), changes }]);
   }
 }

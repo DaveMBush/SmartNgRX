@@ -1,22 +1,15 @@
 import { UpdateStr } from '@ngrx/entity/src/models';
-import { asapScheduler, catchError, of } from 'rxjs';
+import { asapScheduler } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
 import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { handleError } from '../error-handler/handle-error.function';
-import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
 import { ensureDataLoaded } from '../smart-selector/ensure-data-loaded.function';
-import { virtualArrayMap } from '../smart-selector/virtual-array-map.const';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { Add } from './classic-ngrx.facade/add.class';
-import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';
 import { Update as UpdateService } from './classic-ngrx.facade/update.class';
 import { FacadeBase } from './facade.base';
 import { entitySignalStoreFactory } from './signal-facade/entity-signal-store.factory';
@@ -89,18 +82,9 @@ export class SignalsFacade<
    * @param ids the ids to mark as dirty
    */
   override markDirty(ids: string[]): void {
-    const feature = this.feature;
-    const entity = this.entity;
     if (!this.markDirtyFetchesNew) {
-      const entIds = this.entityState.entityState().entities as Record<
-        string,
-        SmartNgRXRowBase
-      >;
-      const idsIds = [] as SmartNgRXRowBase[];
-      forNext(ids, function markDirtyForNext(id) {
-        idsIds.push(entIds[id]);
-      });
-      entityRowsRegistry.register(feature, entity, idsIds);
+      this.markDirtyNoFetchWithEntities(
+        this.entityState.entityState().entities, ids);
       return;
     }
     this.forceDirty(ids);
@@ -168,52 +152,6 @@ export class SignalsFacade<
    */
   override updateMany(changes: UpdateStr<T>[]): void {
     this.entityState.updateMany(changes);
-  }
-
-  /**
-   * Add for Signals
-   *
-   * @param row the row to add
-   * @param parentId the parent id
-   * @param parentService the parent service
-   */
-  override add(row: T, parentId: string, parentService: FacadeBase): void {
-    this.addService.add(row, parentId, parentService);
-  }
-
-  /**
-   * Delete for Signals
-   *
-   * @param id the id to delete
-   */
-  override delete(id: string): void {
-    let parentInfo = this.removeFromParents(id);
-
-    parentInfo = parentInfo.filter(function filterParentInfo(info) {
-      return info.ids.length > 0;
-    });
-    const effectService = serviceRegistry.get(
-      this.entityDefinition.effectServiceToken,
-    );
-    effectService
-      .delete(id)
-      .pipe(
-        catchError(function deleteEffectConcatMapCatchError(
-          error: unknown,
-          __,
-        ) {
-          handleError(
-            'Error deleting row, refreshing the parent row(s)',
-            error,
-          );
-          markFeatureParentsDirty({
-            id,
-            parentInfo,
-          });
-          return of();
-        }),
-      )
-      .subscribe();
   }
 
   /**
@@ -297,89 +235,8 @@ export class SignalsFacade<
    * @param id the id to remove
    * @returns the parent info for each parent
    */
-  private removeFromParents(id: string): ParentInfo[] {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    const parentInfo: ParentInfo[] = [];
-    forNext(
-      childDefinitions,
-      function removeFromParentsForNext(childDefinition) {
-        removeIdFromParentsSignals(childDefinition, id, parentInfo);
-      },
-    );
-    return parentInfo;
-  }
-
-  private markDirtyWithEntities<R extends SmartNgRXRowBase>(
-    entities: Record<string, R>,
-    ids: string[],
-  ): void {
-    const updates = ids
-      .filter(function filterMarkDirtyIds(id) {
-        return entities[id] !== undefined && entities[id].isEditing !== true;
-      })
-      .map(function mapMarkDirtyIds(id) {
-        const entityChanges: Partial<SmartNgRXRowBase> = {
-          isDirty: true,
-        };
-
-        return {
-          id,
-          changes: entityChanges,
-        } as UpdateStr<T>;
-      });
-    this.updateMany(updates);
-  }
-
-  private garbageCollectWithEntities<R extends SmartNgRXRowBase>(
-    entities: Record<string, R>,
-    ids: string[],
-  ): void {
-    const feature = this.feature;
-    const entity = this.entity;
-    let idsToRemove = ids.filter(function filterGarbageCollectIds(id) {
-      return entities[id] !== undefined && entities[id].isEditing !== true;
-    });
-    if (idsToRemove.length === 0) {
-      return;
-    }
-    idsToRemove = entityRowsRegistry.unregister(feature, entity, ids);
-    this.remove(idsToRemove);
-    // make sure we remove the virtualArray from the map AFTER
-    // we remove the row from the store
-    asapScheduler.schedule(function garbageCollectSchedule() {
-      idsToRemove.forEach(function garbageCollectForEach(id) {
-        virtualArrayMap.remove(feature, entity, id);
-      });
-    });
-  }
-
-  /**
-   * Optimistically updates the row in the store
-   * based on the diff between the old row and the new row
-   *
-   * @param oldRow the row before the changes
-   * @param newRow the row after the changes
-   */
-  private optimisticUpdate(
-    oldRow: SmartNgRXRowBase,
-    newRow: SmartNgRXRowBase,
-  ): void {
-    const changes: Record<string, unknown> = {};
-    const newRowAsRecord = newRow as unknown as Record<string, unknown>;
-    const oldRowAsRecord = oldRow as unknown as Record<string, unknown>;
-    Object.entries(newRowAsRecord).forEach(function updateForEach([
-      key,
-      value,
-    ]) {
-      if (value !== oldRowAsRecord[key]) {
-        changes[key] = value;
-      }
-    });
-    const id = this.selectId(oldRow as T);
-    this.updateMany([{ id: id.toString(), changes }] as UpdateStr<T>[]);
+  override removeFromParents(id: string): ParentInfo[] {
+    return super.removeFromParentsWithFunction(id, removeIdFromParentsSignals);
   }
 
   private initClasses(): void {
