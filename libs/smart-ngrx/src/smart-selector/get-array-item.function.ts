@@ -30,19 +30,6 @@ export function getArrayItem<
   const registry = entityRegistry.get(childFeature, childEntity);
   ensureDataLoaded(entityState, id, childFeature, childEntity);
 
-  // If this is a signal child definition, use the child selector
-  if (childDefinition.type === 'Signal') {
-    const childState = childDefinition.childSelector();
-    if (childState.entities[id]) {
-      return realOrMocked(
-        childState,
-        id,
-        registry.defaultRow(id) as T,
-        childDefinition,
-      ) as RowProxyDelete & T;
-    }
-  }
-
   return realOrMocked(
     entityState,
     id,
