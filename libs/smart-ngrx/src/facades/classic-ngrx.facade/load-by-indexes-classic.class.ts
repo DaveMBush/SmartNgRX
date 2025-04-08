@@ -1,3 +1,8 @@
+// jscpd:ignore-start
+// this is similar to the signal version
+// but it is unique enough that we can't
+// combine without tightly coupling the two
+// which will end up in separate libraries.
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
@@ -178,3 +183,4 @@ export class LoadByIndexesClassic {
     return updatedField;
   }
 }
+// jscpd:ignore-end

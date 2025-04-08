@@ -1,3 +1,8 @@
+// jscpd:ignore-start
+// this is similar to the classic NgRX version
+// but it is unique enough that we can't
+// combine without tightly coupling the two
+// which will end up in separate libraries.
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { ChildDefinition } from '../../types/child-definition.interface';
 import { ParentInfo } from '../../types/parent-info.interface';
@@ -44,3 +49,4 @@ export function removeIdFromParentsSignals(
     ids: parentIds,
   });
 }
+// jscpd:ignore-end

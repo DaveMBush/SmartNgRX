@@ -54,6 +54,11 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
     this.loadByIdsSubject.next(ids);
   }
 
+  // jscpd:ignore-start
+  // this is similar to the classic NgRX version
+  // but it is unique enough that we can't
+  // combine without tightly coupling the two
+  // which will end up in separate libraries.
   /**
    * Dispatches the loadByIds action after buffering the ids.
    */
@@ -65,10 +70,8 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
     this.loadByIdsSubject
       .pipe(
         bufferIds(),
-        map(function loadByIdsDispatcherMap(ids) {
-          return ids.filter(notAPreloadId);
-        }),
-        mergeMap(function loadByIdsDispatcherSubscribe(ids) {
+        mergeMap(function loadByIdsDispatcherMap(ids) {
+          ids = ids.filter(notAPreloadId);
           const entities = actionService.entityState.entityMap();
           ids = ids.filter(function loadByIdsDispatcherFilter(id) {
             return (
@@ -99,6 +102,7 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
       .subscribe();
   }
 
+  // jscpd:ignore-end
   /**
    * Calls the loadByIdsPreload action to load the rows into the store.
    *

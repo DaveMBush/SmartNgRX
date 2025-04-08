@@ -1,3 +1,8 @@
+// jscpd:ignore-start
+// this is similar to the signal version
+// but it is unique enough that we can't
+// combine without tightly coupling the two
+// which will end up in separate libraries.
 import {
   EnvironmentProviders,
   importProvidersFrom,
@@ -87,3 +92,4 @@ export function provideSmartFeatureClassicEntities(
   );
   return importProvidersFrom(StoreModule.forFeature(featureName, reducers));
 }
+// jscpd:ignore-end

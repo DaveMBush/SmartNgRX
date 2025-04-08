@@ -1,3 +1,8 @@
+// jscpd:ignore-start
+// this is similar to the classic NgRX version
+// but it is unique enough that we can't
+// combine without tightly coupling the two
+// which will end up in separate libraries.
 import { EnvironmentProviders, Provider } from '@angular/core';
 
 import { forNext } from '../common/for-next.function';
@@ -72,3 +77,4 @@ export function provideSmartFeatureSignalEntities(
   );
   return [];
 }
+// jscpd:ignore-end

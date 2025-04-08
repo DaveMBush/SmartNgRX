@@ -1,3 +1,8 @@
+// jscpd:ignore-start
+// this is similar to the classic NgRX version
+// but it is unique enough that we can't
+// combine without tightly coupling the two
+// which will end up in separate libraries.
 import { map, Subject, switchMap } from 'rxjs';
 
 import { forNext } from '../../common/for-next.function';
@@ -154,3 +159,4 @@ export class LoadByIndexesSignals<T extends SmartNgRXRowBase> {
     return updatedField;
   }
 }
+// jscpd:ignore-end

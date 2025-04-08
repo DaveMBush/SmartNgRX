@@ -77,6 +77,11 @@ export class LoadByIdsClassic {
     this.loadByIdsSubject.next(ids);
   }
 
+  // jscpd:ignore-start
+  // this is similar to the signal version
+  // but it is unique enough that we can't
+  // combine without tightly coupling the two
+  // which will end up in separate libraries.
   /**
    * Dispatches the loadByIds action after buffering the ids.
    */
@@ -119,6 +124,7 @@ export class LoadByIdsClassic {
       )
       .subscribe();
   }
+  // jscpd:ignore-end
 
   /**
    * Calls the loadByIdsPreload action to load the rows into the store.
