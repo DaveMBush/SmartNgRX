@@ -16,5 +16,8 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/smart-signals/create-smart-signal.function.ts"
+  ]
 }

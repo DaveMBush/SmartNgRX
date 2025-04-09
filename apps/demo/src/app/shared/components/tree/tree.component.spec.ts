@@ -20,8 +20,8 @@ interface TestableTreeComponent
   // because it is private and we need it available as public
   extends Omit<TreeComponent, 'treeComponentService'> {
   treeComponentService: TreeComponentService;
-  locationId: InputSignal<number | string | null>;
-  locations: InputSignal<Location[] | null>;
+  locationId$: InputSignal<number | string | null>;
+  locations$: InputSignal<Location[] | null>;
 }
 
 // Create a test host component
@@ -30,12 +30,13 @@ interface TestableTreeComponent
   imports: [TreeComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<dmb-tree
-    locationId="1"
-    [location]="testLocation"
-    [locations]="locations"
+    [locationId$]="locationId"
+    [location$]="testLocation"
+    [locations$]="locations"
   ></dmb-tree>`,
 })
 class TestHostComponent {
+  locationId = '1';
   testLocation = {
     id: '1',
     name: 'Initial Location',
@@ -88,7 +89,7 @@ describe('TreeComponent', () => {
     testHostFixture.detectChanges();
 
     // Verify that locationName is updated
-    expect(treeComponent.locationId()).toBe('1');
+    expect(treeComponent.locationId$()).toBe('1');
 
     // Verify that applyRange has been called
     expect(applyRangeSpy).toHaveBeenCalled();

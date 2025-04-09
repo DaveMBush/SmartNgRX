@@ -9,6 +9,7 @@ export const selectLocationsDepartments = createSmartSelector(
   selectLocationEntities,
   [
     {
+      type: 'NgRX',
       childFeature: featureName,
       childEntity: 'departments',
       parentField: 'departments',

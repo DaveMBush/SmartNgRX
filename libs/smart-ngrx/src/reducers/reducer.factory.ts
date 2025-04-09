@@ -1,7 +1,7 @@
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
 
-import { actionFactory } from '../actions/action.factory';
+import { actionFactory } from '../facades/classic-ngrx.facade/action.factory';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 

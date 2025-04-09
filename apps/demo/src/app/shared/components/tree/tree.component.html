@@ -2,12 +2,12 @@
   <mat-label>Select Location</mat-label>
   <select
     matNativeControl
-    [ngModel]="locationId()"
+    [ngModel]="locationId$()"
     (ngModelChange)="selectionChanged($event)"
     title="Select Location"
   >
-    @for (location of locations(); track location.id) {
-      <option [value]="location.id" [selected]="locationId() === location.id">
+    @for (location of locations$(); track location.id) {
+      <option [value]="location.id" [selected]="locationId$() === location.id">
         {{ location.name }}
       </option>
     }

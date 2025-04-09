@@ -68,15 +68,15 @@ describe('TreeComponentService', () => {
       start: 0,
       end: 6,
     };
-    mockComponent.componentInstance.locationId = signal(
+    mockComponent.componentInstance.locationId$ = signal(
       '1',
-    ) as unknown as typeof mockComponent.componentInstance.locationId;
-    mockComponent.componentInstance.location = signal(
+    ) as unknown as typeof mockComponent.componentInstance.locationId$;
+    mockComponent.componentInstance.location$ = signal(
       null,
-    ) as unknown as typeof mockComponent.componentInstance.location;
-    mockComponent.componentInstance.locations = signal(
+    ) as unknown as typeof mockComponent.componentInstance.location$;
+    mockComponent.componentInstance.locations$ = signal(
       [],
-    ) as unknown as typeof mockComponent.componentInstance.locations;
+    ) as unknown as typeof mockComponent.componentInstance.locations$;
     componentInstance = mockComponent.componentInstance;
     service.form = componentInstance;
     mockComponent.detectChanges();
@@ -122,7 +122,7 @@ describe('TreeComponentService', () => {
 
   describe('When applyRange() is called and only one element is in the array and the object has not resolved', () => {
     beforeEach(() => {
-      componentInstance.location = signal({
+      componentInstance.location$ = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -133,7 +133,7 @@ describe('TreeComponentService', () => {
             return '1';
           },
         }),
-      }) as unknown as typeof componentInstance.location;
+      }) as unknown as typeof componentInstance.location$;
       mockComponent.detectChanges();
       service.applyRange();
     });
@@ -163,7 +163,7 @@ describe('TreeComponentService', () => {
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved', () => {
     beforeEach(() => {
-      componentInstance.location = signal({
+      componentInstance.location$ = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -182,7 +182,7 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      }) as unknown as typeof componentInstance.location;
+      }) as unknown as typeof componentInstance.location$;
       mockComponent.detectChanges();
       service.applyRange();
     });
@@ -211,7 +211,7 @@ describe('TreeComponentService', () => {
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved but no children array supplied', () => {
     beforeEach(() => {
-      componentInstance.location = signal({
+      componentInstance.location$ = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -229,7 +229,7 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      }) as unknown as typeof componentInstance.location;
+      }) as unknown as typeof componentInstance.location$;
       mockComponent.detectChanges();
       service.applyRange();
     });
@@ -257,7 +257,7 @@ describe('TreeComponentService', () => {
   describe('When applyRange() is called and only one element is in the array and the object has been resolved and node is expanded', () => {
     beforeEach(() => {
       expandedMap.set('1', 0, '1', true);
-      componentInstance.location = signal({
+      componentInstance.location$ = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -291,7 +291,7 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      }) as unknown as typeof componentInstance.location;
+      }) as unknown as typeof componentInstance.location$;
       jest
         .spyOn(
           // isExpanded is a private method, we cast it here to make it public
@@ -341,9 +341,9 @@ describe('TreeComponentService', () => {
   });
   describe('When applyRange() is called and there are no selected locations', () => {
     beforeEach(() => {
-      componentInstance.location = signal(
+      componentInstance.location$ = signal(
         undefined,
-      ) as unknown as typeof mockComponent.componentInstance.location;
+      ) as unknown as typeof mockComponent.componentInstance.location$;
     });
     it('should leave component.fullDataSource unchanged', () => {
       service.applyRange();
@@ -352,7 +352,7 @@ describe('TreeComponentService', () => {
   });
   describe('When applyRange() is called and range.start and range.end are both 0', () => {
     beforeEach(() => {
-      componentInstance.location = signal({
+      componentInstance.location$ = signal({
         id: '1',
         name: 'location1',
         departments: new Proxy([] as Department[], {
@@ -380,7 +380,7 @@ describe('TreeComponentService', () => {
             };
           },
         }),
-      }) as unknown as typeof componentInstance.location;
+      }) as unknown as typeof componentInstance.location$;
       componentInstance.range = { start: 0, end: -1 };
     });
     it('should leave component.fullDataSource unchanged', () => {

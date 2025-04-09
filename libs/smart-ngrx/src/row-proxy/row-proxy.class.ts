@@ -1,7 +1,7 @@
-import { ActionService } from '../actions/action.service';
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
-import { ArrayProxy } from '../selector/array-proxy.class';
+import { FacadeBase } from '../facades/facade.base';
+import { ArrayProxy } from '../smart-selector/array-proxy.class';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { rowProxyGet } from './row-proxy-get.function';
@@ -29,20 +29,20 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
    * This is the constructor for the RowProxy class.
    *
    * @param row The row to create the custom proxy for
-   * @param service The service that will handle updating the row
-   * @param parentService The service that will handle updating the parent row
+   * @param facade The facade that will handle updating the row
+   * @param parentFacade The facade that will handle updating the parent row
    * @returns a proxy that will handle updating the row
    */
   constructor(
     public row: T,
-    private service: ActionService<T>,
-    parentService: ActionService,
+    private facade: FacadeBase<T>,
+    parentFacade: FacadeBase,
   ) {
     this.record = castTo<Record<string | symbol, unknown>>(row);
 
     return new Proxy(this, {
-      get: rowProxyGet(service),
-      set: rowProxySet({ service, parentService }),
+      get: rowProxyGet(facade),
+      set: rowProxySet({ facade, parentFacade }),
     });
   }
 
@@ -85,7 +85,7 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
    * also optimistically update the store
    */
   delete(): void {
-    const id = this.service.entityAdapter.selectId(this.row) as string;
-    this.service.delete(id);
+    const id = this.facade.selectId(this.row);
+    this.facade.delete(id);
   }
 }

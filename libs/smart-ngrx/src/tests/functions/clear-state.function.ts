@@ -1,7 +1,7 @@
 import { MockStore } from '@ngrx/store/testing';
 
 import { castTo } from '../../common/cast-to.function';
-import { store } from '../../selector/store.function';
+import { store } from '../../smart-selector/store.function';
 
 /**
  * Used to clear the state of the store during testing

@@ -1,5 +1,3 @@
-import { EntityAdapter } from '@ngrx/entity';
-
 import { EffectServiceToken } from './effect-service.token';
 import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
 import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
@@ -36,7 +34,7 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
    * id that is passed in will be in the form of `index${psi}${index}`. You can use
    * this information to create whatever ID is appropriate for the row.
    */
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- decorating with void because this should not use this.
+  /* eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- this: void is valid for functions that should not access this context */
   defaultRow(this: void, id: string): Row;
 
   /**
@@ -52,9 +50,24 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
   isInitialRow?: boolean;
 
   /**
-   * Supply your own entityAdapter if you are not using ID as the primary key.
+   * If this is true, the backing store is signalStore and not standard NgRx.
    */
-  entityAdapter?: EntityAdapter<SmartNgRXRowBase>;
+  isSignal?: boolean;
+
+  // /**
+  //  * Supply your own entityAdapter if you are not using ID as the primary key.
+  //  */
+  // entityAdapter?: EntityAdapter<SmartNgRXRowBase>;
+
+  /**
+   * Function that returns the ID of the row. If this is not
+   * supplied, the code will assume that `id` is the primary key.
+   *
+   * @param row
+   * @returns string that is the identifier value (not the field name) of the row.
+   */
+  /* eslint-disable-next-line @typescript-eslint/no-invalid-void-type -- this: void is valid for functions that should not access this context */
+  selectId?(this: void, row: SmartNgRXRowBase): string;
 
   /**
    * The `MarkAndDeleteInit` for this entity. This is optional and if not provided

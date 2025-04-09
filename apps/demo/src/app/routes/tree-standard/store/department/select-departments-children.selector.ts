@@ -1,3 +1,5 @@
+// jscpd:ignore-start
+// intentionally duplicated.
 import { createSmartSelector } from '@smarttools/smart-ngrx';
 
 import { featureName } from '../../feature.const';
@@ -9,6 +11,7 @@ export const selectDepartmentsChildren = createSmartSelector(
   selectDepartments,
   [
     {
+      type: 'NgRX',
       childFeature: featureName,
       childEntity: 'departmentChildren',
       parentFeature: featureName,
@@ -18,3 +21,4 @@ export const selectDepartmentsChildren = createSmartSelector(
     },
   ],
 );
+// jscpd:ignore-end

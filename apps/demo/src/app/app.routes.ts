@@ -2,7 +2,10 @@ import { importProvidersFrom, Type } from '@angular/core';
 import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
-import { provideSmartFeatureEntities } from '@smarttools/smart-ngrx';
+import {
+  provideSmartFeatureClassicEntities,
+  provideSmartFeatureSignalEntities,
+} from '@smarttools/smart-ngrx';
 
 import { watchLocations as watchNoDirtyLocations } from './routes/tree-no-dirty/store/current-location/current-location.effects';
 import { currentLocationNoDirtyReducer } from './routes/tree-no-dirty/store/current-location/current-location-no-dirty.reducer';
@@ -30,6 +33,10 @@ import { standardLocationsDefinition } from './routes/tree-standard/store/locati
 import { standardTopDefinition } from './routes/tree-standard/store/top/standard-top-definition.const';
 import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state2.interface';
 import { TreeComponent } from './routes/tree-standard/tree.component';
+import { standardSignalsDepartmentsDefinition } from './routes/tree-standard-signals/store/department/standard-signals-departments-definition';
+import { standardSignalsDepartmentChildrenDefinition } from './routes/tree-standard-signals/store/department-children/standard-signals-department-children-definition';
+import { standardSignalsLocationsDefinition } from './routes/tree-standard-signals/store/locations/standard-signals-locations-definition';
+import { standardSignalsTopDefinition } from './routes/tree-standard-signals/store/top/standard-signals-top-definition.const';
 
 // This ensure we have one key per SharedState property
 const sharedReducersStandard: ActionReducerMap<TreeStandardState2> = {
@@ -69,7 +76,7 @@ export const appRoutes: Routes = [
         StoreModule.forFeature('tree-standard2', sharedReducersStandard),
         EffectsModule.forFeature([{ watchStandardLocations }]),
       ]),
-      provideSmartFeatureEntities('tree-standard', [
+      provideSmartFeatureClassicEntities('tree-standard', [
         standardTopDefinition,
         standardLocationsDefinition,
         standardDepartmentsDefinition,
@@ -89,7 +96,7 @@ export const appRoutes: Routes = [
         StoreModule.forFeature('tree-no-refresh2', sharedReducersNoRefresh),
         EffectsModule.forFeature([{ watchNoRefreshLocations }]),
       ]),
-      provideSmartFeatureEntities('tree-no-refresh', [
+      provideSmartFeatureClassicEntities('tree-no-refresh', [
         noRefreshTopDefinition,
         noRefreshLocationsDefinition,
         noRefreshDepartmentsDefinition,
@@ -108,7 +115,7 @@ export const appRoutes: Routes = [
         StoreModule.forFeature('tree-no-dirty2', sharedReducersNoDirty),
         EffectsModule.forFeature([{ watchNoDirtyLocations }]),
       ]),
-      provideSmartFeatureEntities('tree-no-dirty', [
+      provideSmartFeatureClassicEntities('tree-no-dirty', [
         noDirtyTopDefinition,
         noDirtyLocationsDefinition,
         noDirtyDepartmentsDefinition,
@@ -127,11 +134,27 @@ export const appRoutes: Routes = [
         StoreModule.forFeature('tree-no-remove2', sharedReducersNoRemove),
         EffectsModule.forFeature([{ watchNoRemoveLocations }]),
       ]),
-      provideSmartFeatureEntities('tree-no-remove', [
+      provideSmartFeatureClassicEntities('tree-no-remove', [
         noRemoveTopDefinition,
         noRemoveLocationsDefinition,
         noRemoveDepartmentsDefinition,
         noRemoveDepartmentChildrenDefinition,
+      ]),
+    ],
+  },
+  {
+    path: 'treeSignals',
+    loadComponent: async function treeRoute(): Promise<Type<unknown>> {
+      return (await import('./routes/tree-standard-signals/tree.component'))
+        .TreeComponent;
+    },
+    providers: [
+      //currentLocationSignalStore,
+      provideSmartFeatureSignalEntities('tree-standard-signals', [
+        standardSignalsTopDefinition,
+        standardSignalsLocationsDefinition,
+        standardSignalsDepartmentsDefinition,
+        standardSignalsDepartmentChildrenDefinition,
       ]),
     ],
   },

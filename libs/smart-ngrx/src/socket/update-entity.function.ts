@@ -1,11 +1,11 @@
 import { Dictionary, EntityState } from '@ngrx/entity';
 import { take } from 'rxjs';
 
-import { ActionService } from '../actions/action.service';
 import { forNext } from '../common/for-next.function';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { FacadeBase } from '../facades/facade.base';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
-import { store } from '../selector/store.function';
+import { store } from '../smart-selector/store.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
@@ -21,7 +21,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   entity: string,
   ids: string[],
 ): void {
-  const actionService = actionServiceRegistry.register(feature, entity);
+  const actionService = facadeRegistry.register(feature, entity);
   if (!featureRegistry.hasFeature(feature)) {
     return;
   }
@@ -39,7 +39,7 @@ export function updateEntity<T extends SmartNgRXRowBase>(
 
 function forceEntitiesDirty<T extends SmartNgRXRowBase>(
   ids: string[],
-  actionService: ActionService<T>,
+  actionService: FacadeBase<T>,
 ): (state: Dictionary<T>) => void {
   return function innerForceEntitiesDirty(state: Dictionary<T>) {
     forNext(ids, forceIdDirty(state, actionService));
@@ -48,7 +48,7 @@ function forceEntitiesDirty<T extends SmartNgRXRowBase>(
 
 function forceIdDirty<T extends SmartNgRXRowBase>(
   state: Dictionary<T>,
-  actionService: ActionService<T>,
+  actionService: FacadeBase<T>,
 ): (id: string) => void {
   return function innerForceIdDirty(id: string) {
     if (state[id] !== undefined) {

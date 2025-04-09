@@ -1,5 +1,5 @@
-import { ActionService } from '../actions/action.service';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { FacadeBase } from '../facades/facade.base';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 // we have to supply requestIdleCallback for jest
 window.requestIdleCallback = (
@@ -26,13 +26,12 @@ describe('processMarkAndDelete', () => {
   const featureKey = 'exampleFeature';
   const entity = 'exampleEntity';
   beforeEach(() => {
-    jest.spyOn(actionServiceRegistry, 'hasActionService').mockReturnValue(true);
+    jest.spyOn(facadeRegistry, 'hasFacade').mockReturnValue(true);
     const mockActionService = new MockActionService();
     jest
-      .spyOn(actionServiceRegistry, 'register')
+      .spyOn(facadeRegistry, 'register')
       .mockImplementation(
-        (_: string, __: string) =>
-          mockActionService as unknown as ActionService,
+        (_: string, __: string) => mockActionService as unknown as FacadeBase,
       );
     garbageCollectSpy = jest
       .spyOn(mockActionService, 'garbageCollect')
@@ -124,16 +123,14 @@ describe('processMarkAndDelete', () => {
 
   describe('when no action service exists for the feature and entity', () => {
     beforeEach(() => {
-      jest
-        .spyOn(actionServiceRegistry, 'hasActionService')
-        .mockReturnValue(false);
+      jest.spyOn(facadeRegistry, 'hasFacade').mockReturnValue(false);
     });
 
     it('should return early without calling register, garbageCollect or markDirty', () => {
       // Arrange
       const garbageCollectRowIds = ['row1'];
       const markDirtyRowIds = ['row2'];
-      const registerSpy = jest.spyOn(actionServiceRegistry, 'register');
+      const registerSpy = jest.spyOn(facadeRegistry, 'register');
 
       // Act
       processMarkAndDelete(

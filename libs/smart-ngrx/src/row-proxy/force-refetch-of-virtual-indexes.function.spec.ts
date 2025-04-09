@@ -1,8 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 
-import { ActionService } from '../actions/action.service';
-import { ArrayProxy } from '../selector/array-proxy.class';
-import { VirtualArray } from '../selector/virtual-array.class';
+import { FacadeBase } from '../facades/facade.base';
+import { ArrayProxy } from '../smart-selector/array-proxy.class';
+import { VirtualArray } from '../smart-selector/virtual-array.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
@@ -20,7 +20,7 @@ class MockVirtualArray<T extends SmartNgRXRowBase> extends VirtualArray<T> {
       indexes: [],
       length: 0,
     };
-    super(virtualArrayContents, {} as ActionService, '', '');
+    super(virtualArrayContents, {} as FacadeBase, '', '');
   }
 
   override refetchIndexes = jest.fn();

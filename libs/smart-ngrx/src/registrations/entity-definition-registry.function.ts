@@ -9,7 +9,7 @@ import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-
 
 const entityDefinitionMap = new Map<
   string,
-  SmartEntityDefinition<SmartNgRXRowBase>
+  SmartValidatedEntityDefinition<SmartNgRXRowBase>
 >();
 
 /**
@@ -31,24 +31,33 @@ export function entityDefinitionRegistry<
 ): SmartValidatedEntityDefinition<T> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
-    cached = entityDefinition;
-    if (entityDefinition.entityAdapter === undefined) {
-      entityDefinition.entityAdapter = createEntityAdapter();
+    if (entityDefinition.selectId === undefined) {
+      entityDefinition.selectId = function defaultSelectId(row: T) {
+        return row.id;
+      };
     }
-    entityDefinitionMap.set(
-      `${featureName}${psi}${entityName}`,
-      entityDefinition,
-    );
+    const entityDefinitionWithAdapter =
+      entityDefinition as SmartValidatedEntityDefinition<T>;
+    cached =
+      entityDefinitionWithAdapter as unknown as SmartValidatedEntityDefinition<SmartNgRXRowBase>;
+    if (entityDefinition.isSignal !== true) {
+      entityDefinitionWithAdapter.entityAdapter = createEntityAdapter<T>({
+        selectId: entityDefinition.selectId,
+      });
+    }
+    entityDefinitionMap.set(`${featureName}${psi}${entityName}`, cached);
   }
   assert(
     !!cached,
     `Entity definition for ${featureName}${psi}${entityName} not found.`,
   );
-  const entityAdapter = cached.entityAdapter;
-  assert(
-    !!entityAdapter,
-    `Entity adapter for ${featureName}${psi}${entityName} not found.`,
-  );
+  if (cached.isSignal !== true) {
+    const entityAdapter = cached.entityAdapter;
+    assert(
+      entityAdapter !== undefined,
+      `Entity adapter for ${featureName}${psi}${entityName} not found.`,
+    );
+  }
   // we can cast this now because we've validated that it obeys the type rules
   // and we have to return the typed version instead of the common version
   // we store it as

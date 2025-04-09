@@ -1,12 +1,14 @@
 import { InjectionToken } from '@angular/core';
 
-import { ActionService } from '../actions/action.service';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { FacadeBase } from '../facades/facade.base';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
+import { serviceRegistry } from '../registrations/service-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
+import { EffectService } from '../types/effect-service';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { updateEntity } from './update-entity.function';
 
@@ -14,26 +16,45 @@ const feature = 'testFeature';
 const entity = 'testEntity';
 
 describe('updateEntity', () => {
-  let actionService: ActionService | null = null;
+  let actionService: FacadeBase | null = null;
   let actionServiceForceDirtySpy: jest.SpyInstance;
+  let mockEffectService: jest.Mocked<EffectService<{ id: string }>>;
+
   beforeEach(() => {
+    // Create and register mock effect service
+    mockEffectService = {
+      loadByIds: jest.fn(),
+      loadByIndexes: jest.fn(),
+    } as unknown as jest.Mocked<EffectService<{ id: string }>>;
+
+    const effectServiceToken = new InjectionToken<
+      EffectService<{ id: string }>
+    >(entity + 'Service');
+    serviceRegistry.register(effectServiceToken, mockEffectService);
+
     createStore();
     setState(feature, entity, {
       ids: [],
       entities: {},
     });
+
+    // Unregister first to avoid "Entity already registered" error
+    entityRegistry.unregister(feature, entity);
+
     entityDefinitionRegistry(feature, entity, {
       entityName: entity,
-      effectServiceToken: new InjectionToken(entity + 'Service'),
+      effectServiceToken,
       defaultRow: () => ({ id: '1' }),
     });
+
     entityRegistry.register(feature, entity, {
       defaultRow: () => ({ id: '1' }),
       markAndDeleteInit: {} as MarkAndDeleteInit,
       markAndDeleteEntityMap: new Map(),
     });
+
     featureRegistry.registerFeature(feature);
-    actionService = actionServiceRegistry.register(feature, entity);
+    actionService = facadeRegistry.register(feature, entity);
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 

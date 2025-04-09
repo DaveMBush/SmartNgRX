@@ -1,4 +1,4 @@
-import { newRowRegistry } from '../selector/new-row-registry.class';
+import { newRowRegistry } from '../smart-selector/new-row-registry.class';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import * as forNextModule from './for-next.function';
 import { mergeVirtualArrays } from './merge-virtual-arrays.function';

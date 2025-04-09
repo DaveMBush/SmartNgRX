@@ -1,3 +1,4 @@
+import { assert } from '..';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { markAndDeleteEntities } from './mark-and-delete-entities.class';
@@ -17,10 +18,11 @@ class EntityRowsRegistry {
     entity: string,
     rows: T[],
   ): T[] {
-    const adapter = entityDefinitionRegistry(feature, entity).entityAdapter;
+    const selectId = entityDefinitionRegistry(feature, entity).selectId;
+    assert(!!selectId, `selectId is not defined for ${feature}.${entity}`);
     const markAndDeleteMap = markAndDeleteEntities.map(feature, entity);
     return rows.map(function registerEntityRowsMapItem(row) {
-      const markAndDeleteKey = `${adapter.selectId(row)}`;
+      const markAndDeleteKey = `${selectId(row)}`;
       markAndDeleteMap.delete(markAndDeleteKey);
       markAndDeleteMap.set(markAndDeleteKey, Date.now());
       // this is getting called from a reducer so we can't mutate the existing row

@@ -1,7 +1,13 @@
-import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
+import {
+  PartialArrayDefinition,
+  SmartArray,
+  SmartNgRXRowBase,
+} from '@smarttools/smart-ngrx';
 
 export interface DepartmentChild extends SmartNgRXRowBase {
   id: string;
   name: string;
-  children: DepartmentChild[] | string[];
+  children:
+    | PartialArrayDefinition
+    | SmartArray<DepartmentChild, DepartmentChild>;
 }

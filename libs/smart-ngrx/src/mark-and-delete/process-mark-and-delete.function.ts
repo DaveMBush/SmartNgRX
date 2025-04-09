@@ -1,4 +1,4 @@
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
+import { facadeRegistry } from '../registrations/facade-registry.class';
 import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 
 /**
@@ -21,10 +21,10 @@ export function processMarkAndDelete(
   }
   requestIdleCallback(
     function processMarkAndDeleteCallback() {
-      if (!actionServiceRegistry.hasActionService(featureKey, entity)) {
+      if (!facadeRegistry.hasFacade(featureKey, entity)) {
         return;
       }
-      const actionService = actionServiceRegistry.register(featureKey, entity);
+      const actionService = facadeRegistry.register(featureKey, entity);
       if (garbageCollectRowIds.length > 0) {
         actionService.garbageCollect(garbageCollectRowIds);
       }

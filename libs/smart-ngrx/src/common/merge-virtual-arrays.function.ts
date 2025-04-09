@@ -1,4 +1,4 @@
-import { newRowRegistry } from '../selector/new-row-registry.class';
+import { newRowRegistry } from '../smart-selector/new-row-registry.class';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { forNext } from './for-next.function';
 import { itemIsMarkedForDeletion } from './item-is-marked-for-deletion.function';

@@ -7,6 +7,7 @@ export const selectLocationsDepartments = createSmartSelector(
   selectLocationEntities,
   [
     {
+      type: 'NgRX',
       childFeature: 'tree-no-refresh',
       childEntity: 'departments',
       parentFeature: 'tree-no-refresh',

@@ -1,5 +1,5 @@
-import { removeIdFromParents } from '../actions/remove-id-from-parents.function';
 import { forNext } from '../common/for-next.function';
+import { removeIdFromParentsClassic } from '../facades/classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ParentInfo } from '../types/parent-info.interface';
@@ -28,7 +28,7 @@ function deleteEntityByChildDefinition(
     childDefinition: ChildDefinition,
   ) {
     forNext(ids, function deleteEntityForChildAndId(id) {
-      removeIdFromParents(childDefinition, id, parentInfo);
+      removeIdFromParentsClassic(childDefinition, id, parentInfo);
     });
   };
 }
