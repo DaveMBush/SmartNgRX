@@ -5,12 +5,12 @@ import { rowProxySet } from './row-proxy-set.function';
 
 describe('customProxySet', () => {
   let target: RowProxy | undefined;
-  let services: {
-    service: FacadeBase;
-    parentService: FacadeBase;
+  let facades: {
+    facade: FacadeBase;
+    parentFacade: FacadeBase;
   };
-  let serviceAddSpy: jest.SpyInstance;
-  let serviceUpdateSpy: jest.SpyInstance;
+  let facadeAddSpy: jest.SpyInstance;
+  let facadeUpdateSpy: jest.SpyInstance;
   beforeEach(() => {
     target = {
       changes: {},
@@ -20,8 +20,8 @@ describe('customProxySet', () => {
       },
       getRealRow: () => ({}) as SmartNgRXRowBase,
     } as unknown as RowProxy;
-    services = {
-      service: {
+    facades = {
+      facade: {
         add: () => {
           /*noop*/
         },
@@ -29,22 +29,20 @@ describe('customProxySet', () => {
           /*noop*/
         },
       } as unknown as FacadeBase,
-      parentService: {} as FacadeBase,
+      parentFacade: {} as FacadeBase,
     };
-    serviceAddSpy = jest
-      .spyOn(services.service, 'add')
-      .mockImplementation(() => {
-        /*noop*/
-      });
-    serviceUpdateSpy = jest
-      .spyOn(services.service, 'update')
+    facadeAddSpy = jest.spyOn(facades.facade, 'add').mockImplementation(() => {
+      /*noop*/
+    });
+    facadeUpdateSpy = jest
+      .spyOn(facades.facade, 'update')
       .mockImplementation(() => {
         /*noop*/
       });
   });
   describe('when prop is not in target.record', () => {
     it('should return false', () => {
-      const p = rowProxySet(services);
+      const p = rowProxySet(facades);
       expect(p(target!, 'c', 'd')).toBe(false);
     });
   });
@@ -55,15 +53,15 @@ describe('customProxySet', () => {
           ({ parentId: 1 }) as unknown as SmartNgRXRowBase;
       });
       it('should add the new row', () => {
-        rowProxySet(services)(target!, 'a', 'd');
-        expect(serviceAddSpy).toHaveBeenCalled();
+        rowProxySet(facades)(target!, 'a', 'd');
+        expect(facadeAddSpy).toHaveBeenCalled();
       });
     });
     describe('when target does not have a parentId', () => {
       it('should update the row', () => {
-        rowProxySet(services)(target!, 'a', 'd');
-        expect(serviceAddSpy).not.toHaveBeenCalled();
-        expect(serviceUpdateSpy).toHaveBeenCalled();
+        rowProxySet(facades)(target!, 'a', 'd');
+        expect(facadeAddSpy).not.toHaveBeenCalled();
+        expect(facadeUpdateSpy).toHaveBeenCalled();
       });
     });
   });
