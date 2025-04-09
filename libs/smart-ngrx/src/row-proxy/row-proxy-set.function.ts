@@ -5,14 +5,14 @@ import { RowProxy } from './row-proxy.class';
 /**
  * This provides the set method of the Proxy in RowProxy
  *
- * @param services the services associated with the row and parent entity
- * @param services.service the `ActionService` associated with the row entity
- * @param services.parentService the `ActionService` associated with the parent entity
+ * @param facades the services associated with the row and parent entity
+ * @param facades.facade the Facade associated with the row entity
+ * @param facades.parentFacade the Facade associated with the parent entity
  * @returns true if the property was set, false otherwise
  */
-export function rowProxySet<T extends SmartNgRXRowBase>(services: {
-  service: FacadeBase<T>;
-  parentService: FacadeBase;
+export function rowProxySet<T extends SmartNgRXRowBase>(facades: {
+  facade: FacadeBase<T>;
+  parentFacade: FacadeBase;
 }): (target: RowProxy<T>, prop: string | symbol, value: unknown) => boolean {
   return function innerRowProxySet(
     target: RowProxy<T>,
@@ -27,16 +27,16 @@ export function rowProxySet<T extends SmartNgRXRowBase>(services: {
     // if there is a parentId then we need to
     // add the row on the server
     if (realRow.parentId !== undefined) {
-      services.service.add(
+      facades.facade.add(
         { ...realRow, [prop]: value } as T,
         realRow.parentId,
-        services.parentService,
+        facades.parentFacade,
       );
       return true;
     }
     // if there is not parentId then we are simply saving the
     // row to the server
-    services.service.update(realRow, {
+    facades.facade.update(realRow, {
       ...realRow,
       [prop]: value,
     } as T);

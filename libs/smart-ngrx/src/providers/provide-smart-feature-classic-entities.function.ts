@@ -43,7 +43,6 @@ const unpatchedPromise = zoneless('Promise') as typeof Promise;
  * in standard NgRX code.
  * @param entityDefinitions An array of entity definitions.
  * @returns `EnvironmentProviders` that will get used to provide the NgRX reducer and effect for this slice.
- * Returns an empty array if there are no reducers (e.g., when using signals).
  *
  * @see `EntityDefinition`
  */

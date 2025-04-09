@@ -42,7 +42,7 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
 
     return new Proxy(this, {
       get: rowProxyGet(service),
-      set: rowProxySet({ service, parentService }),
+      set: rowProxySet({ facade: service, parentFacade: parentService }),
     });
   }
 
