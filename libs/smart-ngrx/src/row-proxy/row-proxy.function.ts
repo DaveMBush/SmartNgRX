@@ -1,7 +1,7 @@
-import { castTo } from '../common/cast-to.function';
+import { castTo, SmartNgRXRowBase } from '@smarttools/core';
+
 import { FacadeBase } from '../facades/facade.base';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 import { RowProxy } from './row-proxy.class';
 

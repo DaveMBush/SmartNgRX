@@ -22,7 +22,8 @@
       "@ng-doc/generated": ["ng-doc/documentation/index.ts"],
       "@ng-doc/generated/*": ["ng-doc/documentation/*"],
       "@smarttools/core": ["libs/smart-core/src/index.ts"],
-      "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"]
+      "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"],
+      "@smarttools/smart-signals": ["libs/smart-signals/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

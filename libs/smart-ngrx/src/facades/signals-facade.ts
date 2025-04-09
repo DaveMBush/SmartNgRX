@@ -1,14 +1,13 @@
 import { UpdateStr } from '@ngrx/entity/src/models';
+import { isNullOrUndefined, SmartNgRXRowBase } from '@smarttools/core';
 import { asapScheduler } from 'rxjs';
 
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { ensureDataLoaded } from '../smart-selector/ensure-data-loaded.function';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { Add } from './classic-ngrx.facade/add.class';
 import { Update as UpdateService } from './classic-ngrx.facade/update.class';
 import { FacadeBase } from './facade.base';

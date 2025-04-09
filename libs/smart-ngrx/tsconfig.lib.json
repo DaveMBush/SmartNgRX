@@ -18,6 +18,25 @@
   ],
   "include": [
     "src/**/*.ts",
-    "src/smart-signals/create-smart-signal.function.ts"
+    "src/smart-signals/create-smart-signal.function.ts",
+    "../smart-core/common/assert.function.spec.ts",
+    "../smart-core/common/assert.function.ts",
+    "../smart-core/common/cast-to.function.ts",
+    "../smart-core/common/for-next.function.ts",
+    "../smart-core/common/is-null-or-undefined.function.ts",
+    "../smart-core/common/is-proxy.const.ts",
+    "../smart-core/common/is-virtual-array-contents.function.spec.ts",
+    "../smart-core/common/is-virtual-array-contents.function.ts",
+    "../smart-core/common/item-is-marked-for-deletion.function.ts",
+    "../smart-core/common/merge-new-row-with-existing.function.spec.ts",
+    "../smart-core/common/merge-new-row-with-existing.function.ts",
+    "../smart-core/common/merge-rows-with-entities.function.spec.ts",
+    "../smart-core/common/merge-rows-with-entities.function.ts",
+    "../smart-core/common/merge-virtual-arrays.function.spec.ts",
+    "../smart-core/common/merge-virtual-arrays.function.ts",
+    "../smart-core/common/psi.const.ts",
+    "../smart-core/common/root-injector.function.spec.ts",
+    "../smart-core/common/root-injector.function.ts",
+    "../smart-core/common/zoneless.function.ts"
   ]
 }

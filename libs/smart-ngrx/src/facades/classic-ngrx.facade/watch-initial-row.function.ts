@@ -1,12 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { rootInjector, SmartNgRXRowBase } from '@smarttools/core';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
 
-import { rootInjector } from '../../common/root-injector.function';
 import { smartNgRXErrorHandlerToken } from '../../error-handler/smart-ngrx-error-handler-token.const';
 import { ensureDataLoaded } from '../../smart-selector/ensure-data-loaded.function';
 import { store } from '../../smart-selector/store.function';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 
 /**
  * This watches the row specified as a top level row so that it can

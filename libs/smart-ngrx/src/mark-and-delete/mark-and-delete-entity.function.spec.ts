@@ -1,4 +1,5 @@
-import { psi } from '../common/psi.const';
+import { psi } from '@smarttools/core';
+
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';

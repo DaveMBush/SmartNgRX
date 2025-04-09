@@ -1,7 +1,8 @@
+import { SmartNgRXRowBase } from '@smarttools/core';
+
 import { FacadeBase } from '../facades/facade.base';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * retrieves child and parent actionServices from the registry

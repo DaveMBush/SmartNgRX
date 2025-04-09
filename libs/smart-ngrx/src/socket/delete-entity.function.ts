@@ -1,4 +1,5 @@
-import { forNext } from '../common/for-next.function';
+import { forNext } from '@smarttools/core';
+
 import { removeIdFromParentsClassic } from '../facades/classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';

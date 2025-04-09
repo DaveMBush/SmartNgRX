@@ -1,12 +1,11 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- needed for overloads */
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
+import { assert, SmartNgRXRowBase } from '@smarttools/core';
 
-import { assert } from '../common/assert.function';
 import { SignalsFacade } from '../facades/signals-facade';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
 
 function isSignal(value: unknown): boolean {

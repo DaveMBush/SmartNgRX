@@ -1,9 +1,9 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
 import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { isNullOrUndefined, SmartNgRXRowBase } from '@smarttools/core';
 import { Observable, take } from 'rxjs';
 
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
@@ -11,7 +11,6 @@ import { store as storeFunction } from '../smart-selector/store.function';
 import { ActionGroup } from '../types/action-group.interface';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './classic-ngrx.facade/action.factory';
 import { Add } from './classic-ngrx.facade/add.class';
 import { LoadByIdsClassic } from './classic-ngrx.facade/load-by-ids-classic.class';

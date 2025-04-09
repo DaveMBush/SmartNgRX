@@ -1,3 +1,4 @@
+import { SmartNgRXRowBase } from '@smarttools/core';
 import {
   concatMap,
   debounceTime,
@@ -15,7 +16,6 @@ import { handleError } from '../../error-handler/handle-error.function';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { RowProp } from '../../types/row-prop.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { manageMaps } from './manage-maps.function';
 
 /** The debounce time in milliseconds for update operations */

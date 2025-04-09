@@ -1,6 +1,11 @@
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import {
+  mergeRowsWithEntities,
+  rootInjector,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
+import {
   catchError,
   map,
   mergeMap,
@@ -11,15 +16,12 @@ import {
   withLatestFrom,
 } from 'rxjs';
 
-import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
-import { rootInjector } from '../../common/root-injector.function';
 import { smartNgRXErrorHandlerToken } from '../../error-handler/smart-ngrx-error-handler-token.const';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
 import { ActionGroup } from '../../types/action-group.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIds } from './buffer-ids.function';
 import { defaultRows } from './default-rows.function';
 

@@ -1,23 +1,25 @@
 import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import {
+  assert,
+  castTo,
+  isProxy,
+  newRowRegistry,
+  SmartNgRXRowBase,
+  VirtualArrayContents,
+} from '@smarttools/core';
 import { take } from 'rxjs';
 
-import { assert } from '../common/assert.function';
-import { castTo } from '../common/cast-to.function';
-import { isProxy } from '../common/is-proxy.const';
 import { FacadeBase } from '../facades/facade.base';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartArray } from '../types/smart-array.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';
 import { getArrayItem } from './get-array-item.function';
 import { getServices } from './get-services.function';
 import { isArrayProxy } from './is-array-proxy.function';
-import { newRowRegistry } from './new-row-registry.class';
 import { store } from './store.function';
 import { VirtualArray } from './virtual-array.class';
 

@@ -1,9 +1,8 @@
-import { assert } from '../common/assert.function';
-import { psi } from '../common/psi.const';
+import { assert, psi, SmartNgRXRowBase } from '@smarttools/core';
+
 import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade';
 import { FacadeBase } from '../facades/facade.base';
 import { SignalsFacade } from '../facades/signals-facade';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class FacadeRegistry {
   facadeMap = new Map<string, FacadeBase>();

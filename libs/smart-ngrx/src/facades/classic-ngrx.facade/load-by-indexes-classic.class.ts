@@ -5,18 +5,20 @@
 // which will end up in separate libraries.
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import {
+  forNext,
+  newRowRegistry,
+  SmartNgRXRowBase,
+  VirtualArrayContents,
+} from '@smarttools/core';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
-import { forNext } from '../../common/for-next.function';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import { newRowRegistry } from '../../smart-selector/new-row-registry.class';
 import { ActionGroup } from '../../types/action-group.interface';
 import { IndexProp } from '../../types/index-prop.interfaces';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { bufferIndexes } from './buffer-indexes.function';
 
 /**

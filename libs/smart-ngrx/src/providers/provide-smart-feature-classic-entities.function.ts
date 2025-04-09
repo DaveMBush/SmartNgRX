@@ -10,16 +10,18 @@ import {
 } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
+import {
+  forNext,
+  rootInjector,
+  SmartNgRXRowBase,
+  zoneless,
+} from '@smarttools/core';
 
-import { forNext } from '../common/for-next.function';
-import { rootInjector } from '../common/root-injector.function';
-import { zoneless } from '../common/zoneless.function';
 import { reducerFactory } from '../reducers/reducer.factory';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;

@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
 /* jscpd:ignore-start */
 import { createActionGroup, props } from '@ngrx/store';
+import { psi, SmartNgRXRowBase } from '@smarttools/core';
 
-import { psi } from '../../common/psi.const';
 import { ActionGroup } from '../../types/action-group.interface';
 import { IdsProp } from '../../types/ids-prop.interface';
 import { RowProp } from '../../types/row-prop.interface';
 import { RowsProp } from '../../types/rows-prop.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { UpdateChanges } from '../../types/update-changes.interface';
 /* jscpd:ignore-end */
 const actionGroupCache = new Map<string, unknown>();

@@ -1,6 +1,3 @@
-export * from './common/assert.function';
-export * from './common/cast-to.function';
-export * from './common/for-next.function';
 export * from './facades/classic-ngrx.facade/action.factory';
 export * from './providers/provide-smart-feature-classic-entities.function';
 export * from './providers/provide-smart-feature-signal-entities.function';
@@ -10,6 +7,7 @@ export * from './smart-signals/create-smart-signal.function';
 export * from './types/effect-service';
 export * from './types/row-proxy-delete.interface';
 export * from './types/smart-array.interface';
+export * from '@smarttools/core';
 
 // store.function is needed for testing
 export * from './smart-selector/store.function';
@@ -23,11 +21,7 @@ export * from './tests/functions/set-state.function';
 // types
 export * from './types/partial-array-definition.interface';
 export * from './types/smart-entity-definition.interface';
-export * from './types/smart-ngrx-row-base.interface';
 
 // error handling
 export * from './error-handler/smart-ngrx-error-handler-token.const';
 export * from './types/smart-ngrx-error-handler.interface';
-
-// root injector
-export * from './common/root-injector.function';

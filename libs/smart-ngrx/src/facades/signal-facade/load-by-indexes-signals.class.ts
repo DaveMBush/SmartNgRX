@@ -3,17 +3,19 @@
 // but it is unique enough that we can't
 // combine without tightly coupling the two
 // which will end up in separate libraries.
+import {
+  forNext,
+  newRowRegistry,
+  SmartNgRXRowBase,
+  VirtualArrayContents,
+} from '@smarttools/core';
 import { map, Subject, switchMap } from 'rxjs';
 
-import { forNext } from '../../common/for-next.function';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import { newRowRegistry } from '../../smart-selector/new-row-registry.class';
 import { IndexProp } from '../../types/index-prop.interfaces';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { bufferIndexes } from '../classic-ngrx.facade/buffer-indexes.function';
 import { SignalsFacade } from '../signals-facade';
 

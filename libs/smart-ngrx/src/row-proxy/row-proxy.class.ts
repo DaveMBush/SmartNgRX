@@ -1,9 +1,8 @@
-import { castTo } from '../common/cast-to.function';
-import { forNext } from '../common/for-next.function';
+import { castTo, forNext, SmartNgRXRowBase } from '@smarttools/core';
+
 import { FacadeBase } from '../facades/facade.base';
 import { ArrayProxy } from '../smart-selector/array-proxy.class';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { rowProxyGet } from './row-proxy-get.function';
 import { rowProxySet } from './row-proxy-set.function';
 

@@ -1,9 +1,11 @@
 import { Dictionary } from '@ngrx/entity';
+import {
+  assert,
+  SmartNgRXRowBase,
+  VirtualArrayContents,
+} from '@smarttools/core';
 
-import { assert } from '../../common/assert.function';
 import { ChildDefinition } from '../../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { FacadeBase } from '../facade.base';
 
 /**

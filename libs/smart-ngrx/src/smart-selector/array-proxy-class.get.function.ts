@@ -1,4 +1,5 @@
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smarttools/core';
+
 import { ArrayProxy } from './array-proxy.class';
 import { VirtualArray } from './virtual-array.class';
 

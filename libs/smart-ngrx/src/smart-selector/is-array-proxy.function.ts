@@ -1,5 +1,5 @@
-import { isProxy } from '../common/is-proxy.const';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { isProxy, SmartNgRXRowBase } from '@smarttools/core';
+
 import { ArrayProxy } from './array-proxy.class';
 
 // eslint-disable-next-line jsdoc/require-returns -- this is a type guard

@@ -1,4 +1,5 @@
-import { forNext } from '../../common/for-next.function';
+import { forNext } from '@smarttools/core';
+
 import { ParentInfo } from '../../types/parent-info.interface';
 import { markParentsDirty } from './mark-parents-dirty.function';
 

@@ -1,5 +1,6 @@
+import { SmartNgRXRowBase } from '@smarttools/core';
+
 import { FacadeBase } from '../facades/facade.base';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';
 
 /**

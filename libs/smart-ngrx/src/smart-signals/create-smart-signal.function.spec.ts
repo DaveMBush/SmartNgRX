@@ -1,11 +1,11 @@
 import { signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
 import { FacadeBase } from '../facades/facade.base';
 import { SignalsFacade } from '../facades/signals-facade';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { createSmartSignal } from './create-smart-signal.function';
 
 jest.mock('../registrations/facade-registry.class');

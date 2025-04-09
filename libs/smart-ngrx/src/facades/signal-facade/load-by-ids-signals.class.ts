@@ -1,12 +1,14 @@
+import {
+  mergeRowsWithEntities,
+  rootInjector,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 import { catchError, map, mergeMap, Observable, of, Subject } from 'rxjs';
 
-import { mergeRowsWithEntities } from '../../common/merge-rows-with-entities.function';
-import { rootInjector } from '../../common/root-injector.function';
 import { smartNgRXErrorHandlerToken } from '../../error-handler/smart-ngrx-error-handler-token.const';
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { bufferIds } from '../classic-ngrx.facade/buffer-ids.function';
 import { defaultRows } from '../classic-ngrx.facade/default-rows.function';
 import { SignalsFacade } from '../signals-facade';

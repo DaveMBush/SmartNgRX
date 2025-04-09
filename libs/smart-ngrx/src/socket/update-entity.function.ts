@@ -1,12 +1,11 @@
 import { Dictionary, EntityState } from '@ngrx/entity';
+import { forNext, SmartNgRXRowBase } from '@smarttools/core';
 import { take } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
 import { FacadeBase } from '../facades/facade.base';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { store } from '../smart-selector/store.function';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Use this function to update the rows represented by the ids for an entity in a feature in response

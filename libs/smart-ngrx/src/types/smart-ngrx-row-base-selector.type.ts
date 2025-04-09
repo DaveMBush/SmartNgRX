@@ -1,8 +1,7 @@
 import { Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-
-import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
 /**
  * This type allows us to deal with just the SmartNgRXRowBase part

@@ -1,8 +1,6 @@
-import { assert } from '../common/assert.function';
-import { castTo } from '../common/cast-to.function';
-import { psi } from '../common/psi.const';
+import { assert, castTo, psi, SmartNgRXRowBase } from '@smarttools/core';
+
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Registry for child definitions
@@ -54,7 +52,7 @@ class ChildDefinitionRegistry {
       !!childDefinition,
       `Child definition not found for feature: ${feature} and entity: ${entity}`,
     );
-    return childDefinition;
+    return childDefinition as ChildDefinition<P>[];
   }
 }
 

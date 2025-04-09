@@ -1,6 +1,7 @@
+import { SmartNgRXRowBase } from '@smarttools/core';
+
 import { EffectServiceToken } from './effect-service.token';
 import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
-import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 
 /**
  * This is the interface that is used to define the entity for the

@@ -1,7 +1,7 @@
 import { UpdateStr } from '@ngrx/entity/src/models';
+import { forNext, SmartNgRXRowBase } from '@smarttools/core';
 import { asapScheduler, catchError, of } from 'rxjs';
 
-import { forNext } from '../common/for-next.function';
 import { handleError } from '../error-handler/handle-error.function';
 import { entityRowsRegistry } from '../mark-and-delete/entity-rows-registry.class';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
@@ -10,7 +10,6 @@ import { virtualArrayMap } from '../smart-selector/virtual-array-map.const';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 import { Add } from './classic-ngrx.facade/add.class';
 import { markFeatureParentsDirty } from './classic-ngrx.facade/mark-feature-parents-dirty.function';

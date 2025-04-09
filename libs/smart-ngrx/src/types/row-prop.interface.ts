@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
 /**
  * Interface for `Actions` that take a row property

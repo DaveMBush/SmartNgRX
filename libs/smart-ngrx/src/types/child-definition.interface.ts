@@ -1,7 +1,7 @@
 import { Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
-import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 import { SmartNgRXRowBaseSelector } from './smart-ngrx-row-base-selector.type';
 
 /**

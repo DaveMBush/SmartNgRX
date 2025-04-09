@@ -4,16 +4,18 @@
 // combine without tightly coupling the two
 // which will end up in separate libraries.
 import { EnvironmentProviders, Provider } from '@angular/core';
+import {
+  forNext,
+  rootInjector,
+  SmartNgRXRowBase,
+  zoneless,
+} from '@smarttools/core';
 
-import { forNext } from '../common/for-next.function';
-import { rootInjector } from '../common/root-injector.function';
-import { zoneless } from '../common/zoneless.function';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;

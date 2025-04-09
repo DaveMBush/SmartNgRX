@@ -1,9 +1,9 @@
 import { EntityState } from '@ngrx/entity';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
 import { entityRegistry } from '../registrations/entity-registry.class';
 import { ChildDefinition } from '../types/child-definition.interface';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
 

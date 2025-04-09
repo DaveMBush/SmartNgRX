@@ -2,21 +2,19 @@ import { InjectionToken } from '@angular/core';
 import { fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import * as smartToolsCoreModule from '@smarttools/core';
+import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
 import { Observable, of, Subject } from 'rxjs';
 
-import * as forNextModule from '../../common/for-next.function';
 import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../../registrations/entity-registry.class';
 import { facadeRegistry } from '../../registrations/facade-registry.class';
 import { featureRegistry } from '../../registrations/feature-registry.class';
 import { serviceRegistry } from '../../registrations/service-registry.class';
-import * as newRowRegistryModule from '../../smart-selector/new-row-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { FacadeBase } from '../facade.base';
 import { actionFactory } from './action.factory';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
@@ -251,7 +249,7 @@ describe('LoadByIndexesClassic', () => {
       };
 
       jest
-        .spyOn(forNextModule, 'forNext')
+        .spyOn(smartToolsCoreModule, 'forNext')
         .mockImplementation((arr, callback) => {
           arr.forEach((item, index) => callback(item, index, arr));
         });
@@ -270,13 +268,13 @@ describe('LoadByIndexesClassic', () => {
       };
 
       jest
-        .spyOn(forNextModule, 'forNext')
+        .spyOn(smartToolsCoreModule, 'forNext')
         .mockImplementation((arr, callback) => {
           arr.forEach((item, index) => callback(item, index, arr));
         });
 
       jest
-        .spyOn(newRowRegistryModule.newRowRegistry, 'isNewRow')
+        .spyOn(smartToolsCoreModule.newRowRegistry, 'isNewRow')
         .mockReturnValue(true);
 
       const result = loadByIndexes.processLoadByIndexesSuccess(field, array);

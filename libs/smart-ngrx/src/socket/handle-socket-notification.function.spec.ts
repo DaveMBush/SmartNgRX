@@ -1,5 +1,6 @@
 // unit tests for handleSocketNotification function
-import { psi } from '../common/psi.const';
+import { psi } from '@smarttools/core';
+
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';

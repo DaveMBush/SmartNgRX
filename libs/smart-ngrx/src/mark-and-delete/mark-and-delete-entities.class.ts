@@ -1,5 +1,4 @@
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { psi } from '../common/psi.const';
+import { isNullOrUndefined, psi } from '@smarttools/core';
 
 class MarkAndDeleteEntities {
   private markAndDelete: Record<string, Map<string, number>> = {};

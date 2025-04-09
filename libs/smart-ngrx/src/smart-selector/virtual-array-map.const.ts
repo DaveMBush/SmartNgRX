@@ -1,4 +1,5 @@
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smarttools/core';
+
 import { VirtualArray } from './virtual-array.class';
 
 type FieldMap = Map<string, VirtualArray<SmartNgRXRowBase>>;

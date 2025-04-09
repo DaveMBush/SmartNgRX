@@ -1,5 +1,5 @@
-import { forNext } from '../common/for-next.function';
-import { psi } from '../common/psi.const';
+import { forNext, psi } from '@smarttools/core';
+
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { deleteEntity } from './delete-entity.function';

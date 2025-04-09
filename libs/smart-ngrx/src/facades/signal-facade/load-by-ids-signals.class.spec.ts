@@ -1,13 +1,13 @@
 import { EnvironmentInjector, InjectionToken } from '@angular/core';
 import { EntityAdapter } from '@ngrx/entity';
+import * as rootInjectorModule from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/core';
 import { of, throwError } from 'rxjs';
 
-import * as rootInjectorModule from '../../common/root-injector.function';
 import * as entityRowsRegistryModule from '../../mark-and-delete/entity-rows-registry.class';
 import * as entityDefinitionRegistryModule from '../../registrations/entity-definition-registry.function';
 import * as serviceRegistryModule from '../../registrations/service-registry.class';
 import { EffectService } from '../../types/effect-service';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../../types/smart-validated-entity-definition.type';
 import { SignalsFacade } from '../signals-facade';
 import { LoadByIdsSignals } from './load-by-ids-signals.class';

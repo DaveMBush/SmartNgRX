@@ -5,9 +5,8 @@ import {
   makeEnvironmentProviders,
   provideAppInitializer,
 } from '@angular/core';
+import { isNullOrUndefined, rootInjector } from '@smarttools/core';
 
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
-import { rootInjector } from '../common/root-injector.function';
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
 import { markAndDeleteFeaturesInterval } from '../mark-and-delete/mark-and-delete-features-interval.function';
 import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';

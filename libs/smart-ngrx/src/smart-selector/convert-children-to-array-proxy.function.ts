@@ -1,9 +1,7 @@
 import { EntityState } from '@ngrx/entity';
+import { castTo, forNext, SmartNgRXRowBase } from '@smarttools/core';
 
-import { castTo } from '../common/cast-to.function';
-import { forNext } from '../common/for-next.function';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 
 /**

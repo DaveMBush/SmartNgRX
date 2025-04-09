@@ -1,10 +1,9 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { castTo, SmartNgRXRowBase } from '@smarttools/core';
 
-import { castTo } from '../common/cast-to.function';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { convertChildrenToArrayProxy } from './convert-children-to-array-proxy.function';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
 import { ParentSelector } from './parent-selector.type';

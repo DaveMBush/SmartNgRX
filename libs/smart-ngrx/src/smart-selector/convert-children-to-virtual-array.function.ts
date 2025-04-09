@@ -1,8 +1,7 @@
 import { EntityState } from '@ngrx/entity';
+import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
 
 import { facadeRegistry } from '../registrations/facade-registry.class';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
 

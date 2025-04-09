@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
 /**
  * Interface that allows us to access the rawArray field and

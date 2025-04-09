@@ -1,7 +1,7 @@
 import { MockStore } from '@ngrx/store/testing';
+import { castTo } from '@smarttools/core';
 import { take } from 'rxjs/operators';
 
-import { castTo } from '../../common/cast-to.function';
 import { store } from '../../smart-selector/store.function';
 
 /**

@@ -1,5 +1,6 @@
+import { SmartNgRXRowBase } from '@smarttools/core';
+
 import { MarkAndDeleteInit } from './mark-and-delete-init.interface';
-import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 
 /**
  * This is an internal interface that holds

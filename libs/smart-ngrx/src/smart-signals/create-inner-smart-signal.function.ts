@@ -1,11 +1,11 @@
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
+import { SmartNgRXRowBase } from '@smarttools/core';
 
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 import { convertChildrenToArrayProxy } from '../smart-selector/convert-children-to-array-proxy.function';
 import { convertChildrenToVirtualArray } from '../smart-selector/convert-children-to-virtual-array.function';
 import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * This is an internal function used by `createSmartSignal`.

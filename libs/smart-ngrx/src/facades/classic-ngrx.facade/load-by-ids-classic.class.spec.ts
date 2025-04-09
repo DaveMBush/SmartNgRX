@@ -1,6 +1,7 @@
 import { InjectionToken } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
+import { SmartNgRXRowBase } from '@smarttools/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
@@ -12,7 +13,6 @@ import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
 import { EffectService } from '../../types/effect-service';
 import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { actionFactory } from './action.factory';
 import { LoadByIdsClassic } from './load-by-ids-classic.class';
 

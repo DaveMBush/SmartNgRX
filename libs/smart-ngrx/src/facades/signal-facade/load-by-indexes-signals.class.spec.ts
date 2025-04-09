@@ -1,8 +1,7 @@
 import { Signal } from '@angular/core';
 import { EntityMap } from '@ngrx/signals/entities';
+import { newRowRegistry, VirtualArrayContents } from '@smarttools/core';
 
-import { newRowRegistry } from '../../smart-selector/new-row-registry.class';
-import { VirtualArrayContents } from '../../types/virtual-array-contents.interface';
 import { SignalsFacade } from '../signals-facade';
 import { LoadByIndexesSignals } from './load-by-indexes-signals.class';
 

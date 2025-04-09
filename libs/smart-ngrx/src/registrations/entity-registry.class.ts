@@ -1,7 +1,5 @@
-// using a record here instead of a Map for performance reasons
+import { assert, psi } from '@smarttools/core';
 
-import { assert } from '../common/assert.function';
-import { psi } from '../common/psi.const';
 import { EntityAttributes } from '../types/entity-attributes.interface';
 
 class EntityRegistry {

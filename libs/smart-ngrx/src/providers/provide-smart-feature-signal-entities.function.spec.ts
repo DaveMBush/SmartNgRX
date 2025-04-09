@@ -1,14 +1,13 @@
 import { EnvironmentInjector, Injectable, InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { rootInjector, SmartNgRXRowBase } from '@smarttools/core';
 import { Observable, of } from 'rxjs';
 
-import { rootInjector } from '../common/root-injector.function';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { EffectService } from '../types/effect-service';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { provideSmartFeatureSignalEntities } from './provide-smart-feature-signal-entities.function';
 
 @Injectable()

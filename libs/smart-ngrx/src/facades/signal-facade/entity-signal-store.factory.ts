@@ -13,9 +13,8 @@ import {
   updateEntity,
   withEntities,
 } from '@ngrx/signals/entities';
+import { forNext, SmartNgRXRowBase } from '@smarttools/core';
 
-import { forNext } from '../../common/for-next.function';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
 import { SignalsFacade } from '../signals-facade';
 
 /**
