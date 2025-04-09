@@ -120,6 +120,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "22.10.6",
     "@typescript-eslint/utils": "^8.29.0",
+    "angular-eslint": "^19.2.0",
     "autoprefixer": "^10.4.20",
     "browser-sync": "^3.0.3",
     "cypress": "^13.17.0",
@@ -159,7 +160,8 @@
     "ts-jest": "^29.2.6",
     "ts-node": "10.9.2",
     "typescript": "5.7.3",
-    "typescript-eslint": "8.29.0"
+    "typescript-eslint": "8.29.0",
+    "verdaccio": "^6.0.5"
   },
   "packageManager": "pnpm@9.3.0",
   "engines": {
@@ -167,5 +169,8 @@
     "pnpm": "^9",
     "npm": "Please use pnpm instead of npm to install dependencies",
     "yarn": "Please use pnpm instead of yarn to install dependencies"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }

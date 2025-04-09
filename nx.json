@@ -63,8 +63,9 @@
     }
   },
   "release": {
-    "projects": ["smart-ngrx"],
+    "projects": ["smart-ngrx", "smart-core"],
     "version": {
+      "preVersionCommand": "pnpm dlx nx run-many -t build",
       "conventionalCommits": true
     },
     "changelog": {
