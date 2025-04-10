@@ -1,4 +1,4 @@
-import { facadeRegistry } from '../registrations/facade-registry.class';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
 import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 
 /**

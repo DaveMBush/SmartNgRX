@@ -2,8 +2,8 @@ import { SmartNgRXRowBase } from '@smarttools/core';
 
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
 import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { entityRegistry } from '../registrations/entity-registry.class';
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { entityRegistry } from '../../../smart-core/src/registrations/entity-registry.class';
+import { MarkAndDeleteInit } from '../../../smart-core/src/types/mark-and-delete-init.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { resolveRemoveTime } from './resolve-remove-time.function';
 

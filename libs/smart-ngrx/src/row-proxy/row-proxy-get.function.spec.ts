@@ -1,4 +1,4 @@
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { RowProxy } from './row-proxy.class';
 import { rowProxyGet } from './row-proxy-get.function';
 

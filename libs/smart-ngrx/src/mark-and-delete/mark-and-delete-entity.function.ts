@@ -1,4 +1,4 @@
-import { entityRegistry } from '../registrations/entity-registry.class';
+import { entityRegistry } from '../../../smart-core/src/registrations/entity-registry.class';
 import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 

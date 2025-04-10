@@ -3,9 +3,9 @@ import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { assert, SmartNgRXRowBase } from '@smarttools/core';
 
-import { SignalsFacade } from '../facades/signals-facade';
-import { facadeRegistry } from '../registrations/facade-registry.class';
-import { ChildDefinition } from '../types/child-definition.interface';
+import { SignalsFacade } from '../../../smart-signals/src/facades/signals-facade';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
 
 function isSignal(value: unknown): boolean {

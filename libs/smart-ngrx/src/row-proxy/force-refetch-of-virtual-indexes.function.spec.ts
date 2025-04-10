@@ -1,10 +1,10 @@
 import { EntityState } from '@ngrx/entity';
 import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { ArrayProxy } from '../smart-selector/array-proxy.class';
 import { VirtualArray } from '../smart-selector/virtual-array.class';
-import { ChildDefinition } from '../types/child-definition.interface';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
 import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 
 // Define a custom row type that includes the necessary fields

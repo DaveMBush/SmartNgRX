@@ -18,7 +18,7 @@
   ],
   "include": [
     "src/**/*.ts",
-    "src/smart-signals/create-smart-signal.function.ts",
+    "../smart-signals/src/smart-signals/create-smart-signal.function.ts",
     "../smart-core/common/assert.function.spec.ts",
     "../smart-core/common/assert.function.ts",
     "../smart-core/common/cast-to.function.ts",
@@ -38,5 +38,5 @@
     "../smart-core/common/root-injector.function.spec.ts",
     "../smart-core/common/root-injector.function.ts",
     "../smart-core/common/zoneless.function.ts"
-  ]
+, "../smart-core/src/registrations/child-definition.registry.ts", "../smart-core/src/smart-selector/convert-children-to-array-proxy.function.ts", "../smart-core/src/smart-selector/convert-children-to-virtual-array.function.spec.ts", "../smart-core/src/smart-selector/convert-children-to-virtual-array.function.ts", "../smart-core/src/types/child-definition.interface.ts", "../smart-signals/src/facades/signals-facade.spec.ts", "../smart-signals/src/facades/signals-facade.ts", "../smart-core/src/types/smart-validated-entity-definition.type.ts", "../smart-core/src/types/effect-service.token.ts", "../smart-core/src/types/effect-service.ts", "../smart-core/src/registrations/entity-rows-registry.class.ts", "../smart-core/src/registrations/entity-definition-registry.function.spec.ts", "../smart-core/src/registrations/entity-definition-registry.function.ts", "../smart-core/src/registrations/service-registry.class.ts", "../smart-core/src/facades/buffer-ids.function.spec.ts", "../smart-core/src/facades/buffer-ids.function.ts", "../smart-core/src/facades/buffer-indexes.function.spec.ts", "../smart-core/src/facades/buffer-indexes.function.ts", "../smart-core/src/facades/default-rows.function.spec.ts", "../smart-core/src/facades/default-rows.function.ts", "../smart-core/src/registrations/facade-registry.class.ts", "../smart-core/src/registrations/facade-registry.class.spec.ts", "../smart-core/src/types/index-prop.interfaces.ts", "../smart-core/src/types/partial-array-definition.interface.ts", "../smart-core/src/types/parent-info.interface.ts", "../smart-core/src/facades/replace-id-in-feature-parents.function.ts", "../smart-core/src/facades/replace-id-in-feature-parents.function.spec.ts", "../smart-core/src/types/mark-and-delete-init.interface.ts", "../smart-core/src/smart-selector/virtual-array-map.const.spec.ts", "../smart-core/src/smart-selector/virtual-array-map.const.ts", "../smart-core/src/registrations/entity-registry.class.ts", "../smart-core/src/registrations/feature-registry.class.ts", "../smart-core/src/smart-selector/ensure-data-loaded.function.spec.ts", "../smart-core/src/smart-selector/ensure-data-loaded.function.ts", "../smart-core/src/facades/add.class.ts", "../smart-core/src/facades/update.class.spec.ts", "../smart-core/src/facades/update.class.ts", "../smart-core/src/facades/facade.base.ts"  ]
 }

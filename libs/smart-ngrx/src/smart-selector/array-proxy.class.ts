@@ -10,10 +10,10 @@ import {
 } from '@smarttools/core';
 import { take } from 'rxjs';
 
-import { FacadeBase } from '../facades/facade.base';
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
+import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
 import { RowProxy } from '../row-proxy/row-proxy.class';
-import { ChildDefinition } from '../types/child-definition.interface';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { SmartArray } from '../types/smart-array.interface';
 import { arrayProxyClassGet } from './array-proxy-class.get.function';

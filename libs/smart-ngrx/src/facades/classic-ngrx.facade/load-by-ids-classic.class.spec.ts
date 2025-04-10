@@ -4,15 +4,15 @@ import { Store } from '@ngrx/store';
 import { SmartNgRXRowBase } from '@smarttools/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { entityRowsRegistry } from '../../mark-and-delete/entity-rows-registry.class';
-import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
-import { entityRegistry } from '../../registrations/entity-registry.class';
-import { featureRegistry } from '../../registrations/feature-registry.class';
-import { serviceRegistry } from '../../registrations/service-registry.class';
+import { entityRowsRegistry } from '../../../../smart-core/src/registrations/entity-rows-registry.class';
+import { entityDefinitionRegistry } from '../../../../smart-core/src/registrations/entity-definition-registry.function';
+import { entityRegistry } from '../../../../smart-core/src/registrations/entity-registry.class';
+import { featureRegistry } from '../../../../smart-core/src/registrations/feature-registry.class';
+import { serviceRegistry } from '../../../../smart-core/src/registrations/service-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
-import { EffectService } from '../../types/effect-service';
-import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
+import { EffectService } from '../../../../smart-core/src/types/effect-service';
+import { PartialArrayDefinition } from '../../../../smart-core/src/types/partial-array-definition.interface';
 import { actionFactory } from './action.factory';
 import { LoadByIdsClassic } from './load-by-ids-classic.class';
 

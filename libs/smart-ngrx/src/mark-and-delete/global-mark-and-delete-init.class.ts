@@ -1,4 +1,4 @@
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { MarkAndDeleteInit } from '../../../smart-core/src/types/mark-and-delete-init.interface';
 
 class GlobalMarkAndDeleteInit {
   globalMarkAndDelete = {} as Partial<MarkAndDeleteInit>;

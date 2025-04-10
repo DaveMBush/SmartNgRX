@@ -1,4 +1,4 @@
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { ArrayProxy } from '../smart-selector/array-proxy.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { RowProxy } from './row-proxy.class';

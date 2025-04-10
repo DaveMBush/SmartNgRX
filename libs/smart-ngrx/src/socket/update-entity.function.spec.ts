@@ -1,15 +1,15 @@
 import { InjectionToken } from '@angular/core';
 
-import { FacadeBase } from '../facades/facade.base';
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
-import { entityRegistry } from '../registrations/entity-registry.class';
-import { facadeRegistry } from '../registrations/facade-registry.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
+import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
+import { entityRegistry } from '../../../smart-core/src/registrations/entity-registry.class';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
+import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
+import { serviceRegistry } from '../../../smart-core/src/registrations/service-registry.class';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
-import { EffectService } from '../types/effect-service';
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { EffectService } from '../../../smart-core/src/types/effect-service';
+import { MarkAndDeleteInit } from '../../../smart-core/src/types/mark-and-delete-init.interface';
 import { updateEntity } from './update-entity.function';
 
 const feature = 'testFeature';

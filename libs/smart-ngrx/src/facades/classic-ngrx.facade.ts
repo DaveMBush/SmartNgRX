@@ -4,21 +4,21 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { isNullOrUndefined, SmartNgRXRowBase } from '@smarttools/core';
 import { Observable, take } from 'rxjs';
 
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
-import { entityRegistry } from '../registrations/entity-registry.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
+import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
+import { entityRegistry } from '../../../smart-core/src/registrations/entity-registry.class';
+import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
 import { store as storeFunction } from '../smart-selector/store.function';
 import { ActionGroup } from '../types/action-group.interface';
-import { ParentInfo } from '../types/parent-info.interface';
-import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+import { ParentInfo } from '../../../smart-core/src/types/parent-info.interface';
+import { PartialArrayDefinition } from '../../../smart-core/src/types/partial-array-definition.interface';
 import { actionFactory } from './classic-ngrx.facade/action.factory';
-import { Add } from './classic-ngrx.facade/add.class';
+import { Add } from '../../../smart-core/src/facades/add.class';
 import { LoadByIdsClassic } from './classic-ngrx.facade/load-by-ids-classic.class';
 import { LoadByIndexesClassic } from './classic-ngrx.facade/load-by-indexes-classic.class';
 import { removeIdFromParentsClassic } from './classic-ngrx.facade/remove-id-from-parents-classic.function';
-import { Update } from './classic-ngrx.facade/update.class';
+import { Update } from '../../../smart-core/src/facades/update.class';
 import { watchInitialRow } from './classic-ngrx.facade/watch-initial-row.function';
-import { FacadeBase } from './facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 
 /**
  * Action Service is what we call to dispatch actions and do whatever logic

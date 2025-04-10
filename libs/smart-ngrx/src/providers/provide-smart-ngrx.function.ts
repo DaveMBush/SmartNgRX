@@ -9,7 +9,7 @@ import { isNullOrUndefined, rootInjector } from '@smarttools/core';
 
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
 import { markAndDeleteFeaturesInterval } from '../mark-and-delete/mark-and-delete-features-interval.function';
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { MarkAndDeleteInit } from '../../../smart-core/src/types/mark-and-delete-init.interface';
 
 /**
  * This provides and all the common SmartNgRX providers.

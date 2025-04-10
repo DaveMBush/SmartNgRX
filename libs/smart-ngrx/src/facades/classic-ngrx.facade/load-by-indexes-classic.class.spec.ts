@@ -6,16 +6,16 @@ import * as smartToolsCoreModule from '@smarttools/core';
 import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
 import { Observable, of, Subject } from 'rxjs';
 
-import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
-import { entityRegistry } from '../../registrations/entity-registry.class';
-import { facadeRegistry } from '../../registrations/facade-registry.class';
-import { featureRegistry } from '../../registrations/feature-registry.class';
-import { serviceRegistry } from '../../registrations/service-registry.class';
+import { entityDefinitionRegistry } from '../../../../smart-core/src/registrations/entity-definition-registry.function';
+import { entityRegistry } from '../../../../smart-core/src/registrations/entity-registry.class';
+import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
+import { featureRegistry } from '../../../../smart-core/src/registrations/feature-registry.class';
+import { serviceRegistry } from '../../../../smart-core/src/registrations/service-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
-import { EffectService } from '../../types/effect-service';
-import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
-import { FacadeBase } from '../facade.base';
+import { EffectService } from '../../../../smart-core/src/types/effect-service';
+import { PartialArrayDefinition } from '../../../../smart-core/src/types/partial-array-definition.interface';
+import { FacadeBase } from '../../../../smart-core/src/facades/facade.base';
 import { actionFactory } from './action.factory';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 

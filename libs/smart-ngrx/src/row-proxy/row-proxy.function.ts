@@ -1,6 +1,6 @@
 import { castTo, SmartNgRXRowBase } from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 import { RowProxy } from './row-proxy.class';

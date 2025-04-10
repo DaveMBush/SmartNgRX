@@ -1,6 +1,6 @@
 import { castTo, forNext, SmartNgRXRowBase } from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { ArrayProxy } from '../smart-selector/array-proxy.class';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { rowProxyGet } from './row-proxy-get.function';

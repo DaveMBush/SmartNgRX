@@ -5,11 +5,11 @@
 // which will end up in separate libraries.
 import { take } from 'rxjs';
 
-import { facadeRegistry } from '../../registrations/facade-registry.class';
-import { ChildDefinition } from '../../types/child-definition.interface';
-import { ParentInfo } from '../../types/parent-info.interface';
+import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
+import { ChildDefinition } from '../../../../smart-core/src/types/child-definition.interface';
+import { ParentInfo } from '../../../../smart-core/src/types/parent-info.interface';
 import { ClassicNgrxFacade } from '../classic-ngrx.facade';
-import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
+import { replaceIdInFeatureParents } from '../../../../smart-core/src/facades/replace-id-in-feature-parents.function';
 
 /**
  * Helper method to remove the id of the row from the parent rows looking at it

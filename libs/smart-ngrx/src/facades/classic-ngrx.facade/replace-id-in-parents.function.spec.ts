@@ -1,9 +1,9 @@
 import { of } from 'rxjs';
 
-import { facadeRegistry } from '../../registrations/facade-registry.class';
-import { ChildDefinition } from '../../types/child-definition.interface';
-import { FacadeBase } from '../facade.base';
-import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
+import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
+import { ChildDefinition } from '../../../../smart-core/src/types/child-definition.interface';
+import { FacadeBase } from '../../../../smart-core/src/facades/facade.base';
+import { replaceIdInFeatureParents } from '../../../../smart-core/src/facades/replace-id-in-feature-parents.function';
 import { replaceIdInParents } from './replace-id-in-parents.function';
 
 // Mock dependencies

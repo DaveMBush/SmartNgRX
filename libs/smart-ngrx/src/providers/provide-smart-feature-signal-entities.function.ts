@@ -11,10 +11,10 @@ import {
   zoneless,
 } from '@smarttools/core';
 
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
-import { facadeRegistry } from '../registrations/facade-registry.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
+import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
+import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
+import { serviceRegistry } from '../../../smart-core/src/registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 

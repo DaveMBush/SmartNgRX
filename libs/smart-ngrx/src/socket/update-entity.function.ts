@@ -2,9 +2,9 @@ import { Dictionary, EntityState } from '@ngrx/entity';
 import { forNext, SmartNgRXRowBase } from '@smarttools/core';
 import { take } from 'rxjs';
 
-import { FacadeBase } from '../facades/facade.base';
-import { facadeRegistry } from '../registrations/facade-registry.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
+import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
 import { store } from '../smart-selector/store.function';
 
 /**

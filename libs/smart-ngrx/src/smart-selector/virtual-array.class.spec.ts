@@ -1,6 +1,6 @@
 import { VirtualArrayContents } from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { VirtualArray } from './virtual-array.class';
 
 interface TestableVirtualArray<P extends object>

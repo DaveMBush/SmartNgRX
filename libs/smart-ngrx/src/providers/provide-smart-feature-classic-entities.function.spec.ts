@@ -4,10 +4,10 @@ import { StoreModule } from '@ngrx/store';
 import { rootInjector, SmartNgRXRowBase } from '@smarttools/core';
 import { Observable, of } from 'rxjs';
 
-import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
-import { EffectService } from '../types/effect-service';
-import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
+import { serviceRegistry } from '../../../smart-core/src/registrations/service-registry.class';
+import { EffectService } from '../../../smart-core/src/types/effect-service';
+import { PartialArrayDefinition } from '../../../smart-core/src/types/partial-array-definition.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { provideSmartFeatureClassicEntities } from './provide-smart-feature-classic-entities.function';
 

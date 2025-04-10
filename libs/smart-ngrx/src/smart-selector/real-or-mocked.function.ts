@@ -1,9 +1,9 @@
 import { EntityState } from '@ngrx/entity';
 import { SmartNgRXRowBase } from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { rowProxy } from '../row-proxy/row-proxy.function';
-import { ChildDefinition } from '../types/child-definition.interface';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
 import { getServices } from './get-services.function';
 

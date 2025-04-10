@@ -1,4 +1,4 @@
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { MarkAndDeleteInit } from '../../../smart-core/src/types/mark-and-delete-init.interface';
 
 /**
  * Used internally to resolve the remove time to ensure it is always

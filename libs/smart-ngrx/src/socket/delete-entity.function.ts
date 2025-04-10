@@ -1,9 +1,9 @@
 import { forNext } from '@smarttools/core';
 
 import { removeIdFromParentsClassic } from '../facades/classic-ngrx.facade/remove-id-from-parents-classic.function';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { ParentInfo } from '../types/parent-info.interface';
+import { childDefinitionRegistry } from '../../../smart-core/src/registrations/child-definition.registry';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
+import { ParentInfo } from '../../../smart-core/src/types/parent-info.interface';
 
 /**
  * Delete the feature/entity/ids from the store

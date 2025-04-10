@@ -1,4 +1,4 @@
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { MarkAndDeleteInit } from '../../../smart-core/src/types/mark-and-delete-init.interface';
 import { resolveRemoveTime } from './resolve-remove-time.function';
 
 describe('resolveRemoveTime', () => {

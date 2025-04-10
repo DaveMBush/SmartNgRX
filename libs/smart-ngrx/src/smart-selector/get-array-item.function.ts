@@ -1,10 +1,10 @@
 import { EntityState } from '@ngrx/entity';
 import { SmartNgRXRowBase } from '@smarttools/core';
 
-import { entityRegistry } from '../registrations/entity-registry.class';
-import { ChildDefinition } from '../types/child-definition.interface';
+import { entityRegistry } from '../../../smart-core/src/registrations/entity-registry.class';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
-import { ensureDataLoaded } from './ensure-data-loaded.function';
+import { ensureDataLoaded } from '../../../smart-core/src/smart-selector/ensure-data-loaded.function';
 import { realOrMocked } from './real-or-mocked.function';
 
 /**

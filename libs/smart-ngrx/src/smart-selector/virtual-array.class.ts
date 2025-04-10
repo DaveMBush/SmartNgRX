@@ -1,6 +1,6 @@
 import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 
 /**
  * Class that represents an array that is not fully loaded

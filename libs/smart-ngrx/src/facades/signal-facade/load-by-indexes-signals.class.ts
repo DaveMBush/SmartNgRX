@@ -11,12 +11,12 @@ import {
 } from '@smarttools/core';
 import { map, Subject, switchMap } from 'rxjs';
 
-import { entityDefinitionRegistry } from '../../registrations/entity-definition-registry.function';
-import { facadeRegistry } from '../../registrations/facade-registry.class';
-import { serviceRegistry } from '../../registrations/service-registry.class';
-import { IndexProp } from '../../types/index-prop.interfaces';
-import { PartialArrayDefinition } from '../../types/partial-array-definition.interface';
-import { bufferIndexes } from '../classic-ngrx.facade/buffer-indexes.function';
+import { entityDefinitionRegistry } from '../../../../smart-core/src/registrations/entity-definition-registry.function';
+import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
+import { serviceRegistry } from '../../../../smart-core/src/registrations/service-registry.class';
+import { IndexProp } from '../../../../smart-core/src/types/index-prop.interfaces';
+import { PartialArrayDefinition } from '../../../../smart-core/src/types/partial-array-definition.interface';
+import { bufferIndexes } from '../../../../smart-core/src/facades/buffer-indexes.function';
 import { SignalsFacade } from '../signals-facade';
 
 /**

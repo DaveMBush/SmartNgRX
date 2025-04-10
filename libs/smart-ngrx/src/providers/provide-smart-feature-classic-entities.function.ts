@@ -18,9 +18,9 @@ import {
 } from '@smarttools/core';
 
 import { reducerFactory } from '../reducers/reducer.factory';
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
-import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
+import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
+import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
+import { serviceRegistry } from '../../../smart-core/src/registrations/service-registry.class';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 

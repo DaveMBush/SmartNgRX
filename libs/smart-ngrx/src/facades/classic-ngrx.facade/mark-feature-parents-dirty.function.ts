@@ -1,6 +1,6 @@
 import { forNext } from '@smarttools/core';
 
-import { ParentInfo } from '../../types/parent-info.interface';
+import { ParentInfo } from '../../../../smart-core/src/types/parent-info.interface';
 import { markParentsDirty } from './mark-parents-dirty.function';
 
 /**

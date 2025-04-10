@@ -1,5 +1,5 @@
-import { FacadeBase } from '../facades/facade.base';
-import { facadeRegistry } from '../registrations/facade-registry.class';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 // we have to supply requestIdleCallback for jest
 window.requestIdleCallback = (

@@ -2,11 +2,11 @@
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { FacadeBase } from '../facades/facade.base';
+import { FacadeBase } from '../../../smart-core/src/facades/facade.base';
 import { clearState } from '../tests/functions/clear-state.function';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
-import { ChildDefinition } from '../types/child-definition.interface';
+import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ArrayProxy } from './array-proxy.class';
 
@@ -18,7 +18,7 @@ jest.mock('./get-array-item.function', () => ({
 }));
 
 import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade';
-import { facadeRegistry } from '../registrations/facade-registry.class';
+import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
 import { RowProxy } from '../row-proxy/row-proxy.class';
 import { getArrayItem } from './get-array-item.function';
 import { VirtualArray } from './virtual-array.class';
