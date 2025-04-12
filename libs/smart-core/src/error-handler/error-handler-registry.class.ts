@@ -1,14 +1,14 @@
-import { SmartNgRXErrorHandler } from '../types/smart-ngrx-error-handler.interface';
+import { SmartErrorHandler } from '../types/smart-error-handler.interface';
 import { errorHandler } from './error-handler.class';
 
 class ErrorHandlerRegistry {
   private handler = errorHandler;
 
-  register(handler: SmartNgRXErrorHandler): void {
+  register(handler: SmartErrorHandler): void {
     this.handler = handler;
   }
 
-  getHandler(): SmartNgRXErrorHandler {
+  getHandler(): SmartErrorHandler {
     return this.handler;
   }
 }

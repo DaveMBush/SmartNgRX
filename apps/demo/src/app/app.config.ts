@@ -14,7 +14,7 @@ import {
 } from '@ngrx/store-devtools';
 import {
   provideSmartNgRX,
-  smartNgRXErrorHandlerToken,
+  smartErrorHandlerToken,
 } from '@smarttools/smart-ngrx';
 
 import { appRoutes } from './app.routes';
@@ -41,7 +41,7 @@ export const appConfig: ApplicationConfig = {
       },
     },
     {
-      provide: smartNgRXErrorHandlerToken,
+      provide: smartErrorHandlerToken,
       useClass: ErrorHandlerService,
     },
     {

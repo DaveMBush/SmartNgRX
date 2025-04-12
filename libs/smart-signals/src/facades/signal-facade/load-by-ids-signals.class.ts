@@ -6,7 +6,7 @@ import {
   mergeRowsWithEntities,
   rootInjector,
   serviceRegistry,
-  smartNgRXErrorHandlerToken,
+  smartErrorHandlerToken,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 import { catchError, map, mergeMap, Observable, of, Subject } from 'rxjs';
@@ -94,9 +94,7 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
           return of(rows);
         }),
         catchError(function loadByIdsError(error: unknown) {
-          const errorHandler = rootInjector
-            .get()
-            .get(smartNgRXErrorHandlerToken);
+          const errorHandler = rootInjector.get().get(smartErrorHandlerToken);
           errorHandler.handleError('loadByIds', error);
           return of([]);
         }),

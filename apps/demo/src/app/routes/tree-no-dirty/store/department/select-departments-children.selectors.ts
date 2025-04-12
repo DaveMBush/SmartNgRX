@@ -8,7 +8,6 @@ export const selectDepartmentsChildren = createSmartSelector(
   selectDepartments,
   [
     {
-      type: 'NgRX',
       childFeature: 'tree-no-dirty',
       childEntity: 'departmentChildren',
       parentFeature: 'tree-no-dirty',

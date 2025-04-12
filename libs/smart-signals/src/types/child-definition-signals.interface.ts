@@ -8,10 +8,9 @@ import { BaseChildDefinition, SmartNgRXRowBase } from '@smarttools/core';
 export interface ChildDefinitionSignals<
   P extends SmartNgRXRowBase = SmartNgRXRowBase,
   T extends SmartNgRXRowBase = SmartNgRXRowBase,
-> extends BaseChildDefinition<P, T> {
-  type: 'Signal';
+> extends BaseChildDefinition<P> {
   /**
    *  The selector to retrieve the child data from the store.
    */
-  childSelector: Signal<EntityState<SmartNgRXRowBase>>;
+  childSelector: Signal<EntityState<T>>;
 }

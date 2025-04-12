@@ -5,7 +5,9 @@ import {
   convertChildrenToVirtualArray,
   SmartNgRXRowBase,
 } from '@smarttools/core';
+
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
+import { convertChildrenToArrayProxySignals } from './convert-children-to-array-proxy-signals.function';
 
 /**
  * This is an internal function used by `createSmartSignal`.
@@ -62,7 +64,6 @@ export function createInnerSmartSignal<
     );
 
     returnEntity = convertChildrenToArrayProxySignals(
-      // TODO: write this function
       returnEntity,
       parentFieldName,
       child,

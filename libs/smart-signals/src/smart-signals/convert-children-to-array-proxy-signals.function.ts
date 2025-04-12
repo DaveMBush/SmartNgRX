@@ -1,8 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 import { castTo, forNext, SmartNgRXRowBase } from '@smarttools/core';
 
-import { ArrayProxySignals } from './array-proxy-signals.class';
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
+import { ArrayProxySignals } from './array-proxy-signals.class';
 
 /**
  * wraps the array in a proxy so we can return a row for the ID
@@ -14,7 +14,7 @@ import { ChildDefinitionSignals } from '../types/child-definition-signals.interf
  *
  * @returns the entity with the child field converted to an array proxy
  */
-export function convertChildrenToArrayProxyClassic<
+export function convertChildrenToArrayProxySignals<
   P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
 >(

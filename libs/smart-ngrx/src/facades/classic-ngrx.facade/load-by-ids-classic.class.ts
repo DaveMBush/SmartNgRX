@@ -9,7 +9,7 @@ import {
   mergeRowsWithEntities,
   rootInjector,
   serviceRegistry,
-  smartNgRXErrorHandlerToken,
+  smartErrorHandlerToken,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 import {
@@ -117,9 +117,7 @@ export class LoadByIdsClassic {
           return of(rows);
         }),
         catchError(function loadByIdsError(error: unknown) {
-          const errorHandler = rootInjector
-            .get()
-            .get(smartNgRXErrorHandlerToken);
+          const errorHandler = rootInjector.get().get(smartErrorHandlerToken);
           errorHandler.handleError('loadByIds', error);
           return of([]);
         }),

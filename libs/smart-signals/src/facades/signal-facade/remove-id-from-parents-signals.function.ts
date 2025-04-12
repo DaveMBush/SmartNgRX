@@ -4,7 +4,7 @@
 // combine without tightly coupling the two
 // which will end up in separate libraries.
 import {
-  ChildDefinition,
+  BaseChildDefinition,
   facadeRegistry,
   ParentInfo,
   replaceIdInFeatureParents,
@@ -20,7 +20,7 @@ import { SignalsFacade } from '../signals-facade';
  * @param parentInfo holds the parent feature, entity, and ids that are affected by the delete
  */
 export function removeIdFromParentsSignals(
-  childDefinition: ChildDefinition,
+  childDefinition: BaseChildDefinition,
   id: string,
   parentInfo: ParentInfo[],
 ): void {

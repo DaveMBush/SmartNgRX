@@ -1,6 +1,5 @@
 import { UpdateStr } from '@ngrx/entity/src/models';
 import {
-  Add,
   ensureDataLoaded,
   entityDefinitionRegistry,
   entityRegistry,
@@ -14,6 +13,7 @@ import {
 } from '@smarttools/core';
 import { asapScheduler } from 'rxjs';
 
+import { Add } from './signal-facade/add.class';
 import { entitySignalStoreFactory } from './signal-facade/entity-signal-store.factory';
 import { LoadByIdsSignals } from './signal-facade/load-by-ids-signals.class';
 import { LoadByIndexesSignals } from './signal-facade/load-by-indexes-signals.class';

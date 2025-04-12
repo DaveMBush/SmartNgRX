@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { SmartNgRXErrorHandler } from '@smarttools/smart-ngrx';
+import { SmartErrorHandler } from '@smarttools/smart-ngrx';
 
 @Injectable()
-export class ErrorHandlerService implements SmartNgRXErrorHandler {
+export class ErrorHandlerService implements SmartErrorHandler {
   handleError(message: string, error: unknown): void {
     console.error(message, error);
   }

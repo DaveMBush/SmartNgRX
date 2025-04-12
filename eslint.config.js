@@ -72,8 +72,23 @@ const eslintConfig = async () => {
             allow: [],
             depConstraints: [
               {
-                sourceTag: '*',
-                onlyDependOnLibsWithTags: ['*'],
+                sourceTag: 'scope:smart-core',
+                onlyDependOnLibsWithTags: [],
+              },
+              {
+                sourceTag: 'scope:smart-ngrx',
+                onlyDependOnLibsWithTags: ['scope:smart-core'],
+              },
+              {
+                sourceTag: 'scope:smart-signal',
+                onlyDependOnLibsWithTags: ['scope:smart-core'],
+              },
+              {
+                sourceTag: 'scope:demo',
+                onlyDependOnLibsWithTags: [
+                  'scope:smart-ngrx',
+                  'scope:smart-signal',
+                ],
               },
             ],
           },

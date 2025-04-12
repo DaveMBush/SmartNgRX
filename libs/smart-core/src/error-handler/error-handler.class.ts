@@ -1,6 +1,6 @@
-import { SmartNgRXErrorHandler } from '../types/smart-ngrx-error-handler.interface';
+import { SmartErrorHandler } from '../types/smart-error-handler.interface';
 
-class ErrorHandler implements SmartNgRXErrorHandler {
+class ErrorHandler implements SmartErrorHandler {
   handleError(_: string, __: unknown): void {
     // noop
   }

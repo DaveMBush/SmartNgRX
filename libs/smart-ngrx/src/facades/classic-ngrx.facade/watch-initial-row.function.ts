@@ -3,7 +3,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   ensureDataLoaded,
   rootInjector,
-  smartNgRXErrorHandlerToken,
+  smartErrorHandlerToken,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
@@ -35,7 +35,7 @@ export function watchInitialRow<T extends SmartNgRXRowBase>(
     .select(selectTopRow)
     .pipe(
       catchError(function watchInitialRowEffectCatchError(error: unknown) {
-        const errorHandler = rootInjector.get().get(smartNgRXErrorHandlerToken);
+        const errorHandler = rootInjector.get().get(smartErrorHandlerToken);
         errorHandler.handleError('watchInitialRow', error);
         return EMPTY;
       }),

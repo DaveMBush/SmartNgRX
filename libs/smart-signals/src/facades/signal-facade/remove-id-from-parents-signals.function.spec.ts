@@ -1,8 +1,12 @@
-import { facadeRegistry, ParentInfo, SmartNgRXRowBase } from '@smarttools/core';
+import {
+  facadeRegistry,
+  ParentInfo,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 
+import { ChildDefinitionSignals } from '../../types/child-definition-signals.interface';
 import { SignalsFacade } from '../signals-facade';
 import { removeIdFromParentsSignals } from './remove-id-from-parents-signals.function';
-import { ChildDefinitionSignals } from '../../types/child-definition-signals.interface';
 jest.mock('../../registrations/facade-registry.class');
 
 const testFeature = 'testFeature';

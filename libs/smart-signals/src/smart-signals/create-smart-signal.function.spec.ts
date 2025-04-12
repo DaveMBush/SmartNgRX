@@ -1,15 +1,14 @@
 import { signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import {
-  ChildDefinition,
   FacadeBase,
   facadeRegistry,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
 import { SignalsFacade } from '../facades/signals-facade';
+import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
 import { createSmartSignal } from './create-smart-signal.function';
-
 jest.mock('../registrations/facade-registry.class');
 
 interface TestEntity extends SmartNgRXRowBase {
@@ -55,7 +54,7 @@ describe('createSmartSignal', () => {
       entities: { '1': { id: '1', name: 'Parent' } },
     });
 
-    const children: ChildDefinition<TestEntity, TestEntity>[] = [
+    const children: ChildDefinitionSignals<TestEntity, TestEntity>[] = [
       {
         type: 'Signal',
         parentFeature: 'testFeature',

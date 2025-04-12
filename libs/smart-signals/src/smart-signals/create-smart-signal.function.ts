@@ -3,12 +3,12 @@ import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import {
   assert,
-  ChildDefinition,
   facadeRegistry,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
 import { SignalsFacade } from '../facades/signals-facade';
+import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
 
 function isSignal(value: unknown): boolean {
@@ -27,7 +27,7 @@ export function createSmartSignal<
   T extends SmartNgRXRowBase,
 >(
   parentSignal: Signal<EntityState<P>>,
-  children: ChildDefinition<P, T>[],
+  children: ChildDefinitionSignals<P, T>[],
 ): Signal<EntityState<P>>;
 
 /**
@@ -48,7 +48,7 @@ export function createSmartSignal<
   T extends SmartNgRXRowBase,
 >(
   p1: Signal<EntityState<P>> | string,
-  p2?: ChildDefinition<P, T>[] | string,
+  p2?: ChildDefinitionSignals<P, T>[] | string,
 ): Signal<EntityState<P>> {
   // Handle the feature/entity case (first overload)
   if (typeof p1 === 'string' && typeof p2 === 'string') {
@@ -94,12 +94,9 @@ export function createSmartSignal<
   throw new Error('Invalid arguments');
 }
 
-function createSmartSignalChildReducer<
-  P extends SmartNgRXRowBase,
-  T extends SmartNgRXRowBase,
->(
+function createSmartSignalChildReducer<P extends SmartNgRXRowBase, T extends SmartNgRXRowBase>(
   parentSignal: Signal<EntityState<P>>,
-  childDefinition: ChildDefinition<P, T>,
+  childDefinition: ChildDefinitionSignals<P, T>,
 ): Signal<EntityState<P>> {
   return createInnerSmartSignal(parentSignal, childDefinition);
 }
