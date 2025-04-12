@@ -5,7 +5,7 @@ import { facadeRegistry } from '../registrations/facade-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
-import { VirtualArray } from '../../../smart-ngrx/src/smart-selector/virtual-array.class';
+import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
 
 jest.mock('../registrations/facade-registry.class');

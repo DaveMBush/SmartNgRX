@@ -1,12 +1,11 @@
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import {
-  ChildDefinition,
   childDefinitionRegistry,
-  convertChildrenToArrayProxy,
   convertChildrenToVirtualArray,
-SmartNgRXRowBase ,
+  SmartNgRXRowBase,
 } from '@smarttools/core';
+import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
 
 /**
  * This is an internal function used by `createSmartSignal`.
@@ -33,7 +32,7 @@ export function createInnerSmartSignal<
   C extends SmartNgRXRowBase,
 >(
   parentSignal: Signal<EntityState<P>>,
-  childDefinition: ChildDefinition<P, C>,
+  childDefinition: ChildDefinitionSignals<P, C>,
 ): Signal<EntityState<P>> {
   const {
     childFeature,
@@ -53,7 +52,7 @@ export function createInnerSmartSignal<
   return computed(function createInnerSmartComputedSignal() {
     const parent = parentSignal();
 
-    const child = (childSelector as Signal<EntityState<SmartNgRXRowBase>>)();
+    const child = childSelector();
 
     let returnEntity = convertChildrenToVirtualArray(
       parentFieldName,
@@ -62,11 +61,12 @@ export function createInnerSmartSignal<
       parentEntity,
     );
 
-    returnEntity = convertChildrenToArrayProxy(
+    returnEntity = convertChildrenToArrayProxySignals(
+      // TODO: write this function
       returnEntity,
       parentFieldName,
       child,
-      childDefinition as ChildDefinition<P>,
+      childDefinition as ChildDefinitionSignals<P>,
     );
 
     // update the parent signal from parent

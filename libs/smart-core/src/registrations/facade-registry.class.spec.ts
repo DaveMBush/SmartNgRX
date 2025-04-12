@@ -1,5 +1,5 @@
-import { ClassicNgrxFacade } from '../../../smart-ngrx/src/facades/classic-ngrx.facade';
-import { facadeRegistry } from '../../../smart-ngrx/src/registrations/facade-registry.class';
+import { FacadeBase } from '../facades/facade.base';
+import { facadeRegistry } from './facade-registry.class';
 
 jest.mock('../facades/classic-ngrx.facade');
 
@@ -10,9 +10,7 @@ describe('facadeRegistry', () => {
     mockActionServiceFactory = jest.fn().mockImplementation(() => ({
       init: jest.fn().mockReturnValue(true),
     }));
-    (ClassicNgrxFacade as jest.Mock).mockImplementation(
-      mockActionServiceFactory,
-    );
+    (FacadeBase as jest.Mock).mockImplementation(mockActionServiceFactory);
   });
 
   afterEach(() => {
@@ -28,7 +26,7 @@ describe('facadeRegistry', () => {
     expect(() =>
       facadeRegistry.register('testFeature', 'testEntity'),
     ).toThrow();
-    expect(ClassicNgrxFacade).toHaveBeenCalledWith('testFeature', 'testEntity');
+    expect(FacadeBase).toHaveBeenCalledWith('testFeature', 'testEntity');
   });
 
   it('should return ActionService instance when init() returns true', () => {
@@ -37,7 +35,7 @@ describe('facadeRegistry', () => {
     expect(result).toEqual(
       expect.objectContaining({ init: expect.any(Function) }),
     );
-    expect(ClassicNgrxFacade).toHaveBeenCalledWith('testFeature', 'testEntity');
+    expect(FacadeBase).toHaveBeenCalledWith('testFeature', 'testEntity');
     expect(resultInitSpy).toHaveBeenCalled();
   });
 
@@ -46,7 +44,7 @@ describe('facadeRegistry', () => {
     const result2 = facadeRegistry.register('testFeature', 'testEntity');
     const result1InitSpy = jest.spyOn(result1, 'init');
     expect(result1).toBe(result2);
-    expect(ClassicNgrxFacade).toHaveBeenCalledTimes(1);
+    expect(FacadeBase).toHaveBeenCalledTimes(1);
     expect(result1InitSpy).toHaveBeenCalledTimes(1);
   });
 
@@ -56,9 +54,9 @@ describe('facadeRegistry', () => {
     const result1InitSpy = jest.spyOn(result1, 'init');
     const result2InitSpy = jest.spyOn(result2, 'init');
     expect(result1).not.toBe(result2);
-    expect(ClassicNgrxFacade).toHaveBeenCalledTimes(2);
-    expect(ClassicNgrxFacade).toHaveBeenNthCalledWith(1, 'feature1', 'entity1');
-    expect(ClassicNgrxFacade).toHaveBeenNthCalledWith(2, 'feature2', 'entity2');
+    expect(FacadeBase).toHaveBeenCalledTimes(2);
+    expect(FacadeBase).toHaveBeenNthCalledWith(1, 'feature1', 'entity1');
+    expect(FacadeBase).toHaveBeenNthCalledWith(2, 'feature2', 'entity2');
     expect(result1InitSpy).toHaveBeenCalledTimes(1);
     expect(result2InitSpy).toHaveBeenCalledTimes(1);
   });

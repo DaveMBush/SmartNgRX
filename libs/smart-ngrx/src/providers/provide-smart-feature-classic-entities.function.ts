@@ -11,17 +11,17 @@ import {
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 import {
+  entityDefinitionRegistry,
+  featureRegistry,
   forNext,
   rootInjector,
+  serviceRegistry,
+  SmartEntityDefinition,
   SmartNgRXRowBase,
   zoneless,
 } from '@smarttools/core';
 
 import { reducerFactory } from '../reducers/reducer.factory';
-import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
-import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
-import { serviceRegistry } from '../../../smart-core/src/registrations/service-registry.class';
-import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;

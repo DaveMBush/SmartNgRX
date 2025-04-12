@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
 /* jscpd:ignore-start */
 import { createActionGroup, props } from '@ngrx/store';
-import { psi, SmartNgRXRowBase } from '@smarttools/core';
+import { psi, RowProp, SmartNgRXRowBase } from '@smarttools/core';
 
 import { ActionGroup } from '../../types/action-group.interface';
 import { IdsProp } from '../../types/ids-prop.interface';
-import { RowProp } from '../../types/row-prop.interface';
 import { RowsProp } from '../../types/rows-prop.interface';
 import { UpdateChanges } from '../../types/update-changes.interface';
 /* jscpd:ignore-end */

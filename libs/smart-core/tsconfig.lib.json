@@ -13,5 +13,14 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "../smart-ngrx/src/facades/classic-ngrx.facade/replace-id-in-parents-classic.function.spec.ts",
+    "../smart-ngrx/src/facades/classic-ngrx.facade/replace-id-in-parents-classic.function.ts",
+    "../smart-ngrx/src/smart-selector/array-proxy-classic.class.ts",
+    "../smart-ngrx/src/smart-selector/array-proxy-classic.class.spec.ts",
+    "../smart-ngrx/src/smart-selector/convert-children-to-array-proxy-classic.function.ts",
+    "../smart-ngrx/src/types/child-definition-classic.interface.ts",
+    "src/types/smart-validated-entity-definition.type.ts"
+  ]
 }

@@ -1,11 +1,9 @@
 import { Dictionary } from '@ngrx/entity';
-import {
-  assert,
-  SmartNgRXRowBase,
-  VirtualArrayContents,
-} from '@smarttools/core';
 
-import { ChildDefinition } from '../types/child-definition.interface';
+import { assert } from '../common/assert.function';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { FacadeBase } from './facade.base';
 
 /**
@@ -19,7 +17,7 @@ import { FacadeBase } from './facade.base';
  */
 export function replaceIdInFeatureParents(
   entities: Dictionary<SmartNgRXRowBase>,
-  childDefinition: ChildDefinition,
+  childDefinition: BaseChildDefinition,
   parentService: FacadeBase,
   ids: [string, string | null],
 ): string[] {

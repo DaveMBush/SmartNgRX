@@ -2,7 +2,7 @@ import { EntityState } from '@ngrx/entity';
 import { MemoizedSelector } from '@ngrx/store';
 import { SmartNgRXRowBase } from '@smarttools/core';
 
-import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
+import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
 import { ParentSelector } from './parent-selector.type';
 
@@ -31,7 +31,7 @@ export function createSmartSelector<
 >(
   parentSelector: ParentSelector<P>,
 
-  children: ChildDefinition<P, T>[],
+  children: ChildDefinitionClassic<P, T>[],
 ): MemoizedSelector<object, EntityState<P>> {
   return children.reduce(createSmartSelectorChildReducer<P, T>, parentSelector);
 }
@@ -39,6 +39,9 @@ export function createSmartSelector<
 function createSmartSelectorChildReducer<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
->(parentSelector: ParentSelector<P>, childDefinition: ChildDefinition<P, T>) {
+>(
+  parentSelector: ParentSelector<P>,
+  childDefinition: ChildDefinitionClassic<P, T>,
+) {
   return createInnerSmartSelector(parentSelector, childDefinition);
 }

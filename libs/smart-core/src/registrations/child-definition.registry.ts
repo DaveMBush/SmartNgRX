@@ -1,12 +1,14 @@
-import { assert, castTo, psi, SmartNgRXRowBase } from '@smarttools/core';
-
-import { ChildDefinition } from '../types/child-definition.interface';
+import { assert } from '../common/assert.function';
+import { castTo } from '../common/cast-to.function';
+import { psi } from '../common/psi.const';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 /**
  * Registry for child definitions
  */
 class ChildDefinitionRegistry {
-  private childDefinitionMap = new Map<string, ChildDefinition[]>();
+  private childDefinitionMap = new Map<string, BaseChildDefinition[]>();
 
   /**
    * Register a `ChildDefinition` so we can get at it later
@@ -15,13 +17,10 @@ class ChildDefinitionRegistry {
    * @param entity the entity the definition is for
    * @param childDefinition the childDefinition to register
    */
-  registerChildDefinition<
-    P extends SmartNgRXRowBase,
-    T extends SmartNgRXRowBase,
-  >(
+  registerChildDefinition<P extends SmartNgRXRowBase>(
     feature: string,
     entity: string,
-    childDefinition: ChildDefinition<P, T>,
+    childDefinition: BaseChildDefinition<P>,
   ): void {
     /* istanbul ignore next -- trivial*/
     const existingEntries =
@@ -30,7 +29,7 @@ class ChildDefinitionRegistry {
       `${feature}${psi}${entity}`,
       // Something in this registration code has
       // to be castTo() it might as well be this
-      castTo<ChildDefinition[]>([...existingEntries, childDefinition]),
+      castTo<BaseChildDefinition[]>([...existingEntries, childDefinition]),
     );
   }
 
@@ -44,7 +43,7 @@ class ChildDefinitionRegistry {
   getChildDefinition<P extends SmartNgRXRowBase>(
     feature: string,
     entity: string,
-  ): ChildDefinition<P>[] {
+  ): BaseChildDefinition<P>[] {
     const childDefinition = this.childDefinitionMap.get(
       `${feature}${psi}${entity}`,
     );
@@ -52,7 +51,7 @@ class ChildDefinitionRegistry {
       !!childDefinition,
       `Child definition not found for feature: ${feature} and entity: ${entity}`,
     );
-    return childDefinition as ChildDefinition<P>[];
+    return childDefinition as BaseChildDefinition<P>[];
   }
 }
 

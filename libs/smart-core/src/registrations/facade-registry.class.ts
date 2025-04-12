@@ -11,17 +11,18 @@ class FacadeRegistry {
    *
    * @param feature the feature
    * @param entity the entity
-   * @param facadeConstructor
+   * @param facadeConstructor the constructor that will initialize the facade
    * @returns the ActionService object/class for the given feature and entity
    */
   register<T extends SmartNgRXRowBase>(
     feature: string,
     entity: string,
-    facadeConstructor: new (feature: string, entity: string) => FacadeBase,
+    facadeConstructor?: new (feature: string, entity: string) => FacadeBase,
   ): FacadeBase<T> {
     const key = `${feature}${psi}${entity}`;
     let facadeCache = this.facadeMap.get(key);
     if (facadeCache === undefined) {
+      assert(!!facadeConstructor, 'facadeConstructor is required here');
       facadeCache = new facadeConstructor(feature, entity);
       this.facadeMap.set(key, facadeCache);
       assert(facadeCache.init(), 'ActionService init failed');

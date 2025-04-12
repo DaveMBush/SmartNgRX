@@ -1,11 +1,14 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { castTo, SmartNgRXRowBase } from '@smarttools/core';
+import {
+  castTo,
+  childDefinitionRegistry,
+  convertChildrenToVirtualArray,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 
-import { childDefinitionRegistry } from '../../../smart-core/src/registrations/child-definition.registry';
-import { ChildDefinition } from '../../../smart-core/src/types/child-definition.interface';
-import { convertChildrenToArrayProxy } from '../../../smart-core/src/smart-selector/convert-children-to-array-proxy.function';
-import { convertChildrenToVirtualArray } from '../../../smart-core/src/smart-selector/convert-children-to-virtual-array.function';
+import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
+import { convertChildrenToArrayProxyClassic } from './convert-children-to-array-proxy-classic.function';
 import { ParentSelector } from './parent-selector.type';
 
 /**
@@ -21,12 +24,12 @@ import { ParentSelector } from './parent-selector.type';
  * original array before it was proxied.
  *
  * @param parentSelector The `ParentSelector` to retrieve the parent data from the store.
- * @param childDefinition `ChildDefinition` that defines what the child should look like
+ * @param childDefinition `ChildDefinitionClassic` that defines what the child should look like
  * @returns - an entity with the specified childArray proxies so that when an element is
  *         accessed, the childAction will be dispatched to request data from the server.
  *
  * @see `createSmartSelector`
- * @see `ChildDefinition`
+ * @see `ChildDefinitionClassic`
  * @see `ParentSelector`
  */
 export function createInnerSmartSelector<
@@ -34,7 +37,7 @@ export function createInnerSmartSelector<
   C extends SmartNgRXRowBase,
 >(
   parentSelector: ParentSelector<P>,
-  childDefinition: ChildDefinition<P, C>,
+  childDefinition: ChildDefinitionClassic<P, C>,
 ): MemoizedSelector<object, EntityState<P>> {
   const {
     childFeature,
@@ -66,11 +69,11 @@ export function createInnerSmartSelector<
           parentEntity,
         );
 
-        returnEntity = convertChildrenToArrayProxy(
+        returnEntity = convertChildrenToArrayProxyClassic(
           returnEntity,
           parentFieldName,
           child,
-          childDefinition as ChildDefinition<P>,
+          childDefinition,
         );
         return returnEntity;
       },

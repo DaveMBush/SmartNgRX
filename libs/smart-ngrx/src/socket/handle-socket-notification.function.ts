@@ -1,7 +1,10 @@
-import { forNext, psi } from '@smarttools/core';
+import {
+  facadeRegistry,
+  forNext,
+  markAndDeleteEntities,
+  psi,
+} from '@smarttools/core';
 
-import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { updateEntity } from './update-entity.function';
 

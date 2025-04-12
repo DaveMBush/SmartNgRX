@@ -1,18 +1,20 @@
 import { InjectionToken } from '@angular/core';
 import { fakeAsync, tick } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { SmartNgRXRowBase } from '@smarttools/core';
+import {
+  EffectService,
+  entityDefinitionRegistry,
+  entityRegistry,
+  entityRowsRegistry,
+  featureRegistry,
+  PartialArrayDefinition,
+  serviceRegistry,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { entityRowsRegistry } from '../../../../smart-core/src/registrations/entity-rows-registry.class';
-import { entityDefinitionRegistry } from '../../../../smart-core/src/registrations/entity-definition-registry.function';
-import { entityRegistry } from '../../../../smart-core/src/registrations/entity-registry.class';
-import { featureRegistry } from '../../../../smart-core/src/registrations/feature-registry.class';
-import { serviceRegistry } from '../../../../smart-core/src/registrations/service-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
-import { EffectService } from '../../../../smart-core/src/types/effect-service';
-import { PartialArrayDefinition } from '../../../../smart-core/src/types/partial-array-definition.interface';
 import { actionFactory } from './action.factory';
 import { LoadByIdsClassic } from './load-by-ids-classic.class';
 

@@ -6,20 +6,20 @@
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import {
+  bufferIndexes,
+  entityDefinitionRegistry,
+  facadeRegistry,
   forNext,
+  IndexProp,
   newRowRegistry,
+  PartialArrayDefinition,
+  serviceRegistry,
   SmartNgRXRowBase,
   VirtualArrayContents,
 } from '@smarttools/core';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
-import { entityDefinitionRegistry } from '../../../../smart-core/src/registrations/entity-definition-registry.function';
-import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
-import { serviceRegistry } from '../../../../smart-core/src/registrations/service-registry.class';
 import { ActionGroup } from '../../types/action-group.interface';
-import { IndexProp } from '../../../../smart-core/src/types/index-prop.interfaces';
-import { PartialArrayDefinition } from '../../../../smart-core/src/types/partial-array-definition.interface';
-import { bufferIndexes } from '../../../../smart-core/src/facades/buffer-indexes.function';
 
 /**
  * This class is used to manage loading the child ids by

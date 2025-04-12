@@ -1,10 +1,13 @@
 import { EntityState } from '@ngrx/entity';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { rootInjector, SmartNgRXRowBase } from '@smarttools/core';
+import {
+  ensureDataLoaded,
+  rootInjector,
+  smartNgRXErrorHandlerToken,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
 
-import { smartNgRXErrorHandlerToken } from '../../../../smart-core/src/error-handler/smart-ngrx-error-handler-token.const';
-import { ensureDataLoaded } from '../../../../smart-core/src/smart-selector/ensure-data-loaded.function';
 import { store } from '../../smart-selector/store.function';
 
 /**

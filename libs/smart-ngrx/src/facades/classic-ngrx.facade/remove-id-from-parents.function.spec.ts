@@ -1,11 +1,13 @@
+import {
+  BaseChildDefinition,
+  FacadeBase,
+  facadeRegistry,
+  ParentInfo,
+  replaceIdInFeatureParents,
+} from '@smarttools/core';
 import { of } from 'rxjs';
 
-import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
-import { ChildDefinition } from '../../../../smart-core/src/types/child-definition.interface';
-import { ParentInfo } from '../../../../smart-core/src/types/parent-info.interface';
-import { FacadeBase } from '../../../../smart-core/src/facades/facade.base';
 import { removeIdFromParentsClassic } from './remove-id-from-parents-classic.function';
-import { replaceIdInFeatureParents } from '../../../../smart-core/src/facades/replace-id-in-feature-parents.function';
 
 // Mock dependencies
 jest.mock('../../registrations/facade-registry.class');
@@ -15,7 +17,7 @@ describe('removeIdFromParents', () => {
   const mockChildDefinition = {
     parentFeature: 'testFeature',
     parentEntity: 'testEntity',
-  } as ChildDefinition;
+  } as BaseChildDefinition;
   const mockId = 'testId';
   let mockParentInfo: ParentInfo[] = [];
   const mockParentService = {

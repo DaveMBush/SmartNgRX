@@ -3,13 +3,15 @@
 // but it is unique enough that we can't
 // combine without tightly coupling the two
 // which will end up in separate libraries.
+import {
+  BaseChildDefinition,
+  facadeRegistry,
+  ParentInfo,
+  replaceIdInFeatureParents,
+} from '@smarttools/core';
 import { take } from 'rxjs';
 
-import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
-import { ChildDefinition } from '../../../../smart-core/src/types/child-definition.interface';
-import { ParentInfo } from '../../../../smart-core/src/types/parent-info.interface';
-import { ClassicNgrxFacade } from '../classic-ngrx.facade';
-import { replaceIdInFeatureParents } from '../../../../smart-core/src/facades/replace-id-in-feature-parents.function';
+import { ClassicNgrxFacade } from './classic-ngrx.facade';
 
 /**
  * Helper method to remove the id of the row from the parent rows looking at it
@@ -19,7 +21,7 @@ import { replaceIdInFeatureParents } from '../../../../smart-core/src/facades/re
  * @param parentInfo holds the parent feature, entity, and ids that are affected by the delete
  */
 export function removeIdFromParentsClassic(
-  childDefinition: ChildDefinition,
+  childDefinition: BaseChildDefinition,
   id: string,
   parentInfo: ParentInfo[],
 ): void {

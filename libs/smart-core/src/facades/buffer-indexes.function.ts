@@ -8,7 +8,7 @@ import {
 } from 'rxjs';
 
 import { IndexProp } from '../types/index-prop.interfaces';
-import { IndexesProp } from '../../../smart-ngrx/src/types/indexes-prop.interface';
+import { IndexesProp } from '../types/indexes-prop.interface';
 
 function groupActionsByKey(actions: IndexProp[]): Map<string, IndexProp[]> {
   return actions.reduce(function addToGroup(groups, action) {

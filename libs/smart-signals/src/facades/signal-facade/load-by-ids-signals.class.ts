@@ -6,7 +6,9 @@ import {
   mergeRowsWithEntities,
   rootInjector,
   serviceRegistry,
-  smartNgRXErrorHandlerToken,  SmartNgRXRowBase} from '@smarttools/core';
+  smartNgRXErrorHandlerToken,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 import { catchError, map, mergeMap, Observable, of, Subject } from 'rxjs';
 
 import { SignalsFacade } from '../signals-facade';

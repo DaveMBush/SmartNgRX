@@ -1,11 +1,10 @@
 import { EntityAdapter } from '@ngrx/entity';
 import * as createEntityAdapterObject from '@ngrx/entity';
 
+import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { EffectServiceToken } from '../types/effect-service.token';
-import { SmartEntityDefinition } from '../../../smart-ngrx/src/types/smart-entity-definition.interface';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { entityDefinitionRegistry } from '../../../smart-ngrx/src/registrations/entity-definition-registry.function';
-
 jest.mock('@ngrx/entity', () => {
   return {
     __esModule: true,

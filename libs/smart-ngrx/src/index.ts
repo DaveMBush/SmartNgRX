@@ -3,11 +3,6 @@ export * from './providers/provide-smart-feature-classic-entities.function';
 export * from './providers/provide-smart-feature-signal-entities.function';
 export * from './providers/provide-smart-ngrx.function';
 export * from './smart-selector/create-smart-selector.function';
-export * from '../../smart-signals/src/smart-signals/create-smart-signal.function';
-export * from '../../smart-core/src/types/effect-service';
-export * from './types/row-proxy-delete.interface';
-export * from './types/smart-array.interface';
-export * from '@smarttools/core';
 
 // store.function is needed for testing
 export * from './smart-selector/store.function';
@@ -17,11 +12,3 @@ export * from './socket/handle-socket-notification.function';
 export * from './tests/functions/clear-state.function';
 export * from './tests/functions/create-store.function';
 export * from './tests/functions/set-state.function';
-
-// types
-export * from '../../smart-core/src/types/partial-array-definition.interface';
-export * from './types/smart-entity-definition.interface';
-
-// error handling
-export * from '../../smart-core/src/error-handler/smart-ngrx-error-handler-token.const';
-export * from './types/smart-ngrx-error-handler.interface';

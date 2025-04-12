@@ -1,7 +1,10 @@
 import { createEntityAdapter } from '@ngrx/entity';
-import { assert, castTo, psi, SmartNgRXRowBase } from '@smarttools/core';
 
-import { SmartEntityDefinition } from '../../../smart-ngrx/src/types/smart-entity-definition.interface';
+import { assert } from '../common/assert.function';
+import { castTo } from '../common/cast-to.function';
+import { psi } from '../common/psi.const';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
 
 const entityDefinitionMap = new Map<

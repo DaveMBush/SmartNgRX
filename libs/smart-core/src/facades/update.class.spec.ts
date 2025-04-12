@@ -1,4 +1,4 @@
-jest.mock('../../registrations/entity-definition-registry.function');
+jest.mock('../registrations/entity-definition-registry.function');
 
 import { InjectionToken } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
@@ -9,7 +9,7 @@ import { TestScheduler } from 'rxjs/testing';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { EffectService } from '../types/effect-service';
-import { SmartNgRXRowBase } from '../../types/smart-ngrx-row-base.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { Update } from './update.class';
 
 /** Initial value for numeric fields */

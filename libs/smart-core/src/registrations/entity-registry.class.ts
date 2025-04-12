@@ -1,6 +1,6 @@
-import { assert, psi } from '@smarttools/core';
-
-import { EntityAttributes } from '../../../smart-ngrx/src/types/entity-attributes.interface';
+import { assert } from '../common/assert.function';
+import { psi } from '../common/psi.const';
+import { EntityAttributes } from '../types/entity-attributes.interface';
 
 class EntityRegistry {
   // We don't need any features that Map would provide

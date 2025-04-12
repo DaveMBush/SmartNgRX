@@ -5,17 +5,18 @@
 // which will end up in separate libraries.
 import { EnvironmentProviders, Provider } from '@angular/core';
 import {
+  entityDefinitionRegistry,
+  facadeRegistry,
+  featureRegistry,
   forNext,
   rootInjector,
+  serviceRegistry,
+  SmartEntityDefinition,
   SmartNgRXRowBase,
   zoneless,
 } from '@smarttools/core';
 
-import { entityDefinitionRegistry } from '../../../smart-core/src/registrations/entity-definition-registry.function';
-import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
-import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
-import { serviceRegistry } from '../../../smart-core/src/registrations/service-registry.class';
-import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
 import { delayedRegisterEntity } from './delayed-register-entity.function';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
@@ -73,7 +74,7 @@ export function provideSmartFeatureSignalEntities(
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
           delayedRegisterEntity(featureName, entityName, entityDefinition);
-          facadeRegistry.register(featureName, entityName, true);
+          facadeRegistry.register(featureName, entityName, ClassicNgrxFacade);
         });
     },
   );

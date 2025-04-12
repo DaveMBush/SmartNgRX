@@ -1,7 +1,8 @@
 import { Dictionary } from '@ngrx/entity';
-import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
 
-import { ChildDefinition } from '../types/child-definition.interface';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { FacadeBase } from './facade.base';
 import { replaceIdInFeatureParents } from './replace-id-in-feature-parents.function';
 
@@ -10,7 +11,7 @@ describe('replaceIdInFeatureParents', () => {
   let entitiesWithVirtualArray: Dictionary<
     SmartNgRXRowBase & { children: VirtualArrayContents }
   >;
-  let childDefinition: ChildDefinition;
+  let childDefinition: BaseChildDefinition;
   let parentService: FacadeBase;
   let updateManySpy: jest.SpyInstance;
 
@@ -18,7 +19,7 @@ describe('replaceIdInFeatureParents', () => {
     entitiesWithArray = {};
     childDefinition = {
       parentField: 'children',
-    } as unknown as ChildDefinition;
+    } as unknown as BaseChildDefinition;
     parentService = {
       updateMany: jest.fn(),
     } as unknown as FacadeBase;

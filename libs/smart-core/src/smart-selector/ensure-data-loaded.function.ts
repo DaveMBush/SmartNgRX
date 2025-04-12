@@ -1,14 +1,12 @@
 import { EntityState } from '@ngrx/entity';
-import {
-  isNullOrUndefined,
-  SmartNgRXRowBase,
-  zoneless,
-} from '@smarttools/core';
 
+import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { zoneless } from '../common/zoneless.function';
 import { FacadeBase } from '../facades/facade.base';
-import { entityRowsRegistry } from '../registrations/entity-rows-registry.class';
 import { entityRegistry } from '../registrations/entity-registry.class';
+import { entityRowsRegistry } from '../registrations/entity-rows-registry.class';
 import { facadeRegistry } from '../registrations/facade-registry.class';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 

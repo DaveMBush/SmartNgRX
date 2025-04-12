@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
-import { defaultRows } from '../../../smart-ngrx/src/facades/classic-ngrx.facade/default-rows.function';
+import { defaultRows } from './default-rows.function';
 
 describe('default-rows.function.ts', () => {
   const defaultRow = (id: string) => ({ id });

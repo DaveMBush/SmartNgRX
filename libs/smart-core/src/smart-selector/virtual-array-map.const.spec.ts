@@ -1,6 +1,5 @@
-import { SmartNgRXRowBase } from '@smarttools/core';
-
-import { VirtualArray } from '../../../smart-ngrx/src/smart-selector/virtual-array.class';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { VirtualArray } from './virtual-array.class';
 import { virtualArrayMap } from './virtual-array-map.const';
 
 interface Clear {

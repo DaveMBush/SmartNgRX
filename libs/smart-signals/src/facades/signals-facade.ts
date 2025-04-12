@@ -9,7 +9,7 @@ import {
   isNullOrUndefined,
   ParentInfo,
   PartialArrayDefinition,
-  SmartNgRXRowBase ,
+  SmartNgRXRowBase,
   Update as UpdateService,
 } from '@smarttools/core';
 import { asapScheduler } from 'rxjs';

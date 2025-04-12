@@ -1,7 +1,7 @@
 import { EntityAdapter } from '@ngrx/entity';
-import { SmartNgRXRowBase } from '@smarttools/core';
 
-import { SmartEntityDefinition } from '../../../smart-ngrx/src/types/smart-entity-definition.interface';
+import { SmartEntityDefinition } from './smart-entity-definition.interface';
+import { SmartNgRXRowBase } from './smart-ngrx-row-base.interface';
 
 /**
  * We need a type that makes the entityAdapter field in SmartEntityDefinition

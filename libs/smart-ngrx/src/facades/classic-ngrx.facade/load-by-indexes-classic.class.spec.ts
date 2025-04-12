@@ -3,19 +3,22 @@ import { fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import * as smartToolsCoreModule from '@smarttools/core';
-import { SmartNgRXRowBase, VirtualArrayContents } from '@smarttools/core';
+import {
+  EffectService,
+  entityDefinitionRegistry,
+  entityRegistry,
+  FacadeBase,
+  facadeRegistry,
+  featureRegistry,
+  PartialArrayDefinition,
+  serviceRegistry,
+  SmartNgRXRowBase,
+  VirtualArrayContents,
+} from '@smarttools/core';
 import { Observable, of, Subject } from 'rxjs';
 
-import { entityDefinitionRegistry } from '../../../../smart-core/src/registrations/entity-definition-registry.function';
-import { entityRegistry } from '../../../../smart-core/src/registrations/entity-registry.class';
-import { facadeRegistry } from '../../../../smart-core/src/registrations/facade-registry.class';
-import { featureRegistry } from '../../../../smart-core/src/registrations/feature-registry.class';
-import { serviceRegistry } from '../../../../smart-core/src/registrations/service-registry.class';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
-import { EffectService } from '../../../../smart-core/src/types/effect-service';
-import { PartialArrayDefinition } from '../../../../smart-core/src/types/partial-array-definition.interface';
-import { FacadeBase } from '../../../../smart-core/src/facades/facade.base';
 import { actionFactory } from './action.factory';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 

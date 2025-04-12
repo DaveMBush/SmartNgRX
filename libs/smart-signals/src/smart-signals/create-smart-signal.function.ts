@@ -1,7 +1,12 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- needed for overloads */
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
-import { assert, ChildDefinition, facadeRegistry, SmartNgRXRowBase  } from '@smarttools/core';
+import {
+  assert,
+  ChildDefinition,
+  facadeRegistry,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 
 import { SignalsFacade } from '../facades/signals-facade';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';

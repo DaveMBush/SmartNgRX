@@ -1,6 +1,7 @@
 import { Dictionary } from '@ngrx/entity';
-import { forNext, SmartNgRXRowBase } from '@smarttools/core';
 
+import { forNext } from '../common/for-next.function';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 /**
  * Filters out the rows we already have and provides a default row
  * for the ones we don't have.

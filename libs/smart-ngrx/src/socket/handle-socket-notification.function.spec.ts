@@ -1,9 +1,11 @@
 // unit tests for handleSocketNotification function
-import { psi } from '@smarttools/core';
+import {
+  facadeRegistry,
+  featureRegistry,
+  markAndDeleteEntities,
+  psi,
+} from '@smarttools/core';
 
-import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { facadeRegistry } from '../../../smart-core/src/registrations/facade-registry.class';
-import { featureRegistry } from '../../../smart-core/src/registrations/feature-registry.class';
 import { deleteEntity } from './delete-entity.function';
 import { handleSocketNotification } from './handle-socket-notification.function';
 import { updateEntity } from './update-entity.function';

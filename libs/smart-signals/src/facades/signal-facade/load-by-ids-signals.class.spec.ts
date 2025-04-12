@@ -104,7 +104,9 @@ describe('LoadByIdsSignals', () => {
       destroy: jest.fn(),
     } as unknown as EnvironmentInjector;
 
-    jest.spyOn(smartToolsCoreModule.rootInjector, 'get').mockReturnValue(mockGet);
+    jest
+      .spyOn(smartToolsCoreModule.rootInjector, 'get')
+      .mockReturnValue(mockGet);
 
     // Create instance of LoadByIdsSignals
     loadByIdsSignals = new LoadByIdsSignals<TestRow>(

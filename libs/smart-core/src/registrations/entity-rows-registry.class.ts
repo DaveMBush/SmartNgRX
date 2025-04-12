@@ -1,7 +1,7 @@
-import { assert, SmartNgRXRowBase } from '@smarttools/core';
-
+import { assert } from '../common/assert.function';
+import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { entityDefinitionRegistry } from './entity-definition-registry.function';
-import { markAndDeleteEntities } from '../../../smart-ngrx/src/mark-and-delete/mark-and-delete-entities.class';
 
 class EntityRowsRegistry {
   /**
