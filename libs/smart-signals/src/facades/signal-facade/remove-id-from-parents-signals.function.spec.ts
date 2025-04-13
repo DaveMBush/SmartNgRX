@@ -1,8 +1,4 @@
-import {
-  facadeRegistry,
-  ParentInfo,
-  SmartNgRXRowBase,
-} from '@smarttools/core';
+import { facadeRegistry, ParentInfo, SmartNgRXRowBase } from '@smarttools/core';
 
 import { ChildDefinitionSignals } from '../../types/child-definition-signals.interface';
 import { SignalsFacade } from '../signals-facade';

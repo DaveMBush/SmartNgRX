@@ -13,16 +13,11 @@
       }
     }
   },
-  "tags": [
-    "core",
-    "scope:smart-core"
-  ],
+  "tags": ["core", "scope:smart-core"],
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
-      "outputs": [
-        "{workspaceRoot}/dist/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/smart-core/ng-package.json"
       },
@@ -43,9 +38,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "libs/smart-core/jest.config.ts"
       }

@@ -5,7 +5,10 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class FacadeRegistry {
   facadeMap = new Map<string, FacadeBase>();
-  facadeConstructorMap = new Map<string, new (feature: string, entity: string) => FacadeBase>();
+  facadeConstructorMap = new Map<
+    string,
+    new (feature: string, entity: string) => FacadeBase
+  >();
 
   /**
    * mechanism for getting the ActionService object/class for a given feature and entity

@@ -19,7 +19,9 @@ import { Update } from './update.class';
 /**
  * Base class for ActionService that defines the interface for all action services
  */
-export abstract class FacadeBase<T extends SmartNgRXRowBase = SmartNgRXRowBase> {
+export abstract class FacadeBase<
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+> {
   brand: 'classic' | 'signal' = 'classic' as const;
   protected entityDefinition!: SmartValidatedEntityDefinition<T>;
 

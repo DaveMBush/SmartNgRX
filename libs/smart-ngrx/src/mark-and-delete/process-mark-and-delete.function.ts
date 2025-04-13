@@ -1,4 +1,4 @@
-import { facadeRegistry , globalMarkAndDeleteInit } from '@smarttools/core';
+import { facadeRegistry, globalMarkAndDeleteInit } from '@smarttools/core';
 
 /**
  * Goes through all the rows that have been registered and marks them

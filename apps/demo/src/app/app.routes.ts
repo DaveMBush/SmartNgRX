@@ -2,9 +2,7 @@ import { importProvidersFrom, Type } from '@angular/core';
 import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
-import {
-  provideSmartFeatureClassicEntities,
-} from '@smarttools/smart-ngrx';
+import { provideSmartFeatureClassicEntities } from '@smarttools/smart-ngrx';
 import { provideSmartFeatureSignalEntities } from '@smarttools/smart-signals';
 
 import { watchLocations as watchNoDirtyLocations } from './routes/tree-no-dirty/store/current-location/current-location.effects';

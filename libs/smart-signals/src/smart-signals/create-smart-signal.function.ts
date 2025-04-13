@@ -1,11 +1,7 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- needed for overloads */
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
-import {
-  assert,
-  facadeRegistry,
-  SmartNgRXRowBase,
-} from '@smarttools/core';
+import { assert, facadeRegistry, SmartNgRXRowBase } from '@smarttools/core';
 
 import { SignalsFacade } from '../facades/signals-facade';
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
@@ -94,7 +90,10 @@ export function createSmartSignal<
   throw new Error('Invalid arguments');
 }
 
-function createSmartSignalChildReducer<P extends SmartNgRXRowBase, T extends SmartNgRXRowBase>(
+function createSmartSignalChildReducer<
+  P extends SmartNgRXRowBase,
+  T extends SmartNgRXRowBase,
+>(
   parentSignal: Signal<EntityState<P>>,
   childDefinition: ChildDefinitionSignals<P, T>,
 ): Signal<EntityState<P>> {

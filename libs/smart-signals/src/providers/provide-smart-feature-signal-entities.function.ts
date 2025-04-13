@@ -5,7 +5,8 @@
 // which will end up in separate libraries.
 import { EnvironmentProviders, Provider } from '@angular/core';
 import {
- delayedRegisterEntity,  entityDefinitionRegistry,
+  delayedRegisterEntity,
+  entityDefinitionRegistry,
   facadeRegistry,
   featureRegistry,
   forNext,
@@ -13,7 +14,8 @@ import {
   serviceRegistry,
   SmartEntityDefinition,
   SmartNgRXRowBase,
-  zoneless } from '@smarttools/core';
+  zoneless,
+} from '@smarttools/core';
 
 import { SignalsFacade } from '../facades/signals-facade';
 

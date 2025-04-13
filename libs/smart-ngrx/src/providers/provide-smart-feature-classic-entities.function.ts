@@ -23,8 +23,8 @@ import {
   zoneless,
 } from '@smarttools/core';
 
-import { reducerFactory } from '../reducers/reducer.factory';
 import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
+import { reducerFactory } from '../reducers/reducer.factory';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
