@@ -1,7 +1,6 @@
-import { forNext, markAndDeleteEntities, psi } from '@smarttools/core';
+import { forNext, globalMarkAndDeleteInit,markAndDeleteEntities, psi  } from '@smarttools/core';
 import { interval, Observable, tap } from 'rxjs';
 
-import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 
 /**

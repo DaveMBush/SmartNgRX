@@ -5,6 +5,7 @@ import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
 class FacadeRegistry {
   facadeMap = new Map<string, FacadeBase>();
+  facadeConstructorMap = new Map<string, new (feature: string, entity: string) => FacadeBase>();
 
   /**
    * mechanism for getting the ActionService object/class for a given feature and entity
@@ -20,12 +21,23 @@ class FacadeRegistry {
     facadeConstructor?: new (feature: string, entity: string) => FacadeBase,
   ): FacadeBase<T> {
     const key = `${feature}${psi}${entity}`;
+    // the first time this is called, it is call from the provideSmartFeature*Entities function
+    // which is too early to create the facade. So, we store the constructor and wait
+    // for the next call to create the facade.
+    if (facadeConstructor) {
+      this.facadeConstructorMap.set(key, facadeConstructor);
+      return {} as FacadeBase<T>; // just to satisfy typescript
+    }
     let facadeCache = this.facadeMap.get(key);
     if (facadeCache === undefined) {
+      facadeConstructor = this.facadeConstructorMap.get(key);
       assert(!!facadeConstructor, 'facadeConstructor is required here');
       facadeCache = new facadeConstructor(feature, entity);
       this.facadeMap.set(key, facadeCache);
       assert(facadeCache.init(), 'ActionService init failed');
+      // only need the constructor long enough to initialize the facade
+      // the first time it is needed.
+      this.facadeConstructorMap.delete(key);
     }
     return facadeCache as unknown as FacadeBase<T>;
   }

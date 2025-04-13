@@ -1,6 +1,7 @@
 // create unit tests for provideSmartNgrx()
 
-import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
+import { globalMarkAndDeleteInit } from '@smarttools/core';
+
 import { provideSmartNgRX } from './provide-smart-ngrx.function';
 
 describe('provideSmartNgrx', () => {

@@ -1,7 +1,6 @@
-/* eslint-disable @smarttools/one-exported-item-per-file */
+/* eslint-disable @smarttools/one-exported-item-per-file -- pass through exports */
 export * from './facades/classic-ngrx.facade/action.factory';
 export * from './providers/provide-smart-feature-classic-entities.function';
-export * from './providers/provide-smart-feature-signal-entities.function';
 export * from './providers/provide-smart-ngrx.function';
 export * from './smart-selector/create-smart-selector.function';
 
@@ -26,6 +25,10 @@ export type {
 } from '@smarttools/core';
 export {
   assert,
+  castTo,
+  delayedRegisterEntity,
   EffectService,
+  globalMarkAndDeleteInit,
+  rootInjector,
   smartErrorHandlerToken,
 } from '@smarttools/core';

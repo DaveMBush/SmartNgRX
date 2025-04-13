@@ -5,7 +5,7 @@
 // which will end up in separate libraries.
 import { EnvironmentProviders, Provider } from '@angular/core';
 import {
-  entityDefinitionRegistry,
+ delayedRegisterEntity,  entityDefinitionRegistry,
   facadeRegistry,
   featureRegistry,
   forNext,
@@ -13,11 +13,9 @@ import {
   serviceRegistry,
   SmartEntityDefinition,
   SmartNgRXRowBase,
-  zoneless,
-} from '@smarttools/core';
+  zoneless } from '@smarttools/core';
 
-import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
-import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { SignalsFacade } from '../facades/signals-facade';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
@@ -74,7 +72,7 @@ export function provideSmartFeatureSignalEntities(
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
           delayedRegisterEntity(featureName, entityName, entityDefinition);
-          facadeRegistry.register(featureName, entityName, ClassicNgrxFacade);
+          facadeRegistry.register(featureName, entityName, SignalsFacade);
         });
     },
   );

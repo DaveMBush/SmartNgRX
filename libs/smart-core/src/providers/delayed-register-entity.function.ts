@@ -1,13 +1,10 @@
-import {
-  entityRegistry,
-  markAndDeleteEntities,
-  MarkAndDeleteInit,
-  resolveRemoveTime,
-  SmartEntityDefinition,
-  SmartNgRXRowBase,
-} from '@smarttools/core';
-
 import { globalMarkAndDeleteInit } from '../mark-and-delete/global-mark-and-delete-init.class';
+import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
+import { entityRegistry } from '../registrations/entity-registry.class';
+import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
+import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { resolveRemoveTime } from './resolve-remove-time.function';
 
 /**
  * We can't, necessarily, register an entity as part of the

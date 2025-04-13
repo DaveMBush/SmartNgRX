@@ -1,4 +1,4 @@
-// eslint-disable-next-line sonarjs/no-commented-code -- needed for future debugging
+/* eslint-disable sonarjs/no-commented-code -- needed for future debugging */
 //import { enableProdMode } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 

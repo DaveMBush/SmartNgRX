@@ -1,6 +1,10 @@
-import { entityRegistry, MarkAndDeleteInit, psi } from '@smarttools/core';
+import {
+  entityRegistry,
+  globalMarkAndDeleteInit,
+  MarkAndDeleteInit,
+  psi,
+} from '@smarttools/core';
 
-import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 import { markAndDeleteEntity } from './mark-and-delete-entity.function';
 import * as processMarkAndDelete from './process-mark-and-delete.function';
 

@@ -1,6 +1,5 @@
-import { entityRegistry } from '@smarttools/core';
+import { entityRegistry, globalMarkAndDeleteInit } from '@smarttools/core';
 
-import { globalMarkAndDeleteInit } from './global-mark-and-delete-init.class';
 import { processMarkAndDelete } from './process-mark-and-delete.function';
 
 /**

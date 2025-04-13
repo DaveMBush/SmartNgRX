@@ -11,7 +11,9 @@ import {
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, StoreModule } from '@ngrx/store';
 import {
+  delayedRegisterEntity,
   entityDefinitionRegistry,
+  facadeRegistry,
   featureRegistry,
   forNext,
   rootInjector,
@@ -22,7 +24,7 @@ import {
 } from '@smarttools/core';
 
 import { reducerFactory } from '../reducers/reducer.factory';
-import { delayedRegisterEntity } from './delayed-register-entity.function';
+import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
@@ -88,6 +90,7 @@ export function provideSmartFeatureClassicEntities(
         .resolve()
         .then(function provideSmartFeatureEntitiesUnpatchedPromiseThen() {
           delayedRegisterEntity(featureName, entityName, entityDefinition);
+          facadeRegistry.register(featureName, entityName, ClassicNgrxFacade);
         });
     },
   );
