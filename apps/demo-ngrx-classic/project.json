@@ -1,24 +1,31 @@
 {
-  "name": "demo",
+  "name": "demo-ngrx-classic",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "demo",
-  "sourceRoot": "apps/demo/src",
-  "tags": ["scope:demo"],
+  "prefix": "dmb",
+  "sourceRoot": "apps/demo-ngrx-classic/src",
+  "tags": [
+    "scope:demo-ngrx-classic"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
-        "outputPath": "dist/apps/demo",
-        "index": "apps/demo/src/index.html",
-        "browser": "apps/demo/src/main.ts",
+        "outputPath": "dist/apps/demo-ngrx-classic",
+        "index": "apps/demo-ngrx-classic/src/index.html",
+        "browser": "apps/demo-ngrx-classic/src/main.ts",
         "polyfills": [],
-        "tsConfig": "apps/demo/tsconfig.app.json",
-        "assets": ["apps/demo/src/favicon.ico", "apps/demo/src/assets"],
+        "tsConfig": "apps/demo-ngrx-classic/tsconfig.app.json",
+        "assets": [
+          "apps/demo-ngrx-classic/src/favicon.ico",
+          "apps/demo-ngrx-classic/src/assets"
+        ],
         "styles": [
           "@angular/material/prebuilt-themes/deeppurple-amber.css",
-          "apps/demo/src/styles.css"
+          "apps/demo-ngrx-classic/src/styles.css"
         ],
         "scripts": []
       },
@@ -51,35 +58,42 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "demo:build:production"
+          "buildTarget": "demo-ngrx-classic:build:production"
         },
         "development": {
-          "buildTarget": "demo:build:development"
+          "buildTarget": "demo-ngrx-classic:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "proxyConfig": "apps/demo/proxy.conf.json"
+        "proxyConfig": "apps/demo-ngrx-classic/proxy.conf.json"
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "demo:build"
+        "browserTarget": "demo-ngrx-classic:build"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/demo/**/*.ts", "apps/demo/**/*.html"]
+        "lintFilePatterns": [
+          "apps/demo-ngrx-classic/**/*.ts",
+          "apps/demo-ngrx-classic/**/*.html"
+        ]
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
-        "jestConfig": "apps/demo/jest.config.ts",
+        "jestConfig": "apps/demo-ngrx-classic/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -94,8 +108,8 @@
       "options": {
         "spa": true,
         "port": 4200,
-        "buildTarget": "demo:build",
-        "staticFilePath": "./dist/apps/demo/browser"
+        "buildTarget": "demo-ngrx-classic:build",
+        "staticFilePath": "./dist/apps/demo-ngrx-classic/browser"
       }
     }
   }

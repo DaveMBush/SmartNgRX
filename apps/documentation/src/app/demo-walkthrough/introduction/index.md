@@ -1,6 +1,6 @@
 # Introduction
 
-The demo application is meant to be a set of examples of how SmartNgRX works and what it can do. It demonstrates the following concepts:
+The demo-ngrx-classic application is meant to be a set of examples of how SmartNgRX works with classic NgRX (non-signals version) and what it can do. It demonstrates the following concepts:
 
 - Using the Angular Material Tree component and the CDK Virtual Scroll component, it demonstrates how to only load the data that is needed to display the part of the tree you can see.
 - How to use the SmartNgRX library to manage the state of the application. (CRUD operations).
