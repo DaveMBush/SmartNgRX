@@ -1,11 +1,11 @@
 {
-  "name": "demo-ngrx-classic",
+  "name": "demo",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "dmb",
+  "prefix": "demo",
   "sourceRoot": "apps/demo/src",
   "tags": [
-    "scope:demo-ngrx-classic"
+    "scope:demo"
   ],
   "targets": {
     "build": {
@@ -14,7 +14,7 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/apps/demo-ngrx-classic",
+        "outputPath": "dist/apps/demo",
         "index": "apps/demo/src/index.html",
         "browser": "apps/demo/src/main.ts",
         "polyfills": [],
@@ -58,10 +58,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "demo-ngrx-classic:build:production"
+          "buildTarget": "demo:build:production"
         },
         "development": {
-          "buildTarget": "demo-ngrx-classic:build:development"
+          "buildTarget": "demo:build:development"
         }
       },
       "defaultConfiguration": "development",
@@ -72,7 +72,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "demo-ngrx-classic:build"
+        "browserTarget": "demo:build"
       }
     },
     "lint": {
@@ -108,8 +108,8 @@
       "options": {
         "spa": true,
         "port": 4200,
-        "buildTarget": "demo-ngrx-classic:build",
-        "staticFilePath": "./dist/apps/demo-ngrx-classic/browser"
+        "buildTarget": "demo:build",
+        "staticFilePath": "./dist/apps/demo/browser"
       }
     }
   }
