@@ -47,7 +47,7 @@ module.exports = (async () => {
       },
     },
     {
-      files: ['**/demo-ngrx-classic/src/app/error-handler/error-handler.service.ts'],
+      files: ['**/src/app/error-handler/error-handler.service.ts'],
       rules: {
         'no-console': 'off',
       },
