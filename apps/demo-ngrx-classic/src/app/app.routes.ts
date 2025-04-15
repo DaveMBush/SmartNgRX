@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { provideSmartFeatureClassicEntities } from '@smarttools/smart-ngrx';
-import { provideSmartFeatureSignalEntities } from '@smarttools/smart-signals';
 
 import { watchLocations as watchNoDirtyLocations } from './routes/tree-no-dirty/store/current-location/current-location.effects';
 import { currentLocationNoDirtyReducer } from './routes/tree-no-dirty/store/current-location/current-location-no-dirty.reducer';
@@ -31,10 +30,6 @@ import { standardLocationsDefinition } from './routes/tree-standard/store/locati
 import { standardTopDefinition } from './routes/tree-standard/store/top/standard-top-definition.const';
 import { TreeStandardState2 } from './routes/tree-standard/store/tree-standard-state2.interface';
 import { TreeComponent } from './routes/tree-standard/tree.component';
-import { standardSignalsDepartmentsDefinition } from './routes/tree-standard-signals/store/department/standard-signals-departments-definition';
-import { standardSignalsDepartmentChildrenDefinition } from './routes/tree-standard-signals/store/department-children/standard-signals-department-children-definition';
-import { standardSignalsLocationsDefinition } from './routes/tree-standard-signals/store/locations/standard-signals-locations-definition';
-import { standardSignalsTopDefinition } from './routes/tree-standard-signals/store/top/standard-signals-top-definition.const';
 
 // This ensure we have one key per SharedState property
 const sharedReducersStandard: ActionReducerMap<TreeStandardState2> = {
@@ -137,22 +132,6 @@ export const appRoutes: Routes = [
         noRemoveLocationsDefinition,
         noRemoveDepartmentsDefinition,
         noRemoveDepartmentChildrenDefinition,
-      ]),
-    ],
-  },
-  {
-    path: 'treeSignals',
-    loadComponent: async function treeRoute(): Promise<Type<unknown>> {
-      return (await import('./routes/tree-standard-signals/tree.component'))
-        .TreeComponent;
-    },
-    providers: [
-      //currentLocationSignalStore,
-      provideSmartFeatureSignalEntities('tree-standard-signals', [
-        standardSignalsTopDefinition,
-        standardSignalsLocationsDefinition,
-        standardSignalsDepartmentsDefinition,
-        standardSignalsDepartmentChildrenDefinition,
       ]),
     ],
   },

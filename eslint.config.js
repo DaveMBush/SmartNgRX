@@ -74,21 +74,23 @@ const eslintConfig = async () => {
               {
                 sourceTag: 'scope:smart-core',
                 onlyDependOnLibsWithTags: [],
+
               },
               {
                 sourceTag: 'scope:smart-ngrx',
                 onlyDependOnLibsWithTags: ['scope:smart-core'],
               },
               {
-                sourceTag: 'scope:smart-signal',
+                sourceTag: 'scope:smart-signals',
                 onlyDependOnLibsWithTags: ['scope:smart-core'],
               },
               {
                 sourceTag: 'scope:demo-ngrx-classic',
-                onlyDependOnLibsWithTags: [
-                  'scope:smart-ngrx',
-                  'scope:smart-signal',
-                ],
+                onlyDependOnLibsWithTags: ['scope:smart-ngrx'],
+              },
+              {
+                sourceTag: 'scope:demo-ngrx-signals',
+                onlyDependOnLibsWithTags: ['scope:smart-signals'],
               },
             ],
           },

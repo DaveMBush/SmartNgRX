@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-default-export -- this is how jest works
 export default {
-  displayName: 'demo',
+  displayName: 'demo-ngrx-classic',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-  coverageDirectory: '../../coverage/apps/demo',
+  coverageDirectory: '../../coverage/apps/demo-ngrx-classic',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': [
       'jest-preset-angular',

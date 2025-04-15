@@ -1,0 +1,110 @@
+{
+  "name": "demo-ngrx-signals",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "dmb",
+  "sourceRoot": "apps/demo-ngrx-signals/src",
+  "tags": [
+    "scope:demo-ngrx-signals"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/demo-ngrx-signals",
+        "index": "apps/demo-ngrx-signals/src/index.html",
+        "browser": "apps/demo-ngrx-signals/src/main.ts",
+        "polyfills": [
+        ],
+        "tsConfig": "apps/demo-ngrx-signals/tsconfig.app.json",
+        "assets": [
+          "apps/demo-ngrx-signals/src/favicon.ico",
+          "apps/demo-ngrx-signals/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/deeppurple-amber.css",
+          "apps/demo-ngrx-signals/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kb",
+              "maximumError": "8kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "demo-ngrx-signals:build:production"
+        },
+        "development": {
+          "buildTarget": "demo-ngrx-signals:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "proxyConfig": "apps/demo-ngrx-signals/proxy.conf.json",
+        "port": 4201
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "demo-ngrx-signals:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/demo-ngrx-signals/**/*.ts",
+          "apps/demo-ngrx-signals/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/demo-ngrx-signals/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "spa": true,
+        "port": 4201,
+        "buildTarget": "demo-ngrx-signals:build",
+        "staticFilePath": "dist/apps/demo-ngrx-signals/browser",
+      }
+    }
+  }
+}

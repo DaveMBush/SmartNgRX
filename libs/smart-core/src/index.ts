@@ -26,6 +26,7 @@ export * from './facades/update.class';
 export * from './mark-and-delete/global-mark-and-delete-init.class';
 export * from './mark-and-delete/mark-and-delete-entities.class';
 export * from './providers/delayed-register-entity.function';
+export * from './providers/provide-smart-ngrx.function';
 export * from './providers/resolve-remove-time.function';
 export * from './registrations/child-definition.registry';
 export * from './registrations/entity-definition-registry.function';

@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve demo",
-    "start:prod": "nx serve demo --configuration=production",
+    "start:demo-ngrx-classic": "nx serve demo-ngrx-classic",
+    "start:prod:demo-ngrx-classic": "nx serve demo-ngrx-classic --configuration=production",
+    "start:demo-ngrx-signals": "nx serve demo-ngrx-signals",
+    "start:prod:demo-ngrx-signal": "nx serve demo-ngrx-signals --configuration=production",
     "start:server": "nx serve server",
     "start:documentation": "nx serve documentation --configuration=serve --port=4201",
     "git-publish": "node tools/scripts/publish.js",

@@ -54,10 +54,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "demo:build:production"
+          "buildTarget": "demo-ngrx-classic:build:production"
         },
         "development": {
-          "buildTarget": "demo:build:development"
+          "buildTarget": "demo-ngrx-classic:build:development"
         }
       },
       "defaultConfiguration": "development",
@@ -68,7 +68,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "demo:build"
+        "browserTarget": "demo-ngrx-classic:build"
       }
     },
     "lint": {
@@ -100,7 +100,7 @@
       "options": {
         "spa": true,
         "port": 4200,
-        "buildTarget": "demo:build",
+        "buildTarget": "demo-ngrx-classic:build",
         "staticFilePath": "./dist/apps/demo-ngrx-classic/browser"
       }
     }
