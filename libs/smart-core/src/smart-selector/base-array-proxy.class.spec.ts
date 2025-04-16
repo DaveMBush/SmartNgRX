@@ -1,19 +1,15 @@
 /* eslint-disable @typescript-eslint/unbound-method -- needed for unit tests*/
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  FacadeBase,
-  facadeRegistry,
-  getArrayItem,
-  RowProxy,
-  SmartNgRXRowBase,
-  VirtualArray,
-} from '@smarttools/core';
 
-import { clearState } from '../tests/functions/clear-state.function';
-import { createStore } from '../tests/functions/create-store.function';
-import { setState } from '../tests/functions/set-state.function';
-import { ArrayProxyClassic } from './array-proxy-classic.class';
+import { FacadeBase } from '../facades/facade.base';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { BaseArrayProxy } from './base-array-proxy.class';
+
+class ArrayProxy<P extends SmartNgRXRowBase, C extends SmartNgRXRowBase> extends BaseArrayProxy<P, C> {
+  override removeFromStore(row: C, parent: P): void {
+    throw new Error('removeFromStore Method not implemented.');
+  }
+}
 
 const originalName = 'Original Name';
 
@@ -22,8 +18,13 @@ jest.mock('./get-array-item.function', () => ({
   getArrayItem: jest.fn().mockReturnValue({ id: '1', relatedIds: [] }),
 }));
 
-import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
-import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
+import { facadeRegistry } from '../registrations/facade-registry.class';
+import { RowProxy } from '../row-proxy/row-proxy.class';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { ParentInfo } from '../types/parent-info.interface';
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
+import { getArrayItem } from './get-array-item.function';
+import { VirtualArray } from './virtual-array.class';
 
 //Mock the actionServiceRegistry and entityDefinitionRegistry
 
@@ -39,7 +40,7 @@ interface TestableArrayProxy<
   P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
 > extends Omit<
-    ArrayProxyClassic<P, C>,
+    ArrayProxy<P, C>,
     'createNewParentFromParent' | 'removeChildIdFromChildArray'
   > {
   removeChildIdFromChildArray(
@@ -57,11 +58,73 @@ interface MockRow extends SmartNgRXRowBase {
   name?: string;
 }
 
-describe('ArrayProxyClassic', () => {
+class MockFacade<T extends SmartNgRXRowBase> extends FacadeBase<T> {
+  override loadByIndexes(parentId: string, childField: string, index: number): void {
+    throw new Error('loadByIndexesMethod not implemented.');
+  }
+
+  override loadByIndexesSuccess(parentId: string, childField: string, array: PartialArrayDefinition): void {
+    throw new Error('loadByIndexesSuccess Method not implemented.');
+  }
+
+  override upsertRow(row: T): void {
+    throw new Error('upsertRow Method not implemented.');
+  }
+
+  override removeFromParents(id: string): ParentInfo[] {
+    throw new Error('removeFromParents Method not implemented.');
+  }
+
+  override init(): boolean {
+    return true;
+  }
+
+  override markDirty(): void {
+    return;
+  }
+
+  override markNotDirty(): void {
+    return;
+  }
+
+  override forceDirty(): void {
+    return;
+  }
+
+  override garbageCollect(): void {
+    return;
+  }
+
+  override remove(): void {
+    return;
+  }
+
+  override update(): void {
+    return;
+  }
+
+  override updateMany(): void {
+    return;
+  }
+
+  override loadByIds(): void {
+    return;
+  }
+
+  override loadByIdsPreload(): void {
+    return;
+  }
+
+  override loadByIdsSuccess(): void {
+    return;
+  }
+}
+
+describe('BaseArrayProxy', () => {
   let arrayProxy: TestableArrayProxy<MockRow, MockRow>;
   let mockChild: EntityState<MockRow>;
-  let mockChildDefinition: ChildDefinitionClassic<MockRow, MockRow>;
-  let mockService: ClassicNgrxFacade<MockRow>;
+  let mockChildDefinition: BaseChildDefinition<MockRow>;
+  let mockService: FacadeBase;
 
   beforeEach(() => {
     mockChild = {
@@ -75,40 +138,32 @@ describe('ArrayProxyClassic', () => {
       childEntity: 'entity',
       parentFeature: 'parentFeature',
       parentEntity: 'parentEntity',
-      parentField: 'relatedIds',
-      childSelector: createSelector(
-        (state: { entities: EntityState<MockRow> }) => state.entities,
-        (entities) => entities,
-      ) as MemoizedSelector<object, EntityState<MockRow>>,
-    } as ChildDefinitionClassic<MockRow, MockRow>;
+      parentField: 'relatedIds'
+    } as BaseChildDefinition<MockRow>;
     mockService = {
       loadByIdsSuccess: jest.fn(),
-    } as unknown as ClassicNgrxFacade<MockRow>;
+    } as unknown as FacadeBase;
     jest
       .spyOn(facadeRegistry, 'register')
-      .mockReturnValue(mockService as unknown as FacadeBase);
+      .mockReturnValue(mockService);
 
-    arrayProxy = new ArrayProxyClassic(
+    arrayProxy = new ArrayProxy(
       [],
       mockChild,
       mockChildDefinition,
     ) as unknown as TestableArrayProxy<MockRow, MockRow>;
     arrayProxy.init(); // Call init to set up the entityAdapter and other dependencies
 
-    // Create and set up the mock store
-    createStore();
-    setState('parentFeature', 'parentEntity', mockChild);
   });
 
   afterEach(() => {
-    clearState(); // Clear the state after each test
   });
 
   describe('init', () => {
     it('should unfreeze the childArray if it is frozen', () => {
       // Arrange: Set up a frozen childArray
       const frozenArray = Object.freeze(['1', '2']) as string[];
-      arrayProxy = new ArrayProxyClassic(
+      arrayProxy = new ArrayProxy(
         frozenArray,
         mockChild,
         mockChildDefinition,
@@ -121,14 +176,14 @@ describe('ArrayProxyClassic', () => {
       expect(Object.isFrozen(arrayProxy.rawArray)).toBe(false);
     });
 
-    it('should convert childArray to rawArray if it is an ArrayProxyClassic', () => {
+    it('should convert childArray to rawArray if it is an ArrayProxy', () => {
       // Arrange: Set up a childArray as an ArrayProxy
-      const mockArrayProxy = new ArrayProxyClassic(
+      const mockArrayProxy = new ArrayProxy(
         ['1', '2'],
         mockChild,
         mockChildDefinition,
       );
-      arrayProxy = new ArrayProxyClassic(
+      arrayProxy = new ArrayProxy(
         mockArrayProxy,
         mockChild,
         mockChildDefinition,
@@ -148,7 +203,7 @@ describe('ArrayProxyClassic', () => {
         length: 3,
       } as unknown as VirtualArray<MockRow>;
 
-      arrayProxy = new ArrayProxyClassic(
+      arrayProxy = new ArrayProxy(
         virtualArray as unknown as string[],
         mockChild,
         mockChildDefinition,
@@ -174,7 +229,7 @@ describe('ArrayProxyClassic', () => {
         'childField',
       );
 
-      arrayProxy = new ArrayProxyClassic(
+      arrayProxy = new ArrayProxy(
         virtualArray as unknown as string[],
         mockChild,
         mockChildDefinition,
@@ -199,7 +254,7 @@ describe('ArrayProxyClassic', () => {
         length: 2,
       }) as unknown as string[];
 
-      arrayProxy = new ArrayProxyClassic(
+      arrayProxy = new ArrayProxy(
         frozenObject,
         mockChild,
         mockChildDefinition,
@@ -234,22 +289,22 @@ describe('ArrayProxyClassic', () => {
     });
   });
   describe('addToStore', () => {
-    let mockParentService: ClassicNgrxFacade<MockRow>;
+    let mockParentService: MockFacade<SmartNgRXRowBase>;
 
     beforeEach(() => {
       mockService = {
         add: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ClassicNgrxFacade<MockRow>;
+      } as unknown as MockFacade<SmartNgRXRowBase>;
 
       mockParentService = {
         update: jest.fn(),
         loadByIdsSuccess: jest.fn(),
-      } as unknown as ClassicNgrxFacade<MockRow>;
+      } as unknown as MockFacade<SmartNgRXRowBase>;
 
       jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
-        service: mockService,
-        parentService: mockParentService,
+        service: mockService as unknown as FacadeBase<MockRow>,
+        parentService: mockParentService as unknown as FacadeBase<MockRow>,
       });
     });
 
@@ -319,77 +374,11 @@ describe('ArrayProxyClassic', () => {
     });
   });
 
-  describe('removeFromStore', () => {
-    let mockParentService: ClassicNgrxFacade<MockRow>;
-
-    beforeEach(() => {
-      mockService = {
-        remove: jest.fn(),
-        loadByIdsSuccess: jest.fn(),
-      } as unknown as ClassicNgrxFacade<MockRow>;
-
-      mockParentService = {
-        loadByIdsSuccess: jest.fn(),
-      } as unknown as ClassicNgrxFacade<MockRow>;
-
-      jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
-        service: mockService,
-        parentService: mockParentService,
-      });
-    });
-
-    it('should remove a row from the store and update the parent when parentField is an array', () => {
-      // Arrange: Set up the parent with an array of child IDs
-      const row = { id: 'childId', relatedIds: [] };
-      const parent = { id: 'parentId', relatedIds: ['childId'] };
-
-      // Act: Call removeFromStore
-      arrayProxy.init();
-      arrayProxy.removeFromStore(row, parent);
-
-      // Assert: Check that the remove method is called and parent is updated
-      expect(mockService.remove).toHaveBeenCalledWith(['childId']);
-      expect(mockParentService.loadByIdsSuccess).toHaveBeenCalledWith([
-        expect.objectContaining({
-          id: 'parentId',
-          isEditing: false,
-          relatedIds: [],
-        }),
-      ]);
-    });
-
-    it('should remove a row from the store and update the parent when parentField is a VirtualArrayContents', () => {
-      // Arrange: Set up the parent with a VirtualArrayContents
-      const row = { id: 'childId', relatedIds: [] };
-      const parent = {
-        id: 'parentId',
-        relatedIds: {
-          indexes: ['childId'],
-          length: 1,
-        } as unknown as string[],
-      };
-
-      // Act: Call removeFromStore
-      arrayProxy.init();
-      arrayProxy.removeFromStore(row, parent);
-
-      // Assert: Check that the remove method is called and parent is updated
-      expect(mockService.remove).toHaveBeenCalledWith(['childId']);
-      expect(mockParentService.loadByIdsSuccess).toHaveBeenCalledWith([
-        expect.objectContaining({
-          id: 'parentId',
-          isEditing: false,
-          relatedIds: [],
-        }),
-      ]);
-    });
-  });
-
   describe('removeChildIdFromChildArray', () => {
     beforeEach(() => {
       jest.spyOn(arrayProxy, 'getServices').mockReturnValue({
-        parentService: mockService,
-        service: mockService,
+        parentService: mockService as unknown as FacadeBase<MockRow>,
+        service: mockService as unknown as FacadeBase<MockRow>,
       });
     });
     it('should remove childId from parent array', () => {

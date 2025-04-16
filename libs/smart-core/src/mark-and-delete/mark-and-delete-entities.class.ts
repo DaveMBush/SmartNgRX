@@ -5,6 +5,14 @@ class MarkAndDeleteEntities {
   private markAndDelete: Record<string, Map<string, number>> = {};
 
   /**
+   * clears the mark and delete map
+   * used for testing
+   */
+  clear() {
+    this.markAndDelete = {};
+  }
+
+  /**
    * retrieves the mark and delete map for the feature
    *
    * @param feature the feature to retrieve

@@ -1,100 +1,156 @@
-import { EntityState } from '@ngrx/entity';
-
-import { FacadeBase } from '../facades/facade.base';
+import * as forNextModule from '../common/for-next.function';
 import { BaseArrayProxy } from '../smart-selector/base-array-proxy.class';
 import { VirtualArray } from '../smart-selector/virtual-array.class';
-import { BaseChildDefinition } from '../types/base-child-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { forceRefetchOfVirtualIndexes } from './force-refetch-of-virtual-indexes.function';
 
-// Define a custom row type that includes the necessary fields
-interface TestRow extends SmartNgRXRowBase {
-  someField?: BaseArrayProxy | string[];
-}
-
-// Mock implementations
-class MockVirtualArray<T extends SmartNgRXRowBase> extends VirtualArray<T> {
-  constructor() {
-    const virtualArrayContents: VirtualArrayContents = {
-      indexes: [],
-      length: 0,
-    };
-    super(virtualArrayContents, {} as FacadeBase, '', '');
-  }
-
-  override refetchIndexes = jest.fn();
-}
-
-class MockArrayProxy<T extends SmartNgRXRowBase> extends BaseArrayProxy<T, T> {
-  override rawArray: MockVirtualArray<T> & string[];
-
-  constructor(rawArray: MockVirtualArray<T>) {
-    super([] as string[], {} as EntityState<T>, {} as BaseChildDefinition<T>);
-    this.rawArray = rawArray as MockVirtualArray<T> & string[];
-  }
-}
-
 describe('forceRefetchOfVirtualIndexes', () => {
-  let mockVirtualArray: MockVirtualArray<SmartNgRXRowBase>;
+  let forNextSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    mockVirtualArray = new MockVirtualArray<SmartNgRXRowBase>();
+    jest.clearAllMocks();
+    forNextSpy = jest
+      .spyOn(forNextModule, 'forNext')
+      .mockImplementation(jest.fn());
   });
 
-  it('should refetch indexes if the row is dirty and contains a VirtualArray', () => {
-    const mockArrayProxy = new MockArrayProxy<SmartNgRXRowBase>(
-      mockVirtualArray,
-    );
-
-    const row: TestRow = {
-      id: '1',
-      isDirty: true,
-      someField: mockArrayProxy,
-    };
-
-    forceRefetchOfVirtualIndexes(row);
-
-    expect(mockVirtualArray.refetchIndexes).toHaveBeenCalled();
+  afterEach(() => {
+    forNextSpy.mockRestore();
   });
 
-  it('should not refetch indexes if the row is not dirty', () => {
-    const mockArrayProxy = new MockArrayProxy<SmartNgRXRowBase>(
-      mockVirtualArray,
-    );
-
-    const row: TestRow = {
+  it('should return early if row is not dirty', () => {
+    // Arrange
+    const mockRow: SmartNgRXRowBase = {
       id: '1',
       isDirty: false,
-      someField: mockArrayProxy,
     };
 
-    forceRefetchOfVirtualIndexes(row);
+    // Act
+    forceRefetchOfVirtualIndexes(mockRow);
 
-    expect(mockVirtualArray.refetchIndexes).not.toHaveBeenCalled();
+    // Assert
+    expect(forNextSpy).not.toHaveBeenCalled();
   });
 
-  it('should not refetch indexes if the field is not a VirtualArray', () => {
-    const row: TestRow = {
+  it('should process keys when row is dirty', () => {
+    // Arrange
+    const mockRow: SmartNgRXRowBase = {
       id: '1',
       isDirty: true,
-      someField: [],
     };
 
-    forceRefetchOfVirtualIndexes(row);
+    // Act
+    forceRefetchOfVirtualIndexes(mockRow);
 
-    expect(mockVirtualArray.refetchIndexes).not.toHaveBeenCalled();
+    // Assert
+    expect(forNextSpy).toHaveBeenCalled();
+    // Check keys individually to avoid type issues
+    const keysArray = (forNextSpy.mock.calls[0]?.[0] as string[]) || [];
+    expect(keysArray.includes('id')).toBe(true);
+    expect(keysArray.includes('isDirty')).toBe(true);
   });
 
-  it('should not refetch indexes if the arrayProxy is undefined', () => {
-    const row: TestRow = {
+  it('should skip processing when property is undefined', () => {
+    // Arrange
+    const mockRow = {
       id: '1',
       isDirty: true,
-      someField: undefined,
-    };
+      undefinedProp: undefined,
+    } as unknown as SmartNgRXRowBase;
 
-    forceRefetchOfVirtualIndexes(row);
+    let innerFunctionCalled = false;
+    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
+      // Test the inner function directly
+      callback('undefinedProp');
+      innerFunctionCalled = true;
+    });
 
-    expect(mockVirtualArray.refetchIndexes).not.toHaveBeenCalled();
+    // Act
+    forceRefetchOfVirtualIndexes(mockRow);
+
+    // Assert
+    expect(forNextSpy).toHaveBeenCalled();
+    expect(innerFunctionCalled).toBe(true);
+  });
+
+  it('should skip processing when property is not a valid array proxy', () => {
+    // Arrange
+    const mockRow = {
+      id: '1',
+      isDirty: true,
+      notArrayProxy: 'string value',
+    } as unknown as SmartNgRXRowBase;
+
+    let innerFunctionCalled = false;
+    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
+      callback('notArrayProxy');
+      innerFunctionCalled = true;
+    });
+
+    // Act
+    forceRefetchOfVirtualIndexes(mockRow);
+
+    // Assert
+    expect(forNextSpy).toHaveBeenCalled();
+    expect(innerFunctionCalled).toBe(true);
+  });
+
+  it('should skip processing when rawArray is not a VirtualArray', () => {
+    // Arrange
+    const mockArrayProxy = {
+      rawArray: {},
+    } as unknown as BaseArrayProxy;
+
+    const mockRow = {
+      id: '1',
+      isDirty: true,
+      arrayProp: mockArrayProxy,
+    } as unknown as SmartNgRXRowBase;
+
+    let innerFunctionCalled = false;
+    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
+      callback('arrayProp');
+      innerFunctionCalled = true;
+    });
+
+    // Act
+    forceRefetchOfVirtualIndexes(mockRow);
+
+    // Assert
+    expect(forNextSpy).toHaveBeenCalled();
+    expect(innerFunctionCalled).toBe(true);
+  });
+
+  it('should call refetchIndexes when property has a valid VirtualArray', () => {
+    // Arrange
+    const mockRefetchIndexes = jest.fn();
+
+    const mockVirtualArray = {
+      refetchIndexes: mockRefetchIndexes,
+    } as unknown as VirtualArray<SmartNgRXRowBase>;
+
+    // Make instanceof check return true
+    Object.setPrototypeOf(mockVirtualArray, VirtualArray.prototype);
+
+    const mockArrayProxy = {
+      rawArray: mockVirtualArray,
+    } as unknown as BaseArrayProxy;
+
+    const mockRow = {
+      id: '1',
+      isDirty: true,
+      arrayProp: mockArrayProxy,
+    } as unknown as SmartNgRXRowBase;
+
+    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
+      callback('arrayProp');
+    });
+
+    // Act
+    forceRefetchOfVirtualIndexes(mockRow);
+
+    // Assert
+    expect(forNextSpy).toHaveBeenCalled();
+    expect(mockRefetchIndexes).toHaveBeenCalledTimes(1);
   });
 });

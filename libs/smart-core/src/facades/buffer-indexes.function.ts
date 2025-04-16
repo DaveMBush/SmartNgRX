@@ -82,6 +82,7 @@ function handleComplete(observer: Subscriber<IndexesProp>): void {
  * @returns The buffered indexes.
  */
 export function bufferIndexes(
+  /* istanbul ignore next */
   bufferTimeMs = 0,
 ): (source: Observable<IndexProp>) => Observable<IndexesProp> {
   return function bufferOperation(

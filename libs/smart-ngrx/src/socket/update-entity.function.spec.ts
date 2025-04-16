@@ -13,6 +13,7 @@ import {
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { updateEntity } from './update-entity.function';
+import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
 
 const feature = 'testFeature';
 const entity = 'testEntity';
@@ -56,7 +57,8 @@ describe('updateEntity', () => {
     });
 
     featureRegistry.registerFeature(feature);
-    actionService = facadeRegistry.register(feature, entity);
+    facadeRegistry.register(feature, entity, ClassicNgrxFacade);
+    actionService =facadeRegistry.register(feature, entity);
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 

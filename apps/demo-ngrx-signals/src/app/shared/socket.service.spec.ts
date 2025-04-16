@@ -2,7 +2,7 @@ import { handleSocketNotification as handleSocketNotificationSpy } from '@smartt
 
 import { SocketService } from './socket.service';
 
-jest.mock('@smarttools/smart-ngrx', () => ({
+jest.mock('@smarttools/smart-signals', () => ({
   handleSocketNotification: jest.fn(),
 }));
 
