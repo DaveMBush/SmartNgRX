@@ -1,5 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { EffectService, PartialArrayDefinition } from '@smarttools/smart-signals';
+import {
+  EffectService,
+  PartialArrayDefinition,
+} from '@smarttools/smart-signals';
 import { forkJoin, map, Observable, of } from 'rxjs';
 
 import { DocsService } from '../docs/docs.service';

@@ -5,7 +5,10 @@ import { FacadeBase } from '../facades/facade.base';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { BaseArrayProxy } from './base-array-proxy.class';
 
-class ArrayProxy<P extends SmartNgRXRowBase, C extends SmartNgRXRowBase> extends BaseArrayProxy<P, C> {
+class ArrayProxy<
+  P extends SmartNgRXRowBase,
+  C extends SmartNgRXRowBase,
+> extends BaseArrayProxy<P, C> {
   override removeFromStore(row: C, parent: P): void {
     throw new Error('removeFromStore Method not implemented.');
   }
@@ -59,11 +62,19 @@ interface MockRow extends SmartNgRXRowBase {
 }
 
 class MockFacade<T extends SmartNgRXRowBase> extends FacadeBase<T> {
-  override loadByIndexes(parentId: string, childField: string, index: number): void {
+  override loadByIndexes(
+    parentId: string,
+    childField: string,
+    index: number,
+  ): void {
     throw new Error('loadByIndexesMethod not implemented.');
   }
 
-  override loadByIndexesSuccess(parentId: string, childField: string, array: PartialArrayDefinition): void {
+  override loadByIndexesSuccess(
+    parentId: string,
+    childField: string,
+    array: PartialArrayDefinition,
+  ): void {
     throw new Error('loadByIndexesSuccess Method not implemented.');
   }
 
@@ -138,14 +149,12 @@ describe('BaseArrayProxy', () => {
       childEntity: 'entity',
       parentFeature: 'parentFeature',
       parentEntity: 'parentEntity',
-      parentField: 'relatedIds'
+      parentField: 'relatedIds',
     } as BaseChildDefinition<MockRow>;
     mockService = {
       loadByIdsSuccess: jest.fn(),
     } as unknown as FacadeBase;
-    jest
-      .spyOn(facadeRegistry, 'register')
-      .mockReturnValue(mockService);
+    jest.spyOn(facadeRegistry, 'register').mockReturnValue(mockService);
 
     arrayProxy = new ArrayProxy(
       [],
@@ -153,11 +162,9 @@ describe('BaseArrayProxy', () => {
       mockChildDefinition,
     ) as unknown as TestableArrayProxy<MockRow, MockRow>;
     arrayProxy.init(); // Call init to set up the entityAdapter and other dependencies
-
   });
 
-  afterEach(() => {
-  });
+  afterEach(() => {});
 
   describe('init', () => {
     it('should unfreeze the childArray if it is frozen', () => {

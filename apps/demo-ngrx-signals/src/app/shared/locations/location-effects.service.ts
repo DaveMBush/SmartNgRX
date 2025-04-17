@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { EffectService, PartialArrayDefinition } from '@smarttools/smart-signals';
+import {
+  EffectService,
+  PartialArrayDefinition,
+} from '@smarttools/smart-signals';
 import { Observable } from 'rxjs';
 
 import { Location } from './location.interface';

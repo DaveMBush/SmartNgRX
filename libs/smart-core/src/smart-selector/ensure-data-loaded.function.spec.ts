@@ -67,11 +67,19 @@ class MockFacade<T extends SmartNgRXRowBase> extends FacadeBase<T> {
     throw new Error('loadByIdsPreload Method not implemented.');
   }
 
-  override loadByIndexes(parentId: string, childField: string, index: number): void {
+  override loadByIndexes(
+    parentId: string,
+    childField: string,
+    index: number,
+  ): void {
     throw new Error('loadByIndexes Method not implemented.');
   }
 
-  override loadByIndexesSuccess(parentId: string, childField: string, array: PartialArrayDefinition): void {
+  override loadByIndexesSuccess(
+    parentId: string,
+    childField: string,
+    array: PartialArrayDefinition,
+  ): void {
     throw new Error('loadByIndexesSuccess Method not implemented.');
   }
 

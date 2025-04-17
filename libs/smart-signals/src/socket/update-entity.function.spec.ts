@@ -148,9 +148,7 @@ describe('updateEntity', () => {
 
     updateEntity(feature, entity, existingIds);
 
-    expect(actionServiceForceDirtySpy)
-      .toHaveBeenNthCalledWith(1, ['1']);
-    expect(actionServiceForceDirtySpy)
-      .toHaveBeenNthCalledWith(2, ['2']);
+    expect(actionServiceForceDirtySpy).toHaveBeenNthCalledWith(1, ['1']);
+    expect(actionServiceForceDirtySpy).toHaveBeenNthCalledWith(2, ['2']);
   });
 });

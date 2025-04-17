@@ -58,7 +58,7 @@ describe('updateEntity', () => {
 
     featureRegistry.registerFeature(feature);
     facadeRegistry.register(feature, entity, ClassicNgrxFacade);
-    actionService =facadeRegistry.register(feature, entity);
+    actionService = facadeRegistry.register(feature, entity);
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 

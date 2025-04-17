@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { EffectService, PartialArrayDefinition } from '@smarttools/smart-signals';
+import {
+  EffectService,
+  PartialArrayDefinition,
+} from '@smarttools/smart-signals';
 import { Observable, of } from 'rxjs';
 
 import { Top } from './top.interface';

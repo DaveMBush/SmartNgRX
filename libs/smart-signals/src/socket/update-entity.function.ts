@@ -9,7 +9,6 @@ import {
 
 import { SignalsFacade } from '../facades/signals-facade';
 
-
 /**
  * Use this function to update the rows represented by the ids for an entity in a feature in response
  * to a websocket event indicating the row has been updated.
@@ -27,8 +26,11 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   if (!featureRegistry.hasFeature(feature)) {
     return;
   }
-  const featureFacade = facadeRegistry.register(feature, entity) as SignalsFacade<T>;
-  const entityMap = featureFacade.entityState.entityMap()
+  const featureFacade = facadeRegistry.register(
+    feature,
+    entity,
+  ) as SignalsFacade<T>;
+  const entityMap = featureFacade.entityState.entityMap();
   forceEntitiesDirty(ids, actionService)(entityMap);
 }
 

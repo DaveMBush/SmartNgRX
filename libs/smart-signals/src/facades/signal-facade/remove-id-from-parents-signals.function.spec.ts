@@ -9,7 +9,9 @@ import { SignalsFacade } from '../signals-facade';
 import { removeIdFromParentsSignals } from './remove-id-from-parents-signals.function';
 
 jest.mock('../../../../smart-core/src/registrations/facade-registry.class');
-jest.mock('../../../../smart-core/src/facades/replace-id-in-feature-parents.function');
+jest.mock(
+  '../../../../smart-core/src/facades/replace-id-in-feature-parents.function',
+);
 
 const testFeature = 'testFeature';
 const testEntity = 'testEntity';
@@ -48,7 +50,6 @@ describe('removeIdFromParentsSignals', () => {
 
     parentInfo = [];
   });
-
 
   it('should not add parent info when matching parent already exists', () => {
     // Arrange
