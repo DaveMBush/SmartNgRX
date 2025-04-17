@@ -20,6 +20,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { createStore } from '../../tests/functions/create-store.function';
 import { ActionGroup } from '../../types/action-group.interface';
 import { actionFactory } from './action.factory';
+import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 
 interface LoadByIndexesClassicPublic
@@ -87,6 +88,7 @@ describe('LoadByIndexesClassic', () => {
 
   beforeEach(() => {
     createStore();
+    facadeRegistry.register('testFeature', 'testEntity', ClassicNgrxFacade);
     entityRegistry.register('testFeature', 'testEntity', {
       defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
       markAndDeleteInit: {
@@ -251,12 +253,6 @@ describe('LoadByIndexesClassic', () => {
         length: 3,
       };
 
-      jest
-        .spyOn(smartToolsCoreModule, 'forNext')
-        .mockImplementation((arr, callback) => {
-          arr.forEach((item, index) => callback(item, index, arr));
-        });
-
       const result = loadByIndexes.processLoadByIndexesSuccess(field, array);
 
       expect(result).toEqual({ indexes: ['id1', 'id2', 'id3'], length: 3 });
@@ -269,12 +265,6 @@ describe('LoadByIndexesClassic', () => {
         indexes: ['id1', 'id2', 'newId'],
         length: 3,
       };
-
-      jest
-        .spyOn(smartToolsCoreModule, 'forNext')
-        .mockImplementation((arr, callback) => {
-          arr.forEach((item, index) => callback(item, index, arr));
-        });
 
       jest
         .spyOn(smartToolsCoreModule.newRowRegistry, 'isNewRow')
