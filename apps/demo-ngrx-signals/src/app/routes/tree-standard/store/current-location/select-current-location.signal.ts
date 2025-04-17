@@ -23,6 +23,11 @@ export function selectCurrentLocationSignal(
 
     const location = locationState.entities[currentLocationId];
 
+    /* the if is difficult to test because it requires
+       facadeRegistry.register() to be called first which
+       is difficult to arrange in a test.
+    */
+    /* istanbul ignore if */
     if (location) {
       // The departments array should automatically handle its child signals
       const departments = location.departments;

@@ -34,7 +34,8 @@ class FacadeRegistry {
     let facadeCache = this.facadeMap.get(key);
     if (facadeCache === undefined) {
       facadeConstructor = this.facadeConstructorMap.get(key);
-      assert(!!facadeConstructor, 'facadeConstructor is required here');
+      assert(!!facadeConstructor,
+        `facadeConstructor is required here for '${feature}'/'${entity}'`);
       facadeCache = new facadeConstructor(feature, entity);
       this.facadeMap.set(key, facadeCache);
       assert(facadeCache.init(), 'ActionService init failed');

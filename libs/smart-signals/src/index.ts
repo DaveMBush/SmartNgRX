@@ -1,4 +1,5 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- passthrough exports*/
+export * from './facades/signals-facade';
 export * from './providers/provide-smart-feature-signal-entities.function';
 export * from './smart-signals/create-inner-smart-signal.function';
 export * from './smart-signals/create-smart-signal.function';
@@ -15,6 +16,7 @@ export {
   assert,
   castTo,
   EffectService,
+  facadeRegistry,
   provideSmartNgRX,
   rootInjector,
   smartErrorHandlerToken,
