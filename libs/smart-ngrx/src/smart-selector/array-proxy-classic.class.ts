@@ -37,8 +37,9 @@ export class ArrayProxyClassic<
     const childId = this.selectId(row);
     const parentId = this.parentSelectId(parent);
     newRowRegistry.remove(this.childFeature, this.childEntity, row.id);
-    const selectFeature =
-      createFeatureSelector<Record<string, EntityState<P>>>(this.parentFeature);
+    const selectFeature = createFeatureSelector<Record<string, EntityState<P>>>(
+      this.parentFeature,
+    );
     const selectEntity = createSelector(
       selectFeature,
       function retrieveEntityFromState(state: Record<string, EntityState<P>>) {
@@ -52,7 +53,12 @@ export class ArrayProxyClassic<
       .select(selectEntity)
       .pipe(take(1))
       .subscribe(function removeEntityFromChildArray(entity: EntityState<P>) {
-        removeChildIdFromChildArray(entity, parentId, context.parentField, childId);
+        removeChildIdFromChildArray(
+          entity,
+          parentId,
+          context.parentField,
+          childId,
+        );
       });
   }
 }

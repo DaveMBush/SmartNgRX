@@ -37,10 +37,7 @@ export class DeleteEntity {
       this.entity,
     );
     const parentInfo: ParentInfo[] = [];
-    forNext(
-      childDefinitions,
-      this.deleteEntityByChildDefinition(parentInfo),
-    );
+    forNext(childDefinitions, this.deleteEntityByChildDefinition(parentInfo));
   }
 
   private deleteEntityByChildDefinition(parentInfo: ParentInfo[]) {
