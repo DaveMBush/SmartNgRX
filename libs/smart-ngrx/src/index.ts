@@ -1,5 +1,5 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- pass through exports */
-export * from './facades/classic-ngrx.facade/action.factory';
+export * from './classic-ngrx.facade/action.factory';
 export * from './providers/provide-smart-feature-classic-entities.function';
 export * from './smart-selector/create-smart-selector.function';
 

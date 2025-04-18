@@ -3,7 +3,7 @@ import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import { assert, facadeRegistry, SmartNgRXRowBase } from '@smarttools/core';
 
-import { SignalsFacade } from '../facades/signals-facade';
+import { SignalsFacade } from '../signal-facade/signals-facade';
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
 import { createInnerSmartSignal } from './create-inner-smart-signal.function';
 

@@ -5,12 +5,12 @@ import {
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
-import { SignalsFacade } from '../signals-facade';
 import { removeIdFromParentsSignals } from './remove-id-from-parents-signals.function';
+import { SignalsFacade } from './signals-facade';
 
-jest.mock('../../../../smart-core/src/registrations/facade-registry.class');
+jest.mock('../../../smart-core/src/registrations/facade-registry.class');
 jest.mock(
-  '../../../../smart-core/src/facades/replace-id-in-feature-parents.function',
+  '../../../smart-core/src/facades/replace-id-in-feature-parents.function',
 );
 
 const testFeature = 'testFeature';

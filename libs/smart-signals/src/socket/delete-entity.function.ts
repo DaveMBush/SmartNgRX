@@ -5,7 +5,7 @@ import {
   ParentInfo,
 } from '@smarttools/core';
 
-import { removeIdFromParentsSignals } from '../facades/signal-facade/remove-id-from-parents-signals.function';
+import { removeIdFromParentsSignals } from '../signal-facade/remove-id-from-parents-signals.function';
 /**
  * Delete the feature/entity/ids from the store
  *

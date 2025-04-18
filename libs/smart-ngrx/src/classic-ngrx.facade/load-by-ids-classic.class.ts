@@ -23,7 +23,7 @@ import {
   withLatestFrom,
 } from 'rxjs';
 
-import { ActionGroup } from '../../types/action-group.interface';
+import { ActionGroup } from '../types/action-group.interface';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {

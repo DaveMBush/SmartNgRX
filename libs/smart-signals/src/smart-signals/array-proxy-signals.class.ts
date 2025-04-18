@@ -5,7 +5,7 @@ import {
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
-import { SignalsFacade } from '../facades/signals-facade';
+import { SignalsFacade } from '../signal-facade/signals-facade';
 
 /**
  * This is an internal class used by `createSmartSelector` to wrap the field

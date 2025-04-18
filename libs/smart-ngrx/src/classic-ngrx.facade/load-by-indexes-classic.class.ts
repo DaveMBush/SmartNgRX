@@ -19,7 +19,7 @@ import {
 } from '@smarttools/core';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
-import { ActionGroup } from '../../types/action-group.interface';
+import { ActionGroup } from '../types/action-group.interface';
 
 /**
  * This class is used to manage loading the child ids by

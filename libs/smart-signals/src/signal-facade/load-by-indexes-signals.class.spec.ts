@@ -2,8 +2,8 @@ import { Signal } from '@angular/core';
 import { EntityMap } from '@ngrx/signals/entities';
 import { newRowRegistry, VirtualArrayContents } from '@smarttools/core';
 
-import { SignalsFacade } from '../signals-facade';
 import { LoadByIndexesSignals } from './load-by-indexes-signals.class';
+import { SignalsFacade } from './signals-facade';
 
 describe('LoadByIndexesSignals', () => {
   let loadByIndexesSignals: LoadByIndexesSignals<{ id: string }>;

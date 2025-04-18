@@ -4,7 +4,7 @@ import {
   replaceIdInFeatureParents,
 } from '@smarttools/core';
 
-import { SignalsFacade } from '../signals-facade';
+import { SignalsFacade } from './signals-facade';
 
 /**
  * Helper method to remove the id of the row from the parent rows looking at it

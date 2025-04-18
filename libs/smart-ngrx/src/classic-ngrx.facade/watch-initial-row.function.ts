@@ -8,7 +8,7 @@ import {
 } from '@smarttools/core';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
 
-import { store } from '../../smart-selector/store.function';
+import { store } from '../smart-selector/store.function';
 
 /**
  * This watches the row specified as a top level row so that it can

@@ -17,8 +17,8 @@ import {
 } from '@smarttools/core';
 import { Observable, of, Subject } from 'rxjs';
 
-import { createStore } from '../../tests/functions/create-store.function';
-import { ActionGroup } from '../../types/action-group.interface';
+import { createStore } from '../tests/functions/create-store.function';
+import { ActionGroup } from '../types/action-group.interface';
 import { actionFactory } from './action.factory';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';

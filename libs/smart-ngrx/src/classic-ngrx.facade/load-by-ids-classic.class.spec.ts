@@ -14,8 +14,8 @@ import {
 } from '@smarttools/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-import { createStore } from '../../tests/functions/create-store.function';
-import { ActionGroup } from '../../types/action-group.interface';
+import { createStore } from '../tests/functions/create-store.function';
+import { ActionGroup } from '../types/action-group.interface';
 import { actionFactory } from './action.factory';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import { LoadByIdsClassic } from './load-by-ids-classic.class';

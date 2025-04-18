@@ -14,22 +14,22 @@ import {
 } from '@smarttools/core';
 import { asapScheduler, of, Subscription } from 'rxjs';
 
-import * as storeFunction from '../../smart-selector/store.function';
-import { ActionGroup } from '../../types/action-group.interface';
+import * as storeFunction from '../smart-selector/store.function';
+import { ActionGroup } from '../types/action-group.interface';
 import * as actionFactory from './action.factory';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import * as watchInitialRowModule from './watch-initial-row.function';
 
-jest.mock('../../../../smart-core/src/registrations/feature-registry.class');
+jest.mock('../../../smart-core/src/registrations/feature-registry.class');
 jest.mock(
-  '../../../../smart-core/src/registrations/entity-definition-registry.function',
+  '../../../smart-core/src/registrations/entity-definition-registry.function',
 );
-jest.mock('../../../../smart-core/src/registrations/entity-registry.class');
+jest.mock('../../../smart-core/src/registrations/entity-registry.class');
 jest.mock('./action.factory');
-jest.mock('../../smart-selector/store.function');
-jest.mock('../../../../smart-core/src/registrations/service-registry.class');
+jest.mock('../smart-selector/store.function');
+jest.mock('../../../smart-core/src/registrations/service-registry.class');
 
-jest.mock('../../../../smart-core/src/smart-selector/virtual-array-map.const');
+jest.mock('../../../smart-core/src/smart-selector/virtual-array-map.const');
 
 interface MockEntity extends SmartNgRXRowBase {
   id: string;

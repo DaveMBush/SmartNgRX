@@ -14,8 +14,8 @@ import {
 } from '@smarttools/core';
 import { Observable, take } from 'rxjs';
 
-import { store as storeFunction } from '../../smart-selector/store.function';
-import { ActionGroup } from '../../types/action-group.interface';
+import { store as storeFunction } from '../smart-selector/store.function';
+import { ActionGroup } from '../types/action-group.interface';
 import { actionFactory } from './action.factory';
 import { Add } from './add.class';
 import { LoadByIdsClassic } from './load-by-ids-classic.class';

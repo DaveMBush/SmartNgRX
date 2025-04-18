@@ -5,7 +5,7 @@ import {
   ParentInfo,
 } from '@smarttools/core';
 
-import { removeIdFromParentsClassic } from '../facades/classic-ngrx.facade/remove-id-from-parents-classic.function';
+import { removeIdFromParentsClassic } from '../classic-ngrx.facade/remove-id-from-parents-classic.function';
 
 /**
  * Delete the feature/entity/ids from the store

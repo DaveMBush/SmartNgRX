@@ -7,7 +7,7 @@ import {
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
-import { SignalsFacade } from '../facades/signals-facade';
+import { SignalsFacade } from '../signal-facade/signals-facade';
 
 /**
  * Use this function to update the rows represented by the ids for an entity in a feature in response

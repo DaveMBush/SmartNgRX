@@ -1,7 +1,7 @@
 import { Observable, of, throwError } from 'rxjs';
 
-import { SignalsFacade } from '../signals-facade';
 import { LoadByIdsSignals } from './load-by-ids-signals.class';
+import { SignalsFacade } from './signals-facade';
 
 // Define a MockRow interface to avoid importing SmartNgRXRowBase
 interface MockRow {

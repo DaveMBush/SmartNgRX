@@ -13,11 +13,11 @@ import {
 } from '@smarttools/core';
 import { asapScheduler } from 'rxjs';
 
-import { Add } from './signal-facade/add.class';
-import { entitySignalStoreFactory } from './signal-facade/entity-signal-store.factory';
-import { LoadByIdsSignals } from './signal-facade/load-by-ids-signals.class';
-import { LoadByIndexesSignals } from './signal-facade/load-by-indexes-signals.class';
-import { removeIdFromParentsSignals } from './signal-facade/remove-id-from-parents-signals.function';
+import { Add } from './add.class';
+import { entitySignalStoreFactory } from './entity-signal-store.factory';
+import { LoadByIdsSignals } from './load-by-ids-signals.class';
+import { LoadByIndexesSignals } from './load-by-indexes-signals.class';
+import { removeIdFromParentsSignals } from './remove-id-from-parents-signals.function';
 
 /**
  * The SignalsFacade is the main interface for

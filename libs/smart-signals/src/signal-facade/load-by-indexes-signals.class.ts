@@ -17,7 +17,7 @@ import {
 } from '@smarttools/core';
 import { map, Subject, switchMap } from 'rxjs';
 
-import { SignalsFacade } from '../signals-facade';
+import { SignalsFacade } from './signals-facade';
 
 /**
  * This class is used to manage loading the child ids by

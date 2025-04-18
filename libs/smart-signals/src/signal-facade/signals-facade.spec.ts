@@ -15,7 +15,7 @@ import {
 } from '@smarttools/core';
 import { asapScheduler, of } from 'rxjs';
 
-import * as entitySignalStoreFactoryModule from './signal-facade/entity-signal-store.factory';
+import * as entitySignalStoreFactoryModule from './entity-signal-store.factory';
 import { SignalsFacade } from './signals-facade';
 
 // Mock all dependencies
@@ -26,7 +26,7 @@ jest.mock(
 jest.mock('../../../smart-core/src/registrations/entity-registry.class');
 jest.mock('../../../smart-core/src/registrations/service-registry.class');
 jest.mock('../../../smart-core/src/registrations/entity-rows-registry.class');
-jest.mock('./signal-facade/entity-signal-store.factory');
+jest.mock('./entity-signal-store.factory');
 
 // Define a mock entity interface for testing
 interface MockEntity extends SmartNgRXRowBase {

@@ -11,7 +11,7 @@ import {
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
-import { SignalsFacade } from '../facades/signals-facade';
+import { SignalsFacade } from '../signal-facade/signals-facade';
 import { updateEntity } from './update-entity.function';
 
 const feature = 'testFeature';

@@ -1,8 +1,8 @@
 import { EntityState, Update } from '@ngrx/entity';
 import { SmartNgRXRowBase } from '@smarttools/core';
 
-import { SignalsFacade } from '../signals-facade';
 import { entitySignalStoreFactory } from './entity-signal-store.factory';
+import { SignalsFacade } from './signals-facade';
 
 // Define test interface
 interface TestRow extends SmartNgRXRowBase {

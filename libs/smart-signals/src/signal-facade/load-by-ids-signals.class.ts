@@ -11,7 +11,7 @@ import {
 } from '@smarttools/core';
 import { catchError, map, mergeMap, Observable, of, Subject } from 'rxjs';
 
-import { SignalsFacade } from '../signals-facade';
+import { SignalsFacade } from './signals-facade';
 
 function notAPreloadId(c: string): boolean {
   return !['index-', 'indexNoOp-'].some(function someStartsWith(v) {

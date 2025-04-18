@@ -15,7 +15,7 @@ import {
 } from '@ngrx/signals/entities';
 import { forNext, SmartNgRXRowBase } from '@smarttools/core';
 
-import { SignalsFacade } from '../signals-facade';
+import { SignalsFacade } from './signals-facade';
 
 /**
  * Creates a signal store for an entity

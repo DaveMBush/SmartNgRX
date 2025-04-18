@@ -17,7 +17,7 @@ import {
   zoneless,
 } from '@smarttools/core';
 
-import { SignalsFacade } from '../facades/signals-facade';
+import { SignalsFacade } from '../signal-facade/signals-facade';
 
 const unpatchedPromise = zoneless('Promise') as typeof Promise;
 
