@@ -32,23 +32,17 @@ export class ArrayProxyClassic<
    * @param parent the parent entity that contains the array
    */
   override removeFromStore(row: C, parent: P): void {
+    const context = this;
     // we have to grab the raw data, not the proxied data.
-    const {
-      childFeature,
-      childEntity,
-      parentFeature,
-      parentEntity,
-      parentField,
-    } = this.childDefinition;
     const childId = this.selectId(row);
     const parentId = this.parentSelectId(parent);
-    newRowRegistry.remove(childFeature, childEntity, row.id);
+    newRowRegistry.remove(this.childFeature, this.childEntity, row.id);
     const selectFeature =
-      createFeatureSelector<Record<string, EntityState<P>>>(parentFeature);
+      createFeatureSelector<Record<string, EntityState<P>>>(this.parentFeature);
     const selectEntity = createSelector(
       selectFeature,
       function retrieveEntityFromState(state: Record<string, EntityState<P>>) {
-        return state[parentEntity];
+        return state[context.parentEntity];
       },
     );
     this.childActionService.remove([childId]);
@@ -58,7 +52,7 @@ export class ArrayProxyClassic<
       .select(selectEntity)
       .pipe(take(1))
       .subscribe(function removeEntityFromChildArray(entity: EntityState<P>) {
-        removeChildIdFromChildArray(entity, parentId, parentField, childId);
+        removeChildIdFromChildArray(entity, parentId, context.parentField, childId);
       });
   }
 }

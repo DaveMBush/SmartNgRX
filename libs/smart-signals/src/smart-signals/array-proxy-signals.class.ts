@@ -31,20 +31,13 @@ export class ArrayProxySignals<
    */
   removeFromStore(row: C, parent: P): void {
     // we have to grab the raw data, not the proxied data.
-    const {
-      childFeature,
-      childEntity,
-      parentFeature,
-      parentEntity,
-      parentField,
-    } = this.childDefinition;
     const childId = this.selectId(row);
     const parentId = this.parentSelectId(parent);
-    newRowRegistry.remove(childFeature, childEntity, row.id);
+    newRowRegistry.remove(this.childFeature, this.childEntity, row.id);
     this.childActionService.remove([childId]);
     const facade = facadeRegistry.register(
-      parentFeature,
-      parentEntity,
+      this.parentFeature,
+      this.parentEntity,
     ) as SignalsFacade<P>;
 
     this.removeChildIdFromChildArray(
@@ -53,7 +46,7 @@ export class ArrayProxySignals<
         entities: facade.entityState.entityMap() as Record<string, P>,
       },
       parentId,
-      parentField,
+      this.parentField,
       childId,
     );
   }

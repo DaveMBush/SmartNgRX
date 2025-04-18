@@ -48,6 +48,11 @@ export abstract class BaseArrayProxy<
   childActionService!: FacadeBase<C>;
   [isProxy] = true;
   rawArray: string[] = [];
+  childFeature!: string;
+  childEntity!: string;
+  parentFeature!: string;
+  parentEntity!: string;
+  parentField!: keyof P;
 
   /**
    * The constructor for the BaseArrayProxy class.
@@ -77,13 +82,23 @@ export abstract class BaseArrayProxy<
    * executable code in the constructor.
    */
   init(): void {
-    const { childFeature, childEntity } = this.childDefinition;
+    const {
+      childFeature,
+      childEntity,
+      parentFeature,
+      parentEntity,
+      parentField,
+    } = this.childDefinition;
+    this.childFeature = childFeature;
+    this.childEntity = childEntity;
+    this.parentFeature = parentFeature;
+    this.parentEntity = parentEntity;
+    this.parentField = parentField;
     const { service } = this.getServices();
     this.childActionService = service;
     // needed primarily for adding items to the array
     const { selectId } = entityDefinitionRegistry(childFeature, childEntity);
     this.selectId = selectId!;
-    const { parentFeature, parentEntity } = this.childDefinition;
     const { selectId: parentSelectId } = entityDefinitionRegistry(
       parentFeature,
       parentEntity,

@@ -1,7 +1,6 @@
 import {
   BaseAdd,
-  childDefinitionRegistry,
-  forNext,
+  BaseChildDefinition,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
@@ -15,19 +14,15 @@ export class Add<T extends SmartNgRXRowBase> extends BaseAdd<T> {
    * replaces the id in the parent rows with the new id
    * this is used when we commit a new row to the server
    *
+   * @param childDefinition the child definition that holds the parent information
    * @param id the id to replace
    * @param newId the new id to replace the old id with
    */
-  replaceIdInParents(id: string, newId: string): void {
-    const childDefinitions = childDefinitionRegistry.getChildDefinition(
-      this.feature,
-      this.entity,
-    );
-    forNext(
-      childDefinitions,
-      function replaceIdInParentsForNext(childDefinition) {
-        replaceIdInParentsClassic(childDefinition, id, newId);
-      },
-    );
+  override replaceIdInParent(
+    childDefinition: BaseChildDefinition,
+    id: string,
+    newId: string,
+  ): void {
+    replaceIdInParentsClassic(childDefinition, id, newId);
   }
 }

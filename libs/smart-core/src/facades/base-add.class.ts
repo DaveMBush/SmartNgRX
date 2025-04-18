@@ -8,6 +8,9 @@ import { EffectService } from '../types/effect-service';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { FacadeBase } from './facade.base';
 import { markParentsDirty } from './mark-parents-dirty.function';
+import { forNext } from '../common/for-next.function';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { childDefinitionRegistry } from '../registrations/child-definition.registry';
 
 /**
  * Class responsible for adding rows to the store
@@ -111,7 +114,25 @@ export abstract class BaseAdd<T extends SmartNgRXRowBase> {
    * @param id the id to replace
    * @param newId the new id to replace the old id with
    */
-  abstract replaceIdInParents(id: string, newId: string): void;
+  replaceIdInParents(id: string, newId: string): void {
+    const childDefinitions = childDefinitionRegistry.getChildDefinition(
+      this.feature,
+      this.entity,
+    );
+    const context = this;
+    forNext(
+      childDefinitions,
+      function replaceIdInParentsForNext(childDefinition) {
+        context.replaceIdInParent(childDefinition, id, newId);
+      },
+    );
+  }
+
+  abstract replaceIdInParent(
+    childDefinition: BaseChildDefinition,
+    id: string,
+    newId: string,
+  ): void;
 
   /**
    * Handles errors that occur during the add operation
