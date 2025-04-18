@@ -1,12 +1,15 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import {
+  castTo,
+  childDefinitionRegistry,
+  convertChildrenToArrayProxy,
+  convertChildrenToVirtualArray,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
 
-import { castTo } from '../common/cast-to.function';
-import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { ChildDefinition } from '../types/child-definition.interface';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
-import { convertChildrenToArrayProxy } from './convert-children-to-array-proxy.function';
-import { convertChildrenToVirtualArray } from './convert-children-to-virtual-array.function';
+import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
+import { ArrayProxyClassic } from './array-proxy-classic.class';
 import { ParentSelector } from './parent-selector.type';
 
 /**
@@ -22,12 +25,12 @@ import { ParentSelector } from './parent-selector.type';
  * original array before it was proxied.
  *
  * @param parentSelector The `ParentSelector` to retrieve the parent data from the store.
- * @param childDefinition `ChildDefinition` that defines what the child should look like
+ * @param childDefinition `ChildDefinitionClassic` that defines what the child should look like
  * @returns - an entity with the specified childArray proxies so that when an element is
  *         accessed, the childAction will be dispatched to request data from the server.
  *
  * @see `createSmartSelector`
- * @see `ChildDefinition`
+ * @see `ChildDefinitionClassic`
  * @see `ParentSelector`
  */
 export function createInnerSmartSelector<
@@ -35,7 +38,7 @@ export function createInnerSmartSelector<
   C extends SmartNgRXRowBase,
 >(
   parentSelector: ParentSelector<P>,
-  childDefinition: ChildDefinition<P, C>,
+  childDefinition: ChildDefinitionClassic<P, C>,
 ): MemoizedSelector<object, EntityState<P>> {
   const {
     childFeature,
@@ -67,11 +70,12 @@ export function createInnerSmartSelector<
           parentEntity,
         );
 
-        returnEntity = convertChildrenToArrayProxy(
+        returnEntity = convertChildrenToArrayProxy<P, C>(
           returnEntity,
           parentFieldName,
           child,
-          childDefinition as ChildDefinition<P>,
+          childDefinition,
+          ArrayProxyClassic,
         );
         return returnEntity;
       },

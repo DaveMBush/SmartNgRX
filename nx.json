@@ -33,6 +33,11 @@
     },
     "server": {
       "cache": true
+    },
+    "@angular-devkit/build-angular:application": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"]
     }
   },
   "namedInputs": {
@@ -49,10 +54,10 @@
   },
   "generators": {
     "@nx/angular:application": {
-      "style": "css",
+      "e2eTestRunner": "cypress",
       "linter": "eslint",
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
+      "style": "css",
+      "unitTestRunner": "jest"
     },
     "@nx/angular:library": {
       "linter": "eslint",
@@ -63,8 +68,9 @@
     }
   },
   "release": {
-    "projects": ["smart-ngrx"],
+    "projects": ["smart-ngrx", "smart-core", "smart-signals"],
     "version": {
+      "preVersionCommand": "pnpm dlx nx run-many -t build",
       "conventionalCommits": true
     },
     "changelog": {

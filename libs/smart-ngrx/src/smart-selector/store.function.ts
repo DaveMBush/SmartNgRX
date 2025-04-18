@@ -1,8 +1,6 @@
 import { Store } from '@ngrx/store';
 import { MockStore } from '@ngrx/store/testing';
-
-import { assert } from '../common/assert.function';
-import { rootInjector } from '../common/root-injector.function';
+import { assert, rootInjector } from '@smarttools/core';
 
 /**
  * This code allows us to make the store globally available without using dependency injection.

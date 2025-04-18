@@ -1,15 +1,18 @@
 import { InjectionToken } from '@angular/core';
+import {
+  EffectService,
+  entityDefinitionRegistry,
+  entityRegistry,
+  FacadeBase,
+  facadeRegistry,
+  featureRegistry,
+  MarkAndDeleteInit,
+  serviceRegistry,
+} from '@smarttools/core';
 
-import { FacadeBase } from '../facades/facade.base';
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
-import { entityRegistry } from '../registrations/entity-registry.class';
-import { facadeRegistry } from '../registrations/facade-registry.class';
-import { featureRegistry } from '../registrations/feature-registry.class';
-import { serviceRegistry } from '../registrations/service-registry.class';
+import { ClassicNgrxFacade } from '../classic-ngrx.facade/classic-ngrx.facade';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
-import { EffectService } from '../types/effect-service';
-import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 import { updateEntity } from './update-entity.function';
 
 const feature = 'testFeature';
@@ -54,6 +57,7 @@ describe('updateEntity', () => {
     });
 
     featureRegistry.registerFeature(feature);
+    facadeRegistry.register(feature, entity, ClassicNgrxFacade);
     actionService = facadeRegistry.register(feature, entity);
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });

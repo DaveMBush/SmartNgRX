@@ -1,15 +1,7 @@
-export * from './common/assert.function';
-export * from './common/cast-to.function';
-export * from './common/for-next.function';
-export * from './facades/classic-ngrx.facade/action.factory';
+/* eslint-disable @smarttools/one-exported-item-per-file -- pass through exports */
+export * from './classic-ngrx.facade/action.factory';
 export * from './providers/provide-smart-feature-classic-entities.function';
-export * from './providers/provide-smart-feature-signal-entities.function';
-export * from './providers/provide-smart-ngrx.function';
 export * from './smart-selector/create-smart-selector.function';
-export * from './smart-signals/create-smart-signal.function';
-export * from './types/effect-service';
-export * from './types/row-proxy-delete.interface';
-export * from './types/smart-array.interface';
 
 // store.function is needed for testing
 export * from './smart-selector/store.function';
@@ -20,14 +12,23 @@ export * from './tests/functions/clear-state.function';
 export * from './tests/functions/create-store.function';
 export * from './tests/functions/set-state.function';
 
-// types
-export * from './types/partial-array-definition.interface';
-export * from './types/smart-entity-definition.interface';
-export * from './types/smart-ngrx-row-base.interface';
+// smart-core exports
 
-// error handling
-export * from './error-handler/smart-ngrx-error-handler-token.const';
-export * from './types/smart-ngrx-error-handler.interface';
-
-// root injector
-export * from './common/root-injector.function';
+export type {
+  PartialArrayDefinition,
+  RowProxyDelete,
+  SmartArray,
+  SmartEntityDefinition,
+  SmartErrorHandler,
+  SmartNgRXRowBase,
+} from '@smarttools/core';
+export {
+  assert,
+  castTo,
+  delayedRegisterEntity,
+  EffectService,
+  globalMarkAndDeleteInit,
+  provideSmartNgRX,
+  rootInjector,
+  smartErrorHandlerToken,
+} from '@smarttools/core';

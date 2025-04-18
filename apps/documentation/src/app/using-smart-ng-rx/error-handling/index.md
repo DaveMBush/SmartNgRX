@@ -4,7 +4,7 @@ From time to time, SmartNgRX will catch errors and fail gracefully. But, you wil
 
 For this, we've created a service token that you can use to register your own class which we will use to notify your code of the error.
 
-The token you'll need to import is `smartNgRXErrorHandlerToken` and you'll want your class to implement `SmartNgRXErrorHandler` which has one method `handleError`.
+The token you'll need to import is `smartErrorHandlerToken` and you'll want your class to implement `SmartErrorHandler` which has one method `handleError`.
 
 `handleError` takes two arguments:
 

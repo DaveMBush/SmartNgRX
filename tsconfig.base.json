@@ -21,7 +21,9 @@
     "paths": {
       "@ng-doc/generated": ["ng-doc/documentation/index.ts"],
       "@ng-doc/generated/*": ["ng-doc/documentation/*"],
-      "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"]
+      "@smarttools/core": ["libs/smart-core/src/index.ts"],
+      "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"],
+      "@smarttools/smart-signals": ["libs/smart-signals/src"]
     }
   },
   "exclude": ["node_modules", "tmp"]

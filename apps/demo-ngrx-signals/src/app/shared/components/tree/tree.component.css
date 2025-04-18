@@ -1,0 +1,34 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.selected {
+  background-color: #939191;
+  width: 100%;
+}
+
+cdk-virtual-scroll-viewport {
+  height: calc(100% - 78px);
+  width: 100%;
+}
+
+.edit-button,
+.add-button,
+.delete-button {
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
+mat-tree-node:hover .edit-button,
+mat-tree-node:hover .delete-button,
+mat-tree-node:hover .add-button {
+  display: block;
+}
+
+.mat-mdc-form-field-subscript-wrapper {
+  height: 0;
+}
