@@ -1,3 +1,6 @@
+// jscpd:ignore-start
+// similar to the code in signals version but enough
+// different it needs to be its own code
 import { Dictionary, EntityState } from '@ngrx/entity';
 import {
   FacadeBase,
@@ -58,3 +61,4 @@ function forceIdDirty<T extends SmartNgRXRowBase>(
     }
   };
 }
+// jscpd:ignore-end

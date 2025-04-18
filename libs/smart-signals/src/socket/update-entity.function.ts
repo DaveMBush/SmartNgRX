@@ -1,3 +1,6 @@
+// jscpd:ignore-start
+// similar to the code in ngrx version but enough
+// different it needs to be its own code
 import { Dictionary } from '@ngrx/entity';
 import {
   FacadeBase,
@@ -53,3 +56,4 @@ function forceIdDirty<T extends SmartNgRXRowBase>(
     }
   };
 }
+// jscpd:ignore-end

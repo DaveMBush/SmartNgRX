@@ -1,3 +1,6 @@
+// jscpd:ignore-start
+// I think we are better off with this code separated
+// even though it is much like the code in the signals version
 import {
   DeleteEntity,
   facadeRegistry,
@@ -66,3 +69,4 @@ function filterByPsiTable(table: string): (key: string) => boolean {
 function extractFeatureFromPsiTable(key: string): string {
   return key.split(psi)[0];
 }
+// jscpd:ignore-end
