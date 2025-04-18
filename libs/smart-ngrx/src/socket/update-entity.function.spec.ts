@@ -10,10 +10,10 @@ import {
   serviceRegistry,
 } from '@smarttools/core';
 
+import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
 import { createStore } from '../tests/functions/create-store.function';
 import { setState } from '../tests/functions/set-state.function';
 import { updateEntity } from './update-entity.function';
-import { ClassicNgrxFacade } from '../facades/classic-ngrx.facade/classic-ngrx.facade';
 
 const feature = 'testFeature';
 const entity = 'testEntity';

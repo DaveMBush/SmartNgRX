@@ -4,15 +4,15 @@
 import { createEntityAdapter } from '@ngrx/entity';
 import { asapScheduler, of } from 'rxjs';
 
-import { BaseChildDefinition } from '../types/base-child-definition.interface';
 import { childDefinitionRegistry } from '../registrations/child-definition.registry';
-import { EffectServiceToken } from '../types/effect-service.token';
 import { entityRowsRegistry } from '../registrations/entity-rows-registry.class';
-import { FacadeBase } from './facade.base';
+import { serviceRegistry } from '../registrations/service-registry.class';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { EffectServiceToken } from '../types/effect-service.token';
 import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
-import { serviceRegistry } from '../registrations/service-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { FacadeBase } from './facade.base';
 
 // Mock all the external dependencies
 jest.mock('../registrations/entity-rows-registry.class', () => ({

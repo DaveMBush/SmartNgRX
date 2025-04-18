@@ -9,7 +9,7 @@ class ArrayProxy<
   P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
 > extends BaseArrayProxy<P, C> {
-  override removeFromStore(row: C, parent: P): void {
+  override removeFromStore(_: C, __: P): void {
     throw new Error('removeFromStore Method not implemented.');
   }
 }
@@ -62,27 +62,23 @@ interface MockRow extends SmartNgRXRowBase {
 }
 
 class MockFacade<T extends SmartNgRXRowBase> extends FacadeBase<T> {
-  override loadByIndexes(
-    parentId: string,
-    childField: string,
-    index: number,
-  ): void {
+  override loadByIndexes(_: string, __: string, ___: number): void {
     throw new Error('loadByIndexesMethod not implemented.');
   }
 
   override loadByIndexesSuccess(
-    parentId: string,
-    childField: string,
-    array: PartialArrayDefinition,
+    _: string,
+    __: string,
+    ___: PartialArrayDefinition,
   ): void {
     throw new Error('loadByIndexesSuccess Method not implemented.');
   }
 
-  override upsertRow(row: T): void {
+  override upsertRow(_: T): void {
     throw new Error('upsertRow Method not implemented.');
   }
 
-  override removeFromParents(id: string): ParentInfo[] {
+  override removeFromParents(_: string): ParentInfo[] {
     throw new Error('removeFromParents Method not implemented.');
   }
 
@@ -163,8 +159,6 @@ describe('BaseArrayProxy', () => {
     ) as unknown as TestableArrayProxy<MockRow, MockRow>;
     arrayProxy.init(); // Call init to set up the entityAdapter and other dependencies
   });
-
-  afterEach(() => {});
 
   describe('init', () => {
     it('should unfreeze the childArray if it is frozen', () => {

@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string -- conflicting rule */
 import { InjectionToken } from '@angular/core';
 import { createEntityAdapter } from '@ngrx/entity';
+import { UpdateStr } from '@ngrx/entity/src/models';
 
 import { FacadeBase } from '../facades/facade.base';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
@@ -11,12 +12,11 @@ import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
 import { EffectService } from '../types/effect-service';
 import { EntityAttributes } from '../types/entity-attributes.interface';
+import { ParentInfo } from '../types/parent-info.interface';
+import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { ensureDataLoaded } from './ensure-data-loaded.function';
-import { UpdateStr } from '@ngrx/entity/src/models';
-import { ParentInfo } from '../types/parent-info.interface';
-import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 
 const feature = 'feature';
 const entity = 'entity';
@@ -31,67 +31,63 @@ class MockFacade<T extends SmartNgRXRowBase> extends FacadeBase<T> {
     return true;
   }
 
-  override markDirty(ids: string[]): void {
+  override markDirty(_: string[]): void {
     throw new Error('markDirty Method not implemented.');
   }
 
-  override markNotDirty(id: string): void {
+  override markNotDirty(_: string): void {
     throw new Error('markNotDirty Method not implemented.');
   }
 
-  override forceDirty(ids: string[]): void {
+  override forceDirty(_: string[]): void {
     throw new Error('forceDirty Method not implemented.');
   }
 
-  override garbageCollect(ids: string[]): void {
+  override garbageCollect(_: string[]): void {
     throw new Error('garbageCollect Method not implemented.');
   }
 
-  override remove(ids: string[]): void {
+  override remove(_: string[]): void {
     throw new Error('remove Method not implemented.');
   }
 
-  override update(oldRow: SmartNgRXRowBase, newRow: SmartNgRXRowBase): void {
+  override update(_: SmartNgRXRowBase, __: SmartNgRXRowBase): void {
     throw new Error('update update Method not implemented.');
   }
 
-  override updateMany(changes: UpdateStr<SmartNgRXRowBase>[]): void {
+  override updateMany(_: UpdateStr<SmartNgRXRowBase>[]): void {
     throw new Error('updateMany Method not implemented.');
   }
 
-  override loadByIds(ids: string): void {
+  override loadByIds(_: string): void {
     throw new Error('loadByIds Method not implemented.');
   }
 
-  override loadByIdsPreload(ids: string[]): void {
+  override loadByIdsPreload(_: string[]): void {
     throw new Error('loadByIdsPreload Method not implemented.');
   }
 
-  override loadByIndexes(
-    parentId: string,
-    childField: string,
-    index: number,
-  ): void {
+  override loadByIndexes(_: string, __: string, ___: number): void {
     throw new Error('loadByIndexes Method not implemented.');
   }
 
   override loadByIndexesSuccess(
-    parentId: string,
-    childField: string,
-    array: PartialArrayDefinition,
+    _: string,
+    __: string,
+    ___: PartialArrayDefinition,
   ): void {
     throw new Error('loadByIndexesSuccess Method not implemented.');
   }
 
-  override upsertRow(row: T): void {
+  override upsertRow(_: T): void {
     throw new Error('upsertRow Method not implemented.');
   }
 
-  override removeFromParents(id: string): ParentInfo[] {
+  override removeFromParents(_: string): ParentInfo[] {
     throw new Error('removeFromParents Method not implemented.');
   }
 
-  override loadByIdsSuccess(): void {
+  override loadByIdsSuccess(_: SmartNgRXRowBase[]): void {
     return;
   }
 }

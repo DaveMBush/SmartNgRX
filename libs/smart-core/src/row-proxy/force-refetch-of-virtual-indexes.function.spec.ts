@@ -45,7 +45,10 @@ describe('forceRefetchOfVirtualIndexes', () => {
     // Assert
     expect(forNextSpy).toHaveBeenCalled();
     // Check keys individually to avoid type issues
-    const keysArray = (forNextSpy.mock.calls[0]?.[0] as string[]) || [];
+    const mockCalls = forNextSpy.mock.calls as Array<
+      [string[], (key: string) => void]
+    >;
+    const keysArray = mockCalls[0]?.[0] ?? [];
     expect(keysArray.includes('id')).toBe(true);
     expect(keysArray.includes('isDirty')).toBe(true);
   });
@@ -59,11 +62,13 @@ describe('forceRefetchOfVirtualIndexes', () => {
     } as unknown as SmartNgRXRowBase;
 
     let innerFunctionCalled = false;
-    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
-      // Test the inner function directly
-      callback('undefinedProp');
-      innerFunctionCalled = true;
-    });
+    forNextSpy.mockImplementation(
+      (array: unknown[], callback: (key: string) => void) => {
+        // Test the inner function directly
+        callback('undefinedProp');
+        innerFunctionCalled = true;
+      },
+    );
 
     // Act
     forceRefetchOfVirtualIndexes(mockRow);
@@ -82,10 +87,12 @@ describe('forceRefetchOfVirtualIndexes', () => {
     } as unknown as SmartNgRXRowBase;
 
     let innerFunctionCalled = false;
-    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
-      callback('notArrayProxy');
-      innerFunctionCalled = true;
-    });
+    forNextSpy.mockImplementation(
+      (array: unknown[], callback: (key: string) => void) => {
+        callback('notArrayProxy');
+        innerFunctionCalled = true;
+      },
+    );
 
     // Act
     forceRefetchOfVirtualIndexes(mockRow);
@@ -108,10 +115,12 @@ describe('forceRefetchOfVirtualIndexes', () => {
     } as unknown as SmartNgRXRowBase;
 
     let innerFunctionCalled = false;
-    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
-      callback('arrayProp');
-      innerFunctionCalled = true;
-    });
+    forNextSpy.mockImplementation(
+      (array: unknown[], callback: (key: string) => void) => {
+        callback('arrayProp');
+        innerFunctionCalled = true;
+      },
+    );
 
     // Act
     forceRefetchOfVirtualIndexes(mockRow);
@@ -142,9 +151,11 @@ describe('forceRefetchOfVirtualIndexes', () => {
       arrayProp: mockArrayProxy,
     } as unknown as SmartNgRXRowBase;
 
-    forNextSpy.mockImplementation((_, callback: (key: string) => void) => {
-      callback('arrayProp');
-    });
+    forNextSpy.mockImplementation(
+      (array: unknown[], callback: (key: string) => void) => {
+        callback('arrayProp');
+      },
+    );
 
     // Act
     forceRefetchOfVirtualIndexes(mockRow);
