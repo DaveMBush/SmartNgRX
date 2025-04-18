@@ -3,12 +3,13 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   castTo,
   childDefinitionRegistry,
+  convertChildrenToArrayProxy,
   convertChildrenToVirtualArray,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
 import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
-import { convertChildrenToArrayProxyClassic } from './convert-children-to-array-proxy-classic.function';
+import { ArrayProxyClassic } from './array-proxy-classic.class';
 import { ParentSelector } from './parent-selector.type';
 
 /**
@@ -69,11 +70,12 @@ export function createInnerSmartSelector<
           parentEntity,
         );
 
-        returnEntity = convertChildrenToArrayProxyClassic(
+        returnEntity = convertChildrenToArrayProxy<P, C>(
           returnEntity,
           parentFieldName,
           child,
           childDefinition,
+          ArrayProxyClassic,
         );
         return returnEntity;
       },

@@ -2,12 +2,13 @@ import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
 import {
   childDefinitionRegistry,
+  convertChildrenToArrayProxy,
   convertChildrenToVirtualArray,
   SmartNgRXRowBase,
 } from '@smarttools/core';
 
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
-import { convertChildrenToArrayProxySignals } from './convert-children-to-array-proxy-signals.function';
+import { ArrayProxySignals } from './array-proxy-signals.class';
 
 /**
  * This is an internal function used by `createSmartSignal`.
@@ -63,11 +64,12 @@ export function createInnerSmartSignal<
       parentEntity,
     );
 
-    returnEntity = convertChildrenToArrayProxySignals(
+    returnEntity = convertChildrenToArrayProxy(
       returnEntity,
       parentFieldName,
       child,
-      childDefinition as ChildDefinitionSignals<P>,
+      childDefinition,
+      ArrayProxySignals,
     );
 
     // update the parent signal from parent

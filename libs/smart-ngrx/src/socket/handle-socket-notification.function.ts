@@ -1,11 +1,12 @@
 import {
+  DeleteEntity,
   facadeRegistry,
   forNext,
   markAndDeleteEntities,
   psi,
 } from '@smarttools/core';
 
-import { deleteEntity } from './delete-entity.function';
+import { removeIdFromParentsClassic } from '../classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { updateEntity } from './update-entity.function';
 
 /**
@@ -31,9 +32,16 @@ export function handleSocketNotification(
   // for each feature
   forNext(featureEntityKeys, function innerHandleSocketNotification(feature) {
     switch (action) {
-      case 'delete':
-        deleteEntity(feature, table, ids);
+      case 'delete': {
+        const d = new DeleteEntity(
+          feature,
+          table,
+          ids,
+          removeIdFromParentsClassic,
+        );
+        d.deleteEntity();
         break;
+      }
       case 'update':
         updateEntity(feature, table, ids);
         break;

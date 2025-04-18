@@ -1,13 +1,10 @@
 import { EntityState } from '@ngrx/entity';
-import {
-  BaseArrayProxy,
-  BaseChildDefinition,
-  castTo,
-  forNext,
-  SmartNgRXRowBase,
-} from '@smarttools/core';
 
-import { ArrayProxyClassic } from './array-proxy-classic.class';
+import { castTo } from '../common/cast-to.function';
+import { forNext } from '../common/for-next.function';
+import { BaseChildDefinition } from '../types/base-child-definition.interface';
+import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { BaseArrayProxy } from './base-array-proxy.class';
 
 /**
  * wraps the array in a proxy so we can return a row for the ID
@@ -16,10 +13,12 @@ import { ArrayProxyClassic } from './array-proxy-classic.class';
  * @param parentFieldName the field name that holds the child ids
  * @param child the child entity
  * @param childDefinition the child definition (used by the ArrayProxy)
+ * @param arrayProxyConstructor the constructor for the array proxy
  *
  * @returns the entity with the child field converted to an array proxy
  */
-export function convertChildrenToArrayProxyClassic<
+// eslint-disable-next-line max-params-no-constructor/max-params-no-constructor -- let it slide for now
+export function convertChildrenToArrayProxy<
   P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
 >(
@@ -27,6 +26,11 @@ export function convertChildrenToArrayProxyClassic<
   parentFieldName: keyof P,
   child: EntityState<C>,
   childDefinition: BaseChildDefinition<P>,
+  arrayProxyConstructor: new (
+    childArray: BaseArrayProxy<P, C> | string[],
+    child: EntityState<C>,
+    childDefinition: BaseChildDefinition<P>,
+  ) => BaseArrayProxy<P, C>,
 ): EntityState<P> {
   const returnEntity = {
     ids: [...parentEntity.ids],
@@ -42,7 +46,7 @@ export function convertChildrenToArrayProxyClassic<
         | BaseArrayProxy<P, C>
         | string[];
 
-      const arrayProxy = new ArrayProxyClassic<P, C>(
+      const arrayProxy = new arrayProxyConstructor(
         childArray,
         child,
         childDefinition,
