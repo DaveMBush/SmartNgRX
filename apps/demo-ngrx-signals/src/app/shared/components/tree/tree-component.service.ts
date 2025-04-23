@@ -64,6 +64,8 @@ export class TreeComponentService {
         component.range.end,
       );
     }
+    // this ensures deletes don't move the scroll position
+    // it jumps but it is better than the alternative
     asapScheduler.schedule(function scrollAdjust() {
       component.virtualScroll.scrollTo({
         top,
