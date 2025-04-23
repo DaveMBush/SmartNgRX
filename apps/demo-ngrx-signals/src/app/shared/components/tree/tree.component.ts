@@ -182,14 +182,17 @@ export class TreeComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const context = this;
+    // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
       .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
       .subscribe(function scrollRangeStreamSubscribeFunction(range) {
         context.range = range;
         context.treeComponentService.applyRange();
       });
+    // this stream watches for scroll height changes
     this.virtualScroll.renderedRangeStream
       .pipe(
+        debounceTime(100),
         distinctUntilChanged(function distinctUntilChangedRange(a, b) {
           return a.end - a.start === b.end - b.start;
         }),
