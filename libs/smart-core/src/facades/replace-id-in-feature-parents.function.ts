@@ -132,16 +132,20 @@ function processVirtualArrayChildField(
       ],
       length: virtualArray.length,
     };
+  } else if (index !== -1) {
+    updatedArray = {
+      indexes: [
+        ...virtualArray.indexes.slice(0, index),
+        ...virtualArray.indexes.slice(index + 1),
+      ],
+      length: virtualArray.length - 1,
+    };
   }
   return {
     hasChild: index !== -1,
     updatedChildField: {
-      indexes: updatedArray.indexes.filter(
-        function processVirtualArrayChildFieldFilter(v) {
-          return id !== v;
-        },
-      ),
-      length: virtualArray.length - (newId === null ? 1 : 0),
+      indexes: updatedArray.indexes,
+      length: updatedArray.length,
     },
   };
 }

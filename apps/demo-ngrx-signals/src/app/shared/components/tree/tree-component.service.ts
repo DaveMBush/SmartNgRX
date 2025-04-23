@@ -117,6 +117,7 @@ export class TreeComponentService {
     // because delete is an optional method,
     // but it actually exist by definition,
     // we can safely assert that it exist.
+
     node.node.delete!();
   }
 
