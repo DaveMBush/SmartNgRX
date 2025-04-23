@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { assert, SmartArray } from '@smarttools/smart-ngrx';
+import { asapScheduler } from 'rxjs';
 
 import { CommonSourceNode } from './common-source-node.interface';
 import { expandedMap } from './expanded-map.class';
@@ -42,6 +43,7 @@ export class TreeComponentService {
     if (component.location$() === undefined || component.location$() === null) {
       return;
     }
+    const top = component.virtualScroll.measureScrollOffset('top');
     component.fullDataSource = this.transform({
       parentId: component.locationId$() as string,
       children: component.location$()!.departments as SmartArray<
@@ -62,6 +64,14 @@ export class TreeComponentService {
         component.range.end,
       );
     }
+    // this ensures deletes don't move the scroll position
+    // it jumps but it is better than the alternative
+    asapScheduler.schedule(function scrollAdjust() {
+      component.virtualScroll.scrollTo({
+        top,
+        behavior: 'instant',
+      });
+    });
   }
 
   transform({
