@@ -8,7 +8,6 @@ export const noRefreshSignalsDepartmentChildrenDefinition: SmartEntityDefinition
     entityName: 'departmentChildren',
     effectServiceToken: departmentChildEffectsServiceToken,
     markAndDelete,
-    isSignal: true,
     defaultRow: function noRefreshDepartmentChildrenDefaultRowFunction(id) {
       return {
         id,

@@ -11,7 +11,6 @@ export const noRemoveSignalsTopDefinition: SmartEntityDefinition<Top> = {
     markDirtyTime: 2 * 60 * 1000,
     removeTime: 0,
   },
-  isSignal: true,
   defaultRow: function noRemoveTopDefaultRowFunction(id) {
     return {
       id,

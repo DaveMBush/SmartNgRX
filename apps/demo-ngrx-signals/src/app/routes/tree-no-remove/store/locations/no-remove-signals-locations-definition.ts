@@ -11,7 +11,6 @@ export const noRemoveSignalsLocationsDefinition: SmartEntityDefinition<Location>
       markDirtyTime: 2 * 60 * 1000,
       removeTime: 0,
     },
-    isSignal: true,
     defaultRow:
       function noRemoveLocationsDefaultRowFunctionLocationsDefaultRowFunction(
         id,

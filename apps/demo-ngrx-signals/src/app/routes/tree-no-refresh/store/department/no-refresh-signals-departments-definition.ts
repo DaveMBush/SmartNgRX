@@ -10,7 +10,6 @@ export const noRefreshSignalsDepartmentsDefinition: SmartEntityDefinition<Depart
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
     markAndDelete,
-    isSignal: true,
     defaultRow: function noRefreshDepartmentsDefaultRowFunction(id) {
       return {
         id,

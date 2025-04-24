@@ -1,7 +1,7 @@
 import { NgDocCategory } from '@ng-doc/core';
 
 const UsingSmartNgRXCategory: NgDocCategory = {
-  title: 'Using Smart NgRX',
+  title: 'Using @smarttools/smart-ngrx',
   expandable: true,
   order: 2,
 };

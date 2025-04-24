@@ -18,6 +18,8 @@ const entityDefinitionMap = new Map<
  * @param featureName the feature the entity belongs to
  * @param entityName the entity name to register the adapter for
  * @param entityDefinition the `SmartEntityDefinition` to register the adapter for
+ * @param isSignal if true, the entity is a signal entity
+ *
  * @returns the entity definition
  *
  * @see `EntityDefinition`
@@ -28,9 +30,11 @@ export function entityDefinitionRegistry<
   featureName: string,
   entityName: string,
   entityDefinition?: SmartEntityDefinition<T>,
+  isSignal?: boolean,
 ): SmartValidatedEntityDefinition<T> {
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
+    entityDefinition.isSignal = isSignal;
     if (entityDefinition.selectId === undefined) {
       entityDefinition.selectId = function defaultSelectId(row: T) {
         return row.id;
@@ -40,7 +44,7 @@ export function entityDefinitionRegistry<
       entityDefinition as SmartValidatedEntityDefinition<T>;
     cached =
       entityDefinitionWithAdapter as unknown as SmartValidatedEntityDefinition<SmartNgRXRowBase>;
-    if (entityDefinition.isSignal !== true) {
+    if (isSignal !== true) {
       entityDefinitionWithAdapter.entityAdapter = createEntityAdapter<T>({
         selectId: entityDefinition.selectId,
       });

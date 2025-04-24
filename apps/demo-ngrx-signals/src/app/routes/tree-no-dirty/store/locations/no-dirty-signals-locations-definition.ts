@@ -10,7 +10,6 @@ export const noDirtySignalsLocationsDefinition: SmartEntityDefinition<Location> 
     markAndDelete: {
       markDirtyTime: -1,
     },
-    isSignal: true,
     defaultRow: function noDirtyLocationsDefaultRowFunction(id) {
       return {
         id,
