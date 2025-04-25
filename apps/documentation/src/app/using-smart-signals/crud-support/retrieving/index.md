@@ -2,9 +2,9 @@
 
 ## Introduction
 
-SmartNgRX expects every row within an entity that has children to have an array of IDs that point to the children. By using the `createSmartSelector` function, you will automatically get the children of the row you are retrieving when you access the array element. You will not need to dispatch any actions for this to happen. It will just work.
+SmartSignals expects every row within an entity that has children to have an array of IDs that point to the children. By using the `createSmartSignal` function, you will automatically get the children of the row you are retrieving when you access the array element. You will not need to dispatch any actions for this to happen. It will just work.
 
-See the [Smart Selectors](/using-smart-ng-rx/smart-selector) section for more information.
+See the [Smart Signals](using-smart-signals/smart-signals) section for more information.
 
 ## Effects Service
 
@@ -30,7 +30,7 @@ You might notice that we are using a POST instead of a GET to retrieve the data.
 
 ## Retrieving the top level store
 
-The obvious question you might ask is, "if everything has a parent, how can I retrieve the top level data?" The answer is that you can set the `isInitialRow` field to `true` in the entity definition. This is a special marker that tells SmartNgRX that this row has no parent and should be retrieved when the entity is loaded.
+The obvious question you might ask is, "if everything has a parent, how can I retrieve the top level data?" The answer is that you can set the `isInitialRow` field to `true` in the entity definition. This is a special marker that tells Smart Signals that this row has no parent and should be retrieved when the entity is loaded.
 
 You'll need to specify the loadByIds method to retrieve the top level data. This will be the ids of the child fields you'll need to retrieve when the child data is requested.
 
@@ -56,28 +56,38 @@ It will retrieve the locations ids. You can have your top level entity retrieve 
 To select the locations, our code looks like this:
 
 ```typescript
-// First we use a standard selector to retrieve the top entity
-export const selectTopEntities = createSelector(selectTreeStandardState, (state) => {
-  return state.top;
-});
+// First we retrieve the top entity from Smart Signals
+export const selectTopEntities = createSmartSignal<Top>(featureName, 'top');
 
-// then we use a smart selector to retrieve the top row and the locations
-export const selectTopLocations = createSmartSelector(selectTopEntities, [
+// then we use a smart signal to retrieve the top row and the locations
+export const selectTopLocations = createSmartSignal(selectTopEntities, [
   {
-    childFeature: 'tree-standard',
+    childFeature: featureName,
     childEntity: 'locations',
     parentField: 'locations',
-    parentFeature: 'tree-standard',
+    parentFeature: featureName,
     parentEntity: 'top',
     childSelector: selectLocationsDepartments,
   },
 ]);
 
-// Finally, we create a standard selector to pick the locations out of the
-// top smart selector
-export const selectLocations = createSelector(selectTopLocations, (tops) => {
-  return (tops.ids.length === 1 ? tops.entities[tops.ids[0]]!.locations : []) as Location[];
-});
+// Finally, we create a function that returns a computed to get the
+// list of locations
+export function selectLocations(): Signal<Location[]> {
+  return computed(function selectLocationsFunction() {
+    const tops = selectTopLocations();
+    // Instead of directly accessing .locations, we should get the full entity
+    // which will trigger the smart signal chain
+    if (tops.ids.length === 1) {
+      const topEntity = tops.entities[tops.ids[0]];
+      if (topEntity && topEntity.locations.length > 0 && typeof topEntity.locations[0] === 'object') {
+        // This will now use the smart signal chain through selectLocationsDepartments
+        return topEntity.locations as Location[];
+      }
+    }
+    return [] as Location[];
+  });
+}
 ```
 
-By setting up the code in this way, you'll never have to dispatch an action to retrieve the top level data. This is all handled internally by SmartNgRX.
+The reason we create a function that returns a `computed()` signal is to avoid creating the signal at startup. Using the function delays creating the computed signal until we call the function it is in.
