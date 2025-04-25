@@ -5,15 +5,22 @@ const api: NgDocApi = {
   title: 'Internal API',
   category: APICategory,
   route: 'internal-api',
-  order: 2,
+  order: 3,
   scopes: [
     {
       name: 'Internal API',
       route: 'internal-api',
-      include: ['libs/smart-ngrx/src/**/*.ts'],
+      include: [
+        'libs/smart-ngrx/src/**/*.ts',
+        'libs/smart-signals/src/**/*.ts',
+        'libs/smart-core/src/**/*.ts',
+      ],
       exclude: [
         'libs/smart-ngrx/src/index.ts',
         'libs/smart-ngrx/src/**/*.spec.ts',
+        'libs/smart-signals/src/index.ts',
+        'libs/smart-signals/src/**/*.spec.ts',
+        'libs/smart-core/src/**/*.spec.ts',
       ],
     },
   ],

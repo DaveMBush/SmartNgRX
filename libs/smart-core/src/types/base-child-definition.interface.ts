@@ -8,7 +8,7 @@ export interface BaseChildDefinition<
    */
   childFeature: string;
   /**
-   * The fieldName we used to register the entity in the provider.
+   * The entity name we used to register the entity in the provider.
    */
   childEntity: string;
 

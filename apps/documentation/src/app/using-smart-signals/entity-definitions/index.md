@@ -1,14 +1,14 @@
 # Entity Definitions
 
-As mentioned earlier, most of NgRX is hidden from you by SmartNgRX. The first API that allows us to do this is the `provideSmartFeatureClassicEntities` function. This is a functional provider that allows us to register all the entities for a feature.
+As mentioned earlier, most of NgRX Signal Store is hidden from you by Smart Signals. The first API that allows us to do this is the `provideSmartFeatureSignalEntities` function. This is a functional provider that allows us to register all the entities for a feature.
 
-We've found that the best way to use this provider is to create the entity definitions as objects in a separate file that we import into the location we want to register the entities. Each object would live with the entity code it represents. For example, if we have a `User` entity, we would create a `users-definition.ts` file that would contain the entity definition. We would then import that file into the module file where our `provideSmartFeatureClassicEntities` function is located so we can register the entity.
+We've found that the best way to use this provider is to create the entity definitions as objects in a separate file that we import into the location we want to register the entities. Each object would live with the entity code it represents. For example, if we have a `User` entity, we would create a `users-definition.ts` file that would contain the entity definition. We would then import that file into the module file where our `provideSmartFeatureSignalEntities` function is located so we can register the entity.
 
 Let's take a look at an example. In this example, we'll create a `users-definition.ts` file that contains the entity definition for the `User` entity. We'll then import that file into the `users.module.ts` file so we can register the entity.
 
 ```typescript
 // users-definition.ts
-import { SmartEntityDefinition } from '@smarttools/smart-ngrx';
+import { SmartEntityDefinition } from '@smarttools/smart-signals';
 
 import { User } from './user.interface';
 import { userEffectsServiceToken } from './user-effects.service-token';
