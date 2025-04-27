@@ -32,7 +32,7 @@ export const currentLocationSignalStore = signalStore(
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
-          const locations = locationsSignal();
+          const locations = locationsSignal;
           if (currentLocationId().length > 0) {
             return currentLocationId();
           }

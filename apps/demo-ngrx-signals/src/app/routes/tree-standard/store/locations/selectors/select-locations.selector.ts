@@ -1,27 +1,13 @@
 // jscpd:ignore-start
 // intentionally duplicated.
-import { computed, Signal } from '@angular/core';
+import { getTopChildRows } from '@smarttools/smart-signals';
 
 import { Location } from '../../../../../shared/locations/location.interface';
+import { Top } from '../../../../../shared/top/top.interface';
 import { selectTopLocations } from '../../top/select-top-locations.selectors';
 
-export function selectLocations(): Signal<Location[]> {
-  return computed(function selectLocationsFunction() {
-    const tops = selectTopLocations();
-    // Instead of directly accessing .locations, we should get the full entity
-    // which will trigger the smart signal chain
-    if (tops.ids.length === 1) {
-      const topEntity = tops.entities[tops.ids[0]];
-      if (
-        topEntity &&
-        topEntity.locations.length > 0 &&
-        typeof topEntity.locations[0] === 'object'
-      ) {
-        // This will now use the smart signal chain through selectLocationsDepartments
-        return topEntity.locations as Location[];
-      }
-    }
-    return [] as Location[];
-  });
-}
+export const selectLocations = getTopChildRows<Top, Location>(
+  selectTopLocations,
+  'locations',
+);
 // jscpd:ignore-end

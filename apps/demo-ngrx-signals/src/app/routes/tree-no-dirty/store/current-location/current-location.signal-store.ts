@@ -27,12 +27,10 @@ export const currentLocationSignalStore = signalStore(
     };
   }),
   withComputed(function computedFunction({ currentLocationId }) {
-    const locationsSignal = selectLocations();
-
     return {
       selectCurrentLocationId: computed(
         function selectCurrentLocationIdComputedFunction(): string {
-          const locations = locationsSignal();
+          const locations = selectLocations();
           if (currentLocationId().length > 0) {
             return currentLocationId();
           }
