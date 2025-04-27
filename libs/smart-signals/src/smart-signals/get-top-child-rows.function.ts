@@ -10,10 +10,10 @@ import { SmartNgRXRowBase } from '@smarttools/core';
  * @param childFieldName The field name of the child that you want to get the rows of.
  * @returns A signal that emits the rows of the child.
  */
-export function getTopChildRows<
-  P extends object,
-  C extends SmartNgRXRowBase,
->(parentSignal: Signal<EntityState<P>>, childFieldName: keyof P): Signal<C[]> {
+export function getTopChildRows<P extends object, C extends SmartNgRXRowBase>(
+  parentSignal: Signal<EntityState<P>>,
+  childFieldName: keyof P,
+): Signal<C[]> {
   return computed(function getTopChildRowsComputed() {
     const parentState = parentSignal();
     if (parentState.ids.length === 1) {

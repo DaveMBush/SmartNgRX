@@ -88,7 +88,11 @@ export class TreeComponent implements AfterViewInit {
     const context = this;
     effect(function watchLocation() {
       const location = context.location$();
-      if (context.isInitialized && location !== null && location !== undefined) {
+      if (
+        context.isInitialized &&
+        location !== null &&
+        location !== undefined
+      ) {
         context.treeComponentService.applyRange();
         context.cd.markForCheck();
       }
