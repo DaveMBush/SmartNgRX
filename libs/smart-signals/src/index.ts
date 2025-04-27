@@ -3,6 +3,7 @@ export * from './providers/provide-smart-feature-signal-entities.function';
 export * from './signal-facade/signals-facade';
 export * from './smart-signals/create-inner-smart-signal.function';
 export * from './smart-signals/create-smart-signal.function';
+export * from './smart-signals/get-top-child-rows.function';
 export * from './socket/handle-socket-notification.function';
 export type {
   PartialArrayDefinition,

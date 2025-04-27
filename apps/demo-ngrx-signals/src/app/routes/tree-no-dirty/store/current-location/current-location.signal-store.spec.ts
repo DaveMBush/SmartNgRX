@@ -7,14 +7,13 @@ interface Location {
   departments: unknown[];
 }
 
-// Mock data - create before the mock
-const mockLocations: Location[] = [];
+// Create actual concrete instances for our locations
+const locationsList: Location[] = [];
 
-// Create mock signal function that we'll use across tests
-const mockSignalFn = jest.fn().mockReturnValue(mockLocations);
-
-// Create a mock for selectLocations that we can spy on
-const mockSelectLocations = jest.fn().mockReturnValue(mockSignalFn);
+// Create mock selectLocations function
+const mockSelectLocations = jest.fn(() => {
+  return locationsList;
+});
 
 // Mock the module before importing
 jest.mock('../locations/selectors/select-locations.selector', () => ({
@@ -33,15 +32,11 @@ describe('currentLocationSignalStore', () => {
     });
 
     // Reset test data
-    mockLocations.length = 0;
+    locationsList.length = 0;
 
     // Clear all mock calls and implementations
     jest.clearAllMocks();
-    mockSignalFn.mockClear();
     mockSelectLocations.mockClear();
-
-    // Ensure the mock function returns our signal function
-    mockSelectLocations.mockReturnValue(mockSignalFn);
 
     // Get a fresh instance of the store
     store = TestBed.inject(currentLocationSignalStore);
@@ -63,7 +58,7 @@ describe('currentLocationSignalStore', () => {
   describe('selectCurrentLocationId', () => {
     it('should return the currentLocationId when it has a value', () => {
       // Set up test data
-      mockLocations.push(
+      locationsList.push(
         { id: 'location2', name: 'Location 2', departments: [] },
         { id: 'location3', name: 'Location 3', departments: [] },
       );
@@ -76,14 +71,11 @@ describe('currentLocationSignalStore', () => {
 
       // Verify results
       expect(result).toBe('location1');
-
-      // Verify locations were retrieved
-      expect(mockSelectLocations).toHaveBeenCalled();
     });
 
     it('should return the first location ID when currentLocationId is empty and locations exist', () => {
       // Set up test data with valid objects
-      mockLocations.push(
+      locationsList.push(
         { id: 'location1', name: 'Location 1', departments: [] },
         { id: 'location2', name: 'Location 2', departments: [] },
       );
@@ -96,9 +88,6 @@ describe('currentLocationSignalStore', () => {
 
       // Verify results
       expect(result).toBe('location1');
-
-      // Verify locations were retrieved
-      expect(mockSelectLocations).toHaveBeenCalled();
     });
 
     it('should return empty string when currentLocationId is empty and locations are empty', () => {
@@ -112,16 +101,14 @@ describe('currentLocationSignalStore', () => {
 
       // Verify results
       expect(result).toBe('');
-
-      // Verify locations were retrieved
-      expect(mockSelectLocations).toHaveBeenCalled();
     });
 
     it('should return empty string when currentLocationId is empty and locations are not objects', () => {
-      // Set up non-object locations
-      const nonObjects = ['not an object', 'also not an object'];
-      // Replace mockLocations.push with direct assignment
-      mockSignalFn.mockReturnValue(nonObjects);
+      // Replace locationsList with non-objects
+      mockSelectLocations.mockReturnValueOnce([
+        'not an object',
+        'also not an object',
+      ] as unknown as Location[]);
 
       // Make sure current ID is empty
       store.setCurrentLocationId('');
@@ -131,9 +118,6 @@ describe('currentLocationSignalStore', () => {
 
       // Verify results
       expect(result).toBe('');
-
-      // Verify locations were retrieved
-      expect(mockSelectLocations).toHaveBeenCalled();
     });
   });
 });

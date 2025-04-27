@@ -8,7 +8,7 @@ import { currentLocationSignalStore } from './store/current-location/current-loc
 import { selectCurrentLocationSignal } from './store/current-location/select-current-location.signal';
 import { selectLocations } from './store/locations/selectors/select-locations.selector';
 @Component({
-  selector: 'dmb-demo-tree',
+  selector: 'dmb-demo-tree-dirty',
   standalone: true,
   imports: [CommonModule, SharedTreeComponent],
   templateUrl: './tree.component.html',
@@ -19,7 +19,7 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
 export class TreeComponent {
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
-  locations$ = selectLocations();
+  locations$ = selectLocations;
 
   // Create the computed signal directly in the component
 
