@@ -19,7 +19,7 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
 export class TreeComponent {
   currentLocationSignalStore = inject(currentLocationSignalStore);
   locationId$ = this.currentLocationSignalStore.selectCurrentLocationId;
-  locations$ = selectLocations();
+  locations$ = selectLocations;
 
   // Create the computed signal directly in the component
 

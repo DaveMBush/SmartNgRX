@@ -58,6 +58,7 @@ import { TreeNode } from './tree-node.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeComponent implements AfterViewInit {
+  private isInitialized = false;
   private treeComponentService = inject(TreeComponentService);
   locations$ = input.required<Location[] | null>();
   locationId$ = input<number | string | null>('');
@@ -87,7 +88,11 @@ export class TreeComponent implements AfterViewInit {
     const context = this;
     effect(function watchLocation() {
       const location = context.location$();
-      if (location !== null && location !== undefined) {
+      if (
+        context.isInitialized &&
+        location !== null &&
+        location !== undefined
+      ) {
         context.treeComponentService.applyRange();
         context.cd.markForCheck();
       }
@@ -181,6 +186,7 @@ export class TreeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.isInitialized = true;
     const context = this;
     // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
