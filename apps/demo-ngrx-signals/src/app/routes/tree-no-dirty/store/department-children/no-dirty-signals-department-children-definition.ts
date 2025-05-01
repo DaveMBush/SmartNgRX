@@ -10,8 +10,6 @@ export const noDirtySignalsDepartmentChildrenDefinition: SmartEntityDefinition<D
     markAndDelete: {
       markDirtyTime: -1,
     },
-
-    isSignal: true,
     defaultRow: function noDirtyDepartmentChildrenDefaultRowFunction(id) {
       return {
         id,

@@ -55,6 +55,7 @@ export function provideSmartFeatureSignalEntities(
         featureName,
         entityDefinition.entityName,
         entityDefinition,
+        true,
       );
       const { entityName, effectServiceToken } = entityDefinition;
       if (!featureRegistry.hasFeature(featureName)) {

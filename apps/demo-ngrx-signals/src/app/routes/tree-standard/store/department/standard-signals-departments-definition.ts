@@ -8,7 +8,6 @@ export const standardSignalsDepartmentsDefinition: SmartEntityDefinition<Departm
   {
     entityName: 'departments',
     effectServiceToken: departmentEffectsServiceToken,
-    isSignal: true,
     defaultRow: function standardDepartmentsDefaultRowFunction(id) {
       return {
         id,

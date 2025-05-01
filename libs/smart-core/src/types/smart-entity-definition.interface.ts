@@ -50,14 +50,9 @@ export interface SmartEntityDefinition<Row extends SmartNgRXRowBase> {
   isInitialRow?: boolean;
 
   /**
-   * If this is true, the backing store is signalStore and not standard NgRx.
+   * @ignore
    */
-  isSignal?: boolean;
-
-  // /**
-  //  * Supply your own entityAdapter if you are not using ID as the primary key.
-  //  */
-  // entityAdapter?: EntityAdapter<SmartNgRXRowBase>;
+  isSignal?: boolean; // used internally to indicate this is a signal entity
 
   /**
    * Function that returns the ID of the row. If this is not

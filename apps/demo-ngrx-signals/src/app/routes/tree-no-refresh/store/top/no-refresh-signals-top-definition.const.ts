@@ -9,7 +9,6 @@ export const noRefreshSignalsTopDefinition: SmartEntityDefinition<Top> = {
   effectServiceToken: topEffectsServiceToken,
   markAndDelete,
   isInitialRow: true,
-  isSignal: true,
   defaultRow: function noRefreshTopFunction(id) {
     return {
       id,

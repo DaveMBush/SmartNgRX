@@ -8,7 +8,6 @@ export const noRefreshSignalsLocationsDefinition: SmartEntityDefinition<Location
     entityName: 'locations',
     effectServiceToken: locationEffectsServiceToken,
     markAndDelete,
-    isSignal: true,
     defaultRow: function noRefreshLocationsDefaultRowFunction(id) {
       return {
         id,

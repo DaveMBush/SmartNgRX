@@ -10,7 +10,6 @@ export const noDirtySignalsTopDefinition: SmartEntityDefinition<Top> = {
     markDirtyTime: -1,
   },
   isInitialRow: true,
-  isSignal: true,
   defaultRow: function noDirtyTopDefaultRowFunction(id) {
     return {
       id,

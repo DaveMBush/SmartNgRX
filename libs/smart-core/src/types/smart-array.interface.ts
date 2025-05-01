@@ -9,8 +9,15 @@ export interface SmartArray<
   C extends SmartNgRXRowBase = SmartNgRXRowBase,
 > {
   length: number;
+
   /**
-   * The array of IDs proxied by the `ArrayProxy`
+   * The id of the row at position index.
+   * If the row does not exist yet, we return undefined.
+   * If we are retrieving to id from the server, the id
+   * will be index-${index} as a temporary placeholder.
+   *
+   * @param index The index of the row
+   * @returns The id of the row at position index or undefined if we don't have the id yet
    */
   getIdAtIndex?(index: number): string | undefined;
   /**
