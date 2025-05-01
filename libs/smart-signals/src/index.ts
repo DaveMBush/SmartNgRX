@@ -1,7 +1,5 @@
 /* eslint-disable @smarttools/one-exported-item-per-file -- passthrough exports*/
 export * from './providers/provide-smart-feature-signal-entities.function';
-export * from './signal-facade/signals-facade';
-export * from './smart-signals/create-inner-smart-signal.function';
 export * from './smart-signals/create-smart-signal.function';
 export * from './smart-signals/get-top-child-rows.function';
 export * from './socket/handle-socket-notification.function';
@@ -17,8 +15,6 @@ export {
   assert,
   castTo,
   EffectService,
-  facadeRegistry,
   provideSmartNgRX,
-  rootInjector,
   smartErrorHandlerToken,
 } from '@smarttools/core';

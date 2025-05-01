@@ -25,10 +25,7 @@ export type {
 export {
   assert,
   castTo,
-  delayedRegisterEntity,
   EffectService,
-  globalMarkAndDeleteInit,
   provideSmartNgRX,
-  rootInjector,
   smartErrorHandlerToken,
 } from '@smarttools/core';
