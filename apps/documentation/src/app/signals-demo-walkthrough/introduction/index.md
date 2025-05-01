@@ -22,8 +22,8 @@ Other than the main tab that describes each of the demo tabs, there are four tab
   - **markDirtyTime:** Marks a row as dirty every 2 minutes.
   - **markDirtyFetchesNew:** Sets this value to `false`. This is what causes the "No Refresh".
   - **removeTime:** Removes a row from memory if it is still dirty 2 minutes after being marked dirty.
-- **Tree (No Remove):** This demo does not remove rows from memory once they've been loaded, but it does mark them dirty so they can be refreshed. You might use this feature if your application does not display a lot of data and can support the extra memory preasure. It can also make your application feel faster so you might strategically apply it to select entities in your application.
+- **Tree (No Remove):** This demo does not remove rows from memory once they've been loaded, but it does mark them dirty so they can be refreshed. You might use this feature if your application does not display a lot of data and can support the extra memory pressure. It can also make your application feel faster so you might strategically apply it to select entities in your application.
   - **markDirtyTime:** Marks a row dirty every 2 minutes.
   - **removeTime:** This is set to `0` so rows are never removed from memory.
-- **Tree (No Dirty):** This demo sets the markDirtyTime to -1 so that nothing ever gets marked dirty. This means that data will never be refreshed and it will never be removed from memory. You would typically use this feture for lookup tables that don't change often so there is no reason to refresh them.
+- **Tree (No Dirty):** This demo sets the markDirtyTime to -1 so that nothing ever gets marked dirty. This means that data will never be refreshed and it will never be removed from memory. You would typically use this feature for lookup tables that don't change often so there is no reason to refresh them.
   - **markDirtyTime:** This is set to -1 so that nothing ever gets marked dirty or gets removed from memory.

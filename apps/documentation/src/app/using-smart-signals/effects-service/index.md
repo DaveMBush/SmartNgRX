@@ -24,7 +24,7 @@ export class UserEffectsService extends EffectService<User> {
     // retrieve the list of rows represented by the list of ids
   };
 
-  override update(newRow: Department): Observable<Department[]> {
+  override update(newRow: User): Observable<User[]> {
     // update the row on the server
   }
 

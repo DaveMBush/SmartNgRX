@@ -24,7 +24,7 @@ export const lookupTable: SmartEntityDefinition<LookupTable>  = {
 ```typescript
 providers: [
   ..., // other providers
-  provideSmartFeatureEntities('shared', [
+  provideSmartFeatureSignalEntities('shared', [
     locationsDefinition,
     departmentsDefinition,
     departmentChildrenDefinition,

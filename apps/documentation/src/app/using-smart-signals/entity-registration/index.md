@@ -4,7 +4,7 @@ Now that we have all the pieces in place, we can register our definitions with S
 
 We register our definitions by feature. We are only using features here to be consistent with SmartNgRX. Features have no active impact to how state is created in your signals.
 
-The following is how we would register our User entity as part of the `shared` feature with Smart NgRX:
+The following is how we would register our User entity as part of the `shared` feature with Smart Signals:
 
 ```typescript
 @NgModule({

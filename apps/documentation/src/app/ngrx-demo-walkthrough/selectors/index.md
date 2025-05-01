@@ -22,7 +22,7 @@ The [currentLocationSelector](https://github.com/DaveMBush/SmartNgRX/blob/main/a
 
 ## Location Selectors
 
-The [Location Sselectors](https://github.com/DaveMBush/SmartNgRX/tree/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/locations/selectors) holds selectors that will give us access to the locations and the selected location.
+The [Location Selectors](https://github.com/DaveMBush/SmartNgRX/tree/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/locations/selectors) holds selectors that will give us access to the locations and the selected location.
 
 Once again, we see our `createSmartSelector()` being used to retrieve the locations and the children of the locations. In this case, the departments. It takes our `selectLocationEntities()` as the first parameter and the array of `ChildDefinition`s as the second parameter.
 

@@ -10,4 +10,4 @@ SmartNgRX is smart enough to know that if you are using an Array, you have all t
 
 When you retrieve a row, you can either provide a `PartialArrayDefinition` that has the first N IDs in the array already provided in the `indexes` property, or you can provide an empty array and just provide the ultimate length of the array. Which you choose will depend on how soon you'll need those IDs and how expensive it will be to return them as part of the request for the row.
 
-This information will be important later when we discuss [Retrieving Rows](/using-smart-ng-rx/crud-support/retrieving).
+This information will be important later when we discuss [Retrieving Rows](/using-smart-signals/crud-support/retrieving).

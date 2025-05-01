@@ -1,11 +1,11 @@
 import { NgDocPage } from '@ng-doc/core';
-import UsingSmartNgRXCategory from '../ng-doc.category';
+import UsingSmartSignalsCategory from '../ng-doc.category';
 
 const ChildDefinitionPage: NgDocPage = {
   title: `ChildDefinition`,
   mdFile: './index.md',
   order: 7,
-  category: UsingSmartNgRXCategory,
+  category: UsingSmartSignalsCategory,
 };
 
 export default ChildDefinitionPage;

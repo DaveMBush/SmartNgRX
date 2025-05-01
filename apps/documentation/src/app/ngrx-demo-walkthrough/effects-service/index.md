@@ -12,7 +12,7 @@ What you'll notice here is that we only actually implement one of the methods, `
 
 ## Locations Effect Service
 
-The [locations-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/shared/locations/location-effects.service.ts) is more like what you will typically create for most of your enities. It implements all four methods, `loadByIds(ids: string[])`, `loadAll()`, `save(entity: Location)`, and `delete(entity: Location)` and all are relatively straightforward.
+The [location-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/shared/locations/location-effects.service.ts) is more like what you will typically create for most of your entities. It implements all four methods, `loadByIds(ids: string[])`, `loadAll()`, `save(entity: Location)`, and `delete(entity: Location)` and all are relatively straightforward.
 
 ## Departments Effect Service
 
