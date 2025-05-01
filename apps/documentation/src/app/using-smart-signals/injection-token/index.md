@@ -7,7 +7,7 @@ Continuing with the example of a `UserEffectsService`, we'll create an Injection
 ```typescript
 import { InjectionToken } from '@angular/core';
 
-import { UserEffectsService } from './department-effects.service';
+import { UserEffectsService } from './user-effects.service';
 
 export const userEffectsServiceToken = new InjectionToken<UserEffectsService>('UserEffectsService');
 ```

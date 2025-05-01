@@ -1,11 +1,11 @@
 import { NgDocPage } from '@ng-doc/core';
-import UsingSmartNgRXCategory from '../ng-doc.category';
+import CrudSupportCategory from '../ng-doc.category';
 
 const CreatePage: NgDocPage = {
   title: `Delete a Row`,
   mdFile: './index.md',
   order: 5,
-  category: UsingSmartNgRXCategory,
+  category: CrudSupportCategory,
 };
 
 export default CreatePage;

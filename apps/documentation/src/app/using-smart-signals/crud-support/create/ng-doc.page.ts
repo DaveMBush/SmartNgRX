@@ -1,11 +1,11 @@
 import { NgDocPage } from '@ng-doc/core';
-import UsingSmartNgRXCategory from '../ng-doc.category';
+import CrudSupportCategory from '../ng-doc.category';
 
 const CreatePage: NgDocPage = {
   title: `Create (Add) a Row`,
   mdFile: './index.md',
   order: 4,
-  category: UsingSmartNgRXCategory,
+  category: CrudSupportCategory,
 };
 
 export default CreatePage;

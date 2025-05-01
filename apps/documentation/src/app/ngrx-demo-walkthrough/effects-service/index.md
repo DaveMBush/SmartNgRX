@@ -16,7 +16,7 @@ The [locations-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/m
 
 ## Departments Effect Service
 
-The [departments-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/shared/department/department-effects.service.ts) is similar.
+The [department-effects.service.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/shared/department/department-effects.service.ts) is similar.
 
 ## DepartmentChildren Effect Service
 
