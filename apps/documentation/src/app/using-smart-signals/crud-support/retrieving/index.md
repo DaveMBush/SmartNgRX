@@ -56,10 +56,7 @@ It will retrieve the locations ids. You can have your top level entity retrieve 
 To select the locations, our code looks like this:
 
 ```typescript
-// First we retrieve the top entity from Smart Signals
-export const selectTopEntities = createSmartSignal<Top>(featureName, 'top');
-
-// then we use a smart signal to retrieve the top row and the locations
+// First, we use a smart signal to retrieve the top row and the locations
 export const selectTopLocations = createSmartSignal(selectTopEntities, [
   {
     childFeature: featureName,
@@ -67,27 +64,17 @@ export const selectTopLocations = createSmartSignal(selectTopEntities, [
     parentField: 'locations',
     parentFeature: featureName,
     parentEntity: 'top',
+    // selectLocationsDepartments is created using another createSmartSignal
+    // that knows how to go after the departments
     childSelector: selectLocationsDepartments,
   },
 ]);
 
 // Finally, we create a function that returns a computed to get the
 // list of locations
-export function selectLocations(): Signal<Location[]> {
-  return computed(function selectLocationsFunction() {
-    const tops = selectTopLocations();
-    // Instead of directly accessing .locations, we should get the full entity
-    // which will trigger the smart signal chain
-    if (tops.ids.length === 1) {
-      const topEntity = tops.entities[tops.ids[0]];
-      if (topEntity && topEntity.locations.length > 0 && typeof topEntity.locations[0] === 'object') {
-        // This will now use the smart signal chain through selectLocationsDepartments
-        return topEntity.locations as Location[];
-      }
-    }
-    return [] as Location[];
-  });
-}
+export const selectLocations = getTopChildRows<Top, Location>(selectTopLocations, 'locations');
 ```
 
-The reason we create a function that returns a `computed()` signal is to avoid creating the signal at startup. Using the function delays creating the computed signal until we call the function it is in.
+This provides a pointer to a signal that can be used later to retrieve the locations using `selectLocations()`.
+
+It might look odd to get the locations this way but the smart selector is what is doing all our magic. Since it is, essentially, a computed signal, we have to go through the Top level signal to retrieve our locations.

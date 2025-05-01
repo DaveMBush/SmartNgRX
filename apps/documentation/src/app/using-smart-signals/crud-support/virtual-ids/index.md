@@ -2,7 +2,7 @@
 
 ## Introduction
 
-As we already discussed in our section on [Child Fields](using-smart-ng-rx/child-fields), a child field is a field that is defined on a component that points to other rows in another entity. It does this either by using a list of ids that we then use to fetch the rows from the entity. If we don't yet have the rows in the store, Smart NgRX will automatically fetch them for you.
+As we already discussed in our section on [Child Fields](using-smart-signals/child-fields), a child field is a field that is defined on a component that points to other rows in another entity. It does this either by using a list of ids that we then use to fetch the rows from the entity. If we don't yet have the rows in the store, Smart NgRX will automatically fetch them for you.
 
 One type of child field is the `PartialArrayDefinition`. This is used when you have a long list of children, but you don't want to fetch all the IDs at once. Instead, you can return a `PartialArrayDefinition` from your `EffectService`. This tells SmartNgRX that you are using a virtual array and will provide the IDs in chunks as you request them.
 

@@ -7,7 +7,7 @@ import { noDirtySignalsDepartmentChildrenDefinition } from './routes/tree-no-dir
 import { noDirtySignalsLocationsDefinition } from './routes/tree-no-dirty/store/locations/no-dirty-signals-locations-definition';
 import { noDirtySignalsTopDefinition } from './routes/tree-no-dirty/store/top/no-dirty-signals-top-definition.const';
 import { noRefreshSignalsDepartmentsDefinition } from './routes/tree-no-refresh/store/department/no-refresh-signals-departments-definition';
-import { noRefreshSignalsDepartmentChildrenDefinition } from './routes/tree-no-refresh/store/department-children/standard-signals-department-children-definition';
+import { noRefreshSignalsDepartmentChildrenDefinition } from './routes/tree-no-refresh/store/department-children/no-refresh-signals-department-children-definition';
 import { noRefreshSignalsLocationsDefinition } from './routes/tree-no-refresh/store/locations/no-refresh-signals-locations-definition';
 import { noRefreshSignalsTopDefinition } from './routes/tree-no-refresh/store/top/no-refresh-signals-top-definition.const';
 import { noRemoveSignalsDepartmentsDefinition } from './routes/tree-no-remove/store/department/no-remove-signals-departments-definition';
