@@ -8,7 +8,7 @@ import {
   facadeRegistry,
   ParentInfo,
   replaceIdInFeatureParents,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { take } from 'rxjs';
 
 import { ClassicNgrxFacade } from './classic-ngrx.facade';

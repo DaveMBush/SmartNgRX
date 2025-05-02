@@ -12,7 +12,7 @@ import {
   serviceRegistry,
   SmartNgRXRowBase,
   virtualArrayMap,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { asapScheduler, of } from 'rxjs';
 
 import * as entitySignalStoreFactoryModule from './entity-signal-store.factory';

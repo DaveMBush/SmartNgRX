@@ -1,9 +1,27 @@
 {
-  "name": "@smarttools/core",
-  "version": "0.0.1",
-  "peerDependencies": {
-    "@angular/common": "^19.2.0",
-    "@angular/core": "^19.2.0"
+  "name": "@smarttools/smart-core",
+  "version": "2.0.0",
+  "publishConfig": {
+    "access": "public"
   },
+  "license": "MIT",
+  "homepage": "https://davembush.github.io/SmartNgRX",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DaveMBush/SmartNgRX"
+  },
+  "peerDependencies": {
+    "@ngrx/store": "^19.0.0",
+    "@ngrx/entity": "^19.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "keywords": [
+    "angular",
+    "ngrx",
+    "smart-ngrx",
+    "smart-signals"
+  ],
   "sideEffects": false
 }

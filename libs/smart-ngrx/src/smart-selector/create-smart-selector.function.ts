@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { MemoizedSelector } from '@ngrx/store';
-import { SmartNgRXRowBase } from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';

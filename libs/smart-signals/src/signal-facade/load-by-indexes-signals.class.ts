@@ -14,7 +14,7 @@ import {
   serviceRegistry,
   SmartNgRXRowBase,
   VirtualArrayContents,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { map, Subject, switchMap } from 'rxjs';
 
 import { SignalsFacade } from './signals-facade';

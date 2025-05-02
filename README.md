@@ -30,7 +30,7 @@ SmartNgRX is a set of libraries that hide most of NgRX and SignalStore from the 
 
 The project is broken into three libraries.
 
-- @smarttools/core holds all the common code that the other two make use of
+- @smarttools/smart-core holds all the common code that the other two make use of
 - @smarttools/smart-ngrx is the implementation that uses classic NgRX under the hood
 - @smarttools/smart-signals is the implementation that uses NgRX SignalStore under the hood
 

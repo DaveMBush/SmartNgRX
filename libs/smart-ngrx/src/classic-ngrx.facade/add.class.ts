@@ -2,7 +2,7 @@ import {
   BaseAdd,
   BaseChildDefinition,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { replaceIdInParentsClassic } from './replace-id-in-parents-classic.function';
 

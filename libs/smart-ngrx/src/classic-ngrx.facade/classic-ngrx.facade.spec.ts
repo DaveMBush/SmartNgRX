@@ -11,7 +11,7 @@ import {
   serviceRegistry,
   SmartNgRXRowBase,
   virtualArrayMap,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { asapScheduler, of, Subscription } from 'rxjs';
 
 import * as storeFunction from '../smart-selector/store.function';

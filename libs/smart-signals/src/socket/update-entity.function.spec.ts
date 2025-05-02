@@ -9,7 +9,7 @@ import {
   MarkAndDeleteInit,
   serviceRegistry,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { SignalsFacade } from '../signal-facade/signals-facade';
 import { updateEntity } from './update-entity.function';

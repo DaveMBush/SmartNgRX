@@ -1,4 +1,4 @@
-import { BaseChildDefinition, SmartNgRXRowBase } from '@smarttools/core';
+import { BaseChildDefinition, SmartNgRXRowBase } from '@smarttools/smart-core';
 
 import { SmartNgRXRowBaseSelector } from './smart-ngrx-row-base-selector.type';
 

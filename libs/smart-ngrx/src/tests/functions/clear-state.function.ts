@@ -1,5 +1,5 @@
 import { MockStore } from '@ngrx/store/testing';
-import { castTo } from '@smarttools/core';
+import { castTo } from '@smarttools/smart-core';
 
 import { store } from '../../smart-selector/store.function';
 

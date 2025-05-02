@@ -11,7 +11,7 @@ import {
   serviceRegistry,
   smartErrorHandlerToken,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import {
   catchError,
   map,

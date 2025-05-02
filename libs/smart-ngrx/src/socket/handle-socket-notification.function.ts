@@ -7,7 +7,7 @@ import {
   forNext,
   markAndDeleteEntities,
   psi,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { removeIdFromParentsClassic } from '../classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { updateEntity } from './update-entity.function';

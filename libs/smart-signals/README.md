@@ -1,7 +1,13 @@
-# smart-signals
+# @smarttools/SmartNgRX
 
-This library was generated with [Nx](https://nx.dev).
+## Installation
 
-## Running unit tests
+To install this library, run:
 
-Run `nx test smart-signals` to execute the unit tests.
+```bash
+npm install @smarttools/smart-ngrx
+```
+
+## Documentation
+
+All the documentation can be found at [SmartNgRX Documentation](https://davembush.github.io/SmartNgRX/)

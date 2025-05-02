@@ -7,7 +7,7 @@ import {
   forNext,
   markAndDeleteEntities,
   psi,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { removeIdFromParentsSignals } from '../signal-facade/remove-id-from-parents-signals.function';
 import { updateEntity } from './update-entity.function';

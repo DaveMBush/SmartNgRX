@@ -16,7 +16,7 @@ import {
   serviceRegistry,
   SmartNgRXRowBase,
   VirtualArrayContents,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { map, Observable, Subject, switchMap, take } from 'rxjs';
 
 import { ActionGroup } from '../types/action-group.interface';

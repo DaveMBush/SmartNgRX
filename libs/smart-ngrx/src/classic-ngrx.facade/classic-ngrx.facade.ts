@@ -11,7 +11,7 @@ import {
   PartialArrayDefinition,
   SmartNgRXRowBase,
   Update,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { Observable, take } from 'rxjs';
 
 import { store as storeFunction } from '../smart-selector/store.function';

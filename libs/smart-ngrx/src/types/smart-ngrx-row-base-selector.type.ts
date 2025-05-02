@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-import { SmartNgRXRowBase } from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 /**
  * This type allows us to deal with just the SmartNgRXRowBase part

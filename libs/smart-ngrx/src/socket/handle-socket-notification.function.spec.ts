@@ -5,7 +5,7 @@ import {
   featureRegistry,
   markAndDeleteEntities,
   psi,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { removeIdFromParentsClassic } from '../classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { handleSocketNotification } from './handle-socket-notification.function';
@@ -15,8 +15,8 @@ jest.mock('./update-entity.function');
 jest.mock('../classic-ngrx.facade/remove-id-from-parents-classic.function');
 
 // Mock DeleteEntity class
-jest.mock('@smarttools/core', () => {
-  const original = jest.requireActual('@smarttools/core');
+jest.mock('@smarttools/smart-core', () => {
+  const original = jest.requireActual('@smarttools/smart-core');
   const mockDeleteEntityInstance = {
     deleteEntity: jest.fn(),
   };

@@ -10,7 +10,7 @@ import {
   PartialArrayDefinition,
   SmartNgRXRowBase,
   Update as UpdateService,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { asapScheduler } from 'rxjs';
 
 import { Add } from './add.class';

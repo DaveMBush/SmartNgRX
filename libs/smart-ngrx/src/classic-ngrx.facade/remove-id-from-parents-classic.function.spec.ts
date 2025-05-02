@@ -3,13 +3,13 @@ import {
   facadeRegistry,
   ParentInfo,
   replaceIdInFeatureParents,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { of } from 'rxjs';
 
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import { removeIdFromParentsClassic } from './remove-id-from-parents-classic.function';
 
-jest.mock('@smarttools/core', () => ({
+jest.mock('@smarttools/smart-core', () => ({
   facadeRegistry: {
     register: jest.fn(),
   },

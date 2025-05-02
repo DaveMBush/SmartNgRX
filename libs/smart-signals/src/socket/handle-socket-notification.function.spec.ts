@@ -5,15 +5,15 @@ import {
   featureRegistry,
   markAndDeleteEntities,
   psi,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { removeIdFromParentsSignals } from '../signal-facade/remove-id-from-parents-signals.function';
 import { handleSocketNotification } from './handle-socket-notification.function';
 import { updateEntity } from './update-entity.function';
 
 jest.mock('./update-entity.function');
-jest.mock('@smarttools/core', () => {
-  const original = jest.requireActual('@smarttools/core');
+jest.mock('@smarttools/smart-core', () => {
+  const original = jest.requireActual('@smarttools/smart-core');
   return {
     ...original,
     DeleteEntity: jest.fn(),

@@ -1,6 +1,6 @@
 import { Signal } from '@angular/core';
 import { EntityMap } from '@ngrx/signals/entities';
-import { newRowRegistry, VirtualArrayContents } from '@smarttools/core';
+import { newRowRegistry, VirtualArrayContents } from '@smarttools/smart-core';
 
 import { LoadByIndexesSignals } from './load-by-indexes-signals.class';
 import { SignalsFacade } from './signals-facade';

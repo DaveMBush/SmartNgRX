@@ -2,7 +2,7 @@ import { InjectionToken } from '@angular/core';
 import { fakeAsync, flushMicrotasks, tick } from '@angular/core/testing';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import * as smartToolsCoreModule from '@smarttools/core';
+import * as smartToolsCoreModule from '@smarttools/smart-core';
 import {
   EffectService,
   entityDefinitionRegistry,
@@ -14,7 +14,7 @@ import {
   serviceRegistry,
   SmartNgRXRowBase,
   VirtualArrayContents,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { Observable, of, Subject } from 'rxjs';
 
 import { createStore } from '../tests/functions/create-store.function';

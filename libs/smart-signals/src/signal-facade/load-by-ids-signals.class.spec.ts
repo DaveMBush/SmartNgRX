@@ -38,7 +38,7 @@ interface CoreMock {
 }
 
 // Mock dependencies using inline implementations rather than function calls
-jest.mock('@smarttools/core', () => ({
+jest.mock('@smarttools/smart-core', () => ({
   // Core functionality mocks
   bufferIds: jest.fn(
     () => (source: Observable<string>) =>
@@ -120,7 +120,7 @@ describe('LoadByIdsSignals', () => {
     mockEffectService = { loadByIds: jest.fn() };
 
     // Get core module mock
-    coreMock = jest.requireMock('@smarttools/core');
+    coreMock = jest.requireMock('@smarttools/smart-core');
     coreMock.serviceRegistry.get.mockReturnValue(mockEffectService);
 
     // Mock SignalsFacade
