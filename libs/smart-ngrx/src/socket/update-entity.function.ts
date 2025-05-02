@@ -8,7 +8,7 @@ import {
   featureRegistry,
   forNext,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { take } from 'rxjs';
 
 import { store } from '../smart-selector/store.function';

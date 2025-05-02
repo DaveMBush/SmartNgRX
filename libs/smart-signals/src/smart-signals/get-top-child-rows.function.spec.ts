@@ -1,6 +1,6 @@
 import { signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
-import { SmartNgRXRowBase } from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 import { getTopChildRows } from './get-top-child-rows.function';
 

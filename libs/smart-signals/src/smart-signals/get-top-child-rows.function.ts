@@ -1,6 +1,6 @@
 import { computed, Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
-import { SmartNgRXRowBase } from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 /**
  * This function returns the rows of the child that a top level

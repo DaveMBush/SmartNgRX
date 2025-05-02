@@ -1,4 +1,4 @@
-import { SmartNgRXRowBase } from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 import { actionFactory } from './action.factory';
 

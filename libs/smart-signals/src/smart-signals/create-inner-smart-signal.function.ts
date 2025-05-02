@@ -5,7 +5,7 @@ import {
   convertChildrenToArrayProxy,
   convertChildrenToVirtualArray,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';
 import { ArrayProxySignals } from './array-proxy-signals.class';

@@ -9,7 +9,7 @@ import {
   serviceRegistry,
   SmartEntityDefinition,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { Observable, of } from 'rxjs';
 
 import { provideSmartFeatureClassicEntities } from './provide-smart-feature-classic-entities.function';

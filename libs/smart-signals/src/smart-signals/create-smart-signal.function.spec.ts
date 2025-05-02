@@ -1,6 +1,10 @@
 import { signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
-import { FacadeBase, facadeRegistry, SmartNgRXRowBase } from '@smarttools/core';
+import {
+  FacadeBase,
+  facadeRegistry,
+  SmartNgRXRowBase,
+} from '@smarttools/smart-core';
 
 import { SignalsFacade } from '../signal-facade/signals-facade';
 import { ChildDefinitionSignals } from '../types/child-definition-signals.interface';

@@ -10,11 +10,11 @@ export type {
   SmartEntityDefinition,
   SmartErrorHandler,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 export {
   assert,
   castTo,
   EffectService,
   provideSmartNgRX,
   smartErrorHandlerToken,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';

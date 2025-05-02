@@ -4,7 +4,7 @@ import {
   BaseArrayProxy,
   newRowRegistry,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { take } from 'rxjs';
 
 import { store } from './store.function';

@@ -11,7 +11,7 @@ import {
   PartialArrayDefinition,
   serviceRegistry,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import { createStore } from '../tests/functions/create-store.function';

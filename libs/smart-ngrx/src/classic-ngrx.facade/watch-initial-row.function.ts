@@ -5,7 +5,7 @@ import {
   rootInjector,
   smartErrorHandlerToken,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
 
 import { store } from '../smart-selector/store.function';

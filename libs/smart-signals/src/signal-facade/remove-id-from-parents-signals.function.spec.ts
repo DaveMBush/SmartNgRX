@@ -3,7 +3,7 @@ import {
   facadeRegistry,
   ParentInfo,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { removeIdFromParentsSignals } from './remove-id-from-parents-signals.function';
 import { SignalsFacade } from './signals-facade';

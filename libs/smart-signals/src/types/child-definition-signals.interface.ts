@@ -1,6 +1,6 @@
 import { Signal } from '@angular/core';
 import { EntityState } from '@ngrx/entity';
-import { BaseChildDefinition, SmartNgRXRowBase } from '@smarttools/core';
+import { BaseChildDefinition, SmartNgRXRowBase } from '@smarttools/smart-core';
 
 /**
  * The definition of how to access the child data from a parent entity.

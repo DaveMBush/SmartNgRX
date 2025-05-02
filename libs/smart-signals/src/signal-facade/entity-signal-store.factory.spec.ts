@@ -1,5 +1,5 @@
 import { EntityState, Update } from '@ngrx/entity';
-import { SmartNgRXRowBase } from '@smarttools/core';
+import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 import { entitySignalStoreFactory } from './entity-signal-store.factory';
 import { SignalsFacade } from './signals-facade';

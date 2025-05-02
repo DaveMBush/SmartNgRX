@@ -21,7 +21,7 @@ import {
   SmartEntityDefinition,
   SmartNgRXRowBase,
   zoneless,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { ClassicNgrxFacade } from '../classic-ngrx.facade/classic-ngrx.facade';
 import { reducerFactory } from '../reducers/reducer.factory';

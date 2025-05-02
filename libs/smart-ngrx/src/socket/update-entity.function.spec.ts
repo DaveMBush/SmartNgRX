@@ -8,7 +8,7 @@ import {
   featureRegistry,
   MarkAndDeleteInit,
   serviceRegistry,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { ClassicNgrxFacade } from '../classic-ngrx.facade/classic-ngrx.facade';
 import { createStore } from '../tests/functions/create-store.function';

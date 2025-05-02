@@ -1,6 +1,9 @@
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
-import { entityDefinitionRegistry, SmartNgRXRowBase } from '@smarttools/core';
+import {
+  entityDefinitionRegistry,
+  SmartNgRXRowBase,
+} from '@smarttools/smart-core';
 
 import { actionFactory } from '../classic-ngrx.facade/action.factory';
 

@@ -8,7 +8,7 @@ import {
   facadeRegistry,
   ParentInfo,
   replaceIdInFeatureParents,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { SignalsFacade } from './signals-facade';
 

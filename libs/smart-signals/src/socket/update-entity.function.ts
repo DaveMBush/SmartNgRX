@@ -8,7 +8,7 @@ import {
   featureRegistry,
   forNext,
   SmartNgRXRowBase,
-} from '@smarttools/core';
+} from '@smarttools/smart-core';
 
 import { SignalsFacade } from '../signal-facade/signals-facade';
 
