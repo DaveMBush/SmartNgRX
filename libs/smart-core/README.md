@@ -1,7 +1,9 @@
-# smart-core
+# @smarttools/SmartNgRX
 
-This library was generated with [Nx](https://nx.dev).
+## Installation
 
-## Running unit tests
+This library supports @smarttools/smart-ngrx and @smarttools/smart-signals which will install this as a dependency.
 
-Run `nx test smart-core` to execute the unit tests.
+## Documentation
+
+All the documentation can be found at [SmartNgRX Documentation](https://davembush.github.io/SmartNgRX/)
