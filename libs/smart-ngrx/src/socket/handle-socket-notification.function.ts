@@ -1,8 +1,15 @@
-import { forNext } from '../common/for-next.function';
-import { psi } from '../common/psi.const';
-import { markAndDeleteEntities } from '../mark-and-delete/mark-and-delete-entities.class';
-import { actionServiceRegistry } from '../registrations/action-service-registry.class';
-import { deleteEntity } from './delete-entity.function';
+// jscpd:ignore-start
+// I think we are better off with this code separated
+// even though it is much like the code in the signals version
+import {
+  DeleteEntity,
+  facadeRegistry,
+  forNext,
+  markAndDeleteEntities,
+  psi,
+} from '@smarttools/smart-core';
+
+import { removeIdFromParentsClassic } from '../classic-ngrx.facade/remove-id-from-parents-classic.function';
 import { updateEntity } from './update-entity.function';
 
 /**
@@ -28,9 +35,16 @@ export function handleSocketNotification(
   // for each feature
   forNext(featureEntityKeys, function innerHandleSocketNotification(feature) {
     switch (action) {
-      case 'delete':
-        deleteEntity(feature, table, ids);
+      case 'delete': {
+        const d = new DeleteEntity(
+          feature,
+          table,
+          ids,
+          removeIdFromParentsClassic,
+        );
+        d.deleteEntity();
         break;
+      }
       case 'update':
         updateEntity(feature, table, ids);
         break;
@@ -42,7 +56,7 @@ export function handleSocketNotification(
 
 function featureIsRegistered(table: string) {
   return function innerFeatureIsRegistered(feature: string): boolean {
-    return actionServiceRegistry.hasActionService(feature, table);
+    return facadeRegistry.hasFacade(feature, table);
   };
 }
 
@@ -55,3 +69,4 @@ function filterByPsiTable(table: string): (key: string) => boolean {
 function extractFeatureFromPsiTable(key: string): string {
   return key.split(psi)[0];
 }
+// jscpd:ignore-end

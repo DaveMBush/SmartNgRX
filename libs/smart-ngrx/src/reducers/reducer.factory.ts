@@ -1,9 +1,11 @@
 import { EntityState } from '@ngrx/entity';
 import { ActionReducer, createReducer, on } from '@ngrx/store';
+import {
+  entityDefinitionRegistry,
+  SmartNgRXRowBase,
+} from '@smarttools/smart-core';
 
-import { actionFactory } from '../actions/action.factory';
-import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
-import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+import { actionFactory } from '../classic-ngrx.facade/action.factory';
 
 /**
  * This creates a reducer for the give source. It is used internally

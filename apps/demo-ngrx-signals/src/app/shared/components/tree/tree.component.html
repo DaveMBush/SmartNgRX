@@ -1,0 +1,146 @@
+<mat-form-field>
+  <mat-label>Select Location</mat-label>
+  <select
+    matNativeControl
+    [ngModel]="locationId$()"
+    (ngModelChange)="selectionChanged($event)"
+    title="Select Location"
+  >
+    @for (location of locations$(); track location.id) {
+      <option [value]="location.id" [selected]="locationId$() === location.id">
+        {{ location.name }}
+      </option>
+    }
+  </select>
+</mat-form-field>
+<cdk-virtual-scroll-viewport
+  itemSize="48"
+  [minBufferPx]="48 * 20"
+  [maxBufferPx]="48 * 40"
+>
+  <ng-container
+    *cdkVirtualFor="let item of fullDataSource; trackBy: trackBy"
+  ></ng-container>
+  <mat-tree [dataSource]="dataSource" [levelAccessor]="levelAccessor">
+    <!-- This is the tree node template for leaf nodes -->
+    <mat-tree-node
+      *matTreeNodeDef="let node"
+      matTreeNodePadding
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
+    >
+      <button
+        type="button"
+        aria-label="empty disabled"
+        mat-icon-button
+        disabled
+      >
+        &nbsp;
+      </button>
+      <ng-container
+        *ngTemplateOutlet="treeNode; context: { $implicit: node }"
+      ></ng-container>
+    </mat-tree-node>
+    <!-- This is the tree node template for expandable nodes -->
+    <mat-tree-node
+      *matTreeNodeDef="let node; when: hasChild"
+      matTreeNodePadding
+      [ngClass]="{
+        selected: node.level + ':' + node.node.id === selectedNode,
+      }"
+    >
+      <button
+        type="button"
+        mat-icon-button
+        matTreeNodeToggle
+        (click)="toggleExpand(node)"
+        [attr.aria-label]="'Toggle ' + node.name"
+      >
+        <mat-icon class="mat-icon-rtl-mirror">
+          {{ node.isExpanded ? 'expand_more' : 'chevron_right' }}
+        </mat-icon>
+      </button>
+      <ng-container
+        *ngTemplateOutlet="treeNode; context: { $implicit: node }"
+      ></ng-container>
+    </mat-tree-node>
+  </mat-tree>
+</cdk-virtual-scroll-viewport>
+
+<ng-template #treeNode let-node>
+  @if (
+    editingNode !== node.level + ':' + node.node.id &&
+    addingNode !== node.level + ':' + node.node.id
+  ) {
+    @if (node.node.isLoading) {
+      <ngx-skeleton-loader
+        [theme]="{ width: '200px', margin: '8px' }"
+        animation="progress-dark"
+      />
+    } @else {
+      <button type="button" (click)="selectNode(node)" mat-button>
+        {{ node.name }}
+      </button>
+    }
+    @if (editingNode.length === 0 || addingNode.length === 0) {
+      <button
+        [ngClass]="{
+          show: this.addMenuOpenedNode === node.level + ':' + node.node.id,
+        }"
+        class="edit-button"
+        type="button"
+        aria-label="edit"
+        mat-icon-button
+        (click)="editNode(node)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      @if (node.level === 0) {
+        <button
+          [ngClass]="{
+            show: this.addMenuOpenedNode === node.level + ':' + node.node.id,
+          }"
+          [matMenuTriggerFor]="addMenu"
+          class="add-button"
+          type="button"
+          aria-label="add"
+          mat-icon-button
+          (menuOpened)="addMenuOpened(node)"
+          (menuClosed)="addMenuClosed(node)"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <mat-menu #addMenu="matMenu">
+          <button mat-menu-item (click)="addChild(node, 'docs')">
+            Document
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'folders')">
+            Folder
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'sprint-folders')">
+            Sprint Folder
+          </button>
+          <button mat-menu-item (click)="addChild(node, 'lists')">List</button>
+        </mat-menu>
+      }
+      <button
+        class="delete-button"
+        type="button"
+        aria-label="delete"
+        mat-icon-button
+        (click)="deleteNode(node)"
+        [disabled]="node.hasChildren"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
+  } @else {
+    <dmb-node-editor
+      placeholder="Edit Label"
+      [(ngModel)]="editingContent"
+      (save)="saveNode(node)"
+      (cancel)="cancelEdit(node)"
+    />
+  }
+</ng-template>

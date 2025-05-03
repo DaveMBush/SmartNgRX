@@ -6,6 +6,5 @@ import { TopController } from './top.controller';
 @Module({
   imports: [PrismaModule],
   controllers: [TopController],
-  providers: [],
 })
 export class TopModule {}

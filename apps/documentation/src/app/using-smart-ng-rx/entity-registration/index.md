@@ -9,7 +9,7 @@ The following is how we would register our User entity as part of the `shared` f
 ```typescript
 @NgModule({
   // ...
-  providers: [provideSmartFeatureEntities('shared', [usersDefinition])],
+  providers: [provideSmartFeatureClassicEntities('shared', [usersDefinition])],
   // ...
 })
 export class SharedModule {}

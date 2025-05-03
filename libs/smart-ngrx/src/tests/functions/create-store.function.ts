@@ -1,6 +1,6 @@
 import { createMockStore } from '@ngrx/store/testing';
 
-import { store } from '../../selector/store.function';
+import { store } from '../../smart-selector/store.function';
 
 /**
  * Used during unit testing, this creates an empty

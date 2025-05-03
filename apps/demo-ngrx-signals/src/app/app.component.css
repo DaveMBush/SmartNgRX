@@ -1,0 +1,41 @@
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.container {
+  height: calc(100% - 4rem - 20px);
+  width: calc(100% - 20px);
+  overflow: hidden;
+  position: relative;
+  padding: 10px;
+}
+
+nav {
+  margin-left: 4rem;
+}
+
+span a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.white {
+  color: white;
+}
+
+.primary {
+  --mat-checkbox-label-text-color: white;
+  --mdc-checkbox-selected-checkmark-color: blue;
+  --mdc-checkbox-unselected-icon-color: white;
+  --mdc-checkbox-unselected-focus-icon-color: white;
+  --mdc-checkbox-unselected-hover-icon-color: white;
+  --mdc-checkbox-unselected-focus-state-layer-color: white;
+  --mdc-checkbox-unselected-hover-state-layer-color: white;
+  --mdc-checkbox-unselected-pressed-state-layer-color: white;
+}

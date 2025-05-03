@@ -1,8 +1,8 @@
 import { MockStore } from '@ngrx/store/testing';
+import { castTo } from '@smarttools/smart-core';
 import { take } from 'rxjs/operators';
 
-import { castTo } from '../../common/cast-to.function';
-import { store } from '../../selector/store.function';
+import { store } from '../../smart-selector/store.function';
 
 /**
  * Sets the state of the store during unit testing.  This grabs

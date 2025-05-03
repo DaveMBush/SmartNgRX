@@ -9,7 +9,6 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
@@ -22,7 +21,9 @@
     "paths": {
       "@ng-doc/generated": ["ng-doc/documentation/index.ts"],
       "@ng-doc/generated/*": ["ng-doc/documentation/*"],
-      "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"]
+      "@smarttools/smart-core": ["libs/smart-core/src/index.ts"],
+      "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"],
+      "@smarttools/smart-signals": ["libs/smart-signals/src"]
     }
   },
   "exclude": ["node_modules", "tmp"]

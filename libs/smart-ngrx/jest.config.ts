@@ -19,4 +19,9 @@ export default {
     'jest-preset-angular/build/serializers/ng-snapshot',
     'jest-preset-angular/build/serializers/html-comment',
   ],
+  moduleNameMapper: {
+    '^@smarttools/smart-core$': '<rootDir>/../../libs/smart-core/src/index.ts',
+    '^@smarttools/smart-core/(.*)$':
+      '<rootDir>/../../libs/smart-core/src/$1.ts',
+  },
 };

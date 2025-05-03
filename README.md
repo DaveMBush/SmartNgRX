@@ -11,7 +11,7 @@
 
 ## What is SmartNgRX?
 
-SmartNgRX is a library that hides most of NgRX from the developer for CRUD operations while still using NgRX under the hood and allowing you to use it with existing NgRX code. It not only supports CRUD but also implements optimistic UI for updates and deletes. Below is a list of features we have implemented so far (checked) along with some of our dreams (unchecked):
+SmartNgRX is a set of libraries that hide most of NgRX and SignalStore from the developer for CRUD operations while still using NgRX under the hood and allowing you to use it with existing NgRX code. It not only supports CRUD but also implements optimistic UI for updates and deletes. Below is a list of features we have implemented so far (checked) along with some of our dreams (unchecked):
 
 - [x] Eliminate NgRX boiler-plate code.
 - [x] Dynamically generate Actions, Reducers and Effects.
@@ -26,7 +26,13 @@ SmartNgRX is a library that hides most of NgRX from the developer for CRUD opera
 - [x] Allow this to work with code that has to account for write lag on the server (you can control this by using the Effects Service you have complete control over).
 - [x] Allow the server to notify this code via websockets (or any future server-side notification) that a row needs to be updated and have the code automatically refresh if the row is currently rendered someplace.
 - [ ] Provide hooks that allow the client to tell the server what rows/entities it is interested in hearing about changes for.
-- [ ] Use Signals, as an alternative, under the hood instead of Observables to allow for better performance and less memory usage.
+- [x] Use Signals, as an alternative, under the hood instead of Observables to allow for better performance and less memory usage.
+
+The project is broken into three libraries.
+
+- @smarttools/smart-core holds all the common code that the other two make use of
+- @smarttools/smart-ngrx is the implementation that uses classic NgRX under the hood
+- @smarttools/smart-signals is the implementation that uses NgRX SignalStore under the hood
 
 More details are in our [documentation](https://davembush.github.io/SmartNgRX/).
 
@@ -38,10 +44,16 @@ Click the image below to see a video of SmartNgRX in action.
 
 ## Installation
 
-To install this library, run:
+To install the classic NgRX version of this library, run:
 
 ```bash
 npm install @smarttools/smart-ngrx
+```
+
+for the SignalsStore version of the library, run:
+
+```bash
+npm install @smarttools/smart-signals
 ```
 
 ## History

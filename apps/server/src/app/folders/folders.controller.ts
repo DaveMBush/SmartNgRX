@@ -14,6 +14,7 @@ import { catchError, from, Observable, of, switchMap, tap } from 'rxjs';
 
 import { prismaServiceToken } from '../orm/prisma-service.token';
 import { SocketGateway } from '../socket/socket.gateway';
+import { socketGatewayToken } from '../socket/socket-gateway.token';
 import { FolderDTO } from './folders-dto.interface';
 // jscpd:ignore-start
 
@@ -22,6 +23,7 @@ export class FoldersController {
   constructor(
     @Inject(prismaServiceToken)
     private prisma: PrismaClient,
+    @Inject(socketGatewayToken)
     private gateway: SocketGateway,
   ) {}
 
