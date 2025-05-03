@@ -39,13 +39,13 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      - name: Build documentation
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-        run: pnpm nx run documentation:build:production
-      - name: Run update docs script
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
-        env:
-          GH_PAGES_DYNAMIC_NGRX_TEST: ${{ secrets.GH_PAGES_DYNAMIC_NGRX_TEST }}
-        run: |
-          git remote set-url origin https://x-access-token:${GH_PAGES_DYNAMIC_NGRX_TEST}@github.com/${{ github.repository }}.git
-          .github/workflows/update_docs.sh
+      # - name: Build documentation
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+      #   run: pnpm nx run documentation:build:production
+      # - name: Run update docs script
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+      #   env:
+      #     GH_PAGES_DYNAMIC_NGRX_TEST: ${{ secrets.GH_PAGES_DYNAMIC_NGRX_TEST }}
+      #   run: |
+      #     git remote set-url origin https://x-access-token:${GH_PAGES_DYNAMIC_NGRX_TEST}@github.com/${{ github.repository }}.git
+      #     .github/workflows/update_docs.sh
