@@ -18,15 +18,15 @@ On the server, look at the code in [apps/server/src/app/top/top.controller.ts](h
 
 ### Locations
 
-Locations represents a straight forward way of retrieving child data. Look at the code in [apps/server/src/app/locations/locations.controller.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/locations/locations.controller.ts#L21-L49). Here, you will see the that we retrieve all the fields from a row as well as all the child ids for the departments that are associated with the location.
+Locations represent a straightforward way of retrieving child data. Look at the code in [apps/server/src/app/locations/locations.controller.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/locations/locations.controller.ts#L22-L50). Here, you will see the that we retrieve all the fields from a row as well as all the child ids for the departments that are associated with the location.
 
 ### Departments
 
-Retrieving the departments data is similar except that this uses the `VirtualArrayContent` structure we mention in the main documentation. So, when we retrieve a row, we also need to retrieve the virtual array content. You can view the code for this here: [apps/server/src/app/departments/departments.controller.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L61-L75).
+Retrieving the departments data is similar, except that this uses the `VirtualArrayContent` structure we mention in the main documentation. So, when we retrieve a row, we also need to retrieve the virtual array content. You can view the code for this here: [apps/server/src/app/departments/departments.controller.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L63-L77).
 
-You'll notice that `getByIds` ends up calling [getDepartmentChildrenIndexes(...)](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L210-L233) which then calls [getBatchIndexes(...)](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L188-L208). This is where we retrieve the IDs for the first 500 rows of the child tables.
+You'll notice that `getByIds` ends up calling [getDepartmentChildrenIndexes(...)](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L212-L235) which then calls [getBatchIndexes(...)](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L190-L210). This is where we retrieve the IDs for the first 500 rows of the child tables.
 
-In this way, we allow the server to provide the first 500 rows of the child tables and then we can later [retrieve the remaining rows as we ask for them.](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L113-L150)
+In this way, we allow the server to provide the first 500 rows of the child tables and then we can later [retrieve the remaining rows as we ask for them.](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/server/src/app/departments/department.controller.ts#L115-L152)
 
 ### An Alternate Way to Retrieve Departments
 

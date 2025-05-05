@@ -18,7 +18,7 @@ The main selector in our top selector is [selectTopLocations](https://github.com
 
 ## Current Location Selectors
 
-The [currentLocationSelector](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/current-location/current-location.selector.ts) simply pulls out the currently selected location ID from the state.
+The [selectCurrentLocationId](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/current-location/select-current-location.selector.ts) simply pulls out the currently selected location ID from the state.
 
 ## Location Selectors
 
