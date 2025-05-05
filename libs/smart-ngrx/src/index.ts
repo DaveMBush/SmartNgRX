@@ -15,6 +15,7 @@ export * from './tests/functions/set-state.function';
 // smart-core exports
 
 export type {
+  MarkAndDeleteInit,
   PartialArrayDefinition,
   RowProxyDelete,
   SmartArray,
