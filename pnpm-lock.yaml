@@ -179,7 +179,7 @@ importers:
         version: 11.0.5(typescript@5.8.3)
       '@nestjs/testing':
         specifier: ^10.4.15
-        version: 10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17)(@nestjs/platform-express@10.4.17)
+        version: 10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.17)(@nestjs/websockets@10.4.17)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17))
       '@ngrx/eslint-plugin':
         specifier: 19.0.1
         version: 19.0.1(@typescript-eslint/utils@8.32.0(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.3))(eslint@9.23.0(jiti@1.21.7))(typescript-eslint@8.29.0(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.3))(typescript@5.8.3)
@@ -337,8 +337,8 @@ importers:
         specifier: 19.2.2
         version: 19.2.2(@angular/compiler-cli@19.2.9(@angular/compiler@19.2.9)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3)
       ngx-skeleton-loader:
-        specifier: ^10.0.0
-        version: 10.0.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))
+        specifier: ^11.0.0
+        version: 11.0.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))
       nx:
         specifier: 20.8.1
         version: 20.8.1(@swc-node/register@1.10.10(@swc/core@1.11.24(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.8.3))(@swc/core@1.11.24(@swc/helpers@0.5.17))
@@ -8630,11 +8630,11 @@ packages:
       tailwindcss:
         optional: true
 
-  ngx-skeleton-loader@10.0.0:
-    resolution: {integrity: sha512-TYrWLrdRtzoZoPzurNDUJdAbdyplqgyDztCefEi+clHl5MSumwG4NrGxZC1OVxz7RitomhnF7wTM8T/j+tdwXw==}
+  ngx-skeleton-loader@11.0.0:
+    resolution: {integrity: sha512-SVWgrePXqIX0ToLf/G0Ce+aE6qXCKl/c+9arV61eiFlrqXXaMlXCkVAYT/wpK+4xgVMHXvQha1mnG9YcKVHQ1A==}
     peerDependencies:
-      '@angular/common': '>=18.0.0'
-      '@angular/core': '>=18.0.0'
+      '@angular/common': '>=19.0.0'
+      '@angular/core': '>=19.0.0'
 
   node-abi@3.75.0:
     resolution: {integrity: sha512-OhYaY5sDsIka7H7AtijtI9jwGYLyl29eQn/W623DiN/MIv5sUqc4g7BIDThX+gb7di9f6xK02nkp8sdfFWZLTg==}
@@ -15050,7 +15050,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@nestjs/testing@10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17)(@nestjs/platform-express@10.4.17)':
+  '@nestjs/testing@10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.17)(@nestjs/websockets@10.4.17)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17))':
     dependencies:
       '@nestjs/common': 10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@10.4.17)(@nestjs/websockets@10.4.17)(encoding@0.1.13)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -22332,7 +22332,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.40.1
 
-  ngx-skeleton-loader@10.0.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0)):
+  ngx-skeleton-loader@11.0.0(@angular/common@19.2.9(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0)):
     dependencies:
       '@angular/common': 19.2.9(@angular/core@19.2.9(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/core': 19.2.9(rxjs@7.8.2)(zone.js@0.15.0)
