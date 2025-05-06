@@ -4,6 +4,6 @@
 
 ### Version 1 -> Version 2
 
-- SmartNgRXErrorHandler -> SmartErrorHandler
+- `SmartNgRXErrorHandler` -> `SmartErrorHandler`
 
 All other changes are internal
