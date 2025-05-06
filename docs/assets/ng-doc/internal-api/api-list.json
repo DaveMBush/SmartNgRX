@@ -8,29 +8,209 @@
         "name": "actionFactory"
       },
       {
-        "route": "/internal-api/classes/internal-api/ActionService",
+        "route": "/internal-api/classes/internal-api/Add",
         "type": "Class",
-        "name": "ActionService"
+        "name": "Add"
       },
       {
-        "route": "/internal-api/functions/internal-api/removeIdFromParents",
-        "type": "Function",
-        "name": "removeIdFromParents"
+        "route": "/internal-api/classes/internal-api/ClassicNgrxFacade",
+        "type": "Class",
+        "name": "ClassicNgrxFacade"
       },
       {
-        "route": "/internal-api/functions/internal-api/replaceIdInFeatureParents",
-        "type": "Function",
-        "name": "replaceIdInFeatureParents"
+        "route": "/internal-api/classes/internal-api/LoadByIdsClassic",
+        "type": "Class",
+        "name": "LoadByIdsClassic"
       },
       {
-        "route": "/internal-api/functions/internal-api/replaceIdInParents",
+        "route": "/internal-api/classes/internal-api/LoadByIndexesClassic",
+        "type": "Class",
+        "name": "LoadByIndexesClassic"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/removeIdFromParentsClassic",
         "type": "Function",
-        "name": "replaceIdInParents"
+        "name": "removeIdFromParentsClassic"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/replaceIdInParentsClassic",
+        "type": "Function",
+        "name": "replaceIdInParentsClassic"
       },
       {
         "route": "/internal-api/functions/internal-api/watchInitialRow",
         "type": "Function",
         "name": "watchInitialRow"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/provideSmartFeatureClassicEntities",
+        "type": "Function",
+        "name": "provideSmartFeatureClassicEntities"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/reducerFactory",
+        "type": "Function",
+        "name": "reducerFactory"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/ArrayProxyClassic",
+        "type": "Class",
+        "name": "ArrayProxyClassic"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/createInnerSmartSelector",
+        "type": "Function",
+        "name": "createInnerSmartSelector"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/createSmartSelector",
+        "type": "Function",
+        "name": "createSmartSelector"
+      },
+      {
+        "route": "/internal-api/type-aliases/internal-api/ParentSelector",
+        "type": "TypeAlias",
+        "name": "ParentSelector"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/store",
+        "type": "Function",
+        "name": "store"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/handleSocketNotification",
+        "type": "Function",
+        "name": "handleSocketNotification"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/updateEntity",
+        "type": "Function",
+        "name": "updateEntity"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/ActionGroup",
+        "type": "Interface",
+        "name": "ActionGroup"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/ChildDefinitionClassic",
+        "type": "Interface",
+        "name": "ChildDefinitionClassic"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/IdProp",
+        "type": "Interface",
+        "name": "IdProp"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/IdsProp",
+        "type": "Interface",
+        "name": "IdsProp"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/RowsProp",
+        "type": "Interface",
+        "name": "RowsProp"
+      },
+      {
+        "route": "/internal-api/type-aliases/internal-api/SmartNgRXRowBaseSelector",
+        "type": "TypeAlias",
+        "name": "SmartNgRXRowBaseSelector"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/UpdateChanges",
+        "type": "Interface",
+        "name": "UpdateChanges"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/clearState",
+        "type": "Function",
+        "name": "clearState"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/createStore",
+        "type": "Function",
+        "name": "createStore"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/setState",
+        "type": "Function",
+        "name": "setState"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/provideSmartFeatureSignalEntities",
+        "type": "Function",
+        "name": "provideSmartFeatureSignalEntities"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/Add",
+        "type": "Class",
+        "name": "Add"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/entitySignalStoreFactory",
+        "type": "Function",
+        "name": "entitySignalStoreFactory"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/LoadByIdsSignals",
+        "type": "Class",
+        "name": "LoadByIdsSignals"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/LoadByIndexesSignals",
+        "type": "Class",
+        "name": "LoadByIndexesSignals"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/removeIdFromParentsSignals",
+        "type": "Function",
+        "name": "removeIdFromParentsSignals"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/replaceIdInParentsSignals",
+        "type": "Function",
+        "name": "replaceIdInParentsSignals"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/SignalsFacade",
+        "type": "Class",
+        "name": "SignalsFacade"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/ArrayProxySignals",
+        "type": "Class",
+        "name": "ArrayProxySignals"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/createInnerSmartSignal",
+        "type": "Function",
+        "name": "createInnerSmartSignal"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/createSmartSignal",
+        "type": "Function",
+        "name": "createSmartSignal"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/getTopChildRows",
+        "type": "Function",
+        "name": "getTopChildRows"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/handleSocketNotification",
+        "type": "Function",
+        "name": "handleSocketNotification"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/updateEntity",
+        "type": "Function",
+        "name": "updateEntity"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/ChildDefinitionSignals",
+        "type": "Interface",
+        "name": "ChildDefinitionSignals"
       },
       {
         "route": "/internal-api/functions/internal-api/assert",
@@ -53,6 +233,226 @@
         "name": "isNullOrUndefined"
       },
       {
+        "route": "/internal-api/functions/internal-api/mergeRowsWithEntities",
+        "type": "Function",
+        "name": "mergeRowsWithEntities"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/psi",
+        "type": "Variable",
+        "name": "psi"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/rootInjector",
+        "type": "Variable",
+        "name": "rootInjector"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/zoneless",
+        "type": "Function",
+        "name": "zoneless"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/smartErrorHandlerToken",
+        "type": "Variable",
+        "name": "smartErrorHandlerToken"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/BaseAdd",
+        "type": "Class",
+        "name": "BaseAdd"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/bufferIds",
+        "type": "Function",
+        "name": "bufferIds"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/bufferIndexes",
+        "type": "Function",
+        "name": "bufferIndexes"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/defaultRows",
+        "type": "Function",
+        "name": "defaultRows"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/FacadeBase",
+        "type": "Class",
+        "name": "FacadeBase"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/replaceIdInFeatureParents",
+        "type": "Function",
+        "name": "replaceIdInFeatureParents"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/Update",
+        "type": "Class",
+        "name": "Update"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/globalMarkAndDeleteInit",
+        "type": "Variable",
+        "name": "globalMarkAndDeleteInit"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/markAndDeleteEntities",
+        "type": "Variable",
+        "name": "markAndDeleteEntities"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/delayedRegisterEntity",
+        "type": "Function",
+        "name": "delayedRegisterEntity"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/provideSmartNgRX",
+        "type": "Function",
+        "name": "provideSmartNgRX"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/childDefinitionRegistry",
+        "type": "Variable",
+        "name": "childDefinitionRegistry"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/entityDefinitionRegistry",
+        "type": "Function",
+        "name": "entityDefinitionRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/entityRegistry",
+        "type": "Variable",
+        "name": "entityRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/entityRowsRegistry",
+        "type": "Variable",
+        "name": "entityRowsRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/facadeRegistry",
+        "type": "Variable",
+        "name": "facadeRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/featureRegistry",
+        "type": "Variable",
+        "name": "featureRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/serviceRegistry",
+        "type": "Variable",
+        "name": "serviceRegistry"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/BaseArrayProxy",
+        "type": "Class",
+        "name": "BaseArrayProxy"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/convertChildrenToArrayProxy",
+        "type": "Function",
+        "name": "convertChildrenToArrayProxy"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/convertChildrenToVirtualArray",
+        "type": "Function",
+        "name": "convertChildrenToVirtualArray"
+      },
+      {
+        "route": "/internal-api/functions/internal-api/ensureDataLoaded",
+        "type": "Function",
+        "name": "ensureDataLoaded"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/newRowRegistry",
+        "type": "Variable",
+        "name": "newRowRegistry"
+      },
+      {
+        "route": "/internal-api/variables/internal-api/virtualArrayMap",
+        "type": "Variable",
+        "name": "virtualArrayMap"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/DeleteEntity",
+        "type": "Class",
+        "name": "DeleteEntity"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/BaseChildDefinition",
+        "type": "Interface",
+        "name": "BaseChildDefinition"
+      },
+      {
+        "route": "/internal-api/classes/internal-api/EffectService",
+        "type": "Class",
+        "name": "EffectService"
+      },
+      {
+        "route": "/internal-api/type-aliases/internal-api/EffectServiceToken",
+        "type": "TypeAlias",
+        "name": "EffectServiceToken"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/IndexProp",
+        "type": "Interface",
+        "name": "IndexProp"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/MarkAndDeleteInit",
+        "type": "Interface",
+        "name": "MarkAndDeleteInit"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/ParentInfo",
+        "type": "Interface",
+        "name": "ParentInfo"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/PartialArrayDefinition",
+        "type": "Interface",
+        "name": "PartialArrayDefinition"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/RowProp",
+        "type": "Interface",
+        "name": "RowProp"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/RowProxyDelete",
+        "type": "Interface",
+        "name": "RowProxyDelete"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/SmartArray",
+        "type": "Interface",
+        "name": "SmartArray"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/SmartEntityDefinition",
+        "type": "Interface",
+        "name": "SmartEntityDefinition"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/SmartErrorHandler",
+        "type": "Interface",
+        "name": "SmartErrorHandler"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/SmartNgRXRowBase",
+        "type": "Interface",
+        "name": "SmartNgRXRowBase"
+      },
+      {
+        "route": "/internal-api/interfaces/internal-api/VirtualArrayContents",
+        "type": "Interface",
+        "name": "VirtualArrayContents"
+      },
+      {
         "route": "/internal-api/variables/internal-api/isProxy",
         "type": "Variable",
         "name": "isProxy"
@@ -73,29 +473,9 @@
         "name": "mergeNewRowWithExisting"
       },
       {
-        "route": "/internal-api/functions/internal-api/mergeRowsWithEntities",
-        "type": "Function",
-        "name": "mergeRowsWithEntities"
-      },
-      {
         "route": "/internal-api/functions/internal-api/mergeVirtualArrays",
         "type": "Function",
         "name": "mergeVirtualArrays"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/psi",
-        "type": "Variable",
-        "name": "psi"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/rootInjector",
-        "type": "Variable",
-        "name": "rootInjector"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/zoneless",
-        "type": "Function",
-        "name": "zoneless"
       },
       {
         "route": "/internal-api/variables/internal-api/errorHandlerRegistry",
@@ -113,24 +493,19 @@
         "name": "handleError"
       },
       {
-        "route": "/internal-api/variables/internal-api/smartNgRXErrorHandlerToken",
-        "type": "Variable",
-        "name": "smartNgRXErrorHandlerToken"
+        "route": "/internal-api/functions/internal-api/manageMaps",
+        "type": "Function",
+        "name": "manageMaps"
       },
       {
-        "route": "/internal-api/variables/internal-api/entityRowsRegistry",
-        "type": "Variable",
-        "name": "entityRowsRegistry"
+        "route": "/internal-api/functions/internal-api/markFeatureParentsDirty",
+        "type": "Function",
+        "name": "markFeatureParentsDirty"
       },
       {
-        "route": "/internal-api/variables/internal-api/globalMarkAndDeleteInit",
-        "type": "Variable",
-        "name": "globalMarkAndDeleteInit"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/markAndDeleteEntities",
-        "type": "Variable",
-        "name": "markAndDeleteEntities"
+        "route": "/internal-api/functions/internal-api/markParentsDirty",
+        "type": "Function",
+        "name": "markParentsDirty"
       },
       {
         "route": "/internal-api/functions/internal-api/markAndDeleteEntity",
@@ -148,59 +523,9 @@
         "name": "processMarkAndDelete"
       },
       {
-        "route": "/internal-api/functions/internal-api/delayedRegisterEntity",
-        "type": "Function",
-        "name": "delayedRegisterEntity"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/provideSmartFeatureEntities",
-        "type": "Function",
-        "name": "provideSmartFeatureEntities"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/provideSmartNgRX",
-        "type": "Function",
-        "name": "provideSmartNgRX"
-      },
-      {
         "route": "/internal-api/functions/internal-api/resolveRemoveTime",
         "type": "Function",
         "name": "resolveRemoveTime"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/reducerFactory",
-        "type": "Function",
-        "name": "reducerFactory"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/actionServiceRegistry",
-        "type": "Variable",
-        "name": "actionServiceRegistry"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/childDefinitionRegistry",
-        "type": "Variable",
-        "name": "childDefinitionRegistry"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/entityDefinitionRegistry",
-        "type": "Function",
-        "name": "entityDefinitionRegistry"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/entityRegistry",
-        "type": "Variable",
-        "name": "entityRegistry"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/featureRegistry",
-        "type": "Variable",
-        "name": "featureRegistry"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/serviceRegistry",
-        "type": "Variable",
-        "name": "serviceRegistry"
       },
       {
         "route": "/internal-api/functions/internal-api/forceRefetchOfVirtualIndexes",
@@ -233,36 +558,6 @@
         "name": "arrayProxyClassGet"
       },
       {
-        "route": "/internal-api/classes/internal-api/ArrayProxy",
-        "type": "Class",
-        "name": "ArrayProxy"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/convertChildrenToArrayProxy",
-        "type": "Function",
-        "name": "convertChildrenToArrayProxy"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/convertChildrenToVirtualArray",
-        "type": "Function",
-        "name": "convertChildrenToVirtualArray"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/createInnerSmartSelector",
-        "type": "Function",
-        "name": "createInnerSmartSelector"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/createSmartSelector",
-        "type": "Function",
-        "name": "createSmartSelector"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/ensureDataLoaded",
-        "type": "Function",
-        "name": "ensureDataLoaded"
-      },
-      {
         "route": "/internal-api/functions/internal-api/getArrayItem",
         "type": "Function",
         "name": "getArrayItem"
@@ -278,29 +573,9 @@
         "name": "isArrayProxy"
       },
       {
-        "route": "/internal-api/variables/internal-api/newRowRegistry",
-        "type": "Variable",
-        "name": "newRowRegistry"
-      },
-      {
-        "route": "/internal-api/type-aliases/internal-api/ParentSelector",
-        "type": "TypeAlias",
-        "name": "ParentSelector"
-      },
-      {
         "route": "/internal-api/functions/internal-api/realOrMocked",
         "type": "Function",
         "name": "realOrMocked"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/store",
-        "type": "Function",
-        "name": "store"
-      },
-      {
-        "route": "/internal-api/variables/internal-api/virtualArrayMap",
-        "type": "Variable",
-        "name": "virtualArrayMap"
       },
       {
         "route": "/internal-api/classes/internal-api/VirtualArray",
@@ -308,59 +583,9 @@
         "name": "VirtualArray"
       },
       {
-        "route": "/internal-api/functions/internal-api/deleteEntity",
-        "type": "Function",
-        "name": "deleteEntity"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/handleSocketNotification",
-        "type": "Function",
-        "name": "handleSocketNotification"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/updateEntity",
-        "type": "Function",
-        "name": "updateEntity"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/ActionGroup",
-        "type": "Interface",
-        "name": "ActionGroup"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/ChildDefinition",
-        "type": "Interface",
-        "name": "ChildDefinition"
-      },
-      {
-        "route": "/internal-api/type-aliases/internal-api/EffectServiceToken",
-        "type": "TypeAlias",
-        "name": "EffectServiceToken"
-      },
-      {
-        "route": "/internal-api/classes/internal-api/EffectService",
-        "type": "Class",
-        "name": "EffectService"
-      },
-      {
         "route": "/internal-api/interfaces/internal-api/EntityAttributes",
         "type": "Interface",
         "name": "EntityAttributes"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/IdProp",
-        "type": "Interface",
-        "name": "IdProp"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/IdsProp",
-        "type": "Interface",
-        "name": "IdsProp"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/IndexProp",
-        "type": "Interface",
-        "name": "IndexProp"
       },
       {
         "route": "/internal-api/interfaces/internal-api/IndexesProp",
@@ -368,139 +593,9 @@
         "name": "IndexesProp"
       },
       {
-        "route": "/internal-api/interfaces/internal-api/MarkAndDeleteInit",
-        "type": "Interface",
-        "name": "MarkAndDeleteInit"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/ParentInfo",
-        "type": "Interface",
-        "name": "ParentInfo"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/PartialArrayDefinition",
-        "type": "Interface",
-        "name": "PartialArrayDefinition"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/RowProp",
-        "type": "Interface",
-        "name": "RowProp"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/RowProxyDelete",
-        "type": "Interface",
-        "name": "RowProxyDelete"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/RowsProp",
-        "type": "Interface",
-        "name": "RowsProp"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/SmartArray",
-        "type": "Interface",
-        "name": "SmartArray"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/SmartEntityDefinition",
-        "type": "Interface",
-        "name": "SmartEntityDefinition"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/SmartNgRXErrorHandler",
-        "type": "Interface",
-        "name": "SmartNgRXErrorHandler"
-      },
-      {
-        "route": "/internal-api/type-aliases/internal-api/SmartNgRXRowBaseSelector",
-        "type": "TypeAlias",
-        "name": "SmartNgRXRowBaseSelector"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/SmartNgRXRowBase",
-        "type": "Interface",
-        "name": "SmartNgRXRowBase"
-      },
-      {
         "route": "/internal-api/type-aliases/internal-api/SmartValidatedEntityDefinition",
         "type": "TypeAlias",
         "name": "SmartValidatedEntityDefinition"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/UpdateChanges",
-        "type": "Interface",
-        "name": "UpdateChanges"
-      },
-      {
-        "route": "/internal-api/interfaces/internal-api/VirtualArrayContents",
-        "type": "Interface",
-        "name": "VirtualArrayContents"
-      },
-      {
-        "route": "/internal-api/classes/internal-api/Add",
-        "type": "Class",
-        "name": "Add"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/bufferIds",
-        "type": "Function",
-        "name": "bufferIds"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/bufferIndexes",
-        "type": "Function",
-        "name": "bufferIndexes"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/defaultRows",
-        "type": "Function",
-        "name": "defaultRows"
-      },
-      {
-        "route": "/internal-api/classes/internal-api/LoadByIds",
-        "type": "Class",
-        "name": "LoadByIds"
-      },
-      {
-        "route": "/internal-api/classes/internal-api/LoadByIndexes",
-        "type": "Class",
-        "name": "LoadByIndexes"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/manageMaps",
-        "type": "Function",
-        "name": "manageMaps"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/markFeatureParentsDirty",
-        "type": "Function",
-        "name": "markFeatureParentsDirty"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/markParentsDirty",
-        "type": "Function",
-        "name": "markParentsDirty"
-      },
-      {
-        "route": "/internal-api/classes/internal-api/Update",
-        "type": "Class",
-        "name": "Update"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/clearState",
-        "type": "Function",
-        "name": "clearState"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/createStore",
-        "type": "Function",
-        "name": "createStore"
-      },
-      {
-        "route": "/internal-api/functions/internal-api/setState",
-        "type": "Function",
-        "name": "setState"
       }
     ]
   }
