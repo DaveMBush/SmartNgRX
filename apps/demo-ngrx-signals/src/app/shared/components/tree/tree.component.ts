@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   effect,
   inject,
   input,
   output,
+  signal,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -58,8 +58,8 @@ import { TreeNode } from './tree-node.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeComponent implements AfterViewInit {
-  private isInitialized = false;
   private treeComponentService = inject(TreeComponentService);
+  isInitialized = signal<boolean>(false);
   locations$ = input.required<Location[] | null>();
   locationId$ = input<number | string | null>('');
   location$ = input<Location | null>(null);
@@ -70,8 +70,8 @@ export class TreeComponent implements AfterViewInit {
 
   range = { start: 0, end: -1 };
 
-  dataSource: TreeNode[] = [];
-  fullDataSource: TreeNode[] = [];
+  dataSource$ = signal<TreeNode[]>([]);
+  fullDataSource$ = signal<TreeNode[]>([]);
   selectedNode = '';
   editingNode = '';
   // we can't edit the node in place because it will get overwritten when the
@@ -83,18 +83,14 @@ export class TreeComponent implements AfterViewInit {
   waitForScroll = false;
   destroyRef = inject(DestroyRef);
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor() {
     this.treeComponentService.form = this;
     const context = this;
     effect(function watchLocation() {
       const location = context.location$();
-      if (
-        context.isInitialized &&
-        location !== null &&
-        location !== undefined
-      ) {
+      const isInitialized = context.isInitialized();
+      if (isInitialized && location !== null && location !== undefined) {
         context.treeComponentService.applyRange();
-        context.cd.markForCheck();
       }
     });
   }
@@ -180,13 +176,12 @@ export class TreeComponent implements AfterViewInit {
       )
       .subscribe(function addChildScrollToPositionSubscribeFunction() {
         context.treeComponentService.applyRange();
-        context.cd.markForCheck();
         context.waitForScroll = false;
       });
   }
 
   ngAfterViewInit(): void {
-    this.isInitialized = true;
+    this.isInitialized.set(true);
     const context = this;
     // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream

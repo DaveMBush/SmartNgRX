@@ -43,6 +43,9 @@ export class TreeComponentService {
     if (component.location$() === undefined || component.location$() === null) {
       return;
     }
+    if (!component.isAfterViewInit) {
+      return;
+    }
     const top = component.virtualScroll.measureScrollOffset('top');
     component.fullDataSource = this.transform({
       parentId: component.locationId$() as string,
