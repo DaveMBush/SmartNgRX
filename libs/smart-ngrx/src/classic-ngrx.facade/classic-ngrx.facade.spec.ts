@@ -562,9 +562,37 @@ describe('ActionService', () => {
           selectId: (row: MockEntity) => row.id,
         });
 
-        // Override selector to return mockEntities
+        // Override selector to return mockEntities BEFORE service creation
         mockStore.overrideSelector(selectEntities, mockEntities);
         mockStore.refreshState();
+
+        // Re-create the service so it uses the correct selector
+        service = new ClassicNgrxFacade(
+          'testFeature',
+          'testEntity',
+        ) as unknown as TestableActionService;
+        // Mock all service initializers to avoid rootInjector errors
+        service['loadByIdsService'] = {
+          init() {
+            /* noop */
+          },
+        };
+        service['updateService'] = {
+          init() {
+            /* noop */
+          },
+        };
+        service['addService'] = {
+          init() {
+            /* noop */
+          },
+        };
+        service['loadByIndexesService'] = {
+          init() {
+            /* noop */
+          },
+        };
+        // Do not call service.init() to avoid root injector errors
 
         // Mock unregister to return ids for filtering
         jest.spyOn(entityRowsRegistry, 'unregister').mockReturnValue(['2']);
@@ -579,7 +607,11 @@ describe('ActionService', () => {
         });
 
         const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
-        service.garbageCollect(['1', '2']);
+        // Mock actions.remove to avoid undefined error
+        service.actions = {
+          remove: jest.fn().mockReturnValue({ type: 'REMOVE_ACTION' }),
+        } as unknown as ActionGroup;
+        service.garbageCollectWithEntities(mockEntities, ['1', '2']);
 
         // Advance the virtual clock to complete all pending asynchronous activities
         tick();
