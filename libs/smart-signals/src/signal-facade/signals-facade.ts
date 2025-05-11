@@ -84,6 +84,13 @@ export class SignalsFacade<
    * @param ids the ids to mark as dirty
    */
   override markDirty(ids: string[]): void {
+    // if this is the initial row, we have to re-fetch the
+    // main row so that we have the most recent data
+    // or is will eventually be removed from the store.
+    if (this.entityDefinition.isInitialRow === true) {
+      this.loadByIds(ids[0]);
+      return;
+    }
     if (!this.markDirtyFetchesNew) {
       this.markDirtyNoFetchWithEntities(
         this.entityState.entityState().entities,
