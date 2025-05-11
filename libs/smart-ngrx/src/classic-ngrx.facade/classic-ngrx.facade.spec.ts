@@ -1,6 +1,7 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Dictionary, EntityAdapter } from '@ngrx/entity';
-import { Store } from '@ngrx/store';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   childDefinitionRegistry,
   entityDefinitionRegistry,
@@ -67,15 +68,34 @@ interface TestableActionService
 
 describe('ActionService', () => {
   let service: TestableActionService;
-  let mockStore: jest.Mocked<Store>;
+  let mockStore: MockStore;
   let mockEffectService: { init: jest.Mock };
+  let selectEntities: MemoizedSelector<
+    { entities: Dictionary<MockEntity> },
+    Dictionary<MockEntity>
+  >;
 
   beforeEach(() => {
-    mockStore = {
-      select: jest.fn().mockReturnValue(of({})),
-      dispatch: jest.fn(),
-    } as unknown as jest.Mocked<Store>;
+    selectEntities = createSelector(
+      (state: { entities: Dictionary<MockEntity> }) => state.entities,
+      (entities: Dictionary<MockEntity>) => entities,
+    );
 
+    TestBed.configureTestingModule({
+      providers: [
+        ClassicNgrxFacade,
+        provideMockStore({
+          initialState: {
+            entities: {
+              '1': { id: '1', name: 'test' },
+              '2': { id: '2', name: 'test2' },
+            },
+          },
+        }),
+      ],
+    });
+
+    mockStore = TestBed.inject(MockStore);
     mockEffectService = {
       init: jest.fn(),
     };
@@ -92,10 +112,6 @@ describe('ActionService', () => {
         getSelectors: () => ({ selectEntities: jest.fn() }),
       },
       selectId: (row: MockEntity) => row.id,
-    });
-
-    TestBed.configureTestingModule({
-      providers: [ClassicNgrxFacade, { provide: Store, useValue: mockStore }],
     });
 
     service = new ClassicNgrxFacade(
@@ -399,13 +415,11 @@ describe('ActionService', () => {
       });
 
       // Mock store.select to return a valid entities Observable
-      // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed for testing
-      mockStore.select = jest.fn().mockReturnValue(
-        of({
-          '1': { id: '1', name: 'test' },
-          '2': { id: '2', name: 'test2' },
-        }),
-      );
+      mockStore.overrideSelector(selectEntities, {
+        '1': { id: '1', name: 'test' },
+        '2': { id: '2', name: 'test2' },
+      });
+      mockStore.refreshState();
 
       // Initialize the service
       service = new ClassicNgrxFacade(
@@ -495,26 +509,39 @@ describe('ActionService', () => {
     });
 
     describe('markDirty', () => {
-      it('should not fetch new data if markDirtyFetchesNew is false', () => {
-        // Set markDirtyFetchesNew to false
-        service.markDirtyFetchesNew = false;
+      it('should call loadByIds when isInitialRow is true', () => {
+        // Mock watchInitialRow to return an Observable with correct type
+        jest
+          .spyOn(watchInitialRowModule, 'watchInitialRow')
+          .mockReturnValue(of({ ids: [], entities: {} }));
 
-        const spy = jest.spyOn(service, 'forceDirty');
+        // Set up the entityDefinition with isInitialRow = true
+        (entityDefinitionRegistry as jest.Mock).mockReturnValue({
+          entityAdapter: {
+            selectId: (row: MockEntity) => row.id,
+            getSelectors: () => ({ selectEntities: jest.fn() }),
+          },
+          selectId: (row: MockEntity) => row.id,
+          isInitialRow: true,
+        });
 
-        service.markDirty(['1', '2']);
+        // Create a new service instance to get the updated entityDefinition
+        const testService = new ClassicNgrxFacade(
+          'testFeature',
+          'testEntity',
+        ) as unknown as TestableActionService;
 
-        expect(spy).not.toHaveBeenCalled();
-      });
+        // Initialize the service
+        testService.init();
 
-      it('should fetch new data if markDirtyFetchesNew is true', () => {
-        // Set markDirtyFetchesNew to true
-        service.markDirtyFetchesNew = true;
+        // Spy on loadByIds
+        const loadByIdsSpy = jest.spyOn(testService, 'loadByIds');
 
-        const spy = jest.spyOn(service, 'forceDirty');
+        // Call markDirty
+        testService.markDirty(['1']);
 
-        service.markDirty(['1', '2']);
-
-        expect(spy).toHaveBeenCalledWith(['1', '2']);
+        // Verify loadByIds was called with the first id
+        expect(loadByIdsSpy).toHaveBeenCalledWith('1');
       });
     });
 
@@ -525,9 +552,19 @@ describe('ActionService', () => {
           '2': { id: '2', isEditing: false },
         };
 
-        // Mock the store's select method to return our mock entities
-        // eslint-disable-next-line @typescript-eslint/no-deprecated -- needed for testing
-        mockStore.select.mockReturnValue(of(mockEntities));
+        // Set up the entityAdapter
+        const entityAdapter = {
+          getSelectors: () => ({}),
+          selectId: (row: MockEntity) => row.id,
+        };
+        (entityDefinitionRegistry as jest.Mock).mockReturnValue({
+          entityAdapter,
+          selectId: (row: MockEntity) => row.id,
+        });
+
+        // Override selector to return mockEntities
+        mockStore.overrideSelector(selectEntities, mockEntities);
+        mockStore.refreshState();
 
         // Mock unregister to return ids for filtering
         jest.spyOn(entityRowsRegistry, 'unregister').mockReturnValue(['2']);
@@ -541,36 +578,45 @@ describe('ActionService', () => {
           return new Subscription();
         });
 
+        const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
         service.garbageCollect(['1', '2']);
 
         // Advance the virtual clock to complete all pending asynchronous activities
         tick();
 
-        // eslint-disable-next-line @typescript-eslint/unbound-method -- safe because it is a test
-        expect(mockStore.dispatch).toHaveBeenCalledWith(
+        // Verify dispatch was called with the correct action
+        expect(dispatchSpy).toHaveBeenCalledWith(
           expect.objectContaining(service.actions.remove({ ids: ['2'] })),
         );
       }));
 
       it('should correctly cover the condition when idsToRemove.length is 0', () => {
-        // This is a direct coverage of the early return condition in the
-        // private garbageCollectWithEntities method
-
         // Create a dictionary with entities that all have isEditing = true
         const mockEntities: Dictionary<MockEntity> = {
           '1': { id: '1', isEditing: true },
           '2': { id: '2', isEditing: true },
         };
 
-        // Mock the store dispatch
-        mockStore.dispatch.mockClear();
+        // Set up the entityAdapter
+        const entityAdapter = {
+          getSelectors: () => ({}),
+          selectId: (row: MockEntity) => row.id,
+        };
+        (entityDefinitionRegistry as jest.Mock).mockReturnValue({
+          entityAdapter,
+          selectId: (row: MockEntity) => row.id,
+        });
 
+        // Override selector to return mockEntities
+        mockStore.overrideSelector(selectEntities, mockEntities);
+        mockStore.refreshState();
+
+        const dispatchSpy = jest.spyOn(mockStore, 'dispatch');
         // This will exercise the code path where ids are filtered to an empty array
         service.garbageCollectWithEntities(mockEntities, ['1', '2']);
 
         // And dispatch should not have been called
-        // eslint-disable-next-line @typescript-eslint/unbound-method -- safe because it is a test
-        expect(mockStore.dispatch).not.toHaveBeenCalled();
+        expect(dispatchSpy).not.toHaveBeenCalled();
       });
     });
 
