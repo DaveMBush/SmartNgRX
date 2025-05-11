@@ -59,6 +59,7 @@ import { TreeNode } from './tree-node.interface';
 })
 export class TreeComponent implements AfterViewInit {
   private treeComponentService = inject(TreeComponentService);
+  isAfterViewInit = false;
   locations$ = input.required<Location[] | null>();
   locationId$ = input<number | string | null>('');
   location$ = input<Location | null>(null);
@@ -181,6 +182,10 @@ export class TreeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.isAfterViewInit = true;
+    // we have to call applyRange here or the list won't get painted
+    // once the data has been initialized.
+    this.treeComponentService.applyRange();
     const context = this;
     this.virtualScroll.renderedRangeStream
       .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))

@@ -41,6 +41,7 @@ interface MockEntity extends SmartNgRXRowBase {
 // Define service interfaces to ensure proper typing
 interface MockLoadByIdsService {
   init: jest.Mock;
+  loadByIds: jest.Mock;
 }
 
 interface MockLoadByIndexesService {
@@ -175,7 +176,7 @@ describe('SignalsFacade', () => {
     service.selectId = (row: MockEntity) => row.id;
 
     // Add required services to test object with jest mocks
-    service.loadByIdsService = { init: jest.fn() };
+    service.loadByIdsService = { init: jest.fn(), loadByIds: jest.fn() };
     service.loadByIndexesService = { init: jest.fn() };
     service.updateService = { init: jest.fn() };
     service.addService = { init: jest.fn() };
@@ -304,7 +305,7 @@ describe('SignalsFacade', () => {
 
       // Mock the init methods to avoid errors
       const mockInitMethod = jest.fn();
-      service.loadByIdsService = { init: mockInitMethod };
+      service.loadByIdsService = { init: mockInitMethod, loadByIds: jest.fn() };
       service.loadByIndexesService = { init: mockInitMethod };
       service.updateService = { init: mockInitMethod };
       service.addService = { init: mockInitMethod };
@@ -329,7 +330,7 @@ describe('SignalsFacade', () => {
 
       // Mock the init methods to avoid errors
       const mockInitMethod = jest.fn();
-      service.loadByIdsService = { init: mockInitMethod };
+      service.loadByIdsService = { init: mockInitMethod, loadByIds: jest.fn() };
       service.loadByIndexesService = { init: mockInitMethod };
       service.updateService = { init: mockInitMethod };
       service.addService = { init: mockInitMethod };
@@ -467,6 +468,34 @@ describe('SignalsFacade', () => {
 
         // Verify forceDirty was called
         expect(forceDirtySpy).toHaveBeenCalledWith(['1', '2']);
+      });
+
+      it('should call loadByIds when isInitialRow is true', () => {
+        // Set up the entity definition to have isInitialRow as true
+        service['entityDefinition'] = {
+          ...service['entityDefinition'],
+          isInitialRow: true,
+        };
+
+        // Mock loadByIdsService with loadByIds method
+        service.loadByIdsService = {
+          init: jest.fn(),
+          loadByIds: jest.fn(),
+        };
+
+        // Create a spy on loadByIds
+        const loadByIdsSpy = jest.spyOn(service.loadByIdsService, 'loadByIds');
+        const forceDirtySpy = jest.spyOn(service, 'forceDirty');
+
+        // Call markDirty with multiple IDs
+        service.markDirty(['1', '2', '3']);
+
+        // Verify loadByIds was called with the first ID only
+        expect(loadByIdsSpy).toHaveBeenCalledWith('1');
+        expect(loadByIdsSpy).toHaveBeenCalledTimes(1);
+
+        // Verify forceDirty was not called
+        expect(forceDirtySpy).not.toHaveBeenCalled();
       });
     });
 
