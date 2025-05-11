@@ -485,6 +485,7 @@ describe('SignalsFacade', () => {
 
         // Create a spy on loadByIds
         const loadByIdsSpy = jest.spyOn(service.loadByIdsService, 'loadByIds');
+        const forceDirtySpy = jest.spyOn(service, 'forceDirty');
 
         // Call markDirty with multiple IDs
         service.markDirty(['1', '2', '3']);
@@ -494,7 +495,6 @@ describe('SignalsFacade', () => {
         expect(loadByIdsSpy).toHaveBeenCalledTimes(1);
 
         // Verify forceDirty was not called
-        const forceDirtySpy = jest.spyOn(service, 'forceDirty');
         expect(forceDirtySpy).not.toHaveBeenCalled();
       });
     });
