@@ -4,15 +4,6 @@
   "sourceRoot": "libs/smart-core/src",
   "prefix": "lib",
   "projectType": "library",
-  "release": {
-    "version": {
-      "generatorOptions": {
-        "packageRoot": "dist/{projectRoot}",
-        "currentVersionResolver": "git-tag",
-        "fallbackCurrentVersionResolver": "disk"
-      }
-    }
-  },
   "tags": ["core", "scope:smart-core"],
   "targets": {
     "build": {
