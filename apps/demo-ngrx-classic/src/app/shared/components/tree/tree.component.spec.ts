@@ -68,7 +68,6 @@ class TestHostComponent {
 }
 
 describe('TreeComponent', () => {
-  let testHostComponent: TestHostComponent;
   let testHostFixture: ComponentFixture<TestHostComponent>;
   let mockTreeComponentService: MockTreeComponentService;
   let treeComponent: TestableTreeComponent;
@@ -98,7 +97,6 @@ describe('TreeComponent', () => {
     }).compileComponents();
 
     testHostFixture = TestBed.createComponent(TestHostComponent);
-    testHostComponent = testHostFixture.componentInstance;
 
     // Get the TreeComponent instance
     treeComponent = testHostFixture.debugElement.children[0]
@@ -136,52 +134,6 @@ describe('TreeComponent', () => {
 
     // Initialize the component
     testHostFixture.detectChanges();
-  });
-
-  // Skip these tests since they depend on the effect which is hard to test in isolation
-  // We're focusing on testing the waitForScroll functionality in saveNode
-  it.skip('should handle ngOnChanges when location changes', () => {
-    // Set the location
-    const newLocation = {
-      id: '1',
-      name: 'New Location',
-      departments: [],
-    };
-    testHostComponent.testLocation = newLocation;
-
-    // This would trigger the effect
-    testHostFixture.detectChanges();
-
-    // Verify that locationName is updated
-    expect(treeComponent.locationId$()).toBe('1');
-
-    // Verify that applyRange would be called
-    expect(mockTreeComponentService.applyRange).toHaveBeenCalled();
-  });
-
-  it.skip('should call applyRange only when location input changes', () => {
-    // Change the location input and trigger change detection
-    testHostComponent.testLocation = {
-      id: '2',
-      name: 'New Location',
-      departments: [],
-    };
-    testHostFixture.detectChanges();
-
-    // Verify that applyRange has been called
-    expect(mockTreeComponentService.applyRange).toHaveBeenCalled();
-
-    // Reset the spy
-    mockTreeComponentService.applyRange.mockClear();
-
-    // Change other inputs through the host component
-    testHostComponent.locations = [
-      { id: '3', name: 'Another Location', departments: [] },
-    ];
-    testHostFixture.detectChanges();
-
-    // Verify that applyRange has not been called again
-    expect(mockTreeComponentService.applyRange).not.toHaveBeenCalled();
   });
 
   it('should not save node when waitForScroll is true', () => {
