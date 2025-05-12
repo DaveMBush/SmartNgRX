@@ -4,15 +4,6 @@
   "sourceRoot": "libs/smart-signals/src",
   "prefix": "lib",
   "projectType": "library",
-  "release": {
-    "version": {
-      "generatorOptions": {
-        "packageRoot": "dist/{projectRoot}",
-        "currentVersionResolver": "git-tag",
-        "fallbackCurrentVersionResolver": "disk"
-      }
-    }
-  },
   "tags": ["scope:smart-signals"],
   "targets": {
     "build": {
