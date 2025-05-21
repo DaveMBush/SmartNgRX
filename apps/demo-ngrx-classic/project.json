@@ -105,6 +105,14 @@
         "buildTarget": "demo-ngrx-classic:build",
         "staticFilePath": "./dist/apps/demo-ngrx-classic/browser"
       }
+    },
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/demo-ngrx-classic"],
+      "options": {
+        "config": "apps/demo-ngrx-classic/playwright.config.ts",
+        "tsconfig": "apps/demo-ngrx-classic/e2e/tsconfig.json"
+      }
     }
   }
 }

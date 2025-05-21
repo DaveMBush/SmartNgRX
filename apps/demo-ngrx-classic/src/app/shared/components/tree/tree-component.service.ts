@@ -43,28 +43,28 @@ export class TreeComponentService {
     if (component.location$() === undefined || component.location$() === null) {
       return;
     }
-    if (!component.isAfterViewInit) {
-      return;
-    }
     const top = component.virtualScroll.measureScrollOffset('top');
-    component.fullDataSource = this.transform({
-      parentId: component.locationId$() as string,
-      children: component.location$()!.departments as SmartArray<
-        CommonSourceNode,
-        CommonSourceNode
-      >,
-      level: 0,
-      startRange: component.range.start,
-      endRange: component.range.end,
-    });
+    component.fullDataSource$.set(
+      this.transform({
+        parentId: component.locationId$() as string,
+        children: component.location$()!.departments as SmartArray<
+          CommonSourceNode,
+          CommonSourceNode
+        >,
+        level: 0,
+        startRange: component.range.start,
+        endRange: component.range.end,
+      }),
+    );
     // if the end range is -1, there is nothing to paint
     // so we just set dataSource to an empty array
     if (component.range.end === -1) {
-      component.dataSource = [];
+      component.dataSource$.set([]);
     } else {
-      component.dataSource = component.fullDataSource.slice(
-        component.range.start,
-        component.range.end,
+      component.dataSource$.set(
+        component
+          .fullDataSource$()
+          .slice(component.range.start, component.range.end),
       );
     }
     // this ensures deletes don't move the scroll position
@@ -118,7 +118,7 @@ export class TreeComponentService {
     }
 
     parent.node.children.addToStore!(row, parent.node);
-    const index = this.component!.fullDataSource.findIndex(
+    const index = this.component!.fullDataSource$().findIndex(
       function findNodeIndex(node) {
         return TreeComponentService.isNodeAtPosition(node, parent);
       },
@@ -130,6 +130,7 @@ export class TreeComponentService {
     // because delete is an optional method,
     // but it actually exist by definition,
     // we can safely assert that it exist.
+
     node.node.delete!();
   }
 
