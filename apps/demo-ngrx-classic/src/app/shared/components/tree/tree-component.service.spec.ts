@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { castTo, SmartArray } from '@smarttools/smart-ngrx';
+import { castTo, SmartArray } from '@smarttools/smart-signals';
 
 import { Department } from '../../department/department.interface';
 import { CommonSourceNode } from './common-source-node.interface';
@@ -139,26 +139,26 @@ describe('TreeComponentService', () => {
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(componentInstance.fullDataSource.length).toBe(1);
-      expect(componentInstance.dataSource.length).toBe(1);
+      expect(componentInstance.fullDataSource$().length).toBe(1);
+      expect(componentInstance.dataSource$().length).toBe(1);
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
-      expect(componentInstance.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
+      expect(componentInstance.dataSource$()[0].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of ""', () => {
-      expect(componentInstance.fullDataSource[0].name).toBe('');
-      expect(componentInstance.dataSource[0].name).toBe('');
+      expect(componentInstance.fullDataSource$()[0].name).toBe('');
+      expect(componentInstance.dataSource$()[0].name).toBe('');
     });
     it('should return fullDataSource and dataSource [0].hasChildren false', () => {
-      expect(componentInstance.fullDataSource[0].hasChildren).toBe(false);
-      expect(componentInstance.dataSource[0].hasChildren).toBe(false);
+      expect(componentInstance.fullDataSource$()[0].hasChildren).toBe(false);
+      expect(componentInstance.dataSource$()[0].hasChildren).toBe(false);
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(componentInstance.fullDataSource[0].level).toBe(0);
-      expect(componentInstance.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource$()[0].level).toBe(0);
+      expect(componentInstance.dataSource$()[0].level).toBe(0);
     });
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved', () => {
@@ -187,26 +187,27 @@ describe('TreeComponentService', () => {
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(componentInstance.fullDataSource.length).toBe(1);
-      expect(componentInstance.dataSource.length).toBe(1);
+      expect(componentInstance.fullDataSource$().length).toBe(1);
+      expect(componentInstance.dataSource$().length).toBe(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
-      expect(componentInstance.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
+      expect(componentInstance.dataSource$()[0].node.id).toBe('1');
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
-      expect(componentInstance.fullDataSource[0].name).toBe('department1');
-      expect(componentInstance.dataSource[0].name).toBe('department1');
+      expect(componentInstance.fullDataSource$()[0].name).toBe('department1');
+      expect(componentInstance.dataSource$()[0].name).toBe('department1');
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].hasChildren true', () => {
-      expect(componentInstance.fullDataSource[0].hasChildren).toBe(true);
-      expect(componentInstance.dataSource[0].hasChildren).toBe(true);
+      expect(componentInstance.fullDataSource$()[0].hasChildren).toBe(true);
+      expect(componentInstance.dataSource$()[0].hasChildren).toBe(true);
     });
+    // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(componentInstance.fullDataSource[0].level).toBe(0);
-      expect(componentInstance.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource$()[0].level).toBe(0);
+      expect(componentInstance.dataSource$()[0].level).toBe(0);
     });
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved but no children array supplied', () => {
@@ -234,24 +235,24 @@ describe('TreeComponentService', () => {
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(componentInstance.fullDataSource.length).toBe(1);
-      expect(componentInstance.dataSource.length).toBe(1);
+      expect(componentInstance.fullDataSource$().length).toBe(1);
+      expect(componentInstance.dataSource$().length).toBe(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
-      expect(componentInstance.dataSource[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
+      expect(componentInstance.dataSource$()[0].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
-      expect(componentInstance.fullDataSource[0].name).toBe('department1');
-      expect(componentInstance.dataSource[0].name).toBe('department1');
+      expect(componentInstance.fullDataSource$()[0].name).toBe('department1');
+      expect(componentInstance.dataSource$()[0].name).toBe('department1');
     });
     it('should return fullDataSource and dataSource [0].hasChildren true', () => {
-      expect(componentInstance.fullDataSource[0].hasChildren).toBe(false);
-      expect(componentInstance.dataSource[0].hasChildren).toBe(false);
+      expect(componentInstance.fullDataSource$()[0].hasChildren).toBe(false);
+      expect(componentInstance.dataSource$()[0].hasChildren).toBe(false);
     });
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(componentInstance.fullDataSource[0].level).toBe(0);
-      expect(componentInstance.dataSource[0].level).toBe(0);
+      expect(componentInstance.fullDataSource$()[0].level).toBe(0);
+      expect(componentInstance.dataSource$()[0].level).toBe(0);
     });
   });
   describe('When applyRange() is called and only one element is in the array and the object has been resolved and node is expanded', () => {
@@ -311,32 +312,32 @@ describe('TreeComponentService', () => {
       expandedMap.delete('1', 0, '1');
     });
     it('should return fullDataSource and dataSource length of 2', () => {
-      expect(componentInstance.fullDataSource.length).toBe(2);
-      expect(componentInstance.dataSource.length).toBe(2);
+      expect(componentInstance.fullDataSource$().length).toBe(2);
+      expect(componentInstance.dataSource$().length).toBe(2);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
-      expect(componentInstance.fullDataSource[0].node.id).toBe('1');
-      expect(componentInstance.dataSource[0].node.id).toBe('1');
-      expect(componentInstance.fullDataSource[1].node.id).toBe('1');
-      expect(componentInstance.dataSource[1].node.id).toBe('1');
+      expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
+      expect(componentInstance.dataSource$()[0].node.id).toBe('1');
+      expect(componentInstance.fullDataSource$()[1].node.id).toBe('1');
+      expect(componentInstance.dataSource$()[1].node.id).toBe('1');
     });
     it('should return fullDataSource and dataSource [0].name of "department1"', () => {
-      expect(componentInstance.fullDataSource[0].name).toBe('department1');
-      expect(componentInstance.dataSource[0].name).toBe('department1');
-      expect(componentInstance.fullDataSource[1].name).toBe(department1a);
-      expect(componentInstance.dataSource[1].name).toBe(department1a);
+      expect(componentInstance.fullDataSource$()[0].name).toBe('department1');
+      expect(componentInstance.dataSource$()[0].name).toBe('department1');
+      expect(componentInstance.fullDataSource$()[1].name).toBe(department1a);
+      expect(componentInstance.dataSource$()[1].name).toBe(department1a);
     });
     it('should return fullDataSource and dataSource [0].hasChildren true', () => {
-      expect(componentInstance.fullDataSource[0].hasChildren).toBe(true);
-      expect(componentInstance.dataSource[0].hasChildren).toBe(true);
-      expect(componentInstance.fullDataSource[1].hasChildren).toBe(false);
-      expect(componentInstance.dataSource[1].hasChildren).toBe(false);
+      expect(componentInstance.fullDataSource$()[0].hasChildren).toBe(true);
+      expect(componentInstance.dataSource$()[0].hasChildren).toBe(true);
+      expect(componentInstance.fullDataSource$()[1].hasChildren).toBe(false);
+      expect(componentInstance.dataSource$()[1].hasChildren).toBe(false);
     });
     it('should return fullDataSource and dataSource [0].level of 0', () => {
-      expect(componentInstance.fullDataSource[0].level).toBe(0);
-      expect(componentInstance.dataSource[0].level).toBe(0);
-      expect(componentInstance.fullDataSource[1].level).toBe(1);
-      expect(componentInstance.dataSource[1].level).toBe(1);
+      expect(componentInstance.fullDataSource$()[0].level).toBe(0);
+      expect(componentInstance.dataSource$()[0].level).toBe(0);
+      expect(componentInstance.fullDataSource$()[1].level).toBe(1);
+      expect(componentInstance.dataSource$()[1].level).toBe(1);
     });
   });
   describe('When applyRange() is called and there are no selected locations', () => {
@@ -347,7 +348,7 @@ describe('TreeComponentService', () => {
     });
     it('should leave component.fullDataSource unchanged', () => {
       service.applyRange();
-      expect(componentInstance.fullDataSource).toEqual([]);
+      expect(componentInstance.fullDataSource$().length).toBe(0);
     });
   });
   describe('When applyRange() is called and range.start and range.end are both 0', () => {
@@ -385,7 +386,7 @@ describe('TreeComponentService', () => {
     });
     it('should leave component.fullDataSource unchanged', () => {
       service.applyRange();
-      expect(componentInstance.fullDataSource).toEqual([]);
+      expect(componentInstance.fullDataSource$().length).toBe(0);
     });
   });
   describe('when addChild is called and the node is not expanded', () => {

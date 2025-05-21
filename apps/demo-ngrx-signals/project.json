@@ -98,6 +98,13 @@
         "buildTarget": "demo-ngrx-signals:build",
         "staticFilePath": "dist/apps/demo-ngrx-signals/browser"
       }
+    },
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/demo-ngrx-signals"],
+      "options": {
+        "config": "apps/demo-ngrx-signals/playwright.config.ts"
+      }
     }
   }
 }

@@ -85,11 +85,11 @@ const eslintConfig = async () => {
               },
               {
                 sourceTag: 'scope:demo-ngrx-classic',
-                onlyDependOnLibsWithTags: ['scope:smart-ngrx'],
+                onlyDependOnLibsWithTags: ['scope:smart-ngrx', 'scope:e2e-common'],
               },
               {
                 sourceTag: 'scope:demo-ngrx-signals',
-                onlyDependOnLibsWithTags: ['scope:smart-signals'],
+                onlyDependOnLibsWithTags: ['scope:smart-signals', 'scope:e2e-common'],
               },
             ],
           },
@@ -787,10 +787,10 @@ const eslintConfig = async () => {
       .map((config) => ({
         ...config,
         files: [
-          '**/*.spec.ts',
-          '**/*.spec.tsx',
-          '**/*.spec.js',
-          '**/*.spec.jsx',
+          '**/*.{spec,test}.ts',
+          '**/*.{spec,test}.tsx',
+          '**/*.{spec,test}.js',
+          '**/*.{spec,test}.jsx',
         ],
         rules: {
           ...config.rules,

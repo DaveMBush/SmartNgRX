@@ -19,9 +19,9 @@
   [maxBufferPx]="48 * 40"
 >
   <ng-container
-    *cdkVirtualFor="let item of fullDataSource; trackBy: trackBy"
+    *cdkVirtualFor="let item of fullDataSource$(); trackBy: trackBy"
   ></ng-container>
-  <mat-tree [dataSource]="dataSource" [levelAccessor]="levelAccessor">
+  <mat-tree [dataSource]="dataSource$()" [levelAccessor]="levelAccessor">
     <!-- This is the tree node template for leaf nodes -->
     <mat-tree-node
       *matTreeNodeDef="let node"
@@ -112,16 +112,16 @@
           <mat-icon>add</mat-icon>
         </button>
         <mat-menu #addMenu="matMenu">
-          <button mat-menu-item (click)="addChild(node, 'docs')">
+          <button aria-label="Document" mat-menu-item (click)="addChild(node, 'docs')">
             Document
           </button>
-          <button mat-menu-item (click)="addChild(node, 'folders')">
+          <button aria-label="Folder" mat-menu-item (click)="addChild(node, 'folders')">
             Folder
           </button>
-          <button mat-menu-item (click)="addChild(node, 'sprint-folders')">
+          <button aria-label="Sprint Folder" mat-menu-item (click)="addChild(node, 'sprint-folders')">
             Sprint Folder
           </button>
-          <button mat-menu-item (click)="addChild(node, 'lists')">List</button>
+          <button aria-label="List" mat-menu-item (click)="addChild(node, 'lists')">List</button>
         </mat-menu>
       }
       <button
