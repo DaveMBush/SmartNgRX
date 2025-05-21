@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+
 import { loadRoute } from './load-route';
 import { locate2ndTreeNode } from './locators/locate-2nd-tree-node';
 import { locateAddButton } from './locators/locate-add-button';
@@ -9,7 +10,11 @@ import { locateEditButton } from './locators/locate-edit-button';
 import { locateEditField } from './locators/locate-edit-field';
 import { locateFirstTreeNode } from './locators/locate-first-tree-node';
 import { locateOptions } from './locators/locate-options';
+import { locateTreeLabel } from './locators/locate-tree-label';
 
+/**
+ * Runs the common tests for the tree.
+ */
 export function commonTests(): void {
   ['/tree', '/treeNoRefresh', '/treeNoRemove', '/treeNoDirty'].forEach(
     (route) => {
@@ -81,20 +86,20 @@ export function commonTests(): void {
                 await inputLocator.fill(inputValue + 'abc');
                 await page.keyboard.press('Enter');
                 await expect(
-                  locateFirstTreeNode(page).locator('span.mdc-button__label'),
+                  locateTreeLabel(locateFirstTreeNode(page)),
                 ).toHaveText(inputValue + 'abc');
                 await expect(inputLocator).toBeHidden();
                 await page.reload();
                 // wait for data to load
                 await expect(locateOptions(page)).toHaveCount(3);
                 await expect(
-                  locateFirstTreeNode(page).locator('span.mdc-button__label'),
+                  locateTreeLabel(locateFirstTreeNode(page)),
                 ).toHaveText(inputValue + 'abc');
                 await locateEditButton(page).filter({ visible: true }).click();
                 await inputLocator.fill(inputValue);
                 await page.keyboard.press('Enter');
                 await expect(
-                  locateFirstTreeNode(page).locator('span.mdc-button__label'),
+                  locateTreeLabel(locateFirstTreeNode(page)),
                 ).toHaveText(inputValue);
               });
             });
@@ -151,6 +156,7 @@ export function commonTests(): void {
               test.describe('and we enter "New docs abc" and press "Enter"', () => {
                 test.beforeEach(async ({ page }) => {
                   await locateEditField(page).click();
+                  // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test
                   await locateEditField(page).fill('New docs abc');
                   // Yes, I know, "don't use waitForTimeout", but
                   // this is the only way this code will work
