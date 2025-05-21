@@ -64,6 +64,7 @@ const eslintConfig = async () => {
     },
     {
       files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+      ignores: ['**/playwright.config.ts'],
       rules: {
         '@nx/enforce-module-boundaries': [
           'error',
@@ -71,6 +72,10 @@ const eslintConfig = async () => {
             enforceBuildableLibDependency: true,
             allow: [],
             depConstraints: [
+              {
+                sourceTag: 'scope:e2e-common',
+                onlyDependOnLibsWithTags: [],
+              },
               {
                 sourceTag: 'scope:smart-core',
                 onlyDependOnLibsWithTags: [],
@@ -85,11 +90,17 @@ const eslintConfig = async () => {
               },
               {
                 sourceTag: 'scope:demo-ngrx-classic',
-                onlyDependOnLibsWithTags: ['scope:smart-ngrx', 'scope:e2e-common'],
+                onlyDependOnLibsWithTags: [
+                  'scope:smart-ngrx',
+                  'scope:e2e-common',
+                ],
               },
               {
                 sourceTag: 'scope:demo-ngrx-signals',
-                onlyDependOnLibsWithTags: ['scope:smart-signals', 'scope:e2e-common'],
+                onlyDependOnLibsWithTags: [
+                  'scope:smart-signals',
+                  'scope:e2e-common',
+                ],
               },
             ],
           },
@@ -137,6 +148,7 @@ const eslintConfig = async () => {
       .map((config) => ({
         ...config,
         files: ['**/*.ts'],
+        ignores: ['**/playwright.config.ts'],
         rules: {
           ...config.rules,
           complexity: [

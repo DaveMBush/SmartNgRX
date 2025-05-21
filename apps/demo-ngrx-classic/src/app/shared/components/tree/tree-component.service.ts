@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { assert, SmartArray } from '@smarttools/smart-signals';
+import { assert, SmartArray } from '@smarttools/smart-ngrx';
 import { asapScheduler } from 'rxjs';
 
 import { CommonSourceNode } from './common-source-node.interface';

@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { castTo, SmartArray } from '@smarttools/smart-signals';
+import { castTo, SmartArray } from '@smarttools/smart-ngrx';
 
 import { Department } from '../../department/department.interface';
 import { CommonSourceNode } from './common-source-node.interface';
@@ -204,7 +204,7 @@ describe('TreeComponentService', () => {
       expect(componentInstance.fullDataSource$()[0].hasChildren).toBe(true);
       expect(componentInstance.dataSource$()[0].hasChildren).toBe(true);
     });
-    // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
+
     it('should return fullDataSource and dataSource [0].level of 0', () => {
       expect(componentInstance.fullDataSource$()[0].level).toBe(0);
       expect(componentInstance.dataSource$()[0].level).toBe(0);
