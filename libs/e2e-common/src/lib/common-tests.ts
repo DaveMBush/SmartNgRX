@@ -21,8 +21,6 @@ export function commonTests(): void {
       test.describe(`Tree (${route})`, () => {
         test.beforeEach(async ({ page }) => {
           await loadRoute(page, route);
-          await page.waitForLoadState('networkidle');
-          await page.waitForLoadState('domcontentloaded');
         });
 
         test('should display dropdown with 3 options', async ({ page }) => {
@@ -160,6 +158,7 @@ export function commonTests(): void {
                   await locateEditField(page).fill('New docs abc');
                   // Yes, I know, "don't use waitForTimeout", but
                   // this is the only way this code will work
+                  // eslint-disable-next-line playwright/no-wait-for-timeout -- see above
                   await page.waitForTimeout(200);
                   await page.keyboard.press('Enter');
                 });

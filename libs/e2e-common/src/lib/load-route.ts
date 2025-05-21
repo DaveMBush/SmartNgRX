@@ -1,4 +1,6 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
+
+import { locateOptions } from './locators/locate-options';
 
 /**
  * Loads a route in the Playwright page.
@@ -8,5 +10,5 @@ import { Page } from '@playwright/test';
  */
 export async function loadRoute(page: Page, route: string): Promise<void> {
   await page.goto(route);
-  await page.waitForSelector('select');
+  await expect(locateOptions(page)).toHaveCount(3);
 }

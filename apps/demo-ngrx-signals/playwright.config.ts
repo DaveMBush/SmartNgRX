@@ -27,7 +27,7 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'pnpm start:demo-ngrx-classic',
+    command: 'pnpm start:demo-ngrx-signals',
     url: 'http://localhost:4201',
     reuseExistingServer: true,
     cwd: workspaceRoot,

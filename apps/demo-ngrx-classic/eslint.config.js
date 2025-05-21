@@ -53,5 +53,11 @@ module.exports = (async () => {
         'no-console': 'off',
       },
     },
+    {
+      files: ['**/*.test.ts'],
+      rules: {
+        ...playwright.configs['flat/recommended'].rules,
+      },
+    },
   ];
 })();

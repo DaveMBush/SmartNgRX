@@ -1,5 +1,6 @@
 const { FlatCompat } = require('@eslint/eslintrc');
 const js = require('@eslint/js');
+const playwright = require('eslint-plugin-playwright');
 const baseConfigPromise = import('../../eslint.config.js');
 
 const compat = new FlatCompat({
@@ -24,6 +25,7 @@ module.exports = (async () => {
         files: ['**/*.ts'],
         rules: {
           ...config.rules,
+          ...playwright.configs['flat/recommended'].rules,
           'jsdoc/require-description': 'error',
           'jsdoc/tag-lines': [
             'error',

@@ -14,6 +14,7 @@ const ngrxEslintPlugin = require('@ngrx/eslint-plugin');
 const eslintPluginMaxParamsNoConstructor = require('eslint-plugin-max-params-no-constructor');
 const eslintPluginJest = require('eslint-plugin-jest');
 const typescriptEslintParser = require('@typescript-eslint/parser');
+const playwright = require('eslint-plugin-playwright');
 
 // can't support function until NX eslint supports ESM or
 // functional supports CommonJS OR I figure out how to get
@@ -50,6 +51,7 @@ const eslintConfig = async () => {
         'max-params-no-constructor': eslintPluginMaxParamsNoConstructor,
         jest: eslintPluginJest,
         '@stylistic': stylisticEslintPlugin,
+        playwright,
         //deprecation,
       },
     },
