@@ -5,6 +5,7 @@
   "pattern": "**/*.{js,ts,html,css,scss,json,md}",
   "//": "ignore spec files for now",
   "ignore": [
+    "**/playwright.config.ts",
     "**/eslint.config.js",
     "**/jest.config.ts",
     "**/*.spec.ts",
