@@ -4,15 +4,11 @@
   "projectType": "application",
   "prefix": "dmb",
   "sourceRoot": "apps/demo-ngrx-classic/src",
-  "tags": [
-    "scope:demo-ngrx-classic"
-  ],
+  "tags": ["scope:demo-ngrx-classic"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/demo-ngrx-classic",
         "index": "apps/demo-ngrx-classic/src/index.html",
@@ -79,9 +75,7 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
           "apps/demo-ngrx-classic/**/*.ts",
@@ -91,9 +85,7 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "apps/demo-ngrx-classic/jest.config.ts",
         "passWithNoTests": true
@@ -116,9 +108,7 @@
     },
     "e2e": {
       "executor": "@nx/playwright:playwright",
-      "outputs": [
-        "{workspaceRoot}/dist/.playwright/apps/demo-ngrx-classic"
-      ],
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/demo-ngrx-classic"],
       "options": {
         "config": "apps/demo-ngrx-classic/playwright.config.ts",
         "tsconfig": "apps/demo-ngrx-classic/e2e/tsconfig.json"

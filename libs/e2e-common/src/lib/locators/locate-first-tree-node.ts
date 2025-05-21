@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 /**
  * Locates the first tree node in the tree.

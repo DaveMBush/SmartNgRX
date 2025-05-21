@@ -12,7 +12,9 @@ export async function locateAddMenuItem(
   page: Page,
   label: string,
 ): Promise<Locator> {
-  const locator = page.locator(`button.mat-mdc-menu-item[aria-label="${label}"]`);
+  const locator = page.locator(
+    `button.mat-mdc-menu-item[aria-label="${label}"]`,
+  );
   await locator.waitFor({ state: 'visible' });
   return locator;
 }

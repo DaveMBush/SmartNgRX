@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
 /**
  * Locates the edit field in the node editor.

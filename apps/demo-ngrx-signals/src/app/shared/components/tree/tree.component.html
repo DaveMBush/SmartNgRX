@@ -112,16 +112,32 @@
           <mat-icon>add</mat-icon>
         </button>
         <mat-menu #addMenu="matMenu">
-          <button mat-menu-item aria-label="docs" (click)="addChild(node, 'docs')">
+          <button
+            mat-menu-item
+            aria-label="docs"
+            (click)="addChild(node, 'docs')"
+          >
             Document
           </button>
-          <button mat-menu-item aria-label="folders" (click)="addChild(node, 'folders')">
+          <button
+            mat-menu-item
+            aria-label="folders"
+            (click)="addChild(node, 'folders')"
+          >
             Folder
           </button>
-          <button mat-menu-item aria-label="sprint-folders" (click)="addChild(node, 'sprint-folders')">
+          <button
+            mat-menu-item
+            aria-label="sprint-folders"
+            (click)="addChild(node, 'sprint-folders')"
+          >
             Sprint Folder
           </button>
-          <button mat-menu-item aria-label="lists" (click)="addChild(node, 'lists')">
+          <button
+            mat-menu-item
+            aria-label="lists"
+            (click)="addChild(node, 'lists')"
+          >
             List
           </button>
         </mat-menu>

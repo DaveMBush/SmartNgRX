@@ -3,9 +3,7 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/e2e-common/src",
   "projectType": "library",
-  "tags": [
-    "scope:e2e-common"
-  ],
+  "tags": ["scope:e2e-common"],
   "targets": {
     "lint": {
       "executor": "@nx/eslint:lint"
