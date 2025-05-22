@@ -273,7 +273,10 @@ export abstract class FacadeBase<
           changes: entityChanges,
         } as UpdateStr<SmartNgRXRowBase>;
       });
-    this.updateMany(updates);
+    const context = this;
+    forNext(updates, function loadByIdsForNext(update) {
+      context.loadByIds(update.id.toString());
+    });
   }
 
   /**

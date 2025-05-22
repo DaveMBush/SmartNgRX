@@ -290,13 +290,11 @@ describe('FacadeBase Implementation', () => {
         '2': { id: '2', isEditing: true } as SmartNgRXRowBase,
       };
       const ids = ['1', '2'];
-      const updateManySpy = jest.spyOn(facade, 'updateMany');
+      const loadByIdsSpy = jest.spyOn(facade, 'loadByIds');
 
       facade.markDirtyWithEntities(entities, ids);
 
-      expect(updateManySpy).toHaveBeenCalledWith([
-        { id: '1', changes: { isDirty: true } },
-      ]);
+      expect(loadByIdsSpy).toHaveBeenCalledWith('1');
     });
 
     it('should not mark editing entities as dirty', () => {
@@ -304,11 +302,11 @@ describe('FacadeBase Implementation', () => {
         '1': { id: '1', isEditing: true } as SmartNgRXRowBase,
       };
       const ids = ['1'];
-      const updateManySpy = jest.spyOn(facade, 'updateMany');
+      const loadByIdsSpy = jest.spyOn(facade, 'loadByIds');
 
       facade.markDirtyWithEntities(entities, ids);
 
-      expect(updateManySpy).toHaveBeenCalledWith([]);
+      expect(loadByIdsSpy).not.toHaveBeenCalled();
     });
   });
 

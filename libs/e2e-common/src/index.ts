@@ -1,4 +1,4 @@
-export * from './lib/common-tests';
+export * from './lib/common.test';
 export * from './lib/load-route';
 export * from './lib/locators/locate-2nd-tree-node';
 export * from './lib/locators/locate-add-button';
@@ -10,3 +10,4 @@ export * from './lib/locators/locate-edit-field';
 export * from './lib/locators/locate-first-tree-node';
 export * from './lib/locators/locate-options';
 export * from './lib/locators/locate-tree-label';
+export * from './lib/websocket.test';
