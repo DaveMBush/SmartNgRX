@@ -805,7 +805,6 @@ const eslintConfig = async () => {
           '**/*.{spec,test}.tsx',
           '**/*.{spec,test}.js',
           '**/*.{spec,test}.jsx',
-          '**/common-tests.ts',
         ],
         rules: {
           ...config.rules,
