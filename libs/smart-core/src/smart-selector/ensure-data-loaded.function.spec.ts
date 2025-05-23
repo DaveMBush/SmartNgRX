@@ -6,7 +6,6 @@ import { UpdateStr } from '@ngrx/entity/src/models';
 import { FacadeBase } from '../facades/facade.base';
 import { entityDefinitionRegistry } from '../registrations/entity-definition-registry.function';
 import { entityRegistry } from '../registrations/entity-registry.class';
-import { entityRowsRegistry } from '../registrations/entity-rows-registry.class';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { featureRegistry } from '../registrations/feature-registry.class';
 import { serviceRegistry } from '../registrations/service-registry.class';
@@ -94,8 +93,6 @@ class MockFacade<T extends SmartNgRXRowBase> extends FacadeBase<T> {
 
 describe('ensureDataLoaded()', () => {
   let actionServiceLoadByIdsSpy: jest.SpyInstance;
-  let actionServiceMarkNotDirtySpy: jest.SpyInstance;
-  let entityRowsRegistrySpy: jest.SpyInstance;
   let actionService: FacadeBase | null;
   let mockEffectService: jest.Mocked<EffectService<Row>>;
 
@@ -125,8 +122,6 @@ describe('ensureDataLoaded()', () => {
 
     actionService = facadeRegistry.register(feature, entity);
     actionServiceLoadByIdsSpy = jest.spyOn(actionService, 'loadByIds');
-    actionServiceMarkNotDirtySpy = jest.spyOn(actionService, 'markNotDirty');
-    entityRowsRegistrySpy = jest.spyOn(entityRowsRegistry, 'register');
   });
 
   afterEach(() => {
@@ -179,39 +174,135 @@ describe('ensureDataLoaded()', () => {
     });
     describe('and isDirty is true but mark dirty does not fetch new', () => {
       beforeEach(() => {
-        // have to unregister and re-register so we can set markDirtyFetchesNew
-        // and because we already registered in the parent beforeEach
         entityRegistry.unregister(feature, entity);
         entityRegistry.register(feature, entity, {
           markAndDeleteInit: { markDirtyFetchesNew: false },
         } as EntityAttributes);
 
-        const row = { id: 'id', name: 'foo', isDirty: true };
         ensureDataLoaded<Row>(
           {
             ids: [],
-            entities: { id: row },
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
           },
           'id',
           'feature',
           'entity',
         );
       });
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
+      });
+    });
 
-      it('should register the entity row', () => {
-        expect(entityRowsRegistrySpy).toHaveBeenCalledWith(
+    describe('and idsId is undefined', () => {
+      beforeEach(() => {
+        ensureDataLoaded<Row>(
+          {
+            ids: [],
+            entities: {},
+          },
+          'id',
           'feature',
           'entity',
-          [{ id: 'id', name: 'foo', isDirty: true }],
         );
       });
-
-      it('should mark the entity as not dirty', () => {
-        expect(actionServiceMarkNotDirtySpy).toHaveBeenCalledWith('id');
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
       });
+    });
 
-      it('should not call loadByIds', () => {
-        expect(actionServiceLoadByIdsSpy).not.toHaveBeenCalled();
+    describe('and markDirtyFetchesNew is null', () => {
+      beforeEach(() => {
+        entityRegistry.unregister(feature, entity);
+        entityRegistry.register(feature, entity, {
+          markAndDeleteInit: {
+            markDirtyFetchesNew: false,
+            markDirtyTime: 1000,
+            removeTime: 2000,
+            runInterval: 1000,
+          },
+          defaultRow: (id: string) => ({ id, name: '' }),
+          markAndDeleteEntityMap: new Map<string, number>(),
+        } as EntityAttributes);
+
+        ensureDataLoaded<Row>(
+          {
+            ids: [],
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
+      });
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('and markDirtyFetchesNew is undefined', () => {
+      beforeEach(() => {
+        entityRegistry.unregister(feature, entity);
+        entityRegistry.register(feature, entity, {
+          markAndDeleteInit: {
+            markDirtyFetchesNew: false,
+            markDirtyTime: 1000,
+            removeTime: 2000,
+            runInterval: 1000,
+          },
+          defaultRow: (id: string) => ({ id, name: '' }),
+          markAndDeleteEntityMap: new Map<string, number>(),
+        } as EntityAttributes);
+
+        ensureDataLoaded<Row>(
+          {
+            ids: [],
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
+      });
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('and markDirtyFetchesNew is false', () => {
+      beforeEach(() => {
+        entityRegistry.unregister(feature, entity);
+        entityRegistry.register(feature, entity, {
+          markAndDeleteInit: {
+            markDirtyFetchesNew: false,
+            markDirtyTime: 1000,
+            removeTime: 2000,
+            runInterval: 1000,
+          },
+          defaultRow: (id: string) => ({ id, name: '' }),
+          markAndDeleteEntityMap: new Map<string, number>(),
+        } as EntityAttributes);
+
+        ensureDataLoaded<Row>(
+          {
+            ids: [],
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
+      });
+      it('should call the action service to load the id', () => {
+        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
       });
     });
   });
