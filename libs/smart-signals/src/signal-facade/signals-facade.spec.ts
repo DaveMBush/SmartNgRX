@@ -534,14 +534,16 @@ describe('SignalsFacade', () => {
         };
 
         // Create a spy on updateMany
-        const loadByIdsSpy = jest.spyOn(service, 'loadByIds');
+        const updateManySpy = jest.spyOn(service, 'updateMany');
 
         // Call markDirtyWithEntities
         service.markDirtyWithEntities(mockEntities, ['1', '2', '3', '4']);
 
         // Only entities 2 and 3 should be marked as dirty (not 1 as it's being edited, and not 4 as it doesn't exist)
-        expect(loadByIdsSpy).toHaveBeenCalledWith('2');
-        expect(loadByIdsSpy).toHaveBeenCalledWith('3');
+        expect(updateManySpy).toHaveBeenCalledWith([
+          { id: '2', changes: { isDirty: true } },
+          { id: '3', changes: { isDirty: true } },
+        ]);
       });
     });
 
