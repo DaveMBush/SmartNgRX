@@ -349,8 +349,8 @@ importers:
         specifier: 19.2.2
         version: 19.2.2(@angular/compiler-cli@19.2.11(@angular/compiler@19.2.11)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3)
       ngx-skeleton-loader:
-        specifier: ^11.0.0
-        version: 11.0.0(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))
+        specifier: ^11.1.0
+        version: 11.1.0(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))
       nx:
         specifier: 21.0.3
         version: 21.0.3(@swc-node/register@1.10.10(@swc/core@1.11.24(@swc/helpers@0.5.17))(@swc/types@0.1.21)(typescript@5.8.3))(@swc/core@1.11.24(@swc/helpers@0.5.17))
@@ -8753,8 +8753,8 @@ packages:
       tailwindcss:
         optional: true
 
-  ngx-skeleton-loader@11.0.0:
-    resolution: {integrity: sha512-SVWgrePXqIX0ToLf/G0Ce+aE6qXCKl/c+9arV61eiFlrqXXaMlXCkVAYT/wpK+4xgVMHXvQha1mnG9YcKVHQ1A==}
+  ngx-skeleton-loader@11.1.0:
+    resolution: {integrity: sha512-ZeLOFvrGoTbW9lwJUlL9LP7m3OUU0iMvT3okTDqnXDffawJMBSXKRM6I7bf/33THHHYJEC/JRegtWa3gY3vY7g==}
     peerDependencies:
       '@angular/common': '>=19.0.0'
       '@angular/core': '>=19.0.0'
@@ -22631,7 +22631,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.40.1
 
-  ngx-skeleton-loader@11.0.0(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)):
+  ngx-skeleton-loader@11.1.0(@angular/common@19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0)):
     dependencies:
       '@angular/common': 19.2.11(@angular/core@19.2.11(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/core': 19.2.11(rxjs@7.8.2)(zone.js@0.15.0)
