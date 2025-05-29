@@ -24,7 +24,8 @@
       "@smarttools/e2e-common": ["libs/e2e-common/src/index.ts"],
       "@smarttools/smart-core": ["libs/smart-core/src/index.ts"],
       "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"],
-      "@smarttools/smart-signals": ["libs/smart-signals/src"]
+      "@smarttools/smart-signals": ["libs/smart-signals/src"],
+      "@smarttools/smart-signals/testing": ["libs/smart-signals/src/testing.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

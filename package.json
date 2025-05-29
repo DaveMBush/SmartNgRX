@@ -4,9 +4,11 @@
   "license": "MIT",
   "scripts": {
     "start:demo-ngrx-classic": "nx serve demo-ngrx-classic",
+    "start:demo-ngrx-classic:e2e-tests": "nx serve demo-ngrx-classic --configuration=e2e-tests",
     "start:demo-ngrx-classic:e2e": "nx e2e demo-ngrx-classic",
     "start:prod:demo-ngrx-classic": "nx serve demo-ngrx-classic --configuration=production",
     "start:demo-ngrx-signals": "nx serve demo-ngrx-signals",
+    "start:demo-ngrx-signals:e2e-tests": "nx serve demo-ngrx-signals --configuration=e2e-tests",
     "start:demo-ngrx-signals:e2e": "nx e2e demo-ngrx-signals",
     "start:prod:demo-ngrx-signal": "nx serve demo-ngrx-signals --configuration=production",
     "start:server": "nx serve server",

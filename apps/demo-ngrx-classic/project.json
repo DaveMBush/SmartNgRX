@@ -47,6 +47,18 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "e2e-tests": {
+          "optimization": true,
+          "extractLicenses": true,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-ngrx-classic/src/app/app.config.ts",
+              "with": "apps/demo-ngrx-classic/src/app/app.config.e2e.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -59,6 +71,9 @@
         },
         "development": {
           "buildTarget": "demo-ngrx-classic:build:development"
+        },
+        "e2e-tests": {
+          "buildTarget": "demo-ngrx-classic:build:e2e-tests"
         }
       },
       "defaultConfiguration": "development",
