@@ -6,7 +6,8 @@ import { getStoreFeature } from './get-store-feature';
 export async function getFeatureEntity<T>(
   page: Page,
   feature: string,
+  entity: string,
 ): Promise<EntityState<T>> {
   const state = await getStoreFeature(page, feature);
-  return state[feature] as EntityState<T>;
+  return state[entity] as EntityState<T>;
 }
