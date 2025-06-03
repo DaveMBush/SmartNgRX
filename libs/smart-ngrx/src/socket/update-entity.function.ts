@@ -3,10 +3,12 @@
 // different it needs to be its own code
 import { Dictionary, EntityState } from '@ngrx/entity';
 import {
+  entityRegistry,
   FacadeBase,
   facadeRegistry,
   featureRegistry,
   forNext,
+  isNullOrUndefined,
   SmartNgRXRowBase,
 } from '@smarttools/smart-core';
 import { take } from 'rxjs';
@@ -55,7 +57,18 @@ function forceIdDirty<T extends SmartNgRXRowBase>(
   state: Dictionary<T>,
   actionService: FacadeBase<T>,
 ): (id: string) => void {
+  const registry = entityRegistry.get(
+    actionService.feature,
+    actionService.entity,
+  );
+  const markDirtyFetchesNew = !(
+    isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
+    !registry.markAndDeleteInit.markDirtyFetchesNew
+  );
   return function innerForceIdDirty(id: string) {
+    if (markDirtyFetchesNew && state[id] !== undefined) {
+      actionService.loadByIds(id);
+    }
     if (state[id] !== undefined) {
       actionService.forceDirty([id]);
     }

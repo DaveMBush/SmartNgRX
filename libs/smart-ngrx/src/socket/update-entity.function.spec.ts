@@ -3,7 +3,6 @@ import {
   EffectService,
   entityDefinitionRegistry,
   entityRegistry,
-  FacadeBase,
   facadeRegistry,
   featureRegistry,
   MarkAndDeleteInit,
@@ -19,7 +18,7 @@ const feature = 'testFeature';
 const entity = 'testEntity';
 
 describe('updateEntity', () => {
-  let actionService: FacadeBase | null = null;
+  let actionService: ClassicNgrxFacade | null = null;
   let actionServiceForceDirtySpy: jest.SpyInstance;
   let mockEffectService: jest.Mocked<EffectService<{ id: string }>>;
 
@@ -58,7 +57,10 @@ describe('updateEntity', () => {
 
     featureRegistry.registerFeature(feature);
     facadeRegistry.register(feature, entity, ClassicNgrxFacade);
-    actionService = facadeRegistry.register(feature, entity);
+    actionService = facadeRegistry.register(
+      feature,
+      entity,
+    ) as ClassicNgrxFacade;
     actionServiceForceDirtySpy = jest.spyOn(actionService, 'forceDirty');
   });
 
@@ -161,5 +163,72 @@ describe('updateEntity', () => {
     expect(actionServiceForceDirtySpy).not.toHaveBeenCalled();
 
     hasFeatureSpy.mockRestore();
+  });
+
+  it('should call loadByIds when markDirtyFetchesNew is true and entity exists', () => {
+    const loadByIdsSpy = jest.spyOn(actionService!, 'loadByIds');
+    const state = {
+      ids: ['1'],
+      entities: {
+        '1': { id: '1' },
+      },
+    };
+    setState(feature, entity, state);
+
+    // Ensure markDirtyFetchesNew is true
+    const registry = entityRegistry.get(feature, entity);
+    registry.markAndDeleteInit.markDirtyFetchesNew = true;
+
+    updateEntity(feature, entity, ['1']);
+
+    expect(loadByIdsSpy).toHaveBeenCalledWith('1');
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['1']);
+
+    loadByIdsSpy.mockRestore();
+  });
+
+  it('should not call loadByIds when markDirtyFetchesNew is false', () => {
+    const loadByIdsSpy = jest.spyOn(actionService!, 'loadByIds');
+    const state = {
+      ids: ['1'],
+      entities: {
+        '1': { id: '1' },
+      },
+    };
+    setState(feature, entity, state);
+
+    // Set markDirtyFetchesNew to false
+    const registry = entityRegistry.get(feature, entity);
+    registry.markAndDeleteInit.markDirtyFetchesNew = false;
+
+    updateEntity(feature, entity, ['1']);
+
+    expect(loadByIdsSpy).not.toHaveBeenCalled();
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['1']);
+
+    loadByIdsSpy.mockRestore();
+  });
+
+  it('should not call loadByIds when markDirtyFetchesNew is undefined', () => {
+    const loadByIdsSpy = jest.spyOn(actionService!, 'loadByIds');
+    const state = {
+      ids: ['1'],
+      entities: {
+        '1': { id: '1' },
+      },
+    };
+    setState(feature, entity, state);
+
+    // Set markDirtyFetchesNew to undefined
+    const registry = entityRegistry.get(feature, entity);
+    // @ts-expect-error - we want to test the case where markDirtyFetchesNew is undefined
+    registry.markAndDeleteInit.markDirtyFetchesNew = undefined;
+
+    updateEntity(feature, entity, ['1']);
+
+    expect(loadByIdsSpy).not.toHaveBeenCalled();
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith(['1']);
+
+    loadByIdsSpy.mockRestore();
   });
 });

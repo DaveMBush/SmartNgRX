@@ -109,23 +109,11 @@ export class ClassicNgrxFacade<
    * @param ids the ids to mark as dirty
    */
   override markDirty(ids: string[]): void {
-    const context = this;
     // if this is the initial row, we have to re-fetch the
     // main row so that we have the most recent data
     // or is will eventually be removed from the store.
     if (this.entityDefinition.isInitialRow === true) {
       this.loadByIds(ids[0]);
-      return;
-    }
-    if (!this.markDirtyFetchesNew) {
-      this.entities
-        .pipe(take(1))
-        .subscribe(function markDirtySubscribe(entities) {
-          context.markDirtyNoFetchWithEntities(
-            entities as Record<string, T>,
-            ids,
-          );
-        });
       return;
     }
     this.forceDirty(ids);
