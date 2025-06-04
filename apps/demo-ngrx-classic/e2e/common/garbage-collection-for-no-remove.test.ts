@@ -11,7 +11,7 @@ import { getFeatureEntity } from '../helpers/get-feature-entity';
 
 const featureName = 'tree-no-remove';
 
-test.describe('Garbage collection for no refresh', () => {
+test.describe('Garbage collection for no remove', () => {
   test.setTimeout(6 * 1000 * 60);
   test('collects garbage', async ({ page }) => {
     await page.goto('http://localhost:4200/treeNoRemove');

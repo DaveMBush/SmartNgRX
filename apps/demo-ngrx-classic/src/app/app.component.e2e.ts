@@ -53,7 +53,6 @@ export class AppComponent implements OnInit {
   private store = inject(Store);
   private socketService = inject(SocketService);
   activeLink: Observable<string> = of('');
-  useVirtualArrays = false;
   static navigationEndRoute(event: NavigationEnd): string {
     return event.urlAfterRedirects.split('/')[1];
   }
@@ -67,9 +66,9 @@ export class AppComponent implements OnInit {
       filter(AppComponent.navigationEndGuard),
       map(AppComponent.navigationEndRoute),
     );
-    const context = this;
     let state = {} as Record<string, unknown>;
-    context.store.subscribe(function resolveState(
+    // eslint-disable-next-line @ngrx/no-store-subscription -- special use for e2e testing
+    this.store.subscribe(function resolveState(
       s: Record<string, unknown>,
     ): void {
       state = s;
