@@ -1,10 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeStandardState } from '../../selectors/select-tree-standard-state.selectors';
+import { Location } from '../../../../../shared/locations/location.interface';
 
-export const selectLocationEntities = createSelector(
-  selectTreeStandardState,
-  function selectLocationEntitiesFunction(state) {
-    return state.locations;
-  },
+export const selectLocationEntities = createSmartSelector<Location>(
+  'tree-standard',
+  'locations',
 );

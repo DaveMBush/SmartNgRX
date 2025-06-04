@@ -1,10 +1,6 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoRefreshState } from '../selectors/select-tree-no-refresh-state.selectors';
-
-export const selectDepartmentChildren = createSelector(
-  selectTreeNoRefreshState,
-  function selectDepartmentChildrenFunction(state) {
-    return state.departmentChildren;
-  },
+export const selectDepartmentChildren = createSmartSelector(
+  'tree-no-refresh',
+  'departmentChildren',
 );

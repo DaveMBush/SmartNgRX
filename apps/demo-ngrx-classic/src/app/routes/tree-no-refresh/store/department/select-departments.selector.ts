@@ -1,10 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoRefreshState } from '../selectors/select-tree-no-refresh-state.selectors';
+import { Department } from '../../../../shared/department/department.interface';
 
-export const selectDepartments = createSelector(
-  selectTreeNoRefreshState,
-  function selectDepartmentsFunction(state) {
-    return state.departments;
-  },
+export const selectDepartments = createSmartSelector<Department>(
+  'tree-no-refresh',
+  'departments',
 );

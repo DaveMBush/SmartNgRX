@@ -1,10 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoRemoveState } from '../selectors/select-tree-no-remove-state.selectors';
+import { Department } from '../../../../shared/department/department.interface';
 
-export const selectDepartments = createSelector(
-  selectTreeNoRemoveState,
-  function selectDepartmentsFunction(state) {
-    return state.departments;
-  },
+export const selectDepartments = createSmartSelector<Department>(
+  'tree-no-remove',
+  'departments',
 );
