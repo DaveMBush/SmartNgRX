@@ -7,13 +7,12 @@ We register our definitions by feature. By making even your common NgRX entities
 The following is how we would register our User entity as part of the `shared` feature with Smart NgRX:
 
 ```typescript
-@NgModule({
   // ...
   providers: [provideSmartFeatureClassicEntities('shared', [usersDefinition])],
-  // ...
 })
-export class SharedModule {}
 ```
+
+Either as part of a lazy loaded route module or as part of the providers section of a lazy loaded route.
 
 Remember, we defined `usersDefinition` earlier in the [Entity Definitions](/using-smart-ng-rx/entity-definitions) section.
 
