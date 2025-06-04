@@ -154,24 +154,6 @@ describe('ensureDataLoaded()', () => {
         expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
       });
     });
-    describe('and isDirty is true and mark dirty fetches new', () => {
-      beforeEach(() => {
-        ensureDataLoaded<Row>(
-          {
-            ids: [],
-            entities: {
-              id: { id: 'id', name: 'foo', isDirty: true },
-            },
-          },
-          'id',
-          'feature',
-          'entity',
-        );
-      });
-      it('should call the action service to load the id', () => {
-        expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
-      });
-    });
     describe('and isDirty is true but mark dirty does not fetch new', () => {
       beforeEach(() => {
         entityRegistry.unregister(feature, entity);
@@ -303,6 +285,49 @@ describe('ensureDataLoaded()', () => {
       });
       it('should call the action service to load the id', () => {
         expect(actionServiceLoadByIdsSpy).toHaveBeenCalled();
+      });
+    });
+
+    describe('and markDirtyFetchesNew is true', () => {
+      let markNotDirtySpy: jest.SpyInstance;
+
+      beforeEach(() => {
+        entityRegistry.unregister(feature, entity);
+        entityRegistry.register(feature, entity, {
+          markAndDeleteInit: {
+            markDirtyFetchesNew: true,
+            markDirtyTime: 1000,
+            removeTime: 2000,
+            runInterval: 1000,
+          },
+          defaultRow: (id: string) => ({ id, name: '' }),
+          markAndDeleteEntityMap: new Map<string, number>(),
+        } as EntityAttributes);
+
+        if (!actionService) {
+          throw new Error('Action service is null');
+        }
+        markNotDirtySpy = jest.spyOn(actionService, 'markNotDirty');
+
+        ensureDataLoaded<Row>(
+          {
+            ids: [],
+            entities: {
+              id: { id: 'id', name: 'foo', isDirty: true },
+            },
+          },
+          'id',
+          'feature',
+          'entity',
+        );
+      });
+
+      it('should not call loadByIds', () => {
+        expect(actionServiceLoadByIdsSpy).not.toHaveBeenCalled();
+      });
+
+      it('should call markNotDirty', () => {
+        expect(markNotDirtySpy).toHaveBeenCalledWith('id');
       });
     });
   });

@@ -55,6 +55,10 @@
           "namedChunks": true,
           "fileReplacements": [
             {
+              "replace": "apps/demo-ngrx-classic/src/app/app.component.ts",
+              "with": "apps/demo-ngrx-classic/src/app/app.component.e2e.ts"
+            },
+            {
               "replace": "apps/demo-ngrx-classic/src/app/app.config.ts",
               "with": "apps/demo-ngrx-classic/src/app/app.config.e2e.ts"
             }

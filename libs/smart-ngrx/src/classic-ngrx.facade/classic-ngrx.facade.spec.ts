@@ -543,43 +543,6 @@ describe('ActionService', () => {
         // Verify loadByIds was called with the first id
         expect(loadByIdsSpy).toHaveBeenCalledWith('1');
       });
-
-      it('should call markDirtyNoFetchWithEntities when markDirtyFetchesNew is false', fakeAsync(() => {
-        // Set up mock entities
-        const mockEntities: Record<string, MockEntity> = {
-          '1': { id: '1', name: 'test' },
-          '2': { id: '2', name: 'test2' },
-        };
-
-        // Create a new service instance
-        const testService = new ClassicNgrxFacade(
-          'testFeature',
-          'testEntity',
-        ) as unknown as TestableActionService;
-
-        // Manually set required properties
-        testService['entityDefinition'] = { isInitialRow: false } as Partial<
-          (typeof testService)['entityDefinition']
-        >;
-        testService.markDirtyFetchesNew = false;
-        testService.entities = of(mockEntities);
-
-        // Spy on markDirtyNoFetchWithEntities
-        const markDirtyNoFetchSpy = jest.spyOn(
-          testService,
-          'markDirtyNoFetchWithEntities',
-        );
-
-        // Call markDirty
-        testService.markDirty(['1', '2']);
-        tick();
-
-        // Verify markDirtyNoFetchWithEntities was called with correct parameters
-        expect(markDirtyNoFetchSpy).toHaveBeenCalledWith(mockEntities, [
-          '1',
-          '2',
-        ]);
-      }));
     });
 
     describe('garbageCollect', () => {

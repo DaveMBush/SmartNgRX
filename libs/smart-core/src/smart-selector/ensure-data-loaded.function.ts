@@ -1,5 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 
+import { entityRegistry, entityRowsRegistry, isNullOrUndefined } from '..';
 import { zoneless } from '../common/zoneless.function';
 import { FacadeBase } from '../facades/facade.base';
 import { facadeRegistry } from '../registrations/facade-registry.class';
@@ -27,11 +28,22 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   const ids = entityState.entities as Record<string, T>;
 
   const idsId = ids[id];
-
+  const registry = entityRegistry.get(feature, entity);
+  const markDirtyFetchesNew = !(
+    isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
+    !registry.markAndDeleteInit.markDirtyFetchesNew
+  );
   /* istanbul ignore next  -- can't test ?. */
   const isUndefinedOrDirty = idsId?.isDirty === undefined || idsId?.isDirty;
+  const isDirtyAndShouldNotFetch =
+    idsId?.isDirty === true && markDirtyFetchesNew;
 
-  if (isUndefinedOrDirty) {
+  if (isDirtyAndShouldNotFetch) {
+    entityRowsRegistry.register(feature, entity, [idsId]);
+    void unpatchedPromise.resolve().then(function actionServiceMarkNotDirty() {
+      actionService.markNotDirty(id);
+    });
+  } else if (isUndefinedOrDirty) {
     // too much trouble to pass Zone in so just going after
     // unpatched Promise directly.
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'

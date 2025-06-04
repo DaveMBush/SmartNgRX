@@ -8,6 +8,7 @@ export * from './lib/locators/locate-delete-button';
 export * from './lib/locators/locate-edit-button';
 export * from './lib/locators/locate-edit-field';
 export * from './lib/locators/locate-first-tree-node';
+export * from './lib/locators/locate-home-link';
 export * from './lib/locators/locate-options';
 export * from './lib/locators/locate-tree-label';
 export * from './lib/websocket.test';

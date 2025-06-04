@@ -11,9 +11,26 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { filter, map, Observable, of } from 'rxjs';
 
 import { SocketService } from './shared/socket.service';
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/naming-convention -- special use for e2e testing
+    __APP_STORE__: {
+      getState(): Record<string, unknown>;
+    };
+  }
+}
+
+// eslint-disable-next-line no-underscore-dangle -- special use for e2e testing
+window.__APP_STORE__ = {
+  getState: function getState(): Record<string, unknown> {
+    return {} as Record<string, unknown>;
+  },
+};
 
 @Component({
   standalone: true,
@@ -33,6 +50,7 @@ import { SocketService } from './shared/socket.service';
 })
 export class AppComponent implements OnInit {
   private router = inject(Router);
+  private store = inject(Store);
   private socketService = inject(SocketService);
   activeLink: Observable<string> = of('');
   static navigationEndRoute(event: NavigationEnd): string {
@@ -48,5 +66,19 @@ export class AppComponent implements OnInit {
       filter(AppComponent.navigationEndGuard),
       map(AppComponent.navigationEndRoute),
     );
+    let state = {} as Record<string, unknown>;
+    // eslint-disable-next-line @ngrx/no-store-subscription -- special use for e2e testing
+    this.store.subscribe(function resolveState(
+      s: Record<string, unknown>,
+    ): void {
+      state = s;
+    });
+    // eslint-disable-next-line no-underscore-dangle -- special use for e2e testing
+    window.__APP_STORE__.getState = function getState(): Record<
+      string,
+      unknown
+    > {
+      return state;
+    };
   }
 }
