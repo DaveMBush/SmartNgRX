@@ -1,13 +1,11 @@
 // jscpd:ignore-start
 // intentionally duplicated because it is for different state for demo purposes
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoDirtyState } from '../../selectors/select-tree-no-dirty-state.selectors';
+import { Location } from '../../../../../shared/locations/location.interface';
 
-export const selectLocationEntities = createSelector(
-  selectTreeNoDirtyState,
-  function selectLocationEntitiesFunction(state) {
-    return state.locations;
-  },
+export const selectLocationEntities = createSmartSelector<Location>(
+  'tree-no-dirty',
+  'locations',
 );
 // jscpd:ignore-end

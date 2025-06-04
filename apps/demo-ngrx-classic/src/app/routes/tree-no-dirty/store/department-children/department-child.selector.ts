@@ -1,10 +1,6 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoDirtyState } from '../selectors/select-tree-no-dirty-state.selectors';
-
-export const selectDepartmentChildren = createSelector(
-  selectTreeNoDirtyState,
-  function selectDepartmentChildrenFunction(state) {
-    return state.departmentChildren;
-  },
+export const selectDepartmentChildren = createSmartSelector(
+  'tree-no-dirty',
+  'departmentChildren',
 );

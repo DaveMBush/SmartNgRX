@@ -1,13 +1,11 @@
 // jscpd:ignore-start
 // intentionally duplicated.
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoRefreshState } from '../selectors/select-tree-no-refresh-state.selectors';
+import { Top } from '../../../../shared/top/top.interface';
 
-export const selectTopEntities = createSelector(
-  selectTreeNoRefreshState,
-  function selectTopEntitiesFunction(state) {
-    return state.top;
-  },
+export const selectTopEntities = createSmartSelector<Top>(
+  'tree-no-refresh',
+  'top',
 );
 // jscpd:ignore-end

@@ -1,13 +1,11 @@
 // jscpd:ignore-start
 // intentionally duplicated because it is for different state for demo purposes
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoRefreshState } from '../../selectors/select-tree-no-refresh-state.selectors';
+import { Location } from '../../../../../shared/locations/location.interface';
 
-export const selectLocationEntities = createSelector(
-  selectTreeNoRefreshState,
-  function selectLocationEntitiesFunction(state) {
-    return state.locations;
-  },
+export const selectLocationEntities = createSmartSelector<Location>(
+  'tree-no-refresh',
+  'locations',
 );
 // jscpd:ignore-end
