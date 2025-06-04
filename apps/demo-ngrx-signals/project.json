@@ -46,6 +46,18 @@
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
+        },
+        "e2e-tests": {
+          "optimization": true,
+          "extractLicenses": true,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-ngrx-signals/src/app/app.config.ts",
+              "with": "apps/demo-ngrx-signals/src/app/app.config.e2e.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -58,13 +70,17 @@
         },
         "development": {
           "buildTarget": "demo-ngrx-signals:build:development"
+        },
+        "e2e-tests": {
+          "buildTarget": "demo-ngrx-signals:build:e2e-tests"
         }
       },
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "apps/demo-ngrx-signals/proxy.conf.json",
         "port": 4201
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -96,6 +112,13 @@
         "port": 4201,
         "buildTarget": "demo-ngrx-signals:build",
         "staticFilePath": "dist/apps/demo-ngrx-signals/browser"
+      }
+    },
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/demo-ngrx-signals"],
+      "options": {
+        "config": "apps/demo-ngrx-signals/playwright.config.ts"
       }
     }
   }

@@ -1,13 +1,11 @@
 // jscpd:ignore-start
 // intentionally duplicated.
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoDirtyState } from '../selectors/select-tree-no-dirty-state.selectors';
+import { Top } from '../../../../shared/top/top.interface';
 
-export const selectTopEntities = createSelector(
-  selectTreeNoDirtyState,
-  function selectTopEntitiesFunction(state) {
-    return state.top;
-  },
+export const selectTopEntities = createSmartSelector<Top>(
+  'tree-no-dirty',
+  'top',
 );
 // jscpd:ignore-end

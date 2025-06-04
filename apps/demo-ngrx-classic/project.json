@@ -47,6 +47,22 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "e2e-tests": {
+          "optimization": true,
+          "extractLicenses": true,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/demo-ngrx-classic/src/app/app.component.ts",
+              "with": "apps/demo-ngrx-classic/src/app/app.component.e2e.ts"
+            },
+            {
+              "replace": "apps/demo-ngrx-classic/src/app/app.config.ts",
+              "with": "apps/demo-ngrx-classic/src/app/app.config.e2e.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -59,12 +75,16 @@
         },
         "development": {
           "buildTarget": "demo-ngrx-classic:build:development"
+        },
+        "e2e-tests": {
+          "buildTarget": "demo-ngrx-classic:build:e2e-tests"
         }
       },
       "defaultConfiguration": "development",
       "options": {
         "proxyConfig": "apps/demo-ngrx-classic/proxy.conf.json"
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -103,6 +123,14 @@
         "port": 4200,
         "buildTarget": "demo-ngrx-classic:build",
         "staticFilePath": "./dist/apps/demo-ngrx-classic/browser"
+      }
+    },
+    "e2e": {
+      "executor": "@nx/playwright:playwright",
+      "outputs": ["{workspaceRoot}/dist/.playwright/apps/demo-ngrx-classic"],
+      "options": {
+        "config": "apps/demo-ngrx-classic/playwright.config.ts",
+        "tsconfig": "apps/demo-ngrx-classic/e2e/tsconfig.json"
       }
     }
   }

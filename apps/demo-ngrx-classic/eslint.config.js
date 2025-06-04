@@ -1,3 +1,4 @@
+const playwright = require('eslint-plugin-playwright');
 const { FlatCompat } = require('@eslint/eslintrc');
 const js = require('@eslint/js');
 const baseConfigPromise = import('../../eslint.config.js');
@@ -50,6 +51,12 @@ module.exports = (async () => {
       files: ['**/src/app/error-handler/error-handler.service.ts'],
       rules: {
         'no-console': 'off',
+      },
+    },
+    {
+      files: ['**/*.test.ts'],
+      rules: {
+        ...playwright.configs['flat/recommended'].rules,
       },
     },
   ];

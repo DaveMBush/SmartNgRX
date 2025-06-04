@@ -8,6 +8,8 @@ As you may remember from our [Global Registration](/using-smart-ng-rx/global-reg
 
 Simply add the `provideSmartNgRX` function to the providers array like we've done in [apps/demo-ngrx-classic/src/app/app.config.ts](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/app.config.ts#L74)
 
+Also, don't forget to register the parent store using `StoreModule.forRoot({})` as outlined in the [Global Registration](/using-smart-ng-rx/global-registration) documentation.
+
 ## Entity Registration
 
 The next step we covered in our documentation was [Entity Registration](/using-smart-ng-rx/entity-registration) which registers the features and entities that we want to use in our appliction.

@@ -6,13 +6,13 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   DestroyRef,
   effect,
   inject,
   input,
   output,
+  signal,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -59,7 +59,7 @@ import { TreeNode } from './tree-node.interface';
 })
 export class TreeComponent implements AfterViewInit {
   private treeComponentService = inject(TreeComponentService);
-  isAfterViewInit = false;
+  isInitialized = signal<boolean>(false);
   locations$ = input.required<Location[] | null>();
   locationId$ = input<number | string | null>('');
   location$ = input<Location | null>(null);
@@ -70,8 +70,8 @@ export class TreeComponent implements AfterViewInit {
 
   range = { start: 0, end: -1 };
 
-  dataSource: TreeNode[] = [];
-  fullDataSource: TreeNode[] = [];
+  dataSource$ = signal<TreeNode[]>([]);
+  fullDataSource$ = signal<TreeNode[]>([]);
   selectedNode = '';
   editingNode = '';
   // we can't edit the node in place because it will get overwritten when the
@@ -83,14 +83,14 @@ export class TreeComponent implements AfterViewInit {
   waitForScroll = false;
   destroyRef = inject(DestroyRef);
 
-  constructor(private cd: ChangeDetectorRef) {
+  constructor() {
     this.treeComponentService.form = this;
     const context = this;
     effect(function watchLocation() {
       const location = context.location$();
-      if (location !== null && location !== undefined) {
+      const isInitialized = context.isInitialized();
+      if (isInitialized && location !== null && location !== undefined) {
         context.treeComponentService.applyRange();
-        context.cd.markForCheck();
       }
     });
   }
@@ -176,25 +176,24 @@ export class TreeComponent implements AfterViewInit {
       )
       .subscribe(function addChildScrollToPositionSubscribeFunction() {
         context.treeComponentService.applyRange();
-        context.cd.markForCheck();
         context.waitForScroll = false;
       });
   }
 
   ngAfterViewInit(): void {
-    this.isAfterViewInit = true;
-    // we have to call applyRange here or the list won't get painted
-    // once the data has been initialized.
-    this.treeComponentService.applyRange();
+    this.isInitialized.set(true);
     const context = this;
+    // this stream watches for scrolling
     this.virtualScroll.renderedRangeStream
       .pipe(debounceTime(100), takeUntilDestroyed(this.destroyRef))
       .subscribe(function scrollRangeStreamSubscribeFunction(range) {
         context.range = range;
         context.treeComponentService.applyRange();
       });
+    // this stream watches for scroll height changes
     this.virtualScroll.renderedRangeStream
       .pipe(
+        debounceTime(100),
         distinctUntilChanged(function distinctUntilChangedRange(a, b) {
           return a.end - a.start === b.end - b.start;
         }),

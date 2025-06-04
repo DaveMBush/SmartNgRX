@@ -1,10 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeStandardState } from '../selectors/select-tree-standard-state.selectors';
+import { Department } from '../../../../shared/department/department.interface';
 
-export const selectDepartments = createSelector(
-  selectTreeStandardState,
-  function selectDepartmentsFunction(state) {
-    return state.departments;
-  },
+export const selectDepartments = createSmartSelector<Department>(
+  'tree-standard',
+  'departments',
 );

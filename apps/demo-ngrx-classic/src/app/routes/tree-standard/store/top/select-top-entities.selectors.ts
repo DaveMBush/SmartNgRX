@@ -1,10 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeStandardState } from '../selectors/select-tree-standard-state.selectors';
+import { Top } from '../../../../shared/top/top.interface';
 
-export const selectTopEntities = createSelector(
-  selectTreeStandardState,
-  function selectTopEntitiesFunction(state) {
-    return state.top;
-  },
+export const selectTopEntities = createSmartSelector<Top>(
+  'tree-standard',
+  'top',
 );

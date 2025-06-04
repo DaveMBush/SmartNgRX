@@ -1,10 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 
-import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
+import { entityRegistry, entityRowsRegistry, isNullOrUndefined } from '..';
 import { zoneless } from '../common/zoneless.function';
 import { FacadeBase } from '../facades/facade.base';
-import { entityRegistry } from '../registrations/entity-registry.class';
-import { entityRowsRegistry } from '../registrations/entity-rows-registry.class';
 import { facadeRegistry } from '../registrations/facade-registry.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 
@@ -26,34 +24,32 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
   feature: string,
   entity: string,
 ): void {
-  const registry = entityRegistry.get(feature, entity);
   const actionService = facadeRegistry.register(feature, entity);
   const ids = entityState.entities as Record<string, T>;
+
+  const idsId = ids[id];
+  const registry = entityRegistry.get(feature, entity);
   const markDirtyFetchesNew = !(
     isNullOrUndefined(registry.markAndDeleteInit.markDirtyFetchesNew) ||
     !registry.markAndDeleteInit.markDirtyFetchesNew
   );
-
-  const idsId = ids[id];
-
-  const isUndefinedOrDirty = idsId?.isDirty === undefined;
-  const isDirtyAndShouldFetchNew =
+  /* istanbul ignore next  -- can't test ?. */
+  const isUndefinedOrDirty = idsId?.isDirty === undefined || idsId?.isDirty;
+  const isDirtyAndShouldNotFetch =
     idsId?.isDirty === true && markDirtyFetchesNew;
-  const isDirtyAndShouldNotFetchNew =
-    idsId?.isDirty === true && !markDirtyFetchesNew;
 
-  if (isUndefinedOrDirty || isDirtyAndShouldFetchNew) {
+  if (isDirtyAndShouldNotFetch) {
+    entityRowsRegistry.register(feature, entity, [idsId]);
+    void unpatchedPromise.resolve().then(function actionServiceMarkNotDirty() {
+      actionService.markNotDirty(id);
+    });
+  } else if (isUndefinedOrDirty) {
     // too much trouble to pass Zone in so just going after
     // unpatched Promise directly.
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'
     void unpatchedPromise
       .resolve()
       .then(actionServiceLoadByIds(actionService, id));
-  } else if (isDirtyAndShouldNotFetchNew) {
-    entityRowsRegistry.register(feature, entity, [idsId]);
-    void unpatchedPromise.resolve().then(function actionServiceMarkNotDirty() {
-      actionService.markNotDirty(id);
-    });
   }
 }
 

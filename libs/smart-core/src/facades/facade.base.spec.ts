@@ -304,11 +304,11 @@ describe('FacadeBase Implementation', () => {
         '1': { id: '1', isEditing: true } as SmartNgRXRowBase,
       };
       const ids = ['1'];
-      const updateManySpy = jest.spyOn(facade, 'updateMany');
+      const loadByIdsSpy = jest.spyOn(facade, 'loadByIds');
 
       facade.markDirtyWithEntities(entities, ids);
 
-      expect(updateManySpy).toHaveBeenCalledWith([]);
+      expect(loadByIdsSpy).not.toHaveBeenCalled();
     });
   });
 

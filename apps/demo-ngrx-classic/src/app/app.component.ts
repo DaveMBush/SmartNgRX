@@ -35,7 +35,6 @@ export class AppComponent implements OnInit {
   private router = inject(Router);
   private socketService = inject(SocketService);
   activeLink: Observable<string> = of('');
-  useVirtualArrays = false;
   static navigationEndRoute(event: NavigationEnd): string {
     return event.urlAfterRedirects.split('/')[1];
   }

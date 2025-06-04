@@ -1,10 +1,29 @@
+/* eslint-disable @smarttools/one-exported-item-per-file -- needed for overloads */
 import { EntityState } from '@ngrx/entity';
-import { MemoizedSelector } from '@ngrx/store';
+import {
+  createFeatureSelector,
+  createSelector,
+  MemoizedSelector,
+} from '@ngrx/store';
 import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
 import { ChildDefinitionClassic } from '../types/child-definition-classic.interface';
 import { createInnerSmartSelector } from './create-inner-smart-selector.function';
 import { ParentSelector } from './parent-selector.type';
+
+export function createSmartSelector<
+  P extends SmartNgRXRowBase,
+  T extends SmartNgRXRowBase,
+>(
+  parentSelector: ParentSelector<P>,
+
+  children: ChildDefinitionClassic<P, T>[],
+): MemoizedSelector<object, EntityState<P>>;
+
+export function createSmartSelector<P extends SmartNgRXRowBase>(
+  feature: string,
+  entity: string,
+): MemoizedSelector<object, EntityState<P>>;
 
 /**
  * Wraps the specified child array(s) with a Proxy that will request the
@@ -16,10 +35,14 @@ import { ParentSelector } from './parent-selector.type';
  * support for a rawArray property that returns the original array
  * before it was proxied.
  *
- * @param parentSelector The selector to retrieve the parent data
+ * @param p1 The feature name or the selector to retrieve the parent data
  * from the store.
- * @param children The array of `ChildDefinition` objects that define the
+ * @param p2 The entity name or the array of `ChildDefinition` objects that define the
  * child data to retrieve.
+ *
+ * If p1 and p2 are not both strings, the code assumes that p1 is a parent
+ * selector and p2 is an array of child definitions.
+ *
  * @returns Memozied selector that returns the selected data.
  *
  * @see `ChildDefinition`
@@ -29,11 +52,22 @@ export function createSmartSelector<
   P extends SmartNgRXRowBase,
   T extends SmartNgRXRowBase,
 >(
-  parentSelector: ParentSelector<P>,
-
-  children: ChildDefinitionClassic<P, T>[],
+  p1: ParentSelector<P> | string, // feature name or parent selector
+  p2: ChildDefinitionClassic<P, T>[] | string, // entity name or child definitions
 ): MemoizedSelector<object, EntityState<P>> {
-  return children.reduce(createSmartSelectorChildReducer<P, T>, parentSelector);
+  if (typeof p1 === 'string' && typeof p2 === 'string') {
+    return createSelector(
+      createFeatureSelector(p1),
+      function getEntityState(state: Record<string, unknown>) {
+        return state[p2] as EntityState<P>;
+      },
+    );
+  }
+
+  return (p2 as ChildDefinitionClassic<P, T>[]).reduce(
+    createSmartSelectorChildReducer<P, T>,
+    p1 as ParentSelector<P>,
+  );
 }
 
 function createSmartSelectorChildReducer<

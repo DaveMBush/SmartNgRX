@@ -204,7 +204,6 @@ describe('TreeComponentService', () => {
       expect(componentInstance.fullDataSource$()[0].hasChildren).toBe(true);
       expect(componentInstance.dataSource$()[0].hasChildren).toBe(true);
     });
-    // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].level of 0', () => {
       expect(componentInstance.fullDataSource$()[0].level).toBe(0);
       expect(componentInstance.dataSource$()[0].level).toBe(0);

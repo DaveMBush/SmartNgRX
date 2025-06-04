@@ -1,10 +1,8 @@
-import { createSelector } from '@ngrx/store';
+import { createSmartSelector } from '@smarttools/smart-ngrx';
 
-import { selectTreeNoRemoveState } from '../selectors/select-tree-no-remove-state.selectors';
+import { Top } from '../../../../shared/top/top.interface';
 
-export const selectTopEntities = createSelector(
-  selectTreeNoRemoveState,
-  function selectTopEntitiesFunction(state) {
-    return state.top;
-  },
+export const selectTopEntities = createSmartSelector<Top>(
+  'tree-no-remove',
+  'top',
 );

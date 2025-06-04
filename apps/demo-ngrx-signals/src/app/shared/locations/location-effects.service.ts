@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   EffectService,
   PartialArrayDefinition,
@@ -12,10 +11,7 @@ import { Location } from './location.interface';
 @Injectable()
 export class LocationEffectsService extends EffectService<Location> {
   apiLocation = './api/locations';
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {
+  constructor(private http: HttpClient) {
     super();
   }
 

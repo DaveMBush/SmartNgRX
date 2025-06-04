@@ -14,6 +14,7 @@ const ngrxEslintPlugin = require('@ngrx/eslint-plugin');
 const eslintPluginMaxParamsNoConstructor = require('eslint-plugin-max-params-no-constructor');
 const eslintPluginJest = require('eslint-plugin-jest');
 const typescriptEslintParser = require('@typescript-eslint/parser');
+const playwright = require('eslint-plugin-playwright');
 
 // can't support function until NX eslint supports ESM or
 // functional supports CommonJS OR I figure out how to get
@@ -50,6 +51,7 @@ const eslintConfig = async () => {
         'max-params-no-constructor': eslintPluginMaxParamsNoConstructor,
         jest: eslintPluginJest,
         '@stylistic': stylisticEslintPlugin,
+        playwright,
         //deprecation,
       },
     },
@@ -64,6 +66,7 @@ const eslintConfig = async () => {
     },
     {
       files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+      ignores: ['**/playwright.config.ts'],
       rules: {
         '@nx/enforce-module-boundaries': [
           'error',
@@ -71,6 +74,10 @@ const eslintConfig = async () => {
             enforceBuildableLibDependency: true,
             allow: [],
             depConstraints: [
+              {
+                sourceTag: 'scope:e2e-common',
+                onlyDependOnLibsWithTags: [],
+              },
               {
                 sourceTag: 'scope:smart-core',
                 onlyDependOnLibsWithTags: [],
@@ -85,11 +92,17 @@ const eslintConfig = async () => {
               },
               {
                 sourceTag: 'scope:demo-ngrx-classic',
-                onlyDependOnLibsWithTags: ['scope:smart-ngrx'],
+                onlyDependOnLibsWithTags: [
+                  'scope:smart-ngrx',
+                  'scope:e2e-common',
+                ],
               },
               {
                 sourceTag: 'scope:demo-ngrx-signals',
-                onlyDependOnLibsWithTags: ['scope:smart-signals'],
+                onlyDependOnLibsWithTags: [
+                  'scope:smart-signals',
+                  'scope:e2e-common',
+                ],
               },
             ],
           },
@@ -137,6 +150,7 @@ const eslintConfig = async () => {
       .map((config) => ({
         ...config,
         files: ['**/*.ts'],
+        ignores: ['**/playwright.config.ts'],
         rules: {
           ...config.rules,
           complexity: [
@@ -787,10 +801,10 @@ const eslintConfig = async () => {
       .map((config) => ({
         ...config,
         files: [
-          '**/*.spec.ts',
-          '**/*.spec.tsx',
-          '**/*.spec.js',
-          '**/*.spec.jsx',
+          '**/*.{spec,test}.ts',
+          '**/*.{spec,test}.tsx',
+          '**/*.{spec,test}.js',
+          '**/*.{spec,test}.jsx',
         ],
         rules: {
           ...config.rules,
