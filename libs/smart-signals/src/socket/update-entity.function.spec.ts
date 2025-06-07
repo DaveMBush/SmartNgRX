@@ -151,4 +151,72 @@ describe('updateEntity', () => {
     expect(actionServiceForceDirtySpy).toHaveBeenNthCalledWith(1, ['1']);
     expect(actionServiceForceDirtySpy).toHaveBeenNthCalledWith(2, ['2']);
   });
+
+  it('should call loadByIds when markDirtyFetchesNew is true and entity exists', () => {
+    const existingId = '1';
+    const loadByIdsSpy = jest.spyOn(typedActionService, 'loadByIds');
+
+    // Unregister first to avoid "Entity already registered" error
+    entityRegistry.unregister(feature, entity);
+
+    // Set markDirtyFetchesNew to true in the registry
+    entityRegistry.register(feature, entity, {
+      defaultRow: () => ({ id: '1', name: '' }),
+      markAndDeleteInit: { markDirtyFetchesNew: true } as MarkAndDeleteInit,
+      markAndDeleteEntityMap: new Map(),
+    });
+
+    // Create a facade with the entity in state
+    const specialFakeFacade = {
+      init: jest.fn(),
+      entityState: {
+        entityMap: jest.fn().mockReturnValue({
+          '1': { id: '1', name: 'Entity 1' },
+        }),
+      },
+    } as unknown as SignalsFacade<TestEntity>;
+
+    mockRegisterSpy
+      .mockReturnValueOnce(actionService)
+      .mockReturnValueOnce(specialFakeFacade);
+
+    updateEntity(feature, entity, [existingId]);
+
+    expect(loadByIdsSpy).toHaveBeenCalledWith(existingId);
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith([existingId]);
+  });
+
+  it('should not call loadByIds when markDirtyFetchesNew is false and entity exists', () => {
+    const existingId = '1';
+    const loadByIdsSpy = jest.spyOn(typedActionService, 'loadByIds');
+
+    // Unregister first to avoid "Entity already registered" error
+    entityRegistry.unregister(feature, entity);
+
+    // Set markDirtyFetchesNew to false in the registry
+    entityRegistry.register(feature, entity, {
+      defaultRow: () => ({ id: '1', name: '' }),
+      markAndDeleteInit: { markDirtyFetchesNew: false } as MarkAndDeleteInit,
+      markAndDeleteEntityMap: new Map(),
+    });
+
+    // Create a facade with the entity in state
+    const specialFakeFacade = {
+      init: jest.fn(),
+      entityState: {
+        entityMap: jest.fn().mockReturnValue({
+          '1': { id: '1', name: 'Entity 1' },
+        }),
+      },
+    } as unknown as SignalsFacade<TestEntity>;
+
+    mockRegisterSpy
+      .mockReturnValueOnce(actionService)
+      .mockReturnValueOnce(specialFakeFacade);
+
+    updateEntity(feature, entity, [existingId]);
+
+    expect(loadByIdsSpy).not.toHaveBeenCalled();
+    expect(actionServiceForceDirtySpy).toHaveBeenCalledWith([existingId]);
+  });
 });
