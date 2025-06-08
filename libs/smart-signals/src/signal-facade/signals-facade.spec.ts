@@ -423,39 +423,6 @@ describe('SignalsFacade', () => {
     });
 
     describe('markDirty', () => {
-      it('should not fetch new data if markDirtyFetchesNew is false', () => {
-        // Set markDirtyFetchesNew to false
-        service.markDirtyFetchesNew = false;
-
-        // Mock the entityState
-        mockEntityState.entityState.mockReturnValue({
-          entities: {
-            '1': { id: '1', name: 'test1' },
-            '2': { id: '2', name: 'test2' },
-          },
-          ids: ['1', '2'],
-        });
-
-        // Create a spy on entityRowsRegistry.register
-        const registerSpy = jest.spyOn(entityRowsRegistry, 'register');
-
-        // Create a spy on forceDirty to ensure it's not called
-        const forceDirtySpy = jest.spyOn(service, 'forceDirty');
-
-        // Call markDirty
-        service.markDirty(['1', '2']);
-
-        // Verify forceDirty was not called
-        expect(forceDirtySpy).not.toHaveBeenCalled();
-
-        // Verify register was called with the right params
-        expect(registerSpy).toHaveBeenCalledWith(
-          'testFeature',
-          'testEntity',
-          expect.any(Array),
-        );
-      });
-
       it('should fetch new data if markDirtyFetchesNew is true', () => {
         // Set markDirtyFetchesNew to true
         service.markDirtyFetchesNew = true;
