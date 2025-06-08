@@ -79,6 +79,15 @@ export class SignalsFacade<
   }
 
   /**
+   * Force Dirty for Signals
+   *
+   * @param ids the ids to force dirty
+   */
+  override forceDirty(ids: string[]): void {
+    this.markDirtyWithEntities(this.entityState.entityState().entities, ids);
+  }
+
+  /**
    * Mark Dirty for Signals
    *
    * @param ids the ids to mark as dirty
@@ -91,23 +100,7 @@ export class SignalsFacade<
       this.loadByIds(ids[0]);
       return;
     }
-    if (!this.markDirtyFetchesNew) {
-      this.markDirtyNoFetchWithEntities(
-        this.entityState.entityState().entities,
-        ids,
-      );
-      return;
-    }
     this.forceDirty(ids);
-  }
-
-  /**
-   * Force Dirty for Signals
-   *
-   * @param ids the ids to force dirty
-   */
-  override forceDirty(ids: string[]): void {
-    this.markDirtyWithEntities(this.entityState.entityState().entities, ids);
   }
 
   /**
