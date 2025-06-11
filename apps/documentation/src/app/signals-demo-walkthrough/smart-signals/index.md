@@ -14,6 +14,12 @@ Two things you'll want to pay special attention to. We are passing in pointers t
 
 In this case, passing the childSelector `selectLocations` would not work, we want to pass in `selectLocationsDepartments` instead.
 
+You'll also notice, if you dig deeper into the code, that selectTopLocations is not used in the tree component. There is one more layer yet.
+
+[selectLocations](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-signals/src/app/routes/tree-standard/store/locations/selectors/select-locations.selector.ts) is where all the magic happens. Under the hood, this code is a regular selector that accesses the appropriate field in the top entity that has the list of locations. When you access it, it will trigger the retrieval of the locations so that what this selector returns is the locations.
+
+`selectLocations` is what we use in the route's tree component.
+
 ## Current Location Signal
 
 The [selectCurrentLocationSignal](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-signals/src/app/routes/tree-standard/store/current-location/select-current-location.signal.ts) simply pulls out the currently selected location ID from the state.

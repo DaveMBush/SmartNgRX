@@ -4,7 +4,7 @@ import UsingSmartSignalsCategory from '../ng-doc.category';
 const ChildFieldsPage: NgDocPage = {
   title: `Child Fields`,
   mdFile: './index.md',
-  order: 10,
+  order: 11,
   category: UsingSmartSignalsCategory,
 };
 

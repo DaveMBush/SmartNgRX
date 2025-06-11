@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
 import { currentLocationSignalStore } from './store/current-location/current-location.signal-store';
 import { selectCurrentLocationSignal } from './store/current-location/select-current-location.signal';
-import { selectLocations } from './store/locations/selectors/select-locations.selector';
+import { selectLocations } from './store/locations/selectors/select-locations.selectors';
 @Component({
   selector: 'dmb-demo-tree-dirty',
   standalone: true,

@@ -14,7 +14,13 @@ All our feature selectors for a route are located in the same folder, [tree-stan
 
 ## Top Selectors
 
-The main selector in our top selector is [selectTopLocations](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/top/select-top-locations.selectors.ts) you'll see that it uses `selectTopEntities()` as the first parameter which is used to retrieve the top entity slice from the feature. The second parameter is the array of `ChildDefinition`s which has just one item because the list of IDs we will use to retrieve the locations is the`locations` field.
+The main selector in our top selector is [selectTopLocations](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/top/select-top-locations.selectors.ts) you'll see that it uses `selectTopEntities` as the first parameter which is used to retrieve the top entity slice from the feature. The second parameter is the array of `ChildDefinition`s which has just one item because the list of IDs we will use to retrieve the locations is the`locations` field.
+
+You'll also notice, if you dig deeper into the code, that selectTopLocations is not used in the tree component. There is one more layer yet.
+
+[selectLocations](https://github.com/DaveMBush/SmartNgRX/blob/main/apps/demo-ngrx-classic/src/app/routes/tree-standard/store/locations/selectors/select-locations.selector.ts) is where all the magic happens. This code is a regular selector that accesses the appropriate field in the top entity that has the list of locations. When you access it, it will trigger the retrieval of the locations so that what this selector returns is the locations.
+
+`selectLocations` is what we use in the route's tree component.
 
 ## Current Location Selectors
 

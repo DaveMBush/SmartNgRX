@@ -5,7 +5,6 @@ import { Page } from '@playwright/test';
 
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/naming-convention -- special use for e2e testing
     __APP_STORE__: {
       getState(): Record<string, unknown>;
     };
