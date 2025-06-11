@@ -4,7 +4,7 @@ import UsingSmartSignalsCategory from '../ng-doc.category';
 const ErrorHandlingPage: NgDocPage = {
   title: `Error Handling`,
   mdFile: './index.md',
-  order: 14,
+  order: 15,
   category: UsingSmartSignalsCategory,
 };
 

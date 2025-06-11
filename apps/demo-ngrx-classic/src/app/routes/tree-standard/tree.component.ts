@@ -10,7 +10,7 @@ import { Location } from '../../shared/locations/location.interface';
 import { currentLocationActions } from './store/current-location/current-location.actions';
 import { selectCurrentLocationId } from './store/current-location/current-location.selector';
 import { selectCurrentLocation } from './store/locations/selectors/select-current-location.selectors';
-import { selectLocations } from './store/locations/selectors/select-locations.selector';
+import { selectLocations } from './store/locations/selectors/select-locations.selectors';
 @Component({
   selector: 'dmb-demo-tree',
   standalone: true,

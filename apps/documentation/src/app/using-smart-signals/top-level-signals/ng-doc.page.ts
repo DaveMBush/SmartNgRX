@@ -1,11 +1,11 @@
 import { NgDocPage } from '@ng-doc/core';
 import UsingSmartNgRXCategory from '../ng-doc.category';
 
-const ChildFieldsPage: NgDocPage = {
-  title: `Child Fields`,
+const TopSelectorPage: NgDocPage = {
+  title: `Top Level Signals`,
   mdFile: './index.md',
-  order: 11,
+  order: 9,
   category: UsingSmartNgRXCategory,
 };
 
-export default ChildFieldsPage;
+export default TopSelectorPage;

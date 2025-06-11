@@ -16,7 +16,7 @@ const mockSelectLocations = jest.fn(() => {
 });
 
 // Mock the module before importing
-jest.mock('../locations/selectors/select-locations.selector', () => ({
+jest.mock('../locations/selectors/select-locations.selectors', () => ({
   selectLocations: mockSelectLocations,
 }));
 
