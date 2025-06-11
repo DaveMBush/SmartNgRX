@@ -1,17 +1,13 @@
 // jscpd:ignore-start
 // intentionally duplicated because it is for different state for demo purposes
-import { createSelector } from '@ngrx/store';
+import { getTopChildRows } from '@smarttools/smart-ngrx';
 
 import { Location } from '../../../../../shared/locations/location.interface';
+import { Top } from '../../../../../shared/top/top.interface';
 import { selectTopLocations } from '../../top/select-top-locations.selectors';
-export const selectLocations = createSelector(
+
+export const selectLocations = getTopChildRows<Top, Location>(
   selectTopLocations,
-  function selectLocationsFunction(tops) {
-    return (
-      tops.ids.length === 1
-        ? tops.entities[tops.ids[0]]!.locations
-        : ([] as Location[])
-    ) as Location[];
-  },
+  'locations',
 );
 // jscpd:ignore-end

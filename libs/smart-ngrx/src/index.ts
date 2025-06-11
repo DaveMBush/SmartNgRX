@@ -2,6 +2,7 @@
 export * from './classic-ngrx.facade/action.factory';
 export * from './providers/provide-smart-feature-classic-entities.function';
 export * from './smart-selector/create-smart-selector.function';
+export * from './smart-selector/get-top-child-rows.function';
 
 // store.function is needed for testing
 export * from './smart-selector/store.function';
@@ -13,7 +14,6 @@ export * from './tests/functions/create-store.function';
 export * from './tests/functions/set-state.function';
 
 // smart-core exports
-
 export type {
   MarkAndDeleteInit,
   PartialArrayDefinition,
