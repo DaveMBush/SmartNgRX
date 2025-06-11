@@ -5,7 +5,7 @@ import { createStore, setState, store } from '@smarttools/smart-ngrx';
 import { firstValueFrom } from 'rxjs';
 
 import { selectLocations } from '../locations/selectors/select-locations.selectors';
-import { selectTopLocations } from './select-top-locations.selector';
+import { selectTopLocations } from './select-top-locations.selectors';
 
 describe('Top Selectors', () => {
   const initialTop = {
