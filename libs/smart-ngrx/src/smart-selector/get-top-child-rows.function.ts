@@ -2,9 +2,12 @@ import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { SmartNgRXRowBase } from '@smarttools/smart-core';
 
-type KeysWithArrayOf<P, C> = {
-  [K in keyof P]: P[K] extends C[] ? K : never;
-}[keyof P];
+/**
+ * Type that extracts keys from P where the value is an array of either strings or type C
+ */
+type ChildArrayField<P, C> = keyof {
+  [K in keyof P as P[K] extends C[] | string[] ? K : never]: P[K];
+};
 
 /**
  * This selector allows you to retrieve the child rows out of a
@@ -17,8 +20,10 @@ type KeysWithArrayOf<P, C> = {
 export function getTopChildRows<
   P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
-  K extends KeysWithArrayOf<P, C> & keyof P, // ensures the field is an array of C
->(parentSelector: MemoizedSelector<object, EntityState<P>>, childFieldName: K) {
+>(
+  parentSelector: MemoizedSelector<object, EntityState<P>>,
+  childFieldName: ChildArrayField<P, C>,
+) {
   return createSelector(parentSelector, function selectChildFunction(tops) {
     const maybeParent =
       tops.ids.length === 1 ? tops.entities[tops.ids[0]] : undefined;
