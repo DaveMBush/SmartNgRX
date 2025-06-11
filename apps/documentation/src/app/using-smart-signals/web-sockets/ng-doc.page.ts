@@ -4,7 +4,7 @@ import UsingSmartSignalsCategory from '../ng-doc.category';
 const WebSocketsPage: NgDocPage = {
   title: `WebSockets`,
   mdFile: './index.md',
-  order: 13,
+  order: 14,
   category: UsingSmartSignalsCategory,
 };
 
