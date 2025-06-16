@@ -28,6 +28,6 @@ export function getTopChildRows<
     const maybeParent =
       tops.ids.length === 1 ? tops.entities[tops.ids[0]] : undefined;
     const children = maybeParent?.[childFieldName];
-    return Array.isArray(children) ? (children as C[]) : [];
+    return children ? (children as C[]) : [];
   });
 }
