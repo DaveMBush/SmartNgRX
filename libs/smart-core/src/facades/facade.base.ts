@@ -1,4 +1,3 @@
-import { UpdateStr } from '@ngrx/entity/src/models';
 import { asapScheduler, catchError, of } from 'rxjs';
 
 import { forNext } from '../common/for-next.function';
@@ -12,6 +11,7 @@ import { ParentInfo } from '../types/parent-info.interface';
 import { PartialArrayDefinition } from '../types/partial-array-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
 import { SmartValidatedEntityDefinition } from '../types/smart-validated-entity-definition.type';
+import { UpdateStr } from '../types/update-str.interface';
 import { BaseAdd } from './base-add.class';
 import { markFeatureParentsDirty } from './mark-feature-parents-dirty.function';
 import { Update } from './update.class';

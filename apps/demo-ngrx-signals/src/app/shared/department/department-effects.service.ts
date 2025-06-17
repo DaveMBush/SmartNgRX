@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   EffectService,
   PartialArrayDefinition,
@@ -11,9 +11,7 @@ import { Department } from './department.interface';
 @Injectable()
 export class DepartmentEffectsService extends EffectService<Department> {
   apiDepartments = './api/departments';
-  constructor(private http: HttpClient) {
-    super();
-  }
+  private http = inject(HttpClient);
 
   override loadByIds(ids: string[]): Observable<Department[]> {
     return this.http.post<Department[]>(this.apiDepartments, ids);

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -19,7 +18,7 @@ import {
 @Component({
   selector: 'dmb-node-editor',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './node-editor.component.html',
   styleUrl: './node-editor.component.css',
   encapsulation: ViewEncapsulation.Emulated,

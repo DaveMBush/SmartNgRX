@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { addIsDirty } from '../functions/add-is-dirty.function';
 import { DepartmentChild } from './department-child.interface';
 
 export class CommonService {
-  constructor(
-    private http: HttpClient,
-    private path: string,
-  ) {}
+  private http = inject(HttpClient);
+
+  constructor(private path: string) {}
 
   loadByIds(ids: string[]): Observable<DepartmentChild[]> {
     return this.http.post<DepartmentChild[]>(this.path, ids).pipe(
