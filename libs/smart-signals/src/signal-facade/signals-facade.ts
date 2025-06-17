@@ -1,4 +1,3 @@
-import { UpdateStr } from '@ngrx/entity/src/models';
 import {
   ensureDataLoaded,
   entityDefinitionRegistry,
@@ -10,6 +9,7 @@ import {
   PartialArrayDefinition,
   SmartNgRXRowBase,
   Update as UpdateService,
+  UpdateStr,
 } from '@smarttools/smart-core';
 import { asapScheduler } from 'rxjs';
 

@@ -1,7 +1,12 @@
 // jscpd:ignore-start
 // component is intentionally duplicated.
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SmartNgRXRowBase } from '@smarttools/smart-ngrx';
 import { Observable, of } from 'rxjs';
@@ -25,7 +30,7 @@ export class TreeNoRemoveComponent implements OnInit {
   locationId: Observable<number | string> = of('');
   locations: Observable<(Location & SmartNgRXRowBase)[]> = of([]);
   location: Observable<Location> | null = null;
-  constructor(private store: Store) {}
+  private store = inject(Store);
 
   locationChanged(event: string): void {
     this.store.dispatch(currentLocationActions.set({ id: event }));
