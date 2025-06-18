@@ -97,29 +97,6 @@ describe('getTopChildRows', () => {
     expect(result()).toEqual([]);
   });
 
-  it('should return empty array when first child is not an object', () => {
-    // Arrange
-    mockEntityState = {
-      ids: ['1'],
-      entities: {
-        '1': {
-          id: '1',
-          children: ['not an object'] as unknown as TestChild[],
-        },
-      },
-    };
-    const parentSignal = signal(mockEntityState);
-
-    // Act
-    const result = getTopChildRows<TestParent, TestChild>(
-      parentSignal,
-      'children',
-    );
-
-    // Assert
-    expect(result()).toEqual([]);
-  });
-
   it('should return children array when all conditions are met', () => {
     // Arrange
     const childrenArray = [

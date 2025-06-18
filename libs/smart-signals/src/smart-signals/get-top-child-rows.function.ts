@@ -18,11 +18,7 @@ export function getTopChildRows<P extends object, C extends SmartNgRXRowBase>(
     const parentState = parentSignal();
     if (parentState.ids.length === 1) {
       const topEntity = parentState.entities[parentState.ids[0]];
-      if (
-        topEntity &&
-        (topEntity[childFieldName] as C[]).length > 0 &&
-        typeof (topEntity[childFieldName] as C[])[0] === 'object'
-      ) {
+      if (topEntity) {
         return topEntity[childFieldName] as C[];
       }
     }
