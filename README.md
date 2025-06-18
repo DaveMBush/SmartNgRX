@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![example workflow](https://github.com/DaveMBush/SmartNgRX/actions/workflows/build.yml/badge.svg)
 [![View - Documentation](https://img.shields.io/badge/View-Documentation-2ea44f)](https://davembush.github.io/SmartNgRX/ 'Go to project documentation')
-[![Angular - 19](https://img.shields.io/badge/Angular-19-2ea44f)](https://angular.dev/)
+[![Angular - 20](https://img.shields.io/badge/Angular-20-2ea44f)](https://angular.dev/)
 [![NgRX - 19](https://img.shields.io/badge/NgRX-19-2ea44f)](https://ngrx.io/guide/store)
 ![Branch Coverage](https://img.shields.io/badge/Branch%20Coverage-100%25-2ea44f?style=plastic&logoSize=auto)
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/DaveMBush/SmartNgRX)

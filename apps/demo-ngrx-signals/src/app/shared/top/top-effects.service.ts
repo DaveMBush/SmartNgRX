@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   EffectService,
   PartialArrayDefinition,
@@ -11,10 +11,7 @@ import { Top } from './top.interface';
 @Injectable()
 export class TopEffectsService extends EffectService<Top> {
   private apiTop = './api/top';
-
-  constructor(private http: HttpClient) {
-    super();
-  }
+  private http = inject(HttpClient);
 
   override loadByIds(ids: string[]): Observable<Top[]> {
     return this.http.post<Top[]>(this.apiTop, ids);

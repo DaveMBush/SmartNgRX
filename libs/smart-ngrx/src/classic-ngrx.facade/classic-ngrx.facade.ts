@@ -1,5 +1,4 @@
 import { Dictionary, EntityAdapter, EntityState } from '@ngrx/entity';
-import { UpdateStr } from '@ngrx/entity/src/models';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import {
   entityDefinitionRegistry,
@@ -11,6 +10,7 @@ import {
   PartialArrayDefinition,
   SmartNgRXRowBase,
   Update,
+  UpdateStr,
 } from '@smarttools/smart-core';
 import { Observable, take } from 'rxjs';
 

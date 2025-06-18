@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import {
   EffectService,
   PartialArrayDefinition,
@@ -11,9 +11,7 @@ import { Location } from './location.interface';
 @Injectable()
 export class LocationEffectsService extends EffectService<Location> {
   apiLocation = './api/locations';
-  constructor(private http: HttpClient) {
-    super();
-  }
+  private http = inject(HttpClient);
 
   override loadByIds(ids: string[]): Observable<Location[]> {
     return this.http.post<Location[]>(this.apiLocation, ids);

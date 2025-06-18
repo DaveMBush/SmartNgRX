@@ -45,4 +45,5 @@ export * from './types/smart-array.interface';
 export * from './types/smart-entity-definition.interface';
 export * from './types/smart-error-handler.interface';
 export * from './types/smart-ngrx-row-base.interface';
+export * from './types/update-str.interface';
 export * from './types/virtual-array-contents.interface';

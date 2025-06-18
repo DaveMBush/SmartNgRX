@@ -1,6 +1,6 @@
 // jscpd:ignore-start
 // component is intentionally duplicated.
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { TreeComponent as SharedTreeComponent } from '../../shared/components/tree/tree.component';
@@ -10,7 +10,7 @@ import { selectLocations } from './store/locations/selectors/select-locations.se
 @Component({
   selector: 'dmb-demo-tree-no-refresh',
   standalone: true,
-  imports: [CommonModule, SharedTreeComponent],
+  imports: [SharedTreeComponent],
   templateUrl: './tree.component.html',
   styleUrls: ['./tree.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

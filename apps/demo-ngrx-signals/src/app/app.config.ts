@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import {
   ApplicationConfig,
-  provideExperimentalZonelessChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withViewTransitions } from '@angular/router';
@@ -25,7 +25,7 @@ import { topEffectsServiceToken } from './shared/top/top-effects.service-token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideExperimentalZonelessChangeDetection(),
+    provideZonelessChangeDetection(),
     {
       provide: SocketService,
       useFactory: function socketServiceFactory(): SocketService {

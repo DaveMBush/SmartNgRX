@@ -1,33 +1,35 @@
-<mat-toolbar color="primary" *ngIf="activeLink | async as link">
-  <span><a [routerLink]="'home'">Smart NgRX Demo</a></span>
-  <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
-    <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === link">
-      Tree (Standard)
-    </a>
-    <a
-      mat-tab-link
-      [routerLink]="'treeNoRefresh'"
-      [active]="'treeNoRefresh' === link"
-    >
-      Tree (No Refresh)
-    </a>
-    <a
-      mat-tab-link
-      [routerLink]="'treeNoRemove'"
-      [active]="'treeNoRemove' === link"
-    >
-      Tree (No Remove)
-    </a>
-    <a
-      mat-tab-link
-      [routerLink]="'treeNoDirty'"
-      [active]="'treeNoDirty' === link"
-    >
-      Tree (No Dirty)
-    </a>
-  </nav>
-  <span class="spacer"></span>
-</mat-toolbar>
+@if (activeLink | async; as link) {
+  <mat-toolbar color="primary">
+    <span><a [routerLink]="'home'">Smart NgRX Demo</a></span>
+    <nav mat-tab-nav-bar [backgroundColor]="'primary'" [tabPanel]="tabPanel">
+      <a mat-tab-link [routerLink]="'tree'" [active]="'tree' === link">
+        Tree (Standard)
+      </a>
+      <a
+        mat-tab-link
+        [routerLink]="'treeNoRefresh'"
+        [active]="'treeNoRefresh' === link"
+      >
+        Tree (No Refresh)
+      </a>
+      <a
+        mat-tab-link
+        [routerLink]="'treeNoRemove'"
+        [active]="'treeNoRemove' === link"
+      >
+        Tree (No Remove)
+      </a>
+      <a
+        mat-tab-link
+        [routerLink]="'treeNoDirty'"
+        [active]="'treeNoDirty' === link"
+      >
+        Tree (No Dirty)
+      </a>
+    </nav>
+    <span class="spacer"></span>
+  </mat-toolbar>
+}
 <div class="container">
   <mat-tab-nav-panel #tabPanel>
     <router-outlet></router-outlet>
