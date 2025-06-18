@@ -60,17 +60,17 @@ importers:
         specifier: ^10.4.15
         version: 10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.17)(@nestjs/platform-socket.io@10.4.17)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@ng-doc/app':
-        specifier: 19.2.0
-        version: 19.2.0(cdb4aff488263b0a2bd117b1168c56d8)
+        specifier: 20.0.0
+        version: 20.0.0(23a738c65b7d087c429c26c41465ec2d)
       '@ng-doc/builder':
         specifier: 20.0.0
         version: 20.0.0(9da0fc6fcf045c12b075b0dab9b0c9ee)
       '@ng-doc/core':
-        specifier: 19.2.0
-        version: 19.2.0
+        specifier: 20.0.0
+        version: 20.0.0
       '@ng-doc/ui-kit':
-        specifier: 19.2.0
-        version: 19.2.0(3680b26bbbb681ab868eec9bc381f0a8)
+        specifier: 20.0.0
+        version: 20.0.0(c5ab7c59f88aac3bc6eed08a22e988cf)
       '@ngrx/component-store':
         specifier: 19.2.0
         version: 19.2.0(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
@@ -2837,13 +2837,13 @@ packages:
       '@nestjs/platform-socket.io':
         optional: true
 
-  '@ng-doc/app@19.2.0':
-    resolution: {integrity: sha512-28n5vcoso3N1E7G1uWJIQatzPO5LGWDkpYj8Vb/ZphHa1/SKieR/A6wl3JdaEx1gHQnooRAzqcnT578HQYwScw==}
+  '@ng-doc/app@20.0.0':
+    resolution: {integrity: sha512-kCtntwwxdi7WwTOuHWwNBK8A5i0ZAWLnWF3ZGKtD3UNZgzUoaxUTjsnNGlVx18k+KFYd3k4NWBkMZ6r00m5saQ==}
     peerDependencies:
-      '@angular/cdk': '>=19.0.0 < 20.0.0'
-      '@angular/common': '>=19.0.0 < 20.0.0'
-      '@angular/core': '>=19.0.0 < 20.0.0'
-      '@angular/router': '>=19.0.0 < 20.0.0'
+      '@angular/cdk': '>=20.0.0 < 21.0.0'
+      '@angular/common': '>=20.0.0 < 21.0.0'
+      '@angular/core': '>=20.0.0 < 21.0.0'
+      '@angular/router': '>=20.0.0 < 21.0.0'
       '@ng-web-apis/common': 2.0.1
       di-controls: 2.1.0
       rxjs: ^7.0.0
@@ -2851,19 +2851,16 @@ packages:
   '@ng-doc/builder@20.0.0':
     resolution: {integrity: sha512-bxhM2YqbwiOS/NtZK0azbS3AbZpZtqCgst9zk800fQLtxDIaeP7q1uouGrCR5Azmrst+pQZ2yWg0GIkPtkloiQ==}
 
-  '@ng-doc/core@19.2.0':
-    resolution: {integrity: sha512-NrEFhUCKsBoyCrJhR181hEItXK9cYqXLP3W5B41wYWAWICacBXllGncaPDgkaJtWR/kiclqX8GjjjyRO3rk5Mg==}
-
   '@ng-doc/core@20.0.0':
     resolution: {integrity: sha512-LKKx97qce9+w62m7SSEXJ2lhCRW2iHsojuPt89T3EyXlknQbOBsd9gmzcCqBnSpAAzQnHnGiYYbwNuGvylnr6Q==}
 
-  '@ng-doc/ui-kit@19.2.0':
-    resolution: {integrity: sha512-I8xrU+oGXSgbLqCQZk/OA51vTtO2+9rAM+/usKCETVdYY51SB4wy8jd2wyL7tQp6pkGJVdfr2aMF+eR3pwanaA==}
+  '@ng-doc/ui-kit@20.0.0':
+    resolution: {integrity: sha512-sMsfxzGQ4CAFiJsNZY8HjCb3kwmhFbn4mjJNjz9r1i44jhluN4Pe/jGmpWac6Q6Iu4tqqAm84q2n5g7Pv7iYYA==}
     peerDependencies:
-      '@angular/cdk': '>=19.0.0 < 20.0.0'
-      '@angular/common': '>=19.0.0 < 20.0.0'
-      '@angular/core': '>=19.0.0 < 20.0.0'
-      '@ngneat/until-destroy': ^10.0.0
+      '@angular/animations': '>=20.0.0 < 21.0.0'
+      '@angular/cdk': '>=20.0.0 < 21.0.0'
+      '@angular/common': '>=20.0.0 < 21.0.0'
+      '@angular/core': '>=20.0.0 < 21.0.0'
       '@tinkoff/ng-polymorpheus': 4.3.0
       di-controls: 2.1.0
       rxjs: ^7.0.0
@@ -2877,12 +2874,6 @@ packages:
       '@angular/common': '>=12.0.0'
       '@angular/core': '>=12.0.0'
       rxjs: '>=6.4.0'
-
-  '@ngneat/until-destroy@10.0.0':
-    resolution: {integrity: sha512-xXFAabQ4YVJ82LYxdgUlaKZyR3dSbxqG3woSyaclzxfCgWMEDweCcM/GGYbNiHJa0WwklI98RXHvca+UyCxpeg==}
-    peerDependencies:
-      '@angular/core': '>=13'
-      rxjs: ^6.4.0 || ^7.0.0
 
   '@ngrx/component-store@19.2.0':
     resolution: {integrity: sha512-PMeJkikg6+06BrwAs7YKPXWNTWaHpdNZAtzdDcz2ad8Nv3jLhMk8OXHD03ODfNYm2DGy3Glm7ayv2yckjiy/hw==}
@@ -14963,14 +14954,14 @@ snapshots:
     optionalDependencies:
       '@nestjs/platform-socket.io': 10.4.17(@nestjs/common@10.4.17(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/websockets@10.4.17)(rxjs@7.8.2)
 
-  '@ng-doc/app@19.2.0(cdb4aff488263b0a2bd117b1168c56d8)':
+  '@ng-doc/app@20.0.0(23a738c65b7d087c429c26c41465ec2d)':
     dependencies:
       '@angular/cdk': 20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/common': 20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/core': 20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)
       '@angular/router': 20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@20.0.3(@angular/animations@20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)))(rxjs@7.8.2)
-      '@ng-doc/core': 19.2.0
-      '@ng-doc/ui-kit': 19.2.0(3680b26bbbb681ab868eec9bc381f0a8)
+      '@ng-doc/core': 20.0.0
+      '@ng-doc/ui-kit': 20.0.0(c5ab7c59f88aac3bc6eed08a22e988cf)
       '@ng-web-apis/common': 2.0.1(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@orama/plugin-match-highlight': 2.0.17
       '@orama/stemmers': 2.0.17
@@ -14979,7 +14970,7 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.8.1
     transitivePeerDependencies:
-      - '@ngneat/until-destroy'
+      - '@angular/animations'
       - '@tinkoff/ng-polymorpheus'
       - supports-color
 
@@ -15052,13 +15043,6 @@ snapshots:
       - webpack-cli
       - yaml
 
-  '@ng-doc/core@19.2.0':
-    dependencies:
-      css-what: 6.1.0
-      esthetic: 0.5.6-beta.1
-      posthtml-parser: 0.11.0
-      posthtml-render: 3.0.0
-
   '@ng-doc/core@20.0.0':
     dependencies:
       css-what: 6.1.0
@@ -15066,13 +15050,13 @@ snapshots:
       posthtml-parser: 0.11.0
       posthtml-render: 3.0.0
 
-  '@ng-doc/ui-kit@19.2.0(3680b26bbbb681ab868eec9bc381f0a8)':
+  '@ng-doc/ui-kit@20.0.0(c5ab7c59f88aac3bc6eed08a22e988cf)':
     dependencies:
+      '@angular/animations': 20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))
       '@angular/cdk': 20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/common': 20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/core': 20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)
-      '@ng-doc/core': 19.2.0
-      '@ngneat/until-destroy': 10.0.0(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
+      '@ng-doc/core': 20.0.0
       '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@20.0.3(@angular/animations@20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)))
       di-controls: 2.1.0(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(@angular/forms@20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@20.0.3(@angular/animations@20.0.3(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)))(rxjs@7.8.2))(rxjs@7.8.2)
       rxjs: 7.8.2
@@ -15100,12 +15084,6 @@ snapshots:
   '@ng-web-apis/common@2.0.1(@angular/common@20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 20.0.3(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
-      '@angular/core': 20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)
-      rxjs: 7.8.2
-      tslib: 2.8.1
-
-  '@ngneat/until-destroy@10.0.0(@angular/core@20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)':
-    dependencies:
       '@angular/core': 20.0.3(@angular/compiler@20.0.3)(rxjs@7.8.2)(zone.js@0.15.0)
       rxjs: 7.8.2
       tslib: 2.8.1
