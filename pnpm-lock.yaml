@@ -2291,6 +2291,15 @@ packages:
       '@types/node':
         optional: true
 
+  '@inquirer/type@3.0.7':
+    resolution: {integrity: sha512-PfunHQcjwnju84L+ycmcMKB/pTPIngjUJvfnRhKY6FKPuYXlM4aQCb/nIdTFR6BEhMjFvngzvng/vBAJMZpLSA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
     engines: {node: '>=12'}
@@ -11960,6 +11969,7 @@ snapshots:
       - terser
       - tsx
       - yaml
+    optional: true
 
   '@angular/build@20.0.3(3305a76ec1d2c00965935657b979851b)':
     dependencies:
@@ -14182,6 +14192,10 @@ snapshots:
   '@inquirer/type@1.5.5':
     dependencies:
       mute-stream: 1.0.0
+
+  '@inquirer/type@3.0.7(@types/node@22.15.6)':
+    optionalDependencies:
+      '@types/node': 22.15.6
 
   '@inquirer/type@3.0.7(@types/node@22.15.6)':
     optionalDependencies:
