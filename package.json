@@ -13,6 +13,7 @@
     "start:prod:demo-ngrx-signal": "nx serve demo-ngrx-signals --configuration=production",
     "start:server": "nx serve server",
     "start:documentation": "nx serve documentation --configuration=serve --port=4202",
+    "build:documentation": "pnpm nx run documentation:build:production",
     "git-publish": "node tools/scripts/publish.js",
     "build-lint": "exec nx affected -t build lint --exclude=documentation --parallel=5",
     "build": "nx affected:build --exclude=documentation --parallel=5",
