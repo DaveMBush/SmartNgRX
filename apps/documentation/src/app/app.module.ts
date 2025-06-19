@@ -1,29 +1,25 @@
 import {
   provideSearchEngine,
   NgDocDefaultSearchEngine,
-  NgDocSidebarComponent,
-  NgDocNavbarComponent,
   provideNgDocApp,
-  NgDocRootComponent,
   providePageSkeleton,
   provideMainPageProcessor,
   NG_DOC_DEFAULT_PAGE_SKELETON,
   NG_DOC_DEFAULT_PAGE_PROCESSORS,
-  NgDocThemeToggleComponent,
   provideMermaid,
 } from '@ng-doc/app';
+import { NgDocNavbarComponent } from '@ng-doc/app/components/navbar';
+import { NgDocThemeToggleComponent } from '@ng-doc/app/components/theme-toggle';
+import { NgDocRootComponent } from '@ng-doc/app/components/root';
+import { NgDocSidebarComponent } from '@ng-doc/app/components/sidebar';
 import { NG_DOC_ROUTING, provideNgDocContext } from '@ng-doc/generated';
 import {
   RouterLink,
-  RouterModule,
   RouterOutlet,
   provideRouter,
   withInMemoryScrolling,
 } from '@angular/router';
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
