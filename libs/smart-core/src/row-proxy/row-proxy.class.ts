@@ -60,11 +60,16 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
     // and cause an infinite loop. Therefore, we need to cast the
     // record to SmartArray to get at the rawArray if it exists.
     forNext(keys, function getRealRowsForNext(key) {
-      const rawArray = (record[key] as BaseArrayProxy).rawArray;
+      const recordKey = record[key];
+      if (!recordKey) {
+        realRow[key] = recordKey;
+        return;
+      }
+      const rawArray = (recordKey as BaseArrayProxy).rawArray;
       if (rawArray !== undefined) {
         realRow[key] = rawArray;
       } else {
-        realRow[key] = record[key];
+        realRow[key] = recordKey;
       }
     });
     return realRow as T;
