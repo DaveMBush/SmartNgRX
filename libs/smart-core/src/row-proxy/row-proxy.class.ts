@@ -1,5 +1,6 @@
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { FacadeBase } from '../facades/facade.base';
 import { BaseArrayProxy } from '../smart-selector/base-array-proxy.class';
 import { RowProxyDelete } from '../types/row-proxy-delete.interface';
@@ -61,7 +62,7 @@ export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
     // record to SmartArray to get at the rawArray if it exists.
     forNext(keys, function getRealRowsForNext(key) {
       const recordKey = record[key];
-      if (!recordKey) {
+      if (isNullOrUndefined(recordKey)) {
         realRow[key] = recordKey;
         return;
       }
