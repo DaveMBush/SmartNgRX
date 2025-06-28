@@ -35,5 +35,10 @@ export interface SmartArray<
    */
   removeFromStore?(row: C, parent: P): void;
 
+  add?(
+    newRow: C,
+    thisRow: P,
+  ): void;
+
   [key: number]: C | string;
 }
