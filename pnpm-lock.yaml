@@ -191,7 +191,7 @@ importers:
         version: 19.2.0
       '@nx/cypress':
         specifier: 21.2.1
-        version: 21.2.1(@babel/traverse@7.27.4)(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(cypress@14.3.2)(eslint@9.29.0(jiti@2.4.2))(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))(typescript@5.8.3)(verdaccio@6.1.4(encoding@0.1.13)(typanion@3.14.0))
+        version: 21.2.1(@babel/traverse@7.27.4)(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(cypress@14.5.0)(eslint@9.29.0(jiti@2.4.2))(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))(typescript@5.8.3)(verdaccio@6.1.4(encoding@0.1.13)(typanion@3.14.0))
       '@nx/devkit':
         specifier: 21.2.1
         version: 21.2.1(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))
@@ -271,8 +271,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.4
       cypress:
-        specifier: 14.3.2
-        version: 14.3.2
+        specifier: 14.5.0
+        version: 14.5.0
       esbuild:
         specifier: 0.25.5
         version: 0.25.5
@@ -5145,6 +5145,10 @@ packages:
     resolution: {integrity: sha512-ywqV+5MmyL4E7ybXgKys4DugZbX0FC6LnwrhjuykIjnK9k8OQacQ7axGKnjDXWNhns0xot3bZI5h55H8yo9cJg==}
     engines: {node: '>=6'}
 
+  cli-table3@0.6.1:
+    resolution: {integrity: sha512-w0q/enDHhPLq44ovMGdQeeDLvwxwavsJX7oQGYt/LrBlYsyaxyDnp6z3QzFut/6kLLKnlcUVJLrpB7KBfgG/RA==}
+    engines: {node: 10.* || >= 12.*}
+
   cli-table3@0.6.5:
     resolution: {integrity: sha512-+W/5efTR7y5HRD7gACw9yQjqMVvEMLBHmboM/kPWam+H+Hmyrgjh6YncVKK122YZkXrLudzTuAukUw9FnMf7IQ==}
     engines: {node: 10.* || >= 12.*}
@@ -5560,8 +5564,8 @@ packages:
   cuint@0.2.2:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
 
-  cypress@14.3.2:
-    resolution: {integrity: sha512-n+yGD2ZFFKgy7I3YtVpZ7BcFYrrDMcKj713eOZdtxPttpBjCyw/R8dLlFSsJPouneGN7A/HOSRyPJ5+3/gKDoA==}
+  cypress@14.5.0:
+    resolution: {integrity: sha512-1HOnKvWep0LkWuFwPeWkZ0TDl7ivi2/Mz+WNU4dfkeLJaFndS3Ow6TXT7YjuTqLFI2peJKzPKljVUFdymI2K5g==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
@@ -6908,6 +6912,10 @@ packages:
   has-tostringtag@1.0.2:
     resolution: {integrity: sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==}
     engines: {node: '>= 0.4'}
+
+  hasha@5.2.2:
+    resolution: {integrity: sha512-Hrp5vIK/xr5SkeN2onO32H0MgNZ0f17HRNH39WfL0SYUNOTZ5Lz1TJ8Pajo/87dYGEFlLMm7mIc/k/s6Bvz9HQ==}
+    engines: {node: '>=8'}
 
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
@@ -10965,6 +10973,10 @@ packages:
   type-fest@0.21.3:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
+
+  type-fest@0.8.1:
+    resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
+    engines: {node: '>=8'}
 
   type-fest@4.41.0:
     resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
@@ -15381,7 +15393,7 @@ snapshots:
       - webpack-cli
       - webpack-hot-middleware
 
-  '@nx/cypress@21.2.1(@babel/traverse@7.27.4)(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(cypress@14.3.2)(eslint@9.29.0(jiti@2.4.2))(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))(typescript@5.8.3)(verdaccio@6.1.4(encoding@0.1.13)(typanion@3.14.0))':
+  '@nx/cypress@21.2.1(@babel/traverse@7.27.4)(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(cypress@14.5.0)(eslint@9.29.0(jiti@2.4.2))(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))(typescript@5.8.3)(verdaccio@6.1.4(encoding@0.1.13)(typanion@3.14.0))':
     dependencies:
       '@nx/devkit': 21.2.1(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))
       '@nx/eslint': 21.2.1(@babel/traverse@7.27.4)(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17))(@zkochan/js-yaml@0.0.7)(eslint@9.29.0(jiti@2.4.2))(nx@21.2.1(@swc-node/register@1.10.10(@swc/core@1.11.31(@swc/helpers@0.5.17))(@swc/types@0.1.23)(typescript@5.8.3))(@swc/core@1.11.31(@swc/helpers@0.5.17)))(verdaccio@6.1.4(encoding@0.1.13)(typanion@3.14.0))
@@ -15392,7 +15404,7 @@ snapshots:
       tree-kill: 1.2.2
       tslib: 2.8.1
     optionalDependencies:
-      cypress: 14.3.2
+      cypress: 14.5.0
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -17975,6 +17987,12 @@ snapshots:
 
   cli-spinners@2.9.2: {}
 
+  cli-table3@0.6.1:
+    dependencies:
+      string-width: 4.2.3
+    optionalDependencies:
+      colors: 1.4.0
+
   cli-table3@0.6.5:
     dependencies:
       string-width: 4.2.3
@@ -18406,7 +18424,7 @@ snapshots:
 
   cuint@0.2.2: {}
 
-  cypress@14.3.2:
+  cypress@14.5.0:
     dependencies:
       '@cypress/request': 3.0.8
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
@@ -18421,7 +18439,7 @@ snapshots:
       check-more-types: 2.24.0
       ci-info: 4.2.0
       cli-cursor: 3.1.0
-      cli-table3: 0.6.5
+      cli-table3: 0.6.1
       commander: 6.2.1
       common-tags: 1.8.2
       dayjs: 1.11.13
@@ -18434,6 +18452,7 @@ snapshots:
       figures: 3.2.0
       fs-extra: 9.1.0
       getos: 3.2.1
+      hasha: 5.2.2
       is-installed-globally: 0.4.0
       lazy-ass: 1.6.0
       listr2: 3.14.0(enquirer@2.4.1)
@@ -20059,6 +20078,11 @@ snapshots:
   has-tostringtag@1.0.2:
     dependencies:
       has-symbols: 1.1.0
+
+  hasha@5.2.2:
+    dependencies:
+      is-stream: 2.0.1
+      type-fest: 0.8.1
 
   hasown@2.0.2:
     dependencies:
@@ -25251,6 +25275,8 @@ snapshots:
   type-fest@0.20.2: {}
 
   type-fest@0.21.3: {}
+
+  type-fest@0.8.1: {}
 
   type-fest@4.41.0: {}
 
