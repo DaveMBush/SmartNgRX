@@ -1,0 +1,11 @@
+---
+description: Prevent the use of the 'done()' callback in *.spec.ts files. Use async/await or Promises for asynchronous tests instead. This ensures more reliable, readable, and modern test code.
+globs:
+alwaysApply: false
+---
+Rule:
+
+- Do not use the 'done' callback in any test or helper function in *.spec.ts files.
+- Prefer async/await or returning a Promise for handling asynchronous code in tests.
+- Refactor existing tests to remove 'done' and use async/await or Promises.
+- This applies to all test files matching *.spec.ts.

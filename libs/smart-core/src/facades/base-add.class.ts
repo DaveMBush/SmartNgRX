@@ -51,7 +51,11 @@ export abstract class BaseAdd<T extends SmartNgRXRowBase> {
    * @param parentId the id of the parent row
    * @param parentService the service for the parent row
    */
-  add(row: T, parentId: string, parentService: FacadeBase): void {
+  add<P extends SmartNgRXRowBase = SmartNgRXRowBase>(
+    row: T,
+    parentId: string,
+    parentService: FacadeBase<P>,
+  ): void {
     const context = this;
     const actionPayload = {
       row,

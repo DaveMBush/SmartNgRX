@@ -1,0 +1,172 @@
+---
+description: SmartNgRX integration testing best practices and requirements for both Classic NgRX and Signals. Use for all integration tests in smart-ngrx and smart-signals.
+globs:
+alwaysApply: false
+---
+# SmartNgRX Integration Testing Rules
+
+## Overview
+You are helping create integration tests for the SmartNgRX libraries. These tests verify the full integration between the public APIs and the underlying NgRX/SignalStore implementations.
+
+# SmartNgRX Integration Testing Rules
+
+## Overview
+You are helping create integration tests for the SmartNgRX libraries. These tests verify the full integration between the public APIs and the underlying NgRX/SignalStore implementations.
+
+## Key Principles
+- Test in the consuming libraries (`smart-ngrx` and `smart-signals`), not in `smart-core`
+- Use TestBed because registration functions are providers
+- Test both classic NgRX and SignalStore implementations separately
+- Mock only the Effect Services that make HTTP calls
+- Verify results through the public API (smart selectors/signals)
+- Test both regular arrays and virtual arrays
+- Test both empty and populated scenarios
+- **Do not use test-only helpers like `createStore` or `setState` in integration tests**
+- **Do not import from `smart-core` in integration tests**
+- All setup and state manipulation must use only public APIs as exposed in the library's `index.ts`
+- Integration tests should reflect real-world usage as closely as possible, using only what an end user would have access to
+- **Use `InjectionToken` for `effectServiceToken` in entity definitions, not strings**
+- **Ensure child array fields in parent interfaces are typed as arrays of the child type (e.g., `Child[]`), not as `SmartArray` or other proxies, to be compatible with selector utilities**
+- **Do not mutate state directly in integration tests; prefer using only public API methods for state changes if possible**
+- **If public API does not expose a way to add children, document this and use the closest real-world usage pattern**
+- **Always update this rule with new lessons learned from integration test implementation**
+
+## Directory Structure
+```
+libs/smart-ngrx/src/integration-tests/
+libs/smart-signals/src/integration-tests/
+```
+
+## Naming
+- Use the `.integration.spec.ts` suffix for integration tests
+
+## Setup
+- Use TestBed to configure providers and modules as an end user would
+- Register effect service mocks as providers
+- Use only public API for selectors, signals, and entity access
+
+## Mocking
+- Only mock effect services that interact with the server
+- Do not mock internal APIs or state
+
+## Verification
+- Always verify results through the public API (selectors, signals, etc.)
+- Do not reach into internal state or use private helpers
+
+## References
+- [Classic NgRX Adding Rows](mdc:https:/davembush.github.io/SmartNgRX/ngrx-demo-walkthrough/adding-rows)
+- [Signals Adding Rows](mdc:https:/davembush.github.io/SmartNgRX/signals-demo-walkthrough/adding-rows)
+
+## Test Naming Convention
+- Use `*.integration.spec.ts` suffix to distinguish from unit tests
+- Name files after the feature being tested (e.g., `base-array-proxy.integration.spec.ts`)
+
+## Test Structure
+```typescript
+describe('[Feature] Integration Tests', () => {
+  beforeEach(() => {
+    setupClassicTestBed(); // or setupSignalsTestBed()
+  });
+
+  describe('[Method]', () => {
+    describe('Regular Arrays', () => {
+      it('should [behavior] with empty array', () => {
+        // Test empty scenario
+      });
+
+      it('should [behavior] with existing rows', () => {
+        // Test populated scenario
+      });
+    });
+
+    describe('Virtual Arrays', () => {
+      it('should [behavior] with empty virtual array', () => {
+        // Test empty virtual array
+      });
+
+      it('should [behavior] with existing virtual array rows', () => {
+        // Test populated virtual array
+      });
+    });
+  });
+});
+```
+
+## Setup Requirements
+- Always use TestBed with proper providers
+- Register test entities using `provideSmartFeatureClassicEntities` or `provideSmartFeatureSignalsEntities`
+- Include a top-level entity with `isInitialRow: true` for initial data loading
+- Mock Effect Services to prevent HTTP calls
+- Use smart selectors and top-level selectors for verification
+
+## Mock Strategy
+- Create simple mocks that capture calls and return predictable responses
+- Mock only the Effect Services, let all other library code run normally
+- Verify that the correct methods are called with expected parameters
+
+## Verification Strategy
+- Use smart selectors to verify state changes
+- Use top-level selectors (`getTopChildRows`) to trigger data loading
+- Verify both parent and child entity updates
+- Check that Effect Services are called correctly
+
+## Test Data
+- Create reusable test data factories
+- Support both regular arrays and virtual arrays
+- Include realistic but simple test scenarios
+- Use predictable IDs and names for easy debugging
+
+## Documentation References
+- SmartNgRX Classic: https://davembush.github.io/SmartNgRX/using-smart-ng-rx/
+- SmartNgRX Signals: https://davembush.github.io/SmartNgRX/using-smart-signals/
+- Top Level Selectors: https://davembush.github.io/SmartNgRX/using-smart-ng-rx/top-level-selectors
+- Smart Signals: https://davembush.github.io/SmartNgRX/using-smart-signals/smart-signals
+- **How to access arrays and add rows (Classic): https://davembush.github.io/SmartNgRX/ngrx-demo-walkthrough/adding-rows**
+- **How to access arrays and add rows (Signals): https://davembush.github.io/SmartNgRX/signals-demo-walkthrough/adding-rows**
+
+## Demo Apps Reference
+- Classic NgRX demo: `apps/demo-ngrx-classic/`
+- Signals demo: `apps/demo-ngrx-signals/`
+
+## Code Style
+- Follow existing project conventions
+- Use descriptive test names that explain the scenario
+- Keep tests focused and avoid testing multiple behaviors in one test
+- Use proper TypeScript types throughout
+- Follow the project's ESLint and Prettier rules
+
+# Integration Testing Rule for SmartNgRX (Classic NgRX and Signals)
+
+## Scope
+- **Test only the public API**: Use only documented public APIs (e.g., `SmartArray`, selectors, `addToStore`, `add`, `removeFromStore`).
+- **Do not use internal classes, test-only helpers, direct state mutation, or direct action dispatch.**
+
+## State Setup and Mutation
+- **Never dispatch actions directly.** All state setup and mutations must use the public API (e.g., `addToStore`, `add`, etc.).
+- When setting up initial state, add parent and child entities using the public API, not by dispatching actions or mutating state directly.
+- To add a child to a parent, use the SmartArray public API: `parentRow.children.addToStore(newChild, parentRow)` or `parentRow.children.add(newChild, parentRow)`.
+- Use selectors for all assertions and state access.
+- Mock effect services to return rows with child ID arrays, not objects.
+- Document any limitations if the public API does not expose required functionality.
+
+## General
+- **Never push or assign to SmartArray directly.**
+- **Set up parent `children` as arrays of IDs (or PartialArrayDefinition), not SmartArray, in initial state.**
+- **Use only public API for setup and verification.**
+- **Tests must reflect real-world usage as seen in the demo app.**
+
+## Classic NgRX Integration Test-Specific Rules
+
+- Always use `StoreModule.forRoot({})` in every test file. Do not use `provideMockStore` for integration tests.
+- Never dispatch actions directly; all state changes must go through the public API (e.g., `addToStore`).
+- Define selectors using only public API utilities (`createSmartSelector`, `getTopChildRows`).
+- Effect service mocks should return arrays of IDs for child references (e.g., `children: string[]`).
+- Parent interfaces should reference children by ID arrays (`string[]`), not objects or proxies.
+
+## Signals Integration Test-Specific Rules
+
+- Always use `provideSmartFeatureSignalEntities` and signal-based selectors for signals integration tests.
+- Use Angular signals and signal selectors for all state access and verification (`createSmartSignal`, `getTopChildRows`).
+- Always flush microtasks after TestBed setup to ensure all signal-based registration is complete (`await flushMicrotasks(n)`).
+- Parent interfaces should type child arrays as `Child[]`, not proxies or signals.
+- Do not mutate signals or state directly; use only public API methods (e.g., `addToStore`, `add`).
