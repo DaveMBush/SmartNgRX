@@ -219,11 +219,9 @@ export abstract class BaseArrayProxy<
    * @param parentRow the parent entity (this row) that
    * contains the array
    */
-  add(
-    newRow: C,
-    parentRow: P,
-  ): void {
+  add(newRow: C, parentRow: P): void {
     const { service, parentService } = this.getServices();
+    this.addToStore(newRow, parentRow);
     service.add(newRow, parentRow.id, parentService);
   }
 
