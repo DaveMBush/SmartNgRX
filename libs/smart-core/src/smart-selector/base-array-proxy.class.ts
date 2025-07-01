@@ -210,6 +210,22 @@ export abstract class BaseArrayProxy<
   }
 
   /**
+   * This method allows us to add an item directly to the server.
+   * make sure it contains all the required fields for the row
+   * and the ID is supplied for thisRow
+   * you might need
+   *
+   * @param newRow the item to add to the array
+   * @param parentRow the parent entity (this row) that
+   * contains the array
+   */
+  add(newRow: C, parentRow: P): void {
+    const { service, parentService } = this.getServices();
+    this.addToStore(newRow, parentRow);
+    service.add(newRow, parentRow.id, parentService);
+  }
+
+  /**
    * This method allows us to add an item to the array. Make sure it contains
    * and ID field and any other defaults you might need
    *

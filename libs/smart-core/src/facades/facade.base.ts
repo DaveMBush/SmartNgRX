@@ -106,7 +106,11 @@ export abstract class FacadeBase<
    * @param parentId The parent entity ID
    * @param parentService The parent entity's action service
    */
-  add(row: T, parentId: string, parentService: FacadeBase): void {
+  add<P extends SmartNgRXRowBase = SmartNgRXRowBase>(
+    row: T,
+    parentId: string,
+    parentService: FacadeBase<P>,
+  ): void {
     this.addService.add(row, parentId, parentService);
   }
 

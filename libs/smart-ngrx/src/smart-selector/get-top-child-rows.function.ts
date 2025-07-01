@@ -1,6 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { SmartNgRXRowBase } from '@smarttools/smart-core';
+import { SmartArray, SmartNgRXRowBase } from '@smarttools/smart-core';
 
 /**
  * Type that extracts keys from P where the value is an array of either strings or type C
@@ -28,6 +28,6 @@ export function getTopChildRows<
     const maybeParent =
       tops.ids.length === 1 ? tops.entities[tops.ids[0]] : undefined;
     const children = maybeParent?.[childFieldName];
-    return children ? (children as C[]) : [];
+    return (children ? children : []) as C[] & SmartArray<P, C>;
   });
 }
