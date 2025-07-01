@@ -132,7 +132,7 @@ async function flushMicrotasks(times = 2): Promise<void> {
   return p;
 }
 
-describe('SmartArray add(...) Integration (Signals)', () => {
+describe('SmartArray addToStore(...) Integration (Signals)', () => {
   let selectChildren: Signal<Child[]>;
   afterEach(() => {
     rootInjector.set(undefined as unknown as EnvironmentInjector);
@@ -143,7 +143,10 @@ describe('SmartArray add(...) Integration (Signals)', () => {
       TestBed.configureTestingModule({
         imports: [DummyComponent],
         providers: [
-          { provide: topEffectServiceToken, useClass: MockTopEffectService },
+          {
+            provide: topEffectServiceToken,
+            useClass: MockTopEffectService,
+          },
           {
             provide: childEffectServiceToken,
             useClass: MockChildEffectService,
@@ -202,9 +205,13 @@ describe('SmartArray add(...) Integration (Signals)', () => {
       // This is a placeholder for the real-world flow, as state setup is not exposed
       // The test should focus on the API, not internal state
       let children = selectChildren() as Child[] & SmartArray<Top, Child>;
-      const child1 = children[0];
-      expect(child1.id).toBe('c1');
+      let child1 = children[0];
       await flushMicrotasks(4);
+      children = selectChildren() as Child[] & SmartArray<Top, Child>;
+      child1 = children[0];
+      expect(child1.id).toBe('c1');
+      expect(child1.name).toBe('Child 1');
+      // Use the Add(...) method (public API)
       children.addToStore!(
         { id: 'c2', name: 'Child 2' },
         { id: '1', children: ['c1'] },

@@ -43,7 +43,7 @@ const topDefinition = {
 const childDefinition = {
   entityName: childEntityName,
   effectServiceToken: childEffectServiceToken,
-  defaultRow: (id: string) => ({ id, name: 'Child ' + id }),
+  defaultRow: (id: string) => ({ id, name: '' }),
 };
 
 @Injectable()
@@ -125,22 +125,25 @@ describe('SmartArray Add(...) Integration (Signals) with Existing Rows', () => {
   it('should add a child to an array with existing rows using Add(...)', async () => {
     // Simulate user adding a parent and then a child through the public API
     let children = selectChildren() as Child[] & SmartArray<Top, Child>;
-    await flushMicrotasks(4);
-    expect(children.length).toBe(1);
     let child1 = children[0];
+    await flushMicrotasks(4);
+    children = selectChildren() as Child[] & SmartArray<Top, Child>;
+    child1 = children[0];
+    expect(child1.id).toBe('c1');
+    expect(child1.name).toBe('Child 1');
     // Use the Add(...) method (public API)
     children.add!(
       { id: 'newChild', name: 'Child 2' },
-      { id: '1', children: [{ id: 'c1', name: 'Child 1' }] },
+      { id: '1', children: ['c1'] },
     );
     await flushMicrotasks(4);
     children = selectChildren() as Child[] & SmartArray<Top, Child>;
     expect(children.length).toBe(2);
     child1 = children[0];
-    child1 = children[0];
     const child2 = children[1];
+    await flushMicrotasks(4);
     expect(child1.id).toBe('c1');
-    expect(child1.name).toBe('Child c1');
+    expect(child1.name).toBe('Child 1');
     expect(child2.id).toBe('c2');
     expect(child2.name).toBe('Child 2');
   });
