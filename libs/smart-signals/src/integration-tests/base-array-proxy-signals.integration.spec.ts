@@ -207,7 +207,7 @@ describe('SmartArray add(...) Integration (Signals)', () => {
       await flushMicrotasks(4);
       children.addToStore!(
         { id: 'c2', name: 'Child 2' },
-        { id: '1', children: [{ id: 'c1', name: 'Child 1' }] },
+        { id: '1', children: ['c1'] },
       );
       children = selectChildren() as Child[] & SmartArray<Top, Child>;
       expect(children.length).toBe(2);
