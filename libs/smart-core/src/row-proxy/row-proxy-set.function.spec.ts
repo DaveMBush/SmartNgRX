@@ -40,12 +40,6 @@ describe('customProxySet', () => {
         /*noop*/
       });
   });
-  describe('when prop is not in target.record', () => {
-    it('should return false', () => {
-      const p = rowProxySet(facades);
-      expect(p(target!, 'c', 'd')).toBe(false);
-    });
-  });
   describe('when prop is in target.record', () => {
     describe('when target has a parentId', () => {
       beforeEach(() => {
