@@ -1,5 +1,6 @@
 import { castTo } from '../common/cast-to.function';
 import { forNext } from '../common/for-next.function';
+import { isNullOrUndefined } from '../common/is-null-or-undefined.function';
 import { BaseArrayProxy } from '../smart-selector/base-array-proxy.class';
 import { VirtualArray } from '../smart-selector/virtual-array.class';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
@@ -31,7 +32,7 @@ function forNextFunction<T extends SmartNgRXRowBase>(
 ) {
   return function innerForNextFunction(key: keyof T) {
     const arrayProxy = row[key] as BaseArrayProxy;
-    if (arrayProxy === undefined) {
+    if (isNullOrUndefined(arrayProxy)) {
       return;
     }
     const rawArray = castTo<VirtualArray<SmartNgRXRowBase>>(
