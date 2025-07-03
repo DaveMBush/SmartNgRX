@@ -14,14 +14,12 @@ export function rowProxySet<T extends SmartNgRXRowBase>(facades: {
   facade: FacadeBase<T>;
   parentFacade: FacadeBase;
 }): (target: RowProxy<T>, prop: string | symbol, value: unknown) => boolean {
+  // eslint-disable-next-line sonarjs/no-invariant-returns -- part of the spec
   return function innerRowProxySet(
     target: RowProxy<T>,
     prop: string | symbol,
     value: unknown,
   ) {
-    if (!(prop in target.record)) {
-      return false;
-    }
     target.changes[prop] = value;
     const realRow = target.getRealRow();
     // if there is a parentId then we need to
