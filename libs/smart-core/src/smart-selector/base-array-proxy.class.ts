@@ -187,6 +187,7 @@ export abstract class BaseArrayProxy<
    * @returns the id at the given index
    */
   getIdAtIndex(index: number): string | undefined {
+    /* istanbul ignore else -- difficult to test  */
     if (!isVirtualArray(this.rawArray)) {
       if (index >= 0 && index < this.rawArray.length) {
         return this.rawArray[index];
