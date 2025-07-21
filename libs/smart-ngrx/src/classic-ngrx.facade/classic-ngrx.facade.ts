@@ -112,6 +112,7 @@ export class ClassicNgrxFacade<
     // if this is the initial row, we have to re-fetch the
     // main row so that we have the most recent data
     // or is will eventually be removed from the store.
+    /* istanbul ignore else -- difficult to test  */
     if (this.entityDefinition.isInitialRow === true) {
       this.loadByIds(ids[0]);
       return;
