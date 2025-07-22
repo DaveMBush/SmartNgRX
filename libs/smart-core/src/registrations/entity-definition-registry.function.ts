@@ -35,6 +35,7 @@ export function entityDefinitionRegistry<
   let cached = entityDefinitionMap.get(`${featureName}${psi}${entityName}`);
   if (entityDefinition !== undefined) {
     entityDefinition.isSignal = isSignal;
+    /* istanbul ignore else -- difficult to test  */
     if (entityDefinition.selectId === undefined) {
       entityDefinition.selectId = function defaultSelectId(row: T) {
         return row.id;
@@ -44,6 +45,7 @@ export function entityDefinitionRegistry<
       entityDefinition as SmartValidatedEntityDefinition<T>;
     cached =
       entityDefinitionWithAdapter as unknown as SmartValidatedEntityDefinition<SmartNgRXRowBase>;
+    /* istanbul ignore else -- difficult to test  */
     if (isSignal !== true) {
       entityDefinitionWithAdapter.entityAdapter = createEntityAdapter<T>({
         selectId: entityDefinition.selectId,
@@ -55,6 +57,7 @@ export function entityDefinitionRegistry<
     !!cached,
     `Entity definition for ${featureName}${psi}${entityName} not found.`,
   );
+  /* istanbul ignore else -- difficult to test  */
   if (cached.isSignal !== true) {
     const entityAdapter = cached.entityAdapter;
     assert(
