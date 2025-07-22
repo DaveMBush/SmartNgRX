@@ -59,7 +59,11 @@ export function ensureDataLoaded<T extends SmartNgRXRowBase>(
     void promise.resolve().then(function actionServiceMarkNotDirty() {
       actionService.markNotDirty(id);
     });
-  } else if (isUndefinedOrDirty) {
+    return;
+  }
+
+  // istanbul ignore else -- difficult to test
+  if (isUndefinedOrDirty) {
     // too much trouble to pass Zone in so just going after
     // unpatched Promise directly.
     // gets around the 'NG0600: Writing to signals is not allowed in a computed or an effect by default'

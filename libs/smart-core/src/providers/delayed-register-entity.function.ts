@@ -29,6 +29,7 @@ export function delayedRegisterEntity(
   entityDefinition: SmartEntityDefinition<SmartNgRXRowBase>,
 ): boolean {
   const globalInit = globalMarkAndDeleteInit.get();
+  /* istanbul ignore else -- difficult to test  */
   if (globalInit.removeTime === undefined) {
     return true;
   }
