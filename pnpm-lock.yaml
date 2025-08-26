@@ -361,8 +361,8 @@ importers:
         specifier: 20.1.0
         version: 20.1.0(@angular/compiler-cli@20.1.2(@angular/compiler@20.1.2)(typescript@5.8.3))(tslib@2.8.1)(typescript@5.8.3)
       ngx-skeleton-loader:
-        specifier: ^11.1.0
-        version: 11.2.0(@angular/common@20.1.2(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))
+        specifier: ^11.2.1
+        version: 11.2.1(@angular/common@20.1.2(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))
       nx:
         specifier: 21.4.1
         version: 21.4.1(@swc-node/register@1.10.10(@swc/core@1.13.3(@swc/helpers@0.5.17))(@swc/types@0.1.24)(typescript@5.8.3))(@swc/core@1.13.3(@swc/helpers@0.5.17))
@@ -8775,11 +8775,11 @@ packages:
       tailwindcss:
         optional: true
 
-  ngx-skeleton-loader@11.2.0:
-    resolution: {integrity: sha512-vAeEEmsi2yF6ohHmcbvqiSv6SbMS3brgvLZqr5OKUu8jyoEbJTFT3IrvcQLd91fbNy8RCWACAQdMk/rA473JnA==}
+  ngx-skeleton-loader@11.2.1:
+    resolution: {integrity: sha512-0YWwQgK3X4trtiLvTv3/CMGxcvjPkUbtTTKJJ2EOHhFuvPf0b+XO1KwguK0Ub9BMHnsqK8xOol0cEoVXyNh64Q==}
     peerDependencies:
-      '@angular/common': '>=20.0.0'
-      '@angular/core': '>=20.0.0'
+      '@angular/common': '>=19.0.0'
+      '@angular/core': '>=19.0.0'
 
   node-abi@3.75.0:
     resolution: {integrity: sha512-OhYaY5sDsIka7H7AtijtI9jwGYLyl29eQn/W623DiN/MIv5sUqc4g7BIDThX+gb7di9f6xK02nkp8sdfFWZLTg==}
@@ -22610,7 +22610,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.44.0
 
-  ngx-skeleton-loader@11.2.0(@angular/common@20.1.2(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1)):
+  ngx-skeleton-loader@11.2.1(@angular/common@20.1.2(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1)):
     dependencies:
       '@angular/common': 20.1.2(@angular/core@20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/core': 20.1.2(@angular/compiler@20.1.2)(rxjs@7.8.2)(zone.js@0.15.1)
