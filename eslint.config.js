@@ -693,7 +693,6 @@ const eslintConfig = async () => {
           'sonarjs/no-gratuitous-expressions': 'error',
           'sonarjs/no-nested-switch': 'error',
           'sonarjs/no-nested-template-literals': 'error',
-          'sonarjs/no-one-iteration-loop': 'error',
           'sonarjs/no-redundant-boolean': 'error',
           'sonarjs/no-redundant-jump': 'error',
           'sonarjs/no-small-switch': 'off',
