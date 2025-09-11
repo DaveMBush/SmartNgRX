@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Subject } from 'rxjs';
 
 import { Department } from '../../department/department.interface';
@@ -80,7 +79,6 @@ describe('TreeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         TestHostComponent,
-        NoopAnimationsModule,
         FormsModule,
         CommonModule,
         ScrollingModule,
