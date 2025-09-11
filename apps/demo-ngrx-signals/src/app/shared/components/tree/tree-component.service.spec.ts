@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTreeModule } from '@angular/material/tree';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { castTo, SmartArray } from '@smarttools/smart-signals';
 
 import { Department } from '../../department/department.interface';
@@ -48,7 +47,6 @@ describe('TreeComponentService', () => {
     fixture = TestBed.configureTestingModule({
       imports: [
         TreeComponent,
-        NoopAnimationsModule,
         FormsModule,
         CommonModule,
         ScrollingModule,

@@ -3,7 +3,6 @@ import {
   ApplicationConfig,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import {
@@ -56,7 +55,6 @@ export const appConfig: ApplicationConfig = {
     },
     provideHttpClient(),
     provideSmartNgRX({}),
-    provideAnimations(),
     provideStoreDevtools(),
     provideRouter(appRoutes, withViewTransitions()),
   ],

@@ -4,7 +4,6 @@ import {
   importProvidersFrom,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { provideStore, StoreModule } from '@ngrx/store';
@@ -65,7 +64,6 @@ export const appConfig: ApplicationConfig = {
       markDirtyTime: 1000 * 60 * 2,
       removeTime: 1000 * 60 * 4,
     }),
-    provideAnimations(),
     provideStoreDevtools({
       maxAge: 2,
       logOnly: false,
