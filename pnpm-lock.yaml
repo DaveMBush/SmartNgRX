@@ -340,8 +340,8 @@ importers:
         specifier: ^30.1.2
         version: 30.1.2
       jest-preset-angular:
-        specifier: 15.0.0
-        version: 15.0.0(1ef1fa0e1037c321488ce587a9433565)
+        specifier: 15.0.1
+        version: 15.0.1(76c09bd0387fc572169c3311f0f73e68)
       jest-util:
         specifier: 30.0.5
         version: 30.0.5
@@ -2454,16 +2454,6 @@ packages:
   '@jest/diff-sequences@30.0.1':
     resolution: {integrity: sha512-n5H8QLDJ47QqbCNn5SuFjCRDrOLEZ0h8vAHCK5RL9Ls7Xa8AQLa/YxAc9UjFqoEDM48muwtBGjtMY5cr0PLDCw==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-
-  '@jest/environment-jsdom-abstract@30.0.5':
-    resolution: {integrity: sha512-gpWwiVxZunkoglP8DCnT3As9x5O8H6gveAOpvaJd2ATAoSh7ZSSCWbr9LQtUMvr8WD3VjG9YnDhsmkCK5WN1rQ==}
-    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
-    peerDependencies:
-      canvas: ^3.0.0
-      jsdom: '*'
-    peerDependenciesMeta:
-      canvas:
-        optional: true
 
   '@jest/environment-jsdom-abstract@30.1.2':
     resolution: {integrity: sha512-u8kTh/ZBl97GOmnGJLYK/1GuwAruMC4hoP6xuk/kwltmVWsA9u/6fH1/CsPVGt2O+Wn2yEjs8n1B1zZJ62Cx0w==}
@@ -4935,10 +4925,6 @@ packages:
     resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
     engines: {node: '>=10'}
 
-  ansi-styles@6.2.1:
-    resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
-    engines: {node: '>=12'}
-
   ansi-styles@6.2.3:
     resolution: {integrity: sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg==}
     engines: {node: '>=12'}
@@ -6540,11 +6526,6 @@ packages:
     resolution: {integrity: sha512-w+5mJ3GuFL+NjVtJlvydShqE1eN3h3PbI7/5LAsYJP/2qtuMXjfL2LpHSRqo4b4eSF5K/DH1JXKUAHSB2UW50g==}
     engines: {node: '>= 0.4'}
 
-  esbuild-wasm@0.25.5:
-    resolution: {integrity: sha512-V/rbdOws2gDcnCAECfPrajhuafI0WY4WumUgc8ZHwOLnvmM0doLQ+dqvVFI2qkVxQsvo6880aC9IjpyDqcwwTw==}
-    engines: {node: '>=18'}
-    hasBin: true
-
   esbuild-wasm@0.25.9:
     resolution: {integrity: sha512-Jpv5tCSwQg18aCqCRD3oHIX/prBhXMDapIoG//A+6+dV0e7KQMGFg85ihJ5T1EeMjbZjON3TqFy0VrGAnIHLDA==}
     engines: {node: '>=18'}
@@ -8118,15 +8099,15 @@ packages:
       jest-resolve:
         optional: true
 
-  jest-preset-angular@15.0.0:
-    resolution: {integrity: sha512-sNf5tGwnPALDEI4R3Z10WXbh3jjyHnw5UtQPz306oStCvwy9rCB148nmIEkdll4MltWB+fQccVLHQeX/f0Zy9A==}
+  jest-preset-angular@15.0.1:
+    resolution: {integrity: sha512-+RP7AeSw0+e6XhTWmSxyAqScG3+6XIZfIPX0PIQScq0EQubvWu+WjOmYorIOe8q7lPik8aaXxCuwxnYDaLQ4BQ==}
     engines: {node: ^18.19.1 || ^20.11.1 || >=22.0.0}
     peerDependencies:
       '@angular/compiler-cli': '>=18.0.0 <21.0.0'
       '@angular/core': '>=18.0.0 <21.0.0'
+      '@angular/platform-browser': '>=18.0.0 <21.0.0'
       '@angular/platform-browser-dynamic': '>=18.0.0 <21.0.0'
       jest: ^30.0.0
-      jest-environment-jsdom: ^30.0.0
       jsdom: '>=26.0.0'
       typescript: '>=5.5'
 
@@ -14856,17 +14837,6 @@ snapshots:
 
   '@jest/diff-sequences@30.0.1': {}
 
-  '@jest/environment-jsdom-abstract@30.0.5(jsdom@26.1.0)':
-    dependencies:
-      '@jest/environment': 30.0.5
-      '@jest/fake-timers': 30.0.5
-      '@jest/types': 30.0.5
-      '@types/jsdom': 21.1.7
-      '@types/node': 22.15.6
-      jest-mock: 30.0.5
-      jest-util: 30.0.5
-      jsdom: 26.1.0
-
   '@jest/environment-jsdom-abstract@30.1.2(jsdom@26.1.0)':
     dependencies:
       '@jest/environment': 30.1.2
@@ -18009,8 +17979,6 @@ snapshots:
 
   ansi-styles@5.2.0: {}
 
-  ansi-styles@6.2.1: {}
-
   ansi-styles@6.2.3: {}
 
   ansis@1.5.6: {}
@@ -19807,8 +19775,6 @@ snapshots:
       is-callable: 1.2.7
       is-date-object: 1.1.0
       is-symbol: 1.1.1
-
-  esbuild-wasm@0.25.5: {}
 
   esbuild-wasm@0.25.9: {}
 
@@ -21848,16 +21814,16 @@ snapshots:
     optionalDependencies:
       jest-resolve: 30.0.5
 
-  jest-preset-angular@15.0.0(1ef1fa0e1037c321488ce587a9433565):
+  jest-preset-angular@15.0.1(76c09bd0387fc572169c3311f0f73e68):
     dependencies:
       '@angular/compiler-cli': 20.3.0(@angular/compiler@20.3.0)(typescript@5.9.2)
       '@angular/core': 20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@angular/platform-browser': 20.3.0(@angular/animations@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/platform-browser-dynamic': 20.3.0(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@20.3.0)(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.0(@angular/animations@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.0(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.0(@angular/compiler@20.3.0)(rxjs@7.8.2)(zone.js@0.15.1)))
-      '@jest/environment-jsdom-abstract': 30.0.5(jsdom@26.1.0)
+      '@jest/environment-jsdom-abstract': 30.1.2(jsdom@26.1.0)
       bs-logger: 0.2.6
-      esbuild-wasm: 0.25.5
+      esbuild-wasm: 0.25.9
       jest: 30.0.5(@types/node@22.15.6)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.13.3(@swc/helpers@0.5.17))(@types/node@22.15.6)(typescript@5.9.2))
-      jest-environment-jsdom: 30.1.2
       jest-util: 30.0.5
       jsdom: 26.1.0
       pretty-format: 30.0.5
@@ -26728,7 +26694,7 @@ snapshots:
 
   wrap-ansi@9.0.0:
     dependencies:
-      ansi-styles: 6.2.1
+      ansi-styles: 6.2.3
       string-width: 7.2.0
       strip-ansi: 7.1.2
 
