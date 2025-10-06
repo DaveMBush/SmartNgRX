@@ -90,8 +90,8 @@ importers:
         specifier: 21.6.3
         version: 21.6.3(8d69d89e718794718823a7839d7d963c)
       '@prisma/client':
-        specifier: ^6.15.0
-        version: 6.15.0(prisma@6.10.1(typescript@5.9.2))(typescript@5.9.2)
+        specifier: ^6.16.3
+        version: 6.16.3(prisma@6.10.1(typescript@5.9.2))(typescript@5.9.2)
       '@types/better-sqlite3':
         specifier: ^7.6.11
         version: 7.6.13
@@ -3675,8 +3675,8 @@ packages:
     peerDependencies:
       prettier: '*'
 
-  '@prisma/client@6.15.0':
-    resolution: {integrity: sha512-wR2LXUbOH4cL/WToatI/Y2c7uzni76oNFND7+23ypLllBmIS8e3ZHhO+nud9iXSXKFt1SoM3fTZvHawg63emZw==}
+  '@prisma/client@6.16.3':
+    resolution: {integrity: sha512-JfNfAtXG+/lIopsvoZlZiH2k5yNx87mcTS4t9/S5oufM1nKdXYxOvpDC1XoTCFBa5cQh7uXnbMPsmZrwZY80xw==}
     engines: {node: '>=18.18'}
     peerDependencies:
       prisma: '*'
@@ -16635,7 +16635,7 @@ snapshots:
       make-synchronized: 0.2.10
       prettier: 3.6.2
 
-  '@prisma/client@6.15.0(prisma@6.10.1(typescript@5.9.2))(typescript@5.9.2)':
+  '@prisma/client@6.16.3(prisma@6.10.1(typescript@5.9.2))(typescript@5.9.2)':
     optionalDependencies:
       prisma: 6.10.1(typescript@5.9.2)
       typescript: 5.9.2
