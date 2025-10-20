@@ -39,8 +39,8 @@ importers:
         specifier: 20.3.4
         version: 20.3.4(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.4(@angular/animations@20.3.0(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
       '@angular/ssr':
-        specifier: 20.3.4
-        version: 20.3.4(4a15a742f7103d004c25475dc8c4ada8)
+        specifier: 20.3.6
+        version: 20.3.6(4a15a742f7103d004c25475dc8c4ada8)
       '@nestjs/common':
         specifier: ^10.4.16
         version: 10.4.19(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -61,7 +61,7 @@ importers:
         version: 20.1.0(94137a4b98032c81fba701b94e4b348a)
       '@ng-doc/builder':
         specifier: 20.1.0
-        version: 20.1.0(d8f590eefe18870e144295947074a8c2)
+        version: 20.1.0(ae7739363da69461e6aab8a0c800b6e1)
       '@ng-doc/core':
         specifier: 20.1.0
         version: 20.1.0
@@ -88,7 +88,7 @@ importers:
         version: 20.0.1(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@ngrx/store@20.0.1(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(rxjs@7.8.2)
       '@nx/angular':
         specifier: 21.6.4
-        version: 21.6.4(03e2e523dbe7246c57213238e45ecb34)
+        version: 21.6.4(6106b962450c7b58d27905072ea13eb9)
       '@prisma/client':
         specifier: ^6.16.3
         version: 6.16.3(prisma@6.10.1(typescript@5.9.3))(typescript@5.9.3)
@@ -143,7 +143,7 @@ importers:
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: 20.3.5
-        version: 20.3.5(5dbe63111603706757099f98cf24fce6)
+        version: 20.3.5(a3ec2a477836503fa1a79e91387092d7)
       '@angular-devkit/core':
         specifier: 20.3.5
         version: 20.3.5(chokidar@4.0.3)
@@ -777,8 +777,8 @@ packages:
       '@angular/platform-browser': 20.3.4
       rxjs: ^6.5.3 || ^7.4.0
 
-  '@angular/ssr@20.3.4':
-    resolution: {integrity: sha512-0jfFHUz5JkKI4DJ05lkob4AAOt1LPNsQ3A/u0k1Ctej15jR4fOdE+NcHBV+AZ3XV8eNPqlYbOuTa0lGOon9y/A==}
+  '@angular/ssr@20.3.6':
+    resolution: {integrity: sha512-YABzCGfjwQ+WSUuInwBGS35pNO2zUHJeCzyj6CZ0sqRVR0qt3KvEzk1RVvR33X1bKePFHurn8NYPkcvLSpBvhQ==}
     peerDependencies:
       '@angular/common': ^20.0.0
       '@angular/core': ^20.0.0
@@ -12365,13 +12365,13 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-angular@20.3.5(5dbe63111603706757099f98cf24fce6)':
+  '@angular-devkit/build-angular@20.3.5(a3ec2a477836503fa1a79e91387092d7)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.5(chokidar@4.0.3)
       '@angular-devkit/build-webpack': 0.2003.5(chokidar@4.0.3)(webpack-dev-server@5.2.2(webpack@5.101.2(@swc/core@1.13.3(@swc/helpers@0.5.17))(esbuild@0.25.9)))(webpack@5.101.2(@swc/core@1.13.3(@swc/helpers@0.5.17))(esbuild@0.25.9))
       '@angular-devkit/core': 20.3.5(chokidar@4.0.3)
-      '@angular/build': 20.3.5(1e55f4a3b3b0f0b47320de66039e646e)
+      '@angular/build': 20.3.5(d4281cb2ee0f6f397bfe16d5bc4f2e66)
       '@angular/compiler-cli': 20.3.4(@angular/compiler@20.3.4)(typescript@5.9.3)
       '@babel/core': 7.28.3
       '@babel/generator': 7.28.3
@@ -12427,7 +12427,7 @@ snapshots:
       '@angular/core': 20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)
       '@angular/platform-browser': 20.3.4(@angular/animations@20.3.0(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/platform-server': 20.3.4(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@20.3.4)(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.4(@angular/animations@20.3.0(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
-      '@angular/ssr': 20.3.4(4a15a742f7103d004c25475dc8c4ada8)
+      '@angular/ssr': 20.3.6(4a15a742f7103d004c25475dc8c4ada8)
       browser-sync: 3.0.4
       esbuild: 0.25.9
       jest: 30.1.3(@types/node@24.9.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.13.3(@swc/helpers@0.5.17))(@types/node@24.9.0)(typescript@5.9.3))
@@ -12597,7 +12597,7 @@ snapshots:
       '@angular/core': 20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)
       tslib: 2.8.1
 
-  '@angular/build@20.3.5(1e55f4a3b3b0f0b47320de66039e646e)':
+  '@angular/build@20.3.5(d4281cb2ee0f6f397bfe16d5bc4f2e66)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.5(chokidar@4.0.3)
@@ -12633,7 +12633,7 @@ snapshots:
       '@angular/core': 20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)
       '@angular/platform-browser': 20.3.4(@angular/animations@20.3.0(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))
       '@angular/platform-server': 20.3.4(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/compiler@20.3.4)(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.4(@angular/animations@20.3.0(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
-      '@angular/ssr': 20.3.4(4a15a742f7103d004c25475dc8c4ada8)
+      '@angular/ssr': 20.3.6(4a15a742f7103d004c25475dc8c4ada8)
       less: 4.4.0
       lmdb: 3.4.2
       ng-packagr: 20.2.0(@angular/compiler-cli@20.3.4(@angular/compiler@20.3.4)(typescript@5.9.3))(tslib@2.8.1)(typescript@5.9.3)
@@ -12772,7 +12772,7 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.8.1
 
-  '@angular/ssr@20.3.4(4a15a742f7103d004c25475dc8c4ada8)':
+  '@angular/ssr@20.3.6(4a15a742f7103d004c25475dc8c4ada8)':
     dependencies:
       '@angular/common': 20.3.4(@angular/core@20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/core': 20.3.4(@angular/compiler@20.3.4)(rxjs@7.8.2)(zone.js@0.15.1)
@@ -15970,10 +15970,10 @@ snapshots:
       - '@tinkoff/ng-polymorpheus'
       - supports-color
 
-  '@ng-doc/builder@20.1.0(d8f590eefe18870e144295947074a8c2)':
+  '@ng-doc/builder@20.1.0(ae7739363da69461e6aab8a0c800b6e1)':
     dependencies:
       '@angular-devkit/architect': 0.2000.4(chokidar@4.0.3)
-      '@angular-devkit/build-angular': 20.3.5(5dbe63111603706757099f98cf24fce6)
+      '@angular-devkit/build-angular': 20.3.5(a3ec2a477836503fa1a79e91387092d7)
       '@microsoft/tsdoc': 0.15.1
       '@ng-doc/core': 20.1.0
       '@ng-doc/utils': 20.1.0
@@ -16219,7 +16219,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@nx/angular@21.6.4(03e2e523dbe7246c57213238e45ecb34)':
+  '@nx/angular@21.6.4(6106b962450c7b58d27905072ea13eb9)':
     dependencies:
       '@angular-devkit/core': 20.3.5(chokidar@4.0.3)
       '@angular-devkit/schematics': 20.3.5(chokidar@4.0.3)
@@ -16243,8 +16243,8 @@ snapshots:
       tslib: 2.8.1
       webpack-merge: 5.10.0
     optionalDependencies:
-      '@angular-devkit/build-angular': 20.3.5(5dbe63111603706757099f98cf24fce6)
-      '@angular/build': 20.3.5(1e55f4a3b3b0f0b47320de66039e646e)
+      '@angular-devkit/build-angular': 20.3.5(a3ec2a477836503fa1a79e91387092d7)
+      '@angular/build': 20.3.5(d4281cb2ee0f6f397bfe16d5bc4f2e66)
       ng-packagr: 20.2.0(@angular/compiler-cli@20.3.4(@angular/compiler@20.3.4)(typescript@5.9.3))(tslib@2.8.1)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@babel/traverse'
