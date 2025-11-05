@@ -21,7 +21,7 @@ class RootInjector {
   /**
    * Gets the root injector for the application.
    *
-   * @throws Error if the root injector hasn't been set
+   * @throws {Error} Error if the root injector hasn't been set
    * @returns the root injector
    */
   get(): EnvironmentInjector {
