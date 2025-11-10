@@ -61,7 +61,7 @@ importers:
         version: 20.1.0(e4ca7ea4c74a6ac83adc54055cdecc21)
       '@ng-doc/builder':
         specifier: 20.1.0
-        version: 20.1.0(880453572cb2013e974d1e217506550d)
+        version: 20.1.0(656f575c56f70066e424b8bbf9fa6525)
       '@ng-doc/core':
         specifier: 20.1.0
         version: 20.1.0
@@ -88,7 +88,7 @@ importers:
         version: 20.1.0(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)(zone.js@0.15.1))(@ngrx/store@20.1.0(@angular/core@20.3.10(@angular/compiler@20.3.10)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(rxjs@7.8.2)
       '@nx/angular':
         specifier: 22.0.2
-        version: 22.0.2(82ae1ffe1e3a8580fbca38193e17ba9e)
+        version: 22.0.2(4227168cf8bf18ed6b3e6f3686cfc345)
       '@prisma/client':
         specifier: ^6.16.3
         version: 6.16.3(prisma@6.18.0(typescript@5.9.3))(typescript@5.9.3)
@@ -143,7 +143,7 @@ importers:
     devDependencies:
       '@angular-devkit/build-angular':
         specifier: 20.3.9
-        version: 20.3.9(e00a04b36e630a9d7a0230a519464a63)
+        version: 20.3.9(0b99c3e9b4e2ab3fb0107805cbc7a1b7)
       '@angular-devkit/core':
         specifier: 20.3.9
         version: 20.3.9(chokidar@4.0.3)
@@ -334,8 +334,8 @@ importers:
         specifier: 30.1.3
         version: 30.1.3(@types/node@24.9.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.15.0(@swc/helpers@0.5.17))(@types/node@24.9.0)(typescript@5.9.3))
       jest-environment-jsdom:
-        specifier: 30.1.2
-        version: 30.1.2
+        specifier: 30.2.0
+        version: 30.2.0
       jest-environment-node:
         specifier: ^30.2.0
         version: 30.2.0
@@ -2484,6 +2484,16 @@ packages:
 
   '@jest/environment-jsdom-abstract@30.1.2':
     resolution: {integrity: sha512-u8kTh/ZBl97GOmnGJLYK/1GuwAruMC4hoP6xuk/kwltmVWsA9u/6fH1/CsPVGt2O+Wn2yEjs8n1B1zZJ62Cx0w==}
+    engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
+    peerDependencies:
+      canvas: ^3.0.0
+      jsdom: '*'
+    peerDependenciesMeta:
+      canvas:
+        optional: true
+
+  '@jest/environment-jsdom-abstract@30.2.0':
+    resolution: {integrity: sha512-kazxw2L9IPuZpQ0mEt9lu9Z98SqR74xcagANmMBU16X0lS23yPc0+S6hGLUz8kVRlomZEs/5S/Zlpqwf5yu6OQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
     peerDependencies:
       canvas: ^3.0.0
@@ -8366,8 +8376,8 @@ packages:
     resolution: {integrity: sha512-lpWlJlM7bCUf1mfmuqTA8+j2lNURW9eNafOy99knBM01i5CQeY5UH1vZjgT9071nDJac1M4XsbyI44oNOdhlDQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
 
-  jest-environment-jsdom@30.1.2:
-    resolution: {integrity: sha512-LXsfAh5+mDTuXDONGl1ZLYxtJEaS06GOoxJb2arcJTjIfh1adYg8zLD8f6P0df8VmjvCaMrLmc1PgHUI/YUTbg==}
+  jest-environment-jsdom@30.2.0:
+    resolution: {integrity: sha512-zbBTiqr2Vl78pKp/laGBREYzbZx9ZtqPjOK4++lL4BNDhxRnahg51HtoDrk9/VjIy9IthNEWdKVd7H5bqBhiWQ==}
     engines: {node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0}
     peerDependencies:
       canvas: ^3.0.0
@@ -12644,7 +12654,7 @@ snapshots:
     transitivePeerDependencies:
       - chokidar
 
-  '@angular-devkit/build-angular@20.3.9(e00a04b36e630a9d7a0230a519464a63)':
+  '@angular-devkit/build-angular@20.3.9(0b99c3e9b4e2ab3fb0107805cbc7a1b7)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@angular-devkit/architect': 0.2003.9(chokidar@4.0.3)
@@ -12710,7 +12720,7 @@ snapshots:
       browser-sync: 3.0.4
       esbuild: 0.25.9
       jest: 30.1.3(@types/node@24.9.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.15.0(@swc/helpers@0.5.17))(@types/node@24.9.0)(typescript@5.9.3))
-      jest-environment-jsdom: 30.1.2
+      jest-environment-jsdom: 30.2.0
       ng-packagr: 20.2.0(@angular/compiler-cli@20.3.10(@angular/compiler@20.3.10)(typescript@5.9.3))(tslib@2.8.1)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@angular/compiler'
@@ -15423,6 +15433,17 @@ snapshots:
       jest-util: 30.0.5
       jsdom: 26.1.0
 
+  '@jest/environment-jsdom-abstract@30.2.0(jsdom@26.1.0)':
+    dependencies:
+      '@jest/environment': 30.2.0
+      '@jest/fake-timers': 30.2.0
+      '@jest/types': 30.2.0
+      '@types/jsdom': 21.1.7
+      '@types/node': 24.9.0
+      jest-mock: 30.2.0
+      jest-util: 30.2.0
+      jsdom: 26.1.0
+
   '@jest/environment@30.1.2':
     dependencies:
       '@jest/fake-timers': 30.1.2
@@ -16351,10 +16372,10 @@ snapshots:
       - '@tinkoff/ng-polymorpheus'
       - supports-color
 
-  '@ng-doc/builder@20.1.0(880453572cb2013e974d1e217506550d)':
+  '@ng-doc/builder@20.1.0(656f575c56f70066e424b8bbf9fa6525)':
     dependencies:
       '@angular-devkit/architect': 0.2000.4(chokidar@4.0.3)
-      '@angular-devkit/build-angular': 20.3.9(e00a04b36e630a9d7a0230a519464a63)
+      '@angular-devkit/build-angular': 20.3.9(0b99c3e9b4e2ab3fb0107805cbc7a1b7)
       '@microsoft/tsdoc': 0.15.1
       '@ng-doc/core': 20.1.0
       '@ng-doc/utils': 20.1.0
@@ -16599,7 +16620,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@nx/angular@22.0.2(82ae1ffe1e3a8580fbca38193e17ba9e)':
+  '@nx/angular@22.0.2(4227168cf8bf18ed6b3e6f3686cfc345)':
     dependencies:
       '@angular-devkit/core': 20.3.9(chokidar@4.0.3)
       '@angular-devkit/schematics': 20.3.9(chokidar@4.0.3)
@@ -16623,7 +16644,7 @@ snapshots:
       tslib: 2.8.1
       webpack-merge: 5.10.0
     optionalDependencies:
-      '@angular-devkit/build-angular': 20.3.9(e00a04b36e630a9d7a0230a519464a63)
+      '@angular-devkit/build-angular': 20.3.9(0b99c3e9b4e2ab3fb0107805cbc7a1b7)
       '@angular/build': 20.3.9(4c61397e2221a027409b615aed43fedf)
       ng-packagr: 20.2.0(@angular/compiler-cli@20.3.10(@angular/compiler@20.3.10)(typescript@5.9.3))(tslib@2.8.1)(typescript@5.9.3)
     transitivePeerDependencies:
@@ -22711,10 +22732,10 @@ snapshots:
       jest-util: 30.2.0
       pretty-format: 30.2.0
 
-  jest-environment-jsdom@30.1.2:
+  jest-environment-jsdom@30.2.0:
     dependencies:
-      '@jest/environment': 30.1.2
-      '@jest/environment-jsdom-abstract': 30.1.2(jsdom@26.1.0)
+      '@jest/environment': 30.2.0
+      '@jest/environment-jsdom-abstract': 30.2.0(jsdom@26.1.0)
       '@types/jsdom': 21.1.7
       '@types/node': 24.9.0
       jsdom: 26.1.0
