@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
+import { adapter } from './prisma-adapter';
 import { prismaServiceToken } from './prisma-service.token';
 
 @Module({
@@ -9,7 +10,7 @@ import { prismaServiceToken } from './prisma-service.token';
   providers: [
     {
       provide: prismaServiceToken,
-      useValue: new PrismaClient(),
+      useValue: new PrismaClient({ adapter }),
     },
   ],
   exports: [prismaServiceToken],
