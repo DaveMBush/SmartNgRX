@@ -66,8 +66,8 @@ importers:
         specifier: 20.1.0
         version: 20.1.0
       '@ng-doc/ui-kit':
-        specifier: 20.1.0
-        version: 20.1.0(3f6a580ab7aee962ea1acd589a6f9b56)
+        specifier: 20.1.1
+        version: 20.1.1(3f6a580ab7aee962ea1acd589a6f9b56)
       '@ngrx/component-store':
         specifier: 20.1.0
         version: 20.1.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
@@ -3446,8 +3446,22 @@ packages:
   '@ng-doc/core@20.1.0':
     resolution: {integrity: sha512-NMVwHIsyhx2iogZiIBMdNwnM5ljg61DpH5zMdKeygf1AGm2liTCU2rAdSmdLm2EgPWmGzNLzNLZcMD3QaSJldw==}
 
+  '@ng-doc/core@20.1.1':
+    resolution: {integrity: sha512-ANKr2lJTegQTWBG4d5W7BeHXeiKPjVoTQWHSW18dWYy/T7Nvg8d3KOKwt0v3p0ooc2O7hAiZ0FNGXP5ePpBX0Q==}
+
   '@ng-doc/ui-kit@20.1.0':
     resolution: {integrity: sha512-CNI/gOCDJrB2j27ShCB3WUkbC5udZyZQ1f3Hckt07jwGKn8FJkgUPKjjDRptB3/bxqwZPoX7xbKVGObFurMdSQ==}
+    peerDependencies:
+      '@angular/animations': '>=20.0.0 < 21.0.0'
+      '@angular/cdk': '>=20.0.0 < 21.0.0'
+      '@angular/common': '>=20.0.0 < 21.0.0'
+      '@angular/core': '>=20.0.0 < 21.0.0'
+      '@tinkoff/ng-polymorpheus': 4.3.0
+      di-controls: 2.1.0
+      rxjs: ^7.0.0
+
+  '@ng-doc/ui-kit@20.1.1':
+    resolution: {integrity: sha512-3P3kDGvyThIgzFt084THgJ2mgEGXyI7G104bW4wQAvuD/ShzQBaIHQ0lNFKN7cX92NUBNo18Ohn5TM/UIQAYcA==}
     peerDependencies:
       '@angular/animations': '>=20.0.0 < 21.0.0'
       '@angular/cdk': '>=20.0.0 < 21.0.0'
@@ -16907,6 +16921,13 @@ snapshots:
       posthtml-parser: 0.11.0
       posthtml-render: 3.0.0
 
+  '@ng-doc/core@20.1.1':
+    dependencies:
+      css-what: 6.1.0
+      esthetic: 0.5.6-beta.1
+      posthtml-parser: 0.11.0
+      posthtml-render: 3.0.0
+
   '@ng-doc/ui-kit@20.1.0(3f6a580ab7aee962ea1acd589a6f9b56)':
     dependencies:
       '@angular/animations': 20.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))
@@ -16914,6 +16935,18 @@ snapshots:
       '@angular/common': 20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
       '@angular/core': 20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)
       '@ng-doc/core': 20.1.0
+      '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.12(@angular/animations@20.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))
+      di-controls: 2.1.0(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@20.3.12(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.12(@angular/animations@20.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ng-doc/ui-kit@20.1.1(3f6a580ab7aee962ea1acd589a6f9b56)':
+    dependencies:
+      '@angular/animations': 20.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@angular/cdk': 20.2.13(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/common': 20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@ng-doc/core': 20.1.1
       '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.12(@angular/animations@20.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))
       di-controls: 2.1.0(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/forms@20.3.12(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@20.3.12(@angular/animations@20.3.0(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))(@angular/common@20.3.12(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@20.3.12(@angular/compiler@20.3.12)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2))(rxjs@7.8.2)
       rxjs: 7.8.2
