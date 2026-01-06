@@ -41,10 +41,9 @@ describe('TreeComponentService', () => {
   let service: PublicTreeComponentService;
   let mockComponent: ComponentFixture<TreeComponent>;
   let componentInstance: TreeComponent;
-  let fixture: TestBed;
 
   beforeEach(() => {
-    fixture = TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       imports: [
         TreeComponent,
         FormsModule,
@@ -61,7 +60,7 @@ describe('TreeComponentService', () => {
     service = TestBed.inject(TreeComponentService) as unknown as typeof service;
 
     // Mock TreeComponent
-    mockComponent = fixture.createComponent(TreeComponent);
+    mockComponent = TestBed.createComponent(TreeComponent);
     mockComponent.componentInstance.range = {
       start: 0,
       end: 6,
