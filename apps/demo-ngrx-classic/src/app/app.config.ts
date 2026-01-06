@@ -5,7 +5,7 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withViewTransitions } from '@angular/router';
-import { provideEffects } from '@ngrx/effects';
+import { EffectsModule, provideEffects } from '@ngrx/effects';
 import { provideStore, StoreModule } from '@ngrx/store';
 import {
   provideStoreDevtools,
@@ -64,6 +64,7 @@ export const appConfig: ApplicationConfig = {
       // we use StoreModule.forRoot({}) here because SmartNgRX uses
       // Module based providers for the features.
       StoreModule.forRoot({}),
+      EffectsModule.forRoot([]),
       StoreDevtoolsModule.instrument({
         maxAge: 1,
         logOnly: false,

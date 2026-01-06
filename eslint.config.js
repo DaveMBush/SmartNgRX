@@ -816,6 +816,11 @@ const eslintConfig = async () => {
           'sonarjs/no-nested-functions': 'off',
           'sonarjs/function-return-type': 'off',
           'max-classes-per-file': 'off',
+          '@typescript-eslint/no-unsafe-argument': 'off',
+          '@typescript-eslint/no-unsafe-assignment': 'off',
+          '@typescript-eslint/no-unsafe-call': 'off',
+          '@typescript-eslint/no-unsafe-member-access': 'off',
+          '@typescript-eslint/no-unsafe-return': 'off',
           'jest/expect-expect': [
             'error',
             {
@@ -828,6 +833,34 @@ const eslintConfig = async () => {
           ],
         },
       })),
+    {
+      files: [
+        'apps/demo-ngrx-signals/**/*.ts',
+        'apps/demo-ngrx-classic/**/*.ts',
+      ],
+      ignores: ['**/*.spec.ts', '**/*.test.ts'],
+      rules: {
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
+      },
+    },
+    {
+      files: [
+        'libs/smart-signals/**/*.ts',
+        'libs/smart-ngrx/src/tests/**/*.ts',
+      ],
+      ignores: ['**/*.spec.ts', '**/*.test.ts'],
+      rules: {
+        '@typescript-eslint/no-unsafe-argument': 'off',
+        '@typescript-eslint/no-unsafe-assignment': 'off',
+        '@typescript-eslint/no-unsafe-call': 'off',
+        '@typescript-eslint/no-unsafe-member-access': 'off',
+        '@typescript-eslint/no-unsafe-return': 'off',
+      },
+    },
   ];
 };
 
