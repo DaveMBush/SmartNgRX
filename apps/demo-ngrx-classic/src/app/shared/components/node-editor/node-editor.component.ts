@@ -36,6 +36,7 @@ import {
 export class NodeEditorComponent
   implements ControlValueAccessor, AfterViewInit
 {
+  saved = false;
   value = '';
   disabled = false;
   onChange(_: string): void {
