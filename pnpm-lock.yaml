@@ -66,8 +66,8 @@ importers:
         specifier: 20.1.1
         version: 20.1.1
       '@ng-doc/ui-kit':
-        specifier: 20.1.1
-        version: 20.1.1(b9effd22e84675176c3f7f61df7e988a)
+        specifier: 21.0.0
+        version: 21.0.0(b9effd22e84675176c3f7f61df7e988a)
       '@ngrx/component-store':
         specifier: 21.0.1
         version: 21.0.1(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
@@ -3445,6 +3445,16 @@ packages:
       '@angular/cdk': '>=20.0.0 < 21.0.0'
       '@angular/common': '>=20.0.0 < 21.0.0'
       '@angular/core': '>=20.0.0 < 21.0.0'
+      '@tinkoff/ng-polymorpheus': 4.3.0
+      di-controls: 2.1.0
+      rxjs: ^7.0.0
+
+  '@ng-doc/ui-kit@21.0.0':
+    resolution: {integrity: sha512-3nMLUshvR59jkjjkfK4ho9Zhb/dOyWZ4tDMd5sWkyQP/DLxLXdyL9V7f94cGA27ia6WDMpnmy5ZgjzZGkb213w==}
+    peerDependencies:
+      '@angular/cdk': '>=21.0.0 < 22.0.0'
+      '@angular/common': '>=21.0.0 < 22.0.0'
+      '@angular/core': '>=21.0.0 < 22.0.0'
       '@tinkoff/ng-polymorpheus': 4.3.0
       di-controls: 2.1.0
       rxjs: ^7.0.0
@@ -11402,6 +11412,10 @@ packages:
   sax@1.4.3:
     resolution: {integrity: sha512-yqYn1JhPczigF94DMS+shiDMjDowYO6y9+wB/4WgO0Y19jWYk0lQ4tuG5KI7kj4FTp1wxPj5IFfcrz/s1c3jjQ==}
 
+  sax@1.4.4:
+    resolution: {integrity: sha512-1n3r/tGXO6b6VXMdFT54SHzT9ytu9yr7TaELowdYpMqY/Ao7EnlQGmAQ1+RatX7Tkkdm6hONI2owqNx2aZj5Sw==}
+    engines: {node: '>=11.0.0'}
+
   saxes@6.0.0:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
@@ -12656,6 +12670,7 @@ packages:
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
@@ -16796,6 +16811,17 @@ snapshots:
       '@angular/common': 21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
       '@angular/core': 21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)
       '@ng-doc/core': 20.1.1
+      '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(@angular/platform-browser@21.0.6(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)))
+      di-controls: 2.1.0(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(@angular/forms@21.0.6(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(@angular/platform-browser@21.0.6(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)))(rxjs@7.8.2))(rxjs@7.8.2)
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@ng-doc/ui-kit@21.0.0(b9effd22e84675176c3f7f61df7e988a)':
+    dependencies:
+      '@angular/cdk': 21.0.5(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
+      '@angular/common': 21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
+      '@angular/core': 21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)
+      '@ng-doc/core': 21.0.0
       '@tinkoff/ng-polymorpheus': 4.3.0(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(@angular/platform-browser@21.0.6(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)))
       di-controls: 2.1.0(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(@angular/forms@21.0.6(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(@angular/platform-browser@21.0.6(@angular/common@21.0.6(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)))(rxjs@7.8.2))(rxjs@7.8.2)
       rxjs: 7.8.2
@@ -26908,6 +26934,9 @@ snapshots:
   sax@1.4.3:
     optional: true
 
+  sax@1.4.4:
+    optional: true
+
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
@@ -27510,7 +27539,7 @@ snapshots:
       '@adobe/css-tools': 4.3.3
       debug: 4.4.3(supports-color@8.1.1)
       glob: 10.5.0
-      sax: 1.4.3
+      sax: 1.4.4
       source-map: 0.7.6
     transitivePeerDependencies:
       - supports-color
