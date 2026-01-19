@@ -4,14 +4,14 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![example workflow](https://github.com/DaveMBush/SmartNgRX/actions/workflows/build.yml/badge.svg)
 [![View - Documentation](https://img.shields.io/badge/View-Documentation-2ea44f)](https://davembush.github.io/SmartNgRX/ 'Go to project documentation')
-[![Angular - 20](https://img.shields.io/badge/Angular-20-2ea44f)](https://angular.dev/)
-[![NgRX - 19](https://img.shields.io/badge/NgRX-19-2ea44f)](https://ngrx.io/guide/store)
+[![Angular - 21](https://img.shields.io/badge/Angular-21-2ea44f)](https://angular.dev/)
+[![NgRX - 21](https://img.shields.io/badge/NgRX-21-2ea44f)](https://ngrx.io/guide/store)
 ![Branch Coverage](https://img.shields.io/badge/Branch%20Coverage-100%25-2ea44f?style=plastic&logoSize=auto)
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/DaveMBush/SmartNgRX)
 
 ## What is SmartNgRX?
 
-SmartNgRX is a set of libraries that hide most of NgRX and SignalStore from the developer for CRUD operations while still using NgRX under the hood and allowing you to use it with existing NgRX code. It not only supports CRUD but also implements optimistic UI for updates and deletes. Below is a list of features we have implemented so far (checked) along with some of our dreams (unchecked):
+SmartNgRX is a set of libraries that hide most of NgRX or SignalStore from the developer for CRUD operations while still using NgRX under the hood and allowing you to use it with existing NgRX code. It not only supports CRUD but also implements optimistic UI for updates and deletes. Below is a list of features we have implemented so far (checked) along with some of our dreams (unchecked):
 
 - [x] Eliminate NgRX boiler-plate code.
 - [x] Dynamically generate Actions, Reducers and Effects.
@@ -56,11 +56,16 @@ for the SignalsStore version of the library, run:
 npm install @smarttools/smart-signals
 ```
 
+NOTE:
+
+- The 2.x series of these libraries are for Angular 20 and NgRX 19
+- The 3.x series of these libraries are for Angular 21 and NgRX 21
+
 ## History
 
 This project merges two concepts I've been playing with for a while.
 
-At one of my previous jobs, I needed to work with data that could be essentially an infinite number of rows. This made retrieving the entire data set practically impossible and required that we not only use virtual scrolling to render the data but also use a concept of virtual data where we only retrieved the data that was needed to render the current view.
+At one of my previous jobs, I needed to work with data that could be an infinite number of rows. This made retrieving the entire data set practically impossible and required that we not only use virtual scrolling to render the data but also use a concept of virtual data where we only retrieved the data that was needed to render the current view.
 
 Fast forward to a similar situation and a lot more experience. One of the issues with the previous implementation was that I had to retrieve the data every time it scrolled into view. As you can imagine, even with the fastest retrieval times, this didn't paint nearly as fast as anyone would have liked. This time, we had more control over the data. It was still a large data set. But it was not infinite.
 
@@ -84,8 +89,8 @@ All the documentation can be found at [SmartNgRX Documentation](https://davembus
 
 ### Prerequisites
 
-- [NodeJS](https://nodejs.org/en/) - ^18.10.0 || ^20.0.0
-- [pnpm](https://pnpm.io/) - ^8
+- [NodeJS](https://nodejs.org/en/) - ^22.0.0
+- [pnpm](https://pnpm.io/) - ^10
 
 ### Steps
 
@@ -107,8 +112,8 @@ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo s
 
 - Checkout the project (if you haven't already)
 - Run `pnpm i` (if you haven't already)
-- start the documentation server with `pnpm run start:documentation`
-- open a browser to `http://localhost:4201`
+
+See the scripts in `package.json` for how to start the server and the two demo applications.
 
 ## Participating
 
