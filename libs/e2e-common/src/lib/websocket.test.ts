@@ -19,14 +19,17 @@ export function websocketTests(): void {
     (route) => {
       test.describe('websockets', () => {
         let secondPage: Page;
+
         test.beforeEach(async ({ page, context }) => {
           await loadRoute(page, route);
           secondPage = await context.newPage();
           await loadRoute(secondPage, route);
         });
+
         test.describe(`Edit (${route})`, () => {
           test.describe('when I update the label of a node in page 1', () => {
             let inputValue = '';
+
             test.beforeEach(async ({ page }) => {
               await locateFirstTreeNode(page).hover();
               await locateEditButton(page).filter({ visible: true }).click();
@@ -39,11 +42,13 @@ export function websocketTests(): void {
               ).toHaveText(inputValue + 'abc');
               await expect(inputLocator).toBeHidden();
             });
+
             test('the change is reflected in page 2', async () => {
               await expect(
                 locateTreeLabel(locateFirstTreeNode(secondPage)),
               ).toHaveText(inputValue + 'abc');
             });
+
             test.afterEach(async ({ page }) => {
               await locateFirstTreeNode(page).hover();
               await locateEditButton(page).filter({ visible: true }).click();
@@ -57,6 +62,7 @@ export function websocketTests(): void {
             });
           });
         });
+
         test.describe(`Add/Delete (${route})`, () => {
           test.beforeEach(async ({ page }) => {
             // Add a new element but ESC out to close it.
@@ -90,10 +96,12 @@ export function websocketTests(): void {
             await page.waitForTimeout(200);
             await page.keyboard.press('Enter');
           });
+
           test('the new tree node should be visible on page 2', async () => {
             // wait for the new tree node to be visible
             await expect(secondPage.getByText('New docs abc')).toBeVisible();
           });
+
           test.afterEach(async ({ page }) => {
             // wait for the new tree node to be visible
             await expect(page.getByText('New docs abc')).toBeVisible();
