@@ -37,8 +37,14 @@ jobs:
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
+      # Ensure npm 11.5.1 or later for trusted publishing
+      - run: npm install -g npm@latest
+
       - name: Install dependencies
         run: pnpm i
+
+      - name: Generate Prisma Types
+        run: pnpm prisma generate
 
       - name: Publish to npm
         run: |
@@ -50,3 +56,4 @@ jobs:
         env:
           NX_NO_CLOUD: true
           NPM_CONFIG_PROVENANCE: true
+          PNPM_CONFIG_PROVENANCE: true
