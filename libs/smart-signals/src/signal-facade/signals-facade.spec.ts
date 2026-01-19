@@ -73,14 +73,13 @@ interface MockEntityState {
 }
 
 // Define a testable interface for SignalsFacade
-interface TestableSignalsFacade
-  extends Omit<
-    SignalsFacade,
-    | 'garbageCollectWithEntities'
-    | 'markDirtyFetchesNew'
-    | 'optimisticUpdate'
-    | 'removeFromParents'
-  > {
+interface TestableSignalsFacade extends Omit<
+  SignalsFacade,
+  | 'garbageCollectWithEntities'
+  | 'markDirtyFetchesNew'
+  | 'optimisticUpdate'
+  | 'removeFromParents'
+> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- intentional for test
   [key: string]: any;
   markDirtyFetchesNew: boolean;
