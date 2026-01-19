@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      - name: Generate Prisma Types
+        run: pnpm prisma generate
+
       - name: Publish to npm
         run: |
           # Use the version from the workflow input if it is set,
