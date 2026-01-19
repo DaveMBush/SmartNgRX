@@ -191,7 +191,7 @@ importers:
         version: 21.0.1
       '@nx/cypress':
         specifier: 22.3.3
-        version: 22.3.3(@babel/traverse@7.28.6)(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(cypress@15.8.1)(eslint@9.39.2(jiti@2.6.1))(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))(typescript@5.9.3)(verdaccio@6.2.4(encoding@0.1.13)(typanion@3.14.0))
+        version: 22.3.3(@babel/traverse@7.28.6)(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(cypress@15.9.0)(eslint@9.39.2(jiti@2.6.1))(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))(typescript@5.9.3)(verdaccio@6.2.4(encoding@0.1.13)(typanion@3.14.0))
       '@nx/devkit':
         specifier: 22.3.3
         version: 22.3.3(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))
@@ -280,8 +280,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.4
       cypress:
-        specifier: 15.8.1
-        version: 15.8.1
+        specifier: 15.9.0
+        version: 15.9.0
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -6324,8 +6324,8 @@ packages:
   cuint@0.2.2:
     resolution: {integrity: sha512-d4ZVpCW31eWwCMe1YT3ur7mUDnTXbgwyzaL320DrcRT45rfjYxkt5QWLrmOJ+/UEAI2+fQgKe/fCjR8l4TpRgw==}
 
-  cypress@15.8.1:
-    resolution: {integrity: sha512-ogc62stTQGh1395ipKxfCE5hQuSApTzeH5e0d9U6m7wYO9HQeCpgnkYtBtd0MbkN2Fnch5Od2mX9u4hoTlrH4Q==}
+  cypress@15.9.0:
+    resolution: {integrity: sha512-Ks6Bdilz3TtkLZtTQyqYaqtL/WT3X3APKaSLhTV96TmTyudzSjc6EJsJCHmBb7DxO+3R12q3Jkbjgm/iPgmwfg==}
     engines: {node: ^20.1.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
 
@@ -16941,7 +16941,7 @@ snapshots:
       - webpack-cli
       - webpack-hot-middleware
 
-  '@nx/cypress@22.3.3(@babel/traverse@7.28.6)(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(cypress@15.8.1)(eslint@9.39.2(jiti@2.6.1))(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))(typescript@5.9.3)(verdaccio@6.2.4(encoding@0.1.13)(typanion@3.14.0))':
+  '@nx/cypress@22.3.3(@babel/traverse@7.28.6)(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(cypress@15.9.0)(eslint@9.39.2(jiti@2.6.1))(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))(typescript@5.9.3)(verdaccio@6.2.4(encoding@0.1.13)(typanion@3.14.0))':
     dependencies:
       '@nx/devkit': 22.3.3(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))
       '@nx/eslint': 22.3.3(@babel/traverse@7.28.6)(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(eslint@9.39.2(jiti@2.6.1))(nx@22.3.3(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18)))(verdaccio@6.2.4(encoding@0.1.13)(typanion@3.14.0))
@@ -16952,7 +16952,7 @@ snapshots:
       tree-kill: 1.2.2
       tslib: 2.8.1
     optionalDependencies:
-      cypress: 15.8.1
+      cypress: 15.9.0
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -20482,7 +20482,7 @@ snapshots:
 
   cuint@0.2.2: {}
 
-  cypress@15.8.1:
+  cypress@15.9.0:
     dependencies:
       '@cypress/request': 3.0.10
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
