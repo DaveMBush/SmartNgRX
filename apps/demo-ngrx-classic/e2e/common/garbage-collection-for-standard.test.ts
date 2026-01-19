@@ -13,6 +13,7 @@ const featureName = 'tree-standard';
 
 test.describe('Garbage collection for standard', () => {
   test.setTimeout(6 * 1000 * 60);
+
   test('collects garbage', async ({ page }) => {
     await page.goto('http://localhost:4200/tree');
     await expect(locateOptions(page)).toHaveCount(3);

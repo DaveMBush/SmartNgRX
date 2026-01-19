@@ -101,7 +101,7 @@ export class LoadByIdsClassic {
         withLatestFrom(this.entities),
         mergeMap(function loadByIdsDispatcherSubscribe([ids, entity]) {
           ids = ids.filter(function loadByIdsDispatcherFilter(id) {
-            return entity[id] === undefined || entity[id].isLoading !== true;
+            return entity[id]?.isLoading !== true;
           });
           if (ids.length === 0) {
             return of([]);

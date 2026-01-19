@@ -13,6 +13,7 @@ const featureName = 'tree-no-refresh';
 
 test.describe('Garbage collection for no refresh', () => {
   test.setTimeout(6 * 1000 * 60);
+
   test('collects garbage', async ({ page }) => {
     await page.goto('http://localhost:4201/treeNoRefresh');
     await expect(locateOptions(page)).toHaveCount(3);

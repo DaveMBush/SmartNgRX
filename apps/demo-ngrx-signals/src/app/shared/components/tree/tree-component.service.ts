@@ -18,11 +18,7 @@ export class TreeComponentService {
     node: TreeNode | undefined,
     parent: TreeNode,
   ): boolean {
-    return (
-      node !== undefined &&
-      node.node.id === parent.node.id &&
-      node.level === parent.level + 1
-    );
+    return node?.node.id === parent.node.id && node.level === parent.level + 1;
   }
 
   toggleExpand(node: TreeNode): void {

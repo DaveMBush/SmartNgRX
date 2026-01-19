@@ -13,6 +13,7 @@ const featureName = 'tree-no-dirty';
 
 test.describe('Garbage collection for no dirty', () => {
   test.setTimeout(6 * 1000 * 60);
+
   test('collects garbage', async ({ page }) => {
     await page.goto('http://localhost:4201/treeNoDirty');
     await expect(locateOptions(page)).toHaveCount(3);
