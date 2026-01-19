@@ -27,9 +27,8 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = async () => {
-  const { default: stylisticEslintPlugin } = await import(
-    '@stylistic/eslint-plugin-js'
-  );
+  const { default: stylisticEslintPlugin } =
+    await import('@stylistic/eslint-plugin-js');
   const { default: unicorn } = await import('eslint-plugin-unicorn');
 
   return [

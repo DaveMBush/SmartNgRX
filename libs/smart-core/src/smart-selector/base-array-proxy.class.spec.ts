@@ -43,9 +43,9 @@ interface TestableArrayProxy<
   P extends SmartNgRXRowBase,
   C extends SmartNgRXRowBase,
 > extends Omit<
-    ArrayProxy<P, C>,
-    'createNewParentFromParent' | 'removeChildIdFromChildArray'
-  > {
+  ArrayProxy<P, C>,
+  'createNewParentFromParent' | 'removeChildIdFromChildArray'
+> {
   removeChildIdFromChildArray(
     entity: EntityState<P>,
     parentId: string,

@@ -2,8 +2,10 @@ import { FacadeBase } from '../facades/facade.base';
 import { VirtualArrayContents } from '../types/virtual-array-contents.interface';
 import { VirtualArray } from './virtual-array.class';
 
-interface TestableVirtualArray<P extends object>
-  extends Omit<VirtualArray<P>, 'dispatchLoadByIndexes'> {
+interface TestableVirtualArray<P extends object> extends Omit<
+  VirtualArray<P>,
+  'dispatchLoadByIndexes'
+> {
   dispatchLoadByIndexes(
     parentId: string,
     childField: string,

@@ -23,11 +23,10 @@ import { actionFactory } from './action.factory';
 import { ClassicNgrxFacade } from './classic-ngrx.facade';
 import { LoadByIndexesClassic } from './load-by-indexes-classic.class';
 
-interface LoadByIndexesClassicPublic
-  extends Omit<
-    LoadByIndexesClassic,
-    'loadByIndexesSubject' | 'processLoadByIndexesSuccess'
-  > {
+interface LoadByIndexesClassicPublic extends Omit<
+  LoadByIndexesClassic,
+  'loadByIndexesSubject' | 'processLoadByIndexesSuccess'
+> {
   loadByIndexesSubject: Subject<{
     parentId: string;
     childField: string;
