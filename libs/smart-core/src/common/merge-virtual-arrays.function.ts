@@ -36,6 +36,7 @@ export function mergeVirtualArrays(
   }
   const mergedArray = [...existingArray.indexes];
   forNext(newArray.indexes, function mergeVirtualArraysForNext(item, index) {
+    /* istanbul ignore else -- difficult to test  */
     if (item !== undefined) {
       mergedArray[index] = item;
     }

@@ -19,12 +19,12 @@ let globalStore: Store | undefined;
  * @returns = the global store value.
  */
 export function store(mockStore?: MockStore): Store {
-  if (mockStore) {
+  if (mockStore !== undefined) {
     globalStore = mockStore;
     return globalStore;
   }
   /* istanbul ignore next -- not testable because we can't clear globalStore in a clean manner */
-  if (!globalStore) {
+  if (globalStore === undefined) {
     globalStore = rootInjector.get().get(Store);
   }
   assert(globalStore !== undefined, 'store is undefined');

@@ -5,6 +5,8 @@ import { entityDefinitionRegistry } from '../registrations/entity-definition-reg
 import { EffectServiceToken } from '../types/effect-service.token';
 import { SmartEntityDefinition } from '../types/smart-entity-definition.interface';
 import { SmartNgRXRowBase } from '../types/smart-ngrx-row-base.interface';
+
+// eslint-disable-next-line sonarjs/no-duplicate-string -- needed for jest.mock
 jest.mock('@ngrx/entity', () => {
   return {
     __esModule: true,

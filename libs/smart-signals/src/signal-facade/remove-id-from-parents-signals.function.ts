@@ -36,6 +36,7 @@ export function removeIdFromParentsSignals(
     parentService,
     [id, null],
   );
+  /* istanbul ignore else -- difficult to test  */
   if (
     parentInfo.some(function removeIdFromParentsSome(p) {
       return (

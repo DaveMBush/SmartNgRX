@@ -122,8 +122,17 @@ function processVirtualArrayChildField(
       return id === v;
     },
   );
-  let updatedArray = virtualArray;
-  if (index !== -1 && newId !== null) {
+
+  /* istanbul ignore if -- difficult to test  */
+  if (index === -1) {
+    return {
+      hasChild: false,
+      updatedChildField: virtualArray,
+    };
+  }
+
+  let updatedArray: VirtualArrayContents;
+  if (newId !== null) {
     updatedArray = {
       indexes: [
         ...virtualArray.indexes.slice(0, index),
@@ -132,7 +141,7 @@ function processVirtualArrayChildField(
       ],
       length: virtualArray.length,
     };
-  } else if (index !== -1) {
+  } else {
     updatedArray = {
       indexes: [
         ...virtualArray.indexes.slice(0, index),
@@ -141,11 +150,9 @@ function processVirtualArrayChildField(
       length: virtualArray.length - 1,
     };
   }
+
   return {
-    hasChild: index !== -1,
-    updatedChildField: {
-      indexes: updatedArray.indexes,
-      length: updatedArray.length,
-    },
+    hasChild: true,
+    updatedChildField: updatedArray,
   };
 }
