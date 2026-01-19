@@ -20,9 +20,9 @@ import { rowProxySet } from './row-proxy-set.function';
  * to type T (above) the rest of our code still believes it is working
  * with the original row.
  */
-export class RowProxy<T extends SmartNgRXRowBase = SmartNgRXRowBase>
-  implements RowProxyDelete
-{
+export class RowProxy<
+  T extends SmartNgRXRowBase = SmartNgRXRowBase,
+> implements RowProxyDelete {
   changes = {} as Record<string | symbol, unknown>;
   record: Record<string | symbol, unknown> = {};
 

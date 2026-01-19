@@ -34,9 +34,9 @@ function isVirtualArray(item: unknown): item is VirtualArray<object> {
  * @see `createSmartSelector`
  */
 export abstract class BaseArrayProxy<
-    P extends SmartNgRXRowBase = SmartNgRXRowBase,
-    C extends SmartNgRXRowBase = SmartNgRXRowBase,
-  >
+  P extends SmartNgRXRowBase = SmartNgRXRowBase,
+  C extends SmartNgRXRowBase = SmartNgRXRowBase,
+>
   implements SmartArray<P, C>, ArrayLike<C>, Iterable<C>
 {
   // selectId and childActionService are initialized in the init method

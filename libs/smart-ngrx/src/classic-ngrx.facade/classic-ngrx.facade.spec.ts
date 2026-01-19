@@ -41,17 +41,16 @@ interface MockEntity extends SmartNgRXRowBase {
   isEditing?: boolean;
 }
 
-interface TestableActionService
-  extends Omit<
-    ClassicNgrxFacade,
-    | 'actions'
-    | 'forceDirty'
-    | 'garbageCollectWithEntities'
-    | 'markDirtyFetchesNew'
-    | 'optimisticUpdate'
-    | 'removeFromParents'
-    | 'updateMany'
-  > {
+interface TestableActionService extends Omit<
+  ClassicNgrxFacade,
+  | 'actions'
+  | 'forceDirty'
+  | 'garbageCollectWithEntities'
+  | 'markDirtyFetchesNew'
+  | 'optimisticUpdate'
+  | 'removeFromParents'
+  | 'updateMany'
+> {
   [key: string]: any; // eslint-disable-line @typescript-eslint/no-explicit-any -- intentional for test
   markDirtyFetchesNew: boolean;
   forceDirty(ids: string[]): void;
