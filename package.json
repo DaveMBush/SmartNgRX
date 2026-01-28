@@ -26,7 +26,7 @@
     "dupcheck": "pnpm jscpd",
     "htmllint": "pnpm htmlhint \"apps/**/*.html\" \"libs/**/*.html\" --ignore=\"coverage/**/*\"",
     "prepare": "is-ci || husky",
-    "postinstall": "is-ci || pnpm dlx prisma migrate dev",
+    "postinstall": "is-ci || pnpm prisma migrate dev",
     "reset": "rm -rf dist && rm -rf node_modules && rm -rf .angular && rm -rf .nx && pnpm install"
   },
   "prisma": {
