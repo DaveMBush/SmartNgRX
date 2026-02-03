@@ -367,8 +367,8 @@ importers:
         specifier: 21.1.0
         version: 21.1.0(@angular/compiler-cli@21.1.0(@angular/compiler@21.1.0)(typescript@5.9.3))(tslib@2.8.1)(typescript@5.9.3)
       ngx-skeleton-loader:
-        specifier: ^11.3.0
-        version: 11.3.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))
+        specifier: ^12.0.0
+        version: 12.0.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))
       nx:
         specifier: 22.4.2
         version: 22.4.2(@swc-node/register@1.11.1(@swc/core@1.15.8(@swc/helpers@0.5.18))(@swc/types@0.1.25)(typescript@5.9.3))(@swc/core@1.15.8(@swc/helpers@0.5.18))
@@ -9336,8 +9336,8 @@ packages:
       tailwindcss:
         optional: true
 
-  ngx-skeleton-loader@11.3.0:
-    resolution: {integrity: sha512-MLm5shgXGiCA1W5NEqct6glBFx2AEgEKbk8pDyY15BsZ2zTGUwa5jw4pe6nJdrCj6xcl/d9oFTinQHrO0q+3RA==}
+  ngx-skeleton-loader@12.0.0:
+    resolution: {integrity: sha512-vGEytpLElYKSLovFHCJkwgPZOdy0lPqyejxuhVFcZJg9dsp07o0/NeM4/Nnc2oCDE8T/wkXSPIbrpKzfTDbMCQ==}
     peerDependencies:
       '@angular/common': '>=19.0.0'
       '@angular/core': '>=19.0.0'
@@ -24403,7 +24403,7 @@ snapshots:
     optionalDependencies:
       rollup: 4.57.0
 
-  ngx-skeleton-loader@11.3.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0)):
+  ngx-skeleton-loader@12.0.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0)):
     dependencies:
       '@angular/common': 21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)
       '@angular/core': 21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)(zone.js@0.16.0)
