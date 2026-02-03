@@ -232,8 +232,8 @@ importers:
         specifier: ^1.36.0
         version: 1.57.0
       '@prisma/adapter-better-sqlite3':
-        specifier: ^7.0.1
-        version: 7.2.0
+        specifier: ^7.3.0
+        version: 7.3.0
       '@schematics/angular':
         specifier: 21.0.4
         version: 21.0.4
@@ -3686,8 +3686,8 @@ packages:
     peerDependencies:
       prettier: '*'
 
-  '@prisma/adapter-better-sqlite3@7.2.0':
-    resolution: {integrity: sha512-ZowCgDOnv0nk0VIUSPp6y8ns+wXRctVADPSu/vluznAYDx/Xy0dK4nTr7+7XVX/XqUrPPtOYdCBELwjEklS8vQ==}
+  '@prisma/adapter-better-sqlite3@7.3.0':
+    resolution: {integrity: sha512-DkELPte3cHGCZI1isizw+IdQHFVMU5zASJ/deeBY4R2apQV0RCA8XDG54iGmMhwLMusGTYijDVYuB1ruxEy0KQ==}
 
   '@prisma/client-runtime-utils@7.2.0':
     resolution: {integrity: sha512-dn7oB53v0tqkB0wBdMuTNFNPdEbfICEUe82Tn9FoKAhJCUkDH+fmyEp0ClciGh+9Hp2Tuu2K52kth2MTLstvmA==}
@@ -3713,11 +3713,14 @@ packages:
   '@prisma/debug@7.2.0':
     resolution: {integrity: sha512-YSGTiSlBAVJPzX4ONZmMotL+ozJwQjRmZweQNIq/ER0tQJKJynNkRB3kyvt37eOfsbMCXk3gnLF6J9OJ4QWftw==}
 
+  '@prisma/debug@7.3.0':
+    resolution: {integrity: sha512-yh/tHhraCzYkffsI1/3a7SHX8tpgbJu1NPnuxS4rEpJdWAUDHUH25F1EDo6PPzirpyLNkgPPZdhojQK804BGtg==}
+
   '@prisma/dev@0.17.0':
     resolution: {integrity: sha512-6sGebe5jxX+FEsQTpjHLzvOGPn6ypFQprcs3jcuIWv1Xp/5v6P/rjfdvAwTkP2iF6pDx2tCd8vGLNWcsWzImTA==}
 
-  '@prisma/driver-adapter-utils@7.2.0':
-    resolution: {integrity: sha512-gzrUcbI9VmHS24Uf+0+7DNzdIw7keglJsD5m/MHxQOU68OhGVzlphQRobLiDMn8CHNA2XN8uugwKjudVtnfMVQ==}
+  '@prisma/driver-adapter-utils@7.3.0':
+    resolution: {integrity: sha512-Wdlezh1ck0Rq2dDINkfSkwbR53q53//Eo1vVqVLwtiZ0I6fuWDGNPxwq+SNAIHnsU+FD/m3aIJKevH3vF13U3w==}
 
   '@prisma/engines-version@7.2.0-4.0c8ef2ce45c83248ab3df073180d5eda9e8be7a3':
     resolution: {integrity: sha512-KezsjCZDsbjNR7SzIiVlUsn9PnLePI7r5uxABlwL+xoerurZTfgQVbIjvjF2sVr3Uc0ZcsnREw3F84HvbggGdA==}
@@ -17437,9 +17440,9 @@ snapshots:
       make-synchronized: 0.2.10
       prettier: 3.8.0
 
-  '@prisma/adapter-better-sqlite3@7.2.0':
+  '@prisma/adapter-better-sqlite3@7.3.0':
     dependencies:
-      '@prisma/driver-adapter-utils': 7.2.0
+      '@prisma/driver-adapter-utils': 7.3.0
       better-sqlite3: 12.6.2
 
   '@prisma/client-runtime-utils@7.2.0': {}
@@ -17464,6 +17467,8 @@ snapshots:
 
   '@prisma/debug@7.2.0': {}
 
+  '@prisma/debug@7.3.0': {}
+
   '@prisma/dev@0.17.0(typescript@5.9.3)':
     dependencies:
       '@electric-sql/pglite': 0.3.2
@@ -17486,9 +17491,9 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@prisma/driver-adapter-utils@7.2.0':
+  '@prisma/driver-adapter-utils@7.3.0':
     dependencies:
-      '@prisma/debug': 7.2.0
+      '@prisma/debug': 7.3.0
 
   '@prisma/engines-version@7.2.0-4.0c8ef2ce45c83248ab3df073180d5eda9e8be7a3': {}
 
