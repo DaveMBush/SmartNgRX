@@ -19,7 +19,7 @@ test.describe('Garbage collection for no dirty', () => {
     await expect(locateOptions(page)).toHaveCount(3);
     let locationsState = await getFeatureEntity(page, featureName, 'locations');
     expect(locationsState).toBeDefined();
-    expect(Object.keys(locationsState!.entities).length).toBe(3);
+    expect(Object.keys(locationsState!.entities)).toHaveLength(3);
     await expect(locateFirstTreeNode(page)).toBeVisible();
     let departmentsState = await getFeatureEntity(
       page,
@@ -27,30 +27,30 @@ test.describe('Garbage collection for no dirty', () => {
       'departments',
     );
     expect(departmentsState).toBeDefined();
-    expect(Object.keys(departmentsState!.entities).length).not.toBe(0);
+    expect(Object.keys(departmentsState!.entities)).not.toHaveLength(0);
     let departmentChildrenState = await getFeatureEntity(
       page,
       featureName,
       'departmentChildren',
     );
     expect(departmentChildrenState).toBeDefined();
-    expect(Object.keys(departmentChildrenState!.entities).length).toBe(0);
+    expect(Object.keys(departmentChildrenState!.entities)).toHaveLength(0);
     await locateHomeLink(page).click();
     // eslint-disable-next-line playwright/no-wait-for-timeout -- need to wait specific time to test garbage collection
     await page.waitForTimeout(5.5 * 1000 * 60);
     locationsState = await getFeatureEntity(page, featureName, 'locations');
     expect(locationsState).toBeDefined();
-    expect(Object.keys(locationsState!.entities).length).toBe(0);
+    expect(Object.keys(locationsState!.entities)).toHaveLength(0);
     departmentsState = await getFeatureEntity(page, featureName, 'departments');
     expect(departmentsState).toBeDefined();
-    expect(Object.keys(departmentsState!.entities).length).toBe(0);
+    expect(Object.keys(departmentsState!.entities)).toHaveLength(0);
     departmentChildrenState = await getFeatureEntity(
       page,
       featureName,
       'departmentChildren',
     );
     expect(departmentChildrenState).toBeDefined();
-    expect(Object.keys(departmentChildrenState!.entities).length).toBe(0);
+    expect(Object.keys(departmentChildrenState!.entities)).toHaveLength(0);
   });
 });
 // jscpd:ignore-end
