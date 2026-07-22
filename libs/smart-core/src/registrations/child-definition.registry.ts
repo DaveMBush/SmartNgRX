@@ -51,7 +51,7 @@ class ChildDefinitionRegistry {
       !!childDefinition,
       `Child definition not found for feature: ${feature} and entity: ${entity}`,
     );
-    return childDefinition as BaseChildDefinition<P>[];
+    return childDefinition;
   }
 }
 

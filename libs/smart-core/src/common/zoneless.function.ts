@@ -9,7 +9,7 @@ import { isNullOrUndefined } from './is-null-or-undefined.function';
  */
 export function zoneless(func: string): unknown {
   /* istanbul ignore next -- difficult to test */
-  const zonelessSymbol =
+  const zonelessSymbol: unknown =
     typeof window !== 'undefined' &&
     window[('__zone_symbol__' + func) as keyof typeof window];
   /* istanbul ignore next -- can only be triggered at runtime without some hacking mocking for trivial code */

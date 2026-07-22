@@ -89,7 +89,7 @@ describe('LoadByIndexesClassic', () => {
     createStore();
     facadeRegistry.register('testFeature', 'testEntity', ClassicNgrxFacade);
     entityRegistry.register('testFeature', 'testEntity', {
-      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+      defaultRow: (id: string) => ({ id }),
       markAndDeleteInit: {
         markDirtyTime: 15 * 60000,
         markDirtyFetchesNew: true,
@@ -102,7 +102,7 @@ describe('LoadByIndexesClassic', () => {
     entityDefinitionRegistry('testFeature', 'testEntity', {
       entityName: 'testEntity',
       effectServiceToken,
-      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+      defaultRow: (id: string) => ({ id }),
     });
     serviceRegistry.register(effectServiceToken, effectService);
     effectServiceLoadByIndexesClassicSpy = jest
@@ -125,7 +125,7 @@ describe('LoadByIndexesClassic', () => {
       loadByIndexesService: LoadByIndexesClassic;
     };
     const mockEntitiesSubject = new Subject<Dictionary<SmartNgRXRowBase>>();
-    mockEntitiesSubject.next({} as Dictionary<SmartNgRXRowBase>);
+    mockEntitiesSubject.next({});
     mockEntities = mockEntitiesSubject.asObservable();
     actionService.loadByIndexesService = new LoadByIndexesClassic(
       'testFeature',

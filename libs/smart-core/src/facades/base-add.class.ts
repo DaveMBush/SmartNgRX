@@ -41,7 +41,7 @@ export abstract class BaseAdd<T extends SmartNgRXRowBase> {
     );
     this.effectService = serviceRegistry.get<T>(
       entityDefinition.effectServiceToken,
-    );
+    )!;
   }
 
   /**

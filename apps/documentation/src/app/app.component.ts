@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgDocThemeService } from '@ng-doc/app/services/theme';
 
 @Component({
   selector: 'smart-ngrx-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AppComponent {

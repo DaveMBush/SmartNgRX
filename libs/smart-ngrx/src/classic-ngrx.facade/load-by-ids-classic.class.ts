@@ -110,7 +110,7 @@ export class LoadByIdsClassic {
             entityDefinitionRegistry(feature, entityName).effectServiceToken,
           );
           actionService.loadByIdsPreload(ids);
-          return effectService.loadByIds(ids);
+          return effectService!.loadByIds(ids);
         }),
         map(function loadByIdsSuccessMap(rows) {
           actionService.loadByIdsSuccess(rows);

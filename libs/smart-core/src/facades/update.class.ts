@@ -171,8 +171,8 @@ export class Update<T extends SmartNgRXRowBase> {
         return boundHandleError(error, action);
       }
 
-      return effectService
-        .update(action.new.row as T)
+      return effectService!
+        .update(action.new.row)
         .pipe(catchError(catchErrorFn)) as unknown as Observable<T[]>;
     }.bind(this);
   }

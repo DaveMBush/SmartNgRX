@@ -86,7 +86,7 @@ export class LoadByIndexesSignals<T extends SmartNgRXRowBase> {
             entityDefinitionRegistry(feature, entity).effectServiceToken,
           );
           return (
-            effectService
+            effectService!
               .loadByIndexes(parentId, childField, min, max - min + 1)
               // nested pipe to get access to actionProps
               .pipe(
@@ -130,7 +130,9 @@ export class LoadByIndexesSignals<T extends SmartNgRXRowBase> {
       rowAsRecord[childField],
       array,
     );
-    this.facade.storeRows([{ ...row, [childField]: updatedField }]);
+    this.facade.storeRows([
+      { ...row, [childField]: updatedField },
+    ] as unknown as T[]);
   }
 
   private processLoadByIndexesSuccess(

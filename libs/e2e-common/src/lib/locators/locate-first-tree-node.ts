@@ -7,6 +7,6 @@ import { Page } from '@playwright/test';
  *
  * @returns A locator for the first tree node.
  */
-export function locateFirstTreeNode(page: Page) {
+export function locateFirstTreeNode(page: Page): Locator {
   return page.locator('mat-tree-node').first();
 }

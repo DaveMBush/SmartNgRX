@@ -2,7 +2,6 @@ import {
   BaseChildDefinition,
   facadeRegistry,
   ParentInfo,
-  SmartNgRXRowBase,
 } from '@smarttools/smart-core';
 
 import { removeIdFromParentsSignals } from './remove-id-from-parents-signals.function';
@@ -31,7 +30,7 @@ describe('removeIdFromParentsSignals', () => {
     mockSignalsFacade = {
       entityState: {
         entityMap: jest.fn().mockReturnValue(new Map()),
-      } as unknown as SignalsFacade['entityState'],
+      } as SignalsFacade['entityState'],
     };
 
     mockReplaceIdInFeatureParents = jest.fn().mockReturnValue(mockParentIds);
@@ -45,7 +44,7 @@ describe('removeIdFromParentsSignals', () => {
     childDefinition = {
       parentFeature: testFeature,
       parentEntity: testEntity,
-      parentField: 'id' as keyof SmartNgRXRowBase,
+      parentField: 'id',
     } as BaseChildDefinition;
 
     parentInfo = [];

@@ -25,7 +25,7 @@ interface Child extends SmartNgRXRowBase {
 
 @Injectable()
 class MockParentEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Parent[]> {
     // Return the parent row with an existing child
     return of([{ id: '1', children: ['c0'] }]);
   }
@@ -33,12 +33,12 @@ class MockParentEffectService {
 
 @Injectable()
 class MockChildEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Child[]> {
     // Return the existing child row
     return of([{ id: 'c0', name: 'Child 0' }]);
   }
 
-  add(_: Child) {
+  add(_: Child): Observable<Child[]> {
     // Add returns the new child row
     return of([{ id: 'c1', name: 'Child 1' }]);
   }

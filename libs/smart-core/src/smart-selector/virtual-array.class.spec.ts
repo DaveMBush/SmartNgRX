@@ -34,7 +34,7 @@ describe('VirtualArray', () => {
       mockActionService,
       parentId,
       childField,
-    ) as unknown as TestableVirtualArray<object>;
+    );
   });
 
   describe('constructor', () => {

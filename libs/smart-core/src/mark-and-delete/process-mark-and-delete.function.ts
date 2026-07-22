@@ -15,7 +15,7 @@ export function processMarkAndDelete(
   entity: string,
   garbageCollectRowIds: string[],
   markDirtyRowIds: string[],
-) {
+): void {
   if (garbageCollectRowIds.length === 0 && markDirtyRowIds.length === 0) {
     return;
   }

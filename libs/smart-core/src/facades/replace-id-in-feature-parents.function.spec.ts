@@ -76,7 +76,7 @@ describe('replaceIdInFeatureParents', () => {
         children: {
           indexes: ['oldId', 'otherId'],
           length: 2,
-        } as VirtualArrayContents,
+        },
       },
     };
     const result = replaceIdInFeatureParents(
@@ -106,7 +106,7 @@ describe('replaceIdInFeatureParents', () => {
         children: {
           indexes: ['oldId', 'otherId'],
           length: 2,
-        } as VirtualArrayContents,
+        },
       },
     };
     const result = replaceIdInFeatureParents(

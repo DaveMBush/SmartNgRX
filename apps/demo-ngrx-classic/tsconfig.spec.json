@@ -14,5 +14,13 @@
     "src/**/*.spec.ts",
     "src/**/*.d.ts",
     "src/app/routes/tests/location.selectors.spec.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

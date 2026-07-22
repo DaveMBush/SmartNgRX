@@ -27,14 +27,12 @@ import { MarkAndDeleteInit } from '../types/mark-and-delete-init.interface';
 export function provideSmartNgRX(
   config?: Partial<MarkAndDeleteInit>,
 ): EnvironmentProviders {
-  const localConfig =
-    config ??
-    ({
-      markDirtyTime: 15 * 60 * 1000, // 15 minutes
-      removeTime: 30 * 60 * 1000, // 30 minutes
-      runInterval: 60000, // 1 minute
-      markDirtyFetchesNew: true,
-    } as MarkAndDeleteInit);
+  const localConfig = config ?? {
+    markDirtyTime: 15 * 60 * 1000, // 15 minutes
+    removeTime: 30 * 60 * 1000, // 30 minutes
+    runInterval: 60000, // 1 minute
+    markDirtyFetchesNew: true,
+  };
   if (isNullOrUndefined(localConfig.markDirtyTime)) {
     localConfig.markDirtyTime = 15 * 60 * 1000; // 15 minutes
   }

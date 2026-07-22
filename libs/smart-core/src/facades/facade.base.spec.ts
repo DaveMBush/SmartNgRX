@@ -55,7 +55,7 @@ class TestFacade extends FacadeBase {
     this.entityDefinition = {
       effectServiceToken: {} as EffectServiceToken<SmartNgRXRowBase>,
       entityName: 'test',
-      defaultRow: () => ({ id: 'test' }) as SmartNgRXRowBase,
+      defaultRow: () => ({ id: 'test' }),
       entityAdapter: createEntityAdapter<SmartNgRXRowBase>({
         selectId: (row) => row.id,
       }),

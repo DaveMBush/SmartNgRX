@@ -19,7 +19,7 @@ function isVirtualArray(
  */
 export function forceRefetchOfVirtualIndexes<T extends SmartNgRXRowBase>(
   row: T,
-) {
+): void {
   if (row.isDirty !== true) {
     return;
   }
