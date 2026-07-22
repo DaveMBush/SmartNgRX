@@ -60,6 +60,7 @@ NOTE:
 
 - The 2.x series of these libraries are for Angular 20 and NgRX 19
 - The 3.x series of these libraries are for Angular 21 and NgRX 21
+- The 4.x series of these libraries are for Angular 22 and NgRX 21
 
 ## History
 
