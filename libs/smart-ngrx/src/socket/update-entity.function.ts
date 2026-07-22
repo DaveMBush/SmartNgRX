@@ -32,11 +32,11 @@ export function updateEntity<T extends SmartNgRXRowBase>(
   if (!featureRegistry.hasFeature(feature)) {
     return;
   }
-  function selectEntities(state: unknown) {
+  function selectEntities(state: unknown): Record<string, T> {
     const featureState = (
       state as Record<string, Record<string, EntityState<T>>>
     )[feature];
-    return featureState[entity].entities;
+    return featureState[entity].entities as unknown as Record<string, T>;
   }
   store()
     .select(selectEntities)

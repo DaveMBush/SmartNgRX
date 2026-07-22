@@ -298,7 +298,7 @@ export class ClassicNgrxFacade<
     this.updateService = new Update<T>(
       this.feature,
       this.entity,
-      this.selectId as (row: T) => string,
+      this.selectId,
       this.loadByIdsSuccess.bind(this),
     );
     this.addService = new Add<T>(this);

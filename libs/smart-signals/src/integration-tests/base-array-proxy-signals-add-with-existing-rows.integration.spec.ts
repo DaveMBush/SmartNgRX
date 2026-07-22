@@ -48,7 +48,7 @@ const childDefinition = {
 
 @Injectable()
 class MockTopEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Top[]> {
     // Parent has one child already
     return of([{ id: '1', children: ['c1'] }]);
   }
@@ -56,12 +56,12 @@ class MockTopEffectService {
 
 @Injectable()
 class MockChildEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Child[]> {
     // Return the existing child
     return of([{ id: 'c1', name: 'Child 1' }]);
   }
 
-  add(_: Child) {
+  add(_: Child): Observable<Child[]> {
     // Add returns the new child with the existing child
     return of([{ id: 'c2', name: 'Child 2' }]);
   }
@@ -127,7 +127,7 @@ describe('SmartArray Add(...) Integration (Signals) with Existing Rows', () => {
     let children = selectChildren() as Child[] & SmartArray<Top, Child>;
     let child1 = children[0];
     await flushMicrotasks(4);
-    children = selectChildren() as Child[] & SmartArray<Top, Child>;
+    children = selectChildren();
     child1 = children[0];
     expect(child1.id).toBe('c1');
     expect(child1.name).toBe('Child 1');
@@ -137,7 +137,7 @@ describe('SmartArray Add(...) Integration (Signals) with Existing Rows', () => {
       { id: '1', children: ['c1'] },
     );
     await flushMicrotasks(4);
-    children = selectChildren() as Child[] & SmartArray<Top, Child>;
+    children = selectChildren();
     expect(children.length).toBe(2);
     child1 = children[0];
     const child2 = children[1];

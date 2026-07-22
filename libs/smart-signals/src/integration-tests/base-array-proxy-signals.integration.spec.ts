@@ -68,7 +68,7 @@ const childDefinitionWithExisting = {
 
 @Injectable()
 class MockTopEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Top[]> {
     // Return the parent row with empty children
     return of([{ id: '1', children: [] }]);
   }
@@ -76,7 +76,7 @@ class MockTopEffectService {
 
 @Injectable()
 class MockTopEffectServiceWithExisting {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Top[]> {
     // Return the parent row with empty children
     return of([{ id: '1', children: ['c1'] }]);
   }
@@ -84,14 +84,14 @@ class MockTopEffectServiceWithExisting {
 
 @Injectable()
 class MockChildEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Child[]> {
     return of([]);
   }
 }
 
 @Injectable()
 class MockChildEffectServiceWithExisting {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Child[]> {
     return of([{ id: 'c1', name: 'Child 1' }]);
   }
 }
@@ -169,7 +169,7 @@ describe('SmartArray addToStore(...) Integration (Signals)', () => {
         { id: 'c1', name: 'Child 1' },
         { id: '1', children: [] },
       );
-      children = selectChildren() as Child[] & SmartArray<Top, Child>;
+      children = selectChildren();
       expect(children.length).toBe(1);
       expect(children[0].id).toBe('c1');
       expect(children[0].name).toBe('Child 1');
@@ -207,7 +207,7 @@ describe('SmartArray addToStore(...) Integration (Signals)', () => {
       let children = selectChildren() as Child[] & SmartArray<Top, Child>;
       let child1 = children[0];
       await flushMicrotasks(4);
-      children = selectChildren() as Child[] & SmartArray<Top, Child>;
+      children = selectChildren();
       child1 = children[0];
       expect(child1.id).toBe('c1');
       expect(child1.name).toBe('Child 1');
@@ -216,7 +216,7 @@ describe('SmartArray addToStore(...) Integration (Signals)', () => {
         { id: 'c2', name: 'Child 2' },
         { id: '1', children: ['c1'] },
       );
-      children = selectChildren() as Child[] & SmartArray<Top, Child>;
+      children = selectChildren();
       expect(children.length).toBe(2);
       expect(children[0].id).toBe('c1');
       expect(children[0].name).toBe('Child 1');

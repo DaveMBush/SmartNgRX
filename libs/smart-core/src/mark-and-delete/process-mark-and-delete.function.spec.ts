@@ -11,11 +11,11 @@ window.requestIdleCallback = (
 };
 
 class MockActionService {
-  garbageCollect = (_: string[]) => {
+  garbageCollect = (_: string[]): void => {
     /* noop */
   };
 
-  markDirty = (_: string[]) => {
+  markDirty = (_: string[]): void => {
     /* noop */
   };
 }

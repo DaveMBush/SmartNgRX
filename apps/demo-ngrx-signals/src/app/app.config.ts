@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideZonelessChangeDetection,
@@ -53,7 +53,7 @@ export const appConfig: ApplicationConfig = {
       provide: locationEffectsServiceToken,
       useClass: LocationEffectsService,
     },
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideSmartNgRX({}),
     provideStoreDevtools(),
     provideRouter(appRoutes, withViewTransitions()),

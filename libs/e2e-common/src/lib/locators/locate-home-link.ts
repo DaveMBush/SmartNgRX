@@ -7,6 +7,6 @@ import { Page } from '@playwright/test';
  *
  * @returns A locator for the home link.
  */
-export function locateHomeLink(page: Page) {
+export function locateHomeLink(page: Page): Locator {
   return page.locator('a[href="/home"]').first();
 }

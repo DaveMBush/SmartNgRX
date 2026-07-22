@@ -101,7 +101,7 @@ export class LoadByIdsClassic {
         withLatestFrom(this.entities),
         mergeMap(function loadByIdsDispatcherSubscribe([ids, entity]) {
           ids = ids.filter(function loadByIdsDispatcherFilter(id) {
-            return entity[id] === undefined || entity[id].isLoading !== true;
+            return entity[id]?.isLoading !== true;
           });
           if (ids.length === 0) {
             return of([]);
@@ -110,7 +110,7 @@ export class LoadByIdsClassic {
             entityDefinitionRegistry(feature, entityName).effectServiceToken,
           );
           actionService.loadByIdsPreload(ids);
-          return effectService.loadByIds(ids);
+          return effectService!.loadByIds(ids);
         }),
         map(function loadByIdsSuccessMap(rows) {
           actionService.loadByIdsSuccess(rows);

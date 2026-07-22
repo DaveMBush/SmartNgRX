@@ -26,7 +26,7 @@ export function rowProxySet<T extends SmartNgRXRowBase>(facades: {
     // add the row on the server
     if (realRow.parentId !== undefined) {
       facades.facade.add(
-        { ...realRow, [prop]: value } as T,
+        { ...realRow, [prop]: value },
         realRow.parentId,
         facades.parentFacade,
       );
@@ -37,7 +37,7 @@ export function rowProxySet<T extends SmartNgRXRowBase>(facades: {
     facades.facade.update(realRow, {
       ...realRow,
       [prop]: value,
-    } as T);
+    });
     return true;
   };
 }

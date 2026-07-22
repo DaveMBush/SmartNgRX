@@ -131,7 +131,7 @@ export abstract class BaseArrayProxy<
    * Implements iterator so we can use methods that depend on
    * iterable.
    *
-   * @yields The next item in the iteration.
+   * @yields {C & RowProxyDelete} The next item in the iteration.
    * @returns The next item in the iteration.
    */
   *[Symbol.iterator](): Iterator<C & RowProxyDelete> {

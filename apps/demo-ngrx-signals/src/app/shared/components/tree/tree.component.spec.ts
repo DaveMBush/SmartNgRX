@@ -1,7 +1,4 @@
-import {
-  CdkVirtualScrollViewport,
-  ScrollingModule,
-} from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, InputSignal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -122,7 +119,7 @@ describe('TreeComponent', () => {
       setTotalContentSize: jest.fn(),
       scrollToOffset: jest.fn(),
       element: document.createElement('div'),
-    } as unknown as CdkVirtualScrollViewport;
+    };
 
     // Make sure our mock of applyRange doesn't access virtualScroll
     mockTreeComponentService.applyRange.mockImplementation(() => {

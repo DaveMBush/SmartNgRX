@@ -26,7 +26,11 @@
       "@smarttools/smart-ngrx": ["libs/smart-ngrx/src"],
       "@smarttools/smart-signals": ["libs/smart-signals/src"],
       "@smarttools/smart-signals/testing": ["libs/smart-signals/src/testing.ts"]
-    }
+    },
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }

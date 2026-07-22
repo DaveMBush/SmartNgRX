@@ -24,6 +24,7 @@ import { NgModule } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
+  withNoIncrementalHydration,
 } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import {
@@ -52,7 +53,7 @@ import {
     RouterOutlet,
   ],
   providers: [
-    provideClientHydration(),
+    provideClientHydration(withNoIncrementalHydration()),
     provideNgDocContext(),
     provideNgDocApp(),
     provideSearchEngine(NgDocDefaultSearchEngine),

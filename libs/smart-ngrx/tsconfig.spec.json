@@ -47,5 +47,13 @@
     "src/socket/update-entity.function.spec.ts",
     "../smart-core/src/mark-and-delete/mark-and-delete-entity.function.spec.ts",
     "../smart-core/src/mark-and-delete/process-mark-and-delete.function.spec.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

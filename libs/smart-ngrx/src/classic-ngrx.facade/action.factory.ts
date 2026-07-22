@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any -- necessary for createActionGroup*/
 /* jscpd:ignore-start */
 import { createActionGroup, props } from '@ngrx/store';
 import { psi, RowProp, SmartNgRXRowBase } from '@smarttools/smart-core';
@@ -35,6 +34,7 @@ export function actionFactory<T extends SmartNgRXRowBase>(
   }
 
   const actionGroup = createActionGroup({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- ngrx createActionGroup requires string literal source but dynamic values are needed for factory pattern
     source: source as any,
     events: {
       'Update Many': props<UpdateChanges<T>>(),

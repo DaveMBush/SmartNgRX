@@ -76,6 +76,6 @@ function createSmartSelectorChildReducer<
 >(
   parentSelector: ParentSelector<P>,
   childDefinition: ChildDefinitionClassic<P, T>,
-) {
+): ParentSelector<P> {
   return createInnerSmartSelector(parentSelector, childDefinition);
 }

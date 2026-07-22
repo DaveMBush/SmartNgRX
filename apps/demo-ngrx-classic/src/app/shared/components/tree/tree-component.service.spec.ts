@@ -57,7 +57,7 @@ describe('TreeComponentService', () => {
       ],
       providers: [TreeComponentService],
     });
-    service = TestBed.inject(TreeComponentService) as unknown as typeof service;
+    service = TestBed.inject(TreeComponentService);
 
     // Mock TreeComponent
     mockComponent = TestBed.createComponent(TreeComponent);
@@ -65,15 +65,9 @@ describe('TreeComponentService', () => {
       start: 0,
       end: 6,
     };
-    mockComponent.componentInstance.locationId$ = signal(
-      '1',
-    ) as unknown as typeof mockComponent.componentInstance.locationId$;
-    mockComponent.componentInstance.location$ = signal(
-      null,
-    ) as unknown as typeof mockComponent.componentInstance.location$;
-    mockComponent.componentInstance.locations$ = signal(
-      [],
-    ) as unknown as typeof mockComponent.componentInstance.locations$;
+    mockComponent.componentInstance.locationId$ = signal('1');
+    mockComponent.componentInstance.location$ = signal(null);
+    mockComponent.componentInstance.locations$ = signal([]);
     componentInstance = mockComponent.componentInstance;
     service.form = componentInstance;
     mockComponent.detectChanges();
@@ -564,7 +558,7 @@ describe('TreeComponentService', () => {
             }
             return undefined;
           },
-        }) as unknown as SmartArray<CommonSourceNode, CommonSourceNode>,
+        }),
         level: 0,
         startRange: 0,
         endRange: 10,

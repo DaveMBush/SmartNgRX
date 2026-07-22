@@ -17,5 +17,13 @@
   "include": [
     "src/**/*.ts",
     "src/types/smart-validated-entity-definition.type.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "extendedDiagnostics": {
+      "checks": {
+        "nullishCoalescingNotNullable": "suppress",
+        "optionalChainNotNullable": "suppress"
+      }
+    }
+  }
 }

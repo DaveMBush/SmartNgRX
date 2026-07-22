@@ -32,7 +32,7 @@ jobs:
           node-version: 22
           cache: 'pnpm'
       - run: pnpm i
-      - run: pnpm dlx prisma generate
+      - run: pnpm prisma generate
       - run: pnpm dupcheck
       - run: pnpm format:check
       - run: pnpm lint

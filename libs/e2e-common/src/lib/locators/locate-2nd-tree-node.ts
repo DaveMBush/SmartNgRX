@@ -8,6 +8,6 @@ import { Page } from '@playwright/test';
  *
  * @returns A locator for the second tree node.
  */
-export function locate2ndTreeNode(page: Page) {
+export function locate2ndTreeNode(page: Page): Locator {
   return page.locator('mat-tree-node').nth(1);
 }

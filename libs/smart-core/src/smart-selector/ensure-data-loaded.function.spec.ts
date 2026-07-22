@@ -207,7 +207,7 @@ describe('ensureDataLoaded()', () => {
           },
           defaultRow: (id: string) => ({ id, name: '' }),
           markAndDeleteEntityMap: new Map<string, number>(),
-        } as EntityAttributes);
+        });
 
         ensureDataLoaded<Row>(
           {
@@ -238,7 +238,7 @@ describe('ensureDataLoaded()', () => {
           },
           defaultRow: (id: string) => ({ id, name: '' }),
           markAndDeleteEntityMap: new Map<string, number>(),
-        } as EntityAttributes);
+        });
 
         ensureDataLoaded<Row>(
           {
@@ -269,7 +269,7 @@ describe('ensureDataLoaded()', () => {
           },
           defaultRow: (id: string) => ({ id, name: '' }),
           markAndDeleteEntityMap: new Map<string, number>(),
-        } as EntityAttributes);
+        });
 
         ensureDataLoaded<Row>(
           {
@@ -302,7 +302,7 @@ describe('ensureDataLoaded()', () => {
           },
           defaultRow: (id: string) => ({ id, name: '' }),
           markAndDeleteEntityMap: new Map<string, number>(),
-        } as EntityAttributes);
+        });
 
         if (!actionService) {
           throw new Error('Action service is null');

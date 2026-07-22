@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withXhr } from '@angular/common/http';
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -59,7 +59,7 @@ export const appConfig: ApplicationConfig = {
       provide: locationEffectsServiceToken,
       useClass: LocationEffectsService,
     },
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     importProvidersFrom(
       // we use StoreModule.forRoot({}) here because SmartNgRX uses
       // Module based providers for the features.

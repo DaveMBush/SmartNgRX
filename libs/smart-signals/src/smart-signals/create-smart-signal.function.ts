@@ -60,9 +60,9 @@ export function createSmartSignal<
     // Create new signal
     const parentSignal = computed(function entityStateAdapter() {
       return {
-        ids: facade.entityState.ids(),
+        ids: facade.entityState.ids() as string[],
         entities: facade.entityState.entityMap(),
-      } as EntityState<P>;
+      };
     });
 
     return parentSignal;

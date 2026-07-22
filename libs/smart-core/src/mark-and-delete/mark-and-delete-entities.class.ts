@@ -8,7 +8,7 @@ class MarkAndDeleteEntities {
    * clears the mark and delete map
    * used for testing
    */
-  clear() {
+  clear(): void {
     this.markAndDelete = {};
   }
 

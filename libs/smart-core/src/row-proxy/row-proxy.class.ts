@@ -27,12 +27,11 @@ export class RowProxy<
   record: Record<string | symbol, unknown> = {};
 
   /**
-   * This is the constructor for the RowProxy class.
+   * constructor for row-proxy class
    *
-   * @param row The row to create the custom proxy for
-   * @param facade The facade that will handle updating the row
-   * @param parentFacade The facade that will handle updating the parent row
-   * @returns a proxy that will handle updating the row
+   * @param row the row this RowProxy wraps
+   * @param facade the facade that does the work on this row
+   * @param parentFacade the facade that is the parent row of this row
    */
   constructor(
     public row: T,
@@ -82,7 +81,7 @@ export class RowProxy<
    *
    * @returns the real row with any changes we've made to it
    */
-  toJSON() {
+  toJSON(): Record<string | symbol, unknown> {
     return { ...this.getRealRow(), ...this.changes };
   }
 

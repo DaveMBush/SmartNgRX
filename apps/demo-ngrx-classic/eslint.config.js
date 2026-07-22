@@ -1,46 +1,34 @@
+const angular = require('angular-eslint');
 const playwright = require('eslint-plugin-playwright');
-const { FlatCompat } = require('@eslint/eslintrc');
-const js = require('@eslint/js');
 const baseConfigPromise = import('../../eslint.config.js');
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-});
 module.exports = (async () => {
   const baseConfig = await baseConfigPromise;
   return [
     ...(await baseConfig.default),
-    ...compat
-      .config({
-        extends: [
-          'plugin:@nx/angular',
-          'plugin:@angular-eslint/template/process-inline-templates',
-        ],
-      })
-      .map((config) => ({
-        ...config,
-        files: ['**/*.ts'],
-        rules: {
-          ...config.rules,
+    { files: ['**/*.ts'], processor: angular.processInlineTemplates },
+    ...require('@nx/eslint-plugin').configs['flat/angular'].map((config) => ({
+      ...config,
+      files: ['**/*.ts'],
+      rules: {
+        ...(config.rules ?? {}),
+      },
+      languageOptions: {
+        parserOptions: {
+          project: ['./tsconfig.*.json'],
         },
-        languageOptions: {
-          parserOptions: {
-            project: ['./tsconfig.*.json'],
-          },
-        },
-      })),
-    ...compat
-      .config({
-        extends: ['plugin:@nx/angular-template'],
-      })
-      .map((config) => ({
+      },
+    })),
+    ...require('@nx/eslint-plugin').configs['flat/angular-template'].map(
+      (config) => ({
         ...config,
         files: ['**/*.html'],
         rules: {
-          ...config.rules,
+          ...(config.rules ?? {}),
+          'jsdoc/*': 'off',
         },
-      })),
+      }),
+    ),
+
     {
       files: ['**/*.ts'],
       rules: {
