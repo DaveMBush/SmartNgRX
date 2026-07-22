@@ -99,7 +99,7 @@ export class LoadByIndexesClassic {
             entityDefinitionRegistry(feature, entity).effectServiceToken,
           );
           return (
-            effectService
+            effectService!
               .loadByIndexes(parentId, childField, min, max - min + 1)
               // nested pipe to get access to actionProps
               .pipe(

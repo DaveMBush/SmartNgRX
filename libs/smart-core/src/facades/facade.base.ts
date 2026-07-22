@@ -177,7 +177,7 @@ export abstract class FacadeBase<
     const effectService = serviceRegistry.get(
       this.entityDefinition.effectServiceToken,
     );
-    effectService
+    effectService!
       .delete(id)
       .pipe(
         catchError(function deleteEffectConcatMapCatchError(
@@ -275,7 +275,7 @@ export abstract class FacadeBase<
         return {
           id,
           changes: entityChanges,
-        } as UpdateStr<SmartNgRXRowBase>;
+        };
       });
     this.updateMany(updates);
   }

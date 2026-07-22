@@ -1,5 +1,6 @@
+import type { Signal } from '@angular/core';
 import { computed } from '@angular/core';
-import { Update } from '@ngrx/entity';
+import { EntityState, Update } from '@ngrx/entity';
 import {
   patchState,
   signalStore,
@@ -11,72 +12,112 @@ import {
   addEntity,
   removeEntities,
   updateEntity,
+  upsertEntity,
   withEntities,
 } from '@ngrx/signals/entities';
 import { forNext, SmartNgRXRowBase } from '@smarttools/smart-core';
 
-import { SignalsFacade } from './signals-facade';
+import type { SignalsFacade } from './signals-facade';
 
 /**
- * Creates a signal store for an entity
+ * Creates core methods feature for entity signal store.
  *
- * @param signalFacade The signal facade that calls this function
+ * @param signalFacade - The facade providing entity ID and other configs.
+ * @returns SignalStore feature with updateMany, remove, and upsert methods.
+ */
+function createCoreMethodsFeature<T extends SmartNgRXRowBase>(
+  signalFacade: SignalsFacade<T>,
+) {
+  return withMethods(function defineCoreMethods(store) {
+    function applyUpdate(change: Update<T>): void {
+      patchState(store, updateEntity(change));
+    }
+
+    function removeIds(ids: string[]): void {
+      patchState(store, removeEntities(ids as (number | string)[]));
+    }
+
+    function upsertRow(row: T): void {
+      const id = signalFacade.selectId(row);
+      if (store['entityMap']()[id] !== undefined) {
+        patchState(store, updateEntity({ id, changes: row }));
+      } else {
+        patchState(store, addEntity(row));
+      }
+    }
+
+    function updateMany(changes: Update<T>[]): void {
+      forNext(changes, applyUpdate);
+    }
+
+    return { updateMany, remove: removeIds, upsert: upsertRow };
+  });
+}
+
+/**
+ * Creates helper methods feature for entity signal store.
  *
- * @returns The signal store.  Already new'd up and read to use.
+ * @returns SignalStore feature with storeRows method.
+ */
+function createHelperMethodsFeature<T extends SmartNgRXRowBase>() {
+  return withMethods(function defineHelperMethods(store) {
+    function storeRows(rows: T[]): void {
+      forNext(rows, function handleUpsertRow(row: T): void {
+        patchState(store, upsertEntity(row));
+      });
+    }
+
+    return { storeRows };
+  });
+}
+
+/**
+ * Creates computed state feature for entity signal store.
+ *
+ * @returns SignalStore feature with entityState computed property.
+ */
+function createComputedFeature<T extends SmartNgRXRowBase>() {
+  return withComputed(function defineComputed(store) {
+    return {
+      entityState: computed<EntityState<T>>(
+        function getEntityState(): EntityState<T> {
+          return {
+            ids: store['ids'](),
+            entities: store['entityMap'](),
+          };
+        },
+      ),
+    };
+  });
+}
+
+/**
+ * Creates a signal store for an entity.
+ *
+ * @param signalFacade - The facade providing entity ID and other configs.
+ * @returns A SignalStoreWithEntity instance with entity management methods.
  */
 export function entitySignalStoreFactory<T extends SmartNgRXRowBase>(
   signalFacade: SignalsFacade<T>,
-) {
-  const signalDefinition = signalStore(
-    // Base state
-    withState({}),
-    withEntities<T>(),
+): SignalStoreWithEntity<T> {
+  const stateFeature = withState<object>({});
+  const entitiesFeature = withEntities<T>();
 
-    // Core state modification methods
-    withMethods(function defineCoreMethods(store) {
-      return {
-        updateMany: function updateManyMethod(changes: Update<T>[]) {
-          forNext(changes, function applyUpdate(change) {
-            patchState(store, updateEntity(change));
-          });
-        },
-        remove: function removeMethod(ids: string[]) {
-          patchState(store, removeEntities(ids));
-        },
-        upsert: function upsertMethod(row: T) {
-          const id = signalFacade.selectId(row);
-          const hasId = id in store.entityMap();
-          if (hasId) {
-            patchState(store, updateEntity({ id, changes: row }));
-          } else {
-            patchState(store, addEntity(row));
-          }
-        },
-      };
-    }),
+  return new (signalStore(
+    stateFeature,
+    entitiesFeature,
+    createCoreMethodsFeature(signalFacade),
+    createHelperMethodsFeature(),
+    createComputedFeature<T>(),
+  ))() as unknown as SignalStoreWithEntity<T>;
+}
 
-    // Additional methods that depend on core methods
-    withMethods(function defineHelperMethods(store) {
-      return {
-        storeRows: function storeRowsMethod(rows: T[]) {
-          forNext(rows, function storeRow(row) {
-            store.upsert(row);
-          });
-        },
-      };
-    }),
-    // Computed signals
-    withComputed(function computeEntityState(store) {
-      return {
-        entityState: computed(function computeState() {
-          return {
-            ids: store.ids() as string[],
-            entities: store.entityMap(),
-          };
-        }),
-      };
-    }),
-  );
-
-  return new signalDefinition();
+interface SignalStoreWithEntity<T extends SmartNgRXRowBase> {
+  updateMany(changes: Update<T>[]): void;
+  remove(ids: string[]): void;
+  upsert(row: T): void;
+  storeRows(rows: T[]): void;
+  entityState: Signal<EntityState<T>>;
+  entityMap(): Record<string, T | undefined>;
+  ids(): (number | string)[];
 }

@@ -76,9 +76,7 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
           ids = ids.filter(notAPreloadId);
           const entities = actionService.entityState.entityMap();
           ids = ids.filter(function loadByIdsDispatcherFilter(id) {
-            return (
-              entities[id] === undefined || entities[id].isLoading !== true
-            );
+            return entities[id]?.isLoading !== true;
           });
           if (ids.length === 0) {
             return of([]);
@@ -87,7 +85,7 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
             entityDefinitionRegistry(feature, entityName).effectServiceToken,
           );
           actionService.loadByIdsPreload(ids);
-          return effectService.loadByIds(ids) as Observable<T[]>;
+          return effectService!.loadByIds(ids) as Observable<T[]>;
         }),
         map(function loadByIdsSuccessMap(rows) {
           actionService.loadByIdsSuccess(rows);

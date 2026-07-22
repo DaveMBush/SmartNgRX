@@ -11,8 +11,6 @@ import { locateTreeLabel } from './locators/locate-tree-label';
 
 /**
  * Tests for websocket functionality.
- *
- * @returns {void}
  */
 export function websocketTests(): void {
   ['/tree', '/treeNoRefresh', '/treeNoRemove', '/treeNoDirty'].forEach(

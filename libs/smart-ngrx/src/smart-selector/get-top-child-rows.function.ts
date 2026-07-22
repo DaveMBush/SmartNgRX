@@ -23,7 +23,7 @@ export function getTopChildRows<
 >(
   parentSelector: MemoizedSelector<object, EntityState<P>>,
   childFieldName: ChildArrayField<P, C>,
-) {
+): MemoizedSelector<object, C[] & SmartArray<P, C>> {
   return createSelector(parentSelector, function selectChildFunction(tops) {
     const maybeParent =
       tops.ids.length === 1 ? tops.entities[tops.ids[0]] : undefined;

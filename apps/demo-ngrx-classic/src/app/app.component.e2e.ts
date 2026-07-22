@@ -28,7 +28,7 @@ declare global {
 // eslint-disable-next-line no-underscore-dangle -- special use for e2e testing
 window.__APP_STORE__ = {
   getState: function getState(): Record<string, unknown> {
-    return {} as Record<string, unknown>;
+    return {};
   },
 };
 

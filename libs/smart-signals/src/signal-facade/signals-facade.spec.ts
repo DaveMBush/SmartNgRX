@@ -167,7 +167,7 @@ describe('SignalsFacade', () => {
     ) as unknown as TestableSignalsFacade;
 
     // Set up entity state explicitly using index access for type safety
-    service.entityState = mockEntityState as unknown as ReturnType<
+    service.entityState = mockEntityState as ReturnType<
       typeof entitySignalStoreFactoryModule.entitySignalStoreFactory<MockEntity>
     >;
 

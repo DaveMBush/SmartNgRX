@@ -146,7 +146,7 @@ describe('BaseArrayProxy', () => {
       parentFeature: 'parentFeature',
       parentEntity: 'parentEntity',
       parentField: 'relatedIds',
-    } as BaseChildDefinition<MockRow>;
+    };
     mockService = {
       loadByIdsSuccess: jest.fn(),
     } as unknown as FacadeBase;
@@ -225,7 +225,7 @@ describe('BaseArrayProxy', () => {
       // Arrange: Create a real VirtualArray instance
       const virtualArray = new VirtualArray<MockRow>(
         { indexes: ['1', '2', '3'], length: 3 },
-        mockService as unknown as FacadeBase,
+        mockService,
         'parentId',
         'childField',
       );

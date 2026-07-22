@@ -166,14 +166,14 @@ export class TreeComponentService {
           hasChildren: false,
           isExpanded: false,
         } as TreeNode)
-      : ({
+      : {
           parentId,
           name: currentNode.name,
           node: currentNode,
           level,
           hasChildren: Boolean(currentNode.children?.length),
           isExpanded,
-        } as TreeNode);
+        };
   }
 
   private transformTreeNode(params: {

@@ -74,7 +74,7 @@ describe('LoadByIds Classic', () => {
     createStore();
     facadeRegistry.register('testFeature', 'testEntity', ClassicNgrxFacade);
     entityRegistry.register('testFeature', 'testEntity', {
-      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+      defaultRow: (id: string) => ({ id }),
       markAndDeleteInit: {
         markDirtyTime: 15 * 60000,
         markDirtyFetchesNew: true,
@@ -87,7 +87,7 @@ describe('LoadByIds Classic', () => {
     entityDefinitionRegistry('testFeature', 'testEntity', {
       entityName: 'testEntity',
       effectServiceToken,
-      defaultRow: (id: string) => ({ id }) as SmartNgRXRowBase,
+      defaultRow: (id: string) => ({ id }),
     });
     serviceRegistry.register(effectServiceToken, effectService);
 
@@ -104,7 +104,7 @@ describe('LoadByIds Classic', () => {
     effectServiceLoadByIdSpy = jest
       .spyOn(effectService, 'loadByIds')
       .mockImplementation((ids) => {
-        return of(ids.map((id) => ({ id, someData: id }) as SomeDataRow));
+        return of(ids.map((id) => ({ id, someData: id })));
       });
 
     loadByIds = new LoadByIdsClassic(
@@ -115,7 +115,7 @@ describe('LoadByIds Classic', () => {
     loadByIds.init(
       actions as unknown as ActionGroup,
       mockEntities.asObservable(),
-      (id: string) => ({ id, isLoading: false }) as SmartNgRXRowBase,
+      (id: string) => ({ id, isLoading: false }),
     );
   });
   afterEach(() => {

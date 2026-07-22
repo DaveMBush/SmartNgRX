@@ -17,7 +17,7 @@ export function loadByIdsForType(
           id: `${type}:${fieldValue}`,
           name: item.name,
           children: [],
-        } as DepartmentChild;
+        };
       });
     }),
     // wait for 1 second before calling this a failure

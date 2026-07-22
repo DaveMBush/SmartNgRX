@@ -20,7 +20,7 @@ let globalStore: Store | undefined;
  */
 export function store(mockStore?: MockStore): Store {
   if (mockStore !== undefined) {
-    globalStore = mockStore;
+    globalStore = mockStore as Store;
     return globalStore;
   }
   /* istanbul ignore next -- not testable because we can't clear globalStore in a clean manner */

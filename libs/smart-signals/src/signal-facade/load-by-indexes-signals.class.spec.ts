@@ -1,5 +1,3 @@
-import { Signal } from '@angular/core';
-import { EntityMap } from '@ngrx/signals/entities';
 import { newRowRegistry, VirtualArrayContents } from '@smarttools/smart-core';
 
 import { LoadByIndexesSignals } from './load-by-indexes-signals.class';
@@ -53,15 +51,12 @@ describe('LoadByIndexesSignals', () => {
         [childField]: field,
       };
 
-      mockFacade.entityState.entityState = (() => ({
+      mockFacade.entityState.entityState = () => ({
         entities: {
           [parentId]: row,
         },
         ids: [parentId],
-      })) as unknown as Signal<{
-        ids: string[];
-        entities: EntityMap<{ id: string }>;
-      }>;
+      });
 
       loadByIndexesSignals.loadByIndexesSuccess(parentId, childField, array);
 
@@ -95,15 +90,12 @@ describe('LoadByIndexesSignals', () => {
         [childField]: field,
       };
 
-      mockFacade.entityState.entityState = (() => ({
+      mockFacade.entityState.entityState = () => ({
         entities: {
           [parentId]: row,
         },
         ids: [parentId],
-      })) as unknown as Signal<{
-        ids: string[];
-        entities: EntityMap<{ id: string }>;
-      }>;
+      });
 
       loadByIndexesSignals.loadByIndexesSuccess(parentId, childField, array);
 
@@ -137,15 +129,12 @@ describe('LoadByIndexesSignals', () => {
         [childField]: field,
       };
 
-      mockFacade.entityState.entityState = (() => ({
+      mockFacade.entityState.entityState = () => ({
         entities: {
           [parentId]: row,
         },
         ids: [parentId],
-      })) as unknown as Signal<{
-        ids: string[];
-        entities: EntityMap<{ id: string }>;
-      }>;
+      });
 
       loadByIndexesSignals.loadByIndexesSuccess(parentId, childField, array);
 

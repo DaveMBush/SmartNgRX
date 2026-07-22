@@ -69,7 +69,11 @@ export class VirtualArray<
    * @param childField the fieldName in the parent row that holds the children for this array
    * @param index the index to load
    */
-  dispatchLoadByIndexes(parentId: string, childField: string, index: number) {
+  dispatchLoadByIndexes(
+    parentId: string,
+    childField: string,
+    index: number,
+  ): void {
     this.parentActionService.loadByIndexes(parentId, childField, index);
     if (Object.isFrozen(this.fetchedIndexes)) {
       this.fetchedIndexes = [...this.fetchedIndexes];

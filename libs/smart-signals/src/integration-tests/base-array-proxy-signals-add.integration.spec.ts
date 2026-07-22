@@ -48,18 +48,18 @@ const childDefinition = {
 
 @Injectable()
 class MockTopEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Top[]> {
     return of([{ id: '1', children: [] }]);
   }
 }
 
 @Injectable()
 class MockChildEffectService {
-  loadByIds(_: string[]) {
+  loadByIds(_: string[]): Observable<Child[]> {
     return of([]);
   }
 
-  add(_: Child) {
+  add(_: Child): Observable<Child[]> {
     return of([{ id: 'c1', name: 'Child 1' }]);
   }
 }
@@ -128,7 +128,7 @@ describe('SmartArray Add(...) Integration (Signals)', () => {
       { id: '1', children: [] },
     );
     await flushMicrotasks(4);
-    children = selectChildren() as Child[] & SmartArray<Top, Child>;
+    children = selectChildren();
     expect(children.length).toBe(1);
     expect(children[0].id).toBe('c1');
     expect(children[0].name).toBe('Child 1');

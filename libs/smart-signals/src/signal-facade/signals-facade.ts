@@ -84,7 +84,13 @@ export class SignalsFacade<
    * @param ids the ids to force dirty
    */
   override forceDirty(ids: string[]): void {
-    this.markDirtyWithEntities(this.entityState.entityState().entities, ids);
+    this.markDirtyWithEntities(
+      this.entityState.entityState().entities as Record<
+        string,
+        SmartNgRXRowBase
+      >,
+      ids,
+    );
   }
 
   /**
@@ -124,7 +130,10 @@ export class SignalsFacade<
    */
   override garbageCollect(ids: string[]): void {
     this.garbageCollectWithEntities(
-      this.entityState.entityState().entities,
+      this.entityState.entityState().entities as Record<
+        string,
+        SmartNgRXRowBase
+      >,
       ids,
     );
   }
@@ -155,7 +164,9 @@ export class SignalsFacade<
    * @param changes the changes to update
    */
   override updateMany(changes: UpdateStr<T>[]): void {
-    this.entityState.updateMany(changes);
+    (
+      this.entityState as unknown as { updateMany(c: UpdateStr<T>[]): void }
+    ).updateMany(changes);
   }
 
   /**
@@ -249,7 +260,7 @@ export class SignalsFacade<
     this.updateService = new UpdateService<T>(
       this.feature,
       this.entity,
-      this.selectId as (row: T) => string,
+      this.selectId,
       this.loadByIdsSuccess.bind(this),
     );
     this.addService = new Add<T>(this);

@@ -8,13 +8,12 @@ import {
 } from '@ngrx/signals';
 
 import { selectLocations } from '../locations/selectors/select-locations.selectors';
-import { TreeStandardState2 } from '../tree-standard-state2.interface';
 
 export const currentLocationSignalStore = signalStore(
   { providedIn: 'root' },
   withState({
     currentLocationId: '',
-  } as TreeStandardState2),
+  }),
   withMethods(function withMethodsFunction(store) {
     return {
       setCurrentLocationId: function setCurrentLocationId(

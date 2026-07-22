@@ -43,7 +43,7 @@ export class ArrayProxySignals<
     this.removeChildIdFromChildArray(
       {
         ids: facade.entityState.ids() as string[],
-        entities: facade.entityState.entityMap() as Record<string, P>,
+        entities: facade.entityState.entityMap(),
       },
       parentId,
       this.parentField,

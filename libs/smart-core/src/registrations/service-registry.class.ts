@@ -13,18 +13,20 @@ class ServiceRegistry {
   register(
     token: InjectionToken<EffectService<SmartNgRXRowBase>>,
     effectService: EffectService<SmartNgRXRowBase>,
-  ) {
+  ): void {
     assert(effectService !== undefined, 'Effect service is required');
     this.effectServices.set(token, effectService);
   }
 
-  get<T extends SmartNgRXRowBase>(token: InjectionToken<EffectService<T>>) {
+  get<T extends SmartNgRXRowBase>(
+    token: InjectionToken<EffectService<T>>,
+  ): EffectService<T> | undefined {
     const service = this.effectServices.get(token);
     assert(!!service, 'Effect service not found');
     return service as EffectService<T>;
   }
 
-  has(token: InjectionToken<EffectService<SmartNgRXRowBase>>) {
+  has(token: InjectionToken<EffectService<SmartNgRXRowBase>>): boolean {
     return this.effectServices.has(token);
   }
 }

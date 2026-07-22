@@ -3,7 +3,7 @@ import { EntityState } from '@ngrx/entity';
 import { defaultRows } from './default-rows.function';
 
 describe('default-rows.function.ts', () => {
-  const defaultRow = (id: string) => ({ id });
+  const defaultRow = (id: string): { id: string } => ({ id });
   let returnedRows = [];
   describe('when I pass an ID that is not in state', () => {
     it('should return a row with the id', () => {
