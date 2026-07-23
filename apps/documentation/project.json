@@ -14,7 +14,15 @@
         "outputPath": "documentation/browser",
         "commands": [
           {
+            "command": "cp documentation/browser/index.csr.html documentation/browser/index.html",
+            "forwardAllArgs": false
+          },
+          {
             "command": "cp documentation/browser/index.html documentation/browser/404.html",
+            "forwardAllArgs": false
+          },
+          {
+            "command": "rm documentation/browser/index.csr.html",
             "forwardAllArgs": false
           }
         ]
