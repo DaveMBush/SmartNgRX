@@ -30,7 +30,7 @@
         "server": "apps/documentation/src/main.server.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/documentation/tsconfig.app.json",
-        "prerender": true,
+        "prerender": false,
         "ssr": {
           "entry": "apps/documentation/server.ts"
         },
@@ -107,12 +107,6 @@
         }
       },
       "defaultConfiguration": "development"
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "documentation:build"
-      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
