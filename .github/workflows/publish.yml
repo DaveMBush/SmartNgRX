@@ -24,18 +24,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      # - name: Use Node.js v24 (It's the default)
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 24
+      #     cache: 'pnpm'
+      #     registry-url: 'https://registry.npmjs.org'
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10.12.1
+          # version: 11
           run_install: false
-
-      - name: Use Node.js v22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
 
       # Ensure npm 11.5.1 or later for trusted publishing
       - run: npm install -g npm@latest

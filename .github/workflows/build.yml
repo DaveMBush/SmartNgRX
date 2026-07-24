@@ -22,15 +22,17 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v4
-      - uses: pnpm/action-setup@v4
+
+      # - name: Use Node.js 24.x
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 24 (Its the default)
+      #     cache: 'pnpm'
+      - name: User pnpm 11
+        uses: pnpm/action-setup@v4
         with:
-          version: 10.12.1
+          # version: 11
           run_install: false
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
       - run: pnpm i
       - run: pnpm prisma generate
       - run: pnpm dupcheck
