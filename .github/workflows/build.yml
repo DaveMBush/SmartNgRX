@@ -22,11 +22,12 @@ jobs:
         with:
           fetch-depth: 0
       - uses: nrwl/nx-set-shas@v4
-      - name: Use Node.js 24.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'pnpm'
+
+      # - name: Use Node.js 24.x
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 24 (Its the default)
+      #     cache: 'pnpm'
       - name: User pnpm 11
         uses: pnpm/action-setup@v4
         with:
