@@ -1,3 +1,17 @@
+allowBuilds:
+  '@nestjs/core': true
+  '@parcel/watcher': true
+  '@prisma/engines': true
+  '@swc/core': true
+  better-sqlite3: true
+  cypress: true
+  esbuild: true
+  less: true
+  lmdb: true
+  msgpackr-extract: true
+  nx: true
+  prisma: true
+  unrs-resolver: true
 onlyBuiltDependencies:
   - '@nestjs/core'
   - '@parcel/watcher'
