@@ -129,7 +129,7 @@ describe('SmartArray Add(...) Integration (Signals)', () => {
     );
     await flushMicrotasks(4);
     children = selectChildren();
-    expect(children.length).toBe(1);
+    expect(children).toHaveLength(1);
     expect(children[0].id).toBe('c1');
     expect(children[0].name).toBe('Child 1');
   });

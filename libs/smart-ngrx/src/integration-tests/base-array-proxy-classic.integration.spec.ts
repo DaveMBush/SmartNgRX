@@ -154,7 +154,7 @@ describe('SmartArray (Classic NgRX) Integration', () => {
             added = true;
             return;
           }
-          expect(children.length).toBe(2);
+          expect(children).toHaveLength(2);
           const child1 = children[0];
           expect(child1.id).toBe('c1');
           expect(child1.name).toBe('Child 1');

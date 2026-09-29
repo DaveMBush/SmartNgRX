@@ -130,8 +130,8 @@ describe('TreeComponentService', () => {
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(componentInstance.fullDataSource$().length).toBe(1);
-      expect(componentInstance.dataSource$().length).toBe(1);
+      expect(componentInstance.fullDataSource$()).toHaveLength(1);
+      expect(componentInstance.dataSource$()).toHaveLength(1);
     });
     // eslint-disable-next-line sonarjs/no-duplicate-string -- its a test same result different condition
     it('should return fullDataSource and dataSource [0].id of 1', () => {
@@ -178,8 +178,8 @@ describe('TreeComponentService', () => {
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(componentInstance.fullDataSource$().length).toBe(1);
-      expect(componentInstance.dataSource$().length).toBe(1);
+      expect(componentInstance.fullDataSource$()).toHaveLength(1);
+      expect(componentInstance.dataSource$()).toHaveLength(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
       expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
@@ -225,8 +225,8 @@ describe('TreeComponentService', () => {
       service.applyRange();
     });
     it('should return fullDataSource and dataSource length of 1', () => {
-      expect(componentInstance.fullDataSource$().length).toBe(1);
-      expect(componentInstance.dataSource$().length).toBe(1);
+      expect(componentInstance.fullDataSource$()).toHaveLength(1);
+      expect(componentInstance.dataSource$()).toHaveLength(1);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
       expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
@@ -302,8 +302,8 @@ describe('TreeComponentService', () => {
       expandedMap.delete('1', 0, '1');
     });
     it('should return fullDataSource and dataSource length of 2', () => {
-      expect(componentInstance.fullDataSource$().length).toBe(2);
-      expect(componentInstance.dataSource$().length).toBe(2);
+      expect(componentInstance.fullDataSource$()).toHaveLength(2);
+      expect(componentInstance.dataSource$()).toHaveLength(2);
     });
     it('should return fullDataSource and dataSource [0].id of 1', () => {
       expect(componentInstance.fullDataSource$()[0].node.id).toBe('1');
@@ -338,7 +338,7 @@ describe('TreeComponentService', () => {
     });
     it('should leave component.fullDataSource unchanged', () => {
       service.applyRange();
-      expect(componentInstance.fullDataSource$().length).toBe(0);
+      expect(componentInstance.fullDataSource$()).toHaveLength(0);
     });
   });
   describe('When applyRange() is called and range.start and range.end are both 0', () => {
@@ -376,7 +376,7 @@ describe('TreeComponentService', () => {
     });
     it('should leave component.fullDataSource unchanged', () => {
       service.applyRange();
-      expect(componentInstance.fullDataSource$().length).toBe(0);
+      expect(componentInstance.fullDataSource$()).toHaveLength(0);
     });
   });
   describe('when addChild is called and the node is not expanded', () => {
@@ -421,6 +421,7 @@ describe('TreeComponentService', () => {
         );
         expect(toggleExpandSpy).toHaveBeenCalledTimes(1);
         expect(childAddStoreCalled).toBe(true);
+        // eslint-disable-next-line sonarjs/no-trivial-assertions -- I want to continue to verify this always is true
         expect(virtualChildAddStoreCalled).toBe(false);
       });
     });
@@ -596,7 +597,7 @@ describe('TreeComponentService', () => {
         endRange: -1,
       });
 
-      expect(result.length).toBe(2);
+      expect(result).toHaveLength(2);
       expect(result[0]).toBeUndefined();
       expect(result[1]).toBeUndefined();
     });
@@ -636,7 +637,7 @@ describe('TreeComponentService', () => {
         endRange: 0,
       });
 
-      expect(result.length).toBe(2);
+      expect(result).toHaveLength(2);
       expect(result[0].node.id).toBe('1');
       expect(result[1]).toBeUndefined();
     });
@@ -690,7 +691,7 @@ describe('TreeComponentService', () => {
         endRange: 1,
       });
 
-      expect(mockResult.length).toBe(1);
+      expect(mockResult).toHaveLength(1);
       expect(mockResult[0].node.id).toBe('1');
     });
 
@@ -707,7 +708,7 @@ describe('TreeComponentService', () => {
         endRange: 3,
       });
 
-      expect(mockResult.length).toBe(1);
+      expect(mockResult).toHaveLength(1);
       expect(mockResult[0].node.id).toBe('1');
     });
 
@@ -722,7 +723,7 @@ describe('TreeComponentService', () => {
         endRange: 3,
       });
 
-      expect(mockResult.length).toBe(1);
+      expect(mockResult).toHaveLength(1);
       expect(mockResult[0]).toBeUndefined();
     });
 
@@ -788,7 +789,7 @@ describe('TreeComponentService', () => {
         endRange: 2,
       });
 
-      expect(mockResult.length).toBe(2);
+      expect(mockResult).toHaveLength(2);
       expect(mockResult[0].node.id).toBe('1');
       expect(mockResult[1].node.id).toBe('1-1');
     });

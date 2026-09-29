@@ -215,7 +215,7 @@ describe('BaseArrayProxy', () => {
 
       // Assert: Check that rawArray and length are set correctly
       expect(arrayProxy.rawArray).toBe(virtualArray);
-      expect(arrayProxy.length).toBe(3);
+      expect(arrayProxy).toHaveLength(3);
       expect(
         (arrayProxy as unknown as { childArray: string[] }).childArray,
       ).toEqual([]);
@@ -241,7 +241,7 @@ describe('BaseArrayProxy', () => {
 
       // Assert: Check that rawArray and length are set correctly
       expect(arrayProxy.rawArray).toBe(virtualArray);
-      expect(arrayProxy.length).toBe(3);
+      expect(arrayProxy).toHaveLength(3);
       expect(
         (arrayProxy as unknown as { childArray: string[] }).childArray,
       ).toEqual([]);

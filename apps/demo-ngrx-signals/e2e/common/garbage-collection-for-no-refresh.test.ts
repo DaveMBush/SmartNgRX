@@ -36,7 +36,7 @@ test.describe('Garbage collection for no refresh', () => {
     expect(departmentChildrenState).toBeDefined();
     expect(Object.keys(departmentChildrenState!.entities)).toHaveLength(0);
     await locateHomeLink(page).click();
-    // eslint-disable-next-line playwright/no-wait-for-timeout -- need to wait specific time to test garbage collection
+    // eslint-disable-next-line sonarjs/no-fixed-wait-in-tests, playwright/no-wait-for-timeout -- need to wait specific time to test garbage collection
     await page.waitForTimeout(5.5 * 1000 * 60);
     locationsState = await getFeatureEntity(page, featureName, 'locations');
     expect(locationsState).toBeDefined();
