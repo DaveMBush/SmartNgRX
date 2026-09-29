@@ -136,7 +136,7 @@ describe('SmartArray (Classic NgRX) Integration - Add to Empty Array', () => {
         added = true;
         return;
       }
-      expect(children.length).toBe(1);
+      expect(children).toHaveLength(1);
       expect(children[0].id).toBe('c1');
       expect(children[0].name).toBe('Child 1');
       if (!doneFlag) {

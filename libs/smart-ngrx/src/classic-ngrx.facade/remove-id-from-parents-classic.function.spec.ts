@@ -90,7 +90,7 @@ describe('removeIdFromParentsClassic', () => {
         ids: ['existingParent'],
       },
     ]);
-    expect(parentInfo.length).toBe(1);
+    expect(parentInfo).toHaveLength(1);
   });
 
   it('should check parentInfo entries correctly with some function', () => {
@@ -112,7 +112,7 @@ describe('removeIdFromParentsClassic', () => {
     removeIdFromParentsClassic(childDefinition, 'testId', parentInfo);
 
     // Assert
-    expect(parentInfo.length).toBe(3);
+    expect(parentInfo).toHaveLength(3);
     expect(parentInfo[2]).toEqual({
       feature: 'testFeature',
       entity: 'testEntity',

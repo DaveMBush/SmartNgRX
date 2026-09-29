@@ -69,7 +69,7 @@ describe('MarkAndDeleteEntities', () => {
       // Assert
       expect(entities).toContain(`${feature1}${psi}${entity1}`);
       expect(entities).toContain(`${feature2}${psi}${entity2}`);
-      expect(entities.length).toBe(2);
+      expect(entities).toHaveLength(2);
     });
   });
 });
