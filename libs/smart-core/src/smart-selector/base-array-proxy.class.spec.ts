@@ -505,5 +505,68 @@ describe('BaseArrayProxy', () => {
         isEditing: false,
       });
     });
+
+    it('should unwrap live array proxies when a parent has multiple child arrays', () => {
+      // Arrange: two real ArrayProxy instances as child fields (the #1336 case)
+      const plainProxy = new ArrayProxy(
+        ['a1', 'a2'],
+        mockChild,
+        mockChildDefinition,
+      );
+      plainProxy.init();
+      const virtualProxy = new ArrayProxy(
+        new VirtualArray<MockRow>(
+          { indexes: ['b1', 'b2'], length: 2 },
+          mockService,
+          'parentId',
+          'childField',
+        ),
+        mockChild,
+        mockChildDefinition,
+      );
+      virtualProxy.init();
+      const parent = {
+        id: 'parentId',
+        name: originalName,
+        positionDividend: plainProxy,
+        deposit: virtualProxy,
+      } as unknown as MockRow;
+
+      // Act
+      const result = arrayProxy.createNewParentFromParent(
+        parent,
+        true,
+      ) as unknown as Record<string, unknown>;
+
+      // Assert: proxies replaced with raw id arrays (fresh copy for plain arrays)
+      expect(result.positionDividend).toEqual(['a1', 'a2']);
+      expect(result.positionDividend).not.toBe(plainProxy.rawArray);
+      // virtual-backed proxy keeps its VirtualArray reference
+      expect(result.deposit).toBe(virtualProxy.rawArray);
+    });
+
+    it('should keep a single live array proxy untouched for single-array parents', () => {
+      // Arrange: one real ArrayProxy as the only child field
+      const plainProxy = new ArrayProxy(
+        ['a1', 'a2'],
+        mockChild,
+        mockChildDefinition,
+      );
+      plainProxy.init();
+      const parent = {
+        id: 'parentId',
+        name: originalName,
+        relatedIds: plainProxy,
+      } as unknown as MockRow;
+
+      // Act
+      const result = arrayProxy.createNewParentFromParent(
+        parent,
+        true,
+      ) as unknown as Record<string, unknown>;
+
+      // Assert: single-array parents keep their existing dispatch behavior
+      expect(result.relatedIds).toBe(plainProxy);
+    });
   });
 });
