@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { EntityState } from '@ngrx/entity';
 import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 import { rootInjector } from '@smarttools/smart-core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import {
   createSmartSelector,
