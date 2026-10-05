@@ -176,7 +176,7 @@ importers:
         version: 9.39.5
       '@nestjs/schematics':
         specifier: 11.1.0
-        version: 11.1.0(chokidar@5.0.0)(prettier@3.9.8)(typescript@6.0.3)
+        version: 11.1.0(chokidar@5.0.0)(prettier@3.9.9)(typescript@6.0.3)
       '@nestjs/testing':
         specifier: ^11.1.24
         version: 11.1.24(@nestjs/common@11.1.24(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@7.2.0))(@nestjs/core@11.1.24)(@nestjs/platform-express@11.1.24)
@@ -209,7 +209,7 @@ importers:
         version: 23.2.1(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18))(nx@23.2.1(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18)))(supports-color@7.2.0)(verdaccio@6.7.1(encoding@0.1.13)(supports-color@7.2.0)(typanion@3.14.0))
       '@nx/nest':
         specifier: 23.2.1
-        version: 23.2.1(dda453b0138bea6f69287497d2594b86)
+        version: 23.2.1(88323231e41715bd76e60f26f7bc2360)
       '@nx/node':
         specifier: 23.2.1
         version: 23.2.1(5c047e4b1c375071eb4d0861aab6d376)
@@ -382,8 +382,8 @@ importers:
         specifier: ~10.1.3
         version: 10.1.3(postcss@8.5.23)
       prettier:
-        specifier: ^3.6.2
-        version: 3.9.8
+        specifier: ^3.9.9
+        version: 3.9.9
       prisma:
         specifier: ^7.5.0
         version: 7.5.0(@types/react@19.2.8)(better-sqlite3@12.6.2)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
@@ -11340,8 +11340,8 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.9.8:
-    resolution: {integrity: sha512-WRFq3Wn3WId7LLROfMLdH7xaFr2jR62wU8nLO6rQUOLOxNZUviyJQs1M0iIhLexSFy+L+w0ch66wtoO2jRjG0A==}
+  prettier@3.9.9:
+    resolution: {integrity: sha512-Z/CJHIkdujO/OtN7nXUii0Rf3VT5SRuhjBA82Xvu2XhBUgX3nhP67T0LHceBdQLex7OOFGTox+Q5Yg8Jk2Qivg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -17573,7 +17573,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@nestjs/schematics@11.1.0(chokidar@5.0.0)(prettier@3.9.8)(typescript@6.0.3)':
+  '@nestjs/schematics@11.1.0(chokidar@5.0.0)(prettier@3.9.9)(typescript@6.0.3)':
     dependencies:
       '@angular-devkit/core': 19.2.24(chokidar@5.0.0)
       '@angular-devkit/schematics': 19.2.24(chokidar@5.0.0)
@@ -17582,7 +17582,7 @@ snapshots:
       pluralize: 8.0.0
       typescript: 6.0.3
     optionalDependencies:
-      prettier: 3.9.8
+      prettier: 3.9.9
     transitivePeerDependencies:
       - chokidar
 
@@ -17635,7 +17635,7 @@ snapshots:
       '@orama/orama': 2.0.17
       '@orama/plugin-parsedoc': 2.0.17(supports-color@7.2.0)
       '@parcel/watcher': 2.5.6
-      '@prettier/sync': 0.5.2(prettier@3.9.8)
+      '@prettier/sync': 0.5.2(prettier@3.9.9)
       cosmiconfig: 8.2.0
       cosmiconfig-typescript-loader: 5.0.0(@types/node@26.6.4)(cosmiconfig@8.2.0)(typescript@6.0.3)
       esbuild: 0.27.2
@@ -17648,7 +17648,7 @@ snapshots:
       nunjucks: 3.2.4(chokidar@5.0.0)
       parsimmon: 1.18.1
       posthtml-parser: 0.11.0
-      prettier: 3.9.8
+      prettier: 3.9.9
       rxjs: 7.8.2
       ts-morph: 22.0.0
       tslib: 2.8.1
@@ -18045,9 +18045,9 @@ snapshots:
       - nx
       - supports-color
 
-  '@nx/nest@23.2.1(dda453b0138bea6f69287497d2594b86)':
+  '@nx/nest@23.2.1(88323231e41715bd76e60f26f7bc2360)':
     dependencies:
-      '@nestjs/schematics': 11.1.0(chokidar@5.0.0)(prettier@3.9.8)(typescript@6.0.3)
+      '@nestjs/schematics': 11.1.0(chokidar@5.0.0)(prettier@3.9.9)(typescript@6.0.3)
       '@nx/devkit': 23.2.1(nx@23.2.1(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18)))
       '@nx/eslint': 23.2.1(@babel/traverse@7.29.7(supports-color@7.2.0))(@nx/jest@23.2.1(7df59f6bcd4bcd99a376e067bd8cc8b1))(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18))(@zkochan/js-yaml@0.0.7)(eslint@9.39.5(jiti@2.6.1)(supports-color@7.2.0))(nx@23.2.1(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18)))(supports-color@7.2.0)(verdaccio@6.7.1(encoding@0.1.13)(supports-color@7.2.0)(typanion@3.14.0))
       '@nx/js': 23.2.1(@babel/traverse@7.29.7(supports-color@7.2.0))(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18))(nx@23.2.1(@swc-node/register@1.11.1(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)(@swc/core@1.15.18(@swc/helpers@0.5.18))(@swc/types@0.1.25)(supports-color@7.2.0)(typescript@6.0.3))(@swc/core@1.15.18(@swc/helpers@0.5.18)))(supports-color@7.2.0)(verdaccio@6.7.1(encoding@0.1.13)(supports-color@7.2.0)(typanion@3.14.0))
@@ -18651,10 +18651,10 @@ snapshots:
     dependencies:
       playwright: 1.58.2
 
-  '@prettier/sync@0.5.2(prettier@3.9.8)':
+  '@prettier/sync@0.5.2(prettier@3.9.9)':
     dependencies:
       make-synchronized: 0.2.10
-      prettier: 3.9.8
+      prettier: 3.9.9
 
   '@prisma/adapter-better-sqlite3@7.10.0':
     dependencies:
@@ -26939,7 +26939,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.9.8: {}
+  prettier@3.9.9: {}
 
   pretty-bytes@5.6.0: {}
 
