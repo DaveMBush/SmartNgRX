@@ -329,18 +329,40 @@ export abstract class BaseArrayProxy<
    * @ignore
    */
   private createNewParentFromParent(parent: P, isEditing: boolean): P {
-    let newParent: P = { ...parent, isEditing };
     // we aren't using the 2nd generic parameter of RowProxy, so we just
     // use the base type of SmartNgRXRowBase here.
     const rowProxy = castTo<RowProxy<P>>(parent);
     if (rowProxy.getRealRow !== undefined) {
-      newParent = {
+      return {
         ...rowProxy.getRealRow(),
         ...rowProxy.changes,
         isEditing,
       };
     }
-    return newParent;
+    // A plain selector/signal entity carries live array proxies in its child
+    // fields. Only when a parent has multiple such arrays does dispatching the
+    // shallow copy leak those circular proxy graphs into the store (NgRx dev-mode
+    // freeze crashes and sibling arrays get corrupted — the #1336 case). Single-
+    // array parents keep their existing dispatch behavior untouched, so we only
+    // unwrap when there is more than one live child-array field.
+    const newParent = { ...parent, isEditing } as unknown as Record<
+      string,
+      unknown
+    >;
+    const proxyKeys: string[] = [];
+    for (const key of Object.keys(newParent)) {
+      if (isArrayProxy(newParent[key])) {
+        proxyKeys.push(key);
+      }
+    }
+    if (proxyKeys.length >= 2) {
+      for (const key of proxyKeys) {
+        // Copy the raw id array rather than sharing the proxy's live reference.
+        const raw = castTo<BaseArrayProxy>(newParent[key]).rawArray;
+        newParent[key] = Array.isArray(raw) ? [...raw] : raw;
+      }
+    }
+    return newParent as P;
   }
 }
 
