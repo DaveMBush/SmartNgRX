@@ -138,7 +138,7 @@ describe('SmartArray Add(...) Integration (Signals) with Existing Rows', () => {
     );
     await flushMicrotasks(4);
     children = selectChildren();
-    expect(children.length).toBe(2);
+    expect(children).toHaveLength(2);
     child1 = children[0];
     const child2 = children[1];
     await flushMicrotasks(4);

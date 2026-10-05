@@ -41,7 +41,7 @@ describe('RootInjector', () => {
       rootInjector.runOnRootInjector(mockFn);
       expect(mockFn).not.toHaveBeenCalled();
       // @ts-expect-error - Accessing private property for testing
-      expect(rootInjector.functionList.length).toBe(1);
+      expect(rootInjector.functionList).toHaveLength(1);
     });
   });
 
@@ -61,7 +61,7 @@ describe('RootInjector', () => {
       expect(mockFn1).toHaveBeenCalledTimes(1);
       expect(mockFn2).toHaveBeenCalledTimes(1);
       // @ts-expect-error - Accessing private property for testing
-      expect(rootInjector.functionList.length).toBe(0);
+      expect(rootInjector.functionList).toHaveLength(0);
     });
   });
 });

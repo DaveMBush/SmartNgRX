@@ -66,7 +66,7 @@ describe('entitySignalStoreFactory', () => {
       // Should have both entities
       expect(store.ids()).toContain('1');
       expect(store.ids()).toContain('2');
-      expect(store.ids().length).toBe(2);
+      expect(store.ids()).toHaveLength(2);
     });
   });
 
@@ -97,13 +97,13 @@ describe('entitySignalStoreFactory', () => {
       store.upsert(testRow2);
 
       // Ensure both entities are there
-      expect(store.ids().length).toBe(2);
+      expect(store.ids()).toHaveLength(2);
 
       // Remove one entity
       store.remove(['1']);
 
       // Check entity was removed
-      expect(store.ids().length).toBe(1);
+      expect(store.ids()).toHaveLength(1);
       expect(store.ids()).not.toContain('1');
       expect(store.ids()).toContain('2');
 
@@ -111,7 +111,7 @@ describe('entitySignalStoreFactory', () => {
       store.remove(['2']);
 
       // Check all entities removed
-      expect(store.ids().length).toBe(0);
+      expect(store.ids()).toHaveLength(0);
     });
   });
 
@@ -122,7 +122,7 @@ describe('entitySignalStoreFactory', () => {
       store.storeRows(rows);
 
       // Check all rows were added
-      expect(store.ids().length).toBe(2);
+      expect(store.ids()).toHaveLength(2);
       expect(store.ids()).toContain('1');
       expect(store.ids()).toContain('2');
       expect(store.entityMap()['1']).toEqual(testRow1);

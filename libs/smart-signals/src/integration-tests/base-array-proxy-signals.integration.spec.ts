@@ -170,7 +170,7 @@ describe('SmartArray addToStore(...) Integration (Signals)', () => {
         { id: '1', children: [] },
       );
       children = selectChildren();
-      expect(children.length).toBe(1);
+      expect(children).toHaveLength(1);
       expect(children[0].id).toBe('c1');
       expect(children[0].name).toBe('Child 1');
     });
@@ -217,7 +217,7 @@ describe('SmartArray addToStore(...) Integration (Signals)', () => {
         { id: '1', children: ['c1'] },
       );
       children = selectChildren();
-      expect(children.length).toBe(2);
+      expect(children).toHaveLength(2);
       expect(children[0].id).toBe('c1');
       expect(children[0].name).toBe('Child 1');
       expect(children[1].id).toBe('c2');

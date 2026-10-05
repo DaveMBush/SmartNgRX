@@ -40,7 +40,7 @@ describe('VirtualArray', () => {
   describe('constructor', () => {
     it('should initialize with correct properties', () => {
       expect(virtualArray.rawArray).toEqual(['id1', 'id2', 'id3']);
-      expect(virtualArray.length).toBe(5);
+      expect(virtualArray).toHaveLength(5);
     });
   });
 
@@ -62,7 +62,7 @@ describe('VirtualArray', () => {
     });
 
     it('should return property value for non-numeric properties', () => {
-      expect(virtualArray.length).toBe(5);
+      expect(virtualArray).toHaveLength(5);
     });
 
     it('should create a new array when rawArray is frozen', () => {
