@@ -541,8 +541,11 @@ describe('BaseArrayProxy', () => {
       // Assert: proxies replaced with raw id arrays (fresh copy for plain arrays)
       expect(result.positionDividend).toEqual(['a1', 'a2']);
       expect(result.positionDividend).not.toBe(plainProxy.rawArray);
-      // virtual-backed proxy keeps its VirtualArray reference
-      expect(result.deposit).toBe(virtualProxy.rawArray);
+      // virtual-backed proxy is reduced to plain contents so NgRx never stores
+      // a live VirtualArray instance (which convertChildrenToVirtualArray would
+      // re-wrap, reading .indexes off an instance and crashing)
+      expect(result.deposit).toEqual({ indexes: ['b1', 'b2'], length: 2 });
+      expect(result.deposit).not.toBe(virtualProxy.rawArray);
     });
 
     it('should keep a single live array proxy untouched for single-array parents', () => {
@@ -567,6 +570,37 @@ describe('BaseArrayProxy', () => {
 
       // Assert: single-array parents keep their existing dispatch behavior
       expect(result.relatedIds).toBe(plainProxy);
+    });
+
+    it('should return non-array raw values as-is when reducing multi-proxy parents', () => {
+      // Arrange: two live proxies whose rawArray is a plain object (neither an
+      // array nor a VirtualArray), so reduceProxyRaw must pass them through.
+      const proxyA = new ArrayProxy(['a1'], mockChild, mockChildDefinition);
+      const proxyB = new ArrayProxy(['b1'], mockChild, mockChildDefinition);
+      (proxyA as unknown as { rawArray: string[] }).rawArray = {
+        0: 'a1',
+        length: 1,
+      } as unknown as string[];
+      (proxyB as unknown as { rawArray: string[] }).rawArray = {
+        0: 'b1',
+        length: 1,
+      } as unknown as string[];
+      const parent = {
+        id: 'parentId',
+        name: originalName,
+        relatedIds: proxyA,
+        otherIds: proxyB,
+      } as unknown as MockRow;
+
+      // Act
+      const result = arrayProxy.createNewParentFromParent(
+        parent,
+        true,
+      ) as unknown as Record<string, unknown>;
+
+      // Assert: plain-object raw values are kept as-is (not copied or wrapped)
+      expect(result.relatedIds).toEqual({ 0: 'a1', length: 1 });
+      expect(result.otherIds).toEqual({ 0: 'b1', length: 1 });
     });
   });
 });

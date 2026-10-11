@@ -1,4 +1,8 @@
-import { newRowRegistry, VirtualArrayContents } from '@smarttools/smart-core';
+import {
+  newRowRegistry,
+  PartialArrayDefinition,
+  VirtualArrayContents,
+} from '@smarttools/smart-core';
 
 import { LoadByIndexesSignals } from './load-by-indexes-signals.class';
 import { SignalsFacade } from './signals-facade';
@@ -146,6 +150,44 @@ describe('LoadByIndexesSignals', () => {
             length: 0,
           },
         },
+      ]);
+    });
+
+    it('should preserve the existing field when the response is undefined', () => {
+      const parentId = 'parent1';
+      const childField = 'children';
+
+      // The stored virtual-array contents must survive an undefined response.
+      const field: VirtualArrayContents = {
+        indexes: ['id1'],
+        length: 1,
+      };
+
+      const row = {
+        id: parentId,
+        [childField]: field,
+      };
+
+      mockFacade.entityState.entityState = () => ({
+        entities: {
+          [parentId]: row,
+        },
+        ids: [parentId],
+      });
+
+      // Previously threw "Cannot read properties of undefined (reading
+      // 'startIndex')". Now it must not throw and must keep the field as-is.
+      expect(() =>
+        loadByIndexesSignals.loadByIndexesSuccess(
+          parentId,
+          childField,
+          undefined as unknown as PartialArrayDefinition,
+        ),
+      ).not.toThrow();
+
+      // The original field object is preserved (no mutation, no re-wrap).
+      expect(storeRowsSpy).toHaveBeenCalledWith([
+        { id: parentId, [childField]: field },
       ]);
     });
   });

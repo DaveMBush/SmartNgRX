@@ -137,8 +137,17 @@ export class LoadByIndexesSignals<T extends SmartNgRXRowBase> {
 
   private processLoadByIndexesSuccess(
     field: VirtualArrayContents,
-    array: PartialArrayDefinition,
+    // The effect service can emit undefined (e.g. empty buffered index range),
+    // so the runtime type is wider than PartialArrayDefinition.
+    array: PartialArrayDefinition | undefined,
   ): VirtualArrayContents {
+    // Guard: a loadByIndexes HTTP response can be undefined (e.g. when the
+    // buffered index range is empty after a virtual-array mutation), which
+    // previously threw "Cannot read properties of undefined (reading
+    // 'startIndex')". Keep the existing field instead of crashing.
+    if (!array || !Array.isArray(array.indexes)) {
+      return field;
+    }
     const updatedField = { ...field };
     updatedField.indexes = [...field.indexes];
     forNext(

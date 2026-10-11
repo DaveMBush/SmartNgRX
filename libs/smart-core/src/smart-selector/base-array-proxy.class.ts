@@ -23,6 +23,26 @@ function isVirtualArray(item: unknown): item is VirtualArray<object> {
 }
 
 /**
+ * Reduces a live child-array proxy's raw value to plain data that NgRx can
+ * store safely. Plain id arrays are copied (no shared reference); virtual
+ * fields hold a live VirtualArray instance, which is reduced to its contents
+ * so convertChildrenToVirtualArray re-wraps it on read instead of double-
+ * wrapping the stored instance and crashing.
+ *
+ * @param raw - The proxy's raw value: an id array or a VirtualArray instance.
+ * @returns A plain copy safe for NgRx state (array, contents object, or as-is).
+ */
+function reduceProxyRaw(raw: unknown): unknown {
+  if (Array.isArray(raw)) {
+    return [...raw];
+  }
+  if (isVirtualArray(raw)) {
+    return { indexes: [...raw.rawArray], length: raw.length };
+  }
+  return raw;
+}
+
+/**
  * This is an internal class used by `createSmartSelector` to wrap the field
  * that represents the child array with a class that manages all the
  * magic of loading the data from the server as it is accessed.
@@ -358,8 +378,9 @@ export abstract class BaseArrayProxy<
     if (proxyKeys.length >= 2) {
       for (const key of proxyKeys) {
         // Copy the raw id array rather than sharing the proxy's live reference.
-        const raw = castTo<BaseArrayProxy>(newParent[key]).rawArray;
-        newParent[key] = Array.isArray(raw) ? [...raw] : raw;
+        newParent[key] = reduceProxyRaw(
+          castTo<BaseArrayProxy>(newParent[key]).rawArray,
+        );
       }
     }
     return newParent as P;
