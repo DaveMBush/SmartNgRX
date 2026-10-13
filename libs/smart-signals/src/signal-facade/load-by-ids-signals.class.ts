@@ -92,8 +92,15 @@ export class LoadByIdsSignals<T extends SmartNgRXRowBase> {
           return of(rows);
         }),
         catchError(function loadByIdsError(error: unknown) {
-          const errorHandler = rootInjector.get().get(smartErrorHandlerToken);
-          errorHandler.handleError('loadByIds', error);
+          // The dispatcher outlives the injector that created it (e.g. TestBed
+          // teardown). A destroyed injector throws NG0205 from .get(), which would
+          // escape as an uncaught error — swallow instead of re-throwing.
+          const injector = rootInjector.get();
+          if (!injector.destroyed) {
+            injector
+              .get(smartErrorHandlerToken)
+              .handleError('loadByIds', error);
+          }
           return of([]);
         }),
       )
