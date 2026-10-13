@@ -272,6 +272,27 @@ describe('LoadByIdsSignals', () => {
         testError,
       );
     });
+
+    it('should not call error handler when injector is destroyed', () => {
+      // Branch: Injector already destroyed (e.g. TestBed teardown) — swallow the
+      // error instead of re-throwing NG0205 from .get().
+      const testError = new Error('Test error');
+      mockEffectService.loadByIds.mockReturnValue(throwError(() => testError));
+
+      const errorHandler = {
+        handleError: jest.fn(),
+      };
+      const destroyedInjector = {
+        destroyed: true,
+        get: jest.fn().mockReturnValue(errorHandler),
+      };
+      coreMock.rootInjector.get.mockReturnValue(destroyedInjector);
+
+      loadByIdsSignals.loadByIds('id1');
+
+      // Should NOT call error handler (injector destroyed) and should not throw
+      expect(errorHandler.handleError).not.toHaveBeenCalled();
+    });
   });
 
   describe('loadByIdsPreload', () => {
